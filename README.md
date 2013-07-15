@@ -1,19 +1,25 @@
 TestFX
 ======
 
-TestFX is an easy to use framework for testing JavaFX.
+TestFX is an easy to use library for testing JavaFX.
 
 ### Usage Examples
 
 ```java
-click( "#foo" ).type( "Hello world!" ).push( ENTER )
-
-drag( ".list-item .handle" ).to( "#trash-can" );
-
-
-assertThat( "#my-dialog .confirm-button", exists() )
-
-assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
+class FileManagerTest extends TestFX
+{
+  public void trashCan_should_acceptFiles()
+  {
+    click( "#foo" ).type( "Hello world!" ).push( ENTER )
+  
+    drag( ".list-item .handle" ).to( "#trash-can" );
+    
+  
+    assertThat( "#my-dialog .confirm-button", exists() )
+  
+    assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
+  }
+}
 ```
 
 ### Motivation
