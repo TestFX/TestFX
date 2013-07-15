@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.eviware.loadui:loadui-api:2.6.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/eviware/loadui/loadui-api/2.6.0-SNAPSHOT/loadui-api-2.6.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/eviware/loadui/loadui-api/2.6.0-SNAPSHOT/loadui-api-2.6.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/eviware/loadui/loadui-api/2.6.0-SNAPSHOT/loadui-api-2.6.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
