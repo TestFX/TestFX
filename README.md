@@ -28,7 +28,7 @@ class DesktopTest extends TestFX
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
-too verbose and unwieldy. We wanted tests with easy-to-read code that our tester could follow and modify.
+too verbose and unwieldy. We wanted tests with easy-to-read code that our tester could follow and modify on her own.
 
 ### Hamcrest Matchers
 Hamcrest matchers for JavaFX.
