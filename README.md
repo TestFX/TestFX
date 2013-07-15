@@ -1,12 +1,14 @@
 TestFX
 ======
 
-Easy to use framework for testing JavaFX.
+TestFX is an easy to use framework for testing JavaFX.
 
 ### Usage Examples
 
 ```java
-click( "#foo" ).type( "Hello world!" );
+click( "#foo" ).type( "Hello world!" ).push( ENTER )
+
+drag( ".list-item .handle" ).to( "#trash-can" );
 
 
 assertThat( "#my-dialog .confirm-button", exists() )
