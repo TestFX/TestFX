@@ -8,6 +8,7 @@ TestFX is an easy to use library for testing JavaFX.
 ```java
 class FileManagerTest extends TestFX
 {
+  @Test
   public void trashCan_should_acceptFiles()
   {
     click( "#foo" ).type( "Hello world!" ).push( ENTER )
