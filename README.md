@@ -3,7 +3,7 @@ TestFX
 
 TestFX is an easy to use library for testing JavaFX.
 
-### Usage Examples
+### Example using CSS selectors
 
 ```java
 class DesktopTest extends TestFX
@@ -23,6 +23,8 @@ class DesktopTest extends TestFX
   }
 }
 ```
+
+### Example using Guava predicates
 
 ### Motivation
 Why not [Jemmy][1]? 
