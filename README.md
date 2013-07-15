@@ -8,13 +8,17 @@ TestFX is an easy-to-use library for testing JavaFX.
 ```java
 class DesktopTest extends TestFX
 {
-  @Test
-  public void shouldBeAbleToDragFileToTrashCan()
+  @Before
+  public void setup()
   {
     // GIVEN
     rightClick( "#desktop" ).moveTo( "#new" ).click( "#text-document" ).type( "myTextfile.txt" ).push( ENTER );
     assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
-  
+  }
+
+  @Test
+  public void shouldBeAbleToDragFileToTrashCan()
+  {
     // WHEN
     drag( ".file" ).to( "#trash-can" );
     
