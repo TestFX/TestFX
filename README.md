@@ -8,7 +8,7 @@ TestFX is an easy-to-use library for testing JavaFX.
 ```java
 class DesktopTest extends TestFX
 {
-  @BeforeClass
+  @Before
   public void setup()
   {
     // GIVEN
