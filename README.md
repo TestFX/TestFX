@@ -1,7 +1,7 @@
 TestFX
 ======
 
-TestFX is an easy to use library for testing JavaFX.
+TestFX is an easy-to-use library for testing JavaFX.
 
 ### Example using CSS selectors
 
