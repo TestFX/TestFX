@@ -11,12 +11,12 @@ class FileManagerTest extends TestFX
   @Test
   public void trashCan_should_acceptFiles()
   {
-    click( "#foo" ).type( "Hello world!" ).push( ENTER )
+    click( "#foo" ).type( "Hello world!" ).push( ENTER );
   
     drag( ".list-item .handle" ).to( "#trash-can" );
     
   
-    assertThat( "#my-dialog .confirm-button", exists() )
+    assertThat( "#my-dialog .confirm-button", exists() );
   
     assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
   }
