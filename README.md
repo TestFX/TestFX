@@ -28,5 +28,7 @@ assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
 ```
 
 ### Credits
-TestFX was initially a part of [LoadUI][3], written by @dainnilsson. Today, it is being extended
+TestFX was initially created by @dainnilsson as a part of [LoadUI][1]. Today, it is being extended
 and maintained by the LoadUI team.
+
+[1]: https://github.com/SmartBear/loadui        "LoadUI project at Github"
