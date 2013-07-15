@@ -13,7 +13,7 @@ class DesktopTest extends TestFX
   {
     // GIVEN
     rightClick( "#desktop" ).moveTo( "#new" ).click( "#text-document" ).type( "myTextfile.txt" ).push( ENTER );
-    assertThat( "#desktop", contains( 1, ".file" ) );
+    assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
   
     // WHEN
     drag( ".file" ).to( "#trash-can" );
