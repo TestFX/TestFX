@@ -9,16 +9,15 @@ TestFX is an easy to use library for testing JavaFX.
 class FileManagerTest extends TestFX
 {
   @Test
-  public void trashCan_should_acceptFiles()
+  public void shouldBeAbleToDragFileToTrashCan()
   {
-    click( "#foo" ).type( "Hello world!" ).push( ENTER );
+    rightClick( "#desktop" ).moveTo( "#new" ).click( "#text-document" ).type( "myTextfile.txt" ).push( ENTER );
   
-    drag( ".list-item .handle" ).to( "#trash-can" );
+    assertThat( "#desktop", contains( 1, ".file" ) );
+  
+    drag( ".file" ).to( "#trash-can" );
     
-  
-    assertThat( "#my-dialog .confirm-button", exists() );
-  
-    assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
+    assertThat( "#desktop", contains( 0, ".file" ) );
   }
 }
 ```
