@@ -12,7 +12,7 @@ class DesktopTest extends TestFX
   public void setup()
   {
     // GIVEN
-    rightClick( "#desktop" ).moveTo( "#new" ).click( "#text-document" ).type( "myTextfile.txt" ).push( ENTER );
+    rightClick( "#desktop" ).moveTo( "#new" ).click( "Text Document" ).type( "myTextfile.txt" ).push( ENTER );
     assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
   }
 
