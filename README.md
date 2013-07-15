@@ -9,7 +9,7 @@ Easy to use framework for testing JavaFX.
 Hamcrest matchers for JavaFX.
 
 
-## Usage Examples
+#### Usage Examples
 
 ```java
 assertThat( "#my-dialog .confirm-button", exists() )
