@@ -16,21 +16,16 @@ assertThat( "#my-dialog .confirm-button", exists() )
 assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
 ```
 
+### Motivation
+Why not [Jemmy][1]? 
 
 ### Hamcrest Matchers
 Hamcrest matchers for JavaFX.
 
 
-#### Usage Examples
-
-```java
-assertThat( "#my-dialog .confirm-button", exists() )
-
-assertThat( "#tweet-lane", contains( 2, ".tweet" ) );
-```
-
 ### Credits
-TestFX was initially created by @dainnilsson as a part of [LoadUI][1]. Today, it is being extended
+TestFX was initially created by @dainnilsson as a part of [LoadUI][2]. Today, it is being extended
 and maintained by the LoadUI team.
 
-[1]: https://github.com/SmartBear/loadui        "LoadUI project at Github"
+[1]: https://jemmy.java.net/              "Jemmy website"
+[2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
