@@ -11,12 +11,14 @@ class FileManagerTest extends TestFX
   @Test
   public void shouldBeAbleToDragFileToTrashCan()
   {
+    // GIVEN
     rightClick( "#desktop" ).moveTo( "#new" ).click( "#text-document" ).type( "myTextfile.txt" ).push( ENTER );
-  
     assertThat( "#desktop", contains( 1, ".file" ) );
   
+    // WHEN
     drag( ".file" ).to( "#trash-can" );
     
+    // THEN
     assertThat( "#desktop", contains( 0, ".file" ) );
   }
 }
