@@ -33,7 +33,7 @@ The motivation for creating TestFX was that the existing library for testing Jav
 too verbose and unwieldy. We wanted tests with easy-to-read code that our tester could follow and modify on her own.
 
 ### Get it!
-This is what you need in your pom.xml file to start using GuavaFX:
+This is what you need in your pom.xml file to start using TestFX:
 ```XML
 <pluginRepositories>
    <pluginRepository>
@@ -45,7 +45,7 @@ This is what you need in your pom.xml file to start using GuavaFX:
 ```XML
 <dependency>
     <groupId>org.loadui</groupId>
-    <artifactId>guavaFx</artifactId>
+    <artifactId>testFx</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
