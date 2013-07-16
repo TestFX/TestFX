@@ -15,12 +15,11 @@
  */
 package com.eviware.loadui.ui.fx.util.test;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.*;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -28,21 +27,20 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Labeled;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import javax.annotation.Nullable;
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Iterables.concat;
+import static com.google.common.collect.Iterables.getFirst;
+import static com.google.common.collect.Iterables.transform;
 
 public class TestFX
 {
@@ -151,7 +149,7 @@ public class TestFX
 		};
 		Iterable<Window> descendants = Iterables.filter( getWindows(), isDescendant );
 		Iterable<Window> rest = Iterables.filter( getWindows(), Predicates.not( isDescendant ) );
-		for( Window descendant : Iterables.concat( descendants, rest ) )
+		for( Window descendant : concat( descendants, rest ) )
 		{
 			results.addAll( findAll( selector, descendant ) );
 		}
@@ -162,15 +160,39 @@ public class TestFX
 	@SuppressWarnings( "unchecked" )
 	public static <T extends Node> T find( String selector, Object parent )
 	{
-		return Preconditions.checkNotNull( ( T )Iterables.getFirst( findAll( selector, parent ), null ),
+		return checkNotNull( (T) getFirst( findAll( selector, parent ), null ),
 				"Query [%s] select [%s] resulted in no nodes found!", parent, selector );
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T extends Node> T find( final String selector )
+	public static <T extends Node> T find( final String query )
+	{
+		T nodeFoundByCss = findByCssSelector( query );
+		if( nodeFoundByCss != null )
+			return nodeFoundByCss;
+
+		return checkNotNull( (T) find( new HasLabel( query ) ), "Query [%s] resulted in no nodes found!", query );
+	}
+
+	private static class HasLabel<Node> implements Predicate<Node>
+	{
+		private final String label;
+		HasLabel(String label)
+		{
+			this.label = label;
+		}
+
+		@Override
+		public boolean apply( @Nullable Node node )
+		{
+			return (node instanceof Labeled) && label.equals( ((Labeled)node).getText() );
+		}
+	};
+
+	private static <T extends Node> T findByCssSelector( final String selector )
 	{
 		Set<Node> locallyFound = findAll( selector );
-		Iterable<Node> globallyFound = Iterables.concat( Iterables.transform( getWindows(),
+		Iterable<Node> globallyFound = concat( transform( getWindows(),
 				new Function<Window, Iterable<Node>>()
 				{
 					@Override
@@ -180,15 +202,13 @@ public class TestFX
 					}
 				} ) );
 
-		return Preconditions.checkNotNull(
-				( T )Iterables.getFirst( locallyFound, Iterables.getFirst( globallyFound, null ) ),
-				"Query [%s] resulted in no nodes found!", selector );
+		return (T) getFirst( locallyFound, getFirst( globallyFound, null ) );
 	}
 
 	@SuppressWarnings( "unchecked" )
 	public static <T extends Node> T find( final Predicate<Node> predicate )
 	{
-		Iterable<Node> globallyFound = Iterables.concat( Iterables.transform( getWindows(),
+		Iterable<Node> globallyFound = concat( transform( getWindows(),
 				new Function<Window, Iterable<Node>>()
 				{
 					@Override
@@ -216,7 +236,7 @@ public class TestFX
 			}
 		}
 
-		return Iterables.concat( found.build() );
+		return concat( found.build() );
 	}
 
 	private final ScreenController controller;

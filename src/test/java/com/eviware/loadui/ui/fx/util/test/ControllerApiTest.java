@@ -87,14 +87,33 @@ public class ControllerApiTest
 	}
 
 	@Test
-	public void shouldClickNodes()
+	public void shouldClickNodes_whenGivenCSS()
+	{
+		final AtomicInteger counter = setupCountingButtons();
+
+		controller.click( "#button1" ).click( "#button2" ).click( "#button1" );
+
+		assertThat( counter.get(), is( 3 ) );
+	}
+
+	@Test
+	public void shouldClickNodes_whenGivenLabel()
+	{
+		final AtomicInteger counter = setupCountingButtons();
+
+		controller.click( "Button 1" ).click( "Button 2" ).click( "Button 1" );
+
+		assertThat( counter.get(), is( 3 ) );
+	}
+
+	private AtomicInteger setupCountingButtons()
 	{
 		final AtomicInteger counter = new AtomicInteger();
 		Button button1 = find( "#button1" );
 		button1.setOnAction( new EventHandler<ActionEvent>()
 		{
 			@Override
-			public void handle( ActionEvent arg0 )
+			public void handle( ActionEvent _ )
 			{
 				counter.incrementAndGet();
 			}
@@ -104,14 +123,11 @@ public class ControllerApiTest
 		button2.setOnAction( new EventHandler<ActionEvent>()
 		{
 			@Override
-			public void handle( ActionEvent arg0 )
+			public void handle( ActionEvent _ )
 			{
 				counter.set( counter.get() * 2 );
 			}
 		} );
-
-		controller.click( "#button1" ).click( "#button2" ).click( "#button1" );
-
-		assertThat( counter.get(), is( 3 ) );
+		return counter;
 	}
 }
