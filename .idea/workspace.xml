@@ -71,37 +71,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestFX.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TestFX.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/TestFX.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="89" selection-start="5375" selection-end="5375" vertical-scroll-proportion="0.0">
+            <state line="238" column="20" selection-start="6671" selection-end="6671" vertical-scroll-proportion="0.174581">
               <folding>
-                <element signature="e#2150#2184#0" expanded="true" />
-                <element signature="e#2542#2685#0" expanded="true" />
-                <element signature="e#2680#2681#0" expanded="true" />
-                <element signature="e#3775#4173#0" expanded="true" />
-                <element signature="e#3788#3796#0" expanded="true" />
-                <element signature="e#4168#4169#0" expanded="true" />
-                <element signature="e#4491#4523#0" expanded="true" />
-                <element signature="e#4757#4789#0" expanded="true" />
-                <element signature="e#5580#5749#0" expanded="true" />
-                <element signature="e#5742#5743#0" expanded="true" />
-                <element signature="e#5833#5865#0" expanded="true" />
-                <element signature="e#6013#6204#0" expanded="true" />
-                <element signature="e#6197#6198#0" expanded="true" />
-                <element signature="e#10432#10452#0" expanded="true" />
-                <element signature="e#10880#10914#0" expanded="true" />
-                <element signature="e#13516#13548#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2116#2150#0" expanded="true" />
+                <element signature="e#2508#2651#0" expanded="true" />
+                <element signature="e#2646#2647#0" expanded="true" />
+                <element signature="e#3741#4139#0" expanded="true" />
+                <element signature="e#3754#3762#0" expanded="true" />
+                <element signature="e#4134#4135#0" expanded="true" />
+                <element signature="e#4457#4489#0" expanded="true" />
+                <element signature="e#4723#4755#0" expanded="true" />
+                <element signature="e#5536#5705#0" expanded="true" />
+                <element signature="e#5698#5699#0" expanded="true" />
+                <element signature="e#5789#5821#0" expanded="true" />
+                <element signature="e#5969#6160#0" expanded="true" />
+                <element signature="e#6153#6154#0" expanded="true" />
+                <element signature="e#10388#10408#0" expanded="true" />
+                <element signature="e#10836#10870#0" expanded="true" />
+                <element signature="e#13472#13504#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControllerApiTest.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="62" column="21" selection-start="2405" selection-end="2405" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerApiTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/eviware/loadui/ui/fx/util/test/ControllerApiTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="75" selection-start="3534" selection-end="3534" vertical-scroll-proportion="1.8756983">
+            <state line="68" column="91" selection-start="2374" selection-end="2374" vertical-scroll-proportion="0.0">
               <folding>
+                <element signature="e#3442#3574#0" expanded="true" />
                 <element signature="e#3569#3570#0" expanded="true" />
                 <element signature="e#3641#3780#0" expanded="true" />
                 <element signature="e#3775#3776#0" expanded="true" />
@@ -122,10 +133,10 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/matchers/ContainsNodesMatcher.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/matchers/VisibleNodesMatcher.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/com/eviware/loadui/ui/fx/util/test/FXScreenControllerTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/TestFX.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/eviware/loadui/ui/fx/util/test/ControllerApiTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/TestFX.java" />
       </list>
     </option>
   </component>
@@ -671,13 +682,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="0" selection-start="1914" selection-end="1914" vertical-scroll-proportion="1.1750381">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/eviware/loadui/ui/fx/util/test/FXScreenControllerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="86" column="26" selection-start="2777" selection-end="2777" vertical-scroll-proportion="0.02587519">
@@ -699,37 +703,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/TestFX.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/eviware/loadui/ui/fx/util/test/ControllerApiTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="89" selection-start="5375" selection-end="5375" vertical-scroll-proportion="0.0">
+        <state line="68" column="91" selection-start="2374" selection-end="2374" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#2150#2184#0" expanded="true" />
-            <element signature="e#2542#2685#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#3775#4173#0" expanded="true" />
-            <element signature="e#3788#3796#0" expanded="true" />
-            <element signature="e#4168#4169#0" expanded="true" />
-            <element signature="e#4491#4523#0" expanded="true" />
-            <element signature="e#4757#4789#0" expanded="true" />
-            <element signature="e#5580#5749#0" expanded="true" />
-            <element signature="e#5742#5743#0" expanded="true" />
-            <element signature="e#5833#5865#0" expanded="true" />
-            <element signature="e#6013#6204#0" expanded="true" />
-            <element signature="e#6197#6198#0" expanded="true" />
-            <element signature="e#10432#10452#0" expanded="true" />
-            <element signature="e#10880#10914#0" expanded="true" />
-            <element signature="e#13516#13548#0" expanded="true" />
+            <element signature="e#3442#3574#0" expanded="true" />
+            <element signature="e#3569#3570#0" expanded="true" />
+            <element signature="e#3641#3780#0" expanded="true" />
+            <element signature="e#3775#3776#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/eviware/loadui/ui/fx/util/test/ControllerApiTest.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_06/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="75" selection-start="3534" selection-end="3534" vertical-scroll-proportion="1.8756983">
+        <state line="2061" column="19" selection-start="81314" selection-end="81314" vertical-scroll-proportion="0.33240223">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="21" selection-start="2405" selection-end="2405" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/eviware/loadui/ui/fx/util/test/TestFX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="238" column="20" selection-start="6671" selection-end="6671" vertical-scroll-proportion="0.174581">
           <folding>
-            <element signature="e#3569#3570#0" expanded="true" />
-            <element signature="e#3641#3780#0" expanded="true" />
-            <element signature="e#3775#3776#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2116#2150#0" expanded="true" />
+            <element signature="e#2508#2651#0" expanded="true" />
+            <element signature="e#2646#2647#0" expanded="true" />
+            <element signature="e#3741#4139#0" expanded="true" />
+            <element signature="e#3754#3762#0" expanded="true" />
+            <element signature="e#4134#4135#0" expanded="true" />
+            <element signature="e#4457#4489#0" expanded="true" />
+            <element signature="e#4723#4755#0" expanded="true" />
+            <element signature="e#5536#5705#0" expanded="true" />
+            <element signature="e#5698#5699#0" expanded="true" />
+            <element signature="e#5789#5821#0" expanded="true" />
+            <element signature="e#5969#6160#0" expanded="true" />
+            <element signature="e#6153#6154#0" expanded="true" />
+            <element signature="e#10388#10408#0" expanded="true" />
+            <element signature="e#10836#10870#0" expanded="true" />
+            <element signature="e#13472#13504#0" expanded="true" />
           </folding>
         </state>
       </provider>

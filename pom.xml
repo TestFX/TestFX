@@ -4,7 +4,6 @@
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
     <version>2.6.0</version>
-    <packaging>bundle</packaging>
     <name>TestFX</name>
     <description>TestFX</description>
 
@@ -38,6 +37,15 @@
                     <excludedGroups>com.eviware.loadui.test.categories.GUITest</excludedGroups>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -48,7 +56,11 @@
             <systemPath>${env.JAVA_HOME}/jre/lib/jfxrt.jar</systemPath>
             <scope>system</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>14.0.1</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

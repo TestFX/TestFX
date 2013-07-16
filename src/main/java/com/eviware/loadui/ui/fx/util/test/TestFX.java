@@ -34,7 +34,6 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -183,7 +182,7 @@ public class TestFX
 		}
 
 		@Override
-		public boolean apply( @Nullable Node node )
+		public boolean apply( Node node )
 		{
 			return (node instanceof Labeled) && label.equals( ((Labeled)node).getText() );
 		}
