@@ -32,6 +32,8 @@ class DesktopTest extends TestFX
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
 too verbose and unwieldy. We wanted tests with easy-to-read code that our tester could follow and modify on her own.
 
+[Comparison with Jemmy][4]
+
 ### Get it!
 This is what you need in your pom.xml file to start using TestFX:
 ```XML
@@ -57,3 +59,4 @@ and maintained by the LoadUI team.
 [1]: https://jemmy.java.net/              "Jemmy website"
 [2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
+[4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
