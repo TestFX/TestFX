@@ -9,7 +9,7 @@ TestFX is an easy-to-use library for testing JavaFX.
 class DesktopTest extends TestFX
 {
   @Before
-  public void setup()
+  public void createNewFileOnDesktop()
   {
     // GIVEN
     rightClick( "#desktop" ).moveTo( "New" ).click( "Text Document" ).type( "myTextfile.txt" ).push( ENTER );
