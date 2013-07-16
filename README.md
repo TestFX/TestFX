@@ -34,7 +34,7 @@ too verbose and unwieldy. We wanted tests with easy-to-read code that our tester
 
 [Comparison with Jemmy][4]
 
-### Start using it
+### Start using
 This is what you need in your pom.xml file to start using TestFX:
 ```XML
 <pluginRepositories>
