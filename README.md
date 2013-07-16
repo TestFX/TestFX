@@ -3,7 +3,7 @@ TestFX
 
 TestFX is an easy-to-use library for testing JavaFX.
 
-### Example using CSS selectors
+### Usage Example
 
 ```java
 class DesktopTest extends TestFX
@@ -28,11 +28,27 @@ class DesktopTest extends TestFX
 }
 ```
 
-### Example using Guava predicates
-
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
 too verbose and unwieldy. We wanted tests with easy-to-read code that our tester could follow and modify on her own.
+
+### Get it!
+This is what you need in your pom.xml file to start using GuavaFX:
+```XML
+<pluginRepositories>
+   <pluginRepository>
+      <id>loaduiRepository</id>
+      <url>http://www.soapui.org/repository/maven2/</url>
+   </pluginRepository>
+</pluginRepositories>
+```
+```XML
+<dependency>
+    <groupId>org.loadui</groupId>
+    <artifactId>guavaFx</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 ### Credits
 TestFX was initially created by @dainnilsson as a part of [LoadUI][2]. Today, it is being extended
