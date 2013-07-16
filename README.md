@@ -1,7 +1,7 @@
 TestFX
 ======
 
-TestFX is an easy-to-use library for testing JavaFX.
+TestFX is an easy-to-use library for testing [JavaFX][2].
 
 ### Usage Example
 
@@ -56,3 +56,4 @@ and maintained by the LoadUI team.
 
 [1]: https://jemmy.java.net/              "Jemmy website"
 [2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
+[3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
