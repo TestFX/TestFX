@@ -54,9 +54,10 @@ This is what you need in your pom.xml file to start using TestFX:
 
 ### Credits
 TestFX was initially created by @dainnilsson as a part of [LoadUI][2] in 2012. Today, it is being extended
-and maintained by the LoadUI team.
+and maintained by the [LoadUI team][5].
 
 [1]: https://jemmy.java.net/              "Jemmy website"
 [2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
+[5]: https://github.com/SmartBear/loadui/graphs/contributors "Contributors of LoadUI"
