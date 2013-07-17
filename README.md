@@ -48,7 +48,7 @@ This is what you need in your pom.xml file to start using TestFX:
 <dependency>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>1.0.0</version>
+    <version>2.6.0</version>
 </dependency>
 ```
 
