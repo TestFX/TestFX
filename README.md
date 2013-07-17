@@ -53,7 +53,7 @@ This is what you need in your pom.xml file to start using TestFX:
 ```
 
 ### Credits
-TestFX was initially created by @dainnilsson as a part of [LoadUI][2]. Today, it is being extended
+TestFX was initially created by @dainnilsson as a part of [LoadUI][2] in 2012. Today, it is being extended
 and maintained by the LoadUI team.
 
 [1]: https://jemmy.java.net/              "Jemmy website"
