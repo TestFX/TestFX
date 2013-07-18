@@ -30,7 +30,7 @@ class DesktopTest extends GuiTest
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
-too verbose and unwieldy. We wanted tests with easy-to-read code that our tester could follow and modify on her own.
+too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
 
 [Comparison with Jemmy][4]
 
