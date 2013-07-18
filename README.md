@@ -12,7 +12,7 @@ class DesktopTest extends GuiTest
   public void createNewFileOnDesktop()
   {
     // GIVEN
-    rightClick( "#desktop" ).moveTo( "New" ).click( "Text Document" ).type( "myTextfile.txt" ).push( ENTER );
+    rightClick( "#desktop" ).moveMouseTo( "New" ).click( "Text Document" ).type( "myTextfile.txt" ).push( ENTER );
     assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
   }
 
