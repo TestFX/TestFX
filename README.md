@@ -34,7 +34,7 @@ too verbose and unwieldy. We wanted tests with easy-to-read code that our tester
 
 [Comparison with Jemmy][4]
 
-If TestFX does not suit your needs, you should have a look at Jemmy or [MarwinFX][6].
+If TestFX does not suit your needs, you should have a look at Jemmy or [MarvinFX][6].
 
 ### Start using
 This is what you need in your pom.xml file to start using TestFX:
@@ -63,4 +63,4 @@ and maintained by the [LoadUI team][5].
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
 [5]: https://github.com/SmartBear/loadui/graphs/contributors "Contributors of LoadUI"
-[6]: https://github.com/guigarage/MarvinFX "MarwinFX's project page on Github"
+[6]: https://github.com/guigarage/MarvinFX "MarvinFX's project page on Github"
