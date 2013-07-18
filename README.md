@@ -6,7 +6,7 @@ TestFX is an easy-to-use library for testing [JavaFX][2].
 ### Usage Example
 
 ```java
-class DesktopTest extends TestFX
+class DesktopTest extends GuiTest
 {
   @Before
   public void createNewFileOnDesktop()
