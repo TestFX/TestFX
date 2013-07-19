@@ -12,6 +12,8 @@ class DesktopTest extends GuiTest
   public void createNewFileOnDesktop()
   {
     // GIVEN
+    showNodeInStage( Desktop.class );
+  
     rightClick( "#desktop" ).moveMouseTo( "New" ).click( "Text Document" ).type( "myTextfile.txt" ).push( ENTER );
     assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
   }
@@ -31,6 +33,7 @@ class DesktopTest extends GuiTest
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
 too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
+Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI.
 
 [Comparison with Jemmy][4]
 
