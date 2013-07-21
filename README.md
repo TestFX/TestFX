@@ -39,8 +39,8 @@ Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI.
 
 If TestFX does not suit your needs, you should have a look at Jemmy or [MarvinFX][6].
 
-### Start using
-This is what you need in your pom.xml file to start using TestFX:
+### Getting Started
+To start using TestFX, you have to add the following elements to your pom.xml file:
 ```XML
 <pluginRepositories>
    <pluginRepository>
