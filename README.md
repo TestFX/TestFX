@@ -56,6 +56,7 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
     <version>2.6.0</version>
 </dependency>
 ```
+After that, you might want to check out the [documentation][7].
 
 ### Credits
 TestFX was initially created by @dainnilsson as a part of [LoadUI][2] in 2012. Today, it is being extended
@@ -67,3 +68,4 @@ and maintained by the [LoadUI team][5].
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
 [5]: https://github.com/SmartBear/loadui/graphs/contributors "Contributors of LoadUI"
 [6]: https://github.com/guigarage/MarvinFX "MarvinFX's project page on Github"
+[7]: https://github.com/SmartBear/TestFX/wiki/Documentation "Documentation"
