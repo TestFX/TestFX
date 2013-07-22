@@ -47,7 +47,7 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
     <version>2.6.0</version>
 </dependency>
 ```
-After that, you might want to check out the [documentation][7].
+After that, you might want to check out [the documentation][7].
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
