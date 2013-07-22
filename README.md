@@ -30,15 +30,6 @@ class DesktopTest extends GuiTest
 }
 ```
 
-### Motivation
-The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
-too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
-Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI.
-
-[Comparison with Jemmy][4]
-
-If TestFX does not suit your needs, you should have a look at Jemmy or [MarvinFX][6].
-
 ### Getting Started
 To start using TestFX, you have to add the following elements to your pom.xml file:
 ```XML
@@ -57,6 +48,15 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
 </dependency>
 ```
 After that, you might want to check out the [documentation][7].
+
+### Motivation
+The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
+too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
+Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI.
+
+[Comparison with Jemmy][4]
+
+If TestFX does not suit your needs, you should have a look at Jemmy or [MarvinFX][6].
 
 ### Credits
 TestFX was initially created by @dainnilsson as a part of [LoadUI][2] in 2012. Today, it is being extended
