@@ -473,6 +473,16 @@ public class TestFX
 		}
 	}
 
+	public TestFX push( KeyCode... keys )
+	{
+		return type( keys );
+	}
+
+	public TestFX push( char character )
+	{
+		return type( character );
+	}
+
 	public TestFX type( KeyCode... keys )
 	{
 		press( keys );
