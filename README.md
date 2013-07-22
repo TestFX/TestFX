@@ -47,7 +47,9 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
     <version>2.6.0</version>
 </dependency>
 ```
-After that, you might want to check out [the documentation][7].
+After that, head over to [the documentation][7].
+
+You might also be interested in this [conference session][8] at JavaOne featuring TestFX.
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
@@ -69,3 +71,4 @@ and maintained by the [LoadUI team][5].
 [5]: https://github.com/SmartBear/loadui/graphs/contributors "Contributors of LoadUI"
 [6]: https://github.com/guigarage/MarvinFX "MarvinFX's project page on Github"
 [7]: https://github.com/SmartBear/TestFX/wiki/Documentation "Documentation"
+[8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
