@@ -34,7 +34,12 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.*;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.concat;
@@ -55,7 +60,7 @@ public class TestFX
 	{
 		if( window instanceof Stage )
 		{
-			Stage stage = ( Stage )window;
+			Stage stage = (Stage) window;
 			stage.toFront();
 		}
 		lastSeenWindow = window;
@@ -68,7 +73,7 @@ public class TestFX
 		return new OffsetTarget( target, offsetX, offsetY );
 	}
 
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	public static List<Window> getWindows()
 	{
 		return Lists.reverse( Lists.newArrayList( Window.impl_getWindows() ) );
@@ -97,27 +102,23 @@ public class TestFX
 		{
 			if( parent instanceof String )
 			{
-				final String titleRegex = ( String )parent;
+				final String titleRegex = (String) parent;
 				return findAll( selector, targetWindow( findStageByTitle( titleRegex ) ).getScene() );
-			}
-			else if( parent instanceof Node )
+			} else if( parent instanceof Node )
 			{
-				Node node = ( Node )parent;
+				Node node = (Node) parent;
 				targetWindow( node.getScene().getWindow() );
 				return node.lookupAll( selector );
-			}
-			else if( parent instanceof Scene )
+			} else if( parent instanceof Scene )
 			{
-				Scene scene = ( Scene )parent;
+				Scene scene = (Scene) parent;
 				targetWindow( scene.getWindow() );
 				return findAll( selector, scene.getRoot() );
-			}
-			else if( parent instanceof Window )
+			} else if( parent instanceof Window )
 			{
-				return findAll( selector, targetWindow( ( Window )parent ).getScene() );
+				return findAll( selector, targetWindow( (Window) parent ).getScene() );
 			}
-		}
-		catch( Exception e )
+		} catch( Exception e )
 		{
 			//Ignore, something went wrong with checking a window, so return an empty set.
 		}
@@ -137,11 +138,10 @@ public class TestFX
 				Window parent = null;
 				if( input instanceof Stage )
 				{
-					parent = ( ( Stage )input ).getOwner();
-				}
-				else if( input instanceof PopupWindow )
+					parent = ((Stage) input).getOwner();
+				} else if( input instanceof PopupWindow )
 				{
-					parent = ( ( PopupWindow )input ).getOwnerWindow();
+					parent = ((PopupWindow) input).getOwnerWindow();
 				}
 
 				return parent == lastSeenWindow || parent != null && apply( parent );
@@ -157,27 +157,49 @@ public class TestFX
 		return results;
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings("unchecked")
 	public static <T extends Node> T find( String selector, Object parent )
 	{
 		return checkNotNull( (T) getFirst( findAll( selector, parent ), null ),
 				"Query [%s] select [%s] resulted in no nodes found!", parent, selector );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings("unchecked")
 	public static <T extends Node> T find( final String query )
 	{
 		T nodeFoundByCss = findByCssSelector( query );
 		if( nodeFoundByCss != null )
 			return nodeFoundByCss;
 
-		return checkNotNull( (T) find( new HasLabel( query ) ), "Query [%s] resulted in no nodes found!", query );
+		T foundNode = (T) find( new HasLabel( query ) );
+		if( foundNode == null )
+		{
+			throw new RuntimeException( "Query "+query+" resulted in no nodes found! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
+		}
+
+		return foundNode;
+	}
+
+	private static File captureScreenshot()
+	{
+		File screenshot = new File( "/screenshot.png" );
+		BufferedImage image = null;
+		try
+		{
+			image = new Robot().createScreenCapture( new Rectangle( Toolkit.getDefaultToolkit().getScreenSize() ) );
+			ImageIO.write( image, "png", new File( "/screenshot.png" ) );
+		} catch( Exception e )
+		{
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+		return screenshot;
 	}
 
 	private static class HasLabel<Node> implements Predicate<Node>
 	{
 		private final String label;
-		HasLabel(String label)
+
+		HasLabel( String label )
 		{
 			this.label = label;
 		}
@@ -185,9 +207,11 @@ public class TestFX
 		@Override
 		public boolean apply( Node node )
 		{
-			return (node instanceof Labeled) && label.equals( ((Labeled)node).getText() );
+			return (node instanceof Labeled) && label.equals( ((Labeled) node).getText() );
 		}
-	};
+	}
+
+	;
 
 	private static <T extends Node> T findByCssSelector( final String selector )
 	{
@@ -205,7 +229,7 @@ public class TestFX
 		return (T) getFirst( locallyFound, getFirst( globallyFound, null ) );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings("unchecked")
 	public static <T extends Node> T find( final Predicate<Node> predicate )
 	{
 		Iterable<Node> globallyFound = concat( transform( getWindows(),
@@ -218,7 +242,7 @@ public class TestFX
 					}
 				} ) );
 
-		return ( T )Iterables.get( globallyFound, 0 );
+		return (T) getFirst( globallyFound, null );
 	}
 
 	public static Iterable<Node> findAll( Predicate<Node> predicate, Node parent )
@@ -230,7 +254,7 @@ public class TestFX
 		}
 		if( parent instanceof Parent )
 		{
-			for( Node child : ( ( Parent )parent ).getChildrenUnmodifiable() )
+			for( Node child : ((Parent) parent).getChildrenUnmodifiable() )
 			{
 				found.add( findAll( predicate, child ) );
 			}
@@ -253,8 +277,7 @@ public class TestFX
 		try
 		{
 			Thread.sleep( ms );
-		}
-		catch( InterruptedException e )
+		} catch( InterruptedException e )
 		{
 			throw new RuntimeException( e );
 		}
@@ -265,21 +288,17 @@ public class TestFX
 	{
 		if( window instanceof Window )
 		{
-			targetWindow( ( Window )window );
-		}
-		else if( window instanceof String )
+			targetWindow( (Window) window );
+		} else if( window instanceof String )
 		{
-			targetWindow( findStageByTitle( ( String )window ) );
-		}
-		else if( window instanceof Number )
+			targetWindow( findStageByTitle( (String) window ) );
+		} else if( window instanceof Number )
 		{
-			targetWindow( getWindowByIndex( ( ( Number )window ).intValue() ) );
-		}
-		else if( window instanceof Class<?> )
+			targetWindow( getWindowByIndex( ((Number) window).intValue() ) );
+		} else if( window instanceof Class<?> )
 		{
-			targetWindow( Iterables.find( getWindows(), Predicates.instanceOf( ( Class<?> )window ) ) );
-		}
-		else
+			targetWindow( Iterables.find( getWindows(), Predicates.instanceOf( (Class<?>) window ) ) );
+		} else
 		{
 			Preconditions.checkArgument( false, "Unable to identify Window based on the given argument: %s", window );
 		}
@@ -304,18 +323,20 @@ public class TestFX
 		return click( buttons );
 	}
 
-	public TestFX eraseCharacters( int characters ){
-		for( int i = 0; i < characters; i++ ){
+	public TestFX eraseCharacters( int characters )
+	{
+		for( int i = 0; i < characters; i++ )
+		{
 			type( KeyCode.BACK_SPACE );
 		}
 		return this;
 	}
-	
+
 	public TestFX doubleClick( MouseButton... buttons )
 	{
 		return click( buttons ).click( buttons );
 	}
-	
+
 	public TestFX doubleClick( Object target, MouseButton... buttons )
 	{
 		return click( target, buttons ).click( target, buttons );
@@ -382,8 +403,7 @@ public class TestFX
 				controller.release( button );
 			}
 			pressedButtons.clear();
-		}
-		else
+		} else
 		{
 			for( MouseButton button : buttons )
 			{
@@ -416,8 +436,7 @@ public class TestFX
 			try
 			{
 				Thread.sleep( 25 );
-			}
-			catch( InterruptedException e )
+			} catch( InterruptedException e )
 			{
 			}
 		}
@@ -425,13 +444,13 @@ public class TestFX
 		return this;
 	}
 
-	private static final Map<Character, KeyCode> KEY_CODES = ImmutableMap.<Character, KeyCode> builder()
+	private static final Map<Character, KeyCode> KEY_CODES = ImmutableMap.<Character, KeyCode>builder()
 			.put( ',', KeyCode.COMMA ).put( ';', KeyCode.SEMICOLON ).put( '.', KeyCode.PERIOD ).put( ':', KeyCode.COLON )
 			.put( '_', KeyCode.UNDERSCORE ).put( '!', KeyCode.EXCLAMATION_MARK ).put( '"', KeyCode.QUOTEDBL )
 			.put( '#', KeyCode.POUND ).put( '&', KeyCode.AMPERSAND ).put( '/', KeyCode.SLASH )
 			.put( '(', KeyCode.LEFT_PARENTHESIS ).put( ')', KeyCode.RIGHT_PARENTHESIS ).put( '=', KeyCode.EQUALS ).build();
 
-	@SuppressWarnings( "deprecation" )
+	@SuppressWarnings("deprecation")
 	private static KeyCode findKeyCode( char character )
 	{
 		if( KEY_CODES.containsKey( character ) )
@@ -447,7 +466,7 @@ public class TestFX
 
 		for( KeyCode code : KeyCode.values() )
 		{
-			if( ( char )code.impl_getCode() == character )
+			if( (char) code.impl_getCode() == character )
 			{
 				return code;
 			}
@@ -459,14 +478,13 @@ public class TestFX
 	public TestFX type( char character )
 	{
 		KeyCode keyCode = findKeyCode( character );
-		
-		if(!Character.isUpperCase( character ))
+
+		if( !Character.isUpperCase( character ) )
 		{
 			return type( keyCode );
-		}
-		else
+		} else
 		{
-			KeyCode[] modifiers =  new KeyCode[] { KeyCode.SHIFT };	
+			KeyCode[] modifiers = new KeyCode[]{KeyCode.SHIFT};
 			press( modifiers );
 			type( keyCode );
 			return release( modifiers );
@@ -510,8 +528,7 @@ public class TestFX
 				controller.release( button );
 			}
 			pressedKeys.clear();
-		}
-		else
+		} else
 		{
 			for( KeyCode key : keys )
 			{
@@ -531,9 +548,10 @@ public class TestFX
 		nodePosition = pos;
 		return this;
 	}
-	
-	public TestFX closeCurrentWindow(){
-		this.press(KeyCode.ALT).press(KeyCode.F4).release(KeyCode.F4).release(KeyCode.ALT);
+
+	public TestFX closeCurrentWindow()
+	{
+		this.press( KeyCode.ALT ).press( KeyCode.F4 ).release( KeyCode.F4 ).release( KeyCode.ALT );
 		return this;
 	}
 
@@ -542,30 +560,30 @@ public class TestFX
 		double x = 0;
 		switch( nodePosition.getHpos() )
 		{
-		case LEFT :
-			x = bounds.getMinX();
-			break;
-		case CENTER :
-			x = ( bounds.getMinX() + bounds.getMaxX() ) / 2;
-			break;
-		case RIGHT :
-			x = bounds.getMaxX();
-			break;
+			case LEFT:
+				x = bounds.getMinX();
+				break;
+			case CENTER:
+				x = (bounds.getMinX() + bounds.getMaxX()) / 2;
+				break;
+			case RIGHT:
+				x = bounds.getMaxX();
+				break;
 		}
 
 		double y = 0;
 		switch( nodePosition.getVpos() )
 		{
-		case TOP :
-			y = bounds.getMinY();
-			break;
-		case CENTER :
-		case BASELINE :
-			y = ( bounds.getMinY() + bounds.getMaxY() ) / 2;
-			break;
-		case BOTTOM :
-			y = bounds.getMaxY();
-			break;
+			case TOP:
+				y = bounds.getMinY();
+				break;
+			case CENTER:
+			case BASELINE:
+				y = (bounds.getMinY() + bounds.getMaxY()) / 2;
+				break;
+			case BOTTOM:
+				y = bounds.getMaxY();
+				break;
 		}
 
 		return new Point2D( x, y );
@@ -578,48 +596,40 @@ public class TestFX
 				+ sceneBounds.getMinY(), sceneBounds.getWidth(), sceneBounds.getHeight() );
 	}
 
-	@SuppressWarnings( "unchecked" )
+	@SuppressWarnings("unchecked")
 	public Point2D pointFor( Object target )
 	{
 		if( target instanceof Point2D )
 		{
-			return ( Point2D )target;
-		}
-		else if( target instanceof Bounds )
+			return (Point2D) target;
+		} else if( target instanceof Bounds )
 		{
-			return pointForBounds( ( Bounds )target );
-		}
-		else if( target instanceof String )
+			return pointForBounds( (Bounds) target );
+		} else if( target instanceof String )
 		{
-			return pointFor( find( ( String )target ) );
-		}
-		else if( target instanceof Node )
+			return pointFor( find( (String) target ) );
+		} else if( target instanceof Node )
 		{
-			Node node = ( Node )target;
+			Node node = (Node) target;
 			return pointFor( sceneBoundsToScreenBounds( node.localToScene( node.getBoundsInLocal() ), node.getScene() ) );
-		}
-		else if( target instanceof Scene )
+		} else if( target instanceof Scene )
 		{
-			Scene scene = ( Scene )target;
+			Scene scene = (Scene) target;
 			return pointFor( sceneBoundsToScreenBounds( new BoundingBox( 0, 0, scene.getWidth(), scene.getHeight() ),
 					scene ) );
-		}
-		else if( target instanceof Window )
+		} else if( target instanceof Window )
 		{
-			Window window = targetWindow( ( Window )target );
+			Window window = targetWindow( (Window) target );
 			return pointFor( new BoundingBox( window.getX(), window.getY(), window.getWidth(), window.getHeight() ) );
-		}
-		else if( target instanceof Predicate )
+		} else if( target instanceof Predicate )
 		{
-			return pointFor( find( ( Predicate<Node> )target ) );
-		}
-		else if( target instanceof Iterable<?> )
+			return pointFor( find( (Predicate<Node>) target ) );
+		} else if( target instanceof Iterable<?> )
 		{
-			return pointFor( Iterables.get( ( Iterable<?> )target, 0 ) );
-		}
-		else if( target instanceof OffsetTarget )
+			return pointFor( Iterables.get( (Iterable<?>) target, 0 ) );
+		} else if( target instanceof OffsetTarget )
 		{
-			OffsetTarget offset = ( OffsetTarget )target;
+			OffsetTarget offset = (OffsetTarget) target;
 			Pos oldPos = nodePosition;
 			Point2D targetPoint = pos( Pos.TOP_LEFT ).pointFor( offset.target );
 			pos( oldPos );
@@ -687,14 +697,13 @@ public class TestFX
 			try
 			{
 				Thread.sleep( ms );
-			}
-			catch( InterruptedException e )
+			} catch( InterruptedException e )
 			{
 				throw new RuntimeException( e );
 			}
 			return this;
 		}
-		
+
 
 		public TestFX drop()
 		{
