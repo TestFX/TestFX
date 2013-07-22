@@ -1,7 +1,11 @@
 TestFX
 ======
 
-TestFX is an easy-to-use library for testing [JavaFX][2].
+TestFX is an easy-to-use library for testing [JavaFX][2]. TestFX provides:
+
+ - A fluent and clean API.
+ - Hamcrest Matchers for JavaFX.
+ - Screenshots of failed tests.
 
 ### Usage Example
 
