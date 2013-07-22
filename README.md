@@ -59,7 +59,7 @@ Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI.
 If TestFX does not suit your needs, you should have a look at Jemmy or [MarvinFX][6].
 
 ### Credits
-TestFX was initially created by @dainnilsson as a part of [LoadUI][2] in 2012. Today, it is being extended
+TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended
 and maintained by the [LoadUI team][5].
 
 [1]: https://jemmy.java.net/              "Jemmy website"
