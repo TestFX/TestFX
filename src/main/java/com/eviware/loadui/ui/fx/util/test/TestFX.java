@@ -43,9 +43,10 @@ import static com.google.common.collect.Iterables.transform;
 
 public class TestFX
 {
+	@Deprecated
 	public static TestFX wrap( ScreenController controller )
 	{
-		return new TestFX( controller );
+		return new TestFX();
 	}
 
 	private static Window lastSeenWindow = null;
@@ -242,9 +243,9 @@ public class TestFX
 	private final Set<MouseButton> pressedButtons = new HashSet<>();
 	private final Set<KeyCode> pressedKeys = new HashSet<>();
 
-	public TestFX( ScreenController controller )
+	public TestFX()
 	{
-		this.controller = controller;
+		this.controller = new FXScreenController();
 	}
 
 	public TestFX sleep( long ms )
