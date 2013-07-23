@@ -17,22 +17,30 @@ package com.eviware.loadui.ui.fx.util.test;
 
 import static com.eviware.loadui.ui.fx.util.test.TestFX.find;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.animation.TimelineBuilder;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.SceneBuilder;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBuilder;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFieldBuilder;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.stage.Stage;
 
+import javafx.util.Duration;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -53,7 +61,7 @@ public class ControllerApiTest
 		public void start( Stage primaryStage ) throws Exception
 		{
 			primaryStage.setScene( SceneBuilder
-					.create()
+					.create().width( 500 )
 					.root(
 							VBoxBuilder
 									.create()
@@ -129,5 +137,71 @@ public class ControllerApiTest
 			}
 		} );
 		return counter;
+	}
+
+	@Test
+	public void shouldHandleFastClicks() throws Exception
+	{
+		final AtomicInteger counter = setupCountingButtons();
+		for( int i=1; i<30; i++ )
+		{
+			controller.click( "#button1" );
+			assertEquals( i, counter.get() );
+		}
+	}
+
+	@Test
+	public void shouldHandleTimelines() throws Exception
+	{
+		setupTimelineButton();
+		Button button1 = find( "#button1" );
+		Button button2 = find( "#button2" );
+		controller.click( "#button1" );
+		long startTime = System.currentTimeMillis();
+		controller.click( "#button2" );
+		for( int i=0; i<10; i++ )
+		{
+			long elapsedTime = System.currentTimeMillis() - startTime;
+			assertEquals( elapsedTime/5, button1.getTranslateX(), 15);
+			controller.sleep( 20 );
+		}
+		controller.move( 0,0 ).click( "#button2" );
+		for( int i=0; i<20; i++ )
+		{
+			long elapsedTime = System.currentTimeMillis() - startTime;
+			assertEquals( elapsedTime/5, Double.parseDouble( button2.getText()), 15);
+			controller.sleep( 20 );
+		}
+	}
+
+	private void setupTimelineButton()
+	{
+		final Button button1 = find( "#button1" );
+
+		final Timeline timeline = new Timeline();
+		timeline.setCycleCount( 1 );
+		final KeyValue kv = new KeyValue( button1.translateXProperty(), 500);
+		final KeyFrame kf = new KeyFrame( Duration.millis( 2500 ), kv);
+		timeline.getKeyFrames().add( kf );
+
+		button1.setOnAction( new EventHandler<ActionEvent>()
+		{
+			@Override
+			public void handle( ActionEvent _ )
+			{
+				timeline.play();
+			}
+		} );
+
+		final Button button2 = find( "#button2" );
+		button2.setMinWidth( 140 );
+		Platform.runLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				button2.textProperty().bind( button1.translateXProperty().asString() );
+			}
+		} );
 	}
 }
