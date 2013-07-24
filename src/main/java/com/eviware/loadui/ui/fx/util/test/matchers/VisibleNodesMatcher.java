@@ -1,6 +1,6 @@
 package com.eviware.loadui.ui.fx.util.test.matchers;
 
-import com.eviware.loadui.ui.fx.util.test.TestFX;
+import com.eviware.loadui.ui.fx.util.test.GuiTest;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -22,6 +22,6 @@ public class VisibleNodesMatcher extends TypeSafeMatcher<String>
 	@Override
 	public boolean matchesSafely( String domQuery )
 	{
-		return !TestFX.findAll(domQuery).isEmpty();
+		return !GuiTest.findAll( domQuery ).isEmpty();
 	}
 }

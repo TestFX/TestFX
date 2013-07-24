@@ -1,6 +1,6 @@
 package com.eviware.loadui.ui.fx.util.test.matchers;
 
-import com.eviware.loadui.ui.fx.util.test.TestFX;
+import com.eviware.loadui.ui.fx.util.test.GuiTest;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -44,8 +44,8 @@ public class ContainsNodesMatcher extends TypeSafeMatcher<String>
 	{
 		if( numberOf >= 0 )
 		{
-			return TestFX.findAll(domRoot + " " + domQuery).size() == numberOf;
+			return GuiTest.findAll( domRoot + " " + domQuery ).size() == numberOf;
 		}
-		return !TestFX.findAll(domRoot + " " + domQuery).isEmpty();
+		return !GuiTest.findAll( domRoot + " " + domQuery ).isEmpty();
 	}
 }

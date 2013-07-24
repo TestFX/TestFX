@@ -46,12 +46,12 @@ import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Iterables.transform;
 
-public class TestFX
+public class GuiTest
 {
 	@Deprecated
-	public static TestFX wrap( ScreenController controller )
+	public static GuiTest wrap( ScreenController controller )
 	{
-		return new TestFX();
+		return new GuiTest();
 	}
 
 	private static Window lastSeenWindow = null;
@@ -209,9 +209,7 @@ public class TestFX
 		{
 			return (node instanceof Labeled) && label.equals( ((Labeled) node).getText() );
 		}
-	}
-
-	;
+	};
 
 	private static <T extends Node> T findByCssSelector( final String selector )
 	{
@@ -267,12 +265,12 @@ public class TestFX
 	private final Set<MouseButton> pressedButtons = new HashSet<>();
 	private final Set<KeyCode> pressedKeys = new HashSet<>();
 
-	public TestFX()
+	public GuiTest()
 	{
 		this.controller = new FXScreenController();
 	}
 
-	public TestFX sleep( long ms )
+	public GuiTest sleep( long ms )
 	{
 		try
 		{
@@ -284,7 +282,7 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX target( Object window )
+	public GuiTest target( Object window )
 	{
 		if( window instanceof Window )
 		{
@@ -306,7 +304,7 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX click( MouseButton... buttons )
+	public GuiTest click( MouseButton... buttons )
 	{
 		if( buttons.length == 0 )
 		{
@@ -317,13 +315,13 @@ public class TestFX
 		return release( buttons );
 	}
 
-	public TestFX click( Object target, MouseButton... buttons )
+	public GuiTest click( Object target, MouseButton... buttons )
 	{
 		move( target );
 		return click( buttons );
 	}
 
-	public TestFX eraseCharacters( int characters )
+	public GuiTest eraseCharacters( int characters )
 	{
 		for( int i = 0; i < characters; i++ )
 		{
@@ -332,12 +330,12 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX doubleClick( MouseButton... buttons )
+	public GuiTest doubleClick( MouseButton... buttons )
 	{
 		return click( buttons ).click( buttons );
 	}
 
-	public TestFX doubleClick( Object target, MouseButton... buttons )
+	public GuiTest doubleClick( Object target, MouseButton... buttons )
 	{
 		return click( target, buttons ).click( target, buttons );
 	}
@@ -350,13 +348,13 @@ public class TestFX
 		return new MouseMotion( buttons );
 	}
 
-	public TestFX move( double x, double y )
+	public GuiTest move( double x, double y )
 	{
 		controller.move( x, y );
 		return this;
 	}
 
-	public TestFX move( Object target )
+	public GuiTest move( Object target )
 	{
 		Point2D point = pointFor( target );
 		//Since moving takes time, only do it if we're not already at the desired point.
@@ -370,14 +368,14 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX moveBy( double x, double y )
+	public GuiTest moveBy( double x, double y )
 	{
 		Point2D mouse = controller.getMouse();
 		controller.move( mouse.getX() + x, mouse.getY() + y );
 		return this;
 	}
 
-	public TestFX press( MouseButton... buttons )
+	public GuiTest press( MouseButton... buttons )
 	{
 		if( buttons.length == 0 )
 		{
@@ -394,7 +392,7 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX release( MouseButton... buttons )
+	public GuiTest release( MouseButton... buttons )
 	{
 		if( buttons.length == 0 )
 		{
@@ -416,19 +414,19 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX scroll( int amount )
+	public GuiTest scroll( int amount )
 	{
 		controller.scroll( amount );
 		return this;
 	}
 
-	public TestFX type( Object target, String text )
+	public GuiTest type( Object target, String text )
 	{
 		click( target );
 		return type( text );
 	}
 
-	public TestFX type( String text )
+	public GuiTest type( String text )
 	{
 		for( int i = 0; i < text.length(); i++ )
 		{
@@ -475,7 +473,7 @@ public class TestFX
 		throw new IllegalArgumentException( "No KeyCode found for character: " + character );
 	}
 
-	public TestFX type( char character )
+	public GuiTest type( char character )
 	{
 		KeyCode keyCode = findKeyCode( character );
 
@@ -491,23 +489,23 @@ public class TestFX
 		}
 	}
 
-	public TestFX push( KeyCode... keys )
+	public GuiTest push( KeyCode... keys )
 	{
 		return type( keys );
 	}
 
-	public TestFX push( char character )
+	public GuiTest push( char character )
 	{
 		return type( character );
 	}
 
-	public TestFX type( KeyCode... keys )
+	public GuiTest type( KeyCode... keys )
 	{
 		press( keys );
 		return release( keys );
 	}
 
-	public TestFX press( KeyCode... keys )
+	public GuiTest press( KeyCode... keys )
 	{
 		for( KeyCode key : keys )
 		{
@@ -519,7 +517,7 @@ public class TestFX
 		return this;
 	}
 
-	public TestFX release( KeyCode... keys )
+	public GuiTest release( KeyCode... keys )
 	{
 		if( keys.length == 0 )
 		{
@@ -543,13 +541,13 @@ public class TestFX
 
 	private Pos nodePosition = Pos.CENTER;
 
-	public TestFX pos( Pos pos )
+	public GuiTest pos( Pos pos )
 	{
 		nodePosition = pos;
 		return this;
 	}
 
-	public TestFX closeCurrentWindow()
+	public GuiTest closeCurrentWindow()
 	{
 		this.press( KeyCode.ALT ).press( KeyCode.F4 ).release( KeyCode.F4 ).release( KeyCode.ALT );
 		return this;
@@ -662,13 +660,13 @@ public class TestFX
 			this.buttons = buttons;
 		}
 
-		public TestFX to( double x, double y )
+		public GuiTest to( double x, double y )
 		{
 			move( x, y );
 			return release( buttons );
 		}
 
-		public TestFX to( Object target )
+		public GuiTest to( Object target )
 		{
 			move( target );
 			return release( buttons );
@@ -705,7 +703,7 @@ public class TestFX
 		}
 
 
-		public TestFX drop()
+		public GuiTest drop()
 		{
 			return release( buttons );
 		}

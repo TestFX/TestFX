@@ -7,7 +7,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
-import static com.eviware.loadui.ui.fx.util.test.TestFX.find;
+import static com.eviware.loadui.ui.fx.util.test.GuiTest.find;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class HasLabelMatcher extends TypeSafeMatcher<Object>

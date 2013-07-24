@@ -182,7 +182,7 @@ public class FXTestUtils
 	{
 		try
 		{
-			TestFX.find( selector );
+			GuiTest.find( selector );
 			fail( "Selector shouldn't have found anything: " + selector );
 		}
 		catch( Exception e )
@@ -195,7 +195,7 @@ public class FXTestUtils
 	{
 		try
 		{
-			return TestFX.find( selector );
+			return GuiTest.find( selector );
 		}
 		catch( Exception e )
 		{
