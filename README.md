@@ -57,14 +57,14 @@ You will also have to set `forkMode` to _always_ in your surefire configuration:
 ```XML
 <build>
    <plugins>
-		    <plugin>
-			      <groupId>org.apache.maven.plugins</groupId>
-			      <artifactId>maven-surefire-plugin</artifactId>
-			      <version>2.14.1</version>
-			      <configuration>
-				        <forkMode>always</forkMode>
-			      </configuration>
-		    </plugin>
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+         <version>2.14.1</version>
+         <configuration>
+            <forkMode>always</forkMode>
+         </configuration>
+      </plugin>
    </plugins>
 </build>
 ```
