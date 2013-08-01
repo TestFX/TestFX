@@ -53,6 +53,22 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
     <version>2.6.1</version>
 </dependency>
 ```
+You will also have to set `forkMode` to _always_ in your surefire configuration:
+```
+<build>
+   <plugins>
+		    <plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-surefire-plugin</artifactId>
+			      <version>2.14.1</version>
+			      <configuration>
+				        <forkMode>always</forkMode>
+			      </configuration>
+		    </plugin>
+   </plugins>
+</build>
+```
+
 After that, head over to [the documentation][7].
 
 You might also be interested in this [conference session][8] at JavaOne featuring TestFX.
