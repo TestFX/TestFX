@@ -54,7 +54,7 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
 </dependency>
 ```
 You will also have to set `forkMode` to _always_ in your surefire configuration:
-```
+```XML
 <build>
    <plugins>
 		    <plugin>
