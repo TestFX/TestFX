@@ -18,7 +18,7 @@ class DesktopTest extends GuiTest
     // GIVEN
     showNodeInStage( aNode );
   
-    rightClick( "#desktop" ).moveMouseTo( "New" ).click( "Text Document" ).
+    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
                              type( "myTextfile.txt" ).push( ENTER );
     assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
   }
