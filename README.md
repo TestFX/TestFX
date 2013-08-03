@@ -16,7 +16,7 @@ class DesktopTest extends GuiTest
   public void createNewFileOnDesktop()
   {
     // GIVEN
-    showNodeInStage( aNode );
+    showNodeInStage( aDesktop );
   
     rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
                              type( "myTextfile.txt" ).push( ENTER );
