@@ -3,7 +3,7 @@ TestFX
 
 TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/java/fx/overview/index.html). TestFX provides:
 
- - A fluent and clean API for interacting and verifying the behavior of JavaFX applications.
+ - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
  - Hamcrest Matchers for JavaFX.
  - Screenshots of failed tests.
 
