@@ -13,26 +13,28 @@
  * express or implied. See the Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
-package com.eviware.loadui.ui.fx.util.test;
+package org.loadui.testfx;
 
+import org.loadui.testfx.exceptions.NoNodesFoundException;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.*;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
+import com.google.common.util.concurrent.SettableFuture;
+import javafx.application.Application;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SceneBuilder;
 import javafx.scene.control.Labeled;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.hamcrest.Matcher;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -40,6 +42,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.concat;
@@ -48,6 +52,54 @@ import static com.google.common.collect.Iterables.transform;
 
 public class GuiTest
 {
+	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
+	private static Stage stage;
+	private static String stylesheet = null;
+
+	public static class TestFxApp extends Application
+	{
+		public static Parent node;
+
+		@Override
+		public void start( Stage primaryStage ) throws Exception
+		{
+			Scene scene = SceneBuilder
+					.create()
+					.width( 600 )
+					.height( 400 )
+					.root( node ).build();
+
+			if( stylesheet != null )
+				scene.getStylesheets().add( stylesheet );
+
+			primaryStage.setScene( scene );
+			primaryStage.show();
+			stageFuture.set( primaryStage );
+		}
+	}
+
+	public static void showNodeInStage( Parent node )
+	{
+		showNodeInStage( node, null );
+	}
+
+	public static void showNodeInStage( Parent node, String stylesheet )
+	{
+		GuiTest.stylesheet = stylesheet;
+		TestFxApp.node = node;
+		FXTestUtils.launchApp( TestFxApp.class );
+		try
+		{
+			stage = targetWindow( stageFuture.get( 5, TimeUnit.SECONDS ) );
+			FXTestUtils.bringToFront( stage );
+		} catch( Exception e )
+		{
+			throw new RuntimeException( "Unable to show stage", e );
+		}
+	}
+
+
+
 	@Deprecated
 	public static GuiTest wrap( ScreenController controller )
 	{
@@ -174,20 +226,32 @@ public class GuiTest
 		T foundNode = (T) find( new HasLabel( query ) );
 		if( foundNode == null )
 		{
-			throw new RuntimeException( "Query "+query+" resulted in no nodes found! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
+			throw new NoNodesFoundException( "Query "+query+" resulted in no nodes found! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
 		}
 
 		return foundNode;
 	}
 
+	public static Callable<Integer> numberOf( final String nodeQuery )
+	{
+		 return new Callable<Integer>()
+		 {
+			 @Override
+			 public Integer call() throws Exception
+			 {
+				 return findAll( nodeQuery ).size();
+			 }
+		 };
+	}
+
 	private static File captureScreenshot()
 	{
-		File screenshot = new File( "/screenshot.png" );
+		File screenshot = new File( "screenshot"+new Date().getTime()+".png" );
 		BufferedImage image = null;
 		try
 		{
 			image = new Robot().createScreenCapture( new Rectangle( Toolkit.getDefaultToolkit().getScreenSize() ) );
-			ImageIO.write( image, "png", new File( "/screenshot.png" ) );
+			ImageIO.write( image, "png", screenshot );
 		} catch( Exception e )
 		{
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -211,6 +275,52 @@ public class GuiTest
 		}
 	};
 
+	public static void waitUntil( final Node node, final Matcher<Object> condition, int timeoutInSeconds )
+	{
+		TestUtils.awaitCondition( new Callable<Boolean>()
+		{
+			@Override
+			public Boolean call() throws Exception
+			{
+				return condition.matches( node );
+			}
+		}, timeoutInSeconds );
+	}
+
+	public static void waitUntil( final Node node, final Matcher<Object> condition )
+	{
+		waitUntil( node, condition, 15 );
+	}
+
+	public static <T> void waitUntil( final T value, final Matcher<? super T> condition )
+	{
+		waitUntil( value, condition, 15 );
+	}
+
+	public static <T> void waitUntil( final Callable<T> callable, final Matcher<? super T> condition )
+	{
+		TestUtils.awaitCondition( new Callable<Boolean>()
+		{
+			@Override
+			public Boolean call() throws Exception
+			{
+				return condition.matches( callable.call() );
+			}
+		}, 15 );
+	}
+
+	public static <T> void waitUntil( final T value, final Matcher<? super T> condition, int timeoutInSeconds )
+	{
+		TestUtils.awaitCondition( new Callable<Boolean>()
+		{
+			@Override
+			public Boolean call() throws Exception
+			{
+				return condition.matches( value );
+			}
+		}, timeoutInSeconds );
+	}
+
 	private static <T extends Node> T findByCssSelector( final String selector )
 	{
 		Set<Node> locallyFound = findAll( selector );
@@ -227,6 +337,7 @@ public class GuiTest
 		return (T) getFirst( locallyFound, getFirst( globallyFound, null ) );
 	}
 
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public static <T extends Node> T find( final Predicate<Node> predicate )
 	{
@@ -241,6 +352,39 @@ public class GuiTest
 				} ) );
 
 		return (T) getFirst( globallyFound, null );
+	}
+
+	public static <T extends Node> T find( final Matcher<Node> matcher )
+	{
+		Iterable<Node> globallyFound = concat( transform( getWindows(),
+				new Function<Window, Iterable<Node>>()
+				{
+					@Override
+					public Iterable<Node> apply( Window input )
+					{
+						return findAll( matcher, input.getScene().getRoot() );
+					}
+				} ) );
+
+		return (T) getFirst( globallyFound, null );
+	}
+
+	public static Iterable<Node> findAll( Matcher<Node> matcher, Node parent )
+	{
+		ImmutableList.Builder<Iterable<Node>> found = ImmutableList.builder();
+		if( matcher.matches( parent ) )
+		{
+			found.add( Collections.singleton( parent ) );
+		}
+		if( parent instanceof Parent )
+		{
+			for( Node child : ((Parent) parent).getChildrenUnmodifiable() )
+			{
+				found.add( findAll( matcher, child ) );
+			}
+		}
+
+		return concat( found.build() );
 	}
 
 	public static Iterable<Node> findAll( Predicate<Node> predicate, Node parent )
@@ -320,6 +464,17 @@ public class GuiTest
 		move( target );
 		return click( buttons );
 	}
+
+	public GuiTest rightClick()
+	{
+		return click( MouseButton.SECONDARY );
+	}
+
+	public GuiTest rightClick(Object target)
+	{
+		return click( target, MouseButton.SECONDARY );
+	}
+
 
 	public GuiTest eraseCharacters( int characters )
 	{
@@ -414,10 +569,35 @@ public class GuiTest
 		return this;
 	}
 
+	@Deprecated
 	public GuiTest scroll( int amount )
 	{
-		controller.scroll( amount );
+		for( int x = 0; x < Math.abs( amount ); x++ )
+		{
+			controller.scroll( Integer.signum( amount ) );
+		}
 		return this;
+	}
+
+	public GuiTest scroll( int amount, VerticalDirection direction )
+	{
+		for( int x = 0; x < Math.abs( amount ); x++ )
+		{
+			controller.scroll( directionToInteger( direction ) );
+		}
+		return this;
+	}
+
+	public GuiTest scroll( VerticalDirection direction )
+	{
+		return scroll( 1, direction );
+	}
+
+	private int directionToInteger( VerticalDirection direction )
+	{
+		if( direction == VerticalDirection.UP )
+			return -1;
+		return 1;
 	}
 
 	public GuiTest type( Object target, String text )
@@ -619,9 +799,9 @@ public class GuiTest
 		{
 			Window window = targetWindow( (Window) target );
 			return pointFor( new BoundingBox( window.getX(), window.getY(), window.getWidth(), window.getHeight() ) );
-		} else if( target instanceof Predicate )
+		} else if( target instanceof Matcher )
 		{
-			return pointFor( find( (Predicate<Node>) target ) );
+			return pointFor( find( (Matcher) target ) );
 		} else if( target instanceof Iterable<?> )
 		{
 			return pointFor( Iterables.get( (Iterable<?>) target, 0 ) );

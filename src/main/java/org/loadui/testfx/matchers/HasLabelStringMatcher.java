@@ -1,20 +1,17 @@
-package com.eviware.loadui.ui.fx.util.test.matchers;
+package org.loadui.testfx.matchers;
 
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
-import static com.eviware.loadui.ui.fx.util.test.GuiTest.find;
-import static com.google.common.base.Preconditions.checkArgument;
+import static org.loadui.testfx.GuiTest.find;
 
-public class HasLabelMatcher extends TypeSafeMatcher<Object>
+public class HasLabelStringMatcher extends TypeSafeMatcher<Object>
 {
 	private final String label;
 
-	public HasLabelMatcher( String label )
+	public HasLabelStringMatcher( String label )
 	{
 		this.label = label;
 	}
@@ -22,12 +19,6 @@ public class HasLabelMatcher extends TypeSafeMatcher<Object>
 	public void describeTo( Description desc )
 	{
 		desc.appendText( "Node should have label " + label );
-	}
-
-	@Factory
-	public static Matcher<Object> hasLabel( String label )
-	{
-		return new HasLabelMatcher( label );
 	}
 
 	@Override
@@ -39,10 +30,8 @@ public class HasLabelMatcher extends TypeSafeMatcher<Object>
 		} else if( target instanceof Labeled )
 		{
 			return nodeHasLabel( (Labeled) target );
-		} else
-		{
-			throw new IllegalArgumentException( "Argument must be a String or a Node." );
 		}
+		return false;
 	}
 
 	private boolean nodeHasLabel( Node node )

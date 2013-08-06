@@ -1,6 +1,6 @@
-package com.eviware.loadui.ui.fx.util.test.matchers;
+package org.loadui.testfx.matchers;
 
-import com.eviware.loadui.ui.fx.util.test.GuiTest;
+import org.loadui.testfx.GuiTest;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;

@@ -13,7 +13,7 @@
  * express or implied. See the Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
-package com.eviware.loadui.ui.fx.util.test;
+package org.loadui.testfx;
 
 import java.awt.AWTException;
 import java.awt.Robot;

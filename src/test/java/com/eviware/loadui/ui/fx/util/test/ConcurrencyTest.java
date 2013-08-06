@@ -28,26 +28,35 @@ import org.loadui.testfx.FXScreenController;
 import org.loadui.testfx.FXTestUtils;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.SceneBuilder;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.stage.Stage;
 
+import javafx.util.Duration;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import com.google.common.util.concurrent.SettableFuture;
 
+@Ignore
 @Category( TestFX.class )
-public class ControllerApiTest
+public class ConcurrencyTest
 {
 	private static final GuiTest controller = GuiTest.wrap( new FXScreenController() );
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	private static Stage stage;
 
-	public static class ControllerApiTestApp extends Application
+	public static class ConcurrencyTestApp extends Application
 	{
 		@Override
 		public void start( Stage primaryStage ) throws Exception
@@ -69,20 +78,64 @@ public class ControllerApiTest
 	@BeforeClass
 	public static void createWindow() throws Throwable
 	{
-		FXTestUtils.launchApp( ControllerApiTestApp.class );
+		FXTestUtils.launchApp( ConcurrencyTestApp.class );
 		stage = stageFuture.get( 5, TimeUnit.SECONDS );
 		FXTestUtils.bringToFront( stage );
+		GuiTest.targetWindow( stage );
 	}
 
 	@Test
-	public void shouldTypeString()
+	public void shouldHandleTimelines() throws Exception
 	{
-		String text = "H3llo W0rld.";
-
-		TextField textField = find( "#text" );
-		controller.type( "#text", text );
-
-		assertThat( textField.getText(), is( text ) );
+		setupTimelineButton();
+		Button button1 = find( "#button1" );
+		Button button2 = find( "#button2" );
+		controller.click( "#button1" );
+		long startTime = System.currentTimeMillis();
+		controller.click( "#button2" );
+		for( int i=0; i<10; i++ )
+		{
+			long elapsedTime = System.currentTimeMillis() - startTime;
+			assertEquals( elapsedTime/5, button1.getTranslateX(), 15);
+			controller.sleep( 20 );
+		}
+		controller.move( 0,0 ).click( "#button2" );
+		for( int i=0; i<20; i++ )
+		{
+			long elapsedTime = System.currentTimeMillis() - startTime;
+			assertEquals( elapsedTime/5, Double.parseDouble( button2.getText()), 15);
+			controller.sleep( 20 );
+		}
 	}
 
+	private void setupTimelineButton()
+	{
+		final Button button1 = find( "#button1" );
+
+		final Timeline timeline = new Timeline();
+		timeline.setCycleCount( 1 );
+		final KeyValue kv = new KeyValue( button1.translateXProperty(), 500);
+		final KeyFrame kf = new KeyFrame( Duration.millis( 2500 ), kv);
+		timeline.getKeyFrames().add( kf );
+
+		button1.setOnAction( new EventHandler<ActionEvent>()
+		{
+			@Override
+			public void handle( ActionEvent _ )
+			{
+				timeline.play();
+			}
+		} );
+
+		final Button button2 = find( "#button2" );
+		button2.setMinWidth( 140 );
+		Platform.runLater( new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				button2.textProperty().bind( button1.translateXProperty().asString() );
+			}
+		} );
+	}
 }

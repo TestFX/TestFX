@@ -13,27 +13,14 @@
  * express or implied. See the Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
-package com.eviware.loadui.ui.fx.util.test;
+package org.loadui.testfx.categories;
 
-import javafx.geometry.Point2D;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-
-public interface ScreenController
+/**
+ * GUI JUnit test category for tests which require creating and operating on
+ * graphical objects such as windows.
+ * 
+ * @author dain.nilsson
+ */
+public interface TestFX
 {
-	public Point2D getMouse();
-
-	public void position( double x, double y );
-
-	public void move( double x, double y );
-
-	public void scroll( int amount );
-
-	public void press( MouseButton button );
-
-	public void release( MouseButton button );
-
-	public void press( KeyCode key );
-
-	public void release( KeyCode key );
 }
