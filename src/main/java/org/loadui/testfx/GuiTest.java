@@ -53,7 +53,7 @@ import static com.google.common.collect.Iterables.transform;
 public class GuiTest
 {
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
-	private static Stage stage;
+	protected static Stage stage;
 	private static String stylesheet = null;
 
 	public static class TestFxApp extends Application
