@@ -487,12 +487,12 @@ public class GuiTest
 
 	public GuiTest doubleClick( MouseButton... buttons )
 	{
-		return click( buttons ).click( buttons );
+		return click( buttons ).click( buttons ).sleep( 50 );
 	}
 
 	public GuiTest doubleClick( Object target, MouseButton... buttons )
 	{
-		return click( target, buttons ).click( target, buttons );
+		return click( target, buttons ).click( target, buttons ).sleep( 50 );
 	}
 
 	public MouseMotion drag( Object source, MouseButton... buttons )
