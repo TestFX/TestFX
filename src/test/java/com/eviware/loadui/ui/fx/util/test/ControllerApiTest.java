@@ -81,7 +81,7 @@ primaryStage.show();
 		String text = "H3llo W0rld.";
 
 		TextField textField = find( "#text" );
-		controller.type( "#text", text );
+		controller.click("#text").type( text );
 
 		assertThat( textField.getText(), is( text ) );
 	}

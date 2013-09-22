@@ -149,14 +149,13 @@ public class FXScreenControllerTest
 	{
 		
 		TextField textField = ( TextField )stage.getScene().lookup( "#text" );
-	
-		controller.press( KeyCode.TAB );
-		controller.release( KeyCode.TAB );
-		Thread.sleep( 100 );
 
-		FXTestUtils.awaitEvents();
-
-		assertTrue( textField.isFocused() );
+        while( !textField.isFocused() )
+        {
+		    controller.press( KeyCode.TAB );
+		    controller.release( KeyCode.TAB );
+		    Thread.sleep( 100 );
+        }
 
 		controller.press( KeyCode.A );
 		controller.release( KeyCode.A );

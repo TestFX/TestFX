@@ -477,41 +477,189 @@ public class GuiTest
 		return this;
 	}
 
-	public GuiTest click( MouseButton... buttons )
-	{
-		if( buttons.length == 0 )
-		{
-			return click( MouseButton.PRIMARY );
-		}
+    /*---------------- Click ----------------*/
 
-		press( buttons );
-		return release( buttons );
-	}
+    public GuiTest click( MouseButton... buttons )
+    {
+        if( buttons.length == 0 )
+        {
+            return click( MouseButton.PRIMARY );
+        }
+
+        press( buttons );
+        return release( buttons );
+    }
 
     /**
-     * Clicks a given target.
+     * Clicks the first Node matching the given query.
      *
-     * @param target
+     * @param query either CSS selector, label of node or class name.
      * @param buttons
      */
-	public GuiTest click( Object target, MouseButton... buttons )
-	{
-		move( target );
-		return click( buttons );
-	}
+    public GuiTest click( String query, MouseButton... buttons )
+    {
+        move( query );
+        return click( buttons );
+    }
+
+    public GuiTest click( Node node, MouseButton... buttons )
+    {
+        move( node );
+        return click( buttons );
+    }
+
+    public GuiTest click( Point2D point, MouseButton... buttons )
+    {
+        move( point );
+        return click( buttons );
+    }
+
+    public GuiTest click( Bounds bounds, MouseButton... buttons )
+    {
+        move( bounds );
+        return click( buttons );
+    }
+
+    public GuiTest click( Scene scene, MouseButton... buttons )
+    {
+        move( scene );
+        return click( buttons );
+    }
+
+    public GuiTest click( Window window, MouseButton... buttons )
+    {
+        move( window );
+        return click( buttons );
+    }
+
+    public GuiTest click( Matcher<Node> matcher, MouseButton... buttons )
+    {
+        move( matcher );
+        return click( buttons );
+    }
+
+    public GuiTest click( Iterable<?> iterable, MouseButton... buttons )
+    {
+        move( iterable );
+        return click( buttons );
+    }
+
+    public GuiTest click( OffsetTarget target, MouseButton... buttons )
+    {
+        move( target );
+        return click( buttons );
+    }
 
 	public GuiTest rightClick()
 	{
 		return click( MouseButton.SECONDARY );
 	}
 
+
+    /*---------------- Right-click ----------------*/
+
     /**
      * Right-clicks a given target.
      */
-	public GuiTest rightClick(Object target)
+	public GuiTest rightClick(String query)
 	{
-		return click( target, MouseButton.SECONDARY );
+		return click( query, MouseButton.SECONDARY );
 	}
+
+    public GuiTest rightClick(Node node)
+    {
+        return click( node, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(Matcher<Node> matcher)
+    {
+        return click( matcher, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(Scene scene)
+    {
+        return click( scene, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(Window window)
+    {
+        return click( window, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(Point2D point)
+    {
+        return click( point, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(Bounds bounds)
+    {
+        return click( bounds, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(OffsetTarget target)
+    {
+        return click( target, MouseButton.SECONDARY );
+    }
+
+    public GuiTest rightClick(Iterable<?> iterable)
+    {
+        return click( iterable, MouseButton.SECONDARY );
+    }
+
+    /*---------------- Double-click ----------------*/
+
+    public GuiTest doubleClick()
+    {
+        return click().click().sleep( 50 );
+    }
+
+    /**
+     * Double-clicks a given target.
+     *
+     * @param query
+     */
+    public GuiTest doubleClick( String query )
+    {
+        return click( query ).click().sleep( 50 );
+    }
+
+    public GuiTest doubleClick( Matcher<Node> matcher )
+    {
+        return click( matcher ).click().sleep( 50 );
+    }
+
+    public GuiTest doubleClick( Scene scene )
+    {
+        return click( scene ).click().sleep( 50 );
+    }
+
+    public GuiTest doubleClick( Window window)
+    {
+        return click( window ).click().sleep( 50 );
+    }
+
+    public GuiTest doubleClick( Point2D point )
+    {
+        return click( point ).click().sleep( 50 );
+    }
+
+    public GuiTest doubleClick( Bounds bounds )
+    {
+        return click( bounds ).click( ).sleep( 50 );
+    }
+
+    public GuiTest doubleClick( OffsetTarget target )
+    {
+        return click( target ).click( ).sleep( 50 );
+    }
+
+    public GuiTest doubleClick( Iterable<?> iterable)
+    {
+        return click( iterable ).click( ).sleep( 50 );
+    }
+
+
+    /*----------------  ----------------*/
 
 
 	public GuiTest eraseCharacters( int characters )
@@ -523,27 +671,14 @@ public class GuiTest
 		return this;
 	}
 
-	public GuiTest doubleClick( )
-	{
-		return click().click().sleep( 50 );
-	}
 
-    /**
-     * Double-clicks a given target.
-     *
-     * @param target
-     */
-	public GuiTest doubleClick( Object target )
-	{
-		return click( target ).click( target ).sleep( 50 );
-	}
 
 	public MouseMotion drag( Object source, MouseButton... buttons )
 	{
 		move( source );
 		press( buttons );
 
-		return new MouseMotion( buttons );
+		return new MouseMotion( this, buttons );
 	}
 
     /**
@@ -634,6 +769,9 @@ public class GuiTest
 		return this;
 	}
 
+
+    /*---------------- Scroll ----------------*/
+
 	@Deprecated
 	public GuiTest scroll( int amount )
 	{
@@ -678,18 +816,8 @@ public class GuiTest
 		return 1;
 	}
 
-    /**
-     * Selects (clicks) the given target and types the given text on the keyboard.
-     *
-     * Note: Typing depends on the operating system keyboard layout!
-     *
-     * @param text
-     */
-	public GuiTest type( Object target, String text )
-	{
-		click( target );
-		return type( text );
-	}
+
+    /*---------------- Type ----------------*/
 
     /**
      * Types the given text on the keyboard.
@@ -710,44 +838,12 @@ public class GuiTest
 			{
 			}
 		}
-
 		return this;
 	}
 
-	private static final Map<Character, KeyCode> KEY_CODES = ImmutableMap.<Character, KeyCode>builder()
-			.put( ',', KeyCode.COMMA ).put( ';', KeyCode.SEMICOLON ).put( '.', KeyCode.PERIOD ).put( ':', KeyCode.COLON )
-			.put( '_', KeyCode.UNDERSCORE ).put( '!', KeyCode.EXCLAMATION_MARK ).put( '"', KeyCode.QUOTEDBL )
-			.put( '#', KeyCode.POUND ).put( '&', KeyCode.AMPERSAND ).put( '/', KeyCode.SLASH )
-			.put( '(', KeyCode.LEFT_PARENTHESIS ).put( ')', KeyCode.RIGHT_PARENTHESIS ).put( '=', KeyCode.EQUALS ).build();
-
-	@SuppressWarnings("deprecation")
-	private static KeyCode findKeyCode( char character )
+    public GuiTest type( char character )
 	{
-		if( KEY_CODES.containsKey( character ) )
-		{
-			return KEY_CODES.get( character );
-		}
-
-		KeyCode keyCode = KeyCode.getKeyCode( String.valueOf( Character.toUpperCase( character ) ) );
-		if( keyCode != null )
-		{
-			return keyCode;
-		}
-
-		for( KeyCode code : KeyCode.values() )
-		{
-			if( (char) code.impl_getCode() == character )
-			{
-				return code;
-			}
-		}
-
-		throw new IllegalArgumentException( "No KeyCode found for character: " + character );
-	}
-
-	public GuiTest type( char character )
-	{
-		KeyCode keyCode = findKeyCode( character );
+		KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
 
 		if( !Character.isUpperCase( character ) )
 		{
@@ -947,86 +1043,4 @@ public class GuiTest
 		}
 	}
 
-    /**
-     * A builder class for advanced mouse movements.
-     *
-     * Example usage: drag("#nodeA").via(nodeB).to("Node C")
-     *
-     */
-	public class MouseMotion
-	{
-		private final MouseButton[] buttons;
-
-		private MouseMotion( MouseButton... buttons )
-		{
-			this.buttons = buttons;
-		}
-
-        /**
-         * Specifies that the ongoing drag-n-drop operation should end at the given coordinates.
-         *
-         * @param x
-         * @param y
-         */
-		public GuiTest to( double x, double y )
-		{
-			move( x, y );
-			return release( buttons );
-		}
-
-        /**
-         * Ends the ongoing drag-n-drop operation at the given target.
-         *
-         * @param target
-         */
-		public GuiTest to( Object target )
-		{
-			move( target );
-			return release( buttons );
-		}
-
-
-		public MouseMotion via( double x, double y )
-		{
-			move( x, y );
-			return this;
-		}
-
-		public MouseMotion via( Object target )
-		{
-			move( target );
-			return this;
-		}
-
-		public MouseMotion by( double x, double y )
-		{
-			moveBy( x, y );
-			return this;
-		}
-
-        /**
-         * Waits still, while keeping the mouse pressed.
-         *
-         * @param ms time in milliseconds
-         */
-		public MouseMotion sleep( long ms )
-		{
-			try
-			{
-				Thread.sleep( ms );
-			} catch( InterruptedException e )
-			{
-				throw new RuntimeException( e );
-			}
-			return this;
-		}
-
-        /**
-         * Releases the mouse button and thereby ends the ongoing drag-n-drop operation.
-         */
-		public GuiTest drop()
-		{
-			return release( buttons );
-		}
-	}
 }
