@@ -78,6 +78,11 @@ public class GuiTest
 		}
 	}
 
+    /**
+     * Creates and displays a new stage, with the provided node as root node.
+     *
+     * @param node
+     */
 	public static void showNodeInStage( Parent node )
 	{
 		showNodeInStage( node, null );
@@ -232,6 +237,12 @@ public class GuiTest
 		return foundNode;
 	}
 
+    /**
+     * Returns a Callable that calculates the number of nodes that matches the given query.
+     *
+     * @param nodeQuery a CSS query or the label of a node.
+     * @return
+     */
 	public static Callable<Integer> numberOf( final String nodeQuery )
 	{
 		 return new Callable<Integer>()
@@ -287,6 +298,12 @@ public class GuiTest
 		}, timeoutInSeconds );
 	}
 
+    /**
+     * Waits until the provided node fulfills the given condition.
+     *
+     * @param node
+     * @param condition
+     */
 	public static void waitUntil( final Node node, final Matcher<Object> condition )
 	{
 		waitUntil( node, condition, 15 );
@@ -369,6 +386,13 @@ public class GuiTest
 		return (T) getFirst( globallyFound, null );
 	}
 
+    /**
+     * Returns all child nodes of parent, that matches the given matcher.
+     *
+     * @param matcher
+     * @param parent
+     * @return found nodes
+     */
 	public static Iterable<Node> findAll( Matcher<Node> matcher, Node parent )
 	{
 		ImmutableList.Builder<Iterable<Node>> found = ImmutableList.builder();
@@ -414,6 +438,11 @@ public class GuiTest
 		this.controller = new FXScreenController();
 	}
 
+    /**
+     * Same as Thread.sleep(), but without checked exceptions.
+     *
+     * @param ms time in milliseconds
+     */
 	public GuiTest sleep( long ms )
 	{
 		try
@@ -459,6 +488,12 @@ public class GuiTest
 		return release( buttons );
 	}
 
+    /**
+     * Clicks a given target.
+     *
+     * @param target
+     * @param buttons
+     */
 	public GuiTest click( Object target, MouseButton... buttons )
 	{
 		move( target );
@@ -470,6 +505,9 @@ public class GuiTest
 		return click( MouseButton.SECONDARY );
 	}
 
+    /**
+     * Right-clicks a given target.
+     */
 	public GuiTest rightClick(Object target)
 	{
 		return click( target, MouseButton.SECONDARY );
@@ -485,14 +523,19 @@ public class GuiTest
 		return this;
 	}
 
-	public GuiTest doubleClick( MouseButton... buttons )
+	public GuiTest doubleClick( )
 	{
-		return click( buttons ).click( buttons ).sleep( 50 );
+		return click().click().sleep( 50 );
 	}
 
-	public GuiTest doubleClick( Object target, MouseButton... buttons )
+    /**
+     * Double-clicks a given target.
+     *
+     * @param target
+     */
+	public GuiTest doubleClick( Object target )
 	{
-		return click( target, buttons ).click( target, buttons ).sleep( 50 );
+		return click( target ).click( target ).sleep( 50 );
 	}
 
 	public MouseMotion drag( Object source, MouseButton... buttons )
@@ -503,6 +546,12 @@ public class GuiTest
 		return new MouseMotion( buttons );
 	}
 
+    /**
+     * Moves the mouse cursor to the given coordinates.
+     *
+     * @param x
+     * @param y
+     */
 	public GuiTest move( double x, double y )
 	{
 		controller.move( x, y );
@@ -523,6 +572,12 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Moves the mouse cursor relatively to its current position.
+     *
+     * @param x
+     * @param y
+     */
 	public GuiTest moveBy( double x, double y )
 	{
 		Point2D mouse = controller.getMouse();
@@ -530,6 +585,11 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Presses and holds a mouse button, until explicitly released.
+     *
+     * @param buttons defaults to the primary mouse button.
+     */
 	public GuiTest press( MouseButton... buttons )
 	{
 		if( buttons.length == 0 )
@@ -547,6 +607,11 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Releases a pressed mouse button.
+     *
+     * @param buttons defaults to the primary mouse button.
+     */
 	public GuiTest release( MouseButton... buttons )
 	{
 		if( buttons.length == 0 )
@@ -579,6 +644,13 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Scrolls the mouse-wheel a given number of notches in a direction.
+     *
+     * @param amount the number of notches to scroll
+     * @param direction
+     * @return
+     */
 	public GuiTest scroll( int amount, VerticalDirection direction )
 	{
 		for( int x = 0; x < Math.abs( amount ); x++ )
@@ -588,6 +660,12 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Scrolls the mouse-wheel one notch in the given direction.
+     *
+     * @param direction
+     * @return
+     */
 	public GuiTest scroll( VerticalDirection direction )
 	{
 		return scroll( 1, direction );
@@ -600,12 +678,26 @@ public class GuiTest
 		return 1;
 	}
 
+    /**
+     * Selects (clicks) the given target and types the given text on the keyboard.
+     *
+     * Note: Typing depends on the operating system keyboard layout!
+     *
+     * @param text
+     */
 	public GuiTest type( Object target, String text )
 	{
 		click( target );
 		return type( text );
 	}
 
+    /**
+     * Types the given text on the keyboard.
+     *
+     * Note: Typing depends on the operating system keyboard layout!
+     *
+     * @param text
+     */
 	public GuiTest type( String text )
 	{
 		for( int i = 0; i < text.length(); i++ )
@@ -669,11 +761,20 @@ public class GuiTest
 		}
 	}
 
+    /**
+     * Alias for type( ).
+     *
+     * @param keys
+     */
 	public GuiTest push( KeyCode... keys )
 	{
 		return type( keys );
 	}
 
+    /**
+     * Alias for type().
+     * @param character
+     */
 	public GuiTest push( char character )
 	{
 		return type( character );
@@ -685,6 +786,11 @@ public class GuiTest
 		return release( keys );
 	}
 
+    /**
+     * Presses and holds a given key, until explicitly released.
+     *
+     * @param keys
+     */
 	public GuiTest press( KeyCode... keys )
 	{
 		for( KeyCode key : keys )
@@ -697,6 +803,11 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Releases a given key.
+     *
+     * @param keys
+     */
 	public GuiTest release( KeyCode... keys )
 	{
 		if( keys.length == 0 )
@@ -727,6 +838,11 @@ public class GuiTest
 		return this;
 	}
 
+    /**
+     * Closes the front-most window using the Alt+F4 keyboard shortcut.
+     *
+     * @return
+     */
 	public GuiTest closeCurrentWindow()
 	{
 		this.press( KeyCode.ALT ).press( KeyCode.F4 ).release( KeyCode.F4 ).release( KeyCode.ALT );
@@ -831,6 +947,12 @@ public class GuiTest
 		}
 	}
 
+    /**
+     * A builder class for advanced mouse movements.
+     *
+     * Example usage: drag("#nodeA").via(nodeB).to("Node C")
+     *
+     */
 	public class MouseMotion
 	{
 		private final MouseButton[] buttons;
@@ -840,17 +962,29 @@ public class GuiTest
 			this.buttons = buttons;
 		}
 
+        /**
+         * Specifies that the ongoing drag-n-drop operation should end at the given coordinates.
+         *
+         * @param x
+         * @param y
+         */
 		public GuiTest to( double x, double y )
 		{
 			move( x, y );
 			return release( buttons );
 		}
 
+        /**
+         * Ends the ongoing drag-n-drop operation at the given target.
+         *
+         * @param target
+         */
 		public GuiTest to( Object target )
 		{
 			move( target );
 			return release( buttons );
 		}
+
 
 		public MouseMotion via( double x, double y )
 		{
@@ -870,6 +1004,11 @@ public class GuiTest
 			return this;
 		}
 
+        /**
+         * Waits still, while keeping the mouse pressed.
+         *
+         * @param ms time in milliseconds
+         */
 		public MouseMotion sleep( long ms )
 		{
 			try
@@ -882,7 +1021,9 @@ public class GuiTest
 			return this;
 		}
 
-
+        /**
+         * Releases the mouse button and thereby ends the ongoing drag-n-drop operation.
+         */
 		public GuiTest drop()
 		{
 			return release( buttons );
