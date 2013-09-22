@@ -39,8 +39,8 @@ public class FXTestUtils
 			@Override
 			public void run()
 			{
-				stage.setIconified( true );
-				stage.setIconified( false );
+				//stage.setIconified( true );
+				//stage.setIconified( false );
 				stage.toBack();
 				stage.toFront();
 			}

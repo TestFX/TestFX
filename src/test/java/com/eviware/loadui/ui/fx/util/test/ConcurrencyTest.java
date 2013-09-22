@@ -79,7 +79,7 @@ public class ConcurrencyTest
 	public static void createWindow() throws Throwable
 	{
 		FXTestUtils.launchApp( ConcurrencyTestApp.class );
-		stage = stageFuture.get( 5, TimeUnit.SECONDS );
+		stage = stageFuture.get( 25, TimeUnit.SECONDS );
 		FXTestUtils.bringToFront( stage );
 		GuiTest.targetWindow( stage );
 	}

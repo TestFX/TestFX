@@ -90,7 +90,7 @@ public class GuiTest
 		FXTestUtils.launchApp( TestFxApp.class );
 		try
 		{
-			stage = targetWindow( stageFuture.get( 5, TimeUnit.SECONDS ) );
+			stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
 			FXTestUtils.bringToFront( stage );
 		} catch( Exception e )
 		{

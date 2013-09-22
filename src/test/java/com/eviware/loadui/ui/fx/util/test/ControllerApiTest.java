@@ -60,7 +60,8 @@ public class ControllerApiTest
 									.children( ButtonBuilder.create().id( "button1" ).text( "Button 1" ).build(),
 											ButtonBuilder.create().id( "button2" ).text( "Button 2" ).build(),
 											TextFieldBuilder.create().id( "text" ).build() ).build() ).build() );
-			primaryStage.show();
+		
+primaryStage.show();
 
 			stageFuture.set( primaryStage );
 		}
@@ -70,7 +71,7 @@ public class ControllerApiTest
 	public static void createWindow() throws Throwable
 	{
 		FXTestUtils.launchApp( ControllerApiTestApp.class );
-		stage = stageFuture.get( 5, TimeUnit.SECONDS );
+		stage = stageFuture.get( 25, TimeUnit.SECONDS );
 		FXTestUtils.bringToFront( stage );
 	}
 

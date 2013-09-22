@@ -43,6 +43,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.Ignore;
 
 import com.google.common.util.concurrent.SettableFuture;
 
@@ -76,7 +77,7 @@ public class FXScreenControllerTest
 	public static void createWindow() throws Throwable
 	{
 		FXTestUtils.launchApp( FXScreenControllerTestApp.class );
-		stage = stageFuture.get( 5, TimeUnit.SECONDS );
+		stage = stageFuture.get( 25, TimeUnit.SECONDS );
 		FXTestUtils.bringToFront( stage );
 	}
 
@@ -88,6 +89,7 @@ public class FXScreenControllerTest
 	@Test
 	public void shouldClickButtons() throws InterruptedException
 	{
+
 		Button button1 = ( Button )stage.getScene().lookup( "#button1" );
 		Button button2 = ( Button )stage.getScene().lookup( "#button2" );
 
@@ -145,9 +147,15 @@ public class FXScreenControllerTest
 	@Test
 	public void shouldTypeKeys() throws InterruptedException
 	{
+		
 		TextField textField = ( TextField )stage.getScene().lookup( "#text" );
-		textField.requestFocus();
+	
+		controller.press( KeyCode.TAB );
+		controller.release( KeyCode.TAB );
+		Thread.sleep( 100 );
+
 		FXTestUtils.awaitEvents();
+
 		assertTrue( textField.isFocused() );
 
 		controller.press( KeyCode.A );
