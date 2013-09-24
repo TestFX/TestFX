@@ -71,7 +71,7 @@ You will also have to set `forkMode` to _always_ in your surefire configuration:
 
 After that, head over to [the documentation][7].
 
-You might also be interested in this [conference session][8] at JavaOne featuring TestFX.
+You might also be interested in these conference sessions featuring TestFX: [JavaZone][http://jz13.java.no/presentation.html?id=89b56833] and [JavaOne][8].
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
