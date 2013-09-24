@@ -65,6 +65,12 @@ public class MouseMotion
         return controller.release(buttons);
     }
 
+	 public GuiTest to( GuiTest.OffsetTarget node )
+	 {
+        controller.move(node);
+		  return controller.release(buttons);
+	 }
+
 
     /*---------------- Via ----------------*/
 

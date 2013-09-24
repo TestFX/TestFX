@@ -125,7 +125,7 @@ public class GuiTest
 		return window;
 	}
 
-	public static Object offset( Object target, double offsetX, double offsetY )
+	public static OffsetTarget offset( Object target, double offsetX, double offsetY )
 	{
 		return new OffsetTarget( target, offsetX, offsetY );
 	}
@@ -623,6 +623,11 @@ public class GuiTest
         return click( query ).click().sleep( 50 );
     }
 
+	public GuiTest doubleClick( Node node )
+	{
+		return click( node ).click().sleep( 50 );
+	}
+
     public GuiTest doubleClick( Matcher<Node> matcher )
     {
         return click( matcher ).click().sleep( 50 );
@@ -657,6 +662,11 @@ public class GuiTest
     {
         return click( iterable ).click( ).sleep( 50 );
     }
+
+ 	 public GuiTest doubleClick( MouseButton button )
+	 {
+		  return click( button ).click( ).sleep( 50 );
+	 }
 
 
     /*----------------  ----------------*/
@@ -1029,7 +1039,7 @@ public class GuiTest
 		throw new IllegalArgumentException( "Unable to get coordinates for: " + target );
 	}
 
-	private static class OffsetTarget
+	static class OffsetTarget
 	{
 		private final Object target;
 		private final double offsetX;
