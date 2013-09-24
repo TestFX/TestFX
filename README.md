@@ -50,7 +50,7 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
 <dependency>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>2.7.0</version>
+    <version>2.7.2-SNAPSHOT</version>
 </dependency>
 ```
 You will also have to set `forkMode` to _always_ in your surefire configuration:
