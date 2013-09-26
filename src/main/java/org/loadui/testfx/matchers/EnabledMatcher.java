@@ -24,7 +24,7 @@ public class EnabledMatcher extends TypeSafeMatcher<Object>
 	@Override
 	public void describeTo( Description desc )
 	{
-		desc.appendText( "Node should be " + ( shouldBeDisabled ? "En" : "Dis" ) + "abled" );
+		desc.appendText( "Node should be " + ( shouldBeDisabled ? "Dis" : "En" ) + "abled" );
 	}
 
 	@Factory
