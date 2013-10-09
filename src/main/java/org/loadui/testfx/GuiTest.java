@@ -951,7 +951,7 @@ public class GuiTest
      */
 	public GuiTest closeCurrentWindow()
 	{
-		this.press( KeyCode.ALT ).press( KeyCode.F4 ).release( KeyCode.F4 ).release( KeyCode.ALT );
+		this.push( KeyCode.ALT, KeyCode.F4 ).sleep( 100 );
 		return this;
 	}
 
