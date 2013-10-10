@@ -37,7 +37,6 @@ public class TestUtils
 		{
 			while( !condition.call() )
 			{
-				System.out.println("component?");
 				Thread.sleep( 10 );
 				if( System.currentTimeMillis() > timeout )
 				{
