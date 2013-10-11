@@ -37,14 +37,14 @@ public class TestUtils
 		{
 			while( !condition.call() )
 			{
-				System.out.println("component?");
 				Thread.sleep( 10 );
 				if( System.currentTimeMillis() > timeout )
 				{
 					throw new TimeoutException();
 				}
 			}
-		} catch( Exception e )
+		}
+		catch( Exception e )
 		{
 			throw new RuntimeException( e );
 		}
