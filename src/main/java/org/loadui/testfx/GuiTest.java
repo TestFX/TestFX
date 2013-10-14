@@ -206,7 +206,7 @@ public class GuiTest
 		};
 		Iterable<Window> descendants = Iterables.filter( getWindows(), isDescendant );
 		Iterable<Window> rest = Iterables.filter( getWindows(), Predicates.not( isDescendant ) );
-		for( Window descendant : concat( descendants, rest ) )
+		for( Window descendant : ImmutableList.copyOf( concat( descendants, rest ) ) )
 		{
 			results.addAll( findAll( selector, descendant ) );
 		}
@@ -255,7 +255,7 @@ public class GuiTest
 		 };
 	}
 
-	private static File captureScreenshot()
+	public static File captureScreenshot()
 	{
 		File screenshot = new File( "screenshot"+new Date().getTime()+".png" );
 		BufferedImage image = null;
@@ -706,14 +706,18 @@ public class GuiTest
 	public GuiTest move( Object target )
 	{
 		Point2D point = pointFor( target );
+		System.out.println( " Move to ["+point.getX() +", "+point.getY()+"], mouse is at (" + MouseInfo.getPointerInfo().getLocation().getX()+", "+ MouseInfo.getPointerInfo().getLocation().getY()+")");
+
 		//Since moving takes time, only do it if we're not already at the desired point.
-		if( !controller.getMouse().equals( point ) )
+		if( !MouseInfo.getPointerInfo().getLocation().equals( point ) )
 		{
+			System.out.println("   Moving to that point");
 			move( point.getX(), point.getY() );
 		}
 		//If the target has moved while we were moving the mouse, update to the new position:
 		point = pointFor( target );
 		controller.position( point.getX(), point.getY() );
+		System.out.println( "      Mouse ended up at (" + MouseInfo.getPointerInfo().getLocation().getX()+", "+ MouseInfo.getPointerInfo().getLocation().getY()+")");
 		return this;
 	}
 

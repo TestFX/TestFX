@@ -15,8 +15,7 @@
  */
 package org.loadui.testfx;
 
-import java.awt.AWTException;
-import java.awt.Robot;
+import java.awt.*;
 import java.awt.event.InputEvent;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -90,6 +89,10 @@ public class FXScreenController implements ScreenController
 	@Override
 	public void move( final double x, final double y )
 	{
+		Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
+		mouseXProperty.set( currentMousePosition.getX() );
+		mouseYProperty.set( currentMousePosition.getY() );
+
 		final CountDownLatch done = new CountDownLatch( 1 );
 
 		Platform.runLater( new Runnable()
