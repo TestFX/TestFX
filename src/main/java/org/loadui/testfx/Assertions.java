@@ -1,6 +1,5 @@
 package org.loadui.testfx;
 
-import javafx.scene.Node;
 import org.hamcrest.Matcher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -9,7 +8,7 @@ public class Assertions
 {
 	public static void assertNodeExists( Matcher<?> matcher )
 	{
-		GuiTest.find( ( Matcher<Node> )matcher );
+		GuiTest.find( ( Matcher<Object> )matcher );
 	}
 
 	public static void assertNodeExists( String query )
