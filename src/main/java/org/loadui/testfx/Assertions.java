@@ -23,7 +23,7 @@ public class Assertions
 			assertThat( value, matcher );
 		} catch( AssertionError e )
 		{
-			throw new AssertionError( "Screenshot saved as " + GuiTest.captureScreenshot().getAbsolutePath() , e );
+			throw new AssertionError( e.getMessage() + " Screenshot saved as " + GuiTest.captureScreenshot().getAbsolutePath() , e );
 		}
 	}
 }

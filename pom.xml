@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>2.7.2-SNAPSHOT</version>
+    <version>2.7.3</version>
     <name>TestFX</name>
     <description>TestFX</description>
 

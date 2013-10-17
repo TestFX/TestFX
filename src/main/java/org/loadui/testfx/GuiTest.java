@@ -240,14 +240,20 @@ public class GuiTest
 	@SuppressWarnings( "unchecked" )
 	public static <T extends Node> T find( final String query )
 	{
-		T nodeFoundByCss = findByCssSelector( query );
-		if( nodeFoundByCss != null )
-			return nodeFoundByCss;
+		T foundNode = null;
+		boolean isCssQuery = query.startsWith( "." ) || query.startsWith( "#" );
 
-		T foundNode = ( T )find( new HasLabel( query ) );
-		if( foundNode == null )
+		if( isCssQuery )
 		{
-			throw new NoNodesFoundException( "Query " + query + " resulted in no nodes found! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
+			foundNode = findByCssSelector( query );
+			if( foundNode == null )
+				throw new NoNodesFoundException( "No nodes matched the CSS query '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
+		}
+		else
+		{
+			foundNode = ( T )find( new HasLabel( query ) );
+			if( foundNode == null )
+				throw new NoNodesFoundException( "No nodes found with label '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
 		}
 
 		return foundNode;
@@ -744,18 +750,15 @@ public class GuiTest
 	public GuiTest move( Object target )
 	{
 		Point2D point = pointFor( target );
-		System.out.println( " Move to ["+point.getX() +", "+point.getY()+"], mouse is at (" + MouseInfo.getPointerInfo().getLocation().getX()+", "+ MouseInfo.getPointerInfo().getLocation().getY()+")");
 
 		//Since moving takes time, only do it if we're not already at the desired point.
 		if( !MouseInfo.getPointerInfo().getLocation().equals( point ) )
 		{
-			System.out.println("   Moving to that point");
 			move( point.getX(), point.getY() );
 		}
 		//If the target has moved while we were moving the mouse, update to the new position:
 		point = pointFor( target );
 		controller.position( point.getX(), point.getY() );
-		System.out.println( "      Mouse ended up at (" + MouseInfo.getPointerInfo().getLocation().getX()+", "+ MouseInfo.getPointerInfo().getLocation().getY()+")");
 		return this;
 	}
 
