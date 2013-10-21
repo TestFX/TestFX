@@ -30,6 +30,7 @@ import javafx.scene.SceneBuilder;
 import javafx.scene.control.Labeled;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -320,7 +321,11 @@ public class GuiTest
 		@Override
 		public boolean apply( Node node )
 		{
-			return ( node instanceof Labeled ) && label.equals( ( ( Labeled )node ).getText() );
+            if ( node instanceof Labeled )
+                return label.equals( ( ( Labeled )node ).getText() );
+            if ( node instanceof Text )
+                return label.equals( ( ( Text )node ).getText() );
+            return false;
 		}
 	}
 
