@@ -8,6 +8,18 @@
     <name>TestFX</name>
     <description>TestFX</description>
 
+    <licenses>
+        <license>
+            <name>European Union Public Licence - EUPL v.1.1</name>
+            <url>http://ec.europa.eu/idabc/eupl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/SmartBear/TestFX.git</url>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
