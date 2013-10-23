@@ -15,11 +15,7 @@
  */
 package org.loadui.testfx;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-
+import com.google.common.collect.ImmutableMap;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -36,7 +32,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 
-import com.google.common.collect.ImmutableMap;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 public class FXScreenController implements ScreenController
 {
@@ -47,7 +46,7 @@ public class FXScreenController implements ScreenController
 	private final DoubleProperty mouseXProperty = new SimpleDoubleProperty();
 	private final DoubleProperty mouseYProperty = new SimpleDoubleProperty();
 	private final Robot robot;
-	private long moveTime = 500;
+	private long moveTime = 75;
 
 	public FXScreenController()
 	{
