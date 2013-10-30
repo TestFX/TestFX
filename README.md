@@ -42,7 +42,7 @@ To start using TestFX, you have to add the following elements to your pom.xml fi
 <pluginRepositories>
    <pluginRepository>
       <id>loaduiRepository</id>
-      <url>http://www.soapui.org/repository/</url>
+      <url>http://www.soapui.org/repository/maven2</url>
    </pluginRepository>
 </pluginRepositories>
 ```
