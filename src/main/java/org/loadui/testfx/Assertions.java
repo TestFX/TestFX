@@ -6,7 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class Assertions
 {
-	public static void assertNodeExists( Matcher<?> matcher )
+	@SuppressWarnings("unchecked")
+    public static void assertNodeExists( Matcher<?> matcher )
 	{
 		GuiTest.find( ( Matcher<Object> )matcher );
 	}
@@ -16,7 +17,7 @@ public class Assertions
 		GuiTest.find( query );
 	}
 
-	public static <T> void verifyThat(T value, Matcher<T> matcher)
+	public static <T> void verifyThat(T value, Matcher<? super T> matcher)
 	{
 		try
 		{
