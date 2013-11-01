@@ -17,6 +17,7 @@ package com.eviware.loadui.ui.fx.util.test;
 
 import static org.loadui.testfx.Assertions.assertNodeExists;
 import static org.loadui.testfx.GuiTest.find;
+import static org.loadui.testfx.GuiTest.showNodeInStage;
 import static org.loadui.testfx.Matchers.hasLabel;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.concurrent.TimeUnit;
 
+import javafx.scene.layout.VBox;
 import org.loadui.testfx.FXScreenController;
 import org.loadui.testfx.FXTestUtils;
 import org.loadui.testfx.GuiTest;
@@ -44,35 +46,16 @@ import com.google.common.util.concurrent.SettableFuture;
 public class ControllerApiTest
 {
 	private static final GuiTest controller = GuiTest.wrap( new FXScreenController() );
-	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
-	private static Stage stage;
-
-	public static class ControllerApiTestApp extends Application
-	{
-		@Override
-		public void start( Stage primaryStage ) throws Exception
-		{
-			primaryStage.setScene( SceneBuilder
-					.create().width( 500 )
-					.root(
-							VBoxBuilder
-									.create()
-									.children( ButtonBuilder.create().id( "button1" ).text( "Button 1" ).build(),
-											ButtonBuilder.create().id( "button2" ).text( "Button 2" ).build(),
-											TextFieldBuilder.create().id( "text" ).build() ).build() ).build() );
-		
-primaryStage.show();
-
-			stageFuture.set( primaryStage );
-		}
-	}
+    private static VBox root = VBoxBuilder
+            .create()
+            .children(ButtonBuilder.create().id("button1").text("Button A").build(),
+                    ButtonBuilder.create().id("button2").text("Button B").build(),
+                    TextFieldBuilder.create().id("text").build()).build();
 
 	@BeforeClass
 	public static void createWindow() throws Throwable
 	{
-		FXTestUtils.launchApp( ControllerApiTestApp.class );
-		stage = stageFuture.get( 25, TimeUnit.SECONDS );
-		FXTestUtils.bringToFront( stage );
+        showNodeInStage( root );
 	}
 
 	@Test

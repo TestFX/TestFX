@@ -22,6 +22,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.SettableFuture;
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -58,24 +59,33 @@ public class GuiTest
 
 	public static class TestFxApp extends Application
 	{
-		public static Parent node;
+        private static Parent initialRoot;
+        private static Scene scene = null;
 
-		@Override
+        @Override
 		public void start( Stage primaryStage ) throws Exception
 		{
-			Scene scene = SceneBuilder
-					.create()
-					.width( 600 )
-					.height( 400 )
-					.root( node ).build();
+            scene = SceneBuilder
+                    .create()
+                    .width( 600 )
+                    .height( 400 )
+                    .root( initialRoot ).build();
 
 			if( stylesheet != null )
 				scene.getStylesheets().add( stylesheet );
 
-			primaryStage.setScene( scene );
+			primaryStage.setScene(scene);
 			primaryStage.show();
 			stageFuture.set( primaryStage );
 		}
+
+        public static void setRoot(Parent rootNode)
+        {
+            if( scene == null )
+                initialRoot = rootNode;
+            else
+                scene.setRoot( rootNode );
+        }
 	}
 
 	/**
@@ -91,17 +101,21 @@ public class GuiTest
 	public static void showNodeInStage( Parent node, String stylesheet )
 	{
 		GuiTest.stylesheet = stylesheet;
-		TestFxApp.node = node;
-		FXTestUtils.launchApp( TestFxApp.class );
-		try
-		{
-			stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
-			FXTestUtils.bringToFront( stage );
-		}
-		catch( Exception e )
-		{
-			throw new RuntimeException( "Unable to show stage", e );
-		}
+		TestFxApp.setRoot( node );
+
+        if( stage == null )
+        {
+            FXTestUtils.launchApp( TestFxApp.class );
+            try
+            {
+                stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
+                FXTestUtils.bringToFront( stage );
+            }
+            catch( Exception e )
+            {
+                throw new RuntimeException( "Unable to show stage", e );
+            }
+        }
 	}
 
 

@@ -22,8 +22,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import javafx.scene.layout.VBox;
 import org.loadui.testfx.FXScreenController;
 import org.loadui.testfx.FXTestUtils;
+import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -48,37 +50,19 @@ import org.junit.Ignore;
 import com.google.common.util.concurrent.SettableFuture;
 
 @Category( TestFX.class )
-public class FXScreenControllerTest
+public class FXScreenControllerTest extends GuiTest
 {
-	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	private static final FXScreenController controller = new FXScreenController();
-	private static Stage stage;
-
-	public static class FXScreenControllerTestApp extends Application
-	{
-		@Override
-		public void start( Stage primaryStage ) throws Exception
-		{
-			primaryStage.setScene( SceneBuilder
-					.create()
-					.root(
-							VBoxBuilder
-									.create()
-									.children( ButtonBuilder.create().id( "button1" ).text( "Button 1" ).build(),
-											ButtonBuilder.create().id( "button2" ).text( "Button 2" ).build(),
-											TextFieldBuilder.create().id( "text" ).build() ).build() ).build() );
-			primaryStage.show();
-
-			stageFuture.set( primaryStage );
-		}
-	}
+    private static VBox root = VBoxBuilder
+            .create()
+            .children(ButtonBuilder.create().id("button1").text("Button 1").build(),
+                    ButtonBuilder.create().id("button2").text("Button 2").build(),
+                    TextFieldBuilder.create().id("text").build()).build();
 
 	@BeforeClass
 	public static void createWindow() throws Throwable
 	{
-		FXTestUtils.launchApp( FXScreenControllerTestApp.class );
-		stage = stageFuture.get( 25, TimeUnit.SECONDS );
-		FXTestUtils.bringToFront( stage );
+        showNodeInStage( root );
 	}
 
 	@Before
@@ -89,9 +73,8 @@ public class FXScreenControllerTest
 	@Test
 	public void shouldClickButtons() throws InterruptedException
 	{
-
-		Button button1 = ( Button )stage.getScene().lookup( "#button1" );
-		Button button2 = ( Button )stage.getScene().lookup( "#button2" );
+		Button button1 = ( Button )find( "#button1" );
+		Button button2 = ( Button )find( "#button2" );
 
 		final CountDownLatch pressed1 = new CountDownLatch( 1 );
 
