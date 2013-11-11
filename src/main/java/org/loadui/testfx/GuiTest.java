@@ -369,6 +369,18 @@ public class GuiTest
 		}, 15 );
 	}
 
+	public static <T> void waitUntil( final Callable<T> callable, final Matcher<? super T> condition, int timeoutInSeconds  )
+	{
+		TestUtils.awaitCondition( new Callable<Boolean>()
+		{
+			@Override
+			public Boolean call() throws Exception
+			{
+				return condition.matches( callable.call() );
+			}
+		}, timeoutInSeconds );
+	}
+
 	public static <T> void waitUntil( final T value, final Matcher<? super T> condition, int timeoutInSeconds )
 	{
 		TestUtils.awaitCondition( new Callable<Boolean>()
