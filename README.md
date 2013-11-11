@@ -37,15 +37,7 @@ class DesktopTest extends GuiTest
 
 
 ### Getting Started
-To start using TestFX, you have to add the following elements to your pom.xml file:
-```XML
-<pluginRepositories>
-   <pluginRepository>
-      <id>loaduiRepository</id>
-      <url>http://www.soapui.org/repository/maven2</url>
-   </pluginRepository>
-</pluginRepositories>
-```
+To start using TestFX, simply add the following elements to your pom.xml file:
 ```XML
 <dependency>
     <groupId>org.loadui</groupId>
