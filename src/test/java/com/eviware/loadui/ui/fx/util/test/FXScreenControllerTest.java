@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import javafx.scene.layout.VBox;
 import org.loadui.testfx.FXScreenController;
 import org.loadui.testfx.FXTestUtils;
+import org.loadui.testfx.GlassScreenController;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 import javafx.application.Application;
@@ -52,7 +53,7 @@ import com.google.common.util.concurrent.SettableFuture;
 @Category( TestFX.class )
 public class FXScreenControllerTest extends GuiTest
 {
-	private static final FXScreenController controller = new FXScreenController();
+	private static final GlassScreenController controller = new GlassScreenController();
     private static VBox root = VBoxBuilder
             .create()
             .children(ButtonBuilder.create().id("button1").text("Button 1").build(),
@@ -83,11 +84,12 @@ public class FXScreenControllerTest extends GuiTest
 			@Override
 			public void handle( ActionEvent event )
 			{
-				pressed1.countDown();
+                pressed1.countDown();
 			}
 		} );
 
 		Bounds sceneBounds = button1.localToScene( button1.getBoundsInLocal() );
+
 		controller.move( stage.getX() + stage.getScene().getX() + sceneBounds.getMinX() + 10, stage.getY()
 				+ stage.getScene().getY() + sceneBounds.getMinY() + 10 );
 
@@ -95,7 +97,7 @@ public class FXScreenControllerTest extends GuiTest
 		Thread.sleep( 100 );
 		controller.release( MouseButton.PRIMARY );
 
-		assertTrue( pressed1.await( 2, TimeUnit.SECONDS ) );
+		assertTrue(pressed1.await(2, TimeUnit.SECONDS));
 
 		final CountDownLatch pressed2 = new CountDownLatch( 3 );
 

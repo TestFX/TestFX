@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 import javafx.scene.layout.VBox;
 import org.loadui.testfx.FXScreenController;
 import org.loadui.testfx.FXTestUtils;
+import org.loadui.testfx.GlassScreenController;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 import javafx.application.Application;
@@ -45,7 +46,7 @@ import com.google.common.util.concurrent.SettableFuture;
 @Category( TestFX.class )
 public class ControllerApiTest
 {
-	private static final GuiTest controller = GuiTest.wrap( new FXScreenController() );
+	private static final GuiTest controller = GuiTest.wrap( new GlassScreenController() );
     private static VBox root = VBoxBuilder
             .create()
             .children(ButtonBuilder.create().id("button1").text("Button A").build(),
