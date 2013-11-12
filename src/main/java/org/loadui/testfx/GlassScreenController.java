@@ -90,58 +90,42 @@ public class GlassScreenController implements ScreenController
 	@Override
 	public void move( final double x, final double y )
 	{
-        if(1==1)
-        {
-            getRobot().mouseMove((int)x,(int)y);
-            return;
+        final CountDownLatch done = new CountDownLatch( 1 );
+        Platform.runLater( new Runnable() {
+            @Override
+            public void run() {
+                getRobot().mouseMove((int)x,(int)y);
+                done.countDown();
+            }
+        } );
+        try {
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-		Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
-		mouseXProperty.set( currentMousePosition.getX() );
-		mouseYProperty.set( currentMousePosition.getY() );
-
-		final CountDownLatch done = new CountDownLatch( 1 );
-
-		Platform.runLater( new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				new Timeline( new KeyFrame( new Duration( moveTime ), new EventHandler<ActionEvent>()
-				{
-					@Override
-					public void handle( ActionEvent arg0 )
-					{
-						done.countDown();
-					}
-				}, new KeyValue( mouseXProperty, x, Interpolator.EASE_BOTH ), new KeyValue( mouseYProperty, y,
-						Interpolator.EASE_BOTH ) ) ).playFromStart();
-			}
-		} );
-
-		try
-		{
-			done.await();
-			FXTestUtils.awaitEvents();
-		}
-		catch( InterruptedException e )
-		{
-			throw new RuntimeException( e );
-		}
+        return;
 	}
 
 	@Override
-	public void press( final MouseButton button )
-	{
+	public void press( final MouseButton button ) {
 		if( button == null )
 		{
             return;
 		}
-        System.out.println(Thread.currentThread());
-        getRobot().mousePress(BUTTONS.get(button));
-
-		//FXTestUtils.awaitEvents();
-	}
+        final CountDownLatch done = new CountDownLatch( 1 );
+        Platform.runLater( new Runnable() {
+            @Override
+            public void run() {
+                getRobot().mousePress(BUTTONS.get(button));
+                done.countDown();
+            }
+        });
+        try {
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
 	@Override
 	public void release( final MouseButton button )
@@ -150,29 +134,72 @@ public class GlassScreenController implements ScreenController
 		{
 			return;
 		}
-        getRobot().mouseRelease(BUTTONS.get(button));
-
-		//FXTestUtils.awaitEvents();
-	}
-
-	@Override
-	public void press( KeyCode key )
-	{
-        getRobot().keyPress(key.impl_getCode());
-		//FXTestUtils.awaitEvents();
-	}
-
-	@Override
-	public void release( KeyCode key )
-	{
-        getRobot().keyRelease(key.impl_getCode());
-		//FXTestUtils.awaitEvents();
-	}
+        final CountDownLatch done = new CountDownLatch( 1 );
+        Platform.runLater( new Runnable() {
+            @Override
+            public void run() {
+                done.countDown();
+                getRobot().mouseRelease(BUTTONS.get(button));
+            }
+        });
+        try {
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
 	@Override
-	public void scroll( int amount )
+	public void press( final KeyCode key )
 	{
-		getRobot().mouseWheel(amount);
-		FXTestUtils.awaitEvents();
+        final CountDownLatch done = new CountDownLatch( 1 );
+        Platform.runLater( new Runnable() {
+            @Override
+            public void run() {
+                done.countDown();
+                getRobot().keyPress(key.impl_getCode());
+            }
+        });
+        try {
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+	@Override
+	public void release( final KeyCode key )
+	{
+        final CountDownLatch done = new CountDownLatch( 1 );
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                done.countDown();
+                getRobot().keyRelease(key.impl_getCode());
+            }
+        });
+        try {
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+	@Override
+	public void scroll( final int amount )
+	{
+        final CountDownLatch done = new CountDownLatch( 1 );
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                done.countDown();
+                getRobot().mouseWheel(amount);
+            }
+        });
+        try {
+            done.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 	}
 }

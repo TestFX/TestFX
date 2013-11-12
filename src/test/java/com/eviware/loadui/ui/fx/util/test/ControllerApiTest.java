@@ -67,14 +67,9 @@ public class ControllerApiTest
 		final String text = "H3llo W0rld";
         TextField textField = find( "#text" );
 
-        Platform.runLater( new Runnable() {
-            @Override
-            public void run() {
-                controller.click("#text").type( text );
-            }
-        } );
+        controller.click("#text").type( text );
 
-        controller.sleep(3000);
+        //controller.sleep(3000);
 
 		assertThat( textField.getText(), is( text ) );
 	}
