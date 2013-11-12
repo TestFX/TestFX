@@ -44,7 +44,7 @@
             <groupId>com.oracle</groupId>
             <artifactId>javafx-runtime</artifactId>
             <version>2.2</version>
-            <systemPath>${env.JAVA_HOME}/jre/lib/jfxrt.jar</systemPath>
+            <systemPath>/opt/java/jdk1.7.0_45/jre/lib/jfxrt.jar</systemPath>
             <scope>system</scope>
         </dependency>
         <dependency>

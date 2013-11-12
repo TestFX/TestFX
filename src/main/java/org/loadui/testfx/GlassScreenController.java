@@ -159,14 +159,14 @@ public class GlassScreenController implements ScreenController
 	public void press( KeyCode key )
 	{
         getRobot().keyPress(key.impl_getCode());
-		FXTestUtils.awaitEvents();
+		//FXTestUtils.awaitEvents();
 	}
 
 	@Override
 	public void release( KeyCode key )
 	{
         getRobot().keyRelease(key.impl_getCode());
-		FXTestUtils.awaitEvents();
+		//FXTestUtils.awaitEvents();
 	}
 
 	@Override

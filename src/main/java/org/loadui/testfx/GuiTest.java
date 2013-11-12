@@ -105,7 +105,7 @@ public class GuiTest
 
         if( stage == null )
         {
-            FXTestUtils.launchApp( TestFxApp.class );
+            FXTestUtils.launchApp(TestFxApp.class);
             try
             {
                 stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
@@ -132,10 +132,9 @@ public class GuiTest
 		if( window instanceof Stage )
 		{
 			Stage stage = ( Stage )window;
-			stage.toFront();
+			//stage.toFront();
 		}
 		lastSeenWindow = window;
-
 		return window;
 	}
 
@@ -255,6 +254,7 @@ public class GuiTest
 	@SuppressWarnings( "unchecked" )
 	public static <T extends Node> T find( final String query )
 	{
+        System.out.println("222222");
 		T foundNode = null;
 		boolean isCssQuery = query.startsWith( "." ) || query.startsWith( "#" );
 
@@ -397,7 +397,7 @@ public class GuiTest
 
 	private static <T extends Node> T findByCssSelector( final String selector )
 	{
-		Set<Node> locallyFound = findAll( selector );
+        Set<Node> locallyFound = findAll( selector );
 		Iterable<Node> globallyFound = concat( transform( getWindows(),
 				new Function<Window, Iterable<Node>>()
 				{
@@ -545,12 +545,15 @@ public class GuiTest
 
 	public GuiTest click( MouseButton... buttons )
 	{
+        System.out.println(" hh");
 		if( buttons.length == 0 )
 		{
+            System.out.println(" ii");
 			return click( MouseButton.PRIMARY );
 		}
-
-		press( buttons );
+        System.out.println(" jj");
+		press(buttons);
+        System.out.println(" kk");
 		return release( buttons );
 	}
 
@@ -562,6 +565,7 @@ public class GuiTest
 	 */
 	public GuiTest click( String query, MouseButton... buttons )
 	{
+        System.out.println(" aa");
 		move( query );
 		return click( buttons );
 	}
@@ -768,16 +772,22 @@ public class GuiTest
 
 	public GuiTest move( Object target )
 	{
+        System.out.println(" bb");
 		Point2D point = pointFor( target );
 
+        System.out.println(" cc");
 		//Since moving takes time, only do it if we're not already at the desired point.
 		if( !MouseInfo.getPointerInfo().getLocation().equals( point ) )
 		{
+            System.out.println(" dd");
 			move( point.getX(), point.getY() );
 		}
+        System.out.println(" ee");
 		//If the target has moved while we were moving the mouse, update to the new position:
 		point = pointFor( target );
+        System.out.println(" ff");
 		controller.position( point.getX(), point.getY() );
+        System.out.println(" gg");
 		return this;
 	}
 
@@ -902,22 +912,27 @@ public class GuiTest
 	 */
 	public GuiTest type( String text )
 	{
+        System.out.println(" TYPING");
 		for( int i = 0; i < text.length(); i++ )
 		{
+            System.out.println("  type " + text.charAt( i ));
 			type( text.charAt( i ) );
 			try
 			{
+                System.out.println("  sleep");
 				Thread.sleep( 25 );
 			}
 			catch( InterruptedException e )
 			{
 			}
 		}
+        System.out.println(" TYPING DONE");
 		return this;
 	}
 
 	public GuiTest type( char character )
 	{
+        System.out.println("   type char");
 		KeyCode keyCode = KeyCodeUtils.findKeyCode( character );
 
 		if( !Character.isUpperCase( character ) )
@@ -966,6 +981,8 @@ public class GuiTest
 	 */
 	public GuiTest press( KeyCode... keys )
 	{
+        System.out.print("   press keycode");
+
 		for( KeyCode key : keys )
 		{
 			if( pressedKeys.add( key ) )
@@ -973,6 +990,9 @@ public class GuiTest
 				controller.press( key );
 			}
 		}
+
+        System.out.println("   ... done!");
+
 		return this;
 	}
 

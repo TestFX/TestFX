@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.concurrent.TimeUnit;
 
+import javafx.application.Platform;
 import javafx.scene.layout.VBox;
 import org.loadui.testfx.FXScreenController;
 import org.loadui.testfx.FXTestUtils;
@@ -56,16 +57,24 @@ public class ControllerApiTest
 	@BeforeClass
 	public static void createWindow() throws Throwable
 	{
-        showNodeInStage( root );
+        System.out.println("-1 -1  -1");
+        showNodeInStage(root);
 	}
 
 	@Test
 	public void shouldTypeString()
 	{
-		String text = "H3llo W0rld.";
+		final String text = "H3llo W0rld";
+        TextField textField = find( "#text" );
 
-		TextField textField = find( "#text" );
-		controller.click("#text").type( text );
+        Platform.runLater( new Runnable() {
+            @Override
+            public void run() {
+                controller.click("#text").type( text );
+            }
+        } );
+
+        controller.sleep(3000);
 
 		assertThat( textField.getText(), is( text ) );
 	}
