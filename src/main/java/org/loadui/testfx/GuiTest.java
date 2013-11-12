@@ -494,7 +494,7 @@ public class GuiTest
 
 	public GuiTest()
 	{
-		this.controller = new FXScreenController();
+		this.controller = new GlassScreenController();
 	}
 
 	/**

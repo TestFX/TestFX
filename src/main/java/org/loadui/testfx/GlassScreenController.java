@@ -41,7 +41,7 @@ import java.util.concurrent.CountDownLatch;
 public class GlassScreenController implements ScreenController
 {
 	private static final Map<MouseButton, Integer> BUTTONS = ImmutableMap.of( MouseButton.PRIMARY,
-			InputEvent.BUTTON1_MASK, MouseButton.MIDDLE, InputEvent.BUTTON2_MASK, MouseButton.SECONDARY,
+			1, MouseButton.MIDDLE, InputEvent.BUTTON2_MASK, MouseButton.SECONDARY,
 			InputEvent.BUTTON3_MASK );
 
 	private final DoubleProperty mouseXProperty = new SimpleDoubleProperty();
@@ -90,6 +90,12 @@ public class GlassScreenController implements ScreenController
 	@Override
 	public void move( final double x, final double y )
 	{
+        if(1==1)
+        {
+            getRobot().mouseMove((int)x,(int)y);
+            return;
+        }
+
 		Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
 		mouseXProperty.set( currentMousePosition.getX() );
 		mouseYProperty.set( currentMousePosition.getY() );
@@ -125,25 +131,28 @@ public class GlassScreenController implements ScreenController
 	}
 
 	@Override
-	public void press( MouseButton button )
+	public void press( final MouseButton button )
 	{
 		if( button == null )
 		{
             return;
 		}
+        System.out.println(Thread.currentThread());
         getRobot().mousePress(BUTTONS.get(button));
-		FXTestUtils.awaitEvents();
+
+		//FXTestUtils.awaitEvents();
 	}
 
 	@Override
-	public void release( MouseButton button )
+	public void release( final MouseButton button )
 	{
 		if( button == null )
 		{
 			return;
 		}
         getRobot().mouseRelease(BUTTONS.get(button));
-		FXTestUtils.awaitEvents();
+
+		//FXTestUtils.awaitEvents();
 	}
 
 	@Override

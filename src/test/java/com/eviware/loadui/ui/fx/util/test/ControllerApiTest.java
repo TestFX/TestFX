@@ -46,7 +46,7 @@ import com.google.common.util.concurrent.SettableFuture;
 @Category( TestFX.class )
 public class ControllerApiTest
 {
-	private static final GuiTest controller = GuiTest.wrap( new GlassScreenController() );
+	private static final GuiTest controller = new GuiTest();
     private static VBox root = VBoxBuilder
             .create()
             .children(ButtonBuilder.create().id("button1").text("Button A").build(),
