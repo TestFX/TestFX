@@ -47,7 +47,7 @@ public class GlassScreenController implements ScreenController
 	private final DoubleProperty mouseXProperty = new SimpleDoubleProperty();
 	private final DoubleProperty mouseYProperty = new SimpleDoubleProperty();
 	private Robot robot;
-	private long moveTime = 75;
+	private long moveTime = 200;
 
 	public GlassScreenController()
 	{
@@ -64,7 +64,14 @@ public class GlassScreenController implements ScreenController
                 @Override
                 public void changed( ObservableValue<? extends Number> value, Number oldNum, Number newNum )
                 {
-                    robot.mouseMove( mouseXProperty.intValue(), mouseYProperty.intValue() );
+						 Platform.runLater( new Runnable()
+						 {
+							 @Override
+							 public void run()
+							 {
+								 robot.mouseMove( mouseXProperty.intValue(), mouseYProperty.intValue() );
+							 }
+						 } );
                 }
             };
 
@@ -90,20 +97,34 @@ public class GlassScreenController implements ScreenController
 	@Override
 	public void move( final double x, final double y )
 	{
-        final CountDownLatch done = new CountDownLatch( 1 );
-        Platform.runLater( new Runnable() {
-            @Override
-            public void run() {
-                getRobot().mouseMove((int)x,(int)y);
-                done.countDown();
-            }
-        } );
-        try {
-            done.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return;
+		getRobot();
+
+		Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
+		mouseXProperty.set( currentMousePosition.getX() );
+		mouseYProperty.set( currentMousePosition.getY() );
+
+		final CountDownLatch done = new CountDownLatch( 1 );
+
+
+				new Timeline( new KeyFrame( new Duration( moveTime ), new EventHandler<ActionEvent>()
+				{
+					@Override
+					public void handle( ActionEvent arg0 )
+					{
+						done.countDown();
+					}
+				}, new KeyValue( mouseXProperty, x, Interpolator.EASE_BOTH ), new KeyValue( mouseYProperty, y,
+						Interpolator.EASE_BOTH ) ) ).playFromStart();
+
+		try
+		{
+			done.await();
+			Thread.sleep( 100 );
+		}
+		catch( InterruptedException e )
+		{
+			throw new RuntimeException( e );
+		}
 	}
 
 	@Override
@@ -144,6 +165,7 @@ public class GlassScreenController implements ScreenController
         });
         try {
             done.await();
+			  	Thread.sleep( 100 );
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -180,6 +202,7 @@ public class GlassScreenController implements ScreenController
         });
         try {
             done.await();
+			   Thread.sleep( 100 );
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -198,6 +221,7 @@ public class GlassScreenController implements ScreenController
         });
         try {
             done.await();
+			   Thread.sleep( 50 );
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

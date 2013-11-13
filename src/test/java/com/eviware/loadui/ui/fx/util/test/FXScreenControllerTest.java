@@ -52,6 +52,7 @@ import org.junit.Ignore;
 import com.google.common.util.concurrent.SettableFuture;
 
 @Category( TestFX.class )
+@Ignore
 public class FXScreenControllerTest extends GuiTest
 {
 	private static final GlassScreenController controller = new GlassScreenController();
