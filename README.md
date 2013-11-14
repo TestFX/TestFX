@@ -68,7 +68,7 @@ You might also be interested in these conference sessions featuring TestFX: [Jav
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
 too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
-Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI ([source code][9], [video][10]).
+Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([source code][9], [video][10]).
 
 [Comparison with Jemmy][4]
 
