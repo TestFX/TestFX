@@ -118,7 +118,7 @@ public class GuiTest
 		if( window instanceof Stage )
 		{
 			Stage stage = ( Stage )window;
-			stage.toFront();
+			//stage.toFront();
 		}
 		lastSeenWindow = window;
 

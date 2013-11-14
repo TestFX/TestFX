@@ -46,7 +46,7 @@ public class FXScreenController implements ScreenController
 	private final DoubleProperty mouseXProperty = new SimpleDoubleProperty();
 	private final DoubleProperty mouseYProperty = new SimpleDoubleProperty();
 	private final Robot robot;
-	private long moveTime = 75;
+	private long moveTime = 175;
 
 	public FXScreenController()
 	{
