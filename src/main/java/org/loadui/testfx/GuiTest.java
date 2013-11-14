@@ -21,7 +21,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.SettableFuture;
-import javafx.application.Application;
+import javafx.application.*;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -44,6 +44,7 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -117,9 +118,22 @@ public class GuiTest
 	{
 		if( window instanceof Stage )
 		{
-			Stage stage = ( Stage )window;
-			//stage.toFront();
-		}
+			final Stage stage = ( Stage )window;
+
+            final CountDownLatch done = new CountDownLatch(1);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    stage.toFront();
+                    done.countDown();
+                }
+            });
+            try {
+                done.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
 		lastSeenWindow = window;
 
 		return window;
@@ -349,7 +363,7 @@ public class GuiTest
 	 */
 	public static void waitUntil( final Node node, final Matcher<Object> condition )
 	{
-		waitUntil( node, condition, 15 );
+		waitUntil(node, condition, 15);
 	}
 
 	public static <T> void waitUntil( final T value, final Matcher<? super T> condition )
@@ -359,14 +373,12 @@ public class GuiTest
 
 	public static <T> void waitUntil( final Callable<T> callable, final Matcher<? super T> condition )
 	{
-		TestUtils.awaitCondition( new Callable<Boolean>()
-		{
-			@Override
-			public Boolean call() throws Exception
-			{
-				return condition.matches( callable.call() );
-			}
-		}, 15 );
+		TestUtils.awaitCondition(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return condition.matches(callable.call());
+            }
+        }, 15);
 	}
 
 	public static <T> void waitUntil( final Callable<T> callable, final Matcher<? super T> condition, int timeoutInSeconds  )
