@@ -7,6 +7,8 @@ TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/t
  - Hamcrest Matchers for JavaFX.
  - Screenshots of failed tests.
 
+> The **Linux issues are now fixed** in 2.7.5 
+
 ### Usage Example
 
 ```java
@@ -42,7 +44,7 @@ To start using TestFX, simply add the following elements to your pom.xml file:
 <dependency>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>2.7.4</version>
+    <version>2.7.5</version>
 </dependency>
 ```
 You will also have to set `forkMode` to _always_ in your surefire configuration:
