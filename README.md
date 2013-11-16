@@ -91,4 +91,4 @@ and maintained by the [LoadUI team][5].
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/SmartBear/testfx/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/c241040fcacf2493960ad0a2a2e5cec2 "githalytics.com")](http://githalytics.com/SmartBear/TestFX)
