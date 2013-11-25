@@ -74,6 +74,9 @@ Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([so
 
 [Comparison with Jemmy][4]
 
+### Mailing list
+Head over to [the mailing list](https://groups.google.com/d/forum/testfx-discuss) for discussions, questions and announcements.
+
 ### Credits
 TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended
 and maintained by the [LoadUI team][5].
@@ -89,6 +92,4 @@ and maintained by the [LoadUI team][5].
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/SmartBear/testfx/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/c241040fcacf2493960ad0a2a2e5cec2 "githalytics.com")](http://githalytics.com/SmartBear/TestFX)
