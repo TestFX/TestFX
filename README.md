@@ -75,7 +75,7 @@ Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([so
 [Comparison with Jemmy][4]
 
 ### Mailing list
-Head over to [the mailing list](https://groups.google.com/d/forum/testfx-discuss) for discussions, questions and announcements.
+Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum/testfx-discuss) for discussions, questions and announcements. 
 
 ### Credits
 TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended
