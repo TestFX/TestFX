@@ -15,63 +15,59 @@
  */
 package com.eviware.loadui.ui.fx.util.test;
 
-import static org.loadui.testfx.Assertions.assertNodeExists;
-import static org.loadui.testfx.GuiTest.find;
-import static org.loadui.testfx.GuiTest.showNodeInStage;
-import static org.loadui.testfx.Matchers.hasLabel;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
-import java.util.concurrent.TimeUnit;
-
-import javafx.application.Platform;
-import javafx.scene.layout.VBox;
-import org.loadui.testfx.FXScreenController;
-import org.loadui.testfx.FXTestUtils;
-import org.loadui.testfx.GlassScreenController;
-import org.loadui.testfx.GuiTest;
-import org.loadui.testfx.categories.TestFX;
-import javafx.application.Application;
-import javafx.scene.SceneBuilder;
-import javafx.scene.control.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
-import javafx.stage.Stage;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.categories.TestFX;
 
-import com.google.common.util.concurrent.SettableFuture;
+import static org.junit.Assert.assertThat;
+import static org.loadui.testfx.Matchers.hasText;
 
 @Category( TestFX.class )
-public class ControllerApiTest
+public class ControllerApiTest extends GuiTest
 {
-	private static final GuiTest controller = new GuiTest();
-    private static VBox root = VBoxBuilder
-            .create()
-            .children(ButtonBuilder.create().id("button1").text("Button A").build(),
-                    ButtonBuilder.create().id("button2").text("Button B").build(),
-                    TextFieldBuilder.create().id("text").build()).build();
-
-	@BeforeClass
-	public static void createWindow() throws Throwable
+	@Override
+	protected Parent getRootNode()
 	{
-        System.out.println("-1 -1  -1");
-        showNodeInStage(root);
+		return VBoxBuilder
+				.create()
+				.children( ButtonBuilder.create().id( "button1" ).text( "Button A" ).build(),
+						ButtonBuilder.create().id( "button2" ).text( "Button B" ).build(),
+						TextFieldBuilder.create().id( "text" ).build() ).build();
 	}
 
 	@Test
 	public void shouldTypeString()
 	{
 		final String text = "H3llo W0rld";
-        TextField textField = find( "#text" );
 
-        controller.click("#text").type( text );
+		click( "#text" ).type( text );
 
-        //controller.sleep(3000);
-
-		assertThat( textField.getText(), is( text ) );
+		assertThat( "#text", hasText( text ) );
 	}
 
+	@Test
+	public void shouldClickButton()
+	{
+		final Button button = find( "#button1" );
+		button.setOnAction( new EventHandler<ActionEvent>()
+		{
+			@Override
+			public void handle( ActionEvent actionEvent )
+			{
+				button.setText( "Was clicked" );
+			}
+		} );
+
+		click( "Button A" );
+
+		assertThat( "#button1", hasText( "Was clicked" ) );
+	}
 }

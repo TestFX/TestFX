@@ -22,7 +22,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.SettableFuture;
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -36,6 +35,7 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import javax.imageio.ImageIO;
@@ -51,7 +51,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.*;
 import static org.loadui.testfx.Matchers.hasLabel;
 
-public class GuiTest
+public abstract class GuiTest
 {
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	protected static Stage stage;
@@ -59,70 +59,102 @@ public class GuiTest
 
 	public static class TestFxApp extends Application
 	{
-        private static Parent initialRoot;
-        private static Scene scene = null;
+		private static Scene scene = null;
 
-        @Override
+		@Override
 		public void start( Stage primaryStage ) throws Exception
 		{
-            scene = SceneBuilder
-                    .create()
-                    .width( 600 )
-                    .height( 400 )
-                    .root( initialRoot ).build();
 
-			if( stylesheet != null )
-				scene.getStylesheets().add( stylesheet );
-
-			primaryStage.setScene(scene);
 			primaryStage.show();
 			stageFuture.set( primaryStage );
 		}
 
-        public static void setRoot(Parent rootNode)
-        {
-            if( scene == null )
-                initialRoot = rootNode;
-            else
-                scene.setRoot( rootNode );
-        }
+		public static void setRoot( Parent rootNode )
+		{
+			scene.setRoot( rootNode );
+		}
 	}
+
+	@Before
+	public void setupStage() throws Throwable
+	{
+		showNodeInStage();
+	}
+
+	protected abstract Parent getRootNode();
 
 	/**
-	 * Creates and displays a new stage, with the provided node as root node.
-	 *
-	 * @param node
+	 * Creates and displays a new stage, using {@link getRootNode()} as the root node.
 	 */
-	public static void showNodeInStage( Parent node )
+	public void showNodeInStage()
 	{
-		showNodeInStage( node, null );
+		showNodeInStage( null );
 	}
 
-	public static void showNodeInStage( Parent node, String stylesheet )
+	public void showNodeInStage( final String stylesheet )
 	{
 		GuiTest.stylesheet = stylesheet;
-		TestFxApp.setRoot( node );
 
-        if( stage == null )
-        {
-            FXTestUtils.launchApp(TestFxApp.class);
-            try
-            {
-                stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
-                FXTestUtils.bringToFront( stage );
-            }
-            catch( Exception e )
-            {
-                throw new RuntimeException( "Unable to show stage", e );
-            }
-        }
+		if( stage == null )
+		{
+			FXTestUtils.launchApp( TestFxApp.class );
+			try
+			{
+				stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
+				FXTestUtils.bringToFront( stage );
+			}
+			catch( Exception e )
+			{
+				throw new RuntimeException( "Unable to show stage", e );
+			}
+		}
+
+		try
+		{
+			FXTestUtils.invokeAndWait( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					Scene scene = SceneBuilder
+							.create()
+							.width( 600 )
+							.height( 400 )
+							.root( getRootNode() ).build();
+
+					if( stylesheet != null )
+						scene.getStylesheets().add( stylesheet );
+
+					stage.setScene( scene );
+				}
+			}, 5 );
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+
 	}
 
-
-	@Deprecated
-	public static GuiTest wrap( ScreenController controller )
+	public static void showNodeInStage2( Parent node, String stylesheet )
 	{
-		return new GuiTest();
+		GuiTest.stylesheet = stylesheet;
+
+		if( stage == null )
+		{
+			FXTestUtils.launchApp( TestFxApp.class );
+			try
+			{
+				stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
+				FXTestUtils.bringToFront( stage );
+			}
+			catch( Exception e )
+			{
+				throw new RuntimeException( "Unable to show stage", e );
+			}
+		}
+		TestFxApp.setRoot( node );
 	}
 
 	private static Window lastSeenWindow = null;
@@ -334,11 +366,11 @@ public class GuiTest
 		@Override
 		public boolean apply( Node node )
 		{
-            if ( node instanceof Labeled )
-                return label.equals( ( ( Labeled )node ).getText() );
-            if ( node instanceof Text )
-                return label.equals( ( ( Text )node ).getText() );
-            return false;
+			if( node instanceof Labeled )
+				return label.equals( ( ( Labeled )node ).getText() );
+			if( node instanceof Text )
+				return label.equals( ( ( Text )node ).getText() );
+			return false;
 		}
 	}
 
@@ -396,7 +428,7 @@ public class GuiTest
 
 	private static <T extends Node> T findByCssSelector( final String selector )
 	{
-        Set<Node> locallyFound = findAll( selector );
+		Set<Node> locallyFound = findAll( selector );
 		Iterable<Node> globallyFound = concat( transform( getWindows(),
 				new Function<Window, Iterable<Node>>()
 				{
@@ -493,7 +525,7 @@ public class GuiTest
 
 	public GuiTest()
 	{
-		this.controller = new GlassScreenController();
+		this.controller = new FXScreenController();
 	}
 
 	/**
@@ -548,7 +580,7 @@ public class GuiTest
 		{
 			return click( MouseButton.PRIMARY );
 		}
-		press(buttons);
+		press( buttons );
 		return release( buttons );
 	}
 

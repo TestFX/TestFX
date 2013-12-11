@@ -15,19 +15,7 @@
  */
 package com.eviware.loadui.ui.fx.util.test;
 
-import static org.loadui.testfx.Assertions.assertNodeExists;
-import static org.loadui.testfx.GuiTest.find;
-import static org.loadui.testfx.Matchers.hasLabel;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
-import java.util.concurrent.TimeUnit;
-
-import org.loadui.testfx.FXScreenController;
-import org.loadui.testfx.FXTestUtils;
-import org.loadui.testfx.GuiTest;
-import org.loadui.testfx.categories.TestFX;
+import com.google.common.util.concurrent.SettableFuture;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -36,23 +24,30 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.SceneBuilder;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.stage.Stage;
-
 import javafx.util.Duration;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadui.testfx.FXTestUtils;
+import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.categories.TestFX;
 
-import com.google.common.util.concurrent.SettableFuture;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.loadui.testfx.GuiTest.find;
 
 @Ignore
-@Category( TestFX.class )
+@Category(TestFX.class)
 public class ConcurrencyTest
 {
-	private static final GuiTest controller = GuiTest.wrap( new FXScreenController() );
+	private static final GuiTest controller = null;
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	private static Stage stage;
 
@@ -93,17 +88,17 @@ public class ConcurrencyTest
 		controller.click( "#button1" );
 		long startTime = System.currentTimeMillis();
 		controller.click( "#button2" );
-		for( int i=0; i<10; i++ )
+		for( int i = 0; i < 10; i++ )
 		{
 			long elapsedTime = System.currentTimeMillis() - startTime;
-			assertEquals( elapsedTime/5, button1.getTranslateX(), 15);
+			assertEquals( elapsedTime / 5, button1.getTranslateX(), 15 );
 			controller.sleep( 20 );
 		}
-		controller.move( 0,0 ).click( "#button2" );
-		for( int i=0; i<20; i++ )
+		controller.move( 0, 0 ).click( "#button2" );
+		for( int i = 0; i < 20; i++ )
 		{
 			long elapsedTime = System.currentTimeMillis() - startTime;
-			assertEquals( elapsedTime/5, Double.parseDouble( button2.getText()), 15);
+			assertEquals( elapsedTime / 5, Double.parseDouble( button2.getText() ), 15 );
 			controller.sleep( 20 );
 		}
 	}
@@ -114,8 +109,8 @@ public class ConcurrencyTest
 
 		final Timeline timeline = new Timeline();
 		timeline.setCycleCount( 1 );
-		final KeyValue kv = new KeyValue( button1.translateXProperty(), 500);
-		final KeyFrame kf = new KeyFrame( Duration.millis( 2500 ), kv);
+		final KeyValue kv = new KeyValue( button1.translateXProperty(), 500 );
+		final KeyFrame kf = new KeyFrame( Duration.millis( 2500 ), kv );
 		timeline.getKeyFrames().add( kf );
 
 		button1.setOnAction( new EventHandler<ActionEvent>()
