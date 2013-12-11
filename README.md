@@ -6,26 +6,26 @@ TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/t
  - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
  - Hamcrest Matchers for JavaFX.
  - Screenshots of failed tests.
+ - Supports JavaFX 2 and JavaFX 8.
+
 
 ### Usage Example
 
 ```java
 class DesktopTest extends GuiTest
 {
-  @Before
-  public void createNewFileOnDesktop()
+  public Parent getRootNode()
   {
-    // GIVEN
-    showNodeInStage( aDesktop );
-  
-    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
-                             type( "myTextfile.txt" ).push( ENTER );
-    assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
+    return new Desktop()
   }
 
   @Test
   public void shouldBeAbleToDragFileToTrashCan()
   {
+    // GIVEN
+    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
+                             type( "myTextfile.txt" ).push( ENTER );
+  
     // WHEN
     drag( ".file" ).to( "#trash-can" );
     
@@ -42,23 +42,8 @@ To start using TestFX, simply add the following elements to your pom.xml file:
 <dependency>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>2.7.4</version>
+    <version>3.0.0</version>
 </dependency>
-```
-You will also have to set `forkMode` to _always_ in your surefire configuration:
-```XML
-<build>
-   <plugins>
-      <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-surefire-plugin</artifactId>
-         <version>2.14.1</version>
-         <configuration>
-            <forkMode>always</forkMode>
-         </configuration>
-      </plugin>
-   </plugins>
-</build>
 ```
 
 After that, head over to [the documentation][7].
@@ -68,11 +53,12 @@ You might also be interested in these conference sessions featuring TestFX: [Jav
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
 too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
-Today, TestFX is used in all of the about 50 automated GUI tests in LoadUI ([source code][9], [video][10]).
+Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([source code][9], [video][10]).
 
 [Comparison with Jemmy][4]
 
-If TestFX does not suit your needs, you should have a look at Jemmy or [MarvinFX][6].
+### Mailing list
+Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum/testfx-discuss) for discussions, questions and announcements. 
 
 ### Credits
 TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended
@@ -88,3 +74,5 @@ and maintained by the [LoadUI team][5].
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/c241040fcacf2493960ad0a2a2e5cec2 "githalytics.com")](http://githalytics.com/SmartBear/TestFX)
