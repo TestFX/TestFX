@@ -49,7 +49,7 @@ To start using TestFX, simply add the following elements to your pom.xml file:
 <dependency>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-beta1</version>
 </dependency>
 ```
 
