@@ -69,13 +69,13 @@ Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum
 
 ### Credits
 TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended
-and maintained by the [LoadUI team][5].
+and maintained by @minisu and several [contributors][5].
 
 [1]: https://jemmy.java.net/              "Jemmy website"
 [2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
-[5]: https://github.com/SmartBear/loadui/graphs/contributors "Contributors of LoadUI"
+[5]: https://github.com/SmartBear/TestFX/graphs/contributors "Contributors of LoadUI"
 [6]: https://github.com/guigarage/MarvinFX "MarvinFX's project page on Github"
 [7]: https://github.com/SmartBear/TestFX/wiki/Documentation "Documentation"
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
