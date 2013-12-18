@@ -33,6 +33,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -64,7 +65,7 @@ public abstract class GuiTest
 		@Override
 		public void start( Stage primaryStage ) throws Exception
 		{
-
+            primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.show();
 			stageFuture.set( primaryStage );
 		}
@@ -1089,9 +1090,13 @@ public abstract class GuiTest
 
 	private static Bounds sceneBoundsToScreenBounds( Bounds sceneBounds, Scene scene )
 	{
-		Window window = targetWindow( scene.getWindow() );
-		return new BoundingBox( window.getX() + scene.getX() + sceneBounds.getMinX(), window.getY() + scene.getY()
+        System.out.println("Scene bounds: " + sceneBounds);
+        Window window = targetWindow( scene.getWindow() );
+        System.out.println(window.getY() + " + " + scene.getY() + " + " + sceneBounds.getMinY());
+        BoundingBox b = new BoundingBox( window.getX() + scene.getX() + sceneBounds.getMinX(), window.getY() + scene.getY()
 				+ sceneBounds.getMinY(), sceneBounds.getWidth(), sceneBounds.getHeight() );
+        System.out.println("Screen bounds: " +b);
+        return b;
 	}
 
 	@SuppressWarnings( "unchecked" )
