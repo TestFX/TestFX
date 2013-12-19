@@ -27,7 +27,7 @@ import org.junit.experimental.categories.Category;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 
-import static org.junit.Assert.assertThat;
+import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.Matchers.hasText;
 
 @Category( TestFX.class )
@@ -50,7 +50,7 @@ public class ControllerApiTest extends GuiTest
 
 		click( "#text" ).type( text );
 
-		assertThat( "#text", hasText( text ) );
+		verifyThat("#text", hasText(text));
 	}
 
 	@Test
@@ -68,6 +68,6 @@ public class ControllerApiTest extends GuiTest
 
 		click( "Button A" );
 
-		assertThat( "#button1", hasText( "Was clicked" ) );
+		verifyThat( "#button1", hasText( "Was clicked" ) );
 	}
 }
