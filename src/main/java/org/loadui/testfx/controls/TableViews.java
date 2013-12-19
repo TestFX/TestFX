@@ -18,8 +18,6 @@ import static org.loadui.testfx.GuiTest.find;
  *
  * "Clicking a row/cell & asserting its value would be great. My feature wish list: double/right-click row, select 1+ rows, edit a cell"
  *
- * verifyThat( "#table", contains("409") )
- *
  * @author Philipp91
  * @author minisu
  */

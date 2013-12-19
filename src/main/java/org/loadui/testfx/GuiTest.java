@@ -1090,12 +1090,9 @@ public abstract class GuiTest
 
 	private static Bounds sceneBoundsToScreenBounds( Bounds sceneBounds, Scene scene )
 	{
-        System.out.println("Scene bounds: " + sceneBounds);
         Window window = targetWindow( scene.getWindow() );
-        System.out.println(window.getY() + " + " + scene.getY() + " + " + sceneBounds.getMinY());
         BoundingBox b = new BoundingBox( window.getX() + scene.getX() + sceneBounds.getMinX(), window.getY() + scene.getY()
 				+ sceneBounds.getMinY(), sceneBounds.getWidth(), sceneBounds.getHeight() );
-        System.out.println("Screen bounds: " +b);
         return b;
 	}
 
