@@ -1,6 +1,10 @@
 package org.loadui.testfx.controls;
 
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import org.hamcrest.Factory;
+import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import static org.loadui.testfx.GuiTest.find;
 
@@ -28,14 +32,28 @@ public class ListViews {
         return table.getItems().size();
     }
 
-    public static boolean containsRow(ListView<?> list, Object rowValue)
+    @Factory
+    public static org.hamcrest.Matcher containsRow(Object rowValue)
+    {
+        return new ListContainsMatcher(rowValue);
+    }
+
+    static boolean containsRow(ListView<?> list, Object rowValue)
     {
         for(int i=0; i<list.getItems().size(); i++ )
         {
             Object rowData = list.getItems().get(i);
-            if( rowValue.equals( rowData ) )
+            if( rowValue.equals( rowData ) || rowValue.equals(rowData.toString()) )
                 return true;
         }
         return false;
+    }
+
+    static ListView<?> getListView(String listSelector) {
+        Node node = find(listSelector);
+        if (!(node instanceof ListView)) {
+            throw new NoNodesFoundException(listSelector + " selected " + node + " which is not a ListView!");
+        }
+        return (ListView<?>) node;
     }
 }

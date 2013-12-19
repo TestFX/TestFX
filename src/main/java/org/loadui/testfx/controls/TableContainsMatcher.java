@@ -32,6 +32,6 @@ class TableContainsMatcher extends BaseMatcher
 
     @Override
     public void describeTo(Description description) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        description.appendText("The table does not contain a cell with value '" + valueToMatch + "'");
     }
 }

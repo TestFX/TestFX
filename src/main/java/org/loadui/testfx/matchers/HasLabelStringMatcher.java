@@ -28,7 +28,8 @@ public class HasLabelStringMatcher extends TypeSafeMatcher<Object>
 	{
 		if( target instanceof String )
 		{
-			return nodeHasLabel( find( ( String )target ) );
+            System.out.println("find node "+target);
+            return nodeHasLabel( find( ( String )target ) );
 		}
 		else if( target instanceof Labeled )
 		{

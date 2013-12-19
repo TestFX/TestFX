@@ -22,10 +22,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Preconditions;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.SettableFuture;
@@ -216,4 +219,15 @@ public class FXTestUtils
 			}
 		}
 	}
+
+    public static boolean isNodeVisible(Node node)
+    {
+        if(!node.isVisible())
+            return false;
+
+        Scene scene = node.getScene();
+        Bounds nodeBounds = node.localToScene( node.getBoundsInLocal() );
+        return nodeBounds.intersects( 0, 0, scene.getWidth(), scene.getHeight() );
+    }
+
 }

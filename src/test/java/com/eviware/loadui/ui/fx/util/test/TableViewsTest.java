@@ -69,7 +69,7 @@ public class TableViewsTest extends GuiTest
         verifyThat(".table-view", not(containsCell("1")) );
 
         TableView<?> tableView = find(".table-view");
-        verifyThat(".table-view", containsCell(9));
+        verifyThat(tableView, containsCell(9));
 	}
 
     @Test

@@ -46,7 +46,7 @@ public class TableViews
         return table.getItems().size();
     }
 
-    public static boolean containsCell(TableView<?> table, Object cellValue)
+    static boolean containsCell(TableView<?> table, Object cellValue)
     {
         for( TableColumn column : table.getColumns() )
         {
