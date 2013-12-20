@@ -1,7 +1,8 @@
 package org.loadui.testfx.exceptions;
 
-/**
- * Created by henrik on 12/19/13.
- */
-public class NoNodesVisibleException extends RuntimeException {
+public class NoNodesVisibleException extends NodeQueryException {
+    public NoNodesVisibleException(String message)
+    {
+        super(message);
+    }
 }

@@ -23,6 +23,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.sun.istack.internal.Nullable;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -220,14 +222,24 @@ public class FXTestUtils
 		}
 	}
 
+    public static final Predicate<Node> isVisible = new Predicate<Node>(){
+        @Override
+        public boolean apply(@Nullable javafx.scene.Node node) {
+            return isNodeVisible(node);
+        }
+    };
+
     public static boolean isNodeVisible(Node node)
     {
-        if(!node.isVisible())
+        if(!node.isVisible() || !node.impl_isTreeVisible())
             return false;
+        return isNodeWithinSceneBounds(node);
+    }
 
+    public static boolean isNodeWithinSceneBounds(Node node)
+    {
         Scene scene = node.getScene();
         Bounds nodeBounds = node.localToScene( node.getBoundsInLocal() );
         return nodeBounds.intersects( 0, 0, scene.getWidth(), scene.getHeight() );
     }
-
 }

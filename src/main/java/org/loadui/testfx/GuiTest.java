@@ -38,6 +38,7 @@ import javafx.stage.Window;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
+import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -50,6 +51,8 @@ import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.*;
+import static com.google.common.collect.Sets.filter;
+import static org.loadui.testfx.FXTestUtils.isVisible;
 import static org.loadui.testfx.Matchers.hasLabel;
 
 public abstract class GuiTest
@@ -225,6 +228,10 @@ public abstract class GuiTest
 				return findAll( query, targetWindow( ( Window )parent ).getScene() );
 			}
 		}
+        catch ( NoNodesVisibleException e )
+        {
+            throw e;
+        }
 		catch( Exception e )
 		{
 			//Ignore, something went wrong with checking a window, so return an empty set.
@@ -235,14 +242,21 @@ public abstract class GuiTest
 
 	public static Set<Node> findAll( String query, Node node )
 	{
+        Set<Node> foundNodes;
 		if( query.startsWith( "." ) || query.startsWith( "#" ) )
 		{
-			return node.lookupAll( query );
+			foundNodes = node.lookupAll( query );
 		}
 		else
 		{
-			return findAll( hasLabel( query ), node );
+			foundNodes = findAll( hasLabel( query ), node );
 		}
+        if( foundNodes.isEmpty() )
+            throw new NoNodesFoundException("No nodes matched the query '"+query+"'.");
+        Set<Node> visibleNodes = filter(foundNodes, isVisible);
+        if( visibleNodes.isEmpty() )
+            throw new NoNodesVisibleException("Matching nodes were found, but none of them were visible.");
+        return foundNodes;
 	}
 
 	public static Set<Node> findAll( String query )

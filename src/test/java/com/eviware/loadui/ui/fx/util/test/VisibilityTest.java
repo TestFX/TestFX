@@ -1,9 +1,13 @@
 package com.eviware.loadui.ui.fx.util.test;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.GroupBuilder;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
@@ -11,8 +15,10 @@ import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
+import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.FXTestUtils.isNodeVisible;
 import static org.loadui.testfx.GuiTest.find;
+import static org.loadui.testfx.Matchers.hasText;
 
 /**
  * TestFX should not find/click invisible nodes.
@@ -22,14 +28,19 @@ public class VisibilityTest extends GuiTest {
     @Test(expected=NoNodesVisibleException.class)
     public void nodeNotInScene_should_notBeFound()
     {
-        Node n = find("#node-not-in-scene");
-        System.out.println( isNodeVisible(n) );
+        find("#node-not-in-scene");
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void invisibleNode_should_notBeFound()
     {
         find("#invisible-node");
+    }
+
+    @Test(expected=NoNodesVisibleException.class)
+    public void nodeInInvisibleContainer_should_notBeFound()
+    {
+        find("#node-in-invisible-container");
     }
 
     @Test(expected=NoNodesFoundException.class)
@@ -41,14 +52,24 @@ public class VisibilityTest extends GuiTest {
     @Test
     public void shouldClickNodeThatIsMostlyOutsideTheScene()
     {
-        click("#node-mostly-outside-of-scene");
+        String target = "#node-mostly-outside-of-scene";
+        sleep(800).click(target);
+        verifyThat(target, hasText("Clicked"));
     }
 
     @Override
     protected Parent getRootNode() {
         Button nodeNotInScene = ButtonBuilder.create().id("node-not-in-scene").translateX(1500).build();
         Button invisibleNode = ButtonBuilder.create().id("invisible-node").visible(false).build();
-        Button nodeMostlyOutside = ButtonBuilder.create().id("node-mostly-outside-of-scene").text("Mostly outside").translateX(330).build();
-        return StackPaneBuilder.create().children(nodeNotInScene, invisibleNode, nodeMostlyOutside).build();
+        Button nodeInInvisibleContainer = ButtonBuilder.create().id("node-in-invisible-container").text("In invisible container").build();
+        StackPane invisibleContainer = StackPaneBuilder.create().children(nodeInInvisibleContainer).visible(false).build();
+        final Button nodeMostlyOutside = ButtonBuilder.create().id("node-mostly-outside-of-scene").text("Mostly outside").translateX(570).build();
+        nodeMostlyOutside.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent _) {
+                nodeMostlyOutside.setText("Clicked");
+            }
+        });
+        return VBoxBuilder.create().children(nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
     }
 }
