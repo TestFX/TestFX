@@ -1,4 +1,4 @@
-package org.loadui.testfx.matchers;
+package org.loadui.testfx.controls.impl;
 
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
@@ -28,7 +28,6 @@ public class HasLabelStringMatcher extends TypeSafeMatcher<Object>
 	{
 		if( target instanceof String )
 		{
-            System.out.println("find node "+target);
             return nodeHasLabel( find( ( String )target ) );
 		}
 		else if( target instanceof Labeled )

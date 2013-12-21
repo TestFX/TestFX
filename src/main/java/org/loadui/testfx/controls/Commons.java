@@ -1,11 +1,11 @@
-package org.loadui.testfx;
+package org.loadui.testfx.controls;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.matchers.HasLabelMatcher;
-import org.loadui.testfx.matchers.HasLabelStringMatcher;
+import org.loadui.testfx.controls.impl.HasLabelMatcher;
+import org.loadui.testfx.controls.impl.HasLabelStringMatcher;
 
-public class Matchers
+public class Commons
 {
 	/**
 	 * Matches any Labeled Node that has the given label.

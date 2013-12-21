@@ -13,55 +13,31 @@
  * express or implied. See the Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
-package com.eviware.loadui.ui.fx.util.test;
+package org.loadui.testfx;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.util.Callback;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
+import org.loadui.testfx.controls.Commons;
+import org.loadui.testfx.controls.TableViews;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
 import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.Matchers.hasText;
 import static org.loadui.testfx.controls.TableViews.containsCell;
 import static org.loadui.testfx.controls.TableViews.numberOfRowsIn;
 
 @Category( TestFX.class )
 public class TableViewsTest extends GuiTest
 {
-	@Override
-	protected Parent getRootNode()
-	{
-        TableView<Integer> table = new TableView<>();
-        table.setItems(observableArrayList(1, 2, 3));
-        TableColumn<Integer, Integer> column = new TableColumn<>("col");
-        column.setCellValueFactory( new Callback<TableColumn.CellDataFeatures<Integer, Integer>, ObservableValue<Integer>>() {
-            @Override
-            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Integer, Integer> f) {
-                return new SimpleObjectProperty( f.getValue() * 3 );
-            }
-        });
-        table.getColumns().add(column);
-		return VBoxBuilder
-				.create()
-				.children( table ).build();
-	}
-
 	@Test
 	public void shouldFindCellValues()
 	{
@@ -79,5 +55,23 @@ public class TableViewsTest extends GuiTest
 
         TableView<?> tableView = find(".table-view");
         verifyThat( numberOfRowsIn( tableView ), is(3));
+    }
+
+    @Override
+    protected Parent getRootNode()
+    {
+        TableView<Integer> table = new TableView<>();
+        table.setItems(observableArrayList(1, 2, 3));
+        TableColumn<Integer, Integer> column = new TableColumn<>("col");
+        column.setCellValueFactory( new Callback<TableColumn.CellDataFeatures<Integer, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Integer, Integer> f) {
+                return new SimpleObjectProperty( f.getValue() * 3 );
+            }
+        });
+        table.getColumns().add(column);
+        return VBoxBuilder
+                .create()
+                .children( table ).build();
     }
 }

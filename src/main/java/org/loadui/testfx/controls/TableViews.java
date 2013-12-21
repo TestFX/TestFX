@@ -6,7 +6,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.hamcrest.Factory;
+import org.hamcrest.Matcher;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import java.util.List;
@@ -46,6 +49,12 @@ public class TableViews
         return table.getItems().size();
     }
 
+    @Factory
+    public static Matcher containsCell(Object cellValue)
+    {
+        return new TableContainsMatcher(cellValue);
+    }
+
     static boolean containsCell(TableView<?> table, Object cellValue)
     {
         for( TableColumn column : table.getColumns() )
@@ -58,12 +67,6 @@ public class TableViews
             }
         }
         return false;
-    }
-
-    @Factory
-    public static org.hamcrest.Matcher containsCell(Object cellValue)
-    {
-        return new TableContainsMatcher(cellValue);
     }
 
     /**
@@ -133,6 +136,35 @@ public class TableViews
             return (TableCell<?, ?>) node;
         } else {
             throw new RuntimeException("Expected TableRowSkin with only TableCells as children");
+        }
+    }
+
+    private static class TableContainsMatcher extends BaseMatcher
+    {
+        private Object valueToMatch;
+
+        public TableContainsMatcher(Object valueToMatch)
+        {
+            this.valueToMatch = valueToMatch;
+        }
+
+        @Override
+        public boolean matches(Object o) {
+            if( o instanceof String)
+            {
+                String query = (String) o;
+                return TableViews.containsCell(getTableView(query), valueToMatch);
+            } else if( o instanceof TableView )
+            {
+                TableView tableView = (TableView) o;
+                return TableViews.containsCell(tableView, valueToMatch);
+            }
+            return false;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("The table does not contain a cell with value '" + valueToMatch + "'");
         }
     }
 }

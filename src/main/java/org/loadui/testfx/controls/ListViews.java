@@ -2,7 +2,8 @@ package org.loadui.testfx.controls;
 
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
@@ -56,4 +57,33 @@ public class ListViews {
         }
         return (ListView<?>) node;
     }
+
+    private static class ListContainsMatcher extends BaseMatcher {
+        private Object valueToMatch;
+
+        public ListContainsMatcher(Object valueToMatch)
+        {
+            this.valueToMatch = valueToMatch;
+        }
+
+        @Override
+        public boolean matches(Object o) {
+            if( o instanceof String)
+            {
+                String query = (String) o;
+                return ListViews.containsRow(getListView(query), valueToMatch);
+            } else if( o instanceof ListView)
+            {
+                ListView tableView = (ListView) o;
+                return ListViews.containsRow(tableView, valueToMatch);
+            }
+            return false;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("The list does not contain a row with value '" + valueToMatch + "'");
+        }
+    }
+
 }

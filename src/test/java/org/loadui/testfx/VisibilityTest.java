@@ -1,9 +1,7 @@
-package com.eviware.loadui.ui.fx.util.test;
+package org.loadui.testfx;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.GroupBuilder;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
@@ -11,14 +9,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
 import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.FXTestUtils.isNodeVisible;
 import static org.loadui.testfx.GuiTest.find;
-import static org.loadui.testfx.Matchers.hasText;
+import static org.loadui.testfx.controls.Commons.hasText;
 
 /**
  * TestFX should not find/click invisible nodes.
@@ -53,7 +49,7 @@ public class VisibilityTest extends GuiTest {
     public void shouldClickNodeThatIsMostlyOutsideTheScene()
     {
         String target = "#node-mostly-outside-of-scene";
-        sleep(800).click(target);
+        click(target);
         verifyThat(target, hasText("Clicked"));
     }
 

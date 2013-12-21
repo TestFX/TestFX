@@ -39,6 +39,9 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.utils.KeyCodeUtils;
+import org.loadui.testfx.utils.TestUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -52,8 +55,9 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.*;
 import static com.google.common.collect.Sets.filter;
-import static org.loadui.testfx.FXTestUtils.isVisible;
-import static org.loadui.testfx.Matchers.hasLabel;
+import static org.loadui.testfx.utils.FXTestUtils.intersection;
+import static org.loadui.testfx.utils.FXTestUtils.isVisible;
+import static org.loadui.testfx.controls.Commons.hasLabel;
 
 public abstract class GuiTest
 {
@@ -101,7 +105,7 @@ public abstract class GuiTest
 
 		if( stage == null )
 		{
-			FXTestUtils.launchApp( TestFxApp.class );
+			FXTestUtils.launchApp(TestFxApp.class);
 			try
 			{
 				stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
@@ -391,14 +395,12 @@ public abstract class GuiTest
 
 	public static void waitUntil( final Node node, final Matcher<Object> condition, int timeoutInSeconds )
 	{
-		TestUtils.awaitCondition( new Callable<Boolean>()
-		{
-			@Override
-			public Boolean call() throws Exception
-			{
-				return condition.matches( node );
-			}
-		}, timeoutInSeconds );
+		TestUtils.awaitCondition(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return condition.matches(node);
+            }
+        }, timeoutInSeconds);
 	}
 
 	/**
@@ -963,7 +965,7 @@ public abstract class GuiTest
 
 	public GuiTest type( char character )
 	{
-		KeyCode keyCode = KeyCodeUtils.findKeyCode( character );
+		KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
 
 		if( !Character.isUpperCase( character ) )
 		{
@@ -1128,7 +1130,11 @@ public abstract class GuiTest
 		else if( target instanceof Node )
 		{
 			Node node = ( Node )target;
-			return pointFor( sceneBoundsToScreenBounds( node.localToScene( node.getBoundsInLocal() ), node.getScene() ) );
+            Bounds nodeBounds = node.localToScene(node.getBoundsInLocal());
+            Scene scene = node.getScene();
+            Bounds sceneBounds = new BoundingBox(0,0,scene.getWidth(),scene.getHeight());
+            Bounds clickableArea = intersection(nodeBounds, sceneBounds);
+            return pointFor( sceneBoundsToScreenBounds(clickableArea, node.getScene() ) );
 		}
 		else if( target instanceof Scene )
 		{

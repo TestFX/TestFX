@@ -13,10 +13,11 @@
  * express or implied. See the Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
-package org.loadui.testfx;
+package org.loadui.testfx.utils;
 
 import static org.junit.Assert.fail;
 
+import java.awt.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
@@ -27,6 +28,7 @@ import com.google.common.base.Predicate;
 import com.sun.istack.internal.Nullable;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -34,6 +36,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.SettableFuture;
+import org.loadui.testfx.GuiTest;
 
 public class FXTestUtils
 {
@@ -187,7 +190,7 @@ public class FXTestUtils
 	{
 		try
 		{
-			GuiTest.find( selector );
+			GuiTest.find(selector);
 			fail( "Selector shouldn't have found anything: " + selector );
 		}
 		catch( Exception e )
@@ -241,5 +244,17 @@ public class FXTestUtils
         Scene scene = node.getScene();
         Bounds nodeBounds = node.localToScene( node.getBoundsInLocal() );
         return nodeBounds.intersects( 0, 0, scene.getWidth(), scene.getHeight() );
+    }
+
+    public static Bounds intersection(Bounds b1, Bounds b2)
+    {
+        Rectangle r1 = toRectangle(b1);
+        Rectangle r2 = toRectangle(b2);
+        Rectangle i = r1.intersection(r2);
+        return new BoundingBox(i.getMinX(), i.getMinY(), i.getWidth(), i.getHeight());
+    }
+
+    private static Rectangle toRectangle(Bounds b1) {
+        return new Rectangle((int)b1.getMinX(), (int)b1.getMinY(), (int)b1.getWidth(), (int)b1.getHeight());
     }
 }
