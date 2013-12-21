@@ -3,8 +3,14 @@ TestFX
 
 ### New in 3.0.0: ###
  * JavaFX 8 support.
+ * Never clicks invisible nodes.
+ * Never clicks nodes outside of scene.
+ * Can now click nodes that are mostly outside of a scene.
+ * TableView support.
+ * ListView support.
  * No need to fork JVM between tests (no custom POM needed).
  * API change. Now implement `getRootNode()` instead of calling `showNodeInStage()`.
+ * Package restructuring.
 
 -----
 
