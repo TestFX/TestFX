@@ -1,19 +1,6 @@
 TestFX
 ======
 
-### New in 3.0.0: ###
- * JavaFX 8 support.
- * Never clicks invisible nodes.
- * Never clicks nodes outside of scene.
- * Can now click nodes that are mostly outside of a scene.
- * TableView support.
- * ListView support.
- * No need to fork JVM between tests (no custom POM needed).
- * API change. Now implement `getRootNode()` instead of calling `showNodeInStage()`.
- * Package restructuring.
-
------
-
 TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/java/fx/overview/index.html). TestFX provides:
 
  - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
@@ -21,6 +8,7 @@ TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/t
  - Screenshots of failed tests.
  - Supports JavaFX 2 and JavaFX 8.
 
+[Changelog](Changelog)
 
 ### Usage Example
 
