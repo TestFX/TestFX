@@ -18,6 +18,7 @@ package org.loadui.testfx.utils;
 import static org.junit.Assert.fail;
 
 import java.awt.*;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.sun.istack.internal.Nullable;
+import com.google.common.collect.ImmutableSet;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.BoundingBox;
@@ -227,7 +228,7 @@ public class FXTestUtils
 
     public static final Predicate<Node> isVisible = new Predicate<Node>(){
         @Override
-        public boolean apply(@Nullable javafx.scene.Node node) {
+        public boolean apply(javafx.scene.Node node) {
             return isNodeVisible(node);
         }
     };
@@ -256,5 +257,12 @@ public class FXTestUtils
 
     private static Rectangle toRectangle(Bounds b1) {
         return new Rectangle((int)b1.getMinX(), (int)b1.getMinY(), (int)b1.getWidth(), (int)b1.getHeight());
+    }
+
+    public static <T extends Node> Set<T> flattenSets(Iterable<Set<T>> found) {
+        ImmutableSet.Builder<T> sb = ImmutableSet.builder();
+        for( Set<T> set : found )
+            sb.addAll(set);
+        return sb.build();
     }
 }

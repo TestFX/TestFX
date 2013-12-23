@@ -1,5 +1,6 @@
 package org.loadui.testfx.controls;
 
+import com.google.common.base.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TableCell;
@@ -53,6 +54,20 @@ public class TableViews
     public static Matcher containsCell(Object cellValue)
     {
         return new TableContainsMatcher(cellValue);
+    }
+
+    static boolean containsCell(TableView<?> table, Predicate<String> cellPredicate)
+    {
+        for( TableColumn column : table.getColumns() )
+        {
+            for(int i=0; i<table.getItems().size(); i++ )
+            {
+                Object cellData = column.getCellData( i );
+                if( cellPredicate.apply( cellData.toString() ) )
+                    return true;
+            }
+        }
+        return false;
     }
 
     static boolean containsCell(TableView<?> table, Object cellValue)
@@ -153,10 +168,14 @@ public class TableViews
             if( o instanceof String)
             {
                 String query = (String) o;
+                if( valueToMatch instanceof Predicate )
+                    return TableViews.containsCell(getTableView(query), (Predicate) valueToMatch);
                 return TableViews.containsCell(getTableView(query), valueToMatch);
             } else if( o instanceof TableView )
             {
                 TableView tableView = (TableView) o;
+                if( valueToMatch instanceof Predicate )
+                    return TableViews.containsCell(tableView, (Predicate) valueToMatch);
                 return TableViews.containsCell(tableView, valueToMatch);
             }
             return false;

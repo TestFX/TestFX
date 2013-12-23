@@ -13,7 +13,6 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
 import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.GuiTest.find;
 import static org.loadui.testfx.controls.Commons.hasText;
 
 /**
@@ -25,6 +24,12 @@ public class VisibilityTest extends GuiTest {
     public void nodeNotInScene_should_notBeFound()
     {
         find("#node-not-in-scene");
+    }
+
+    @Test(expected=NoNodesVisibleException.class)
+    public void nodeNotInScene_should_notBeFound_2()
+    {
+        find("Node not in scene");
     }
 
     @Test(expected=NoNodesVisibleException.class)
@@ -55,7 +60,7 @@ public class VisibilityTest extends GuiTest {
 
     @Override
     protected Parent getRootNode() {
-        Button nodeNotInScene = ButtonBuilder.create().id("node-not-in-scene").translateX(1500).build();
+        Button nodeNotInScene = ButtonBuilder.create().text("Node not in scene").id("node-not-in-scene").translateX(1500).build();
         Button invisibleNode = ButtonBuilder.create().id("invisible-node").visible(false).build();
         Button nodeInInvisibleContainer = ButtonBuilder.create().id("node-in-invisible-container").text("In invisible container").build();
         StackPane invisibleContainer = StackPaneBuilder.create().children(nodeInInvisibleContainer).visible(false).build();

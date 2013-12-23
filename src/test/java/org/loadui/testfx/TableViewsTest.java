@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx;
 
+import com.google.common.base.Predicate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
@@ -47,6 +48,17 @@ public class TableViewsTest extends GuiTest
         TableView<?> tableView = find(".table-view");
         verifyThat(tableView, containsCell(9));
 	}
+
+    @Test
+    public void shouldFindCellValues_usingPredicate()
+    {
+        verifyThat(".table-view", containsCell( new Predicate<String>() {
+            @Override
+            public boolean apply(String s) {
+                return Integer.parseInt(s) == 9;
+            }
+        }));
+    }
 
     @Test
     public void shouldHaveCorrectNumberOfRows()

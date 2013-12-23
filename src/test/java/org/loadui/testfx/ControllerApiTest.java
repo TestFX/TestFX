@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx;
 
+import com.google.common.base.Predicate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -37,7 +38,7 @@ public class ControllerApiTest extends GuiTest
 	{
 		return VBoxBuilder
 				.create()
-				.children( ButtonBuilder.create().id( "button1" ).text( "Button A" ).build(),
+				.children( ButtonBuilder.create().id( "button1" ).text( "Button A" ).defaultButton(true).build(),
 						ButtonBuilder.create().id( "button2" ).text( "Button B" ).build(),
 						TextFieldBuilder.create().id( "text" ).build() ).build();
 	}
@@ -69,4 +70,29 @@ public class ControllerApiTest extends GuiTest
 
 		verifyThat( "#button1", hasText( "Was clicked" ) );
 	}
+
+    @Test
+    public void shouldClickButton_usingLambda()
+    {
+        final Button button = find( "#button1" );
+        button.setOnAction( new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle( ActionEvent actionEvent )
+            {
+                button.setText( "Was clicked" );
+            }
+        } );
+
+        // In Java 8, this can be written as click( (Button b) -> b.isDefaultButton() )
+        // To stay compatible with both Java 7 and 8, this test uses Java 7 code.
+        click( new Predicate<Button>() {
+            @Override
+            public boolean apply(Button b) {
+                return b.isDefaultButton();
+            }
+        } );
+
+        verifyThat( "#button1", hasText( "Was clicked" ) );
+    }
 }
