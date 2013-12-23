@@ -31,7 +31,7 @@ class DesktopTest extends GuiTest
     drag( ".file" ).to( "#trash-can" );
     
     // THEN
-    assertThat( "#desktop", contains( 0, ".file" ) );
+    verifyThat( "#desktop", contains( 0, ".file" ) );
   }
 }
 ```
@@ -70,7 +70,6 @@ and maintained by @minisu and several [contributors][5].
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
 [5]: https://github.com/SmartBear/TestFX/graphs/contributors "Contributors of LoadUI"
-[6]: https://github.com/guigarage/MarvinFX "MarvinFX's project page on Github"
 [7]: https://github.com/SmartBear/TestFX/wiki/Documentation "Documentation"
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
