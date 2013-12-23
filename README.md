@@ -41,13 +41,13 @@ class DesktopTest extends GuiTest
 
  * [Getting started][11]
  * [Mouse control][12]
- * [Keyboard control](Keyboard_Control)
- * [Assertions](Assertions)
- * [Waiting](Waiting)
+ * [Keyboard control][13]
+ * [Assertions][14]
+ * [Waiting][15]
  * Specific controls
    * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
    * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
- * [Misc.](Misc)
+ * [Misc.][16]
 
 You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
@@ -70,13 +70,13 @@ and maintained by @minisu and several [contributors][5].
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
 [5]: https://github.com/SmartBear/TestFX/graphs/contributors "Contributors of LoadUI"
-[11]: https://github.com/SmartBear/TestFX/wiki/Getting_Started
-[12]: https://github.com/SmartBear/TestFX/wiki/Mouse_Control
-[13]: https://github.com/SmartBear/TestFX/wiki/Keyboard_Control
+[11]: https://github.com/SmartBear/TestFX/wiki/Getting-started
+[12]: https://github.com/SmartBear/TestFX/wiki/Mouse-control
+[13]: https://github.com/SmartBear/TestFX/wiki/Keyboard-control
 [14]: https://github.com/SmartBear/TestFX/wiki/Assertions
 [15]: https://github.com/SmartBear/TestFX/wiki/Waiting
 [16]: https://github.com/SmartBear/TestFX/wiki/Misc
-[17]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
+[8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
 
