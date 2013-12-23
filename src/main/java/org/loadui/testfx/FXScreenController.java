@@ -31,6 +31,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
+import org.loadui.testfx.utils.FXTestUtils;
 
 import java.awt.*;
 import java.awt.event.InputEvent;

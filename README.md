@@ -1,33 +1,44 @@
 TestFX
 ======
 
+### New in 3.0.0: ###
+ * JavaFX 8 support.
+ * Never clicks invisible nodes.
+ * Never clicks nodes outside of scene.
+ * Can now click nodes that are mostly outside of a scene.
+ * TableView support.
+ * ListView support.
+ * No need to fork JVM between tests (no custom POM needed).
+ * API change. Now implement `getRootNode()` instead of calling `showNodeInStage()`.
+ * Package restructuring.
+
+-----
+
 TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/java/fx/overview/index.html). TestFX provides:
 
  - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
  - Hamcrest Matchers for JavaFX.
  - Screenshots of failed tests.
+ - Supports JavaFX 2 and JavaFX 8.
 
-> **NOTE:** The **Linux issues are now fixed** in 2.7.5 
 
 ### Usage Example
 
 ```java
 class DesktopTest extends GuiTest
 {
-  @Before
-  public void createNewFileOnDesktop()
+  public Parent getRootNode()
   {
-    // GIVEN
-    showNodeInStage( aDesktop );
-  
-    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
-                             type( "myTextfile.txt" ).push( ENTER );
-    assertThat( "#desktop .file", hasLabel( "myTextFile.txt" ) );
+    return new Desktop()
   }
 
   @Test
   public void shouldBeAbleToDragFileToTrashCan()
   {
+    // GIVEN
+    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
+                             type( "myTextfile.txt" ).push( ENTER );
+  
     // WHEN
     drag( ".file" ).to( "#trash-can" );
     
@@ -44,23 +55,8 @@ To start using TestFX, simply add the following elements to your pom.xml file:
 <dependency>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>2.7.5</version>
+    <version>3.0.0-beta1</version>
 </dependency>
-```
-You will also have to set `forkMode` to _always_ in your surefire configuration:
-```XML
-<build>
-   <plugins>
-      <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-surefire-plugin</artifactId>
-         <version>2.14.1</version>
-         <configuration>
-            <forkMode>always</forkMode>
-         </configuration>
-      </plugin>
-   </plugins>
-</build>
 ```
 
 After that, head over to [the documentation][7].
@@ -79,13 +75,13 @@ Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum
 
 ### Credits
 TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended
-and maintained by the [LoadUI team][5].
+and maintained by @minisu and several [contributors][5].
 
 [1]: https://jemmy.java.net/              "Jemmy website"
 [2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
 [4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
-[5]: https://github.com/SmartBear/loadui/graphs/contributors "Contributors of LoadUI"
+[5]: https://github.com/SmartBear/TestFX/graphs/contributors "Contributors of LoadUI"
 [6]: https://github.com/guigarage/MarvinFX "MarvinFX's project page on Github"
 [7]: https://github.com/SmartBear/TestFX/wiki/Documentation "Documentation"
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"

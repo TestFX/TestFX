@@ -21,7 +21,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.SettableFuture;
-import javafx.application.*;
+import javafx.application.Application;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -30,12 +30,19 @@ import javafx.scene.SceneBuilder;
 import javafx.scene.control.Labeled;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
+import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.utils.KeyCodeUtils;
+import org.loadui.testfx.utils.TestUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -44,14 +51,18 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.*;
-import static org.loadui.testfx.Matchers.hasLabel;
+import static com.google.common.collect.Sets.filter;
+import static org.loadui.testfx.controls.Commons.hasText;
+import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
+import static org.loadui.testfx.utils.FXTestUtils.intersection;
+import static org.loadui.testfx.utils.FXTestUtils.isVisible;
+import static org.loadui.testfx.controls.Commons.hasLabel;
 
-public class GuiTest
+public abstract class GuiTest
 {
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	protected static Stage stage;
@@ -59,57 +70,80 @@ public class GuiTest
 
 	public static class TestFxApp extends Application
 	{
-		public static Parent node;
+		private static Scene scene = null;
 
 		@Override
 		public void start( Stage primaryStage ) throws Exception
 		{
-			Scene scene = SceneBuilder
-					.create()
-					.width( 600 )
-					.height( 400 )
-					.root( node ).build();
-
-			if( stylesheet != null )
-				scene.getStylesheets().add( stylesheet );
-
-			primaryStage.setScene( scene );
+            primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.show();
 			stageFuture.set( primaryStage );
 		}
+
+		public static void setRoot( Parent rootNode )
+		{
+			scene.setRoot( rootNode );
+		}
 	}
+
+	@Before
+	public void setupStage() throws Throwable
+	{
+		showNodeInStage();
+	}
+
+	protected abstract Parent getRootNode();
 
 	/**
-	 * Creates and displays a new stage, with the provided node as root node.
-	 *
-	 * @param node
+	 * Creates and displays a new stage, using {@link getRootNode()} as the root node.
 	 */
-	public static void showNodeInStage( Parent node )
+	private void showNodeInStage()
 	{
-		showNodeInStage( node, null );
+		showNodeInStage( null );
 	}
 
-	public static void showNodeInStage( Parent node, String stylesheet )
+	private void showNodeInStage( final String stylesheet )
 	{
 		GuiTest.stylesheet = stylesheet;
-		TestFxApp.node = node;
-		FXTestUtils.launchApp( TestFxApp.class );
+
+		if( stage == null )
+		{
+			FXTestUtils.launchApp(TestFxApp.class);
+			try
+			{
+				stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
+				FXTestUtils.bringToFront( stage );
+			}
+			catch( Exception e )
+			{
+				throw new RuntimeException( "Unable to show stage", e );
+			}
+		}
+
 		try
 		{
-			stage = targetWindow( stageFuture.get( 25, TimeUnit.SECONDS ) );
-			FXTestUtils.bringToFront( stage );
+			FXTestUtils.invokeAndWait( new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					Scene scene = SceneBuilder
+							.create()
+							.width( 600 )
+							.height( 400 )
+							.root( getRootNode() ).build();
+
+					if( stylesheet != null )
+						scene.getStylesheets().add( stylesheet );
+
+					stage.setScene( scene );
+				}
+			}, 5 );
 		}
 		catch( Exception e )
 		{
-			throw new RuntimeException( "Unable to show stage", e );
+			e.printStackTrace();
 		}
-	}
-
-
-	@Deprecated
-	public static GuiTest wrap( ScreenController controller )
-	{
-		return new GuiTest();
 	}
 
 	private static Window lastSeenWindow = null;
@@ -118,24 +152,9 @@ public class GuiTest
 	{
 		if( window instanceof Stage )
 		{
-			final Stage stage = ( Stage )window;
-
-            final CountDownLatch done = new CountDownLatch(1);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    stage.toFront();
-                    done.countDown();
-                }
-            });
-            try {
-                done.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-        }
+			Stage stage = ( Stage )window;
+		}
 		lastSeenWindow = window;
-
 		return window;
 	}
 
@@ -167,7 +186,7 @@ public class GuiTest
 		} );
 	}
 
-	public static Set<Node> findAll( String query, Object parent )
+	private static Set<Node> findAll( String query, Object parent )
 	{
 		try
 		{
@@ -180,19 +199,23 @@ public class GuiTest
 			{
 				Node node = ( Node )parent;
 				targetWindow( node.getScene().getWindow() );
-				return findAll( query, node );
+				return findAllRecursively(query, node);
 			}
 			else if( parent instanceof Scene )
 			{
 				Scene scene = ( Scene )parent;
 				targetWindow( scene.getWindow() );
-				return findAll( query, scene.getRoot() );
+				return findAllRecursively(query, scene.getRoot());
 			}
 			else if( parent instanceof Window )
 			{
 				return findAll( query, targetWindow( ( Window )parent ).getScene() );
 			}
 		}
+        catch ( NoNodesVisibleException e )
+        {
+            throw e;
+        }
 		catch( Exception e )
 		{
 			//Ignore, something went wrong with checking a window, so return an empty set.
@@ -201,20 +224,41 @@ public class GuiTest
 		return Collections.emptySet();
 	}
 
-	public static Set<Node> findAll( String query, Node node )
+	private static Set<Node> findAllRecursively( String query, Node node )
 	{
+        Set<Node> foundNodes;
 		if( query.startsWith( "." ) || query.startsWith( "#" ) )
 		{
-			return node.lookupAll( query );
+			foundNodes = node.lookupAll( query );
 		}
 		else
 		{
-			return findAll( hasLabel( query ), node );
+			foundNodes = findAll( hasText( query ), node );
 		}
+        return foundNodes;
 	}
 
-	public static Set<Node> findAll( String query )
+    private static <T extends Node> Set<T> getVisibleNodes(Set<T> foundNodes) {
+        Set<T> visibleNodes = filter(foundNodes, isVisible);
+        if( visibleNodes.isEmpty() )
+            throw new NoNodesVisibleException("Matching nodes were found, but none of them were visible. Screenshot saved as " +captureScreenshot().getAbsolutePath() + ".");
+        return visibleNodes;
+    }
+
+    private static void assertNodesFound(Object query, Collection<? extends Node> foundNodes) {
+        if( foundNodes.isEmpty() )
+            throw new NoNodesFoundException("No nodes matched '"+query+"'. Screenshot saved as " +captureScreenshot().getAbsolutePath() + ".");
+    }
+
+    public static Set<Node> findAll( String query )
 	{
+        Set<Node> foundNodes = findAllRecursively(query);
+        assertNodesFound(query, foundNodes);
+        return getVisibleNodes(foundNodes);
+    }
+
+    private static Set<Node> findAllRecursively( String query )
+    {
 		Set<Node> results = Sets.newLinkedHashSet();
 		results.addAll( findAll( query, lastSeenWindow ) );
 		final Predicate<Window> isDescendant = new Predicate<Window>()
@@ -241,7 +285,6 @@ public class GuiTest
 		{
 			results.addAll( findAll( query, descendant ) );
 		}
-
 		return results;
 	}
 
@@ -266,14 +309,13 @@ public class GuiTest
 		}
 		else
 		{
-			foundNode = ( T )find( new HasLabel( query ) );
+			foundNode = ( T )find( hasText(query) );
 			if( foundNode == null )
 				throw new NoNodesFoundException( "No nodes found with label '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
 		}
 
 		return foundNode;
 	}
-
 
 	public static boolean exists( final String query )
 	{
@@ -282,7 +324,7 @@ public class GuiTest
 
 	private static boolean labelExists( String query )
 	{
-		return find( hasLabel( query ) ) != null;
+		return find( hasText( query ) ) != null;
 	}
 
 	private static boolean selectorExists( String query )
@@ -323,36 +365,14 @@ public class GuiTest
 		return screenshot;
 	}
 
-	private static class HasLabel<Node> implements Predicate<Node>
-	{
-		private final String label;
-
-		HasLabel( String label )
-		{
-			this.label = label;
-		}
-
-		@Override
-		public boolean apply( Node node )
-		{
-            if ( node instanceof Labeled )
-                return label.equals( ( ( Labeled )node ).getText() );
-            if ( node instanceof Text )
-                return label.equals( ( ( Text )node ).getText() );
-            return false;
-		}
-	}
-
 	public static void waitUntil( final Node node, final Matcher<Object> condition, int timeoutInSeconds )
 	{
-		TestUtils.awaitCondition( new Callable<Boolean>()
-		{
-			@Override
-			public Boolean call() throws Exception
-			{
-				return condition.matches( node );
-			}
-		}, timeoutInSeconds );
+		TestUtils.awaitCondition(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return condition.matches(node);
+            }
+        }, timeoutInSeconds);
 	}
 
 	/**
@@ -363,7 +383,7 @@ public class GuiTest
 	 */
 	public static void waitUntil( final Node node, final Matcher<Object> condition )
 	{
-		waitUntil(node, condition, 15);
+		waitUntil( node, condition, 15 );
 	}
 
 	public static <T> void waitUntil( final T value, final Matcher<? super T> condition )
@@ -373,16 +393,6 @@ public class GuiTest
 
 	public static <T> void waitUntil( final Callable<T> callable, final Matcher<? super T> condition )
 	{
-		TestUtils.awaitCondition(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(callable.call());
-            }
-        }, 15);
-	}
-
-	public static <T> void waitUntil( final Callable<T> callable, final Matcher<? super T> condition, int timeoutInSeconds  )
-	{
 		TestUtils.awaitCondition( new Callable<Boolean>()
 		{
 			@Override
@@ -390,7 +400,7 @@ public class GuiTest
 			{
 				return condition.matches( callable.call() );
 			}
-		}, timeoutInSeconds );
+		}, 15 );
 	}
 
 	public static <T> void waitUntil( final T value, final Matcher<? super T> condition, int timeoutInSeconds )
@@ -405,6 +415,23 @@ public class GuiTest
 		}, timeoutInSeconds );
 	}
 
+    public static <T extends Node> void waitUntil( final T node, final Predicate<T> condition )
+    {
+        waitUntil( node, condition, 15 );
+    }
+
+    public static <T extends Node> void waitUntil( final T node, final Predicate<T> condition, int timeoutInSeconds )
+    {
+        TestUtils.awaitCondition( new Callable<Boolean>()
+        {
+            @Override
+            public Boolean call() throws Exception
+            {
+                return condition.apply( node );
+            }
+        }, timeoutInSeconds );
+    }
+
 	private static <T extends Node> T findByCssSelector( final String selector )
 	{
 		Set<Node> locallyFound = findAll( selector );
@@ -418,43 +445,50 @@ public class GuiTest
 					}
 				} ) );
 
-		return ( T )getFirst( locallyFound, getFirst( globallyFound, null ) );
-	}
+        Iterables.addAll(locallyFound, globallyFound);
+        assertNodesFound(selector, locallyFound);
+        Set<Node> visibleNodes = getVisibleNodes(locallyFound);
 
-	@Deprecated
-	@SuppressWarnings( "unchecked" )
-	public static <T extends Node> T find( final Predicate<Node> predicate )
-	{
-		Iterable<Node> globallyFound = concat( transform( getWindows(),
-				new Function<Window, Iterable<Node>>()
-				{
-					@Override
-					public Iterable<Node> apply( Window input )
-					{
-						return findAll( predicate, input.getScene().getRoot() );
-					}
-				} ) );
-
-		return ( T )getFirst( globallyFound, null );
+		return ( T )getFirst( visibleNodes, null );
 	}
 
 	public static <T extends Node> T find( final Matcher<Object> matcher )
 	{
-		Iterable<Node> globallyFound = concat( transform( getWindows(),
-				new Function<Window, Iterable<Node>>()
+		Iterable<Set<Node>> found = transform( getWindows(),
+				new Function<Window, Set<Node>>()
 				{
 					@Override
-					public Iterable<Node> apply( Window input )
+					public Set<Node> apply( Window input )
 					{
-						return findAll( matcher, input.getScene().getRoot() );
+						return findAllRecursively(matcher, input.getScene().getRoot());
 					}
-				} ) );
+				} );
 
-		return ( T )getFirst( globallyFound, null );
+        Set<Node> foundFlattened = flattenSets(found);
+
+        assertNodesFound( matcher, foundFlattened );
+        return (T) getFirst( getVisibleNodes(foundFlattened), null );
 	}
 
+    public static <T extends Node> T find( final Predicate<T> predicate )
+    {
+        Iterable<Set<T>> found = transform( getWindows(),
+                new Function<Window, Set<T>>()
+                {
+                    @Override
+                    public Set<T> apply( Window input )
+                    {
+                        return findAllRecursively(predicate, input.getScene().getRoot());
+                    }
+                } );
 
-	/**
+        Set<T> foundFlattened = flattenSets(found);
+
+        assertNodesFound( predicate, foundFlattened );
+        return getFirst( getVisibleNodes(foundFlattened), null );
+    }
+
+    /**
 	 * Returns all child nodes of parent, that matches the given matcher.
 	 *
 	 * @param matcher
@@ -463,40 +497,57 @@ public class GuiTest
 	 */
 	public static Set<Node> findAll( Matcher<Object> matcher, Node parent )
 	{
-		Set<Node> found = new HashSet();
+        Set<Node> foundNodes = findAllRecursively(matcher, parent);
+        assertNodesFound(matcher, foundNodes);
+        return getVisibleNodes(foundNodes);
+    }
+
+    private static Set<Node> findAllRecursively( Matcher<Object> matcher, Node parent)
+    {
+        Set<Node> found = new HashSet();
 		if( matcher.matches( parent ) )
 		{
-			found.addAll( Collections.singleton( parent ) );
+            found.add(parent);
 		}
 		if( parent instanceof Parent )
 		{
 			for( Node child : ( ( Parent )parent ).getChildrenUnmodifiable() )
 			{
-				found.addAll( findAll( matcher, child ) );
+				found.addAll(findAllRecursively(matcher, child));
 			}
 		}
-
-		return ImmutableSet.copyOf( found );
+        return ImmutableSet.copyOf(found);
 	}
 
-	@Deprecated
-	public static Iterable<Node> findAll( Predicate<Node> predicate, Node parent )
-	{
-		ImmutableList.Builder<Iterable<Node>> found = ImmutableList.builder();
-		if( predicate.apply( parent ) )
-		{
-			found.add( Collections.singleton( parent ) );
-		}
-		if( parent instanceof Parent )
-		{
-			for( Node child : ( ( Parent )parent ).getChildrenUnmodifiable() )
-			{
-				found.add( findAll( predicate, child ) );
-			}
-		}
+    public static <T extends Node> Set<T> findAll( Predicate<T> predicate, Node parent )
+    {
+        Set<T> foundNodes = findAllRecursively(predicate, parent);
+        assertNodesFound(predicate, foundNodes);
+        return getVisibleNodes(foundNodes);
+    }
 
-		return concat( found.build() );
-	}
+    private static <T extends Node> Set<T> findAllRecursively( Predicate<T> predicate, Node parent)
+    {
+        Set<T> found = new HashSet();
+        try {
+            T node = (T) parent;
+            if( predicate.apply( node ) )
+            {
+                found.add( node );
+            }
+        } catch( ClassCastException e )
+        {
+            // Do nothing.
+        }
+        if( parent instanceof Parent )
+        {
+            for( Node child : ( ( Parent )parent ).getChildrenUnmodifiable() )
+            {
+                found.addAll(findAllRecursively(predicate, child));
+            }
+        }
+        return ImmutableSet.copyOf(found);
+    }
 
 	private final ScreenController controller;
 	private final Set<MouseButton> pressedButtons = new HashSet<>();
@@ -524,6 +575,11 @@ public class GuiTest
 		}
 		return this;
 	}
+
+    public GuiTest sleep( long value, TimeUnit unit )
+    {
+        return sleep( unit.toMillis(value) );
+    }
 
 	public GuiTest target( Object window )
 	{
@@ -559,7 +615,6 @@ public class GuiTest
 		{
 			return click( MouseButton.PRIMARY );
 		}
-
 		press( buttons );
 		return release( buttons );
 	}
@@ -581,6 +636,12 @@ public class GuiTest
 		move( node );
 		return click( buttons );
 	}
+
+    public <T extends Node> GuiTest click( Predicate<T> p, MouseButton... buttons )
+    {
+        move(p);
+        return click( buttons );
+    }
 
 	public GuiTest click( Point2D point, MouseButton... buttons )
 	{
@@ -624,13 +685,13 @@ public class GuiTest
 		return click( buttons );
 	}
 
-	public GuiTest rightClick()
-	{
-		return click( MouseButton.SECONDARY );
-	}
-
 
     /*---------------- Right-click ----------------*/
+
+    public GuiTest rightClick()
+    {
+        return click( MouseButton.SECONDARY );
+    }
 
 	/**
 	 * Right-clicks a given target.
@@ -648,6 +709,11 @@ public class GuiTest
 	public GuiTest rightClick( Matcher<Node> matcher )
 	{
 		return click( matcher, MouseButton.SECONDARY );
+	}
+
+	public <T extends Node> GuiTest rightClick( Predicate<T> predicate )
+	{
+		return click( predicate, MouseButton.SECONDARY );
 	}
 
 	public GuiTest rightClick( Scene scene )
@@ -706,6 +772,11 @@ public class GuiTest
 	{
 		return click( matcher ).click().sleep( 50 );
 	}
+
+    public <T extends Node> GuiTest doubleClick( Predicate<T> predicate )
+    {
+        return click( predicate ).click().sleep( 50 );
+    }
 
 	public GuiTest doubleClick( Scene scene )
 	{
@@ -928,7 +999,7 @@ public class GuiTest
 
 	public GuiTest type( char character )
 	{
-		KeyCode keyCode = KeyCodeUtils.findKeyCode( character );
+		KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
 
 		if( !Character.isUpperCase( character ) )
 		{
@@ -1069,9 +1140,10 @@ public class GuiTest
 
 	private static Bounds sceneBoundsToScreenBounds( Bounds sceneBounds, Scene scene )
 	{
-		Window window = targetWindow( scene.getWindow() );
-		return new BoundingBox( window.getX() + scene.getX() + sceneBounds.getMinX(), window.getY() + scene.getY()
+        Window window = targetWindow( scene.getWindow() );
+        BoundingBox b = new BoundingBox( window.getX() + scene.getX() + sceneBounds.getMinX(), window.getY() + scene.getY()
 				+ sceneBounds.getMinY(), sceneBounds.getWidth(), sceneBounds.getHeight() );
+        return b;
 	}
 
 	@SuppressWarnings( "unchecked" )
@@ -1092,7 +1164,11 @@ public class GuiTest
 		else if( target instanceof Node )
 		{
 			Node node = ( Node )target;
-			return pointFor( sceneBoundsToScreenBounds( node.localToScene( node.getBoundsInLocal() ), node.getScene() ) );
+            Bounds nodeBounds = node.localToScene(node.getBoundsInLocal());
+            Scene scene = node.getScene();
+            Bounds sceneBounds = new BoundingBox(0,0,scene.getWidth(),scene.getHeight());
+            Bounds clickableArea = intersection(nodeBounds, sceneBounds);
+            return pointFor( sceneBoundsToScreenBounds(clickableArea, node.getScene() ) );
 		}
 		else if( target instanceof Scene )
 		{
@@ -1109,6 +1185,10 @@ public class GuiTest
 		{
 			return pointFor( find( ( Matcher )target ) );
 		}
+        else if( target instanceof Predicate )
+        {
+            return pointFor( find( (Predicate) target ) );
+        }
 		else if( target instanceof Iterable<?> )
 		{
 			return pointFor( Iterables.get( ( Iterable<?> )target, 0 ) );

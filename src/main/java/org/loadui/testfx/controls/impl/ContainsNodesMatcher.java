@@ -1,4 +1,4 @@
-package org.loadui.testfx.matchers;
+package org.loadui.testfx.controls.impl;
 
 import org.loadui.testfx.GuiTest;
 import org.hamcrest.Description;
