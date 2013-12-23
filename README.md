@@ -37,17 +37,17 @@ class DesktopTest extends GuiTest
 ```
 
 
-### Getting Started
-To start using TestFX, simply add the following elements to your pom.xml file:
-```XML
-<dependency>
-    <groupId>org.loadui</groupId>
-    <artifactId>testFx</artifactId>
-    <version>3.0.0-beta1</version>
-</dependency>
-```
+### Documentation
 
-After that, head over to [the documentation][7].
+ * [Getting started](Getting_Started)
+ * [Mouse control](Mouse_Control)
+ * [Keyboard control](Keyboard_Control)
+ * [Assertions](Assertions)
+ * [Waiting](Waiting)
+ * Specific controls
+   * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
+   * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
+ * [Misc.](Misc)
 
 You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
