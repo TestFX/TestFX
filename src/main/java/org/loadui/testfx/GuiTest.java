@@ -21,7 +21,9 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.SettableFuture;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -36,6 +38,7 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
@@ -45,12 +48,14 @@ import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -150,10 +155,22 @@ public abstract class GuiTest
 
 	public static <T extends Window> T targetWindow( T window )
 	{
-		if( window instanceof Stage )
-		{
-			Stage stage = ( Stage )window;
-		}
+	    if( window instanceof Stage )
+	    {
+			final Stage stage = ( Stage )window;
+			final CountDownLatch done = new CountDownLatch(1);
+			Platform.runLater(new Runnable() {
+			    public void run() {
+			        stage.toFront();
+			        done.countDown();
+			    }
+			});
+			try {
+			    done.await();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
+	    }
 		lastSeenWindow = window;
 		return window;
 	}
