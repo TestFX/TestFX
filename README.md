@@ -8,7 +8,7 @@ TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/t
  - Screenshots of failed tests.
  - Supports JavaFX 2 and JavaFX 8.
 
-[Changelog](https://github.com/SmartBear/TestFX/wiki/Mouse-control)
+[Changelog](https://github.com/SmartBear/TestFX/wiki/Changelog)
 
 ### Usage Example
 
