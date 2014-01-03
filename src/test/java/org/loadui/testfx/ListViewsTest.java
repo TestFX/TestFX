@@ -37,14 +37,14 @@ import static org.hamcrest.core.IsNot.not;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.ListViews.*;
 
-@Category( TestFX.class )
+@Category(TestFX.class)
 public class ListViewsTest extends GuiTest
 {
 	@Override
 	protected Parent getRootNode()
 	{
-        ListView<Integer> list = new ListView<>();
-        list.setItems(observableArrayList(1, 2, 3));
+		ListView<Integer> list = new ListView<>();
+		list.setItems( observableArrayList( 1, 2, 3 ) );
 		return VBoxBuilder
 				.create()
 				.children( list ).build();
@@ -53,19 +53,19 @@ public class ListViewsTest extends GuiTest
 	@Test
 	public void shouldFindRowValues()
 	{
-		verifyThat(".list-view", containsRow("1"));
-        verifyThat(".list-view", not(containsRow("4")) );
+		verifyThat( ".list-view", containsRow( "1" ) );
+		verifyThat( ".list-view", not( containsRow( "4" ) ) );
 
-        ListView<?> listView = find(".list-view");
-        verifyThat(listView, containsRow(1));
+		ListView<?> listView = find( ".list-view" );
+		verifyThat( listView, containsRow( 1 ) );
 	}
 
-    @Test
-    public void shouldHaveCorrectNumberOfRows()
-    {
-        verifyThat( numberOfRowsIn(".list-view"), is(3));
+	@Test
+	public void shouldHaveCorrectNumberOfRows()
+	{
+		verifyThat( numberOfRowsIn( ".list-view" ), is( 3 ) );
 
-        ListView<?> listView = find(".list-view");
-        verifyThat( numberOfRowsIn( listView ), is(3));
-    }
+		ListView<?> listView = find( ".list-view" );
+		verifyThat( numberOfRowsIn( listView ), is( 3 ) );
+	}
 }
