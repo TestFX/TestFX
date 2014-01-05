@@ -47,6 +47,7 @@ class DesktopTest extends GuiTest
  * Specific controls
    * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
    * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
+   * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
  * [Misc.][16]
 
 You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
