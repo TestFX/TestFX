@@ -810,11 +810,11 @@ public abstract class GuiTest
 
 	public GuiTest doubleClick( MouseButton button )
 	{
-		return click( button ).click().sleep( 50 );
+		return click( button ).click( button ).sleep( 50 );
 	}
 
 
-    /*----------------  ----------------*/
+    /*---------------- Other  ----------------*/
 
 
 	public GuiTest eraseCharacters( int characters )
