@@ -78,7 +78,7 @@ TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2
 [14]: https://github.com/SmartBear/TestFX/wiki/Assertions
 [15]: https://github.com/SmartBear/TestFX/wiki/Waiting
 [16]: https://github.com/SmartBear/TestFX/wiki/Misc
-[16]: https://github.com/SmartBear/TestFX/wiki/Examples
+[17]: https://github.com/SmartBear/TestFX/wiki/Examples
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
