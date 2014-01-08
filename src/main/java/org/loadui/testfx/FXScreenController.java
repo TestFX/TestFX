@@ -1,13 +1,11 @@
 package org.loadui.testfx;
 
 import com.google.common.collect.ImmutableMap;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+
 import org.loadui.testfx.utils.FXTestUtils;
 
 import java.awt.*;
@@ -20,8 +18,6 @@ public class FXScreenController implements ScreenController
             InputEvent.BUTTON1_MASK, MouseButton.MIDDLE, InputEvent.BUTTON2_MASK, MouseButton.SECONDARY,
             InputEvent.BUTTON3_MASK );
 
-    private final DoubleProperty mouseXProperty = new SimpleDoubleProperty();
-    private final DoubleProperty mouseYProperty = new SimpleDoubleProperty();
     private final Robot robot;
     private long moveTime = 175;
 
@@ -36,64 +32,57 @@ public class FXScreenController implements ScreenController
             throw new IllegalArgumentException( e );
         }
 
-        final ChangeListener<Number> mouseChangeListener = new ChangeListener<Number>()
-        {
-            @Override
-            public void changed( ObservableValue<? extends Number> value, Number oldNum, Number newNum )
-            {
-                robot.mouseMove( mouseXProperty.intValue(), mouseYProperty.intValue() );
-                System.out.println("!");
-            }
-        };
-
-        mouseXProperty.addListener( mouseChangeListener );
-        mouseYProperty.addListener( mouseChangeListener );
     }
 
     @Override
     public Point2D getMouse()
     {
-        return new Point2D( mouseXProperty.doubleValue(), mouseYProperty.doubleValue() );
+        Point awtPoint = MouseInfo.getPointerInfo().getLocation();
+        return new Point2D( awtPoint.getX(), awtPoint.getY() );
     }
 
     @Override
     public void position( double x, double y )
     {
-        mouseXProperty.set( x );
-        mouseYProperty.set( y );
+        robot.mouseMove((int) x, (int) y);
     }
 
     @Override
-    public void move( final double x, final double y )
+    public void move( double x, double y )
     {
-        Point currentMousePosition = MouseInfo.getPointerInfo().getLocation();
-        mouseXProperty.set( currentMousePosition.getX() );
-        mouseYProperty.set( currentMousePosition.getY() );
-
-        boolean reachedTarget = false;
-        while(!reachedTarget)
-        {
-            currentMousePosition = MouseInfo.getPointerInfo().getLocation();
-
-            int directionX = Integer.compare( (int)x, (int)currentMousePosition.getX() );
-            int directionY = Integer.compare( (int)y, (int)currentMousePosition.getY() );
-
-            if(directionX == 0 && directionY == 0)
-                reachedTarget = true;
-            else
-            {
-                robot.mouseMove( (int)currentMousePosition.getX() + directionX, (int)currentMousePosition.getY() + directionY );
-            }
+        // Calculate how far we need to go
+        Point position = MouseInfo.getPointerInfo().getLocation();
+        double distanceX = x - position.getX();
+        double distanceY = y - position.getY();
+        double distance = Math.sqrt( Math.pow(distanceX, 2) + Math.pow(distanceY, 2) );
+        
+        // The maximum time for the movement is "moveTime". Far movements will make the cursor go faster.
+        // In order to be not too slow on small distances, the minimum speed is 1 pixel per millisecond.
+        double totalTime = moveTime;
+        if (distance < totalTime) {
+            totalTime = Math.max(1, distance);
+        }
+        
+        double speedX = distanceX / totalTime;
+        double speedY = distanceY / totalTime;
+        for (int time = 0; time < totalTime; time++) {
+            
+            robot.mouseMove( position.x + (int)( speedX * time ) , position.y + (int)( speedY * time ));
+            
             try
             {
                 Thread.sleep( 1 );
             }
             catch( InterruptedException e )
             {
-                e.printStackTrace();
+                return;
             }
+            
         }
-
+        
+        // We should be less than one step away from the target
+        // => Make one last step to hit it.
+        robot.mouseMove((int) x, (int) y);
         FXTestUtils.awaitEvents();
     }
 
@@ -119,6 +108,7 @@ public class FXScreenController implements ScreenController
         FXTestUtils.awaitEvents();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void press( KeyCode key )
     {
@@ -126,6 +116,7 @@ public class FXScreenController implements ScreenController
         FXTestUtils.awaitEvents();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void release( KeyCode key )
     {
