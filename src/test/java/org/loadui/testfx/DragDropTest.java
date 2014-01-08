@@ -46,8 +46,8 @@ public class DragDropTest extends GuiTest {
      */
     private final EventHandler<DragEvent> onDragDone = new EventHandler<DragEvent>() {
         public void handle(DragEvent event) {
-            String item = event.getDragboard().getString();
-            ((ListView<?>) event.getSource()).getItems().remove(item);
+            ListView<?> listView = (ListView<?>) event.getSource();
+            listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
         }
     };
 
@@ -65,7 +65,6 @@ public class DragDropTest extends GuiTest {
      */
     private final EventHandler<DragEvent> onDragDropped = new EventHandler<DragEvent>() {
         public void handle(DragEvent event) {
-
             event.acceptTransferModes(TransferMode.MOVE);
             String item = event.getDragboard().getString();
             if (item != null) {
@@ -98,7 +97,7 @@ public class DragDropTest extends GuiTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    @Test(timeout=10000)
     public void shouldMoveElements() throws Exception {
 
         FXTestUtils.invokeAndWait(new Runnable() {
