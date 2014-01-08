@@ -40,15 +40,17 @@ class DesktopTest extends GuiTest
 ### Documentation
 
  * [Getting started][11]
- * [Mouse control][12]
- * [Keyboard control][13]
- * [Assertions][14]
- * [Waiting][15]
- * Specific controls
-   * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
-   * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
-   * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
- * [Misc.][16]
+ * Reference
+  * [Mouse control][12]
+  * [Keyboard control][13]
+  * [Assertions][14]
+  * [Waiting][15]
+  * Specific controls
+    * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
+    * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
+    * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
+  * [Misc.][16]
+ * [Examples][17]
 
 You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
@@ -76,6 +78,7 @@ TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2
 [14]: https://github.com/SmartBear/TestFX/wiki/Assertions
 [15]: https://github.com/SmartBear/TestFX/wiki/Waiting
 [16]: https://github.com/SmartBear/TestFX/wiki/Misc
+[16]: https://github.com/SmartBear/TestFX/wiki/Examples
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
