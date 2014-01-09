@@ -6,7 +6,6 @@ import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
 import static org.loadui.testfx.GuiTest.find;
-import static com.google.common.base.Preconditions.checkArgument;
 
 public class HasLabelMatcher extends TypeSafeMatcher<Object>
 {
