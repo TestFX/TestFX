@@ -96,7 +96,6 @@ public class DragDropTest extends GuiTest {
         return HBoxBuilder.create().children(list1, list2).build();
     }
 
-    @SuppressWarnings("unchecked")
     @Test(timeout=10000)
     public void shouldMoveElements() throws Exception {
 

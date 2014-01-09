@@ -24,9 +24,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.BoundingBox;
@@ -37,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.SettableFuture;
+
 import org.loadui.testfx.GuiTest;
 
 public class FXTestUtils
@@ -233,6 +234,7 @@ public class FXTestUtils
         }
     };
 
+    @SuppressWarnings("deprecation")
     public static boolean isNodeVisible(Node node)
     {
         if(!node.isVisible() || !node.impl_isTreeVisible())
