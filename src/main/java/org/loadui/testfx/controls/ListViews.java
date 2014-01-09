@@ -2,6 +2,7 @@ package org.loadui.testfx.controls;
 
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -33,8 +34,9 @@ public class ListViews {
         return table.getItems().size();
     }
 
+    @SuppressWarnings("unchecked")
     @Factory
-    public static org.hamcrest.Matcher containsRow(Object rowValue)
+    public static <S> org.hamcrest.Matcher<S> containsRow(Object rowValue)
     {
         return new ListContainsMatcher(rowValue);
     }
@@ -58,6 +60,7 @@ public class ListViews {
         return (ListView<?>) node;
     }
 
+    @SuppressWarnings("rawtypes")
     private static class ListContainsMatcher extends BaseMatcher {
         private Object valueToMatch;
 

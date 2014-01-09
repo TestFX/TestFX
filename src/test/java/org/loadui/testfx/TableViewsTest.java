@@ -9,10 +9,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.util.Callback;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.loadui.testfx.categories.TestFX;
-import org.loadui.testfx.controls.Commons;
-import org.loadui.testfx.controls.TableViews;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.CoreMatchers.is;
@@ -68,7 +64,7 @@ public class TableViewsTest extends GuiTest
 			@Override
 			public ObservableValue<Integer> call( TableColumn.CellDataFeatures<Integer, Integer> f )
 			{
-				return new SimpleObjectProperty( f.getValue() * 3 );
+				return new SimpleObjectProperty<Integer>( f.getValue() * 3 );
 			}
 		} );
 		table.getColumns().add( column );

@@ -21,22 +21,21 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.SettableFuture;
+
 import javafx.application.Application;
 import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
@@ -46,6 +45,7 @@ import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -61,13 +61,11 @@ import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
 import static org.loadui.testfx.utils.FXTestUtils.intersection;
 import static org.loadui.testfx.utils.FXTestUtils.isVisible;
-import static org.loadui.testfx.controls.Commons.hasLabel;
 
 public abstract class GuiTest
 {
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	protected static Stage stage;
-	private static String stylesheet = null;
 
 	public static class TestFxApp extends Application
 	{
@@ -105,8 +103,7 @@ public abstract class GuiTest
 
 	private void showNodeInStage( final String stylesheet )
 	{
-		GuiTest.stylesheet = stylesheet;
-
+	    // TODO: Do something with the stylesheet?
 		if( stage == null )
 		{
 			FXTestUtils.launchApp(TestFxApp.class);
@@ -151,10 +148,6 @@ public abstract class GuiTest
 
 	public static <T extends Window> T targetWindow( T window )
 	{
-		if( window instanceof Stage )
-		{
-			Stage stage = ( Stage )window;
-		}
 		lastSeenWindow = window;
 		return window;
 	}
@@ -443,7 +436,8 @@ public abstract class GuiTest
         }, timeoutInSeconds );
     }
 
-	private static <T extends Node> T findByCssSelector( final String selector )
+	@SuppressWarnings("unchecked")
+    private static <T extends Node> T findByCssSelector( final String selector )
 	{
 		Set<Node> locallyFound = findAll( selector );
 		Iterable<Node> globallyFound = concat( transform( getWindows(),
@@ -463,7 +457,8 @@ public abstract class GuiTest
 		return ( T )getFirst( visibleNodes, null );
 	}
 
-	public static <T extends Node> T find( final Matcher<Object> matcher )
+	@SuppressWarnings("unchecked")
+    public static <T extends Node> T find( final Matcher<Object> matcher )
 	{
 		Iterable<Set<Node>> found = transform( getWindows(),
 				new Function<Window, Set<Node>>()
@@ -515,7 +510,7 @@ public abstract class GuiTest
 
     private static Set<Node> findAllRecursively( Matcher<Object> matcher, Node parent)
     {
-        Set<Node> found = new HashSet();
+        Set<Node> found = new HashSet<Node>();
 		if( matcher.matches( parent ) )
 		{
             found.add(parent);
@@ -539,8 +534,9 @@ public abstract class GuiTest
 
     private static <T extends Node> Set<T> findAllRecursively( Predicate<T> predicate, Node parent)
     {
-        Set<T> found = new HashSet();
+        Set<T> found = new HashSet<T>();
         try {
+            @SuppressWarnings("unchecked")
             T node = (T) parent;
             if( predicate.apply( node ) )
             {
@@ -1194,11 +1190,11 @@ public abstract class GuiTest
 		}
 		else if( target instanceof Matcher )
 		{
-			return pointFor( find( ( Matcher )target ) );
+			return pointFor( find( ( Matcher<Object> )target ) );
 		}
         else if( target instanceof Predicate )
         {
-            return pointFor( find( (Predicate) target ) );
+            return pointFor( find( (Predicate<Node>) target ) );
         }
 		else if( target instanceof Iterable<?> )
 		{

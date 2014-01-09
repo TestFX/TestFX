@@ -1,12 +1,14 @@
 package org.loadui.testfx.controls;
 
 import com.google.common.base.Predicate;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -50,15 +52,16 @@ public class TableViews
         return table.getItems().size();
     }
 
+    @SuppressWarnings("unchecked")
     @Factory
-    public static Matcher containsCell(Object cellValue)
+    public static <S> Matcher<S> containsCell(Object cellValue)
     {
         return new TableContainsMatcher(cellValue);
     }
 
     static boolean containsCell(TableView<?> table, Predicate<String> cellPredicate)
     {
-        for( TableColumn column : table.getColumns() )
+        for( TableColumn<?, ?> column : table.getColumns() )
         {
             for(int i=0; i<table.getItems().size(); i++ )
             {
@@ -72,7 +75,7 @@ public class TableViews
 
     static boolean containsCell(TableView<?> table, Object cellValue)
     {
-        for( TableColumn column : table.getColumns() )
+        for( TableColumn<?, ?> column : table.getColumns() )
         {
             for(int i=0; i<table.getItems().size(); i++ )
             {
@@ -154,6 +157,7 @@ public class TableViews
         }
     }
 
+    @SuppressWarnings("rawtypes")
     private static class TableContainsMatcher extends BaseMatcher
     {
         private Object valueToMatch;
@@ -163,6 +167,7 @@ public class TableViews
             this.valueToMatch = valueToMatch;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public boolean matches(Object o) {
             if( o instanceof String)
