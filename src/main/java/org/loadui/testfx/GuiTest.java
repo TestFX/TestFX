@@ -27,7 +27,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
-import javafx.scene.control.Labeled;
+import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
@@ -312,6 +313,16 @@ public abstract class GuiTest
 			foundNode = ( T )find( hasText(query) );
 			if( foundNode == null )
 				throw new NoNodesFoundException( "No nodes found with label '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
+		}
+
+		if( foundNode instanceof Label )
+		{
+			Label label = ( Label )foundNode;
+			Node labelFor = label.getLabelFor();
+			if( labelFor != null )
+			{
+				return (T) labelFor;
+			}
 		}
 
 		return foundNode;
