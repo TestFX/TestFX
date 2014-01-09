@@ -40,6 +40,7 @@ class DesktopTest extends GuiTest
 ### Documentation
 
  * [Getting started][11]
+ * [Examples][17]
  * Reference
   * [Mouse control][12]
   * [Keyboard control][13]
@@ -50,7 +51,6 @@ class DesktopTest extends GuiTest
     * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
     * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
   * [Misc.][16]
- * [Examples][17]
 
 You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
