@@ -24,6 +24,7 @@ import org.loadui.testfx.categories.TestFX;
 
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
+import static org.loadui.testfx.controls.Commons.nodeLabeledBy;
 
 @Category( TestFX.class )
 public class LabelForTest extends GuiTest
@@ -33,7 +34,7 @@ public class LabelForTest extends GuiTest
 	{
 		TextField uText = TextFieldBuilder.create().id( "uname" ).build();
 		TextField pText = PasswordFieldBuilder.create().id( "pword" ).build();
-		Label u = LabelBuilder.create().text( "User name" ).build();
+		Label u = LabelBuilder.create().text( "User name" ).labelFor(uText).build();
 		Label p = LabelBuilder.create().text( "Password" ).labelFor( pText ).build();
 
 		GridPane grid = new GridPane();
@@ -47,8 +48,8 @@ public class LabelForTest extends GuiTest
 	@Test
 	public void shouldClickButton()
 	{
-		click( "User name" ).type( "Steve" );
-		click( "Password" ).type( "duke4ever" );
+		click( nodeLabeledBy("User name") ).type( "Steve" );
+		click( nodeLabeledBy("Password") ).type( "duke4ever" );
 
 		verifyThat( "#pword", hasText( "duke4ever" ) );
 	}

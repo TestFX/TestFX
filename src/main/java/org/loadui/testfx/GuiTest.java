@@ -308,16 +308,6 @@ public abstract class GuiTest
 				throw new NoNodesFoundException( "No nodes found with label '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath() );
 		}
 
-		if( foundNode instanceof Label )
-		{
-			Label label = ( Label )foundNode;
-			Node labelFor = label.getLabelFor();
-			if( labelFor != null )
-			{
-				return (T) labelFor;
-			}
-		}
-
 		return foundNode;
 	}
 
