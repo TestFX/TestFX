@@ -61,6 +61,8 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.robots.KeyboardRobot;
+import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.utils.FXTestUtils;
 import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
@@ -476,11 +478,13 @@ public abstract class GuiTest {
     }
 
     private final ScreenController controller;
-    private final Set<MouseButton> pressedButtons = new HashSet<>();
-    private final Set<KeyCode> pressedKeys = new HashSet<>();
+    private final MouseRobot mouseRobot;
+    private final KeyboardRobot keyboardRobot;
 
     public GuiTest() {
         this.controller = new FXScreenController();
+        this.mouseRobot = new MouseRobot(this.controller);
+        this.keyboardRobot = new KeyboardRobot(this.controller);
     }
 
     /**
@@ -754,15 +758,7 @@ public abstract class GuiTest {
      * @param buttons defaults to the primary mouse button.
      */
     public GuiTest press(MouseButton... buttons) {
-        if (buttons.length == 0) {
-            return press(MouseButton.PRIMARY);
-        }
-
-        for (MouseButton button : buttons) {
-            if (pressedButtons.add(button)) {
-                controller.press(button);
-            }
-        }
+        mouseRobot.press(buttons);
         return this;
     }
 
@@ -772,19 +768,7 @@ public abstract class GuiTest {
      * @param buttons defaults to the primary mouse button.
      */
     public GuiTest release(MouseButton... buttons) {
-        if (buttons.length == 0) {
-            for (MouseButton button : pressedButtons) {
-                controller.release(button);
-            }
-            pressedButtons.clear();
-        }
-        else {
-            for (MouseButton button : buttons) {
-                if (pressedButtons.remove(button)) {
-                    controller.release(button);
-                }
-            }
-        }
+        mouseRobot.press(buttons);
         return this;
     }
 
@@ -893,11 +877,7 @@ public abstract class GuiTest {
      * @param keys
      */
     public GuiTest press(KeyCode... keys) {
-        for (KeyCode key : keys) {
-            if (pressedKeys.add(key)) {
-                controller.press(key);
-            }
-        }
+        keyboardRobot.press(keys);
         return this;
     }
 
@@ -907,19 +887,7 @@ public abstract class GuiTest {
      * @param keys
      */
     public GuiTest release(KeyCode... keys) {
-        if (keys.length == 0) {
-            for (KeyCode button : pressedKeys) {
-                controller.release(button);
-            }
-            pressedKeys.clear();
-        }
-        else {
-            for (KeyCode key : keys) {
-                if (pressedKeys.remove(key)) {
-                    controller.release(key);
-                }
-            }
-        }
+        keyboardRobot.press(keys);
         return this;
     }
 
