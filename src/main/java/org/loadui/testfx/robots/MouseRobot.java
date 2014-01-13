@@ -8,11 +8,11 @@ import org.loadui.testfx.framework.ScreenRobot;
 
 public class MouseRobot {
 
-    private final ScreenRobot controller;
+    private final ScreenRobot screenRobot;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
 
-    public MouseRobot(final ScreenRobot controller) {
-        this.controller = controller;
+    public MouseRobot(final ScreenRobot screenRobot) {
+        this.screenRobot = screenRobot;
     }
 
     /**
@@ -27,7 +27,7 @@ public class MouseRobot {
 
         for (MouseButton button : buttons) {
             if (pressedButtons.add(button)) {
-                controller.press(button);
+                screenRobot.pressMouse(button);
             }
         }
     }
@@ -40,14 +40,14 @@ public class MouseRobot {
     public void release(MouseButton... buttons) {
         if (buttons.length == 0) {
             for (MouseButton button : pressedButtons) {
-                controller.release(button);
+                screenRobot.releaseMouse(button);
             }
             pressedButtons.clear();
         }
         else {
             for (MouseButton button : buttons) {
                 if (pressedButtons.remove(button)) {
-                    controller.release(button);
+                    screenRobot.releaseMouse(button);
                 }
             }
         }

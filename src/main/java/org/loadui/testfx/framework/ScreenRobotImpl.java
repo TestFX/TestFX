@@ -29,105 +29,140 @@ import javafx.scene.input.MouseButton;
 import org.loadui.testfx.utils.FXTestUtils;
 
 public class ScreenRobotImpl implements ScreenRobot {
-    private static final Map<MouseButton, Integer> BUTTONS = ImmutableMap.of(MouseButton.PRIMARY,
-        InputEvent.BUTTON1_MASK, MouseButton.MIDDLE, InputEvent.BUTTON2_MASK, MouseButton.SECONDARY,
-        InputEvent.BUTTON3_MASK);
 
-    private final Robot robot;
-    private long moveTime = 175;
+    //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final Map<MouseButton, Integer> AWT_BUTTONS = ImmutableMap.of(
+        MouseButton.PRIMARY, InputEvent.BUTTON1_MASK,
+        MouseButton.MIDDLE, InputEvent.BUTTON2_MASK,
+        MouseButton.SECONDARY, InputEvent.BUTTON3_MASK
+    );
+
+    private static final long MOVE_TIME = 175;
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    private final Robot awtRobot;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
 
     public ScreenRobotImpl() {
         try {
-            robot = new Robot();
+            awtRobot = new Robot();
         }
-        catch (AWTException e) {
-            throw new IllegalArgumentException(e);
+        catch (AWTException exception) {
+            throw new IllegalArgumentException(exception);
         }
-
     }
 
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
+
     @Override
-    public Point2D getMouse() {
+    public Point2D getMouseLocation() {
         Point awtPoint = MouseInfo.getPointerInfo().getLocation();
         return new Point2D(awtPoint.getX(), awtPoint.getY());
     }
 
     @Override
-    public void position(double x, double y) {
-        robot.mouseMove((int) x, (int) y);
+    public void moveMouseTo(double x, double y) {
+        awtRobot.mouseMove((int) x, (int) y);
     }
 
     @Override
-    public void move(double x, double y) {
-        // Calculate how far we need to go
-        Point position = MouseInfo.getPointerInfo().getLocation();
-        double distanceX = x - position.getX();
-        double distanceY = y - position.getY();
-        double distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+    public void moveMouseLinearTo(double x, double y) {
+        Point2D location = getMouseLocation();
+        Point2D difference = getMouseDifferenceTo(x, y);
 
-        // The maximum time for the movement is "moveTime". Far movements will make the cursor go faster.
-        // In order to be not too slow on small distances, the minimum speed is 1 pixel per millisecond.
-        double totalTime = moveTime;
+        // The maximum time for the movement is MOVE_TIME. Far movements will make the cursor go
+        // faster. In order to be not too slow on small distances, the minimum speed is one pixel
+        // per millisecond.
+        double distance = getMouseDistance(difference);
+        double totalTime = MOVE_TIME;
         if (distance < totalTime) {
             totalTime = Math.max(1, distance);
         }
 
-        double speedX = distanceX / totalTime;
-        double speedY = distanceY / totalTime;
+        Point2D speed = new Point2D(difference.getX() / totalTime, difference.getY() / totalTime);
         for (int time = 0; time < totalTime; time++) {
-
-            robot.mouseMove(position.x + (int) (speedX * time), position.y + (int) (speedY * time));
-
+            Point2D stepLocation = new Point2D(
+                location.getX() + (speed.getX() * time),
+                location.getY() + (speed.getY() * time)
+            );
+            awtRobot.mouseMove((int) stepLocation.getX(), (int) stepLocation.getY());
             try {
                 Thread.sleep(1);
             }
-            catch (InterruptedException e) {
+            catch (InterruptedException ignore) {
                 return;
             }
-
         }
 
-        // We should be less than one step away from the target
-        // => Make one last step to hit it.
-        robot.mouseMove((int) x, (int) y);
-        FXTestUtils.awaitEvents();
+        // We should be less than one step away from the target. Make one last step to hit it.
+        awtRobot.mouseMove((int) x, (int) y);
+        awaitCompletionOfEvents();
     }
 
     @Override
-    public void press(MouseButton button) {
+    public void pressMouse(MouseButton button) {
         if (button == null) {
             return;
         }
-        robot.mousePress(BUTTONS.get(button));
-        FXTestUtils.awaitEvents();
+        awtRobot.mousePress(AWT_BUTTONS.get(button));
+        awaitCompletionOfEvents();
     }
 
     @Override
-    public void release(MouseButton button) {
+    public void releaseMouse(MouseButton button) {
         if (button == null) {
             return;
         }
-        robot.mouseRelease(BUTTONS.get(button));
-        FXTestUtils.awaitEvents();
+        awtRobot.mouseRelease(AWT_BUTTONS.get(button));
+        awaitCompletionOfEvents();
+    }
+
+    @Override
+    public void scrollMouse(int amount) {
+        awtRobot.mouseWheel(amount);
+        awaitCompletionOfEvents();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void press(KeyCode key) {
-        robot.keyPress(key.impl_getCode());
-        FXTestUtils.awaitEvents();
+    public void pressKey(KeyCode key) {
+        awtRobot.keyPress(key.impl_getCode());
+        awaitCompletionOfEvents();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void release(KeyCode key) {
-        robot.keyRelease(key.impl_getCode());
+    public void releaseKey(KeyCode key) {
+        awtRobot.keyRelease(key.impl_getCode());
+        awaitCompletionOfEvents();
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private void awaitCompletionOfEvents() {
         FXTestUtils.awaitEvents();
     }
 
-    @Override
-    public void scroll(int amount) {
-        robot.mouseWheel(amount);
-        FXTestUtils.awaitEvents();
+    private Point2D getMouseDifferenceTo(double x, double y) {
+        Point2D location = getMouseLocation();
+        return new Point2D(x - location.getX(), y - location.getY());
     }
+
+    private double getMouseDistance(Point2D difference) {
+        return Math.sqrt(Math.pow(difference.getX(), 2) + Math.pow(difference.getY(), 2));
+    }
+
 }

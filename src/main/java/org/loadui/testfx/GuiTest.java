@@ -479,14 +479,14 @@ public abstract class GuiTest {
         return ImmutableSet.copyOf(found);
     }
 
-    private final ScreenRobot controller;
+    private final ScreenRobot screenRobot;
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
 
     public GuiTest() {
-        this.controller = new ScreenRobotImpl();
-        this.mouseRobot = new MouseRobot(this.controller);
-        this.keyboardRobot = new KeyboardRobot(this.controller);
+        screenRobot = new ScreenRobotImpl();
+        mouseRobot = new MouseRobot(screenRobot);
+        keyboardRobot = new KeyboardRobot(screenRobot);
     }
 
     /**
@@ -725,7 +725,7 @@ public abstract class GuiTest {
      * @param y
      */
     public GuiTest move(double x, double y) {
-        controller.move(x, y);
+        screenRobot.moveMouseLinearTo(x, y);
         return this;
     }
 
@@ -738,7 +738,7 @@ public abstract class GuiTest {
         }
         //If the target has moved while we were moving the mouse, update to the new position:
         point = pointFor(target);
-        controller.position(point.getX(), point.getY());
+        screenRobot.moveMouseTo(point.getX(), point.getY());
         return this;
     }
 
@@ -749,8 +749,8 @@ public abstract class GuiTest {
      * @param y
      */
     public GuiTest moveBy(double x, double y) {
-        Point2D mouse = controller.getMouse();
-        controller.move(mouse.getX() + x, mouse.getY() + y);
+        Point2D mouse = screenRobot.getMouseLocation();
+        screenRobot.moveMouseLinearTo(mouse.getX() + x, mouse.getY() + y);
         return this;
     }
 
@@ -780,7 +780,7 @@ public abstract class GuiTest {
     @Deprecated
     public GuiTest scroll(int amount) {
         for (int x = 0; x < Math.abs(amount); x++) {
-            controller.scroll(Integer.signum(amount));
+            screenRobot.scrollMouse(Integer.signum(amount));
         }
         return this;
     }
@@ -794,7 +794,7 @@ public abstract class GuiTest {
      */
     public GuiTest scroll(int amount, VerticalDirection direction) {
         for (int x = 0; x < Math.abs(amount); x++) {
-            controller.scroll(directionToInteger(direction));
+            screenRobot.scrollMouse(directionToInteger(direction));
         }
         return this;
     }

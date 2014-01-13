@@ -8,11 +8,11 @@ import org.loadui.testfx.framework.ScreenRobot;
 
 public class KeyboardRobot {
 
-    private final ScreenRobot controller;
+    private final ScreenRobot screenRobot;
     private final Set<KeyCode> pressedKeys = new HashSet<>();
 
-    public KeyboardRobot(final ScreenRobot controller) {
-        this.controller = controller;
+    public KeyboardRobot(final ScreenRobot screenRobot) {
+        this.screenRobot = screenRobot;
     }
 
     /**
@@ -23,7 +23,7 @@ public class KeyboardRobot {
     public void press(KeyCode... keys) {
         for (KeyCode key : keys) {
             if (pressedKeys.add(key)) {
-                controller.press(key);
+                screenRobot.pressKey(key);
             }
         }
     }
@@ -36,14 +36,14 @@ public class KeyboardRobot {
     public void release(KeyCode... keys) {
         if (keys.length == 0) {
             for (KeyCode button : pressedKeys) {
-                controller.release(button);
+                screenRobot.releaseKey(button);
             }
             pressedKeys.clear();
         }
         else {
             for (KeyCode key : keys) {
                 if (pressedKeys.remove(key)) {
-                    controller.release(key);
+                    screenRobot.releaseKey(key);
                 }
             }
         }

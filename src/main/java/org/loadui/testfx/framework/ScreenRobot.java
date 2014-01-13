@@ -20,19 +20,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 public interface ScreenRobot {
-    public Point2D getMouse();
+    public Point2D getMouseLocation();
 
-    public void position(double x, double y);
+    public void moveMouseTo(double x, double y);
 
-    public void move(double x, double y);
+    public void moveMouseLinearTo(double x, double y);
 
-    public void scroll(int amount);
+    public void scrollMouse(int amount);
 
-    public void press(MouseButton button);
+    public void pressMouse(MouseButton button);
 
-    public void release(MouseButton button);
+    public void releaseMouse(MouseButton button);
 
-    public void press(KeyCode key);
+    public void pressKey(KeyCode key);
 
-    public void release(KeyCode key);
+    public void releaseKey(KeyCode key);
 }
