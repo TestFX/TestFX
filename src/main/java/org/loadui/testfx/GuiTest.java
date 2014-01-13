@@ -40,8 +40,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.SettableFuture;
-import javafx.application.Application;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -55,7 +53,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -65,7 +62,9 @@ import org.loadui.testfx.framework.ScreenRobotImpl;
 import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
-import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.service.stage.SceneProvider;
+import org.loadui.testfx.service.stage.StageRetriever;
+import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
 import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
 
@@ -79,72 +78,27 @@ import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
 import static org.loadui.testfx.utils.FXTestUtils.intersection;
 import static org.loadui.testfx.utils.FXTestUtils.isVisible;
 
-public abstract class GuiTest {
-    private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
-    protected static Stage stage;
-
-    public static class TestFxApp extends Application {
-        private static Scene scene = null;
-
-        @Override
-        public void start(Stage primaryStage) throws Exception {
-            primaryStage.initStyle(StageStyle.UNDECORATED);
-            primaryStage.show();
-            stageFuture.set(primaryStage);
-        }
-
-        public static void setRoot(Parent rootNode) {
-            scene.setRoot(rootNode);
-        }
-    }
+public abstract class GuiTest implements SceneProvider {
 
     @Before
     public void setupStage() throws Throwable {
-        showNodeInStage();
+        StageRetriever stageRetriever = new StageRetrieverImpl();
+        stageRetriever.retrieveWithScene(this);
     }
 
     protected abstract Parent getRootNode();
 
-    /**
-     * Creates and displays a new stage, using {@link getRootNode()} as the root node.
-     */
-    private void showNodeInStage() {
-        showNodeInStage(null);
+    // Runs in JavaFX Application Thread.
+    public Scene setupScene(Parent sceneRootNode) {
+        return SceneBuilder.create()
+            .width(600)
+            .height(400)
+            .root(sceneRootNode).build();
     }
 
-    private void showNodeInStage(final String stylesheet) {
-        // TODO: Do something with the stylesheet?
-        if (stage == null) {
-            FXTestUtils.launchApp(TestFxApp.class);
-            try {
-                stage = targetWindow(stageFuture.get(25, TimeUnit.SECONDS));
-                FXTestUtils.bringToFront(stage);
-            }
-            catch (Exception e) {
-                throw new RuntimeException("Unable to show stage", e);
-            }
-        }
-
-        try {
-            FXTestUtils.invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    Scene scene = SceneBuilder
-                        .create()
-                        .width(600)
-                        .height(400)
-                        .root(getRootNode()).build();
-
-                    if (stylesheet != null)
-                        scene.getStylesheets().add(stylesheet);
-
-                    stage.setScene(scene);
-                }
-            }, 5);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    // Runs in JavaFX Application Thread.
+    public Parent setupSceneRoot() {
+        return getRootNode();
     }
 
     private static Window lastSeenWindow = null;
