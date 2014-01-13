@@ -2,9 +2,11 @@ package org.loadui.testfx;
 
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 
+import static javafx.scene.input.KeyCode.TAB;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.controls.TextInputControls.clearTextIn;
@@ -20,7 +22,7 @@ public class TextInputControlsTest extends GuiTest
 		TextField textField = new TextField();
 		return VBoxBuilder
 				.create()
-				.children( textField ).build();
+				.children( textField, new TextField() ).build();
 	}
 
 	@Test
@@ -28,6 +30,8 @@ public class TextInputControlsTest extends GuiTest
 	{
 		click( TEXT_FIELD ).type( "Some text" );
 		verifyThat( TEXT_FIELD, hasText("Some text") );
+
+        push(TAB); // To change focus from the TextField.
 
 		clearTextIn( TEXT_FIELD );
 		verifyThat( TEXT_FIELD, hasText("") );
