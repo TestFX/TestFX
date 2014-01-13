@@ -768,7 +768,7 @@ public abstract class GuiTest {
      * @param buttons defaults to the primary mouse button.
      */
     public GuiTest release(MouseButton... buttons) {
-        mouseRobot.press(buttons);
+        mouseRobot.release(buttons);
         return this;
     }
 
@@ -887,7 +887,7 @@ public abstract class GuiTest {
      * @param keys
      */
     public GuiTest release(KeyCode... keys) {
-        keyboardRobot.press(keys);
+        keyboardRobot.release(keys);
         return this;
     }
 
