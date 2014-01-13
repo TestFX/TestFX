@@ -13,27 +13,26 @@
  * express or implied. See the Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
-package org.loadui.testfx;
+package org.loadui.testfx.framework;
 
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
-public interface ScreenController
-{
-	public Point2D getMouse();
+public interface ScreenRobot {
+    public Point2D getMouse();
 
-	public void position( double x, double y );
+    public void position(double x, double y);
 
-	public void move( double x, double y );
+    public void move(double x, double y);
 
-	public void scroll( int amount );
+    public void scroll(int amount);
 
-	public void press( MouseButton button );
+    public void press(MouseButton button);
 
-	public void release( MouseButton button );
+    public void release(MouseButton button);
 
-	public void press( KeyCode key );
+    public void press(KeyCode key);
 
-	public void release( KeyCode key );
+    public void release(KeyCode key);
 }

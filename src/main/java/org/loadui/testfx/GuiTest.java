@@ -61,6 +61,8 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.framework.ScreenRobotImpl;
+import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.utils.FXTestUtils;
@@ -477,12 +479,12 @@ public abstract class GuiTest {
         return ImmutableSet.copyOf(found);
     }
 
-    private final ScreenController controller;
+    private final ScreenRobot controller;
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
 
     public GuiTest() {
-        this.controller = new FXScreenController();
+        this.controller = new ScreenRobotImpl();
         this.mouseRobot = new MouseRobot(this.controller);
         this.keyboardRobot = new KeyboardRobot(this.controller);
     }

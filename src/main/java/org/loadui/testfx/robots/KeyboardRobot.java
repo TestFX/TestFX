@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javafx.scene.input.KeyCode;
-import org.loadui.testfx.ScreenController;
+import org.loadui.testfx.framework.ScreenRobot;
 
 public class KeyboardRobot {
 
-    private final ScreenController controller;
+    private final ScreenRobot controller;
     private final Set<KeyCode> pressedKeys = new HashSet<>();
 
-    public KeyboardRobot(final ScreenController controller) {
+    public KeyboardRobot(final ScreenRobot controller) {
         this.controller = controller;
     }
 

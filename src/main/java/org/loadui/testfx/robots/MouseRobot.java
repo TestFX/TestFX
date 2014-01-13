@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javafx.scene.input.MouseButton;
-import org.loadui.testfx.ScreenController;
+import org.loadui.testfx.framework.ScreenRobot;
 
 public class MouseRobot {
 
-    private final ScreenController controller;
+    private final ScreenRobot controller;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
 
-    public MouseRobot(final ScreenController controller) {
+    public MouseRobot(final ScreenRobot controller) {
         this.controller = controller;
     }
 
