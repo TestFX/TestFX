@@ -40,8 +40,7 @@ public class PointLocator {
     }
 
     public Point2D pointFor(Scene scene, Pos position) {
-        Bounds sceneBounds = boundsLocator.sceneBoundsFor(scene);
-        Bounds screenBounds = boundsLocator.screenBoundsFor(sceneBounds, scene);
+        Bounds screenBounds = boundsLocator.screenBoundsFor(scene);
         return pointFor(screenBounds, position);
     }
 
