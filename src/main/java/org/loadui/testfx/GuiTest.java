@@ -906,11 +906,6 @@ public abstract class GuiTest implements SceneProvider {
         return pointFor(node);
     }
 
-    public PointQuery pointFor(Iterable<?> iterable) {
-        Node node = (Node) Iterables.get(iterable, 0);
-        return pointFor(node);
-    }
-
     public PointQuery pointFor(OffsetTarget offsetTarget) {
         return pointForObject(offsetTarget.target);
     }
@@ -942,7 +937,8 @@ public abstract class GuiTest implements SceneProvider {
             return pointFor((Predicate<Node>) target);
         }
         else if (target instanceof Iterable<?>) {
-            return pointFor((Iterable<?>) target);
+            Object object = Iterables.get((Iterable<?>) target, 0);
+            return pointForObject(object);
         }
         else if (target instanceof OffsetTarget) {
             return pointFor((OffsetTarget) target);
