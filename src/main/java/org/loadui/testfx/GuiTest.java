@@ -919,7 +919,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     }
 
     @Override
-    public GuiTest drag(Predicate<Node> predicate, MouseButton... buttons) {
+    public <T extends Node> GuiTest drag(Predicate<T> predicate, MouseButton... buttons) {
         moveTo(predicate);
         drag(buttons);
         return this;
@@ -988,7 +988,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     }
 
     @Override
-    public GuiTest dropTo(Predicate<Node> predicate) {
+    public <T extends Node> GuiTest dropTo(Predicate<T> predicate) {
         moveTo(predicate);
         drop();
         return this;

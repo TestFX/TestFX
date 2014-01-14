@@ -19,7 +19,7 @@ public interface DragRobot {
     public DragRobot drag(Window window, MouseButton... buttons);
     public DragRobot drag(String query, MouseButton... buttons);
     public DragRobot drag(Matcher<Object> matcher, MouseButton... buttons);
-    public DragRobot drag(Predicate<Node> predicate, MouseButton... buttons);
+    public <T extends Node> DragRobot drag(Predicate<T> predicate, MouseButton... buttons);
 
     public DragRobot drop();
     public DragRobot dropTo(double x, double y);
@@ -30,7 +30,7 @@ public interface DragRobot {
     public DragRobot dropTo(Window window);
     public DragRobot dropTo(String query);
     public DragRobot dropTo(Matcher<Object> matcher);
-    public DragRobot dropTo(Predicate<Node> predicate);
+    public <T extends Node> DragRobot dropTo(Predicate<T> predicate);
 
     public DragRobot dropBy(double x, double y);
 }
