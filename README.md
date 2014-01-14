@@ -53,7 +53,10 @@ class DesktopTest extends GuiTest
     * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
   * [Misc.][16]
 
-You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
+### Links
+
+ * [Using TestFX with Spock](https://github.com/SmartBear/TestFX/issues/38).
+ * Conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
