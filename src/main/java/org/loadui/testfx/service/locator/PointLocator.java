@@ -1,5 +1,6 @@
 package org.loadui.testfx.service.locator;
 
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
@@ -30,30 +31,34 @@ public class PointLocator {
     //---------------------------------------------------------------------------------------------
 
     public Point2D pointFor(Bounds bounds, Pos position) {
-        return pointForBoundsPosition(bounds, position);
+        return pointForPosition(bounds, position);
+    }
+
+    public Point2D pointFor(Point2D point, Pos position) {
+        Bounds bounds = new BoundingBox(point.getX(), point.getY(), 0, 0);
+        return pointFor(bounds, position);
     }
 
     public Point2D pointFor(Node node, Pos position) {
-        Bounds nodeBounds = boundsLocator.sceneBoundsVisibleFor(node);
-        Bounds screenBounds = boundsLocator.screenBoundsFor(nodeBounds, node.getScene());
-        return pointFor(screenBounds, position);
+        Bounds bounds = boundsLocator.screenBoundsFor(node);
+        return pointFor(bounds, position);
     }
 
     public Point2D pointFor(Scene scene, Pos position) {
-        Bounds screenBounds = boundsLocator.screenBoundsFor(scene);
-        return pointFor(screenBounds, position);
+        Bounds bounds = boundsLocator.screenBoundsFor(scene);
+        return pointFor(bounds, position);
     }
 
     public Point2D pointFor(Window window, Pos position) {
-        Bounds screenBounds = boundsLocator.screenBoundsFor(window);
-        return this.pointFor(screenBounds, position);
+        Bounds bounds = boundsLocator.screenBoundsFor(window);
+        return pointFor(bounds, position);
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Point2D pointForBoundsPosition(Bounds bounds, Pos position) {
+    private Point2D pointForPosition(Bounds bounds, Pos position) {
         double pointX = 0;
         double pointY = 0;
 

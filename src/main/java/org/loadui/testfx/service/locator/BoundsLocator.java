@@ -26,6 +26,11 @@ public class BoundsLocator {
         return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
     }
 
+    public Bounds screenBoundsFor(Node node) {
+        Bounds nodeBounds = sceneBoundsVisibleFor(node);
+        return screenBoundsFor(nodeBounds, node.getScene());
+    }
+
     public Bounds screenBoundsFor(Bounds boundsInScene, Scene scene) {
         Bounds sceneBoundsOnScreen = screenBoundsFor(scene);
         double screenX = sceneBoundsOnScreen.getMinX() + boundsInScene.getMinX();
