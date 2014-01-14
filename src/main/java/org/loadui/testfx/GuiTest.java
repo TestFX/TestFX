@@ -61,7 +61,7 @@ import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.service.locator.BoundsLocator;
-import org.loadui.testfx.service.locator.PointBounds;
+import org.loadui.testfx.service.locator.PointQuery;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
@@ -868,59 +868,55 @@ public abstract class GuiTest implements SceneProvider {
         return this;
     }
 
-    //public PointQuery pointFor() {}
-    //Point2D query.position()
-    //Point2D query.offset()
-
-    public PointBounds pointFor(Point2D point) {
+    public PointQuery pointFor(Point2D point) {
         return pointLocator.pointFor(point);
     }
 
-    public PointBounds pointFor(Bounds bounds) {
+    public PointQuery pointFor(Bounds bounds) {
         return pointLocator.pointFor(bounds);
     }
 
-    public PointBounds pointFor(Node node) {
+    public PointQuery pointFor(Node node) {
         targetWindow(node.getScene().getWindow());
         return pointLocator.pointFor(node);
     }
 
-    public PointBounds pointFor(Scene scene) {
+    public PointQuery pointFor(Scene scene) {
         targetWindow(scene.getWindow());
         return pointLocator.pointFor(scene);
     }
 
-    public PointBounds pointFor(Window window) {
+    public PointQuery pointFor(Window window) {
         targetWindow(window);
         return pointLocator.pointFor(window);
     }
 
-    public PointBounds pointFor(String query) {
+    public PointQuery pointFor(String query) {
         Node node = find(query);
         return pointFor(node);
     }
 
-    public PointBounds pointFor(Matcher<Object> matcher) {
+    public PointQuery pointFor(Matcher<Object> matcher) {
         Node node = find(matcher);
         return pointFor(node);
     }
 
-    public PointBounds pointFor(Predicate<Node> predicate) {
+    public PointQuery pointFor(Predicate<Node> predicate) {
         Node node = find(predicate);
         return pointFor(node);
     }
 
-    public PointBounds pointFor(Iterable<?> iterable) {
+    public PointQuery pointFor(Iterable<?> iterable) {
         Node node = (Node) Iterables.get(iterable, 0);
         return pointFor(node);
     }
 
-    public PointBounds pointFor(OffsetTarget offsetTarget) {
+    public PointQuery pointFor(OffsetTarget offsetTarget) {
         return pointForObject(offsetTarget.target);
     }
 
     @SuppressWarnings("unchecked")
-    private PointBounds pointForObject(Object target) {
+    private PointQuery pointForObject(Object target) {
         if (target instanceof Point2D) {
             return pointFor((Point2D) target);
         }

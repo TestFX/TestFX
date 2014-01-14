@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 
-public class PointBounds {
+public class PointQuery {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -18,7 +18,7 @@ public class PointBounds {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public PointBounds(Bounds bounds) {
+    public PointQuery(Bounds bounds) {
         this.bounds = bounds;
     }
 

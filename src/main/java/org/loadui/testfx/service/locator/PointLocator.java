@@ -27,26 +27,26 @@ public class PointLocator {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public PointBounds pointFor(Bounds bounds) {
-        return new PointBounds(bounds);
+    public PointQuery pointFor(Bounds bounds) {
+        return new PointQuery(bounds);
     }
 
-    public PointBounds pointFor(Point2D point) {
+    public PointQuery pointFor(Point2D point) {
         Bounds bounds = new BoundingBox(point.getX(), point.getY(), 0, 0);
         return pointFor(bounds);
     }
 
-    public PointBounds pointFor(Node node) {
+    public PointQuery pointFor(Node node) {
         Bounds bounds = boundsLocator.screenBoundsFor(node);
         return pointFor(bounds);
     }
 
-    public PointBounds pointFor(Scene scene) {
+    public PointQuery pointFor(Scene scene) {
         Bounds bounds = boundsLocator.screenBoundsFor(scene);
         return pointFor(bounds);
     }
 
-    public PointBounds pointFor(Window window) {
+    public PointQuery pointFor(Window window) {
         Bounds bounds = boundsLocator.screenBoundsFor(window);
         return pointFor(bounds);
     }
