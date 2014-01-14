@@ -499,24 +499,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return this;
     }
 
-    public GuiTest move(double x, double y) {
-        screenRobot.moveMouseLinearTo(x, y);
-        return this;
-    }
-
-    public GuiTest move(Object target) {
-        Point2D point = pointForObject(target).atPosition(nodePosition);
-
-        //Since moving takes time, only do it if we're not already at the desired point.
-        if (!screenRobot.getMouseLocation().equals(point)) {
-            move(point.getX(), point.getY());
-        }
-        //If the target has moved while we were moving the mouse, update to the new position:
-        point = pointForObject(target).atPosition(nodePosition);
-        screenRobot.moveMouseTo(point.getX(), point.getY());
-        return this;
-    }
-
     /**
      * Presses and holds a mouse button, until explicitly released.
      *
@@ -1142,46 +1124,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
         Node node = find(predicate);
         return pointFor(node);
-    }
-
-    public PointQuery pointFor(OffsetTarget offsetTarget) {
-        return pointForObject(offsetTarget.target);
-    }
-
-    @SuppressWarnings("unchecked")
-    private PointQuery pointForObject(Object target) {
-        if (target instanceof Point2D) {
-            return pointFor((Point2D) target);
-        }
-        else if (target instanceof Bounds) {
-            return pointFor((Bounds) target);
-        }
-        else if (target instanceof String) {
-            return pointFor((String) target);
-        }
-        else if (target instanceof Node) {
-            return pointFor((Node) target);
-        }
-        else if (target instanceof Scene) {
-            return pointFor((Scene) target);
-        }
-        else if (target instanceof Window) {
-            return pointFor((Window) target);
-        }
-        else if (target instanceof Matcher) {
-            return pointFor((Matcher<Object>) target);
-        }
-        else if (target instanceof Predicate) {
-            return pointFor((Predicate<Node>) target);
-        }
-        else if (target instanceof Iterable<?>) {
-            Object object = Iterables.get((Iterable<?>) target, 0);
-            return pointForObject(object);
-        }
-        else if (target instanceof OffsetTarget) {
-            return pointFor((OffsetTarget) target);
-        }
-        throw new IllegalArgumentException("Unable to get coordinates for: " + target);
     }
 
     static class OffsetTarget {
