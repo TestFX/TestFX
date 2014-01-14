@@ -60,6 +60,7 @@ import org.loadui.testfx.framework.ScreenRobotImpl;
 import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
+import org.loadui.testfx.robots.MoveRobot;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.PointQuery;
@@ -78,7 +79,7 @@ import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
 import static org.loadui.testfx.utils.FXTestUtils.isVisible;
 
-public abstract class GuiTest implements SceneProvider {
+public abstract class GuiTest implements SceneProvider, MoveRobot {
 
     @Before
     public void setupStage() throws Throwable {
@@ -676,12 +677,6 @@ public abstract class GuiTest implements SceneProvider {
         return new MouseMotion(this, buttons);
     }
 
-    /**
-     * Moves the mouse cursor to the given coordinates.
-     *
-     * @param x
-     * @param y
-     */
     public GuiTest move(double x, double y) {
         screenRobot.moveMouseLinearTo(x, y);
         return this;
@@ -697,18 +692,6 @@ public abstract class GuiTest implements SceneProvider {
         //If the target has moved while we were moving the mouse, update to the new position:
         point = pointForObject(target).atPosition(nodePosition);
         screenRobot.moveMouseTo(point.getX(), point.getY());
-        return this;
-    }
-
-    /**
-     * Moves the mouse cursor relatively to its current position.
-     *
-     * @param x
-     * @param y
-     */
-    public GuiTest moveBy(double x, double y) {
-        Point2D mouse = screenRobot.getMouseLocation();
-        screenRobot.moveMouseLinearTo(mouse.getX() + x, mouse.getY() + y);
         return this;
     }
 
@@ -867,6 +850,93 @@ public abstract class GuiTest implements SceneProvider {
         this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
         return this;
     }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF MOVE ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public GuiTest moveTo(double x, double y) {
+        moveToImpl(pointFor(new Point2D(x, y)));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Point2D point) {
+        moveToImpl(pointFor(point));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Bounds bounds) {
+        moveToImpl(pointFor(bounds));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Node node) {
+        moveToImpl(pointFor(node));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Scene scene) {
+        moveToImpl(pointFor(scene));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Window window) {
+        moveToImpl(pointFor(window));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(String query) {
+        moveToImpl(pointFor(query));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Matcher<Object> matcher) {
+        moveToImpl(pointFor(matcher));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveTo(Predicate<Node> predicate) {
+        moveToImpl(pointFor(predicate));
+        return this;
+    }
+
+    @Override
+    public GuiTest moveBy(double x, double y) {
+        Point2D mouseLocation = screenRobot.getMouseLocation();
+        Point2D targetPoint = new Point2D(mouseLocation.getX() + x, mouseLocation.getY() + y);
+        screenRobot.moveMouseLinearTo(targetPoint.getX(), targetPoint.getY());
+        return this;
+    }
+
+    private void moveToImpl(PointQuery pointQuery) {
+        // Since moving takes time, only do it if we're not already at the desired point.
+        Point2D point = pointQuery.atPosition(nodePosition);
+        if (!isPointAtMouseLocation(point)) {
+            screenRobot.moveMouseLinearTo(point.getX(), point.getY());
+        }
+
+        // If the target has moved while we were moving the mouse, update to the new position.
+        Point2D endPoint = pointQuery.atPosition(nodePosition);
+        screenRobot.moveMouseTo(endPoint.getX(), endPoint.getY());
+    }
+
+    private boolean isPointAtMouseLocation(Point2D point) {
+        Point2D mouseLocation = screenRobot.getMouseLocation();
+        return mouseLocation.equals(point);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
 
     public PointQuery pointFor(Point2D point) {
         return pointLocator.pointFor(point);
