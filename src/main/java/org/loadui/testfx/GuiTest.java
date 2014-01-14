@@ -40,7 +40,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -62,6 +61,8 @@ import org.loadui.testfx.framework.ScreenRobotImpl;
 import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
+import org.loadui.testfx.service.locator.BoundsLocator;
+import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
 import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
@@ -75,7 +76,6 @@ import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Sets.filter;
 import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
-import static org.loadui.testfx.utils.FXTestUtils.intersection;
 import static org.loadui.testfx.utils.FXTestUtils.isVisible;
 
 public abstract class GuiTest implements SceneProvider {
@@ -434,11 +434,15 @@ public abstract class GuiTest implements SceneProvider {
     }
 
     private final ScreenRobot screenRobot;
+    private final BoundsLocator boundsLocator;
+    private final PointLocator pointLocator;
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
 
     public GuiTest() {
         screenRobot = new ScreenRobotImpl();
+        boundsLocator = new BoundsLocator();
+        pointLocator = new PointLocator(boundsLocator);
         mouseRobot = new MouseRobot(screenRobot);
         keyboardRobot = new KeyboardRobot(screenRobot);
     }
@@ -684,14 +688,14 @@ public abstract class GuiTest implements SceneProvider {
     }
 
     public GuiTest move(Object target) {
-        Point2D point = pointFor(target);
+        Point2D point = pointForObject(target);
 
         //Since moving takes time, only do it if we're not already at the desired point.
         if (!MouseInfo.getPointerInfo().getLocation().equals(point)) {
             move(point.getX(), point.getY());
         }
         //If the target has moved while we were moving the mouse, update to the new position:
-        point = pointFor(target);
+        point = pointForObject(target);
         screenRobot.moveMouseTo(point.getX(), point.getY());
         return this;
     }
@@ -864,89 +868,92 @@ public abstract class GuiTest implements SceneProvider {
         return this;
     }
 
-    private Point2D pointForBounds(Bounds bounds) {
-        double x = 0;
-        switch (nodePosition.getHpos()) {
-            case LEFT:
-                x = bounds.getMinX();
-                break;
-            case CENTER:
-                x = (bounds.getMinX() + bounds.getMaxX()) / 2;
-                break;
-            case RIGHT:
-                x = bounds.getMaxX();
-                break;
-        }
-
-        double y = 0;
-        switch (nodePosition.getVpos()) {
-            case TOP:
-                y = bounds.getMinY();
-                break;
-            case CENTER:
-            case BASELINE:
-                y = (bounds.getMinY() + bounds.getMaxY()) / 2;
-                break;
-            case BOTTOM:
-                y = bounds.getMaxY();
-                break;
-        }
-
-        return new Point2D(x, y);
+    public Point2D pointFor(Point2D point) {
+        return point;
     }
 
-    private static Bounds sceneBoundsToScreenBounds(Bounds sceneBounds, Scene scene) {
-        Window window = targetWindow(scene.getWindow());
-        BoundingBox b = new BoundingBox(window.getX() + scene.getX() + sceneBounds.getMinX(), window.getY() + scene.getY()
-            + sceneBounds.getMinY(), sceneBounds.getWidth(), sceneBounds.getHeight());
-        return b;
+    public Point2D pointFor(Bounds bounds) {
+        return pointLocator.pointFor(bounds, nodePosition);
+    }
+
+    public Point2D pointFor(Node node) {
+        targetWindow(node.getScene().getWindow());
+        return pointLocator.pointFor(node, nodePosition);
+    }
+
+    public Point2D pointFor(Scene scene) {
+        targetWindow(scene.getWindow());
+        return pointLocator.pointFor(scene, nodePosition);
+    }
+
+    public Point2D pointFor(Window window) {
+        targetWindow(window);
+        return pointLocator.pointFor(window, nodePosition);
+    }
+
+    public Point2D pointFor(String query) {
+        Node node = find(query);
+        return pointFor(node);
+    }
+
+    public Point2D pointFor(Matcher<Object> matcher) {
+        Node node = find(matcher);
+        return pointFor(node);
+    }
+
+    public Point2D pointFor(Predicate<Node> predicate) {
+        Node node = find(predicate);
+        return pointFor(node);
+    }
+
+    public Point2D pointFor(Iterable<?> iterable) {
+        Node node = (Node) Iterables.get(iterable, 0);
+        return pointFor(node);
+    }
+
+    public Point2D pointFor(OffsetTarget offsetTarget) {
+        Pos oldNodePosition = nodePosition;
+        pos(Pos.TOP_LEFT);
+        Point2D targetPoint = pointForObject(offsetTarget.target);
+        pos(oldNodePosition);
+        return new Point2D(
+            targetPoint.getX() + offsetTarget.offsetX,
+            targetPoint.getY() + offsetTarget.offsetY
+        );
     }
 
     @SuppressWarnings("unchecked")
-    public Point2D pointFor(Object target) {
+    private Point2D pointForObject(Object target) {
         if (target instanceof Point2D) {
-            return (Point2D) target;
+            return pointFor((Point2D) target);
         }
         else if (target instanceof Bounds) {
-            return pointForBounds((Bounds) target);
+            return pointFor((Bounds) target);
         }
         else if (target instanceof String) {
-            return pointFor(find((String) target));
+            return pointFor((String) target);
         }
         else if (target instanceof Node) {
-            Node node = (Node) target;
-            Bounds nodeBounds = node.localToScene(node.getBoundsInLocal());
-            Scene scene = node.getScene();
-            Bounds sceneBounds = new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
-            Bounds clickableArea = intersection(nodeBounds, sceneBounds);
-            return pointFor(sceneBoundsToScreenBounds(clickableArea, node.getScene()));
+            return pointFor((Node) target);
         }
         else if (target instanceof Scene) {
-            Scene scene = (Scene) target;
-            return pointFor(sceneBoundsToScreenBounds(new BoundingBox(0, 0, scene.getWidth(), scene.getHeight()),
-                scene));
+            return pointFor((Scene) target);
         }
         else if (target instanceof Window) {
-            Window window = targetWindow((Window) target);
-            return pointFor(new BoundingBox(window.getX(), window.getY(), window.getWidth(), window.getHeight()));
+            return pointFor((Window) target);
         }
         else if (target instanceof Matcher) {
-            return pointFor(find((Matcher<Object>) target));
+            return pointFor((Matcher<Object>) target);
         }
         else if (target instanceof Predicate) {
-            return pointFor(find((Predicate<Node>) target));
+            return pointFor((Predicate<Node>) target);
         }
         else if (target instanceof Iterable<?>) {
-            return pointFor(Iterables.get((Iterable<?>) target, 0));
+            return pointFor((Iterable<?>) target);
         }
         else if (target instanceof OffsetTarget) {
-            OffsetTarget offset = (OffsetTarget) target;
-            Pos oldPos = nodePosition;
-            Point2D targetPoint = pos(Pos.TOP_LEFT).pointFor(offset.target);
-            pos(oldPos);
-            return new Point2D(targetPoint.getX() + offset.offsetX, targetPoint.getY() + offset.offsetY);
+            return pointFor((OffsetTarget) target);
         }
-
         throw new IllegalArgumentException("Unable to get coordinates for: " + target);
     }
 
