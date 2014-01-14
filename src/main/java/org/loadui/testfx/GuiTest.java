@@ -691,7 +691,7 @@ public abstract class GuiTest implements SceneProvider {
         Point2D point = pointForObject(target);
 
         //Since moving takes time, only do it if we're not already at the desired point.
-        if (!MouseInfo.getPointerInfo().getLocation().equals(point)) {
+        if (!screenRobot.getMouseLocation().equals(point)) {
             move(point.getX(), point.getY());
         }
         //If the target has moved while we were moving the mouse, update to the new position:
