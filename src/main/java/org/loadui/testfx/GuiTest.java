@@ -868,27 +868,31 @@ public abstract class GuiTest implements SceneProvider {
         return this;
     }
 
+    //public PointQuery pointFor() {}
+    //Point2D query.position()
+    //Point2D query.offset()
+
     public Point2D pointFor(Point2D point) {
         return point;
     }
 
     public Point2D pointFor(Bounds bounds) {
-        return pointLocator.pointFor(bounds, nodePosition);
+        return pointLocator.pointFor(bounds).atPosition(nodePosition);
     }
 
     public Point2D pointFor(Node node) {
         targetWindow(node.getScene().getWindow());
-        return pointLocator.pointFor(node, nodePosition);
+        return pointLocator.pointFor(node).atPosition(nodePosition);
     }
 
     public Point2D pointFor(Scene scene) {
         targetWindow(scene.getWindow());
-        return pointLocator.pointFor(scene, nodePosition);
+        return pointLocator.pointFor(scene).atPosition(nodePosition);
     }
 
     public Point2D pointFor(Window window) {
         targetWindow(window);
-        return pointLocator.pointFor(window, nodePosition);
+        return pointLocator.pointFor(window).atPosition(nodePosition);
     }
 
     public Point2D pointFor(String query) {

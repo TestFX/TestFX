@@ -2,10 +2,7 @@ package org.loadui.testfx.service.locator;
 
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
-import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
@@ -30,59 +27,28 @@ public class PointLocator {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Point2D pointFor(Bounds bounds, Pos position) {
-        return pointForPosition(bounds, position);
+    public PointBounds pointFor(Bounds bounds) {
+        return new PointBounds(bounds);
     }
 
-    public Point2D pointFor(Point2D point, Pos position) {
+    public PointBounds pointFor(Point2D point) {
         Bounds bounds = new BoundingBox(point.getX(), point.getY(), 0, 0);
-        return pointFor(bounds, position);
+        return pointFor(bounds);
     }
 
-    public Point2D pointFor(Node node, Pos position) {
+    public PointBounds pointFor(Node node) {
         Bounds bounds = boundsLocator.screenBoundsFor(node);
-        return pointFor(bounds, position);
+        return pointFor(bounds);
     }
 
-    public Point2D pointFor(Scene scene, Pos position) {
+    public PointBounds pointFor(Scene scene) {
         Bounds bounds = boundsLocator.screenBoundsFor(scene);
-        return pointFor(bounds, position);
+        return pointFor(bounds);
     }
 
-    public Point2D pointFor(Window window, Pos position) {
+    public PointBounds pointFor(Window window) {
         Bounds bounds = boundsLocator.screenBoundsFor(window);
-        return pointFor(bounds, position);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Point2D pointForPosition(Bounds bounds, Pos position) {
-        double pointX = 0;
-        double pointY = 0;
-
-        if (position.getHpos() == HPos.LEFT) {
-            pointX = bounds.getMinX();
-        }
-        else if (position.getHpos() == HPos.CENTER) {
-            pointX = (bounds.getMinX() + bounds.getMaxX()) / 2;
-        }
-        else if (position.getHpos() == HPos.RIGHT) {
-            pointX = bounds.getMaxX();
-        }
-
-        if (position.getVpos() == VPos.TOP) {
-            pointY = bounds.getMinY();
-        }
-        else if (position.getVpos() == VPos.CENTER || position.getVpos() == VPos.BASELINE) {
-            pointY = (bounds.getMinY() + bounds.getMaxY()) / 2;
-        }
-        else if (position.getVpos() == VPos.BOTTOM) {
-            pointY = bounds.getMaxY();
-        }
-
-        return new Point2D(pointX, pointY);
+        return pointFor(bounds);
     }
 
 }
