@@ -111,10 +111,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return window;
     }
 
-    public static OffsetTarget offset(Object target, double offsetX, double offsetY) {
-        return new OffsetTarget(target, offsetX, offsetY);
-    }
-
     @SuppressWarnings("deprecation")
     public static List<Window> getWindows() {
         return Lists.reverse(Lists.newArrayList(Window.impl_getWindows()));
@@ -1088,6 +1084,38 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    public Point2D offset(Point2D point, double offsetX, double offsetY) {
+        return pointFor(point).atOffset(offsetX, offsetY);
+    }
+
+    public Point2D offset(Bounds bounds, double offsetX, double offsetY) {
+        return pointFor(bounds).atOffset(offsetX, offsetY);
+    }
+
+    public Point2D offset(Node node, double offsetX, double offsetY) {
+        return pointFor(node).atOffset(offsetX, offsetY);
+    }
+
+    public Point2D offset(Scene scene, double offsetX, double offsetY) {
+        return pointFor(scene).atOffset(offsetX, offsetY);
+    }
+
+    public Point2D offset(Window window, double offsetX, double offsetY) {
+        return pointFor(window).atOffset(offsetX, offsetY);
+    }
+
+    public Point2D offset(String query, double offsetX, double offsetY) {
+        return pointFor(query).atOffset(offsetX, offsetY);
+    }
+
+    public Point2D offset(Matcher<Object> matcher, double offsetX, double offsetY) {
+        return pointFor(matcher).atOffset(offsetX, offsetY);
+    }
+
+    public <T extends Node> Point2D offset(Predicate<T> predicate, double offsetX, double offsetY) {
+        return pointFor(predicate).atOffset(offsetX, offsetY);
+    }
+
     public PointQuery pointFor(Point2D point) {
         return pointLocator.pointFor(point);
     }
@@ -1124,18 +1152,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
         Node node = find(predicate);
         return pointFor(node);
-    }
-
-    static class OffsetTarget {
-        private final Object target;
-        private final double offsetX;
-        private final double offsetY;
-
-        private OffsetTarget(Object target, double offsetX, double offsetY) {
-            this.target = target;
-            this.offsetX = offsetX;
-            this.offsetY = offsetY;
-        }
     }
 
 }
