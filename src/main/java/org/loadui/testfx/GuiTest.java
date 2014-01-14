@@ -58,6 +58,7 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.ScreenRobotImpl;
 import org.loadui.testfx.framework.ScreenRobot;
+import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
@@ -79,7 +80,7 @@ import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
 import static org.loadui.testfx.utils.FXTestUtils.isVisible;
 
-public abstract class GuiTest implements SceneProvider, MoveRobot {
+public abstract class GuiTest implements SceneProvider, DragRobot, MoveRobot {
 
     @Before
     public void setupStage() throws Throwable {
@@ -669,14 +670,6 @@ public abstract class GuiTest implements SceneProvider, MoveRobot {
         return this;
     }
 
-
-    public MouseMotion drag(Object source, MouseButton... buttons) {
-        move(source);
-        press(buttons);
-
-        return new MouseMotion(this, buttons);
-    }
-
     public GuiTest move(double x, double y) {
         screenRobot.moveMouseLinearTo(x, y);
         return this;
@@ -848,6 +841,155 @@ public abstract class GuiTest implements SceneProvider, MoveRobot {
      */
     public GuiTest closeCurrentWindow() {
         this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF DRAG ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public GuiTest drag(MouseButton... buttons) {
+        mouseRobot.press(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(double x, double y, MouseButton... buttons) {
+        moveTo(x, y);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Point2D point, MouseButton... buttons) {
+        moveTo(point);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Bounds bounds, MouseButton... buttons) {
+        moveTo(bounds);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Node node, MouseButton... buttons) {
+        moveTo(node);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Scene scene, MouseButton... buttons) {
+        moveTo(scene);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Window window, MouseButton... buttons) {
+        moveTo(window);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(String query, MouseButton... buttons) {
+        moveTo(query);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Matcher<Object> matcher, MouseButton... buttons) {
+        moveTo(matcher);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drag(Predicate<Node> predicate, MouseButton... buttons) {
+        moveTo(predicate);
+        drag(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest drop() {
+        mouseRobot.release();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(double x, double y) {
+        moveTo(x, y);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Point2D point) {
+        moveTo(point);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Bounds bounds) {
+        moveTo(bounds);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Node node) {
+        moveTo(node);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Scene scene) {
+        moveTo(scene);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Window window) {
+        moveTo(window);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(String query) {
+        moveTo(query);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Matcher<Object> matcher) {
+        moveTo(matcher);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropTo(Predicate<Node> predicate) {
+        moveTo(predicate);
+        drop();
+        return this;
+    }
+
+    @Override
+    public GuiTest dropBy(double x, double y) {
+        moveBy(x, y);
+        drop();
         return this;
     }
 
