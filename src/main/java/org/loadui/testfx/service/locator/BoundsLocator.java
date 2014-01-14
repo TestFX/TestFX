@@ -55,7 +55,7 @@ public class BoundsLocator {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Bounds getSceneBounds(Scene scene) {
+    private Bounds getSceneBounds(Scene scene) {
         return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
     }
 
