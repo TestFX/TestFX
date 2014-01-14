@@ -12,20 +12,6 @@ public class BoundsLocator {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Bounds sceneBoundsFor(Node node) {
-        return node.localToScene(node.getBoundsInLocal());
-    }
-
-    public Bounds sceneBoundsVisibleFor(Node node) {
-        Bounds nodeBounds = sceneBoundsFor(node);
-        Bounds sceneBounds = sceneBoundsFor(node.getScene());
-        return intersectBounds(nodeBounds, sceneBounds);
-    }
-
-    public Bounds sceneBoundsFor(Scene scene) {
-        return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
-    }
-
     public Bounds screenBoundsFor(Node node) {
         Bounds nodeBounds = sceneBoundsVisibleFor(node);
         return screenBoundsFor(nodeBounds, node.getScene());
@@ -55,9 +41,23 @@ public class BoundsLocator {
         );
     }
 
+    public Bounds sceneBoundsFor(Node node) {
+        return node.localToScene(node.getBoundsInLocal());
+    }
+
+    public Bounds sceneBoundsVisibleFor(Node node) {
+        Bounds nodeBounds = sceneBoundsFor(node);
+        Bounds sceneBounds = getSceneBounds(node.getScene());
+        return intersectBounds(nodeBounds, sceneBounds);
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
+
+    public Bounds getSceneBounds(Scene scene) {
+        return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
+    }
 
     private Bounds intersectBounds(Bounds a, Bounds b) {
         double minX = Math.max(a.getMinX(), b.getMinX());
