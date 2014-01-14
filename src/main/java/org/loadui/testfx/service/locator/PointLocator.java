@@ -28,7 +28,7 @@ public class PointLocator {
     //---------------------------------------------------------------------------------------------
 
     public PointQuery pointFor(Bounds bounds) {
-        return new PointQuery(bounds);
+        return new BoundsQuery(bounds);
     }
 
     public PointQuery pointFor(Point2D point) {
