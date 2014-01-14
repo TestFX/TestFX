@@ -15,7 +15,6 @@
  */
 package org.loadui.testfx;
 
-import java.awt.MouseInfo;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -62,6 +61,7 @@ import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.service.locator.BoundsLocator;
+import org.loadui.testfx.service.locator.PointBounds;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
@@ -688,14 +688,14 @@ public abstract class GuiTest implements SceneProvider {
     }
 
     public GuiTest move(Object target) {
-        Point2D point = pointForObject(target);
+        Point2D point = pointForObject(target).atPosition(nodePosition);
 
         //Since moving takes time, only do it if we're not already at the desired point.
         if (!screenRobot.getMouseLocation().equals(point)) {
             move(point.getX(), point.getY());
         }
         //If the target has moved while we were moving the mouse, update to the new position:
-        point = pointForObject(target);
+        point = pointForObject(target).atPosition(nodePosition);
         screenRobot.moveMouseTo(point.getX(), point.getY());
         return this;
     }
@@ -872,62 +872,55 @@ public abstract class GuiTest implements SceneProvider {
     //Point2D query.position()
     //Point2D query.offset()
 
-    public Point2D pointFor(Point2D point) {
-        return point;
+    public PointBounds pointFor(Point2D point) {
+        return pointLocator.pointFor(point);
     }
 
-    public Point2D pointFor(Bounds bounds) {
-        return pointLocator.pointFor(bounds).atPosition(nodePosition);
+    public PointBounds pointFor(Bounds bounds) {
+        return pointLocator.pointFor(bounds);
     }
 
-    public Point2D pointFor(Node node) {
+    public PointBounds pointFor(Node node) {
         targetWindow(node.getScene().getWindow());
-        return pointLocator.pointFor(node).atPosition(nodePosition);
+        return pointLocator.pointFor(node);
     }
 
-    public Point2D pointFor(Scene scene) {
+    public PointBounds pointFor(Scene scene) {
         targetWindow(scene.getWindow());
-        return pointLocator.pointFor(scene).atPosition(nodePosition);
+        return pointLocator.pointFor(scene);
     }
 
-    public Point2D pointFor(Window window) {
+    public PointBounds pointFor(Window window) {
         targetWindow(window);
-        return pointLocator.pointFor(window).atPosition(nodePosition);
+        return pointLocator.pointFor(window);
     }
 
-    public Point2D pointFor(String query) {
+    public PointBounds pointFor(String query) {
         Node node = find(query);
         return pointFor(node);
     }
 
-    public Point2D pointFor(Matcher<Object> matcher) {
+    public PointBounds pointFor(Matcher<Object> matcher) {
         Node node = find(matcher);
         return pointFor(node);
     }
 
-    public Point2D pointFor(Predicate<Node> predicate) {
+    public PointBounds pointFor(Predicate<Node> predicate) {
         Node node = find(predicate);
         return pointFor(node);
     }
 
-    public Point2D pointFor(Iterable<?> iterable) {
+    public PointBounds pointFor(Iterable<?> iterable) {
         Node node = (Node) Iterables.get(iterable, 0);
         return pointFor(node);
     }
 
-    public Point2D pointFor(OffsetTarget offsetTarget) {
-        Pos oldNodePosition = nodePosition;
-        pos(Pos.TOP_LEFT);
-        Point2D targetPoint = pointForObject(offsetTarget.target);
-        pos(oldNodePosition);
-        return new Point2D(
-            targetPoint.getX() + offsetTarget.offsetX,
-            targetPoint.getY() + offsetTarget.offsetY
-        );
+    public PointBounds pointFor(OffsetTarget offsetTarget) {
+        return pointForObject(offsetTarget.target);
     }
 
     @SuppressWarnings("unchecked")
-    private Point2D pointForObject(Object target) {
+    private PointBounds pointForObject(Object target) {
         if (target instanceof Point2D) {
             return pointFor((Point2D) target);
         }
