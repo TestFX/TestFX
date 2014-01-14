@@ -123,7 +123,21 @@ public class FXScreenController implements ScreenController
         robot.keyRelease( key.impl_getCode() );
         FXTestUtils.awaitEvents();
     }
+    
+    @SuppressWarnings("deprecation")
+    @Override
+    public void pressNoWait( KeyCode key )
+    {
+        robot.keyPress( key.impl_getCode() );
+    }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void releaseNoWait( KeyCode key )
+    {
+        robot.keyRelease( key.impl_getCode() );
+    }
+    
     @Override
     public void scroll( int amount )
     {

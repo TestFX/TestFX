@@ -1012,17 +1012,39 @@ public abstract class GuiTest
 	}
 
 	/**
-	 * Alias for type( ).
+	 * Presses and releases a given key. If multiple keys are passed to this method, they will
+	 * be released in the inverse order, to allow for pushing key combinations like this:<br>
+	 * <pre>
+	 * push(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.T)
+	 * </pre> 
+	 * (example for Ctrl+Shift+T)
 	 *
 	 * @param keys
 	 */
 	public GuiTest push( KeyCode... keys )
 	{
-		return type( keys );
+	    for( int i = 0; i < keys.length; i++ )
+        {
+	        if( pressedKeys.add( keys[i] ) )
+	        {
+	            controller.pressNoWait( keys[i] );	            
+	        }
+        }
+        // Never put a FXTestUtils.awaitEvents() here!
+        // If waiting turns out to be necessary, put something like Thread.sleep() instead.
+        for( int i = keys.length - 1; i >= 0; i-- )
+        {
+            if( pressedKeys.remove( keys[i] ) )
+            {
+                controller.releaseNoWait( keys[i] );
+            }
+        }
+        FXTestUtils.awaitEvents();
+		return this;
 	}
 
 	/**
-	 * Alias for type().
+	 * Alias for type(<tt>character</tt>).
 	 *
 	 * @param character
 	 */
@@ -1031,6 +1053,11 @@ public abstract class GuiTest
 		return type( character );
 	}
 
+	/**
+	 * Presses and releases the given keys, one after another.
+	 * 
+	 * @param keys The keys to be pressed.
+	 */
 	public GuiTest type( KeyCode... keys )
 	{
 		press( keys );
@@ -1081,7 +1108,7 @@ public abstract class GuiTest
 		}
 		return this;
 	}
-
+	
 	private Pos nodePosition = Pos.CENTER;
 
 	public GuiTest pos( Pos pos )

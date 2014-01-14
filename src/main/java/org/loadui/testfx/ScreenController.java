@@ -36,4 +36,9 @@ public interface ScreenController
 	public void press( KeyCode key );
 
 	public void release( KeyCode key );
+	
+	public void pressNoWait( KeyCode key );
+
+    public void releaseNoWait( KeyCode key );
+
 }
