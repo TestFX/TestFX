@@ -19,7 +19,7 @@ public interface ClickRobot {
     public ClickRobot click(Window window, MouseButton... buttons);
     public ClickRobot click(String query, MouseButton... buttons);
     public ClickRobot click(Matcher<Object> matcher, MouseButton... buttons);
-    public ClickRobot click(Predicate<Node> predicate, MouseButton... buttons);
+    public <T extends Node> ClickRobot click(Predicate<T> predicate, MouseButton... buttons);
 
     public ClickRobot rightClick();
     public ClickRobot rightClick(double x, double y);
@@ -30,7 +30,7 @@ public interface ClickRobot {
     public ClickRobot rightClick(Window window);
     public ClickRobot rightClick(String query);
     public ClickRobot rightClick(Matcher<Object> matcher);
-    public ClickRobot rightClick(Predicate<Node> predicate);
+    public <T extends Node> ClickRobot rightClick(Predicate<T> predicate);
 
     public ClickRobot doubleClick(MouseButton... buttons);
     public ClickRobot doubleClick(double x, double y, MouseButton... buttons);
@@ -41,5 +41,5 @@ public interface ClickRobot {
     public ClickRobot doubleClick(Window window, MouseButton... buttons);
     public ClickRobot doubleClick(String query, MouseButton... buttons);
     public ClickRobot doubleClick(Matcher<Object> matcher, MouseButton... buttons);
-    public ClickRobot doubleClick(Predicate<Node> predicate, MouseButton... buttons);
+    public <T extends Node> ClickRobot doubleClick(Predicate<T> predicate, MouseButton... buttons);
 }

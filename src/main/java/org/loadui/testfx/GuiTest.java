@@ -58,6 +58,7 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.ScreenRobotImpl;
 import org.loadui.testfx.framework.ScreenRobot;
+import org.loadui.testfx.robots.ClickRobot;
 import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
@@ -80,7 +81,7 @@ import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
 import static org.loadui.testfx.utils.FXTestUtils.isVisible;
 
-public abstract class GuiTest implements SceneProvider, DragRobot, MoveRobot {
+public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, MoveRobot {
 
     @Before
     public void setupStage() throws Throwable {
@@ -488,178 +489,6 @@ public abstract class GuiTest implements SceneProvider, DragRobot, MoveRobot {
         return this;
     }
 
-    /*---------------- Click ----------------*/
-
-    public GuiTest click(MouseButton... buttons) {
-        if (buttons.length == 0) {
-            return click(MouseButton.PRIMARY);
-        }
-        press(buttons);
-        return release(buttons);
-    }
-
-    /**
-     * Clicks the first Node matching the given query.
-     *
-     * @param query   either CSS selector, label of node or class name.
-     * @param buttons
-     */
-    public GuiTest click(String query, MouseButton... buttons) {
-        move(query);
-        return click(buttons);
-    }
-
-    public GuiTest click(Node node, MouseButton... buttons) {
-        move(node);
-        return click(buttons);
-    }
-
-    public <T extends Node> GuiTest click(Predicate<T> p, MouseButton... buttons) {
-        move(p);
-        return click(buttons);
-    }
-
-    public GuiTest click(Point2D point, MouseButton... buttons) {
-        move(point);
-        return click(buttons);
-    }
-
-    public GuiTest click(Bounds bounds, MouseButton... buttons) {
-        move(bounds);
-        return click(buttons);
-    }
-
-    public GuiTest click(Scene scene, MouseButton... buttons) {
-        move(scene);
-        return click(buttons);
-    }
-
-    public GuiTest click(Window window, MouseButton... buttons) {
-        move(window);
-        return click(buttons);
-    }
-
-    public GuiTest click(Matcher<Node> matcher, MouseButton... buttons) {
-        move(matcher);
-        return click(buttons);
-    }
-
-    public GuiTest click(Iterable<?> iterable, MouseButton... buttons) {
-        move(iterable);
-        return click(buttons);
-    }
-
-    public GuiTest click(OffsetTarget target, MouseButton... buttons) {
-        move(target);
-        return click(buttons);
-    }
-
-
-    /*---------------- Right-click ----------------*/
-
-    public GuiTest rightClick() {
-        return click(MouseButton.SECONDARY);
-    }
-
-    /**
-     * Right-clicks a given target.
-     */
-    public GuiTest rightClick(String query) {
-        return click(query, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Node node) {
-        return click(node, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Matcher<Node> matcher) {
-        return click(matcher, MouseButton.SECONDARY);
-    }
-
-    public <T extends Node> GuiTest rightClick(Predicate<T> predicate) {
-        return click(predicate, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Scene scene) {
-        return click(scene, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Window window) {
-        return click(window, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Point2D point) {
-        return click(point, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Bounds bounds) {
-        return click(bounds, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(OffsetTarget target) {
-        return click(target, MouseButton.SECONDARY);
-    }
-
-    public GuiTest rightClick(Iterable<?> iterable) {
-        return click(iterable, MouseButton.SECONDARY);
-    }
-
-    /*---------------- Double-click ----------------*/
-
-    public GuiTest doubleClick() {
-        return click().click().sleep(50);
-    }
-
-    /**
-     * Double-clicks a given target.
-     *
-     * @param query
-     */
-    public GuiTest doubleClick(String query) {
-        return click(query).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Node node) {
-        return click(node).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Matcher<Node> matcher) {
-        return click(matcher).click().sleep(50);
-    }
-
-    public <T extends Node> GuiTest doubleClick(Predicate<T> predicate) {
-        return click(predicate).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Scene scene) {
-        return click(scene).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Window window) {
-        return click(window).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Point2D point) {
-        return click(point).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Bounds bounds) {
-        return click(bounds).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(OffsetTarget target) {
-        return click(target).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(Iterable<?> iterable) {
-        return click(iterable).click().sleep(50);
-    }
-
-    public GuiTest doubleClick(MouseButton button) {
-        return click(button).click(button).sleep(50);
-    }
-
-
     /*---------------- Other  ----------------*/
 
 
@@ -841,6 +670,203 @@ public abstract class GuiTest implements SceneProvider, DragRobot, MoveRobot {
      */
     public GuiTest closeCurrentWindow() {
         this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF CLICK ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public GuiTest click(MouseButton... buttons) {
+        if (buttons.length == 0) {
+            return click(MouseButton.PRIMARY);
+        }
+        mouseRobot.press(buttons);
+        mouseRobot.release(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(double x, double y, MouseButton... buttons) {
+        moveTo(x, y);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(Point2D point, MouseButton... buttons) {
+        moveTo(point);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(Bounds bounds, MouseButton... buttons) {
+        moveTo(bounds);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(Node node, MouseButton... buttons) {
+        moveTo(node);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(Scene scene, MouseButton... buttons) {
+        moveTo(scene);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(Window window, MouseButton... buttons) {
+        moveTo(window);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(String query, MouseButton... buttons) {
+        moveTo(query);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest click(Matcher<Object> matcher, MouseButton... buttons) {
+        moveTo(matcher);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public <T extends Node> GuiTest click(Predicate<T> predicate, MouseButton... buttons) {
+        moveTo(predicate);
+        click(buttons);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick() {
+        click(MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(double x, double y) {
+        click(x, y, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(Point2D point) {
+        click(point, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(Bounds bounds) {
+        click(bounds, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(Node node) {
+        click(node, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(Scene scene) {
+        click(scene, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(Window window) {
+        click(window, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(String query) {
+        click(query, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest rightClick(Matcher<Object> matcher) {
+        click(matcher, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public <T extends Node> GuiTest rightClick(Predicate<T> predicate) {
+        click(predicate, MouseButton.SECONDARY);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(MouseButton... buttons) {
+        click(buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(double x, double y, MouseButton... buttons) {
+        click(x, y, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(Point2D point, MouseButton... buttons) {
+        click(point, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(Bounds bounds, MouseButton... buttons) {
+        click(bounds, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(Node node, MouseButton... buttons) {
+        click(node, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(Scene scene, MouseButton... buttons) {
+        click(scene, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(Window window, MouseButton... buttons) {
+        click(window, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(String query, MouseButton... buttons) {
+        click(query, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public GuiTest doubleClick(Matcher<Object> matcher, MouseButton... buttons) {
+        click(matcher, buttons).click().sleep(50);
+        return this;
+    }
+
+    @Override
+    public <T extends Node> GuiTest doubleClick(Predicate<T> predicate, MouseButton... buttons) {
+        click(predicate, buttons).click().sleep(50);
         return this;
     }
 
@@ -1046,7 +1072,7 @@ public abstract class GuiTest implements SceneProvider, DragRobot, MoveRobot {
     }
 
     @Override
-    public GuiTest moveTo(Predicate<Node> predicate) {
+    public <T extends Node> GuiTest moveTo(Predicate<T> predicate) {
         moveToImpl(pointFor(predicate));
         return this;
     }
@@ -1113,7 +1139,7 @@ public abstract class GuiTest implements SceneProvider, DragRobot, MoveRobot {
         return pointFor(node);
     }
 
-    public PointQuery pointFor(Predicate<Node> predicate) {
+    public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
         Node node = find(predicate);
         return pointFor(node);
     }

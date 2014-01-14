@@ -72,7 +72,7 @@ public interface MoveRobot {
      *
      * @param predicate the Predicate
      */
-    public MoveRobot moveTo(Predicate<Node> predicate);
+    public <T extends Node> MoveRobot moveTo(Predicate<T> predicate);
 
     /**
      * Moves the mouse cursor relatively to its current position.
