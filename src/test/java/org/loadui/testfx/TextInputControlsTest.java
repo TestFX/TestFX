@@ -2,7 +2,6 @@ package org.loadui.testfx;
 
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 

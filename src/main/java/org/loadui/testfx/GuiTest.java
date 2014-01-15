@@ -28,7 +28,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.PopupWindow;
@@ -236,7 +235,7 @@ public abstract class GuiTest
         Set<T> visibleNodes = filter(foundNodes, isVisible);
         if( visibleNodes.isEmpty() )
             throw new NoNodesVisibleException("Matching nodes were found, but none of them were visible. Screenshot saved as " +captureScreenshot().getAbsolutePath() + ".");
-        return visibleNodes;
+        return new LinkedHashSet<>(visibleNodes);
     }
 
     private static void assertNodesFound(Object query, Collection<? extends Node> foundNodes) {
