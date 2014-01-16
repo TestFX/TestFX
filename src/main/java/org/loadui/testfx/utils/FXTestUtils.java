@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx.utils;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import java.awt.*;
@@ -42,7 +43,10 @@ import org.loadui.testfx.GuiTest;
 
 public class FXTestUtils
 {
-	public static void bringToFront( final Stage stage ) throws Exception
+
+    public static final int TIMEOUT = 5;
+
+    public static void bringToFront( final Stage stage ) throws Exception
 	{
 		invokeAndWait( new Runnable()
 		{
@@ -78,8 +82,13 @@ public class FXTestUtils
 					}
 				} );
 
-				sem.acquire();
-				try
+                boolean wasAcquired = sem.tryAcquire(TIMEOUT, SECONDS);
+                if(!wasAcquired)
+                {
+                    System.out.println("[TestFX] WARNING: GUI locked for more than "+ TIMEOUT +" seconds - timing out!");
+                    break;
+                }
+                try
 				{
 					Thread.sleep( 10 );
 				}
@@ -128,7 +137,7 @@ public class FXTestUtils
 
 		try
 		{
-			future.get( timeoutInSeconds, TimeUnit.SECONDS );
+			future.get( timeoutInSeconds, SECONDS );
 			awaitEvents();
 		}
 		catch( ExecutionException e )
