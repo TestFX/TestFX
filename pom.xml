@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.1.2-SNAPSHOT</version>
     <name>TestFX</name>
     <description>TestFX</description>
 	<url>https://github.com/SmartBear/TestFX</url>
