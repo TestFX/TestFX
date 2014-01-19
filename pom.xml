@@ -59,7 +59,7 @@
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
-                                <phase>verify</phase>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
@@ -69,6 +69,7 @@
                             <ascDirectory>${project.build.directory}</ascDirectory>
                         </configuration>
                     </plugin>
+
                 </plugins>
             </build>
 		</profile>
