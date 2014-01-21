@@ -15,23 +15,21 @@ Easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/j
 ```java
 class DesktopTest extends GuiTest
 {
-  public Parent getRootNode()
-  {
+  public Parent getRootNode() {
     return new Desktop()
   }
 
   @Test
-  public void shouldBeAbleToDragFileToTrashCan()
-  {
+  public void shouldBeAbleToDragFileToTrashCan() {
     // GIVEN
-    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
-                             type( "myTextfile.txt" ).push( ENTER );
+    rightClick("#desktop").move("New").click("Text Document")
+                          .type("myTextfile.txt").push(ENTER);
   
     // WHEN
-    drag( ".file" ).to( "#trash-can" );
+    drag(".file").to("#trash-can");
     
     // THEN
-    verifyThat( "#desktop", contains( 0, ".file" ) );
+    verifyThat("#desktop", contains(0, ".file"));
   }
 }
 ```
