@@ -20,15 +20,13 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import com.google.common.util.concurrent.SettableFuture;
-
 public class StageApplication extends Application {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public static SettableFuture<Stage> primaryStageFuture = SettableFuture.create();
+    public static StageFuture stageFuture = StageFuture.create();
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -37,7 +35,7 @@ public class StageApplication extends Application {
     public static void launchInThread() {
         // TODO: Document what happens if the next line is missing.
         // java.lang.IllegalStateException: Application launch must not be called more than once
-        if (!primaryStageFuture.isDone()) {
+        if (!stageFuture.isDone()) {
             // TODO: Document what happens if the next line is missing.
             new Thread(new Runnable() {
                 @Override
@@ -51,7 +49,7 @@ public class StageApplication extends Application {
     public static Stage waitForPrimaryStage(long timeout, TimeUnit timeUnit) throws Throwable {
         // Blocks until the task is complete or the timeout expires.
         // Throws a `TimeoutException` if the timer expires.
-        return primaryStageFuture.get(timeout, timeUnit);
+        return stageFuture.get(timeout, timeUnit);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -60,7 +58,7 @@ public class StageApplication extends Application {
 
     public void start(Stage primaryStage) {
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStageFuture.set(primaryStage);
+        stageFuture.set(primaryStage);
     }
 
 }
