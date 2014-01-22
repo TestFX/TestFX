@@ -305,6 +305,7 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     private void assertNodesFound(Set<Node> resultNodes, String errorMessage) {
+        // TODO: Save screenshot
         if (resultNodes.isEmpty()) {
             throw new NodeFinderException(errorMessage);
         }

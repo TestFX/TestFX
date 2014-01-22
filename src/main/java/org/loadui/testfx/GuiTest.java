@@ -5,7 +5,7 @@
  * versions of the EUPL (the "Licence");
  * You may not use this work except in compliance with the Licence.
  * You may obtain a copy of the Licence at:
- * 
+ *
  * http://ec.europa.eu/idabc/eupl
  * 
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
@@ -20,25 +20,12 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
-
-import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -49,13 +36,12 @@ import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
-import org.loadui.testfx.exceptions.NoNodesFoundException;
-import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.ScreenRobotImpl;
 import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.ClickRobot;
@@ -63,6 +49,10 @@ import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
+import org.loadui.testfx.service.finder.NodeFinder;
+import org.loadui.testfx.service.finder.WindowFinder;
+import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
+import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.PointQuery;
@@ -72,14 +62,7 @@ import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
 import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.Iterables.concat;
-import static com.google.common.collect.Iterables.getFirst;
-import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Sets.filter;
 import static org.loadui.testfx.controls.Commons.hasText;
-import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
-import static org.loadui.testfx.utils.FXTestUtils.isVisible;
 
 public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, MoveRobot {
 
@@ -104,138 +87,71 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return getRootNode();
     }
 
-    private static Window lastSeenWindow = null;
-
     public static <T extends Window> T targetWindow(T window) {
-        lastSeenWindow = window;
+        windowFinder.setLastTargetWindow(window);
         return window;
     }
 
-    @SuppressWarnings("deprecation")
+    public GuiTest target(Window window) {
+        nodeFinder.target(window);
+        return this;
+    }
+
+    public GuiTest target(int windowNumber) {
+        nodeFinder.target(windowNumber);
+        return this;
+    }
+
+    public GuiTest target(String stageTitleRegex) {
+        nodeFinder.target(stageTitleRegex);
+        return this;
+    }
+
     public static List<Window> getWindows() {
-        return Lists.reverse(Lists.newArrayList(Window.impl_getWindows()));
+        return windowFinder.listWindows();
     }
 
     public static Window getWindowByIndex(int index) {
-        return getWindows().get(index);
+        return windowFinder.listWindows().get(index);
     }
 
-    public static Stage findStageByTitle(final String titleRegex) {
-        return Iterables.find(Iterables.filter(getWindows(), Stage.class), new Predicate<Stage>() {
-            @Override
-            public boolean apply(Stage input) {
-                return input.getTitle().matches(titleRegex);
-            }
-        });
-    }
-
-    private static Set<Node> findAll(String query, Object parent) {
-        try {
-            if (parent instanceof String) {
-                final String titleRegex = (String) parent;
-                return findAll(query, targetWindow(findStageByTitle(titleRegex)).getScene());
-            }
-            else if (parent instanceof Node) {
-                Node node = (Node) parent;
-                targetWindow(node.getScene().getWindow());
-                return findAllRecursively(query, node);
-            }
-            else if (parent instanceof Scene) {
-                Scene scene = (Scene) parent;
-                targetWindow(scene.getWindow());
-                return findAllRecursively(query, scene.getRoot());
-            }
-            else if (parent instanceof Window) {
-                return findAll(query, targetWindow((Window) parent).getScene());
-            }
-        }
-        catch (NoNodesVisibleException e) {
-            throw e;
-        }
-        catch (Exception e) {
-            //Ignore, something went wrong with checking a window, so return an empty set.
-        }
-
-        return Collections.emptySet();
-    }
-
-    private static Set<Node> findAllRecursively(String query, Node node) {
-        Set<Node> foundNodes;
-        if (query.startsWith(".") || query.startsWith("#")) {
-            foundNodes = node.lookupAll(query);
-        }
-        else {
-            foundNodes = findAll(hasText(query), node);
-        }
-        return foundNodes;
-    }
-
-    private static <T extends Node> Set<T> getVisibleNodes(Set<T> foundNodes) {
-        Set<T> visibleNodes = filter(foundNodes, isVisible);
-        if (visibleNodes.isEmpty())
-            throw new NoNodesVisibleException("Matching nodes were found, but none of them were visible. Screenshot saved as " + captureScreenshot().getAbsolutePath() + ".");
-        return visibleNodes;
-    }
-
-    private static void assertNodesFound(Object query, Collection<? extends Node> foundNodes) {
-        if (foundNodes.isEmpty())
-            throw new NoNodesFoundException("No nodes matched '" + query + "'. Screenshot saved as " + captureScreenshot().getAbsolutePath() + ".");
-    }
-
-    public static Set<Node> findAll(String query) {
-        Set<Node> foundNodes = findAllRecursively(query);
-        assertNodesFound(query, foundNodes);
-        return getVisibleNodes(foundNodes);
-    }
-
-    private static Set<Node> findAllRecursively(String query) {
-        Set<Node> results = Sets.newLinkedHashSet();
-        results.addAll(findAll(query, lastSeenWindow));
-        final Predicate<Window> isDescendant = new Predicate<Window>() {
-            @Override
-            public boolean apply(Window input) {
-                Window parent = null;
-                if (input instanceof Stage) {
-                    parent = ((Stage) input).getOwner();
-                }
-                else if (input instanceof PopupWindow) {
-                    parent = ((PopupWindow) input).getOwnerWindow();
-                }
-
-                return parent == lastSeenWindow || parent != null && apply(parent);
-            }
-        };
-        Iterable<Window> descendants = Iterables.filter(getWindows(), isDescendant);
-        Iterable<Window> rest = Iterables.filter(getWindows(), Predicates.not(isDescendant));
-        for (Window descendant : ImmutableList.copyOf(concat(descendants, rest))) {
-            results.addAll(findAll(query, descendant));
-        }
-        return results;
+    public static Stage findStageByTitle(String titleRegex) {
+        return (Stage) nodeFinder.parent(titleRegex).getScene().getWindow();
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Node> T find(String selector, Object parent) {
-        return checkNotNull((T) getFirst(findAll(selector, parent), null),
-            "Query [%s] select [%s] resulted in no nodes found!", parent, selector);
+    public static <T extends Node> T find(String query) {
+        return (T) nodeFinder.node(query);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Node> T find(final String query) {
-        T foundNode = null;
-        boolean isCssQuery = query.startsWith(".") || query.startsWith("#");
+    public static <T extends Node> Set<T> findAll(String query) {
+        return (Set<T>) nodeFinder.nodes(query);
+    }
 
-        if (isCssQuery) {
-            foundNode = findByCssSelector(query);
-            if (foundNode == null)
-                throw new NoNodesFoundException("No nodes matched the CSS query '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath());
-        }
-        else {
-            foundNode = (T) find(hasText(query));
-            if (foundNode == null)
-                throw new NoNodesFoundException("No nodes found with label '" + query + "'! Screenshot saved as " + captureScreenshot().getAbsolutePath());
-        }
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> T find(Predicate<T> predicate) {
+        return (T) nodeFinder.node((Predicate<Node>) predicate);
+    }
 
-        return foundNode;
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> T find(Matcher<Object> matcher) {
+        return (T) nodeFinder.node(matcher);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> T find(String query, Node parent) {
+        return (T) nodeFinder.node(query, parent);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
+        return (Set<T>) nodeFinder.nodes((Predicate<Node>) predicate);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> Set<T> findAll(Matcher<Object> matcher, Node parent) {
+        return (Set<T>) nodeFinder.nodes(matcher);
     }
 
     public static boolean exists(final String query) {
@@ -247,7 +163,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     }
 
     private static boolean selectorExists(String query) {
-        return findByCssSelector(query) != null;
+        return nodeFinder.node(query) != null;
     }
 
     /**
@@ -331,110 +247,11 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         }, timeoutInSeconds);
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T extends Node> T findByCssSelector(final String selector) {
-        Set<Node> locallyFound = findAll(selector);
-        Iterable<Node> globallyFound = concat(transform(getWindows(),
-            new Function<Window, Iterable<Node>>() {
-                @Override
-                public Iterable<Node> apply(Window input) {
-                    return findAll(selector, input);
-                }
-            }));
-
-        Iterables.addAll(locallyFound, globallyFound);
-        assertNodesFound(selector, locallyFound);
-        Set<Node> visibleNodes = getVisibleNodes(locallyFound);
-
-        return (T) getFirst(visibleNodes, null);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends Node> T find(final Matcher<Object> matcher) {
-        Iterable<Set<Node>> found = transform(getWindows(),
-            new Function<Window, Set<Node>>() {
-                @Override
-                public Set<Node> apply(Window input) {
-                    return findAllRecursively(matcher, input.getScene().getRoot());
-                }
-            });
-
-        Set<Node> foundFlattened = flattenSets(found);
-
-        assertNodesFound(matcher, foundFlattened);
-        return (T) getFirst(getVisibleNodes(foundFlattened), null);
-    }
-
-    public static <T extends Node> T find(final Predicate<T> predicate) {
-        Iterable<Set<T>> found = transform(getWindows(),
-            new Function<Window, Set<T>>() {
-                @Override
-                public Set<T> apply(Window input) {
-                    return findAllRecursively(predicate, input.getScene().getRoot());
-                }
-            });
-
-        Set<T> foundFlattened = flattenSets(found);
-
-        assertNodesFound(predicate, foundFlattened);
-        return getFirst(getVisibleNodes(foundFlattened), null);
-    }
-
-    /**
-     * Returns all child nodes of parent, that matches the given matcher.
-     *
-     * @param matcher
-     * @param parent
-     * @return found nodes
-     */
-    public static Set<Node> findAll(Matcher<Object> matcher, Node parent) {
-        Set<Node> foundNodes = findAllRecursively(matcher, parent);
-        assertNodesFound(matcher, foundNodes);
-        return getVisibleNodes(foundNodes);
-    }
-
-    private static Set<Node> findAllRecursively(Matcher<Object> matcher, Node parent) {
-        Set<Node> found = new HashSet<Node>();
-        if (matcher.matches(parent)) {
-            found.add(parent);
-        }
-        if (parent instanceof Parent) {
-            for (Node child : ((Parent) parent).getChildrenUnmodifiable()) {
-                found.addAll(findAllRecursively(matcher, child));
-            }
-        }
-        return ImmutableSet.copyOf(found);
-    }
-
-    public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
-        Set<T> foundNodes = findAllRecursively(predicate, parent);
-        assertNodesFound(predicate, foundNodes);
-        return getVisibleNodes(foundNodes);
-    }
-
-    private static <T extends Node> Set<T> findAllRecursively(Predicate<T> predicate, Node parent) {
-        Set<T> found = new HashSet<T>();
-        try {
-            @SuppressWarnings("unchecked")
-            T node = (T) parent;
-            if (predicate.apply(node)) {
-                found.add(node);
-            }
-        }
-        catch (ClassCastException e) {
-            // Do nothing.
-        }
-        if (parent instanceof Parent) {
-            for (Node child : ((Parent) parent).getChildrenUnmodifiable()) {
-                found.addAll(findAllRecursively(predicate, child));
-            }
-        }
-        return ImmutableSet.copyOf(found);
-    }
-
     private final ScreenRobot screenRobot;
     private final BoundsLocator boundsLocator;
     private final PointLocator pointLocator;
+    private static final WindowFinder windowFinder = new WindowFinderImpl();
+    private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
 
@@ -463,26 +280,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
 
     public GuiTest sleep(long value, TimeUnit unit) {
         return sleep(unit.toMillis(value));
-    }
-
-    public GuiTest target(Object window) {
-        if (window instanceof Window) {
-            targetWindow((Window) window);
-        }
-        else if (window instanceof String) {
-            targetWindow(findStageByTitle((String) window));
-        }
-        else if (window instanceof Number) {
-            targetWindow(getWindowByIndex(((Number) window).intValue()));
-        }
-        else if (window instanceof Class<?>) {
-            targetWindow(Iterables.find(getWindows(), Predicates.instanceOf((Class<?>) window)));
-        }
-        else {
-            Preconditions.checkArgument(false, "Unable to identify Window based on the given argument: %s", window);
-        }
-
-        return this;
     }
 
     /*---------------- Other  ----------------*/
