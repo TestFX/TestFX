@@ -2,6 +2,7 @@ package org.loadui.testfx.service.finder.impl;
 
 import java.util.List;
 import java.util.Set;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,12 +13,14 @@ import javafx.stage.Window;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
+import org.loadui.testfx.exceptions.NoNodesFoundException;
+import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.NodeFinderException;
 import org.loadui.testfx.service.finder.WindowFinder;
 
 public class NodeFinderImpl implements NodeFinder {
@@ -161,15 +164,21 @@ public class NodeFinderImpl implements NodeFinder {
         assertNodesFound(resultNodes, ERROR_NO_NODES_FOUND);
 
         Set<Node> visibleNodes = Sets.filter(resultNodes, isNodeVisiblePredicate());
-        assertNodesFound(visibleNodes, ERROR_NO_VISIBLE_NODES_FOUND);
+        assertNodesVisible(visibleNodes, ERROR_NO_VISIBLE_NODES_FOUND);
         return visibleNodes;
     }
 
     private Set<Node> transformToResultNodes(List<Window> windows,
             Function<Node, Set<Node>> toResultNodesFunction) {
+        //return FluentIterable.from(windows)
+        //    .transform(toRootNodeFunction())
+        //    .transformAndConcat(toResultNodesFunction)
+        //    .filter(Predicates.notNull())
+        //    .toSet();
         Iterable<Node> rootNodes = Iterables.transform(windows, toRootNodeFunction());
-        Iterable<Set<Node>> resultNodes = Iterables.transform(rootNodes, toResultNodesFunction);
-        return ImmutableSet.copyOf(Iterables.concat(resultNodes));
+        Iterable<Set<Node>> resultNodeSets = Iterables.transform(rootNodes, toResultNodesFunction);
+        Iterable<Node> resultNodes = Iterables.concat(resultNodeSets);
+        return ImmutableSet.copyOf(Iterables.filter(resultNodes, Predicates.notNull()));
     }
 
     private Function<Window, Node> toRootNodeFunction() {
@@ -225,7 +234,7 @@ public class NodeFinderImpl implements NodeFinder {
 
     private Set<Node> findNodesInParent(Predicate<Node> predicate, Node parentNode) {
         Set<Node> resultNodes = Sets.newLinkedHashSet();
-        if (predicate.apply(parentNode)) {
+        if (applyPredicateOnNode(predicate, parentNode)) {
             resultNodes.add(parentNode);
         }
         if (parentNode instanceof Parent) {
@@ -240,6 +249,16 @@ public class NodeFinderImpl implements NodeFinder {
     //---------------------------------------------------------------------------------------------
     // PRIVATE HELPER METHODS.
     //---------------------------------------------------------------------------------------------
+
+    private boolean applyPredicateOnNode(Predicate<Node> predicate, Node node) {
+        // TODO: Test cases with ClassCastException.
+        try {
+            return predicate.apply(node);
+        }
+        catch (ClassCastException exception) {
+            return false;
+        }
+    }
 
     private Predicate<Node> toNodeMatcherPredicate(final Matcher<Object> matcher) {
         return new Predicate<Node>() {
@@ -263,7 +282,7 @@ public class NodeFinderImpl implements NodeFinder {
         return new Predicate<Node>() {
             @Override
             public boolean apply(Node node) {
-                return isNodeLabel(node, label);
+                return hasNodeLabel(node, label);
             }
         };
     }
@@ -273,7 +292,7 @@ public class NodeFinderImpl implements NodeFinder {
             @Override
             public boolean apply(Window window) {
                 return window instanceof Stage &&
-                    isStageTitle((Stage) window, stageTitleRegex);
+                    hasStageTitle((Stage) window, stageTitleRegex);
             }
         };
     }
@@ -283,31 +302,46 @@ public class NodeFinderImpl implements NodeFinder {
             query.startsWith(CSS_CLASS_SELECTOR_SYMBOL);
     }
 
-    private boolean isStageTitle(Stage stage, String stageTitleRegex) {
+    private boolean hasStageTitle(Stage stage, String stageTitleRegex) {
         return stage.getTitle().matches(stageTitleRegex);
     }
 
-    private boolean isNodeLabel(Node node, String label) {
+    private boolean hasNodeLabel(Node node, String label) {
+        // TODO: Test cases with node.getText() == null.
         if (node instanceof Labeled) {
-            return ((Labeled) node).getText().equals(label);
+            return label.equals(((Labeled) node).getText());
         }
         else if (node instanceof TextInputControl) {
-            return ((TextInputControl) node).getText().equals(label);
+            return label.equals(((TextInputControl) node).getText());
         }
         return false;
     }
 
     @SuppressWarnings("deprecation")
     private boolean isNodeVisible(Node node) {
-        // TODO: !node.isVisible() || !node.impl_isTreeVisible()
-        // TODO: isNodeWithinSceneBounds
-        return node.isVisible() && node.impl_isTreeVisible();
+        if (!node.isVisible() || !node.impl_isTreeVisible()) {
+            return false;
+        }
+        return isNodeWithinSceneBounds(node);
+    }
+
+    private boolean isNodeWithinSceneBounds(Node node) {
+        Scene scene = node.getScene();
+        Bounds nodeBounds = node.localToScene(node.getBoundsInLocal());
+        return nodeBounds.intersects(0, 0, scene.getWidth(), scene.getHeight());
     }
 
     private void assertNodesFound(Set<Node> resultNodes, String errorMessage) {
-        // TODO: Save screenshot
+        // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
-            throw new NodeFinderException(errorMessage);
+            throw new NoNodesFoundException(errorMessage);
+        }
+    }
+
+    private void assertNodesVisible(Set<Node> resultNodes, String errorMessage) {
+        // TODO: Save screenshot on exception.
+        if (resultNodes.isEmpty()) {
+            throw new NoNodesVisibleException(errorMessage);
         }
     }
 
