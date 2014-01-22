@@ -40,30 +40,36 @@ public class BoundsQuery implements PointQuery {
     //---------------------------------------------------------------------------------------------
 
     private Point2D pointForPosition(Bounds bounds, Pos position) {
-        double pointX = 0;
-        double pointY = 0;
-
-        if (position.getHpos() == HPos.LEFT) {
-            pointX = bounds.getMinX();
-        }
-        else if (position.getHpos() == HPos.CENTER) {
-            pointX = (bounds.getMinX() + bounds.getMaxX()) / 2;
-        }
-        else if (position.getHpos() == HPos.RIGHT) {
-            pointX = bounds.getMaxX();
-        }
-
-        if (position.getVpos() == VPos.TOP) {
-            pointY = bounds.getMinY();
-        }
-        else if (position.getVpos() == VPos.CENTER || position.getVpos() == VPos.BASELINE) {
-            pointY = (bounds.getMinY() + bounds.getMaxY()) / 2;
-        }
-        else if (position.getVpos() == VPos.BOTTOM) {
-            pointY = bounds.getMaxY();
-        }
-
+        double pointX = this.computePointX(bounds, position.getHpos());
+        double pointY = this.computePointY(bounds, position.getVpos());
         return new Point2D(pointX, pointY);
+    }
+
+    private double computePointX(Bounds bounds, HPos hPos) {
+        switch (hPos) {
+            case LEFT:
+                return bounds.getMinX();
+            case CENTER:
+                return (bounds.getMinX() + bounds.getMaxX()) / 2;
+            case RIGHT:
+                return bounds.getMaxX();
+            default:
+                throw new AssertionError("Unhandled hPos");
+        }
+    }
+
+    private double computePointY(Bounds bounds, VPos vPos) {
+        switch (vPos) {
+            case TOP:
+                return bounds.getMinY();
+            case BASELINE:
+            case CENTER:
+                return (bounds.getMinY() + bounds.getMaxY()) / 2;
+            case BOTTOM:
+                return bounds.getMaxY();
+            default:
+                throw new AssertionError("Unhandled vPos");
+        }
     }
 
 }
