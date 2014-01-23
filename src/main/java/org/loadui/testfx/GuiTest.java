@@ -64,8 +64,6 @@ import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 
-import static org.loadui.testfx.controls.Commons.hasText;
-
 public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, MoveRobot {
 
     //---------------------------------------------------------------------------------------------
@@ -81,12 +79,12 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return windowFinder.listWindows();
     }
 
-    public static Window getWindowByIndex(int index) {
-        return windowFinder.listWindows().get(index);
+    public static Window getWindowByIndex(int windowIndex) {
+        return windowFinder.window(windowIndex);
     }
 
-    public static Stage findStageByTitle(String titleRegex) {
-        return (Stage) nodeFinder.parent(titleRegex).getScene().getWindow();
+    public static Stage findStageByTitle(String stageTitleRegex) {
+        return (Stage) windowFinder.window(stageTitleRegex);
     }
 
     @SuppressWarnings("unchecked")
@@ -124,16 +122,8 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return (Set<T>) nodeFinder.nodes(matcher);
     }
 
-    public static boolean exists(final String query) {
-        return selectorExists(query) || labelExists(query);
-    }
-
-    private static boolean labelExists(String query) {
-        return find(hasText(query)) != null;
-    }
-
-    private static boolean selectorExists(String query) {
-        return nodeFinder.node(query) != null;
+    public static boolean exists(String nodeQuery) {
+        return find(nodeQuery) != null;
     }
 
     /**
@@ -151,7 +141,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         };
     }
 
-    public static <T extends Node> void waitUntil(final T node, final Predicate<T> condition) {
+    public static <T extends Node> void waitUntil(T node, Predicate<T> condition) {
         waitUntil(node, condition, 15);
     }
 
@@ -267,17 +257,17 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     //---------------------------------------------------------------------------------------------
 
     public GuiTest target(Window window) {
-        nodeFinder.target(window);
+        windowFinder.target(window);
         return this;
     }
 
     public GuiTest target(int windowNumber) {
-        nodeFinder.target(windowNumber);
+        windowFinder.target(windowNumber);
         return this;
     }
 
     public GuiTest target(String stageTitleRegex) {
-        nodeFinder.target(stageTitleRegex);
+        windowFinder.target(stageTitleRegex);
         return this;
     }
 

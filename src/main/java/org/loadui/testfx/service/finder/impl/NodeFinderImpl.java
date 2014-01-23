@@ -68,22 +68,6 @@ public class NodeFinderImpl implements NodeFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public void target(Window window) {
-        windowFinder.setLastTargetWindow(window);
-    }
-
-    public void target(int windowNumber) {
-        target(windowFinder.window(windowNumber));
-    }
-
-    public void target(String stageTitleRegex) {
-        target(windowFinder.window(stageTitleRegex));
-    }
-
-    public void target(Scene scene) {
-        target(windowFinder.window(scene));
-    }
-
     public Node node(String query) {
         Function<Node, Set<Node>> toResultNodesFunction;
         if (isCssSelector(query)) {
@@ -136,8 +120,8 @@ public class NodeFinderImpl implements NodeFinder {
         return window.getScene().getRoot();
     }
 
-    public Node parent(int windowNumber) {
-        return parent(windowFinder.window(windowNumber));
+    public Node parent(int windowIndex) {
+        return parent(windowFinder.window(windowIndex));
     }
 
     public Node parent(String stageTitleRegex) {
@@ -155,7 +139,7 @@ public class NodeFinderImpl implements NodeFinder {
 
     public Set<Node> nodes(String query, Node parentNode) {
         // TODO: Filter visible nodes and allow label queries.
-        target(parentNode.getScene().getWindow());
+        windowFinder.target(parentNode.getScene().getWindow());
         return findNodesInParent(query, parentNode);
     }
 

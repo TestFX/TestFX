@@ -16,16 +16,15 @@
 package org.loadui.testfx.service.finder.impl;
 
 import java.util.List;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import javafx.scene.Scene;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import org.loadui.testfx.service.finder.WindowFinder;
@@ -50,6 +49,22 @@ public class WindowFinderImpl implements WindowFinder {
         lastTargetWindow = window;
     }
 
+    public void target(Window window) {
+        setLastTargetWindow(window);
+    }
+
+    public void target(int windowIndex) {
+        target(window(windowIndex));
+    }
+
+    public void target(String stageTitleRegex) {
+        target(window(stageTitleRegex));
+    }
+
+    public void target(Scene scene) {
+        target(window(scene));
+    }
+
     @SuppressWarnings("deprecation")
     public List<Window> listWindows() {
         List<Window> windows = Lists.newArrayList(Window.impl_getWindows());
@@ -62,9 +77,9 @@ public class WindowFinderImpl implements WindowFinder {
         return orderedWindows;
     }
 
-    public Window window(int windowNumber) {
+    public Window window(int windowIndex) {
         List<Window> windows = listWindows();
-        return windows.get(windowNumber);
+        return windows.get(windowIndex);
     }
 
     public Window window(String stageTitleRegex) {

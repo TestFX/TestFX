@@ -23,10 +23,15 @@ public interface WindowFinder {
     public Window getLastTargetWindow();
     public void setLastTargetWindow(Window window);
 
+    public void target(Window window);
+    public void target(int windowIndex);
+    public void target(String stageTitleRegex);
+    public void target(Scene scene);
+
     public List<Window> listWindows();
     public List<Window> listOrderedWindows();
 
-    public Window window(int windowNumber);
+    public Window window(int windowIndex);
     public Window window(String stageTitleRegex);
     public Window window(Scene scene);
 }
