@@ -49,6 +49,8 @@ import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
+import org.loadui.testfx.robots.ScrollRobot;
+import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
@@ -254,6 +256,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
+    private final ScrollRobot scrollRobot;
 
     public GuiTest() {
         screenRobot = new ScreenRobotImpl();
@@ -261,6 +264,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         pointLocator = new PointLocator(boundsLocator);
         mouseRobot = new MouseRobot(screenRobot);
         keyboardRobot = new KeyboardRobot(screenRobot);
+        scrollRobot = new ScrollRobotImpl(screenRobot);
     }
 
     /**
@@ -289,46 +293,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
             type(KeyCode.BACK_SPACE);
         }
         return this;
-    }
-
-    /*---------------- Scroll ----------------*/
-
-    @Deprecated
-    public GuiTest scroll(int amount) {
-        for (int x = 0; x < Math.abs(amount); x++) {
-            screenRobot.scrollMouse(Integer.signum(amount));
-        }
-        return this;
-    }
-
-    /**
-     * Scrolls the mouse-wheel a given number of notches in a direction.
-     *
-     * @param amount    the number of notches to scroll
-     * @param direction
-     * @return
-     */
-    public GuiTest scroll(int amount, VerticalDirection direction) {
-        for (int x = 0; x < Math.abs(amount); x++) {
-            screenRobot.scrollMouse(directionToInteger(direction));
-        }
-        return this;
-    }
-
-    /**
-     * Scrolls the mouse-wheel one notch in the given direction.
-     *
-     * @param direction
-     * @return
-     */
-    public GuiTest scroll(VerticalDirection direction) {
-        return scroll(1, direction);
-    }
-
-    private int directionToInteger(VerticalDirection direction) {
-        if (direction == VerticalDirection.UP)
-            return -1;
-        return 1;
     }
 
     /*---------------- Type ----------------*/
@@ -402,6 +366,26 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
      */
     public GuiTest closeCurrentWindow() {
         this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF SCROLL ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Deprecated
+    public GuiTest scroll(int amount) {
+        scrollRobot.scroll(amount);
+        return this;
+    }
+
+    public GuiTest scroll(int amount, VerticalDirection direction) {
+        scrollRobot.scroll(amount, direction);
+        return this;
+    }
+
+    public GuiTest scroll(VerticalDirection direction) {
+        scroll(1, direction);
         return this;
     }
 
