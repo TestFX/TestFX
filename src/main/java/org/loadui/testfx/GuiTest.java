@@ -71,7 +71,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     //---------------------------------------------------------------------------------------------
 
     public static <T extends Window> T targetWindow(T window) {
-        windowFinder.setLastTargetWindow(window);
+        windowFinder.target(window);
         return window;
     }
 
@@ -849,32 +849,33 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     }
 
     public PointQuery pointFor(Node node) {
-        targetWindow(node.getScene().getWindow());
+        windowFinder.target(node.getScene().getWindow());
         return pointLocator.pointFor(node);
     }
 
     public PointQuery pointFor(Scene scene) {
-        targetWindow(scene.getWindow());
+        windowFinder.target(scene.getWindow());
         return pointLocator.pointFor(scene);
     }
 
     public PointQuery pointFor(Window window) {
-        targetWindow(window);
+        windowFinder.target(window);
         return pointLocator.pointFor(window);
     }
 
     public PointQuery pointFor(String query) {
-        Node node = find(query);
+        Node node = nodeFinder.node(query);
         return pointFor(node);
     }
 
     public PointQuery pointFor(Matcher<Object> matcher) {
-        Node node = find(matcher);
+        Node node = nodeFinder.node(matcher);
         return pointFor(node);
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
-        Node node = find(predicate);
+        Node node = nodeFinder.node((Predicate<Node>) predicate);
         return pointFor(node);
     }
 
