@@ -1,6 +1,11 @@
 package org.loadui.testfx.service.finder.impl;
 
 import java.util.List;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import javafx.scene.Scene;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -33,13 +38,27 @@ public class WindowFinderImpl implements WindowFinder {
     @SuppressWarnings("deprecation")
     public List<Window> listWindows() {
         List<Window> windows = Lists.newArrayList(Window.impl_getWindows());
-        return Lists.reverse(windows);
+        return ImmutableList.copyOf(Lists.reverse(windows));
     }
 
     public List<Window> listOrderedWindows() {
         List<Window> windows = listWindows();
         List<Window> orderedWindows = orderWindowsByProximityTo(lastTargetWindow, windows);
         return orderedWindows;
+    }
+
+    public Window window(int windowNumber) {
+        List<Window> windows = listWindows();
+        return windows.get(windowNumber);
+    }
+
+    public Window window(String stageTitleRegex) {
+        List<Window> windows = listWindows();
+        return Iterables.find(windows, hasStageTitlePredicate(stageTitleRegex));
+    }
+
+    public Window window(Scene scene) {
+        return scene.getWindow();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -87,6 +106,20 @@ public class WindowFinderImpl implements WindowFinder {
             return ((PopupWindow) window).getOwnerWindow();
         }
         return null;
+    }
+
+    private Predicate<Window> hasStageTitlePredicate(final String stageTitleRegex) {
+        return new Predicate<Window>() {
+            @Override
+            public boolean apply(Window window) {
+                return window instanceof Stage &&
+                    hasStageTitle((Stage) window, stageTitleRegex);
+            }
+        };
+    }
+
+    private boolean hasStageTitle(Stage stage, String stageTitleRegex) {
+        return stage.getTitle().matches(stageTitleRegex);
     }
 
 }

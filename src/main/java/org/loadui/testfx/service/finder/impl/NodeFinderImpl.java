@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import com.google.common.base.Function;
@@ -59,20 +58,15 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     public void target(int windowNumber) {
-        List<Window> windows = windowFinder.listWindows();
-        Window window = windows.get(windowNumber);
-        target(window);
+        target(windowFinder.window(windowNumber));
     }
 
     public void target(String stageTitleRegex) {
-        List<Window> windows = this.windowFinder.listWindows();
-        Window window = Iterables.find(windows, hasStageTitlePredicate(stageTitleRegex));
-        target(window);
+        target(windowFinder.window(stageTitleRegex));
     }
 
     public void target(Scene scene) {
-        Window window = scene.getWindow();
-        target(window);
+        target(windowFinder.window(scene));
     }
 
     public Node node(String query) {
@@ -128,15 +122,11 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     public Node parent(int windowNumber) {
-        List<Window> windows = windowFinder.listWindows();
-        Window window = windows.get(windowNumber);
-        return parent(window);
+        return parent(windowFinder.window(windowNumber));
     }
 
     public Node parent(String stageTitleRegex) {
-        List<Window> windows = windowFinder.listWindows();
-        Window window = Iterables.find(windows, hasStageTitlePredicate(stageTitleRegex));
-        return parent(window);
+        return parent(windowFinder.window(stageTitleRegex));
     }
 
     public Node parent(Scene scene) {
@@ -287,23 +277,9 @@ public class NodeFinderImpl implements NodeFinder {
         };
     }
 
-    private Predicate<Window> hasStageTitlePredicate(final String stageTitleRegex) {
-        return new Predicate<Window>() {
-            @Override
-            public boolean apply(Window window) {
-                return window instanceof Stage &&
-                    hasStageTitle((Stage) window, stageTitleRegex);
-            }
-        };
-    }
-
     private boolean isCssSelector(String query) {
         return query.startsWith(CSS_ID_SELECTOR_SYMBOL) ||
             query.startsWith(CSS_CLASS_SELECTOR_SYMBOL);
-    }
-
-    private boolean hasStageTitle(Stage stage, String stageTitleRegex) {
-        return stage.getTitle().matches(stageTitleRegex);
     }
 
     private boolean hasNodeLabel(Node node, String label) {
