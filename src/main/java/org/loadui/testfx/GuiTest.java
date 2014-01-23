@@ -51,8 +51,10 @@ import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 import org.loadui.testfx.robots.SleepRobot;
+import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.robots.impl.SleepRobotImpl;
+import org.loadui.testfx.robots.impl.TypeRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
@@ -63,7 +65,6 @@ import org.loadui.testfx.service.locator.PointQuery;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
 import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
-import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
 
 import static org.loadui.testfx.controls.Commons.hasText;
@@ -251,15 +252,31 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         }, timeoutInSeconds);
     }
 
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE STATIC FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final WindowFinder windowFinder = new WindowFinderImpl();
+    private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE FIELDS.
+    //---------------------------------------------------------------------------------------------
+
     private final ScreenRobot screenRobot;
     private final BoundsLocator boundsLocator;
     private final PointLocator pointLocator;
-    private static final WindowFinder windowFinder = new WindowFinderImpl();
-    private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
     private final ScrollRobot scrollRobot;
     private final SleepRobot sleepRobot;
+    private final TypeRobot typeRobot;
+
+    private Pos pointPosition = Pos.CENTER;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
 
     public GuiTest() {
         screenRobot = new ScreenRobotImpl();
@@ -269,88 +286,57 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         keyboardRobot = new KeyboardRobot(screenRobot);
         scrollRobot = new ScrollRobotImpl(screenRobot);
         sleepRobot = new SleepRobotImpl();
+        typeRobot = new TypeRobotImpl(keyboardRobot);
     }
 
-    /*---------------- Other  ----------------*/
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR POINT POSITION.
+    //---------------------------------------------------------------------------------------------
 
-    public GuiTest eraseCharacters(int characters) {
-        for (int i = 0; i < characters; i++) {
-            type(KeyCode.BACK_SPACE);
-        }
+    public GuiTest pos(Pos pointPosition) {
+        this.pointPosition = pointPosition;
         return this;
     }
 
-    /*---------------- Type ----------------*/
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF TYPE ROBOT.
+    //---------------------------------------------------------------------------------------------
 
-    /**
-     * Types the given text on the keyboard.
-     * Note: Typing depends on the operating system keyboard layout!
-     *
-     * @param text
-     */
-    public GuiTest type(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            type(text.charAt(i));
-            try {
-                Thread.sleep(25);
-            }
-            catch (InterruptedException e) {
-            }
-        }
+    public GuiTest type(KeyCode... keys) {
+        typeRobot.type(keys);
         return this;
     }
 
     public GuiTest type(char character) {
-        KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
-
-        if (!Character.isUpperCase(character)) {
-            return type(keyCode);
-        }
-        else {
-            KeyCode[] modifiers = new KeyCode[]{KeyCode.SHIFT};
-            press(modifiers);
-            type(keyCode);
-            return release(modifiers);
-        }
+        typeRobot.type(character);
+        return this;
     }
 
-    /**
-     * Alias for type( ).
-     *
-     * @param keys
-     */
+    public GuiTest type(String text) {
+        typeRobot.type(text);
+        return this;
+    }
+
+    public GuiTest eraseCharacters(int characters) {
+        typeRobot.erase(characters);
+        return this;
+    }
+
     public GuiTest push(KeyCode... keys) {
-        return type(keys);
+        type(keys);
+        return this;
     }
 
-    /**
-     * Alias for type().
-     *
-     * @param character
-     */
     public GuiTest push(char character) {
-        return type(character);
-    }
-
-    public GuiTest type(KeyCode... keys) {
-        press(keys);
-        return release(keys);
-    }
-
-    private Pos nodePosition = Pos.CENTER;
-
-    public GuiTest pos(Pos pos) {
-        nodePosition = pos;
+        type(character);
         return this;
     }
 
     /**
      * Closes the front-most window using the Alt+F4 keyboard shortcut.
-     *
-     * @return
      */
     public GuiTest closeCurrentWindow() {
-        this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
+        push(KeyCode.ALT, KeyCode.F4).sleep(100);
         return this;
     }
 
@@ -830,13 +816,13 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
 
     private void moveToImpl(PointQuery pointQuery) {
         // Since moving takes time, only do it if we're not already at the desired point.
-        Point2D point = pointQuery.atPosition(nodePosition);
+        Point2D point = pointQuery.atPosition(pointPosition);
         if (!isPointAtMouseLocation(point)) {
             screenRobot.moveMouseLinearTo(point.getX(), point.getY());
         }
 
         // If the target has moved while we were moving the mouse, update to the new position.
-        Point2D endPoint = pointQuery.atPosition(nodePosition);
+        Point2D endPoint = pointQuery.atPosition(pointPosition);
         screenRobot.moveMouseTo(endPoint.getX(), endPoint.getY());
     }
 
