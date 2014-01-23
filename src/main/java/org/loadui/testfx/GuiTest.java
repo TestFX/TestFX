@@ -33,7 +33,6 @@ import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SceneBuilder;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -65,51 +64,19 @@ import org.loadui.testfx.service.locator.PointQuery;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
 import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
-import org.loadui.testfx.utils.TestUtils;
+import org.loadui.testfx.service.wait.WaitUntilSupport;
 
 import static org.loadui.testfx.controls.Commons.hasText;
 
 public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, MoveRobot {
 
-    @Before
-    public void setupStage() throws Throwable {
-        StageRetriever stageRetriever = new StageRetrieverImpl();
-        stageRetriever.retrieveWithScene(this);
-    }
-
-    protected abstract Parent getRootNode();
-
-    // Runs in JavaFX Application Thread.
-    public Scene setupScene(Parent sceneRootNode) {
-        return SceneBuilder.create()
-            .width(600)
-            .height(400)
-            .root(sceneRootNode).build();
-    }
-
-    // Runs in JavaFX Application Thread.
-    public Parent setupSceneRoot() {
-        return getRootNode();
-    }
+    //---------------------------------------------------------------------------------------------
+    // STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
 
     public static <T extends Window> T targetWindow(T window) {
         windowFinder.setLastTargetWindow(window);
         return window;
-    }
-
-    public GuiTest target(Window window) {
-        nodeFinder.target(window);
-        return this;
-    }
-
-    public GuiTest target(int windowNumber) {
-        nodeFinder.target(windowNumber);
-        return this;
-    }
-
-    public GuiTest target(String stageTitleRegex) {
-        nodeFinder.target(stageTitleRegex);
-        return this;
     }
 
     public static List<Window> getWindows() {
@@ -198,58 +165,38 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return screenshot;
     }
 
-    public static void waitUntil(final Node node, final Matcher<Object> condition, int timeoutInSeconds) {
-        TestUtils.awaitCondition(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(node);
-            }
-        }, timeoutInSeconds);
-    }
-
-    /**
-     * Waits until the provided node fulfills the given condition.
-     *
-     * @param node
-     * @param condition
-     */
-    public static void waitUntil(final Node node, final Matcher<Object> condition) {
-        waitUntil(node, condition, 15);
-    }
-
-    public static <T> void waitUntil(final T value, final Matcher<? super T> condition) {
-        waitUntil(value, condition, 15);
-    }
-
-    public static <T> void waitUntil(final Callable<T> callable, final Matcher<? super T> condition) {
-        TestUtils.awaitCondition(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(callable.call());
-            }
-        }, 15);
-    }
-
-    public static <T> void waitUntil(final T value, final Matcher<? super T> condition, int timeoutInSeconds) {
-        TestUtils.awaitCondition(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(value);
-            }
-        }, timeoutInSeconds);
-    }
-
     public static <T extends Node> void waitUntil(final T node, final Predicate<T> condition) {
         waitUntil(node, condition, 15);
     }
 
-    public static <T extends Node> void waitUntil(final T node, final Predicate<T> condition, int timeoutInSeconds) {
-        TestUtils.awaitCondition(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.apply(node);
-            }
-        }, timeoutInSeconds);
+    public static <T extends Node> void waitUntil(T node, Predicate<T> condition,
+                                                  int timeoutInSeconds) {
+        waitUntilSupport.waitUntil(node, condition, timeoutInSeconds);
+    }
+
+    public static void waitUntil(Node node, Matcher<Object> condition) {
+        waitUntil(node, condition, 15);
+    }
+
+    public static void waitUntil(Node node, Matcher<Object> condition, int timeoutInSeconds) {
+        waitUntilSupport.waitUntil(node, condition, timeoutInSeconds);
+    }
+
+    public static <T> void waitUntil(T value, Matcher<? super T> condition) {
+        waitUntil(value, condition, 15);
+    }
+
+    public static <T> void waitUntil(T value, Matcher<? super T> condition, int timeoutInSeconds) {
+        waitUntilSupport.waitUntil(value, condition, timeoutInSeconds);
+    }
+
+    public static <T> void waitUntil(Callable<T> callable, Matcher<? super T> condition) {
+        waitUntil(callable, condition, 15);
+    }
+
+    public static <T> void waitUntil(Callable<T> callable, Matcher<? super T> condition,
+                                     int timeoutInSeconds) {
+        waitUntilSupport.waitUntil(callable, condition, timeoutInSeconds);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -258,30 +205,32 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
 
     private static final WindowFinder windowFinder = new WindowFinderImpl();
     private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
+    private static final WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final ScreenRobot screenRobot;
+    private Pos pointPosition = Pos.CENTER;
     private final BoundsLocator boundsLocator;
     private final PointLocator pointLocator;
+
+    private final ScreenRobot screenRobot;
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
     private final ScrollRobot scrollRobot;
     private final SleepRobot sleepRobot;
     private final TypeRobot typeRobot;
 
-    private Pos pointPosition = Pos.CENTER;
-
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public GuiTest() {
-        screenRobot = new ScreenRobotImpl();
         boundsLocator = new BoundsLocator();
         pointLocator = new PointLocator(boundsLocator);
+
+        screenRobot = new ScreenRobotImpl();
         mouseRobot = new MouseRobot(screenRobot);
         keyboardRobot = new KeyboardRobot(screenRobot);
         scrollRobot = new ScrollRobotImpl(screenRobot);
@@ -290,11 +239,52 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     }
 
     //---------------------------------------------------------------------------------------------
+    // METHODS FOR STAGE INITIALIZATION.
+    //---------------------------------------------------------------------------------------------
+
+    @Before
+    public void setupStage() throws Throwable {
+        StageRetriever stageRetriever = new StageRetrieverImpl();
+        stageRetriever.retrieveWithScene(this);
+    }
+
+    protected abstract Parent getRootNode();
+
+    // Runs in JavaFX Application Thread.
+    public Scene setupScene(Parent sceneRootNode) {
+        return new Scene(sceneRootNode, 600, 400);
+    }
+
+    // Runs in JavaFX Application Thread.
+    public Parent setupSceneRoot() {
+        return getRootNode();
+    }
+
+    //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT POSITION.
     //---------------------------------------------------------------------------------------------
 
     public GuiTest pos(Pos pointPosition) {
         this.pointPosition = pointPosition;
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR TARGET WINDOW.
+    //---------------------------------------------------------------------------------------------
+
+    public GuiTest target(Window window) {
+        nodeFinder.target(window);
+        return this;
+    }
+
+    public GuiTest target(int windowNumber) {
+        nodeFinder.target(windowNumber);
+        return this;
+    }
+
+    public GuiTest target(String stageTitleRegex) {
+        nodeFinder.target(stageTitleRegex);
         return this;
     }
 
