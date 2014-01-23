@@ -50,7 +50,9 @@ import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
 import org.loadui.testfx.robots.ScrollRobot;
+import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
+import org.loadui.testfx.robots.impl.SleepRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
@@ -257,6 +259,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
     private final ScrollRobot scrollRobot;
+    private final SleepRobot sleepRobot;
 
     public GuiTest() {
         screenRobot = new ScreenRobotImpl();
@@ -265,25 +268,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         mouseRobot = new MouseRobot(screenRobot);
         keyboardRobot = new KeyboardRobot(screenRobot);
         scrollRobot = new ScrollRobotImpl(screenRobot);
-    }
-
-    /**
-     * Same as Thread.sleep(), but without checked exceptions.
-     *
-     * @param ms time in milliseconds
-     */
-    public GuiTest sleep(long ms) {
-        try {
-            Thread.sleep(ms);
-        }
-        catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return this;
-    }
-
-    public GuiTest sleep(long value, TimeUnit unit) {
-        return sleep(unit.toMillis(value));
+        sleepRobot = new SleepRobotImpl();
     }
 
     /*---------------- Other  ----------------*/
@@ -366,6 +351,20 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
      */
     public GuiTest closeCurrentWindow() {
         this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF SLEEP ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    public GuiTest sleep(long milliseconds) {
+        sleepRobot.sleep(milliseconds);
+        return this;
+    }
+
+    public GuiTest sleep(long duration, TimeUnit timeUnit) {
+        sleepRobot.sleep(duration, timeUnit);
         return this;
     }
 
