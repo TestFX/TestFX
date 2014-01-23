@@ -15,17 +15,12 @@
  */
 package org.loadui.testfx;
 
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import javax.imageio.ImageIO;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -64,7 +59,8 @@ import org.loadui.testfx.service.locator.PointQuery;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
 import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
-import org.loadui.testfx.service.wait.WaitUntilSupport;
+import org.loadui.testfx.service.support.CaptureSupport;
+import org.loadui.testfx.service.support.WaitUntilSupport;
 
 import static org.loadui.testfx.controls.Commons.hasText;
 
@@ -153,18 +149,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         };
     }
 
-    public static File captureScreenshot() {
-        File screenshot = new File("screenshot" + new Date().getTime() + ".png");
-        try {
-            BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-            ImageIO.write(image, "png", screenshot);
-        }
-        catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return screenshot;
-    }
-
     public static <T extends Node> void waitUntil(final T node, final Predicate<T> condition) {
         waitUntil(node, condition, 15);
     }
@@ -199,6 +183,12 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         waitUntilSupport.waitUntil(callable, condition, timeoutInSeconds);
     }
 
+    public static File captureScreenshot() {
+        File captureFile = new File("screenshot" + new Date().getTime() + ".png");
+        captureSupport.capturePrimaryScreenToFile(captureFile);
+        return captureFile;
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -206,6 +196,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     private static final WindowFinder windowFinder = new WindowFinderImpl();
     private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
     private static final WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
+    private static final CaptureSupport captureSupport = new CaptureSupport(new ScreenRobotImpl());
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.

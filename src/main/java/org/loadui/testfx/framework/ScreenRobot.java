@@ -16,11 +16,15 @@
 package org.loadui.testfx.framework;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 public interface ScreenRobot {
     public Point2D getMouseLocation();
+
+    public Image captureRegion(Rectangle2D region);
 
     public void moveMouseTo(double x, double y);
 

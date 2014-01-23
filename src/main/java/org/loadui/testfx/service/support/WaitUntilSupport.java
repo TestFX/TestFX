@@ -1,4 +1,4 @@
-package org.loadui.testfx.service.wait;
+package org.loadui.testfx.service.support;
 
 import java.util.concurrent.Callable;
 import javafx.scene.Node;
