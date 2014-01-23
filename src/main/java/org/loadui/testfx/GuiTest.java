@@ -41,12 +41,13 @@ import org.loadui.testfx.framework.ScreenRobot;
 import org.loadui.testfx.robots.ClickRobot;
 import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
-import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
+import org.loadui.testfx.robots.impl.MouseRobotImpl;
+import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.robots.impl.SleepRobotImpl;
 import org.loadui.testfx.robots.impl.TypeRobotImpl;
@@ -223,7 +224,7 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         pointLocator = new PointLocator(boundsLocator);
 
         screenRobot = new ScreenRobotImpl();
-        mouseRobot = new MouseRobot(screenRobot);
+        mouseRobot = new MouseRobotImpl(screenRobot);
         keyboardRobot = new KeyboardRobotImpl(screenRobot);
         scrollRobot = new ScrollRobotImpl(screenRobot);
         sleepRobot = new SleepRobotImpl();
