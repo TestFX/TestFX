@@ -284,34 +284,12 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
 
     /*---------------- Other  ----------------*/
 
-
     public GuiTest eraseCharacters(int characters) {
         for (int i = 0; i < characters; i++) {
             type(KeyCode.BACK_SPACE);
         }
         return this;
     }
-
-    /**
-     * Presses and holds a mouse button, until explicitly released.
-     *
-     * @param buttons defaults to the primary mouse button.
-     */
-    public GuiTest press(MouseButton... buttons) {
-        mouseRobot.press(buttons);
-        return this;
-    }
-
-    /**
-     * Releases a pressed mouse button.
-     *
-     * @param buttons defaults to the primary mouse button.
-     */
-    public GuiTest release(MouseButton... buttons) {
-        mouseRobot.release(buttons);
-        return this;
-    }
-
 
     /*---------------- Scroll ----------------*/
 
@@ -352,7 +330,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
             return -1;
         return 1;
     }
-
 
     /*---------------- Type ----------------*/
 
@@ -411,26 +388,6 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
         return release(keys);
     }
 
-    /**
-     * Presses and holds a given key, until explicitly released.
-     *
-     * @param keys
-     */
-    public GuiTest press(KeyCode... keys) {
-        keyboardRobot.press(keys);
-        return this;
-    }
-
-    /**
-     * Releases a given key.
-     *
-     * @param keys
-     */
-    public GuiTest release(KeyCode... keys) {
-        keyboardRobot.release(keys);
-        return this;
-    }
-
     private Pos nodePosition = Pos.CENTER;
 
     public GuiTest pos(Pos pos) {
@@ -445,6 +402,34 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
      */
     public GuiTest closeCurrentWindow() {
         this.push(KeyCode.ALT, KeyCode.F4).sleep(100);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF MOUSE ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    public GuiTest press(MouseButton... buttons) {
+        mouseRobot.press(buttons);
+        return this;
+    }
+
+    public GuiTest release(MouseButton... buttons) {
+        mouseRobot.release(buttons);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF KEYBOARD ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    public GuiTest press(KeyCode... keys) {
+        keyboardRobot.press(keys);
+        return this;
+    }
+
+    public GuiTest release(KeyCode... keys) {
+        keyboardRobot.release(keys);
         return this;
     }
 
