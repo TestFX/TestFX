@@ -41,16 +41,8 @@ public class WindowFinderImpl implements WindowFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Window getLastTargetWindow() {
-        return lastTargetWindow;
-    }
-
-    public void setLastTargetWindow(Window window) {
-        lastTargetWindow = window;
-    }
-
     public void target(Window window) {
-        setLastTargetWindow(window);
+        lastTargetWindow = window;
     }
 
     public void target(int windowIndex) {
@@ -114,7 +106,7 @@ public class WindowFinderImpl implements WindowFinder {
         if (window == targetWindow) {
             return 0;
         }
-        if (this.isOwnerOf(window, targetWindow)) {
+        if (isOwnerOf(window, targetWindow)) {
             return 1;
         }
         return 2;

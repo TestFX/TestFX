@@ -20,9 +20,6 @@ import javafx.scene.Scene;
 import javafx.stage.Window;
 
 public interface WindowFinder {
-    public Window getLastTargetWindow();
-    public void setLastTargetWindow(Window window);
-
     public void target(Window window);
     public void target(int windowIndex);
     public void target(String stageTitleRegex);

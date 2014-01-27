@@ -42,11 +42,11 @@ public class BoundsQuery implements PointQuery {
     //---------------------------------------------------------------------------------------------
 
     public Point2D atPosition(Pos position) {
-        return this.pointForPosition(this.bounds, position);
+        return pointForPosition(bounds, position);
     }
 
     public Point2D atOffset(double x, double y) {
-        Point2D point = this.atPosition(Pos.TOP_LEFT);
+        Point2D point = atPosition(Pos.TOP_LEFT);
         return new Point2D(point.getX() + x, point.getY() + y);
     }
 
@@ -55,8 +55,8 @@ public class BoundsQuery implements PointQuery {
     //---------------------------------------------------------------------------------------------
 
     private Point2D pointForPosition(Bounds bounds, Pos position) {
-        double pointX = this.computePointX(bounds, position.getHpos());
-        double pointY = this.computePointY(bounds, position.getVpos());
+        double pointX = computePointX(bounds, position.getHpos());
+        double pointY = computePointY(bounds, position.getVpos());
         return new Point2D(pointX, pointY);
     }
 

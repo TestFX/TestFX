@@ -727,37 +727,37 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
 
     @Override
     public GuiTest moveTo(double x, double y) {
-        moveToImpl(pointFor(new Point2D(x, y)));
+        moveToImpl(pointLocator.pointFor(new Point2D(x, y)));
         return this;
     }
 
     @Override
     public GuiTest moveTo(Point2D point) {
-        moveToImpl(pointFor(point));
+        moveToImpl(pointLocator.pointFor(point));
         return this;
     }
 
     @Override
     public GuiTest moveTo(Bounds bounds) {
-        moveToImpl(pointFor(bounds));
+        moveToImpl(pointLocator.pointFor(bounds));
         return this;
     }
 
     @Override
     public GuiTest moveTo(Node node) {
-        moveToImpl(pointFor(node));
+        moveToImpl(pointLocator.pointFor(node));
         return this;
     }
 
     @Override
     public GuiTest moveTo(Scene scene) {
-        moveToImpl(pointFor(scene));
+        moveToImpl(pointLocator.pointFor(scene));
         return this;
     }
 
     @Override
     public GuiTest moveTo(Window window) {
-        moveToImpl(pointFor(window));
+        moveToImpl(pointLocator.pointFor(window));
         return this;
     }
 
