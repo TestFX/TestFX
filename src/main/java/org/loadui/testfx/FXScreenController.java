@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.utils.UserInputDetector;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -62,13 +63,15 @@ public class FXScreenController implements ScreenController
         if (distance < totalTime) {
             totalTime = Math.max(1, distance);
         }
-        
+
         double speedX = distanceX / totalTime;
         double speedY = distanceY / totalTime;
         for (int time = 0; time < totalTime; time++) {
-            
-            robot.mouseMove( position.x + (int)( speedX * time ) , position.y + (int)( speedY * time ));
-            
+
+            int newX = position.x + (int) (speedX * time);
+            int newY = position.y + (int) (speedY * time);
+            robot.mouseMove(newX, newY);
+
             try
             {
                 Thread.sleep( 1 );
@@ -77,9 +80,13 @@ public class FXScreenController implements ScreenController
             {
                 return;
             }
-            
+
+            Point currentCursorLocation = MouseInfo.getPointerInfo().getLocation();
+            Point expectedCursorLocation = new Point(newX, newY);
+            UserInputDetector.instance.assertPointsAreEqual(currentCursorLocation, expectedCursorLocation);
+
         }
-        
+
         // We should be less than one step away from the target
         // => Make one last step to hit it.
         robot.mouseMove((int) x, (int) y);

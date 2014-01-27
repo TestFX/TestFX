@@ -42,6 +42,7 @@ import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.utils.FXTestUtils;
 import org.loadui.testfx.utils.KeyCodeUtils;
 import org.loadui.testfx.utils.TestUtils;
+import org.loadui.testfx.utils.UserInputDetector;
 
 import javax.imageio.ImageIO;
 
@@ -56,6 +57,7 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.*;
 import static com.google.common.collect.Sets.filter;
+import static org.junit.Assume.assumeTrue;
 import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.utils.FXTestUtils.flattenSets;
 import static org.loadui.testfx.utils.FXTestUtils.intersection;
@@ -66,7 +68,7 @@ public abstract class GuiTest
 	private static final SettableFuture<Stage> stageFuture = SettableFuture.create();
 	protected static Stage stage;
 
-	public static class TestFxApp extends Application
+    public static class TestFxApp extends Application
 	{
 		private static Scene scene = null;
 
@@ -87,7 +89,8 @@ public abstract class GuiTest
 	@Before
 	public void setupStage() throws Throwable
 	{
-		showNodeInStage();
+        assumeTrue( !UserInputDetector.instance.hasDetectedUserInput() );
+        showNodeInStage();
 	}
 
 	protected abstract Parent getRootNode();
@@ -551,6 +554,7 @@ public abstract class GuiTest
 
 	public GuiTest()
 	{
+        UserInputDetector.instance.setTestThread(Thread.currentThread());
 		this.controller = new FXScreenController();
 	}
 
@@ -839,7 +843,11 @@ public abstract class GuiTest
 	 */
 	public GuiTest move( double x, double y )
 	{
-		controller.move( x, y );
+        synchronized (UserInputDetector.instance)
+        {
+            controller.move(x, y);
+            UserInputDetector.instance.reset();
+        }
 		return this;
 	}
 
