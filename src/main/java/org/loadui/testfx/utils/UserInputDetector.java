@@ -1,6 +1,9 @@
 package org.loadui.testfx.utils;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
+
+import static org.loadui.testfx.utils.FXTestUtils.releaseButtons;
 
 public class UserInputDetector implements Runnable {
 
@@ -50,9 +53,10 @@ public class UserInputDetector implements Runnable {
     }
 
     private void userInputDetected() {
-        System.out.println("User mouse movement detected. Aborting test.");
+        System.out.println("[TestFX] User mouse movement detected. Aborting test.");
         wasTilted = true;
         testThread.stop();
+        releaseButtons();
     }
 
     public void setTestThread(Thread testThread) {

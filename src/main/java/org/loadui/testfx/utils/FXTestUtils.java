@@ -19,6 +19,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -275,5 +277,21 @@ public class FXTestUtils
         for( Set<T> set : found )
             sb.addAll(set);
         return sb.build();
+    }
+
+    public static void releaseButtons()
+    {
+        try {
+            Robot robot = new Robot();
+            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
+            robot.keyRelease(KeyEvent.SHIFT_DOWN_MASK);
+            robot.keyRelease(KeyEvent.CTRL_DOWN_MASK);
+            robot.keyRelease(KeyEvent.ALT_DOWN_MASK);
+            robot.keyRelease(KeyEvent.VK_META);
+        } catch (AWTException e) {
+            System.out.println("[TestFX] Failed releasing keys.");
+            e.printStackTrace();
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.hamcrest.Matcher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.loadui.testfx.GuiTest.find;
+import static org.loadui.testfx.utils.FXTestUtils.releaseButtons;
 
 public class Assertions
 {
@@ -33,6 +34,7 @@ public class Assertions
 		}
 		catch( AssertionError e )
 		{
+            releaseButtons();
 			throw new AssertionError( e.getMessage() + " Screenshot saved as " + GuiTest.captureScreenshot().getAbsolutePath() , e );
 		}
 	}
@@ -41,12 +43,18 @@ public class Assertions
     {
             T node = find( query );
             if(! predicate.apply( node ) )
+            {
+                releaseButtons();
                 throw new AssertionError( "Predicate failed for query '" + query + "'. Screenshot saved as " + GuiTest.captureScreenshot().getAbsolutePath() );
+            }
     }
 
     public static <T extends Node> void verifyThat( T node, Predicate<T> predicate )
     {
             if(! predicate.apply( node ) )
+            {
+                releaseButtons();
                 throw new AssertionError( "Predicate failed for '" + node + "'. Screenshot saved as " + GuiTest.captureScreenshot().getAbsolutePath() );
+            }
     }
 }
