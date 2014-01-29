@@ -43,6 +43,13 @@ public class PointLocatorImplTest extends GuiTest {
     PointLocator pointLocator;
     BoundsLocatorStub boundsLocatorStub;
 
+    Bounds nodeBounds;
+    Bounds nodeBoundsAfterChange;
+    Bounds sceneBounds;
+    Bounds sceneBoundsAfterChange;
+    Bounds windowBounds;
+    Bounds windowBoundsAfterChange;
+
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
@@ -51,6 +58,13 @@ public class PointLocatorImplTest extends GuiTest {
     public void setup() {
         boundsLocatorStub = new BoundsLocatorStub();
         pointLocator = new PointLocatorImpl(boundsLocatorStub);
+
+        nodeBounds = new BoundingBox(100, 100, 50, 50);
+        nodeBoundsAfterChange = new BoundingBox(200, 200, 50, 50);
+        sceneBounds = new BoundingBox(100, 100, 600, 400);
+        sceneBoundsAfterChange = new BoundingBox(200, 200, 600, 400);
+        windowBounds = new BoundingBox(100, 100, 600, 400);
+        windowBoundsAfterChange = new BoundingBox(200, 200, 600, 400);
     }
 
     @Override
@@ -63,10 +77,9 @@ public class PointLocatorImplTest extends GuiTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void pointFor_atOffset() {
+    public void pointFor_Bounds_atOffset() {
         // given:
-        boundsLocatorStub.bounds = new BoundingBox(100, 100, 0, 0);
-        PointQuery pointQuery = pointLocator.pointFor((Node) null);
+        PointQuery pointQuery = pointLocator.pointFor(new BoundingBox(100, 100, 50, 50));
 
         // when:
         Point2D point = pointQuery.atOffset(0, 0);
@@ -76,17 +89,100 @@ public class PointLocatorImplTest extends GuiTest {
     }
 
     @Test
-    public void pointFor_atOffset_afterChange() {
+    public void pointFor_Point2D_atOffset() {
         // given:
-        boundsLocatorStub.bounds = new BoundingBox(100, 100, 0, 0);
-        PointQuery pointQuery = pointLocator.pointFor((Node) null);
+        boundsLocatorStub.bounds = nodeBounds;
+        PointQuery pointQuery = pointLocator.pointFor(new Point2D(100, 100));
 
         // when:
-        boundsLocatorStub.bounds = new BoundingBox(200, 200, 0, 0);
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        assertThat(point, equalTo(new Point2D(200, 200)));
+        assertThat(point, equalTo(new Point2D(100, 100)));
+    }
+
+    @Test
+    public void pointFor_Node_atOffset() {
+        // given:
+        boundsLocatorStub.bounds = nodeBounds;
+        PointQuery pointQuery = pointLocator.pointFor((Node) null);
+
+        // when:
+        Point2D point = pointQuery.atOffset(0, 0);
+
+        // then:
+        assertThat(point, equalTo(new Point2D(nodeBounds.getMinX(), nodeBounds.getMinY())));
+    }
+
+    @Test
+    public void pointFor_Node_atOffset_afterChange() {
+        // given:
+        boundsLocatorStub.bounds = nodeBounds;
+        PointQuery pointQuery = pointLocator.pointFor((Node) null);
+
+        // when:
+        boundsLocatorStub.bounds = nodeBoundsAfterChange;
+        Point2D point = pointQuery.atOffset(0, 0);
+
+        // then:
+        assertThat(point, equalTo(new Point2D(nodeBoundsAfterChange.getMinX(),
+            nodeBoundsAfterChange.getMinY())));
+    }
+
+    @Test
+    public void pointFor_Scene_atOffset() {
+        // given:
+        boundsLocatorStub.bounds = sceneBounds;
+        PointQuery pointQuery = pointLocator.pointFor((Scene) null);
+
+        // when:
+        Point2D point = pointQuery.atOffset(0, 0);
+
+        // then:
+        assertThat(point, equalTo(new Point2D(sceneBounds.getMinX(), sceneBounds.getMinY())));
+    }
+
+    @Test
+    public void pointFor_Scene_atOffset_afterChange() {
+        // given:
+        boundsLocatorStub.bounds = sceneBounds;
+        PointQuery pointQuery = pointLocator.pointFor((Scene) null);
+
+        // when:
+        boundsLocatorStub.bounds = sceneBoundsAfterChange;
+        Point2D point = pointQuery.atOffset(0, 0);
+
+        // then:
+        assertThat(point, equalTo(new Point2D(sceneBoundsAfterChange.getMinX(),
+            sceneBoundsAfterChange.getMinY())));
+    }
+
+    @Test
+    public void pointFor_Window_atOffset() {
+        // given:
+        boundsLocatorStub.bounds = windowBounds;
+        PointQuery pointQuery = pointLocator.pointFor((Window) null);
+
+        // when:
+        Point2D point = pointQuery.atOffset(0, 0);
+
+        // then:
+        assertThat(point, equalTo(new Point2D(windowBounds.getMinX(), windowBounds.getMinY())));
+    }
+
+    @Test
+    public void pointFor_Window_atOffset_afterChange() {
+        // given:
+        boundsLocatorStub.bounds = windowBounds;
+        PointQuery pointQuery = pointLocator.pointFor((Window) null);
+
+        // when:
+        boundsLocatorStub.bounds = windowBoundsAfterChange;
+        Point2D point = pointQuery.atOffset(0, 0);
+
+        // then:
+        assertThat(point, equalTo(new Point2D(windowBoundsAfterChange.getMinX(),
+            windowBoundsAfterChange.getMinY())));
     }
 
     //---------------------------------------------------------------------------------------------
