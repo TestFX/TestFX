@@ -13,15 +13,16 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.locator;
+package org.loadui.testfx.service.locator.impl;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import org.loadui.testfx.service.locator.PointQuery;
 
-public class BoundsQuery implements PointQuery {
+public class BoundsPointQuery implements PointQuery {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -33,7 +34,7 @@ public class BoundsQuery implements PointQuery {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public BoundsQuery(Bounds bounds) {
+    public BoundsPointQuery(Bounds bounds) {
         this.bounds = bounds;
     }
 

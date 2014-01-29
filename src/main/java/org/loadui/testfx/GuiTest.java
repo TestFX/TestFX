@@ -58,6 +58,8 @@ import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.PointQuery;
+import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
+import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
 import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
@@ -210,8 +212,8 @@ public abstract class GuiTest implements SceneProvider, ClickRobot, DragRobot, M
     //---------------------------------------------------------------------------------------------
 
     public GuiTest() {
-        boundsLocator = new BoundsLocator();
-        pointLocator = new PointLocator(boundsLocator);
+        boundsLocator = new BoundsLocatorImpl();
+        pointLocator = new PointLocatorImpl(boundsLocator);
 
         screenRobot = new ScreenRobotImpl();
         mouseRobot = new MouseRobotImpl(screenRobot);

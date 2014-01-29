@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.locator;
+package org.loadui.testfx.service.locator.impl;
 
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
@@ -31,13 +31,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.service.locator.BoundsLocator;
+import org.loadui.testfx.service.locator.BoundsLocatorException;
+import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
-public class BoundsLocatorTest extends GuiTest {
+public class BoundsLocatorImplTest extends GuiTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -63,7 +66,7 @@ public class BoundsLocatorTest extends GuiTest {
 
     @Before
     public void setup() throws Throwable {
-        boundsLocator = new BoundsLocator();
+        boundsLocator = new BoundsLocatorImpl();
     }
 
     @After
@@ -206,7 +209,8 @@ public class BoundsLocatorTest extends GuiTest {
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsPartyOutsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, not(equalTo(boundsWithOffset(100 + 550, 100 + 350, 100, 100, windowInsets))));
+        assertThat(bounds, not(equalTo(boundsWithOffset(100 + 550, 100 + 350, 100, 100,
+            windowInsets))));
         assertThat(bounds, equalTo(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets)));
     }
 
