@@ -27,50 +27,63 @@ public class BoundsLocator {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Bounds screenBoundsFor(Node node) {
-        Bounds nodeBounds = sceneBoundsVisibleFor(node);
-        return screenBoundsFor(nodeBounds, node.getScene());
+    public Bounds boundsInSceneFor(Node node) {
+        Bounds sceneBounds = node.localToScene(node.getBoundsInLocal());
+        return limitToVisibleBounds(sceneBounds, node.getScene());
     }
 
-    public Bounds screenBoundsFor(Bounds boundsInScene, Scene scene) {
-        Bounds sceneBoundsOnScreen = screenBoundsFor(scene);
-        double screenX = sceneBoundsOnScreen.getMinX() + boundsInScene.getMinX();
-        double screenY = sceneBoundsOnScreen.getMinY() + boundsInScene.getMinY();
+    public Bounds boundsInWindowFor(Scene scene) {
         return new BoundingBox(
-            screenX, screenY,
-            boundsInScene.getWidth(), boundsInScene.getHeight()
+            scene.getX(), scene.getY(),
+            scene.getWidth(), scene.getHeight()
         );
     }
 
-    public Bounds screenBoundsFor(Scene scene) {
-        Window window = scene.getWindow();
-        double screenX = window.getX() + scene.getX();
-        double screenY = window.getY() + scene.getY();
-        return new BoundingBox(screenX, screenY, scene.getWidth(), scene.getHeight());
+    public Bounds boundsInWindowFor(Bounds boundsInScene, Scene scene) {
+        Bounds visibleBoundsInScene = limitToVisibleBounds(boundsInScene, scene);
+        Bounds windowBounds = boundsInWindowFor(scene);
+        return translateBounds(visibleBoundsInScene,
+            windowBounds.getMinX(), windowBounds.getMinY());
     }
 
-    public Bounds screenBoundsFor(Window window) {
+    public Bounds boundsOnScreenFor(Node node) {
+        Bounds sceneBounds = boundsInSceneFor(node);
+        return boundsOnScreenFor(sceneBounds, node.getScene());
+    }
+
+    public Bounds boundsOnScreenFor(Scene scene) {
+        Bounds windowBounds = boundsInWindowFor(scene);
+        Window window = scene.getWindow();
+        return translateBounds(windowBounds, window.getX(), window.getY());
+    }
+
+    public Bounds boundsOnScreenFor(Window window) {
         return new BoundingBox(
             window.getX(), window.getY(),
             window.getWidth(), window.getHeight()
         );
     }
 
-    public Bounds sceneBoundsFor(Node node) {
-        return node.localToScene(node.getBoundsInLocal());
-    }
-
-    public Bounds sceneBoundsVisibleFor(Node node) {
-        Bounds nodeBounds = sceneBoundsFor(node);
-        Bounds sceneBounds = getSceneBounds(node.getScene());
-        return intersectBounds(nodeBounds, sceneBounds);
+    public Bounds boundsOnScreenFor(Bounds boundsInScene, Scene scene) {
+        Bounds windowBounds = boundsInWindowFor(boundsInScene, scene);
+        Window window = scene.getWindow();
+        return translateBounds(windowBounds, window.getX(), window.getY());
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Bounds getSceneBounds(Scene scene) {
+    private Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {
+        Bounds sceneBounds = makeSceneBounds(scene);
+        Bounds visibleBounds = intersectBounds(boundsInScene, sceneBounds);
+        if (!areBoundsVisible(visibleBounds)) {
+            throw new BoundsLocatorException("Bounds are not visible in Scene.");
+        }
+        return visibleBounds;
+    }
+
+    private Bounds makeSceneBounds(Scene scene) {
         return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
     }
 
@@ -82,6 +95,17 @@ public class BoundsLocator {
         double width = maxX - minX;
         double height = maxY - minY;
         return new BoundingBox(minX, minY, width, height);
+    }
+
+    private boolean areBoundsVisible(Bounds bounds) {
+        return bounds.getWidth() >= 0 && bounds.getHeight() >= 0;
+    }
+
+    private Bounds translateBounds(Bounds bounds, double x, double y) {
+        return new BoundingBox(
+            bounds.getMinX() + x, bounds.getMinY() + y,
+            bounds.getWidth(), bounds.getHeight()
+        );
     }
 
 }

@@ -52,17 +52,17 @@ public class PointLocator {
     }
 
     public PointQuery pointFor(Node node) {
-        Bounds bounds = boundsLocator.screenBoundsFor(node);
+        Bounds bounds = boundsLocator.boundsOnScreenFor(node);
         return pointFor(bounds);
     }
 
     public PointQuery pointFor(Scene scene) {
-        Bounds bounds = boundsLocator.screenBoundsFor(scene);
+        Bounds bounds = boundsLocator.boundsOnScreenFor(scene);
         return pointFor(bounds);
     }
 
     public PointQuery pointFor(Window window) {
-        Bounds bounds = boundsLocator.screenBoundsFor(window);
+        Bounds bounds = boundsLocator.boundsOnScreenFor(window);
         return pointFor(bounds);
     }
 
