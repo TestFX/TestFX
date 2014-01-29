@@ -13,8 +13,7 @@ Easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/j
 ### Usage Example
 
 ```java
-class DesktopTest extends GuiTest
-{
+class DesktopTest extends GuiTest {
   public Parent getRootNode() {
     return new Desktop()
   }
