@@ -284,11 +284,9 @@ public class FXTestUtils
         try {
             Robot robot = new Robot();
             robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-            robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
-            robot.keyRelease(KeyEvent.SHIFT_DOWN_MASK);
-            robot.keyRelease(KeyEvent.CTRL_DOWN_MASK);
-            robot.keyRelease(KeyEvent.ALT_DOWN_MASK);
-            robot.keyRelease(KeyEvent.VK_META);
+            robot.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
+            robot.keyRelease(KeyEvent.VK_SHIFT);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
         } catch (AWTException e) {
             System.out.println("[TestFX] Failed releasing keys.");
             e.printStackTrace();

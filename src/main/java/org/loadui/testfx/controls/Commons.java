@@ -60,7 +60,7 @@ public class Commons
 		return new HasLabelMatcher( stringMatcher );
 	}
 
-    public static <T extends Node> T nodeLabeledBy(String labelQuery)
+    public static Node nodeLabeledBy(String labelQuery)
     {
         Node foundNode = GuiTest.find(labelQuery);
 
@@ -68,13 +68,13 @@ public class Commons
         Label label = ( Label )foundNode;
         Node labelFor = label.getLabelFor();
         checkNotNull(labelFor);
-        return (T) labelFor;
+        return labelFor;
     }
 
-    public static <T extends Node> T  nodeLabeledBy(Label label)
+    public static Node  nodeLabeledBy(Label label)
     {
         Node labelFor = label.getLabelFor();
         checkNotNull(labelFor);
-        return (T) labelFor;
+        return labelFor;
     }
 }
