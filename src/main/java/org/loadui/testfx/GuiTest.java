@@ -129,8 +129,6 @@ public abstract class GuiTest
 				{
 					Scene scene = SceneBuilder
 							.create()
-							.width( 600 )
-							.height( 400 )
 							.root( getRootNode() ).build();
 
 					if( stylesheet != null )
@@ -631,7 +629,7 @@ public abstract class GuiTest
 		return click( buttons );
 	}
 
-	public GuiTest click( Node node, MouseButton... buttons )
+    public GuiTest click( Node node, MouseButton... buttons )
 	{
 		move( node );
 		return click( buttons );

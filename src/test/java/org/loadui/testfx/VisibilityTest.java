@@ -81,7 +81,8 @@ public class VisibilityTest extends GuiTest {
         });
         Button visibleTwin = ButtonBuilder.create().text("Twin").id("twin").build();
         Button invisibleTwin = ButtonBuilder.create().text("Twin").id("twin").visible(false).build();
-        return VBoxBuilder.create().children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
+        return VBoxBuilder.create().minWidth( 600 )
+                .minHeight( 400 ).children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
     }
 }
 
