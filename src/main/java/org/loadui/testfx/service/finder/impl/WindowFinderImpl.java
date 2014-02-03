@@ -41,6 +41,10 @@ public class WindowFinderImpl implements WindowFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    public Window target() {
+        return lastTargetWindow;
+    }
+
     public void target(Window window) {
         lastTargetWindow = window;
     }
