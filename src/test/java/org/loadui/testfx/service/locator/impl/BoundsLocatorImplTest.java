@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
-import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
