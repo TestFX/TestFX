@@ -13,52 +13,52 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.stage.impl;
+package org.loadui.testfx.utils;
 
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-public class StageApplication extends Application {
+public final class FxLauncherUtils {
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
+
+    private FxLauncherUtils() {
+        throw new UnsupportedOperationException();
+    }
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public static StageFuture stageFuture = StageFuture.create();
+    private static final StageFuture stageFuture = StageFuture.create();
+
+    //---------------------------------------------------------------------------------------------
+    // STATIC CLASSES.
+    //---------------------------------------------------------------------------------------------
+
+    public static class FxLauncherApplication extends Application {
+        @Override
+        public void start(Stage stage) throws Exception {
+            stageFuture.set(stage);
+        }
+    }
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static void launchInThread() {
-        // TODO: Document what happens if the next line is missing.
-        // java.lang.IllegalStateException: Application launch must not be called more than once
-        if (!stageFuture.isDone()) {
-            // TODO: Document what happens if the next line is missing.
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Application.launch(StageApplication.class);
-                }
-            }).start();
+    public static Stage launchOnce(long stageTimeout, TimeUnit timeUnit,
+                                   String... appArgs) throws Throwable {
+        if (!FxApplicationUtils.hasPrimaryStage(stageFuture)) {
+            FxApplicationUtils.launchAppInThread(FxLauncherApplication.class, appArgs);
         }
-    }
-
-    public static Stage waitForPrimaryStage(long timeout, TimeUnit timeUnit) throws Throwable {
-        // Blocks until the task is complete or the timeout expires.
-        // Throws a `TimeoutException` if the timer expires.
-        return stageFuture.get(timeout, timeUnit);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    public void start(Stage primaryStage) {
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        stageFuture.set(primaryStage);
+        Stage primaryStage = FxApplicationUtils.waitForPrimaryStage(stageTimeout,
+            timeUnit, stageFuture);
+        FxApplicationUtils.prepareStage(stageTimeout, timeUnit, primaryStage);
+        return primaryStage;
     }
 
 }

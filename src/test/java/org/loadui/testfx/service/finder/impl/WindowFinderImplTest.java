@@ -16,34 +16,34 @@
 package org.loadui.testfx.service.finder.impl;
 
 import java.util.List;
-import javafx.scene.Parent;
+import java.util.concurrent.TimeUnit;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.GuiTest;
-import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.utils.FxLauncherUtils;
+import org.loadui.testfx.framework.FxRobot;
+import org.loadui.testfx.utils.FxTestUtils;
 
 import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WindowFinderImplTest extends GuiTest {
+public class WindowFinderImplTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    Stage window;
-    Stage windowInWindow;
-    Stage windowInWindowInWindow;
-    Stage otherWindow;
-
-    Scene scene;
+    static Stage window;
+    static Stage windowInWindow;
+    static Stage windowInWindowInWindow;
+    static Stage otherWindow;
+    static Scene scene;
 
     WindowFinderImpl windowFinder;
 
@@ -51,26 +51,33 @@ public class WindowFinderImplTest extends GuiTest {
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @BeforeClass
+    public static void setupSpec() throws Throwable {
+        FxLauncherUtils.launchOnce(10, TimeUnit.SECONDS);
+        FxTestUtils.invokeAndWait(new Runnable() {
+            @Override
+            public void run() {
+                setupStages();
+            }
+        }, 10);
+    }
+
     @Before
     public void setup() {
         windowFinder = new WindowFinderImpl();
     }
 
-    @After
-    public void cleanup() throws Throwable {
-        FXTestUtils.invokeAndWait(new Runnable() {
+    @AfterClass
+    public static void cleanupSpec() throws Throwable {
+        FxTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                window.close();
-                windowInWindow.close();
-                windowInWindowInWindow.close();
-                otherWindow.close();
+                cleanupStages();
             }
         }, 10);
     }
 
-    @Override
-    protected Parent getRootNode() {
+    public static void setupStages() {
         window = new Stage();
         window.setTitle("window");
 
@@ -91,8 +98,13 @@ public class WindowFinderImplTest extends GuiTest {
         windowInWindow.show();
         windowInWindowInWindow.show();
         otherWindow.show();
+    }
 
-        return new AnchorPane();
+    public static void cleanupStages() {
+        window.close();
+        windowInWindow.close();
+        windowInWindowInWindow.close();
+        otherWindow.close();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -104,7 +116,6 @@ public class WindowFinderImplTest extends GuiTest {
         // TODO: Assert that ordering of windows is correct.
         // when:
         List<Window> windows = windowFinder.listWindows();
-        windows = windows.subList(0, windows.size());
 
         // then:
         assertThat(windows, Matchers.hasItems((Window) window));
@@ -175,6 +186,7 @@ public class WindowFinderImplTest extends GuiTest {
     @Test
     public void window_stageTitleRegex() {
         // TODO: Assert that it thrown an exception of stage title regex does not match.
+        // TODO: Assert that stages without title do not throw a NPE.
         // expect:
         assertThat(windowFinder.window("window"), Matchers.is((Window) window));
         assertThat(windowFinder.window("windowInWindow"), Matchers.is((Window) windowInWindow));

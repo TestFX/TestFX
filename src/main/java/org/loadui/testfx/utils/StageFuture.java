@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.stage.impl;
+package org.loadui.testfx.utils;
 
 import javafx.stage.Stage;
 import com.google.common.util.concurrent.AbstractFuture;

@@ -16,11 +16,10 @@
 package org.loadui.testfx.service.finder.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -31,38 +30,40 @@ import com.google.common.collect.Lists;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.junit.After;
+import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.internal.matchers.TypeSafeMatcher;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.framework.FxRobot;
 import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.utils.FxLauncherUtils;
+import org.loadui.testfx.utils.FxTestUtils;
 
-import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class NodeFinderImplTest extends GuiTest {
+public class NodeFinderImplTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    Stage window;
-    Stage otherWindow;
+    static Stage window;
+    static Stage otherWindow;
 
-    Pane pane;
-    Node firstIdLabel;
-    Node secondIdLabel;
-    Node thirdClassLabel;
-    Node invisibleNode;
+    static Pane pane;
+    static Node firstIdLabel;
+    static Node secondIdLabel;
+    static Node thirdClassLabel;
+    static Node invisibleNode;
 
-    Pane otherPane;
-    Node subLabel;
-    Pane otherSubPane;
-    Node subSubLabel;
+    static Pane otherPane;
+    static Node subLabel;
+    static Pane otherSubPane;
+    static Node subSubLabel;
 
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
@@ -71,6 +72,17 @@ public class NodeFinderImplTest extends GuiTest {
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @BeforeClass
+    public static void setupSpec() throws Throwable {
+        FxLauncherUtils.launchOnce(10, TimeUnit.SECONDS);
+        FxTestUtils.invokeAndWait(new Runnable() {
+            @Override
+            public void run() {
+                setupStages();
+            }
+        }, 10);
+    }
+
     @Before
     public void setup() {
         windowFinder = new WindowFinderStub();
@@ -78,19 +90,17 @@ public class NodeFinderImplTest extends GuiTest {
         nodeFinder = new NodeFinderImpl(windowFinder);
     }
 
-    @After
-    public void cleanup() throws Throwable {
-        FXTestUtils.invokeAndWait(new Runnable() {
+    @AfterClass
+    public static void cleanupSpec() throws Throwable {
+        FxTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                window.close();
-                otherWindow.close();
+                cleanupStages();
             }
         }, 10);
     }
 
-    @Override
-    protected Parent getRootNode() {
+    public static void setupStages() {
         pane = new VBox();
         firstIdLabel = new Label("first");
         firstIdLabel.setId("firstId");
@@ -122,8 +132,11 @@ public class NodeFinderImplTest extends GuiTest {
         otherWindow.setScene(new Scene(otherPane, 600, 400));
         window.show();
         otherWindow.show();
+    }
 
-        return new AnchorPane();
+    public static void cleanupStages() {
+        window.close();
+        otherWindow.close();
     }
 
     //---------------------------------------------------------------------------------------------

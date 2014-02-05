@@ -23,7 +23,8 @@ import javafx.stage.Stage;
 
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
-import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.utils.FxLauncherUtils;
+import org.loadui.testfx.utils.FxTestUtils;
 
 public class StageRetrieverImpl implements StageRetriever {
 
@@ -47,12 +48,9 @@ public class StageRetrieverImpl implements StageRetriever {
 
     public Stage retrieve() throws Throwable {
         // TODO: Document what happens if the next line is missing.
-        if (primaryStage == null) {
-            StageApplication.launchInThread();
-        }
         try {
-            primaryStage = StageApplication.waitForPrimaryStage(
-                SCENE_RETRIEVE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            primaryStage = FxLauncherUtils.launchOnce(SCENE_RETRIEVE_TIMEOUT_SECONDS,
+                TimeUnit.SECONDS);
         }
         catch (TimeoutException exception) {
             throw new RuntimeException(exception);
@@ -63,7 +61,7 @@ public class StageRetrieverImpl implements StageRetriever {
     public Stage retrieveWithScene(final SceneProvider sceneProvider) throws Throwable {
         final Stage stage = this.retrieve();
         // TODO: Document what happens if the next line is missing.
-        FXTestUtils.invokeAndWait(new Runnable() {
+        FxTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 Scene scene = setupScene(sceneProvider);
@@ -85,9 +83,6 @@ public class StageRetrieverImpl implements StageRetriever {
     private void setupStage(Stage stage, Scene scene) {
         stage.setTitle(STAGE_TITLE);
         stage.setScene(scene);
-        stage.show();
-        stage.toBack();
-        stage.toFront();
     }
 
 }

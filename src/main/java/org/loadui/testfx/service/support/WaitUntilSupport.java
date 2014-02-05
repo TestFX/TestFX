@@ -20,7 +20,7 @@ import javafx.scene.Node;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.utils.TestUtils;
+import org.loadui.testfx.utils.FxTestUtils;
 
 public class WaitUntilSupport {
 
@@ -36,7 +36,7 @@ public class WaitUntilSupport {
                 return condition.apply(node);
             }
         };
-        TestUtils.awaitCondition(waitCallable, timeoutInSeconds);
+        awaitCondition(waitCallable, timeoutInSeconds);
     }
 
     /**
@@ -53,7 +53,7 @@ public class WaitUntilSupport {
                 return condition.matches(node);
             }
         };
-        TestUtils.awaitCondition(waitCallable, timeoutInSeconds);
+        awaitCondition(waitCallable, timeoutInSeconds);
     }
 
     public <T> void waitUntil(final T value, final Matcher<? super T> condition,
@@ -64,7 +64,7 @@ public class WaitUntilSupport {
                 return condition.matches(value);
             }
         };
-        TestUtils.awaitCondition(waitCallable, timeoutInSeconds);
+        awaitCondition(waitCallable, timeoutInSeconds);
     }
 
     public <T> void waitUntil(final Callable<T> callable, final Matcher<? super T> condition,
@@ -75,7 +75,15 @@ public class WaitUntilSupport {
                 return condition.matches(callable.call());
             }
         };
-        TestUtils.awaitCondition(waitCallable, timeoutInSeconds);
+        awaitCondition(waitCallable, timeoutInSeconds);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private void awaitCondition(Callable<Boolean> condition, int timeoutInSeconds) {
+        FxTestUtils.awaitCondition(condition, timeoutInSeconds);
     }
 
 }

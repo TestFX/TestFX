@@ -145,7 +145,7 @@ public class WindowFinderImpl implements WindowFinder {
     }
 
     private boolean hasStageTitle(Stage stage, String stageTitleRegex) {
-        return stage.getTitle().matches(stageTitleRegex);
+        return stage.getTitle() != null && stage.getTitle().matches(stageTitleRegex);
     }
 
 }
