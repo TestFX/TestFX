@@ -31,7 +31,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 import com.google.common.collect.ImmutableMap;
-import org.loadui.testfx.utils.FxTestUtils;
+import org.loadui.testfx.utils.FXTestUtils;
 
 public class ScreenRobotImpl implements ScreenRobot {
 
@@ -168,7 +168,7 @@ public class ScreenRobotImpl implements ScreenRobot {
     //---------------------------------------------------------------------------------------------
 
     private void awaitCompletionOfEvents() {
-        FxTestUtils.awaitEvents();
+        FXTestUtils.awaitEvents();
     }
 
     private Point2D getMouseDifferenceTo(double x, double y) {

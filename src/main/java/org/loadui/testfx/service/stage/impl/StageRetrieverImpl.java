@@ -23,8 +23,8 @@ import javafx.stage.Stage;
 
 import org.loadui.testfx.service.stage.SceneProvider;
 import org.loadui.testfx.service.stage.StageRetriever;
+import org.loadui.testfx.utils.FXTestUtils;
 import org.loadui.testfx.utils.FxLauncherUtils;
-import org.loadui.testfx.utils.FxTestUtils;
 
 public class StageRetrieverImpl implements StageRetriever {
 
@@ -61,7 +61,7 @@ public class StageRetrieverImpl implements StageRetriever {
     public Stage retrieveWithScene(final SceneProvider sceneProvider) throws Throwable {
         final Stage stage = this.retrieve();
         // TODO: Document what happens if the next line is missing.
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 Scene scene = setupScene(sceneProvider);

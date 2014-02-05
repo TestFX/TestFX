@@ -26,9 +26,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.loadui.testfx.utils.FXTestUtils;
 import org.loadui.testfx.utils.FxLauncherUtils;
 import org.loadui.testfx.framework.FxRobot;
-import org.loadui.testfx.utils.FxTestUtils;
 
 import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -54,7 +54,7 @@ public class WindowFinderImplTest extends FxRobot {
     @BeforeClass
     public static void setupSpec() throws Throwable {
         FxLauncherUtils.launchOnce(10, TimeUnit.SECONDS);
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 setupStages();
@@ -69,7 +69,7 @@ public class WindowFinderImplTest extends FxRobot {
 
     @AfterClass
     public static void cleanupSpec() throws Throwable {
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStages();

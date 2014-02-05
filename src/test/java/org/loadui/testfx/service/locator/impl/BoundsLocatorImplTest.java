@@ -33,7 +33,7 @@ import org.junit.Test;
 import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
-import org.loadui.testfx.utils.FxTestUtils;
+import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -70,7 +70,7 @@ public class BoundsLocatorImplTest extends GuiTest {
 
     @After
     public void cleanup() throws Throwable {
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 primaryWindow.close();

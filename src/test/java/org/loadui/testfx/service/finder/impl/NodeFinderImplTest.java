@@ -40,8 +40,8 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.FxRobot;
 import org.loadui.testfx.service.finder.WindowFinder;
+import org.loadui.testfx.utils.FXTestUtils;
 import org.loadui.testfx.utils.FxLauncherUtils;
-import org.loadui.testfx.utils.FxTestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -75,7 +75,7 @@ public class NodeFinderImplTest extends FxRobot {
     @BeforeClass
     public static void setupSpec() throws Throwable {
         FxLauncherUtils.launchOnce(10, TimeUnit.SECONDS);
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 setupStages();
@@ -92,7 +92,7 @@ public class NodeFinderImplTest extends FxRobot {
 
     @AfterClass
     public static void cleanupSpec() throws Throwable {
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStages();

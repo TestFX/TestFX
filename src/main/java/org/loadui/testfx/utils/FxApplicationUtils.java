@@ -60,7 +60,7 @@ public final class FxApplicationUtils {
     public static void prepareStage(long timeout, TimeUnit timeUnit,
                                     final Stage stage) throws Throwable {
         int timeoutInSeconds = (int) timeUnit.toSeconds(timeout);
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 showAndBringToFront(stage);

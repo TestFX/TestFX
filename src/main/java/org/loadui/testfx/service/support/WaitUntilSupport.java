@@ -20,7 +20,7 @@ import javafx.scene.Node;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.utils.FxTestUtils;
+import org.loadui.testfx.utils.FXTestUtils;
 
 public class WaitUntilSupport {
 
@@ -83,7 +83,7 @@ public class WaitUntilSupport {
     //---------------------------------------------------------------------------------------------
 
     private void awaitCondition(Callable<Boolean> condition, int timeoutInSeconds) {
-        FxTestUtils.awaitCondition(condition, timeoutInSeconds);
+        FXTestUtils.awaitCondition(condition, timeoutInSeconds);
     }
 
 }

@@ -12,7 +12,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBoxBuilder;
 
 import org.junit.Test;
-import org.loadui.testfx.utils.FxTestUtils;
+import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -99,7 +99,7 @@ public class DragDropTest extends GuiTest {
     @Test(timeout=10000)
     public void shouldMoveElements() throws Exception {
 
-        FxTestUtils.invokeAndWait(new Runnable() {
+        FXTestUtils.invokeAndWait(new Runnable() {
             public void run() {
                 list1.getItems().addAll("A", "B", "C");
                 list2.getItems().addAll("X", "Y", "Z");
