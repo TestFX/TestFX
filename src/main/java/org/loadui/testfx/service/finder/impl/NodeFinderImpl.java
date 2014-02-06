@@ -139,6 +139,7 @@ public class NodeFinderImpl implements NodeFinder {
 
     public Set<Node> nodes(String query, Node parentNode) {
         // TODO: Filter visible nodes and allow label queries.
+        // TODO: Filter instances of javafx.scene.control.Skin.
         windowFinder.target(parentNode.getScene().getWindow());
         return findNodesInParent(query, parentNode);
     }

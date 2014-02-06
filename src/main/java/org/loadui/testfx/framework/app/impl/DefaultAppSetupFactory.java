@@ -13,36 +13,33 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.utils;
+package org.loadui.testfx.framework.app.impl;
 
-import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-public final class FxLauncherUtils {
+import org.loadui.testfx.framework.app.AppSetup;
+import org.loadui.testfx.utils.StageFuture;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    private FxLauncherUtils() {
-        throw new UnsupportedOperationException();
-    }
+public class DefaultAppSetupFactory {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final StageFuture stageFuture = StageFuture.create();
+    public static final StageFuture stageFuture = StageFuture.create();
 
     //---------------------------------------------------------------------------------------------
     // STATIC CLASSES.
     //---------------------------------------------------------------------------------------------
 
-    public static class FxLauncherApplication extends Application {
+    public static class DefaultApplication extends Application {
         @Override
-        public void start(Stage stage) throws Exception {
-            stageFuture.set(stage);
+        public void start(Stage primaryStage) throws Exception {
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.setTitle("DefaultApplication: primaryStage");
+            stageFuture.set(primaryStage);
         }
     }
 
@@ -50,15 +47,12 @@ public final class FxLauncherUtils {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static Stage launchOnce(long stageTimeout, TimeUnit timeUnit,
-                                   String... appArgs) throws Throwable {
-        if (!FxApplicationUtils.hasPrimaryStage(stageFuture)) {
-            FxApplicationUtils.launchAppInThread(FxLauncherApplication.class, appArgs);
-        }
-        Stage primaryStage = FxApplicationUtils.waitForPrimaryStage(stageTimeout,
-            timeUnit, stageFuture);
-        FxApplicationUtils.prepareStage(stageTimeout, timeUnit, primaryStage);
-        return primaryStage;
+    public static AppSetup build() {
+        AppSetupImpl appSetup = new AppSetupImpl();
+        appSetup.setAppClass(DefaultApplication.class);
+        appSetup.setAppLauncher(new FxAppLauncher());
+        appSetup.setStageFuture(stageFuture);
+        return appSetup;
     }
 
 }

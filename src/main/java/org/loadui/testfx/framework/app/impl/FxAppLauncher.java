@@ -13,12 +13,20 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.stage;
+package org.loadui.testfx.framework.app.impl;
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.application.Application;
+import org.loadui.testfx.framework.app.AppLauncher;
 
-public interface SceneProvider {
-    public Scene setupScene(Parent sceneRootNode);
-    public Parent setupSceneRoot();
+public class FxAppLauncher implements AppLauncher {
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public void launch(Class<? extends Application> appClass, String... appArgs) {
+        Application.launch(appClass, appArgs);
+    }
+
 }

@@ -13,11 +13,13 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.stage;
+package org.loadui.testfx.framework.app;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import javafx.stage.Stage;
 
-public interface StageRetriever {
-    public Stage retrieve() throws Throwable;
-    public Stage retrieveWithScene(SceneProvider sceneService) throws Throwable;
+public interface AppSetup {
+    public void launchApplication(String... appArgs);
+    public Stage getPrimaryStage(long timeout, TimeUnit timeUnit) throws TimeoutException;
 }

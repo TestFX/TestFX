@@ -19,7 +19,6 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -27,10 +26,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.GuiTest;
+
+import org.loadui.testfx.framework.app.StageSetupCallback;
+import org.loadui.testfx.framework.junit.AppRobotTest;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
 import org.loadui.testfx.utils.FXTestUtils;
@@ -39,47 +41,58 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
-public class BoundsLocatorImplTest extends GuiTest {
+public class BoundsLocatorImplTest extends AppRobotTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
     BoundsLocator boundsLocator;
-
-    Stage primaryWindow;
-    Scene primaryScene;
     Insets windowInsets;
 
-    Node nodeInsideOfScene;
-    Node nodePartyOutsideOfScene;
-    Node nodeOutsideOfScene;
+    static Stage primaryWindow;
+    static Scene primaryScene;
 
-    Bounds boundsInsideOfScene;
-    Bounds boundsPartyOutsideOfScene;
-    Bounds boundsOutsideOfScene;
+    static Node nodeInsideOfScene;
+    static Node nodePartyOutsideOfScene;
+    static Node nodeOutsideOfScene;
+
+    static Bounds boundsInsideOfScene;
+    static Bounds boundsPartyOutsideOfScene;
+    static Bounds boundsOutsideOfScene;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @BeforeClass
+    public static void setupSpec() throws Throwable {
+        setupApplication();
+        setupStages(new StageSetupCallback() {
+            @Override
+            public void setupStages(Stage primaryStage) {
+                setupStagesClass();
+            }
+        });
+    }
+
     @Before
     public void setup() throws Throwable {
         boundsLocator = new BoundsLocatorImpl();
+        windowInsets = calculateWindowInsets(primaryWindow, primaryScene);
     }
 
-    @After
-    public void cleanup() throws Throwable {
+    @AfterClass
+    public static void cleanupSpec() throws Throwable {
         FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                primaryWindow.close();
+                cleanupStagesClass();
             }
         }, 10);
     }
 
-    @Override
-    protected Parent getRootNode() {
+    public static void setupStagesClass() {
         Pane primarySceneRoot = new AnchorPane();
         primaryScene = new Scene(primarySceneRoot, 600, 400);
 
@@ -101,9 +114,10 @@ public class BoundsLocatorImplTest extends GuiTest {
         );
 
         primaryWindow.show();
-        windowInsets = calculateWindowInsets(primaryWindow, primaryScene);
+    }
 
-        return new AnchorPane();
+    public static void cleanupStagesClass() {
+        primaryWindow.close();
     }
 
     //---------------------------------------------------------------------------------------------

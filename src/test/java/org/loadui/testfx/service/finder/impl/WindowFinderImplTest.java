@@ -16,7 +16,6 @@
 package org.loadui.testfx.service.finder.impl;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -26,14 +25,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.loadui.testfx.framework.app.StageSetupCallback;
+import org.loadui.testfx.framework.junit.AppRobotTest;
 import org.loadui.testfx.utils.FXTestUtils;
-import org.loadui.testfx.utils.FxLauncherUtils;
-import org.loadui.testfx.framework.FxRobot;
 
 import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WindowFinderImplTest extends FxRobot {
+public class WindowFinderImplTest extends AppRobotTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -53,13 +52,13 @@ public class WindowFinderImplTest extends FxRobot {
 
     @BeforeClass
     public static void setupSpec() throws Throwable {
-        FxLauncherUtils.launchOnce(10, TimeUnit.SECONDS);
-        FXTestUtils.invokeAndWait(new Runnable() {
+        setupApplication();
+        setupStages(new StageSetupCallback() {
             @Override
-            public void run() {
-                setupStages();
+            public void setupStages(Stage primaryStage) {
+                setupStagesClass();
             }
-        }, 10);
+        });
     }
 
     @Before
@@ -68,16 +67,16 @@ public class WindowFinderImplTest extends FxRobot {
     }
 
     @AfterClass
-    public static void cleanupSpec() throws Throwable {
+    public static void cleanupClass() throws Throwable {
         FXTestUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
-                cleanupStages();
+                cleanupStagesClass();
             }
         }, 10);
     }
 
-    public static void setupStages() {
+    public static void setupStagesClass() {
         window = new Stage();
         window.setTitle("window");
 
@@ -100,7 +99,7 @@ public class WindowFinderImplTest extends FxRobot {
         otherWindow.show();
     }
 
-    public static void cleanupStages() {
+    public static void cleanupStagesClass() {
         window.close();
         windowInWindow.close();
         windowInWindowInWindow.close();

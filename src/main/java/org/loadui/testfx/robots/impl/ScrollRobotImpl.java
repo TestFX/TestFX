@@ -16,7 +16,7 @@
 package org.loadui.testfx.robots.impl;
 
 import javafx.geometry.VerticalDirection;
-import org.loadui.testfx.framework.ScreenRobot;
+import org.loadui.testfx.framework.robot.ScreenRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 
 public class ScrollRobotImpl implements ScrollRobot {

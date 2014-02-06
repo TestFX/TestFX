@@ -13,76 +13,86 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.stage.impl;
+package org.loadui.testfx.framework.app.impl;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import org.loadui.testfx.service.stage.SceneProvider;
-import org.loadui.testfx.service.stage.StageRetriever;
+import org.loadui.testfx.framework.app.StageSetup;
+import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.utils.FXTestUtils;
-import org.loadui.testfx.utils.FxLauncherUtils;
 
-public class StageRetrieverImpl implements StageRetriever {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
-    static final String STAGE_TITLE = "";
-    static final Integer SCENE_RETRIEVE_TIMEOUT_SECONDS = 25;
-    static final Integer STAGE_SETUP_TIMEOUT_SECONDS = 10;
+public class StageSetupImpl implements StageSetup {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Stage primaryStage = null;
+    private Stage primaryStage;
+    private StageSetupCallback callback;
+
+    //---------------------------------------------------------------------------------------------
+    // GETTER AND SETTER.
+    //---------------------------------------------------------------------------------------------
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public StageSetupCallback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(StageSetupCallback callback) {
+        this.callback = callback;
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Stage retrieve() throws Throwable {
-        // TODO: Document what happens if the next line is missing.
-        try {
-            primaryStage = FxLauncherUtils.launchOnce(SCENE_RETRIEVE_TIMEOUT_SECONDS,
-                TimeUnit.SECONDS);
-        }
-        catch (TimeoutException exception) {
-            throw new RuntimeException(exception);
-        }
-        return primaryStage;
-    }
-
-    public Stage retrieveWithScene(final SceneProvider sceneProvider) throws Throwable {
-        final Stage stage = this.retrieve();
-        // TODO: Document what happens if the next line is missing.
-        FXTestUtils.invokeAndWait(new Runnable() {
+    public void invoke(long timeout, TimeUnit timeUnit) throws TimeoutException {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Scene scene = setupScene(sceneProvider);
-                setupStage(stage, scene);
+                callStageSetup();
+                showAndBringToFront(primaryStage);
             }
-        }, STAGE_SETUP_TIMEOUT_SECONDS);
-        return stage;
+        };
+        invokeAndWait(runnable, timeout, timeUnit);
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Scene setupScene(SceneProvider sceneProvider) {
-        Parent sceneRootNode = sceneProvider.setupSceneRoot();
-        return sceneProvider.setupScene(sceneRootNode);
+    private void invokeAndWait(Runnable runnable,
+                               long timeout, TimeUnit timeUnit) throws TimeoutException {
+        int timeoutInSeconds = (int) timeUnit.toSeconds(timeout);
+        try {
+            FXTestUtils.invokeAndWait(runnable, timeoutInSeconds);
+        }
+        catch (TimeoutException exception) {
+            throw exception;
+        }
+        catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
-    private void setupStage(Stage stage, Scene scene) {
-        stage.setTitle(STAGE_TITLE);
-        stage.setScene(scene);
+    private void callStageSetup() {
+        callback.setupStages(primaryStage);
+    }
+
+    private void showAndBringToFront(Stage stage) {
+        stage.show();
+        stage.toBack();
+        stage.toFront();
     }
 
 }

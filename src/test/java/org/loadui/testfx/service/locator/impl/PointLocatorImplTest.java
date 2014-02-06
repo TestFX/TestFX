@@ -19,14 +19,11 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.PointQuery;
@@ -34,7 +31,7 @@ import org.loadui.testfx.service.locator.PointQuery;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class PointLocatorImplTest extends GuiTest {
+public class PointLocatorImplTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -65,11 +62,6 @@ public class PointLocatorImplTest extends GuiTest {
         sceneBoundsAfterChange = new BoundingBox(200, 200, 600, 400);
         windowBounds = new BoundingBox(100, 100, 600, 400);
         windowBoundsAfterChange = new BoundingBox(200, 200, 600, 400);
-    }
-
-    @Override
-    protected Parent getRootNode() {
-        return new AnchorPane();
     }
 
     //---------------------------------------------------------------------------------------------

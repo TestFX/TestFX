@@ -17,43 +17,36 @@ package org.loadui.testfx;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import org.junit.Before;
-import org.loadui.testfx.framework.FxRobot;
-import org.loadui.testfx.service.stage.SceneProvider;
-import org.loadui.testfx.service.stage.StageRetriever;
-import org.loadui.testfx.service.stage.impl.StageRetrieverImpl;
+import org.loadui.testfx.framework.app.StageSetupCallback;
+import org.loadui.testfx.framework.junit.AppRobotTest;
 
-public abstract class GuiTest extends FxRobot implements SceneProvider {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public GuiTest() {
-        super();
-    }
+public abstract class GuiTest extends AppRobotTest implements StageSetupCallback {
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Before
-    public void setupStage() throws Throwable {
-        StageRetriever stageRetriever = new StageRetrieverImpl();
-        stageRetriever.retrieveWithScene(this);
+    public void setupGuiTest() throws Exception {
+        setupApplication();
+        setupStages(this);
     }
 
+    // Runs in JavaFX Application Thread.
+    public void setupStages(Stage primaryStage) {
+        Parent sceneRootNode = getRootNode();
+        Scene scene = new Scene(sceneRootNode, 600, 400);
+        primaryStage.setScene(scene);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PROTECTED METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    // Runs in JavaFX Application Thread.
     protected abstract Parent getRootNode();
-
-    // Runs in JavaFX Application Thread.
-    public Scene setupScene(Parent sceneRootNode) {
-        return new Scene(sceneRootNode, 600, 400);
-    }
-
-    // Runs in JavaFX Application Thread.
-    public Parent setupSceneRoot() {
-        return getRootNode();
-    }
 
 }

@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework;
+package org.loadui.testfx.framework.robot;
 
 import java.io.File;
 import java.util.Date;
