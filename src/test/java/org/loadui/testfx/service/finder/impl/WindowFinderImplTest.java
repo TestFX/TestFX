@@ -27,7 +27,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTest;
-import org.loadui.testfx.utils.FXTestUtils;
 
 import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -68,12 +67,12 @@ public class WindowFinderImplTest extends AppRobotTest {
 
     @AfterClass
     public static void cleanupClass() throws Throwable {
-        FXTestUtils.invokeAndWait(new Runnable() {
+        invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStagesClass();
             }
-        }, 10);
+        });
     }
 
     public static void setupStagesClass() {

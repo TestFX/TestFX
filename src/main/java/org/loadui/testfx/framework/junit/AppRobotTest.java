@@ -16,8 +16,9 @@ public abstract class AppRobotTest extends FxRobot {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    static final int APPLICATION_SETUP_TIMEOUT_IN_SECONDS = 10;
-    static final int STAGES_SETUP_TIMEOUT_IN_SECONDS = 10;
+    static final int APP_SETUP_TIMEOUT_IN_SECONDS = 10;
+    static final int STAGE_SETUP_TIMEOUT_IN_SECONDS = 10;
+    static final int INVOKE_TIMEOUT_IN_SECONDS = 10;
 
     //---------------------------------------------------------------------------------------------
     // STATIC PROTECTED FIELDS.
@@ -34,14 +35,17 @@ public abstract class AppRobotTest extends FxRobot {
 
     protected static void setupApplication() throws TimeoutException {
         appSetup.launchApplication();
-        primaryStage = appSetup.getPrimaryStage(APPLICATION_SETUP_TIMEOUT_IN_SECONDS,
-            TimeUnit.SECONDS);
+        primaryStage = appSetup.getPrimaryStage(APP_SETUP_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
     }
 
     protected static void setupStages(StageSetupCallback callback) throws TimeoutException {
         stageSetup.setPrimaryStage(primaryStage);
         stageSetup.setCallback(callback);
-        stageSetup.invoke(STAGES_SETUP_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+        stageSetup.invokeAndWait(STAGE_SETUP_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+    }
+
+    protected static void invokeAndWait(Runnable runnable) throws TimeoutException {
+        stageSetup.invokeAndWait(INVOKE_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS, runnable);
     }
 
 }

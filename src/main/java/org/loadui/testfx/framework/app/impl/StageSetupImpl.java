@@ -56,7 +56,7 @@ public class StageSetupImpl implements StageSetup {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public void invoke(long timeout, TimeUnit timeUnit) throws TimeoutException {
+    public void invokeAndWait(long timeout, TimeUnit timeUnit) throws TimeoutException {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -64,15 +64,11 @@ public class StageSetupImpl implements StageSetup {
                 showAndBringToFront(primaryStage);
             }
         };
-        invokeAndWait(runnable, timeout, timeUnit);
+        invokeAndWait(timeout, timeUnit, runnable);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private void invokeAndWait(Runnable runnable,
-                               long timeout, TimeUnit timeUnit) throws TimeoutException {
+    public void invokeAndWait(long timeout, TimeUnit timeUnit,
+                              Runnable runnable) throws TimeoutException {
         int timeoutInSeconds = (int) timeUnit.toSeconds(timeout);
         try {
             FXTestUtils.invokeAndWait(runnable, timeoutInSeconds);
@@ -84,6 +80,10 @@ public class StageSetupImpl implements StageSetup {
             throw new RuntimeException(exception);
         }
     }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
 
     private void callStageSetup() {
         callback.setupStages(primaryStage);

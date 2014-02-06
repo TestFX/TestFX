@@ -40,7 +40,6 @@ import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTest;
 import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -91,12 +90,12 @@ public class NodeFinderImplTest extends AppRobotTest {
 
     @AfterClass
     public static void cleanupClass() throws Throwable {
-        FXTestUtils.invokeAndWait(new Runnable() {
+        invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStagesClass();
             }
-        }, 10);
+        });
     }
 
     public static void setupStagesClass() {

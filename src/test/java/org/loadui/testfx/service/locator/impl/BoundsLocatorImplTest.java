@@ -35,7 +35,6 @@ import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTest;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
-import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -84,12 +83,12 @@ public class BoundsLocatorImplTest extends AppRobotTest {
 
     @AfterClass
     public static void cleanupSpec() throws Throwable {
-        FXTestUtils.invokeAndWait(new Runnable() {
+        invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStagesClass();
             }
-        }, 10);
+        });
     }
 
     public static void setupStagesClass() {
