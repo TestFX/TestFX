@@ -19,5 +19,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public interface StageSetup {
-    public void invokeAndWait(long timeout, TimeUnit timeUnit) throws TimeoutException;
+    public void invokeCallbackAndWait(long timeout, TimeUnit timeUnit) throws TimeoutException;
+    public void showPrimaryStage(long timeout, TimeUnit timeUnit) throws TimeoutException;
+    public void invokeAndWait(long timeout, TimeUnit timeUnit, Runnable runnable)
+        throws TimeoutException;
 }

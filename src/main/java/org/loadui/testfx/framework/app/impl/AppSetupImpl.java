@@ -84,7 +84,7 @@ public class AppSetupImpl implements AppSetup {
     //---------------------------------------------------------------------------------------------
 
     private void launchApplicationInThreadOnce(final String... appArgs) {
-        if (!hasPrimaryStage()) {
+        if (!isStageFutureDone()) {
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {

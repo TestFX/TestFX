@@ -56,11 +56,20 @@ public class StageSetupImpl implements StageSetup {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public void invokeAndWait(long timeout, TimeUnit timeUnit) throws TimeoutException {
+    public void invokeCallbackAndWait(long timeout, TimeUnit timeUnit) throws TimeoutException {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 callStageSetup();
+            }
+        };
+        invokeAndWait(timeout, timeUnit, runnable);
+    }
+
+    public void showPrimaryStage(long timeout, TimeUnit timeUnit) throws TimeoutException {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
                 showAndBringToFront(primaryStage);
             }
         };

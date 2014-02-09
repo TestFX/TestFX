@@ -22,4 +22,5 @@ import javafx.stage.Stage;
 public interface AppSetup {
     public void launchApplication(String... appArgs);
     public Stage getPrimaryStage(long timeout, TimeUnit timeUnit) throws TimeoutException;
+    public boolean hasPrimaryStage();
 }
