@@ -14,6 +14,7 @@ import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
+import static org.hamcrest.Matchers.is;
 
 /**
  * TestFX should not find/click invisible nodes.
@@ -58,6 +59,13 @@ public class VisibilityTest extends GuiTest {
         verifyThat(target, hasText("Clicked"));
     }
 
+    @Test
+    public void shouldFindVisibleTwinOnly()
+    {
+        verifyThat(findAll("Twin").size(), is(1));
+        verifyThat(find("#twin").isVisible(), is(true));
+    }
+
     @Override
     protected Parent getRootNode() {
         Button nodeNotInScene = ButtonBuilder.create().text("Node not in scene").id("node-not-in-scene").translateX(1500).build();
@@ -71,6 +79,9 @@ public class VisibilityTest extends GuiTest {
                 nodeMostlyOutside.setText("Clicked");
             }
         });
-        return VBoxBuilder.create().children(nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
+        Button visibleTwin = ButtonBuilder.create().text("Twin").id("twin").build();
+        Button invisibleTwin = ButtonBuilder.create().text("Twin").id("twin").visible(false).build();
+        return VBoxBuilder.create().minWidth( 600 )
+            .minHeight( 400 ).children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
     }
 }

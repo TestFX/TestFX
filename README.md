@@ -1,7 +1,7 @@
 TestFX
 ======
 
-TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/java/fx/overview/index.html). TestFX provides:
+Easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/java/fx/overview/index.html). TestFX provides:
 
  - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
  - Supports Hamcrest Matchers and Lambda expressions.
@@ -13,25 +13,22 @@ TestFX is an easy-to-use library for testing [JavaFX](http://www.oracle.com/us/t
 ### Usage Example
 
 ```java
-class DesktopTest extends GuiTest
-{
-  public Parent getRootNode()
-  {
+class DesktopTest extends GuiTest {
+  public Parent getRootNode() {
     return new Desktop()
   }
 
   @Test
-  public void shouldBeAbleToDragFileToTrashCan()
-  {
+  public void shouldBeAbleToDragFileToTrashCan() {
     // GIVEN
-    rightClick( "#desktop" ).move( "New" ).click( "Text Document" ).
-                             type( "myTextfile.txt" ).push( ENTER );
+    rightClick("#desktop").move("New").click("Text Document")
+                          .type("myTextfile.txt").push(ENTER);
   
     // WHEN
-    drag( ".file" ).to( "#trash-can" );
+    drag(".file").to("#trash-can");
     
     // THEN
-    verifyThat( "#desktop", contains( 0, ".file" ) );
+    verifyThat("#desktop", contains(0, ".file"));
   }
 }
 ```
@@ -47,12 +44,16 @@ class DesktopTest extends GuiTest
   * [Assertions][14]
   * [Waiting][15]
   * Specific controls
+    * [Labels][18]
     * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
     * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
     * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
   * [Misc.][16]
 
-You might also be interested in these conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
+### Links
+
+ * [Using TestFX with Spock](https://github.com/SmartBear/TestFX/issues/38).
+ * Conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
 ### Motivation
 The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
@@ -79,6 +80,7 @@ TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2
 [15]: https://github.com/SmartBear/TestFX/wiki/Waiting
 [16]: https://github.com/SmartBear/TestFX/wiki/Misc
 [17]: https://github.com/SmartBear/TestFX/wiki/Examples
+[18]: https://github.com/SmartBear/TestFX/wiki/Login-form#using-textlabels
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
 [9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"

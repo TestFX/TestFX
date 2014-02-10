@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -70,6 +71,7 @@ public class BoundsLocatorImplTest extends AppRobotTest {
         setupStages(new StageSetupCallback() {
             @Override
             public void setupStages(Stage primaryStage) {
+                primaryStage.setScene(new Scene(new Region(), 600, 400));
                 setupStagesClass();
             }
         });

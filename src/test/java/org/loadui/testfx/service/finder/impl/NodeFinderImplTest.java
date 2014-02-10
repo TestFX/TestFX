@@ -18,8 +18,11 @@ package org.loadui.testfx.service.finder.impl;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -51,6 +54,7 @@ public class NodeFinderImplTest extends AppRobotTest {
 
     static Stage window;
     static Stage otherWindow;
+    static Stage twinWindow;
 
     static Pane pane;
     static Node firstIdLabel;
@@ -62,6 +66,10 @@ public class NodeFinderImplTest extends AppRobotTest {
     static Node subLabel;
     static Pane otherSubPane;
     static Node subSubLabel;
+
+    static Pane twinPane;
+    static Node visibleTwin;
+    static Node invisibleTwin;
 
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
@@ -76,6 +84,7 @@ public class NodeFinderImplTest extends AppRobotTest {
         setupStages(new StageSetupCallback() {
             @Override
             public void setupStages(Stage primaryStage) {
+                primaryStage.setScene(new Scene(new Region(), 600, 400));
                 setupStagesClass();
             }
         });
@@ -84,7 +93,7 @@ public class NodeFinderImplTest extends AppRobotTest {
     @Before
     public void setup() {
         windowFinder = new WindowFinderStub();
-        windowFinder.windows = Lists.<Window>newArrayList(window, otherWindow);
+        windowFinder.windows = Lists.<Window>newArrayList(window, otherWindow, twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
     }
 
@@ -122,19 +131,32 @@ public class NodeFinderImplTest extends AppRobotTest {
         otherPane.getChildren().setAll(subLabel, otherSubPane);
         otherSubPane.getChildren().setAll(subSubLabel);
 
+        twinPane = new VBox();
+        visibleTwin = new Button("Twin");
+        visibleTwin.setId("twin");
+        invisibleTwin = new Button("Twin");
+        invisibleTwin.setId("twin");
+        invisibleTwin.setVisible(false);
+        twinPane.getChildren().setAll(invisibleTwin, visibleTwin);
+
         window = new Stage();
         window.setTitle("window");
         window.setScene(new Scene(pane, 600, 400));
         otherWindow = new Stage();
         otherWindow.setTitle("otherWindow");
         otherWindow.setScene(new Scene(otherPane, 600, 400));
+        twinWindow = new Stage();
+        twinWindow.setTitle("twinWindow");
+        twinWindow.setScene(new Scene(twinPane, 600, 400));
         window.show();
         otherWindow.show();
+        twinWindow.show();
     }
 
     public static void cleanupStagesClass() {
         window.close();
         otherWindow.close();
+        twinWindow.close();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -167,6 +189,12 @@ public class NodeFinderImplTest extends AppRobotTest {
     public void node_string_cssQuery_invisibleNode() {
         // expect:
         assertThat(nodeFinder.node("#invisibleNode"), Matchers.is(Matchers.nullValue()));
+    }
+
+    @Test
+    public void node_string_cssQuery_twinNodes() {
+        System.out.println(nodeFinder.node("#twin"));
+        // TODO: test node in invisible container.
     }
 
     @Test(expected=NoNodesFoundException.class)

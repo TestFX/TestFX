@@ -4,9 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.loadui</groupId>
     <artifactId>testFx</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.1.2</version>
     <name>TestFX</name>
     <description>TestFX</description>
+    <url>https://github.com/SmartBear/TestFX</url>
 
     <licenses>
         <license>
@@ -19,9 +20,94 @@
     <scm>
         <url>https://github.com/SmartBear/TestFX.git</url>
     </scm>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <ascDirectory>${project.build.directory}</ascDirectory>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <developers>
+        <developer>
+            <id>minisu</id>
+            <name>Henrik Olsson</name>
+            <url>https://github.com/minisu</url>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>dainnilsson</id>
+            <name>Dain Nilsson</name>
+            <url>https://github.com/dainnilsson</url>
+            <timezone>+1</timezone>
+            <roles>
+                <role>project founder</role>
+                <role>former developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
+            <name>Philipp Keck</name>
+            <url>https://github.com/Philipp91</url>
+        </contributor>
+        <contributor>
+            <name>The LoadUI team</name>
+            <url>https://github.com/SmartBear/loadui</url>
+        </contributor>
+    </contributors>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -38,7 +124,6 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
-				
             </plugin>
         </plugins>
     </build>

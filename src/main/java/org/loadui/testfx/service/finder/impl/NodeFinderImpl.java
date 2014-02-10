@@ -69,16 +69,7 @@ public class NodeFinderImpl implements NodeFinder {
     //---------------------------------------------------------------------------------------------
 
     public Node node(String query) {
-        Function<Node, Set<Node>> toResultNodesFunction;
-        if (isCssSelector(query)) {
-            toResultNodesFunction = fromNodeCssSelectorFunction(query);
-        }
-        else {
-            Predicate<Node> nodeLabelPredicate = hasNodeLabelPredicate(query);
-            toResultNodesFunction = fromNodesPredicateFunction(nodeLabelPredicate);
-        }
-        List<Window> orderedWindows = windowFinder.listOrderedWindows();
-        Set<Node> resultNodes = nodesImpl(orderedWindows, toResultNodesFunction);
+        Set<Node> resultNodes = nodes(query);
         return Iterables.getFirst(resultNodes, null);
     }
 
@@ -183,15 +174,6 @@ public class NodeFinderImpl implements NodeFinder {
         };
     }
 
-    private Function<Node, Set<Node>> fromNodeCssSelectorFunction(final String selector) {
-        return new Function<Node, Set<Node>>() {
-            @Override
-            public Set<Node> apply(Node rootNode) {
-                return Sets.newHashSet(findNodeInParent(selector, rootNode));
-            }
-        };
-    }
-
     private Function<Node, Set<Node>> fromNodesCssSelectorFunction(final String selector) {
         return new Function<Node, Set<Node>>() {
             @Override
@@ -213,10 +195,6 @@ public class NodeFinderImpl implements NodeFinder {
     //---------------------------------------------------------------------------------------------
     // PRIVATE BACKEND METHODS.
     //---------------------------------------------------------------------------------------------
-
-    private Node findNodeInParent(String selector, Node parentNode) {
-        return parentNode.lookup(selector);
-    }
 
     private Set<Node> findNodesInParent(String selector, Node parentNode) {
         return parentNode.lookupAll(selector);

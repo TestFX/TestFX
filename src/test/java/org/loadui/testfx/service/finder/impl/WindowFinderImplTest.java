@@ -55,6 +55,7 @@ public class WindowFinderImplTest extends AppRobotTest {
         setupStages(new StageSetupCallback() {
             @Override
             public void setupStages(Stage primaryStage) {
+                primaryStage.setScene(new Scene(new Region(), 600, 400));
                 setupStagesClass();
             }
         });
