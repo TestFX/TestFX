@@ -26,12 +26,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTest;
+import org.loadui.testfx.framework.junit.AppRobotTestBase;
 
 import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WindowFinderImplTest extends AppRobotTest {
+public class WindowFinderImplTest extends AppRobotTestBase {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.

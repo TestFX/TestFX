@@ -21,9 +21,9 @@ import javafx.stage.Stage;
 
 import org.junit.Before;
 import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTest;
+import org.loadui.testfx.framework.junit.AppRobotTestBase;
 
-public abstract class GuiTest extends AppRobotTest implements StageSetupCallback {
+public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
 
     //---------------------------------------------------------------------------------------------
     // METHODS.

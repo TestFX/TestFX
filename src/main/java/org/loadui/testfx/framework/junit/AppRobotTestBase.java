@@ -10,7 +10,7 @@ import org.loadui.testfx.framework.app.impl.DefaultAppSetupFactory;
 import org.loadui.testfx.framework.app.impl.StageSetupImpl;
 import org.loadui.testfx.framework.robot.FxRobot;
 
-public abstract class AppRobotTest extends FxRobot {
+public abstract class AppRobotTestBase extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.

@@ -19,7 +19,6 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -41,12 +40,12 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTest;
+import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.service.finder.WindowFinder;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class NodeFinderImplTest extends AppRobotTest {
+public class NodeFinderImplTest extends AppRobotTestBase {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
