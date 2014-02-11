@@ -50,7 +50,7 @@ public class DefaultAppSetupFactory {
     public static AppSetup build() {
         AppSetupImpl appSetup = new AppSetupImpl();
         appSetup.setAppClass(DefaultApplication.class);
-        appSetup.setAppLauncher(new FxAppLauncher());
+        appSetup.setAppLauncher(new DefaultAppLauncher());
         appSetup.setStageFuture(stageFuture);
         return appSetup;
     }

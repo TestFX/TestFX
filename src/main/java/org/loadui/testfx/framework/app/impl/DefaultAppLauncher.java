@@ -18,7 +18,7 @@ package org.loadui.testfx.framework.app.impl;
 import javafx.application.Application;
 import org.loadui.testfx.framework.app.AppLauncher;
 
-public class FxAppLauncher implements AppLauncher {
+public class DefaultAppLauncher implements AppLauncher {
 
     //---------------------------------------------------------------------------------------------
     // METHODS.

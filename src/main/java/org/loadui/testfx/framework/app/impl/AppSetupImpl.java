@@ -34,7 +34,7 @@ import org.loadui.testfx.utils.StageFuture;
  *
  * // Set the application class, launcher implementation and future for primary stage.
  * appSetup.setAppClass(DefaultApplication.class);
- * appSetup.setAppLauncher(new FxAppLauncher());
+ * appSetup.setAppLauncher(new DefaultAppLauncher());
  * appSetup.setStageFuture(stageFuture);
  *
  * // Launch the application if the primary stage was not already retrieved.
