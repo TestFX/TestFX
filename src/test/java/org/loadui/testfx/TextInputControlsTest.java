@@ -21,7 +21,7 @@ public class TextInputControlsTest extends GuiTest
 		TextField textField = new TextField();
 		return VBoxBuilder
 				.create()
-				.children( textField, new TextField() ).build();
+				.children( textField ).build();
 	}
 
 	@Test
@@ -30,7 +30,7 @@ public class TextInputControlsTest extends GuiTest
 		click( TEXT_FIELD ).type( "Some text" );
 		verifyThat( TEXT_FIELD, hasText("Some text") );
 
-        push(TAB); // To change focus from the TextField.
+		push(TAB); // To change focus from the TextField.
 
 		clearTextIn( TEXT_FIELD );
 		verifyThat( TEXT_FIELD, hasText("") );

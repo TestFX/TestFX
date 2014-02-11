@@ -109,14 +109,14 @@ public class DragDropTest extends GuiTest {
         verifyThat(numberOfRowsIn(list1), is(3));
         verifyThat(numberOfRowsIn(list2), is(3));
 
-        drag("A").to("X");
+        drag("A").dropTo("X");
         verifyThat(numberOfRowsIn(list1), is(2));
         verifyThat(numberOfRowsIn(list2), is(4));
         verifyThat(list2, containsRow("A"));
         verifyThat(list1, not(containsRow("A")));
 
-        drag("Z").to("B");
-        drag("C").to("B"); // Should have no effect
+        drag("Z").dropTo("B");
+        drag("C").dropTo("B"); // Should have no effect
         verifyThat(list1.getItems().size(), is(3));
         verifyThat(list2.getItems().size(), is(3));
         verifyThat(list1.getItems(), hasItems("Z", "B", "C"));

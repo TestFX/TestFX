@@ -7,7 +7,7 @@
     <version>3.1.2</version>
     <name>TestFX</name>
     <description>TestFX</description>
-	<url>https://github.com/SmartBear/TestFX</url>
+    <url>https://github.com/SmartBear/TestFX</url>
 
     <licenses>
         <license>
@@ -20,10 +20,10 @@
     <scm>
         <url>https://github.com/SmartBear/TestFX.git</url>
     </scm>
-	
-	<profiles>
-		<profile>
-			<id>release</id>
+
+    <profiles>
+        <profile>
+            <id>release</id>
             <build>
                 <plugins>
                     <plugin>
@@ -72,10 +72,10 @@
 
                 </plugins>
             </build>
-		</profile>
-	</profiles>
-	
-	<developers>
+        </profile>
+    </profiles>
+
+    <developers>
         <developer>
             <id>minisu</id>
             <name>Henrik Olsson</name>
@@ -93,9 +93,9 @@
             </roles>
         </developer>
     </developers>
-     
+
     <contributors>
-	    <contributor>
+        <contributor>
             <name>Philipp Keck</name>
             <url>https://github.com/Philipp91</url>
         </contributor>
@@ -104,10 +104,10 @@
             <url>https://github.com/SmartBear/loadui</url>
         </contributor>
     </contributors>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
