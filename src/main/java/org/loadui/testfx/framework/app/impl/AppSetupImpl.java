@@ -17,7 +17,6 @@ package org.loadui.testfx.framework.app.impl;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -25,14 +24,57 @@ import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.AppLauncher;
 import org.loadui.testfx.utils.StageFuture;
 
+/**
+ * Class that launches an application class and retrieves its primary stage.
+ *
+ * <p><b>Sample usage:</b></p>
+ *
+ * <pre><code>
+ * AppSetupImpl appSetup = new AppSetupImpl();
+ *
+ * // Set the application class, launcher implementation and future for primary stage.
+ * appSetup.setAppClass(DefaultApplication.class);
+ * appSetup.setAppLauncher(new FxAppLauncher());
+ * appSetup.setStageFuture(stageFuture);
+ *
+ * // Launch the application if the primary stage was not already retrieved.
+ * if (!appSetup.hasPrimaryStage()) {
+ *     appSetup.launchApplication();
+ * }
+ *
+ * // Wait until the primary stage from application is retrieved or a timeout expires.
+ * Stage primaryStage = appSetup.getPrimaryStage(10, TimeUnit.SECONDS);
+ * </code></pre>
+ *
+ * <p><b>StageFuture and DefaultApplication:</b></p>
+ *
+ * <pre><code>
+ * // The future that holds the primary stage of the application.
+ * public static final StageFuture stageFuture = StageFuture.create();
+ *
+ * // An implementation of application that passes its primary stage to the future.
+ * public static class DefaultApplication extends Application {
+ *     public void start(Stage primaryStage) throws Exception {
+ *         primaryStage.initStyle(StageStyle.UNDECORATED);
+ *         primaryStage.setTitle("DefaultApplication: primaryStage");
+ *         stageFuture.set(primaryStage);
+ *     }
+ * }
+ * </code></pre>
+ */
 public class AppSetupImpl implements AppSetup {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
+    // Application class that is constructed and executed by the appLauncher.
     private Class<? extends Application> appClass;
+
+    // Launcher that constructs and executes the appClass.
     private AppLauncher appLauncher;
+
+    // Future that waits for and holds the primary stage from the application.
     private StageFuture stageFuture;
 
     //---------------------------------------------------------------------------------------------
@@ -67,14 +109,44 @@ public class AppSetupImpl implements AppSetup {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Launches the application class.
+     *
+     * <p>This method starts a new thread and passes the application class {@link #appClass} to
+     * {@link #appLauncher}.
+     *
+     * <p>The <b>default launcher</b> starts the mandatory toolkit. Then it calls {@link
+     * Application#init()} in its thread and {@link Application#start(Stage)} in the JavaFX thread
+     * and does not return until the application hat exited. For this reason the launcher will be
+     * called in a new thread. It will throw an IllegalStateException if it is called more than
+     * once.
+     *
+     * @param appArgs the command line arguments passed to the application.
+     */
     public void launchApplication(String... appArgs) {
-        launchApplicationInThreadOnce(appArgs);
+        launchApplicationInThread(appArgs);
     }
 
+    /**
+     * Retrieves the primary stage.
+     *
+     * <p>This method blocks until the primary stage from the application is retrieved or the
+     * timeout expires. If the primary stage was already retrieved it will return it directly.
+     *
+     * @param timeout the duration of timeout
+     * @param timeUnit the unit of duration
+     * @return the primary stage
+     * @throws TimeoutException if the timer expires
+     */
     public Stage getPrimaryStage(long timeout, TimeUnit timeUnit) throws TimeoutException {
         return waitForPrimaryStage(timeout, timeUnit);
     }
 
+    /**
+     * Checks if the primary stage was retrieved.
+     *
+     * @return true if the primary stage was retrieved
+     */
     public boolean hasPrimaryStage() {
         return isStageFutureDone();
     }
@@ -83,16 +155,14 @@ public class AppSetupImpl implements AppSetup {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private void launchApplicationInThreadOnce(final String... appArgs) {
-        if (!isStageFutureDone()) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    launchApplicationImpl(appArgs);
-                }
-            };
-            invokeInThread(runnable);
-        }
+    private void launchApplicationInThread(final String... appArgs) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                launchApplicationImpl(appArgs);
+            }
+        };
+        invokeInThread(runnable);
     }
 
     private void launchApplicationImpl(String... appArgs) {

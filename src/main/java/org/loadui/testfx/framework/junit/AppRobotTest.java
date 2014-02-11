@@ -34,7 +34,9 @@ public abstract class AppRobotTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     protected static void setupApplication() throws TimeoutException {
-        appSetup.launchApplication();
+        if (!appSetup.hasPrimaryStage()) {
+            appSetup.launchApplication();
+        }
         primaryStage = appSetup.getPrimaryStage(APP_SETUP_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
     }
 

@@ -62,15 +62,13 @@ public class AppSetupImplTest {
         appSetup.setStageFuture(StageFuture.create());
 
         // when:
-        appSetup.launchApplication("--foo", "bar");
+        appSetup.launchApplication("arg1", "arg2");
 
         // then:
         FXTestUtils.awaitCondition(wasAppLauncherMockCalledCondition(launcherMock));
         assertThat(launcherMock.calledAppClass, Matchers.equalTo((Class) Application.class));
-        assertThat(launcherMock.calledAppArgs, Matchers.equalTo(new String[] {"--foo", "bar"}));
+        assertThat(launcherMock.calledAppArgs, Matchers.equalTo(new String[] {"arg1", "arg2"}));
     }
-
-    // TODO: Write test for launchApplication_only_once().
 
     @Test
     public void getPrimaryStage() throws Throwable {
@@ -91,10 +89,10 @@ public class AppSetupImplTest {
         appSetup.setStageFuture(StageFuture.create());
 
         // when:
-        Stage primaryStage = appSetup.getPrimaryStage(1, TimeUnit.SECONDS);
+        appSetup.getPrimaryStage(1, TimeUnit.SECONDS);
 
         // then:
-        assertThat(primaryStage, Matchers.is(Matchers.nullValue()));
+        assertThat("exception was not thrown", false);
     }
 
     @Test
