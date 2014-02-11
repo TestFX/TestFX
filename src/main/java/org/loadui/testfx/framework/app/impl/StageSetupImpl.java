@@ -70,7 +70,8 @@ public class StageSetupImpl implements StageSetup {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                showAndBringToFront(primaryStage);
+                showStage(primaryStage);
+                bringStageToFront(primaryStage);
             }
         };
         invokeAndWait(timeout, timeUnit, runnable);
@@ -98,8 +99,11 @@ public class StageSetupImpl implements StageSetup {
         callback.setupStages(primaryStage);
     }
 
-    private void showAndBringToFront(Stage stage) {
+    private void showStage(Stage stage) {
         stage.show();
+    }
+
+    private void bringStageToFront(Stage stage) {
         stage.toBack();
         stage.toFront();
     }
