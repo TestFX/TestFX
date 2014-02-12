@@ -20,19 +20,34 @@ import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+
 import org.loadui.testfx.service.locator.PointQuery;
 
 public class BoundsPointQuery implements PointQuery {
 
     //---------------------------------------------------------------------------------------------
-    // FIELDS.
+    // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    final Bounds bounds;
+    private Bounds bounds;
+
+    //---------------------------------------------------------------------------------------------
+    // GETTER AND SETTER.
+    //---------------------------------------------------------------------------------------------
+
+    public Bounds getBounds() {
+        return bounds;
+    }
+
+    public void setBounds(Bounds bounds) {
+        this.bounds = bounds;
+    }
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
+
+    public BoundsPointQuery() {}
 
     public BoundsPointQuery(Bounds bounds) {
         this.bounds = bounds;
