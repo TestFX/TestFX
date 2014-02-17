@@ -15,6 +15,8 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.loadui.testfx.GuiTest.find;
@@ -59,9 +61,29 @@ public class TableViews
         return new TableContainsMatcher(cellValue);
     }
 
+    static List<TableColumn> flatten(TableColumn col) {
+        if (col.getColumns().size() == 0) {
+            return Arrays.asList(col);
+        } else {
+            List<TableColumn> l = new ArrayList<TableColumn>();
+            for (Object xa : col.getColumns()) {
+                l.addAll(flatten((TableColumn)xa));
+            }
+            return l;
+        }
+    }
+
+    static List<TableColumn> getFlattenedColumns(TableView<?> table)  {
+        List<TableColumn> l = new ArrayList<TableColumn>();
+        for(TableColumn c : table.getColumns()) {
+            l.addAll(flatten(c));
+        }
+        return l;
+    }
+
     static boolean containsCell(TableView<?> table, Predicate<String> cellPredicate)
     {
-        for( TableColumn<?, ?> column : table.getColumns() )
+        for( TableColumn<?, ?> column : getFlattenedColumns(table) )
         {
             for(int i=0; i<table.getItems().size(); i++ )
             {
@@ -75,7 +97,7 @@ public class TableViews
 
     static boolean containsCell(TableView<?> table, Object cellValue)
     {
-        for( TableColumn<?, ?> column : table.getColumns() )
+        for( TableColumn<?, ?> column : getFlattenedColumns(table) )
         {
             for(int i=0; i<table.getItems().size(); i++ )
             {
