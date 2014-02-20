@@ -7,7 +7,8 @@ import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
-import org.loadui.testfx.framework.robot.FxRobot;
+
+import static org.loadui.testfx.Assertions.verifyThat;
 
 // verifyThat supports lambda expressions, but to keep Java 7 compatibility, we don't use them here.
 public class AssertionsTest extends GuiTest {
@@ -15,7 +16,7 @@ public class AssertionsTest extends GuiTest {
     @Test
     public void shouldSupportPredicatesForQueries()
     {
-        Assertions.verifyThat("Button A", new Predicate<Button>() {
+        verifyThat("Button A", new Predicate<Button>() {
             @Override
             public boolean apply(Button b) {
                 return b.isDefaultButton();
@@ -27,7 +28,7 @@ public class AssertionsTest extends GuiTest {
     public void shouldSupportPredicatesForQueries2()
     {
         try {
-            Assertions.verifyThat("Button A", new Predicate<Button>() {
+            verifyThat("Button A", new Predicate<Button>() {
                 @Override
                 public boolean apply(Button b) {
                     return b.isCancelButton();
@@ -43,9 +44,9 @@ public class AssertionsTest extends GuiTest {
     @Test
     public void shouldSupportPredicatesForNodes()
     {
-        Button b = FxRobot.find("Button A");
+        Button b = find("Button A");
 
-        Assertions.verifyThat(b, new Predicate<Button>() {
+        verifyThat(b, new Predicate<Button>() {
             @Override
             public boolean apply(Button b) {
                 return b.isDefaultButton();

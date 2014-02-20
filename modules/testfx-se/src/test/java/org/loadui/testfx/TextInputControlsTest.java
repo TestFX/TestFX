@@ -4,10 +4,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
-import org.loadui.testfx.controls.Commons;
 import org.loadui.testfx.controls.TextInputControls;
 
 import static javafx.scene.input.KeyCode.TAB;
+import static org.loadui.testfx.Assertions.verifyThat;
+import static org.loadui.testfx.controls.Commons.hasText;
 
 public class TextInputControlsTest extends GuiTest
 {
@@ -27,11 +28,11 @@ public class TextInputControlsTest extends GuiTest
 	public void shouldClearText()
 	{
 		click( TEXT_FIELD ).type( "Some text" );
-		Assertions.verifyThat(TEXT_FIELD, Commons.hasText("Some text"));
+		verifyThat(TEXT_FIELD, hasText("Some text"));
 
 		push(TAB); // To change focus from the TextField.
 
 		TextInputControls.clearTextIn(TEXT_FIELD);
-		Assertions.verifyThat(TEXT_FIELD, Commons.hasText(""));
+		verifyThat(TEXT_FIELD, hasText(""));
 	}
 }

@@ -9,12 +9,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.util.Callback;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.loadui.testfx.controls.TableViews;
-import org.loadui.testfx.framework.robot.FxRobot;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.hamcrest.core.IsNot.not;
+import static org.loadui.testfx.Assertions.verifyThat;
 
 public class TableViewsTest extends GuiTest
 {
@@ -22,18 +22,18 @@ public class TableViewsTest extends GuiTest
 	@Test
 	public void shouldFindCellValues()
 	{
-		Assertions.verifyThat(".table-view", TableViews.containsCell("9"));
-		Assertions.verifyThat(".table-view", IsNot.not(TableViews.containsCell("1")));
+		verifyThat(".table-view", TableViews.containsCell("9"));
+		verifyThat(".table-view", not(TableViews.containsCell("1")));
 
-		TableView<?> tableView = FxRobot.find(".table-view");
-		Assertions.verifyThat(tableView, TableViews.containsCell(9));
+		TableView<?> tableView = find(".table-view");
+		verifyThat(tableView, TableViews.containsCell(9));
 	}
 
 	// If you're on Java 8, use lambda instead of an anonymous class.
 	@Test
 	public void shouldFindCellValues_usingPredicate()
 	{
-		Assertions.verifyThat(".table-view", TableViews.containsCell(new Predicate<String>() {
+		verifyThat(".table-view", TableViews.containsCell(new Predicate<String>() {
             @Override
             public boolean apply(String s) {
                 return Integer.parseInt(s) == 9;
@@ -44,10 +44,10 @@ public class TableViewsTest extends GuiTest
 	@Test
 	public void shouldHaveCorrectNumberOfRows()
 	{
-		Assertions.verifyThat(TableViews.numberOfRowsIn(".table-view"), CoreMatchers.is(3));
+		verifyThat(TableViews.numberOfRowsIn(".table-view"), CoreMatchers.is(3));
 
-		TableView<?> tableView = FxRobot.find(".table-view");
-		Assertions.verifyThat(TableViews.numberOfRowsIn(tableView), CoreMatchers.is(3));
+		TableView<?> tableView = find(".table-view");
+		verifyThat(TableViews.numberOfRowsIn(tableView), CoreMatchers.is(3));
 	}
 
 	@Override

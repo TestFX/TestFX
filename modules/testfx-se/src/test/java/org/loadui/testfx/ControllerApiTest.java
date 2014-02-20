@@ -27,10 +27,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
 import org.loadui.testfx.controls.Commons;
-import org.loadui.testfx.framework.robot.FxRobot;
-
-import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.controls.Commons.hasText;
 
 @Category( TestFX.class )
 public class ControllerApiTest extends GuiTest
@@ -58,7 +54,7 @@ public class ControllerApiTest extends GuiTest
 	@Test
 	public void shouldClickButton()
 	{
-		final Button button = FxRobot.find("#button1");
+		final Button button = find("#button1");
 		button.setOnAction( new EventHandler<ActionEvent>()
 		{
 			@Override
@@ -76,7 +72,7 @@ public class ControllerApiTest extends GuiTest
     @Test
     public void shouldClickButton_usingLambda()
     {
-        final Button button = FxRobot.find("#button1");
+        final Button button = find("#button1");
         button.setOnAction( new EventHandler<ActionEvent>()
         {
             @Override

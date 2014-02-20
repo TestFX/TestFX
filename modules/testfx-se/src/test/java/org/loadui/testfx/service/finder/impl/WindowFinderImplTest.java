@@ -19,8 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,6 +27,10 @@ import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTestBase;
 
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
 
 public class WindowFinderImplTest extends AppRobotTestBase {
 
@@ -116,10 +118,10 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         List<Window> windows = windowFinder.listWindows();
 
         // then:
-        MatcherAssert.assertThat(windows, Matchers.hasItems((Window) window));
-        MatcherAssert.assertThat(windows, Matchers.hasItems((Window) windowInWindow));
-        MatcherAssert.assertThat(windows, Matchers.hasItems((Window) windowInWindowInWindow));
-        MatcherAssert.assertThat(windows, Matchers.hasItems((Window) otherWindow));
+        assertThat(windows, hasItems((Window) window));
+        assertThat(windows, hasItems((Window) windowInWindow));
+        assertThat(windows, hasItems((Window) windowInWindowInWindow));
+        assertThat(windows, hasItems((Window) otherWindow));
     }
 
     @Test
@@ -129,10 +131,10 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         List<Window> orderedWindows = windowFinder.listOrderedWindows();
 
         // then:
-        MatcherAssert.assertThat(orderedWindows, Matchers.hasItems((Window) window));
-        MatcherAssert.assertThat(orderedWindows, Matchers.hasItems((Window) windowInWindow));
-        MatcherAssert.assertThat(orderedWindows, Matchers.hasItems((Window) windowInWindowInWindow));
-        MatcherAssert.assertThat(orderedWindows, Matchers.hasItems((Window) otherWindow));
+        assertThat(orderedWindows, hasItems((Window) window));
+        assertThat(orderedWindows, hasItems((Window) windowInWindow));
+        assertThat(orderedWindows, hasItems((Window) windowInWindowInWindow));
+        assertThat(orderedWindows, hasItems((Window) otherWindow));
     }
 
     @Test
@@ -141,7 +143,7 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         windowFinder.target(window);
 
         // then:
-        MatcherAssert.assertThat(windowFinder.target(), Matchers.is((Window) window));
+        assertThat(windowFinder.target(), is((Window) window));
     }
 
     @Test
@@ -150,7 +152,7 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         windowFinder.target(1);
 
         // then:
-        MatcherAssert.assertThat(windowFinder.target(), Matchers.is((Window) window));
+        assertThat(windowFinder.target(), is((Window) window));
     }
 
     @Test
@@ -159,7 +161,7 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         windowFinder.target("window");
 
         // then:
-        MatcherAssert.assertThat(windowFinder.target(), Matchers.is((Window) window));
+        assertThat(windowFinder.target(), is((Window) window));
     }
 
     @Test
@@ -168,17 +170,17 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         windowFinder.target(scene);
 
         // then:
-        MatcherAssert.assertThat(windowFinder.target(), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.target(), is((Window) otherWindow));
     }
 
     @Test
     public void window_windowIndex() {
         // TODO: Assert that it throws an exception of index is out of range.
         // expect:
-        MatcherAssert.assertThat(windowFinder.window(1), Matchers.is((Window) window));
-        MatcherAssert.assertThat(windowFinder.window(2), Matchers.is((Window) windowInWindow));
-        MatcherAssert.assertThat(windowFinder.window(3), Matchers.is((Window) windowInWindowInWindow));
-        MatcherAssert.assertThat(windowFinder.window(4), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.window(1), is((Window) window));
+        assertThat(windowFinder.window(2), is((Window) windowInWindow));
+        assertThat(windowFinder.window(3), is((Window) windowInWindowInWindow));
+        assertThat(windowFinder.window(4), is((Window) otherWindow));
     }
 
     @Test
@@ -186,16 +188,16 @@ public class WindowFinderImplTest extends AppRobotTestBase {
         // TODO: Assert that it thrown an exception of stage title regex does not match.
         // TODO: Assert that stages without title do not throw a NPE.
         // expect:
-        MatcherAssert.assertThat(windowFinder.window("window"), Matchers.is((Window) window));
-        MatcherAssert.assertThat(windowFinder.window("windowInWindow"), Matchers.is((Window) windowInWindow));
-        MatcherAssert.assertThat(windowFinder.window("windowInWindowInWindow"), Matchers.is((Window) windowInWindowInWindow));
-        MatcherAssert.assertThat(windowFinder.window("otherWindow"), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.window("window"), is((Window) window));
+        assertThat(windowFinder.window("windowInWindow"), is((Window) windowInWindow));
+        assertThat(windowFinder.window("windowInWindowInWindow"), is((Window) windowInWindowInWindow));
+        assertThat(windowFinder.window("otherWindow"), is((Window) otherWindow));
     }
 
     @Test
     public void window_scene() {
         // expect:
-        MatcherAssert.assertThat(windowFinder.window(scene), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.window(scene), is((Window) otherWindow));
     }
 
 }

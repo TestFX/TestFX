@@ -19,14 +19,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBoxBuilder;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
-import org.loadui.testfx.controls.ListViews;
-import org.loadui.testfx.framework.robot.FxRobot;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.hamcrest.core.IsNot.not;
+import static org.loadui.testfx.Assertions.verifyThat;
+import static org.loadui.testfx.controls.ListViews.containsRow;
+import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
 
 @Category(TestFX.class)
 public class ListViewsTest extends GuiTest
@@ -44,19 +45,19 @@ public class ListViewsTest extends GuiTest
 	@Test
 	public void shouldFindRowValues()
 	{
-		Assertions.verifyThat(".list-view", ListViews.containsRow("1"));
-		Assertions.verifyThat(".list-view", IsNot.not(ListViews.containsRow("4")));
+		verifyThat(".list-view", containsRow("1"));
+		verifyThat(".list-view", not(containsRow("4")));
 
-		ListView<?> listView = FxRobot.find(".list-view");
-		Assertions.verifyThat(listView, ListViews.containsRow(1));
+		ListView<?> listView = find(".list-view");
+		verifyThat(listView, containsRow(1));
 	}
 
 	@Test
 	public void shouldHaveCorrectNumberOfRows()
 	{
-		Assertions.verifyThat(ListViews.numberOfRowsIn(".list-view"), CoreMatchers.is(3));
+		verifyThat(numberOfRowsIn(".list-view"), CoreMatchers.is(3));
 
-		ListView<?> listView = FxRobot.find(".list-view");
-		Assertions.verifyThat(ListViews.numberOfRowsIn(listView), CoreMatchers.is(3));
+		ListView<?> listView = find(".list-view");
+		verifyThat(numberOfRowsIn(listView), CoreMatchers.is(3));
 	}
 }

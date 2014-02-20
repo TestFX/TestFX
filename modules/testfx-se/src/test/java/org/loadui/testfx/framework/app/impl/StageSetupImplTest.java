@@ -4,15 +4,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.*;
 import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.utils.FXTestUtils;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 public class StageSetupImplTest {
 
@@ -33,7 +34,7 @@ public class StageSetupImplTest {
         if (!appSetup.hasPrimaryStage()) {
             appSetup.launchApplication();
         }
-        appSetup.getPrimaryStage(25, TimeUnit.SECONDS);
+        appSetup.getPrimaryStage(25, SECONDS);
     }
 
     @Before
@@ -73,10 +74,10 @@ public class StageSetupImplTest {
         stageSetup.setCallback(stageSetupCallbackMock);
 
         // when:
-        stageSetup.invokeCallbackAndWait(1, TimeUnit.SECONDS);
+        stageSetup.invokeCallbackAndWait(1, SECONDS);
 
         // then:
-        MatcherAssert.assertThat(stageSetupCallbackMock.calledPrimaryStage, Matchers.is(primaryStage));
+        assertThat(stageSetupCallbackMock.calledPrimaryStage, is(primaryStage));
     }
 
     @Test(expected=TimeoutException.class)
@@ -86,10 +87,10 @@ public class StageSetupImplTest {
         stageSetup.setCallback(stageSetupCallbackMock);
 
         // when:
-        stageSetup.invokeCallbackAndWait(1, TimeUnit.SECONDS);
+        stageSetup.invokeCallbackAndWait(1, SECONDS);
 
         // then:
-        MatcherAssert.assertThat("exception was not thrown", false);
+        assertThat("exception was not thrown", false);
     }
 
     @Ignore @Test
@@ -100,10 +101,10 @@ public class StageSetupImplTest {
         stageSetup.setPrimaryStage(primaryStage);
 
         // when:
-        stageSetup.showPrimaryStage(1, TimeUnit.SECONDS);
+        stageSetup.showPrimaryStage(1, SECONDS);
 
         // then:
-        MatcherAssert.assertThat(primaryStage.isShowing(), Matchers.is(true));
+        assertThat(primaryStage.isShowing(), is(true));
     }
 
     //---------------------------------------------------------------------------------------------

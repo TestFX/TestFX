@@ -17,8 +17,6 @@ package org.loadui.testfx.framework.app.impl;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.framework.app.AppLauncher;
@@ -28,6 +26,9 @@ import org.loadui.testfx.utils.StageFuture;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class AppSetupImplTest {
 
@@ -65,8 +66,8 @@ public class AppSetupImplTest {
 
         // then:
         FXTestUtils.awaitCondition(wasAppLauncherMockCalledCondition(launcherMock));
-        MatcherAssert.assertThat(launcherMock.calledAppClass, Matchers.equalTo((Class) Application.class));
-        MatcherAssert.assertThat(launcherMock.calledAppArgs, Matchers.equalTo(new String[]{"arg1", "arg2"}));
+        assertThat(launcherMock.calledAppClass, equalTo((Class) Application.class));
+        assertThat(launcherMock.calledAppArgs, equalTo(new String[]{"arg1", "arg2"}));
     }
 
     @Test
@@ -79,7 +80,7 @@ public class AppSetupImplTest {
         Stage primaryStage = appSetup.getPrimaryStage(1, TimeUnit.SECONDS);
 
         // then:
-        MatcherAssert.assertThat(primaryStage, Matchers.is(Matchers.nullValue()));
+        assertThat(primaryStage, is(nullValue()));
     }
 
     @Test(expected=TimeoutException.class)
@@ -91,7 +92,7 @@ public class AppSetupImplTest {
         appSetup.getPrimaryStage(1, TimeUnit.SECONDS);
 
         // then:
-        MatcherAssert.assertThat("exception was not thrown", false);
+        assertThat("exception was not thrown", false);
     }
 
     @Test
@@ -101,7 +102,7 @@ public class AppSetupImplTest {
         appSetup.getStageFuture().set(null);
 
         // expect:
-        MatcherAssert.assertThat(appSetup.hasPrimaryStage(), Matchers.is(true));
+        assertThat(appSetup.hasPrimaryStage(), is(true));
     }
 
     @Test
@@ -110,7 +111,7 @@ public class AppSetupImplTest {
         appSetup.setStageFuture(StageFuture.create());
 
         // expect:
-        MatcherAssert.assertThat(appSetup.hasPrimaryStage(), Matchers.is(false));
+        assertThat(appSetup.hasPrimaryStage(), is(false));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -122,8 +123,8 @@ public class AppSetupImplTest {
         return new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                return Matchers.notNullValue().matches(launcherMock.calledAppClass) &&
-                    Matchers.notNullValue().matches(launcherMock.calledAppArgs);
+                return notNullValue().matches(launcherMock.calledAppClass) &&
+                    notNullValue().matches(launcherMock.calledAppArgs);
             }
         };
     }

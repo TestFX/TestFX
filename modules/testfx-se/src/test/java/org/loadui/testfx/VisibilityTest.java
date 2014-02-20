@@ -8,12 +8,13 @@ import javafx.scene.control.ButtonBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.loadui.testfx.controls.Commons;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
-import org.loadui.testfx.framework.robot.FxRobot;
+
+import static org.hamcrest.Matchers.is;
+import static org.loadui.testfx.Assertions.verifyThat;
 
 /**
  * TestFX should not find/click invisible nodes.
@@ -23,31 +24,31 @@ public class VisibilityTest extends GuiTest {
     @Test(expected=NoNodesVisibleException.class)
     public void nodeNotInScene_should_notBeFound()
     {
-        FxRobot.find("#node-not-in-scene");
+        find("#node-not-in-scene");
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void nodeNotInScene_should_notBeFound_2()
     {
-        FxRobot.find("Node not in scene");
+        find("Node not in scene");
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void invisibleNode_should_notBeFound()
     {
-        FxRobot.find("#invisible-node");
+        find("#invisible-node");
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void nodeInInvisibleContainer_should_notBeFound()
     {
-        FxRobot.find("#node-in-invisible-container");
+        find("#node-in-invisible-container");
     }
 
     @Test(expected=NoNodesFoundException.class)
     public void nonExistingNode_should_notBeFound()
     {
-        FxRobot.find("#non-existing-node");
+        find("#non-existing-node");
     }
 
     @Test
@@ -55,14 +56,14 @@ public class VisibilityTest extends GuiTest {
     {
         String target = "#node-mostly-outside-of-scene";
         click(target);
-        Assertions.verifyThat(target, Commons.hasText("Clicked"));
+        verifyThat(target, Commons.hasText("Clicked"));
     }
 
     @Test
     public void shouldFindVisibleTwinOnly()
     {
-        Assertions.verifyThat(FxRobot.findAll("Twin").size(), Matchers.is(1));
-        Assertions.verifyThat(FxRobot.find("#twin").isVisible(), Matchers.is(true));
+        verifyThat(findAll("Twin").size(), is(1));
+        verifyThat(find("#twin").isVisible(), is(true));
     }
 
     @Override

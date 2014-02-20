@@ -21,14 +21,15 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.PointQuery;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class PointLocatorImplTest {
 
@@ -76,7 +77,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(100, 100)));
+        assertThat(point, equalTo(new Point2D(100, 100)));
     }
 
     @Test
@@ -89,7 +90,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(100, 100)));
+        assertThat(point, equalTo(new Point2D(100, 100)));
     }
 
     @Test
@@ -102,7 +103,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(nodeBounds.getMinX(), nodeBounds.getMinY())));
+        assertThat(point, equalTo(new Point2D(nodeBounds.getMinX(), nodeBounds.getMinY())));
     }
 
     @Test @Ignore
@@ -116,7 +117,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(nodeBoundsAfterChange.getMinX(),
+        assertThat(point, equalTo(new Point2D(nodeBoundsAfterChange.getMinX(),
                 nodeBoundsAfterChange.getMinY())));
     }
 
@@ -130,7 +131,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(sceneBounds.getMinX(), sceneBounds.getMinY())));
+        assertThat(point, equalTo(new Point2D(sceneBounds.getMinX(), sceneBounds.getMinY())));
     }
 
     @Test  @Ignore
@@ -144,7 +145,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(sceneBoundsAfterChange.getMinX(),
+        assertThat(point, equalTo(new Point2D(sceneBoundsAfterChange.getMinX(),
                 sceneBoundsAfterChange.getMinY())));
     }
 
@@ -158,7 +159,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(windowBounds.getMinX(), windowBounds.getMinY())));
+        assertThat(point, equalTo(new Point2D(windowBounds.getMinX(), windowBounds.getMinY())));
     }
 
     @Test @Ignore
@@ -172,7 +173,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0);
 
         // then:
-        MatcherAssert.assertThat(point, Matchers.equalTo(new Point2D(windowBoundsAfterChange.getMinX(),
+        assertThat(point, equalTo(new Point2D(windowBoundsAfterChange.getMinX(),
                 windowBoundsAfterChange.getMinY())));
     }
 

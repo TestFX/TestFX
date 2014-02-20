@@ -26,8 +26,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -36,6 +34,10 @@ import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 public class BoundsLocatorImplTest extends AppRobotTestBase {
 
@@ -63,8 +65,8 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
 
     @BeforeClass
     public static void setupSpec() throws Throwable {
-        AppRobotTestBase.setupApplication();
-        AppRobotTestBase.setupStages(new StageSetupCallback() {
+        setupApplication();
+        setupStages(new StageSetupCallback() {
             @Override
             public void setupStages(Stage primaryStage) {
                 primaryStage.setScene(new Scene(new Region(), 600, 400));
@@ -81,7 +83,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
 
     @AfterClass
     public static void cleanupSpec() throws Throwable {
-        AppRobotTestBase.invokeAndWait(new Runnable() {
+        invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStagesClass();
@@ -127,7 +129,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInSceneFor(nodeInsideOfScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(bounds(50, 50, 100, 100)));
+        assertThat(bounds, equalTo(bounds(50, 50, 100, 100)));
     }
 
     @Test
@@ -136,8 +138,8 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInSceneFor(nodePartyOutsideOfScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.not(Matchers.equalTo(bounds(550, 350, 100, 100))));
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(bounds(550, 350, 50, 50)));
+        assertThat(bounds, not(equalTo(bounds(550, 350, 100, 100))));
+        assertThat(bounds, equalTo(bounds(550, 350, 50, 50)));
     }
 
     @Test(expected=BoundsLocatorException.class)
@@ -146,7 +148,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInSceneFor(nodeOutsideOfScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(null));
+        assertThat(bounds, equalTo(null));
     }
 
     @Test
@@ -155,7 +157,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInWindowFor(primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithOffset(0, 0, 600, 400, windowInsets)));
+        assertThat(bounds, equalTo(boundsWithOffset(0, 0, 600, 400, windowInsets)));
     }
 
     @Test
@@ -164,7 +166,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInWindowFor(boundsInsideOfScene, primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithOffset(50, 50, 100, 100, windowInsets)));
+        assertThat(bounds, equalTo(boundsWithOffset(50, 50, 100, 100, windowInsets)));
     }
 
     @Test
@@ -173,8 +175,8 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInWindowFor(boundsPartyOutsideOfScene, primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.not(Matchers.equalTo(boundsWithOffset(550, 350, 100, 100, windowInsets))));
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithOffset(550, 350, 50, 50, windowInsets)));
+        assertThat(bounds, not(equalTo(boundsWithOffset(550, 350, 100, 100, windowInsets))));
+        assertThat(bounds, equalTo(boundsWithOffset(550, 350, 50, 50, windowInsets)));
     }
 
     @Test(expected=BoundsLocatorException.class)
@@ -183,7 +185,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsInWindowFor(boundsOutsideOfScene, primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(null));
+        assertThat(bounds, equalTo(null));
     }
 
     @Test
@@ -192,7 +194,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsOnScreenFor(primaryWindow);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithInsets(100, 100, 600, 400, windowInsets)));
+        assertThat(bounds, equalTo(boundsWithInsets(100, 100, 600, 400, windowInsets)));
     }
 
     @Test
@@ -201,7 +203,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsOnScreenFor(primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithOffset(100, 100, 600, 400, windowInsets)));
+        assertThat(bounds, equalTo(boundsWithOffset(100, 100, 600, 400, windowInsets)));
     }
 
     @Test
@@ -210,7 +212,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsInsideOfScene, primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithOffset(100 + 50, 100 + 50, 100, 100, windowInsets)));
+        assertThat(bounds, equalTo(boundsWithOffset(100 + 50, 100 + 50, 100, 100, windowInsets)));
     }
 
     @Test
@@ -219,9 +221,9 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsPartyOutsideOfScene, primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.not(Matchers.equalTo(boundsWithOffset(100 + 550, 100 + 350, 100, 100,
+        assertThat(bounds, not(equalTo(boundsWithOffset(100 + 550, 100 + 350, 100, 100,
                 windowInsets))));
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets)));
+        assertThat(bounds, equalTo(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets)));
     }
 
     @Test(expected=BoundsLocatorException.class)
@@ -230,7 +232,7 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsOutsideOfScene, primaryScene);
 
         // then:
-        MatcherAssert.assertThat(bounds, Matchers.equalTo(null));
+        assertThat(bounds, equalTo(null));
     }
 
     //---------------------------------------------------------------------------------------------

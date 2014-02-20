@@ -26,7 +26,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.hamcrest.*;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -39,6 +41,9 @@ import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.service.finder.WindowFinder;
 
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class NodeFinderImplTest extends AppRobotTestBase {
 
@@ -74,8 +79,8 @@ public class NodeFinderImplTest extends AppRobotTestBase {
 
     @BeforeClass
     public static void setupClass() throws Throwable {
-        AppRobotTestBase.setupApplication();
-        AppRobotTestBase.setupStages(new StageSetupCallback() {
+        setupApplication();
+        setupStages(new StageSetupCallback() {
             @Override
             public void setupStages(Stage primaryStage) {
                 primaryStage.setScene(new Scene(new Region(), 600, 400));
@@ -93,7 +98,7 @@ public class NodeFinderImplTest extends AppRobotTestBase {
 
     @AfterClass
     public static void cleanupClass() throws Throwable {
-        AppRobotTestBase.invokeAndWait(new Runnable() {
+        invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 cleanupStagesClass();
@@ -160,29 +165,29 @@ public class NodeFinderImplTest extends AppRobotTestBase {
     @Test
     public void node_string_cssQuery() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.node("#firstId"), Matchers.is(firstIdLabel));
-        MatcherAssert.assertThat(nodeFinder.node("#secondId"), Matchers.is(secondIdLabel));
-        MatcherAssert.assertThat(nodeFinder.node(".thirdClass"), Matchers.is(thirdClassLabel));
+        assertThat(nodeFinder.node("#firstId"), is(firstIdLabel));
+        assertThat(nodeFinder.node("#secondId"), is(secondIdLabel));
+        assertThat(nodeFinder.node(".thirdClass"), is(thirdClassLabel));
     }
 
     @Test
     public void node_string_labelQuery() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.node("first"), Matchers.is(firstIdLabel));
-        MatcherAssert.assertThat(nodeFinder.node("second"), Matchers.is(secondIdLabel));
-        MatcherAssert.assertThat(nodeFinder.node("third"), Matchers.is(thirdClassLabel));
+        assertThat(nodeFinder.node("first"), is(firstIdLabel));
+        assertThat(nodeFinder.node("second"), is(secondIdLabel));
+        assertThat(nodeFinder.node("third"), is(thirdClassLabel));
     }
 
     @Test(expected=NoNodesFoundException.class)
     public void node_string_cssQuery_nonExistentNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.node("#nonExistentNode"), Matchers.is(Matchers.nullValue()));
+        assertThat(nodeFinder.node("#nonExistentNode"), is(nullValue()));
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void node_string_cssQuery_invisibleNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.node("#invisibleNode"), Matchers.is(Matchers.nullValue()));
+        assertThat(nodeFinder.node("#invisibleNode"), is(nullValue()));
     }
 
     @Test
@@ -194,13 +199,13 @@ public class NodeFinderImplTest extends AppRobotTestBase {
     @Test(expected=NoNodesFoundException.class)
     public void node_string_labelQuery_nonExistentNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes("nonExistent"), Matchers.is(Matchers.nullValue()));
+        assertThat(nodeFinder.nodes("nonExistent"), is(nullValue()));
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void node_string_labelQuery_invisibleNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes("invisible"), Matchers.is(Matchers.nullValue()));
+        assertThat(nodeFinder.nodes("invisible"), is(nullValue()));
     }
 
     @Test
@@ -209,7 +214,7 @@ public class NodeFinderImplTest extends AppRobotTestBase {
         Predicate<Node> predicate = createNodePredicate(createLabelTextPredicate("first"));
 
         // expect:
-        MatcherAssert.assertThat(nodeFinder.node(predicate), Matchers.is(firstIdLabel));
+        assertThat(nodeFinder.node(predicate), is(firstIdLabel));
     }
 
     @Test
@@ -218,39 +223,39 @@ public class NodeFinderImplTest extends AppRobotTestBase {
         Matcher<Object> matcher = createObjectMatcher(createLabelTextMatcher("first"));
 
         // expect:
-        MatcherAssert.assertThat(nodeFinder.node(matcher), Matchers.is(firstIdLabel));
+        assertThat(nodeFinder.node(matcher), is(firstIdLabel));
     }
 
     @Test
     public void nodes_string_cssQuery() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes(".sub"), Matchers.contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.nodes(".sub"), contains(subLabel, subSubLabel));
     }
 
     @Test(expected=NoNodesFoundException.class)
     public void nodes_string_cssQuery_nonExistentNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes("#nonExistentNode"), Matchers.is(Matchers.nullValue()));
+        assertThat(nodeFinder.nodes("#nonExistentNode"), is(nullValue()));
     }
 
     @Test(expected=NoNodesVisibleException.class)
     public void nodes_string_cssQuery_invisibleNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes("#invisibleNode"), Matchers.is(Matchers.nullValue()));
+        assertThat(nodeFinder.nodes("#invisibleNode"), is(nullValue()));
     }
 
     @Test
     public void nodes_string_cssQuery_parentNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes(".sub", otherPane), Matchers.contains(subLabel, subSubLabel));
-        MatcherAssert.assertThat(nodeFinder.nodes(".sub", otherSubPane), Matchers.contains(subSubLabel));
+        assertThat(nodeFinder.nodes(".sub", otherPane), contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.nodes(".sub", otherSubPane), contains(subSubLabel));
     }
 
     @Test
     public void nodes_string_labelQuery_parentNode() {
         // expect:
-        MatcherAssert.assertThat(nodeFinder.nodes("#subLabel", otherPane), Matchers.contains(subLabel));
-        MatcherAssert.assertThat(nodeFinder.nodes("#subSubLabel", otherSubPane), Matchers.contains(subSubLabel));
+        assertThat(nodeFinder.nodes("#subLabel", otherPane), contains(subLabel));
+        assertThat(nodeFinder.nodes("#subSubLabel", otherSubPane), contains(subSubLabel));
     }
 
     //---------------------------------------------------------------------------------------------

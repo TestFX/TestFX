@@ -6,11 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBoxBuilder;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
-import org.loadui.testfx.controls.ListViews;
 import org.loadui.testfx.utils.FXTestUtils;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.loadui.testfx.Assertions.verifyThat;
+import static org.loadui.testfx.controls.ListViews.containsRow;
+import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
 
 public class DragDropTest extends GuiTest {
 
@@ -97,21 +101,21 @@ public class DragDropTest extends GuiTest {
             }
         }, 1000);
 
-        Assertions.verifyThat(ListViews.numberOfRowsIn(list1), CoreMatchers.is(3));
-        Assertions.verifyThat(ListViews.numberOfRowsIn(list2), CoreMatchers.is(3));
+        verifyThat(numberOfRowsIn(list1), is(3));
+        verifyThat(numberOfRowsIn(list2), is(3));
 
         drag("A").dropTo("X");
-        Assertions.verifyThat(ListViews.numberOfRowsIn(list1), CoreMatchers.is(2));
-        Assertions.verifyThat(ListViews.numberOfRowsIn(list2), CoreMatchers.is(4));
-        Assertions.verifyThat(list2, ListViews.containsRow("A"));
-        Assertions.verifyThat(list1, CoreMatchers.not(ListViews.containsRow("A")));
+        verifyThat(numberOfRowsIn(list1), is(2));
+        verifyThat(numberOfRowsIn(list2), is(4));
+        verifyThat(list2, containsRow("A"));
+        verifyThat(list1, not(containsRow("A")));
 
         drag("Z").dropTo("B");
         drag("C").dropTo("B"); // Should have no effect
-        Assertions.verifyThat(list1.getItems().size(), CoreMatchers.is(3));
-        Assertions.verifyThat(list2.getItems().size(), CoreMatchers.is(3));
-        Assertions.verifyThat(list1.getItems(), JUnitMatchers.hasItems("Z", "B", "C"));
-        Assertions.verifyThat(list2.getItems(), JUnitMatchers.hasItems("A", "X", "Y"));
+        verifyThat(list1.getItems().size(), is(3));
+        verifyThat(list2.getItems().size(), is(3));
+        verifyThat(list1.getItems(), JUnitMatchers.hasItems("Z", "B", "C"));
+        verifyThat(list2.getItems(), JUnitMatchers.hasItems("A", "X", "Y"));
 
     }
 }
