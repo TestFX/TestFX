@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.loadui.testfx</groupId>
+        <artifactId>parent</artifactId>
+        <version>3.2.0-SNAPSHOTS</version>
+    </parent>
+
+
+    <groupId>org.loadui.testfx.module</groupId>
+    <artifactId>testfx-se</artifactId>
+    <version>${project.parent.version}</version>
+    <name>TestFX - SE</name>
+    <description>TestFX</description>
+    <url>https://github.com/SmartBear/TestFX</url>
+
+    <licenses>
+        <license>
+            <name>European Union Public Licence - EUPL v.1.1</name>
+            <url>http://ec.europa.eu/idabc/eupl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/SmartBear/TestFX.git</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies> <!--
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>javafx-runtime</artifactId>
+            <version>2.2</version>
+            <systemPath>${env.JAVA_HOME}/jre/lib/jfxrt.jar</systemPath>
+            <scope>system</scope>
+        </dependency> -->
+        <!--<dependency>-->
+            <!--<groupId>com.google.guava</groupId>-->
+            <!--<artifactId>guava</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hamcrest</groupId>-->
+            <!--<artifactId>hamcrest-all</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.hamcrest</groupId>-->
+                    <!--<artifactId>hamcrest-core</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+    </dependencies>
+</project>
