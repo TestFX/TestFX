@@ -1,0 +1,76 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * 
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
+ * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
+ * except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the Licence for the specific language governing permissions
+ * and limitations under the Licence.
+ */
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom.withXml {
+                asNode().with {
+                    appendNode('name', project.name)
+                    appendNode('description', project.ext.pomDescription)
+                    appendNode('url', 'https://github.com/SmartBear/TestFX')
+                    appendNode('inceptionYear', '2013')
+                    appendNode('licenses')
+                        .appendNode('license')
+                        .appendNode('name', 'European Union Public Licence - EUPL v.1.1').parent()
+                        .appendNode('url', 'http://ec.europa.eu/idabc/eupl.html').parent()
+                        .appendNode('distribution', 'repo')
+                    appendNode('scm')
+                        .appendNode('url', 'https://github.com/SmartBear/TestFX.git')
+                    def developers = appendNode('developers')
+                    developers.appendNode('developer')
+                        .appendNode('id', 'minisu').parent()
+                        .appendNode('name', 'Henrik Olsson').parent()
+                        .appendNode('url', 'https://github.com/minisu').parent()
+                        .appendNode('timezone', '+1').parent()
+                        .appendNode('roles')
+                            .appendNode('role', 'Developer')
+                    developers.appendNode('developer')
+                        .appendNode('id', 'dainnilsson').parent()
+                        .appendNode('name', 'Dain Nilsson').parent()
+                        .appendNode('url', 'https://github.com/dainnilsson').parent()
+                        .appendNode('timezone', '+1').parent()
+                        .appendNode('roles')
+                            .appendNode('role', 'project founder').parent()
+                            .appendNode('role', 'former developer')
+                    def contributors = appendNode('contributors')
+                    [
+                        'Philipp Keck': 'https://github.com/Philipp91',
+                        'The LoadUI team': 'https://github.com/SmartBear/loadui',
+                        'Andres Almiray': 'https://github.com/aalmiray'
+                    ].each { cName, cUrl ->
+                        contributors.appendNode('contributor')
+                            .appendNode('name', cName).parent()
+                            .appendNode('url', cUrl).parent()
+                            .appendNode('roles')
+                                .appendNode('role', 'Contributor')
+                    }
+                }
+            }
+            artifact sourceJar {
+                classifier 'sources'
+            }
+
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+        }
+    }
+}
