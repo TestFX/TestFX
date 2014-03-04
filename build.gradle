@@ -14,6 +14,14 @@
  * and limitations under the Licence.
  */
 
+import java.text.SimpleDateFormat
+
+Date buildTimeAndDate = new Date()
+ext {
+    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+}
+
 buildscript {
     repositories {
         jcenter()

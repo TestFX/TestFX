@@ -14,8 +14,6 @@
  * and limitations under the Licence.
  */
 
-import java.text.SimpleDateFormat
-
 apply plugin: 'maven-publish'
 
 publishing {
@@ -78,19 +76,13 @@ publishing {
     }
 }
 
-Date buildTimeAndDate = new Date()
-ext {
-    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
-}
-
 jar {
     manifest {
         attributes(
             'Built-By': System.properties['user.name'],
             'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.getProperty("java.vm.version") + ")",
-            'Build-Date': buildTime,
-            'Build-Time': buildDate,
+            'Build-Date': project.buildTime,
+            'Build-Time': project.buildDate,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
             'Specification-Vendor': 'SmartBear Software',
