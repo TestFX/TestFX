@@ -14,8 +14,6 @@
  * and limitations under the Licence.
  */
 
-import java.text.SimpleDateFormat
-
 buildscript {
     repositories {
         jcenter()
@@ -32,24 +30,31 @@ apply plugin: 'base'
 apply plugin: 'idea'
 apply plugin: 'build-dashboard'
 
-Date buildTimeAndDate = new Date()
-ext {
-    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
-}
-
 subprojects { subproj ->
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply from: "${rootDir}/gradle/code-quality.gradle"
-    apply from: "${rootDir}/gradle/coverage.gradle"
+    apply from: rootProject.file('gradle/code-quality.gradle')
+    apply from: rootProject.file('gradle/coverage.gradle')
+    apply from: rootProject.file('gradle/publish.gradle')
+
+    task sourceJar(type: Jar) {
+        group 'Build'
+        description 'An archive of the source code'
+        classifier 'sources'
+        from sourceSets.main.allJava
+    }
+
+    task javadocJar(type: Jar) {
+        group 'Build'
+        description 'An archive of the javadoc'
+        classifier 'javadoc'
+        from javadoc
+    }
 }
 
 evaluationDependsOnChildren()
 
 subprojects { subproj ->
-    apply from: "${rootDir}/gradle/publish.gradle"
-
     configurations {
         compileOnly
         testCompileOnly
@@ -104,35 +109,6 @@ subprojects { subproj ->
         }
     }
     */
-
-    task sourceJar(type: Jar) {
-        description "An archive of the source code"
-        classifier "sources"
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar) {
-        description "An archive of the javadoc"
-        classifier "javadoc"
-        from javadoc
-    }
-
-    jar {
-        manifest {
-            attributes(
-                'Built-By': System.properties['user.name'],
-                'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.getProperty("java.vm.version") + ")",
-                'Build-Date': buildTime,
-                'Build-Time': buildDate,
-                'Specification-Title': subproj.name,
-                'Specification-Version': subproj.version,
-                'Specification-Vendor': 'SmartBear Software',
-                'Implementation-Title': subproj.name,
-                'Implementation-Version': subproj.version,
-                'Implementation-Vendor': 'SmartBear Software'
-            )
-        }
-    }
 }
 
 idea {

@@ -14,6 +14,8 @@
  * and limitations under the Licence.
  */
 
+import java.text.SimpleDateFormat
+
 apply plugin: 'maven-publish'
 
 publishing {
@@ -64,6 +66,7 @@ publishing {
                     }
                 }
             }
+
             artifact sourceJar {
                 classifier 'sources'
             }
@@ -72,5 +75,28 @@ publishing {
                 classifier 'javadoc'
             }
         }
+    }
+}
+
+Date buildTimeAndDate = new Date()
+ext {
+    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+}
+
+jar {
+    manifest {
+        attributes(
+            'Built-By': System.properties['user.name'],
+            'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.getProperty("java.vm.version") + ")",
+            'Build-Date': buildTime,
+            'Build-Time': buildDate,
+            'Specification-Title': project.name,
+            'Specification-Version': project.version,
+            'Specification-Vendor': 'SmartBear Software',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'SmartBear Software'
+        )
     }
 }
