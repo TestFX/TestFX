@@ -16,65 +16,74 @@
 
 apply plugin: 'maven-publish'
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            pom.withXml {
-                asNode().with {
-                    appendNode('name', project.name)
-                    appendNode('description', project.ext.pomDescription)
-                    appendNode('url', 'https://github.com/SmartBear/TestFX')
-                    appendNode('inceptionYear', '2013')
-                    appendNode('licenses')
-                        .appendNode('license')
-                        .appendNode('name', 'European Union Public Licence - EUPL v.1.1').parent()
-                        .appendNode('url', 'http://ec.europa.eu/idabc/eupl.html').parent()
-                        .appendNode('distribution', 'repo')
-                    appendNode('scm')
-                        .appendNode('url', 'https://github.com/SmartBear/TestFX.git')
-                    def developers = appendNode('developers')
-                    developers.appendNode('developer')
-                        .appendNode('id', 'minisu').parent()
-                        .appendNode('name', 'Henrik Olsson').parent()
-                        .appendNode('url', 'https://github.com/minisu').parent()
-                        .appendNode('timezone', '+1').parent()
-                        .appendNode('roles')
-                            .appendNode('role', 'Developer')
-                    developers.appendNode('developer')
-                        .appendNode('id', 'dainnilsson').parent()
-                        .appendNode('name', 'Dain Nilsson').parent()
-                        .appendNode('url', 'https://github.com/dainnilsson').parent()
-                        .appendNode('timezone', '+1').parent()
-                        .appendNode('roles')
-                            .appendNode('role', 'project founder').parent()
-                            .appendNode('role', 'former developer')
-                    def contributors = appendNode('contributors')
-                    [
-                        'Philipp Keck': 'https://github.com/Philipp91',
-                        'The LoadUI team': 'https://github.com/SmartBear/loadui',
-                        'Andres Almiray': 'https://github.com/aalmiray'
-                    ].each { cName, cUrl ->
-                        contributors.appendNode('contributor')
-                            .appendNode('name', cName).parent()
-                            .appendNode('url', cUrl).parent()
-                            .appendNode('roles')
-                                .appendNode('role', 'Contributor')
-                    }
+def pomConfig = {
+    name project.name
+    description project.ext.pomDescription
+    url 'https://github.com/SmartBear/TestFX'
+    inceptionYear '2013'
+    licenses {
+        license([:]) { // force map arg to overcome license{} from license plugin
+            name 'European Union Public Licence - EUPL v.1.1'
+            url 'http://ec.europa.eu/idabc/eupl.html'
+            distribution 'repo'
+        }
+    }
+    scm {
+        url 'https://github.com/SmartBear/TestFX.git'
+    }
+    developers {
+        developer {
+            id 'minisu'
+            name 'Henrik Olsson'
+            url 'https://github.com/minisu'
+            timezone '+1'
+            roles {
+                role 'Developer'
+            }
+        }
+        developer {
+            id 'dainnilsson'
+            name 'Dain Nilsson'
+            url 'https://github.com/dainnilsson'
+            timezone '+1'
+            roles {
+                role 'project founder'
+                role 'former developer'
+            }
+        }
+    }
+    contributors {
+        [
+            'Philipp Keck': 'https://github.com/Philipp91',
+            'The LoadUI team': 'https://github.com/SmartBear/loadui',
+            'Andres Almiray': 'https://github.com/aalmiray'
+        ].each { cName, cUrl ->
+            contributor {
+                name cName
+                url cUrl
+                roles {
+                    role 'Contributor'
                 }
-            }
-
-            artifact sourceJar {
-                classifier 'sources'
-            }
-
-            artifact javadocJar {
-                classifier 'javadoc'
             }
         }
     }
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+
+            pom.withXml {
+                asNode().children().last() + pomConfig
+            }
+        }
+    }
+}
+
+task install(dependsOn: publishToMavenLocal)
 
 jar {
     manifest {
