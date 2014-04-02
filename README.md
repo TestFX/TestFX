@@ -62,11 +62,13 @@ Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([so
 
 [Comparison with Jemmy][4]
 
+You might also want to try [Automaton](https://github.com/renatoathaydes/Automaton), a new testing framework that supports JavaFX as well as Swing.
+
 ### Mailing list
 Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum/testfx-discuss) for discussions, questions and announcements. 
 
 ### Credits
-TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended and maintained by @minisu, @Philipp91 and the [other contributors][5].
+TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended and maintained by @hastebrot, @Philipp91, @minisu and the [other contributors][5].
 
 [1]: https://jemmy.java.net/              "Jemmy website"
 [2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
