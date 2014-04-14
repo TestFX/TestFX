@@ -13,22 +13,20 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.locator.impl;
+package org.loadui.testfx.service.query.impl;
 
 import javafx.geometry.Bounds;
-import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import org.loadui.testfx.service.locator.PointQuery;
 
-public class BoundsPointQuery implements PointQuery {
+import org.loadui.testfx.utils.BoundsUtils;
+
+public class BoundsPointQuery extends PointQueryBase {
 
     //---------------------------------------------------------------------------------------------
-    // FIELDS.
+    // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    final Bounds bounds;
+    private Bounds bounds;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
@@ -39,53 +37,31 @@ public class BoundsPointQuery implements PointQuery {
     }
 
     //---------------------------------------------------------------------------------------------
+    // GETTER AND SETTER.
+    //---------------------------------------------------------------------------------------------
+
+    public Bounds getBounds() {
+        return bounds;
+    }
+
+    public void setBounds(Bounds bounds) {
+        this.bounds = bounds;
+    }
+
+    //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Point2D atPosition(Pos position) {
-        return pointForPosition(bounds, position);
-    }
-
-    public Point2D atOffset(double x, double y) {
-        Point2D point = atPosition(Pos.TOP_LEFT);
-        return new Point2D(point.getX() + x, point.getY() + y);
+    public Point2D query() {
+        return this.pointAtPosition(this.bounds, this.getPosition()).add(this.getOffset());
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Point2D pointForPosition(Bounds bounds, Pos position) {
-        double pointX = computePointX(bounds, position.getHpos());
-        double pointY = computePointY(bounds, position.getVpos());
-        return new Point2D(pointX, pointY);
-    }
-
-    private double computePointX(Bounds bounds, HPos hPos) {
-        switch (hPos) {
-            case LEFT:
-                return bounds.getMinX();
-            case CENTER:
-                return (bounds.getMinX() + bounds.getMaxX()) / 2;
-            case RIGHT:
-                return bounds.getMaxX();
-            default:
-                throw new AssertionError("Unhandled hPos");
-        }
-    }
-
-    private double computePointY(Bounds bounds, VPos vPos) {
-        switch (vPos) {
-            case TOP:
-                return bounds.getMinY();
-            case BASELINE:
-            case CENTER:
-                return (bounds.getMinY() + bounds.getMaxY()) / 2;
-            case BOTTOM:
-                return bounds.getMaxY();
-            default:
-                throw new AssertionError("Unhandled vPos");
-        }
+    private Point2D pointAtPosition(Bounds bounds, Point2D position) {
+        return BoundsUtils.atPositionFactors(bounds, position);
     }
 
 }

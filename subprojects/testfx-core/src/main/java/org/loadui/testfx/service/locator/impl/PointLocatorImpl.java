@@ -15,15 +15,19 @@
  */
 package org.loadui.testfx.service.locator.impl;
 
+import java.util.concurrent.Callable;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
+
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.locator.PointQuery;
+import org.loadui.testfx.service.query.PointQuery;
+import org.loadui.testfx.service.query.impl.BoundsPointQuery;
+import org.loadui.testfx.service.query.impl.CallableBoundsPointQuery;
 
 public class PointLocatorImpl implements PointLocator {
 
@@ -53,25 +57,56 @@ public class PointLocatorImpl implements PointLocator {
     @Override
     public PointQuery pointFor(Point2D point) {
         Bounds bounds = new BoundingBox(point.getX(), point.getY(), 0, 0);
-        return pointFor(bounds);
+        return new BoundsPointQuery(bounds);
     }
 
     @Override
     public PointQuery pointFor(Node node) {
-        Bounds bounds = boundsLocator.boundsOnScreenFor(node);
-        return pointFor(bounds);
+        Callable<Bounds> callable = callableBoundsFor(node);
+        return new CallableBoundsPointQuery(callable);
     }
 
     @Override
     public PointQuery pointFor(Scene scene) {
-        Bounds bounds = boundsLocator.boundsOnScreenFor(scene);
-        return pointFor(bounds);
+        Callable<Bounds> callable = callableBoundsFor(scene);
+        return new CallableBoundsPointQuery(callable);
     }
 
     @Override
     public PointQuery pointFor(Window window) {
-        Bounds bounds = boundsLocator.boundsOnScreenFor(window);
-        return pointFor(bounds);
+        Callable<Bounds> callable = callableBoundsFor(window);
+        return new CallableBoundsPointQuery(callable);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private Callable<Bounds> callableBoundsFor(final Node node) {
+        return new Callable<Bounds>() {
+            @Override
+            public Bounds call() throws Exception {
+                return boundsLocator.boundsOnScreenFor(node);
+            }
+        };
+    }
+
+    private Callable<Bounds> callableBoundsFor(final Scene scene) {
+        return new Callable<Bounds>() {
+            @Override
+            public Bounds call() throws Exception {
+                return boundsLocator.boundsOnScreenFor(scene);
+            }
+        };
+    }
+
+    private Callable<Bounds> callableBoundsFor(final Window window) {
+        return new Callable<Bounds>() {
+            @Override
+            public Bounds call() throws Exception {
+                return boundsLocator.boundsOnScreenFor(window);
+            }
+        };
     }
 
 }

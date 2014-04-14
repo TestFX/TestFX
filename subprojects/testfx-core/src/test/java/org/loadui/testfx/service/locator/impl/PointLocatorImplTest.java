@@ -22,14 +22,14 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.locator.PointQuery;
+import org.loadui.testfx.service.query.PointQuery;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 public class PointLocatorImplTest {
 
@@ -74,10 +74,10 @@ public class PointLocatorImplTest {
         PointQuery pointQuery = pointLocator.pointFor(new BoundingBox(100, 100, 50, 50));
 
         // when:
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(100, 100)));
+        assertThat(point, Matchers.equalTo(new Point2D(100, 100)));
     }
 
     @Test
@@ -87,10 +87,10 @@ public class PointLocatorImplTest {
         PointQuery pointQuery = pointLocator.pointFor(new Point2D(100, 100));
 
         // when:
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(100, 100)));
+        assertThat(point, Matchers.equalTo(new Point2D(100, 100)));
     }
 
     @Test
@@ -100,10 +100,10 @@ public class PointLocatorImplTest {
         PointQuery pointQuery = pointLocator.pointFor((Node) null);
 
         // when:
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(nodeBounds.getMinX(), nodeBounds.getMinY())));
+        assertThat(point, Matchers.equalTo(topLeftPointFrom(nodeBounds)));
     }
 
     @Test
@@ -114,11 +114,10 @@ public class PointLocatorImplTest {
 
         // when:
         boundsLocatorStub.bounds = nodeBoundsAfterChange;
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(nodeBoundsAfterChange.getMinX(),
-            nodeBoundsAfterChange.getMinY())));
+        assertThat(point, Matchers.equalTo(topLeftPointFrom(nodeBoundsAfterChange)));
     }
 
     @Test
@@ -128,10 +127,10 @@ public class PointLocatorImplTest {
         PointQuery pointQuery = pointLocator.pointFor((Scene) null);
 
         // when:
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(sceneBounds.getMinX(), sceneBounds.getMinY())));
+        assertThat(point, Matchers.equalTo(topLeftPointFrom(sceneBounds)));
     }
 
     @Test
@@ -142,11 +141,10 @@ public class PointLocatorImplTest {
 
         // when:
         boundsLocatorStub.bounds = sceneBoundsAfterChange;
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(sceneBoundsAfterChange.getMinX(),
-            sceneBoundsAfterChange.getMinY())));
+        assertThat(point, Matchers.equalTo(topLeftPointFrom(sceneBoundsAfterChange)));
     }
 
     @Test
@@ -156,10 +154,10 @@ public class PointLocatorImplTest {
         PointQuery pointQuery = pointLocator.pointFor((Window) null);
 
         // when:
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(windowBounds.getMinX(), windowBounds.getMinY())));
+        assertThat(point, Matchers.equalTo(topLeftPointFrom(windowBounds)));
     }
 
     @Test
@@ -170,15 +168,22 @@ public class PointLocatorImplTest {
 
         // when:
         boundsLocatorStub.bounds = windowBoundsAfterChange;
-        Point2D point = pointQuery.atOffset(0, 0);
+        Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, equalTo(new Point2D(windowBoundsAfterChange.getMinX(),
-            windowBoundsAfterChange.getMinY())));
+        assertThat(point, Matchers.equalTo(topLeftPointFrom(windowBoundsAfterChange)));
     }
 
     //---------------------------------------------------------------------------------------------
-    // HELPER CLASSES.
+    // HELPER METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    public Point2D topLeftPointFrom(Bounds bounds) {
+        return new Point2D(bounds.getMinX(), bounds.getMinY());
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // STUBS AND MOCKS.
     //---------------------------------------------------------------------------------------------
 
     public static class BoundsLocatorStub implements BoundsLocator {

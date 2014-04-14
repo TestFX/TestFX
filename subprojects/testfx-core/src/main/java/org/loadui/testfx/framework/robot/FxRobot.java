@@ -53,9 +53,9 @@ import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
 import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.locator.PointQuery;
 import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
+import org.loadui.testfx.service.query.PointQuery;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 
@@ -226,7 +226,90 @@ public class FxRobot implements ClickRobot, DragRobot, MoveRobot {
     }
 
     //---------------------------------------------------------------------------------------------
-    // METHODS FOR TARGET WINDOW.
+    // METHODS FOR POINT LOCATION.
+    //---------------------------------------------------------------------------------------------
+
+    public PointQuery pointFor(double x, double y) {
+        return pointLocator.pointFor(new Point2D(x, y)).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Point2D point) {
+        return pointLocator.pointFor(point).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Bounds bounds) {
+        return pointLocator.pointFor(bounds).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Node node) {
+        target(node.getScene().getWindow());
+        return pointLocator.pointFor(node).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Scene scene) {
+        target(scene.getWindow());
+        return pointLocator.pointFor(scene).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Window window) {
+        target(window);
+        return pointLocator.pointFor(window).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(String query) {
+        Node node = nodeFinder.node(query);
+        return pointFor(node).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Matcher<Object> matcher) {
+        Node node = nodeFinder.node(matcher);
+        return pointFor(node).atPosition(pointPosition);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
+        Node node = nodeFinder.node((Predicate<Node>) predicate);
+        return pointFor(node).atPosition(pointPosition);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR POINT OFFSET.
+    //---------------------------------------------------------------------------------------------
+
+    public PointQuery offset(Point2D point, double offsetX, double offsetY) {
+        return pointFor(point).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(Bounds bounds, double offsetX, double offsetY) {
+        return pointFor(bounds).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(Node node, double offsetX, double offsetY) {
+        return pointFor(node).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(Scene scene, double offsetX, double offsetY) {
+        return pointFor(scene).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(Window window, double offsetX, double offsetY) {
+        return pointFor(window).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(String query, double offsetX, double offsetY) {
+        return pointFor(query).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(Matcher<Object> matcher, double offsetX, double offsetY) {
+        return pointFor(matcher).atOffset(offsetX, offsetY);
+    }
+
+    public <T extends Node> PointQuery offset(Predicate<T> predicate, double offsetX, double offsetY) {
+        return pointFor(predicate).atOffset(offsetX, offsetY);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR WINDOW TARGETING.
     //---------------------------------------------------------------------------------------------
 
     public FxRobot target(Window window) {
@@ -241,6 +324,11 @@ public class FxRobot implements ClickRobot, DragRobot, MoveRobot {
 
     public FxRobot target(String stageTitleRegex) {
         windowFinder.target(stageTitleRegex);
+        return this;
+    }
+
+    public FxRobot target(Scene scene) {
+        windowFinder.target(scene);
         return this;
     }
 
@@ -762,94 +850,19 @@ public class FxRobot implements ClickRobot, DragRobot, MoveRobot {
 
     private void moveToImpl(PointQuery pointQuery) {
         // Since moving takes time, only do it if we're not already at the desired point.
-        Point2D point = pointQuery.atPosition(pointPosition);
+        Point2D point = pointQuery.atPosition(pointPosition).query();
         if (!isPointAtMouseLocation(point)) {
             screenRobot.moveMouseLinearTo(point.getX(), point.getY());
         }
 
         // If the target has moved while we were moving the mouse, update to the new position.
-        Point2D endPoint = pointQuery.atPosition(pointPosition);
+        Point2D endPoint = pointQuery.atPosition(pointPosition).query();
         screenRobot.moveMouseTo(endPoint.getX(), endPoint.getY());
     }
 
     private boolean isPointAtMouseLocation(Point2D point) {
         Point2D mouseLocation = screenRobot.getMouseLocation();
         return mouseLocation.equals(point);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    public Point2D offset(Point2D point, double offsetX, double offsetY) {
-        return pointFor(point).atOffset(offsetX, offsetY);
-    }
-
-    public Point2D offset(Bounds bounds, double offsetX, double offsetY) {
-        return pointFor(bounds).atOffset(offsetX, offsetY);
-    }
-
-    public Point2D offset(Node node, double offsetX, double offsetY) {
-        return pointFor(node).atOffset(offsetX, offsetY);
-    }
-
-    public Point2D offset(Scene scene, double offsetX, double offsetY) {
-        return pointFor(scene).atOffset(offsetX, offsetY);
-    }
-
-    public Point2D offset(Window window, double offsetX, double offsetY) {
-        return pointFor(window).atOffset(offsetX, offsetY);
-    }
-
-    public Point2D offset(String query, double offsetX, double offsetY) {
-        return pointFor(query).atOffset(offsetX, offsetY);
-    }
-
-    public Point2D offset(Matcher<Object> matcher, double offsetX, double offsetY) {
-        return pointFor(matcher).atOffset(offsetX, offsetY);
-    }
-
-    public <T extends Node> Point2D offset(Predicate<T> predicate, double offsetX, double offsetY) {
-        return pointFor(predicate).atOffset(offsetX, offsetY);
-    }
-
-    public PointQuery pointFor(Point2D point) {
-        return pointLocator.pointFor(point);
-    }
-
-    public PointQuery pointFor(Bounds bounds) {
-        return pointLocator.pointFor(bounds);
-    }
-
-    public PointQuery pointFor(Node node) {
-        windowFinder.target(node.getScene().getWindow());
-        return pointLocator.pointFor(node);
-    }
-
-    public PointQuery pointFor(Scene scene) {
-        windowFinder.target(scene.getWindow());
-        return pointLocator.pointFor(scene);
-    }
-
-    public PointQuery pointFor(Window window) {
-        windowFinder.target(window);
-        return pointLocator.pointFor(window);
-    }
-
-    public PointQuery pointFor(String query) {
-        Node node = nodeFinder.node(query);
-        return pointFor(node);
-    }
-
-    public PointQuery pointFor(Matcher<Object> matcher) {
-        Node node = nodeFinder.node(matcher);
-        return pointFor(node);
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
-        Node node = nodeFinder.node((Predicate<Node>) predicate);
-        return pointFor(node);
     }
 
 }
