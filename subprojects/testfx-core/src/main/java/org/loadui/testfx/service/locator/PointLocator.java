@@ -21,6 +21,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
+import org.loadui.testfx.service.query.PointQuery;
+
 public interface PointLocator {
     PointQuery pointFor(Bounds bounds);
 

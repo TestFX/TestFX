@@ -1,11 +1,12 @@
-package org.loadui.testfx.service.locator.impl;
+package org.loadui.testfx.service.query.impl;
 
 import java.util.concurrent.Callable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 
-public class CallableBoundsPointQuery extends BoundsPointQuery {
+import org.loadui.testfx.service.query.PointQuery;
+
+public class CallableBoundsPointQuery extends PointQueryBase {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -26,22 +27,19 @@ public class CallableBoundsPointQuery extends BoundsPointQuery {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public Point2D atPosition(Pos position) {
-        setBounds(retrieveUpdatedBounds());
-        return super.atPosition(position);
-    }
-
-    @Override
-    public Point2D atOffset(double x, double y) {
-        setBounds(retrieveUpdatedBounds());
-        return super.atOffset(x, y);
+    public Point2D query() {
+        Bounds bounds = fetchCallableBounds();
+        PointQuery boundsQuery = new BoundsPointQuery(bounds)
+            .atPosition(getPosition())
+            .atOffset(getOffset());
+        return boundsQuery.query();
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Bounds retrieveUpdatedBounds() {
+    private Bounds fetchCallableBounds() {
         try {
             return callableBounds.call();
         }

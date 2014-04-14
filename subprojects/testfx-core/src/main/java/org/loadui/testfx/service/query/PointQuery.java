@@ -13,12 +13,25 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.locator;
+package org.loadui.testfx.service.query;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 
 public interface PointQuery {
-    public Point2D atPosition(Pos position);
-    public Point2D atOffset(double x, double y);
+    public Point2D getPosition();
+
+    public Point2D getOffset();
+
+    public PointQuery atPosition(Point2D position);
+
+    public PointQuery atPosition(double positionX, double positionY);
+
+    public PointQuery atPosition(Pos position);
+
+    public PointQuery atOffset(Point2D offset);
+
+    public PointQuery atOffset(double offsetX, double offsetY);
+
+    public Point2D query();
 }

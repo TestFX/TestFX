@@ -25,7 +25,9 @@ import javafx.stage.Window;
 
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.locator.PointQuery;
+import org.loadui.testfx.service.query.PointQuery;
+import org.loadui.testfx.service.query.impl.BoundsPointQuery;
+import org.loadui.testfx.service.query.impl.CallableBoundsPointQuery;
 
 public class PointLocatorImpl implements PointLocator {
 
