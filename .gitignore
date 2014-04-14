@@ -6,6 +6,7 @@
 .idea/
 *.iml
 *.iws
+*.ipr
 
 # Mac
 .DS_Store
@@ -18,3 +19,7 @@ target/
 .classpath
 .project
 .settings/
+
+# Gradle
+build/
+.gradle

@@ -1,0 +1,131 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * 
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
+ * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
+ * except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the Licence for the specific language governing permissions
+ * and limitations under the Licence.
+ */
+
+import java.text.SimpleDateFormat
+
+Date buildTimeAndDate = new Date()
+ext {
+    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'net.saliman:gradle-cobertura-plugin:2.2.2'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.7.0'
+    }
+}
+
+apply plugin: 'base'
+apply plugin: 'idea'
+apply plugin: 'build-dashboard'
+
+subprojects { subproj ->
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply from: rootProject.file('gradle/code-quality.gradle')
+    apply from: rootProject.file('gradle/coverage.gradle')
+    apply from: rootProject.file('gradle/publish.gradle')
+
+    task sourceJar(type: Jar) {
+        group 'Build'
+        description 'An archive of the source code'
+        classifier 'sources'
+        from sourceSets.main.allJava
+    }
+
+    task javadocJar(type: Jar) {
+        group 'Build'
+        description 'An archive of the javadoc'
+        classifier 'javadoc'
+        from javadoc
+    }
+
+    artifacts {
+        sourceJar
+        javadocJar
+    }
+}
+
+evaluationDependsOnChildren()
+
+subprojects { subproj ->
+    configurations {
+        compileOnly
+        testCompileOnly
+    }
+
+    repositories {
+        jcenter()
+    }
+
+    sourceSets {
+        main {
+            compileClasspath += configurations.compileOnly
+        }
+        test {
+            compileClasspath += configurations.testCompileOnly
+        }
+    }
+
+    javadoc {
+        classpath += configurations.compileOnly
+    }
+
+    idea {
+        module {
+            scopes.PROVIDED.plus += configurations.compileOnly
+            scopes.PROVIDED.plus += configurations.testCompileOnly
+        }
+    }
+
+    javadoc {
+        excludes = ['**/*.html', 'META-INF/**']
+
+        options.use         = true
+        options.splitIndex  = true
+        options.encoding    = 'UTF-8'
+        options.author      = true
+        options.version     = subproj.sourceCompatibility
+        options.windowTitle = "${subproj.ext.pomDescription} $version"
+        options.docTitle    = "${subproj.ext.pomDescription} $version"
+        options.footer      = project.javadocFooter
+        options.links       = ['http://docs.oracle.com/javase/7/docs/api/']
+    }
+
+    /*
+    compileJava {
+        doFirst {
+            if (rootProject.hasProperty('lint') && rootProject.lint == true) {
+                options.compilerArgs = [
+                    '-Xlint:all', '-Xlint:deprecation', '-Xlint:unchecked'
+                ]
+            }
+        }
+    }
+    */
+}
+
+idea {
+    project {
+        jdkName '1.7'
+        languageLevel '1.7'
+    }
+}
