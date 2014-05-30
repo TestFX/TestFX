@@ -53,7 +53,9 @@ public class BoundsPointQuery extends PointQueryBase {
     //---------------------------------------------------------------------------------------------
 
     public Point2D query() {
-        return this.pointAtPosition(this.bounds, this.getPosition()).add(this.getOffset());
+        Point2D point = pointAtPosition(this.bounds, this.getPosition());
+        Point2D offset = getOffset();
+        return new Point2D(point.getX() + offset.getX(), point.getY() + offset.getY());
     }
 
     //---------------------------------------------------------------------------------------------
