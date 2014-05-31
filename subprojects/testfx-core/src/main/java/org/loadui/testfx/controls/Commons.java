@@ -32,7 +32,7 @@ public class Commons
     /**
      * Matches any Labeled Node that has the given label.
      *
-     * @deprecated Use {@link hasText(String) instead}.
+     * @deprecated Use {@link #hasText(String)} instead.
      */
     @Deprecated
     @Factory
@@ -44,7 +44,7 @@ public class Commons
     /**
      * Matches any Labeled Node that has a label that matches the given stringMatcher.
      *
-     * @deprecated Use {@link hasText(Matcher<String>) instead}.
+     * @deprecated Use {@link #hasText(Matcher)} instead.
      */
     @Deprecated
     @Factory

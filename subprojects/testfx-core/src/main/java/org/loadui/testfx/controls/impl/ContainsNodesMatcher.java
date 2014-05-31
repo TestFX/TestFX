@@ -21,46 +21,39 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
-public class ContainsNodesMatcher extends TypeSafeMatcher<String>
-{
-	final int numberOf;
-	final String domQuery;
+public class ContainsNodesMatcher extends TypeSafeMatcher<String> {
 
-	public ContainsNodesMatcher( String domQuery )
-	{
-		this(-1, domQuery);
-	}
+    final int numberOf;
+    final String domQuery;
 
-	public ContainsNodesMatcher( int numberOf, String domQuery )
-	{
-		this.numberOf = numberOf;
-		this.domQuery = domQuery;
-	}
+    public ContainsNodesMatcher(String domQuery) {
+        this(-1, domQuery);
+    }
 
-	public void describeTo( Description desc )
-	{
-		desc.appendText("contains");
-	}
+    public ContainsNodesMatcher(int numberOf, String domQuery) {
+        this.numberOf = numberOf;
+        this.domQuery = domQuery;
+    }
 
-	@Factory
-	public static Matcher<String> contains( String domQuery )
-	{
-		return new ContainsNodesMatcher(domQuery);
-	}
+    @Factory
+    public static Matcher<String> contains(String domQuery) {
+        return new ContainsNodesMatcher(domQuery);
+    }
 
-	@Factory
-	public static Matcher<String> contains( int numberOf, String domQuery )
-	{
-		return new ContainsNodesMatcher(numberOf, domQuery);
-	}
+    @Factory
+    public static Matcher<String> contains(int numberOf, String domQuery) {
+        return new ContainsNodesMatcher(numberOf, domQuery);
+    }
 
-	@Override
-	public boolean matchesSafely( String domRoot )
-	{
-		if( numberOf >= 0 )
-		{
-			return GuiTest.findAll( domRoot + " " + domQuery ).size() == numberOf;
-		}
-		return !GuiTest.findAll( domRoot + " " + domQuery ).isEmpty();
-	}
+    public void describeTo(Description desc) {
+        desc.appendText("contains");
+    }
+
+    @Override
+    public boolean matchesSafely(String domRoot) {
+        if (numberOf >= 0) {
+            return GuiTest.findAll(domRoot + " " + domQuery).size() == numberOf;
+        }
+        return !GuiTest.findAll(domRoot + " " + domQuery).isEmpty();
+    }
 }

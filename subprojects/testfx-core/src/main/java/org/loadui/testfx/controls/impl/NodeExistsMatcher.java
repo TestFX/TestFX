@@ -21,31 +21,26 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.loadui.testfx.GuiTest;
 
-public class NodeExistsMatcher extends TypeSafeMatcher<String>
-{
+public class NodeExistsMatcher extends TypeSafeMatcher<String> {
 
-	@Override
-	public void describeTo( Description desc )
-	{
-		desc.appendText( "should exist" );
-	}
+    @Factory
+    public static Matcher<String> exists() {
+        return new NodeExistsMatcher();
+    }
 
-	@Override
-	public void describeMismatchSafely( String query, Description desc )
-	{
+    @Override
+    public void describeTo(Description desc) {
+        desc.appendText("should exist");
+    }
 
-		desc.appendText( "query \"" + query + "\" was not found " );
-	}
+    @Override
+    public void describeMismatchSafely(String query, Description desc) {
 
-	@Factory
-	public static Matcher<String> exists()
-	{
-		return new NodeExistsMatcher();
-	}
+        desc.appendText("query \"" + query + "\" was not found ");
+    }
 
-	@Override
-	public boolean matchesSafely( String query )
-	{
-		return GuiTest.exists( query );
-	}
+    @Override
+    public boolean matchesSafely(String query) {
+        return GuiTest.exists(query);
+    }
 }

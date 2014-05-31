@@ -30,69 +30,62 @@ import org.loadui.testfx.categories.TestFX;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
 
-@Category( TestFX.class )
-public class ControllerApiTest extends GuiTest
-{
-	@Override
-	protected Parent getRootNode()
-	{
-		return VBoxBuilder
-				.create()
-				.children( ButtonBuilder.create().id( "button1" ).text( "Button A" ).defaultButton(true).build(),
-						ButtonBuilder.create().id( "button2" ).text( "Button B" ).build(),
-						TextFieldBuilder.create().id( "text" ).build() ).build();
-	}
+@Category(TestFX.class)
+public class ControllerApiTest extends GuiTest {
 
-	@Test
-	public void shouldTypeString()
-	{
-		final String text = "H3llo W0rld";
-
-		click( "#text" ).type( text );
-
-		verifyThat("#text", hasText(text));
-	}
-
-	@Test
-	public void shouldClickButton()
-	{
-		final Button button = find( "#button1" );
-		button.setOnAction( new EventHandler<ActionEvent>()
-		{
-			@Override
-			public void handle( ActionEvent actionEvent )
-			{
-				button.setText( "Was clicked" );
-			}
-		} );
-
-		click( "Button A" );
-
-		verifyThat( "#button1", hasText( "Was clicked" ) );
-	}
+    @Override
+    protected Parent getRootNode() {
+        return VBoxBuilder
+            .create()
+            .children(ButtonBuilder.create().id("button1").text("Button A").defaultButton(true).build(),
+                ButtonBuilder.create().id("button2").text("Button B").build(),
+                TextFieldBuilder.create().id("text").build()).build();
+    }
 
     @Test
-    public void shouldClickButton_usingLambda()
-    {
-        final Button button = find( "#button1" );
-        button.setOnAction( new EventHandler<ActionEvent>()
-        {
+    public void shouldTypeString() {
+        final String text = "H3llo W0rld";
+
+        click("#text").type(text);
+
+        verifyThat("#text", hasText(text));
+    }
+
+    @Test
+    public void shouldClickButton() {
+        final Button button = find("#button1");
+        button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle( ActionEvent actionEvent )
-            {
-                button.setText( "Was clicked" );
+            public void handle(ActionEvent actionEvent) {
+                button.setText("Was clicked");
             }
-        } );
+        });
+
+        click("Button A");
+
+        verifyThat("#button1", hasText("Was clicked"));
+    }
+
+    @Test
+    public void shouldClickButton_usingLambda() {
+        final Button button = find("#button1");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                button.setText("Was clicked");
+            }
+        });
 
         // In Java 8, this can be written as click( (Button b) -> b.isDefaultButton() )
         // To stay compatible with both Java 7 and 8, this test uses Java 7 code.
-        click( new Predicate<Button>() {
+        click(new Predicate<Button>() {
             @Override
             public boolean apply(Button b) {
                 return b.isDefaultButton();
             }
-        } );
+        });
 
-        verifyThat( "#button1", hasText( "Was clicked" ) );
+        verifyThat("#button1", hasText("Was clicked"));
     }
+
 }

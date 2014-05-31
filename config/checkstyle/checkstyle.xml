@@ -23,10 +23,10 @@
             <property name="option" value="stmt"/>
             <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,INSTANCE_INIT,STATIC_INIT"/>
         </module>
-        <module name="EmptyBlock">
+        <!--<module name="EmptyBlock">
             <property name="option" value="text"/>
             <property name="tokens" value="LITERAL_CATCH"/>
-        </module>
+        </module>-->
         <module name="AvoidNestedBlocks"/>
 
         <!-- Braces -->

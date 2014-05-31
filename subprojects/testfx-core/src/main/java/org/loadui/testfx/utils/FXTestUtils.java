@@ -93,7 +93,7 @@ public class FXTestUtils {
      *
      * @param task
      * @param timeoutInSeconds
-     * @throws Throwable
+     * @throws Exception
      */
     public static void invokeAndWait(final Callable<?> task,
                                      int timeoutInSeconds) throws Exception {
@@ -129,7 +129,7 @@ public class FXTestUtils {
     /**
      * @param task
      * @param timeoutInSeconds
-     * @throws Throwable
+     * @throws Exception
      * @see FXTestUtils#invokeAndWait(Callable, int)
      */
     public static void invokeAndWait(final Runnable task,

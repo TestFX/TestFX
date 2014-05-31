@@ -22,30 +22,27 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 
 import static org.loadui.testfx.GuiTest.find;
 
-public class HasLabelMatcher extends TypeSafeMatcher<Object>
-{
-	private final Matcher<String> matcher;
+public class HasLabelMatcher extends TypeSafeMatcher<Object> {
 
-	public HasLabelMatcher( Matcher<String> matcher )
-	{
-		this.matcher = matcher;
-	}
+    private final Matcher<String> matcher;
 
-	public void describeTo( Description desc )
-	{
-		desc.appendText( "Node should match " + matcher );
-	}
+    public HasLabelMatcher(Matcher<String> matcher) {
+        this.matcher = matcher;
+    }
 
-	@Override
-	public boolean matchesSafely( Object target )
-	{
-		if( target instanceof String )
-		{
-			return matcher.matches(((Labeled) find( (String) target )).getText() );
-		} else if( target instanceof Labeled )
-		{
-			return matcher.matches( ((Labeled) target).getText() );
-		}
-		return false;
-	}
+    public void describeTo(Description desc) {
+        desc.appendText("Node should match " + matcher);
+    }
+
+    @Override
+    public boolean matchesSafely(Object target) {
+        if (target instanceof String) {
+            return matcher.matches(((Labeled) find((String) target)).getText());
+        }
+        else if (target instanceof Labeled) {
+            return matcher.matches(((Labeled) target).getText());
+        }
+        return false;
+    }
+
 }

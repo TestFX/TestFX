@@ -15,7 +15,7 @@
  */
 
 apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 apply plugin: 'jdepend'
 apply plugin: 'license'
 
@@ -38,28 +38,28 @@ checkstyle {
     configProperties.checkstyleConfigDir = checkstyleConfigDir
 }
 
-findbugs {
-    toolVersion = '2.0.2'
-    sourceSets = [sourceSets.main]
-    ignoreFailures = true
-    reportsDir = file("$project.buildDir/reports/findbugs")
-    effort = 'max'
-    reportLevel = 'high'
-}
+//findbugs {
+//    toolVersion = '2.0.2'
+//    sourceSets = [sourceSets.main]
+//    ignoreFailures = true
+//    reportsDir = file("$project.buildDir/reports/findbugs")
+//    effort = 'max'
+//    reportLevel = 'high'
+//}
 
-findbugsMain {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
-findbugsTest {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
+//findbugsMain {
+//    reports {
+//        xml.enabled = false
+//        html.enabled = true
+//    }
+//}
+//
+//findbugsTest {
+//    reports {
+//        xml.enabled = false
+//        html.enabled = true
+//    }
+//}
 
 jdepend {
     toolVersion = '2.9.1'
