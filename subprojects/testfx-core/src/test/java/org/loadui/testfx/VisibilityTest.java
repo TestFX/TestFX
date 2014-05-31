@@ -90,7 +90,7 @@ public class VisibilityTest extends GuiTest {
         final Button nodeMostlyOutside = ButtonBuilder.create().id("node-mostly-outside-of-scene").text("Mostly outside").translateX(570).build();
         nodeMostlyOutside.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent _) {
+            public void handle(ActionEvent event) {
                 nodeMostlyOutside.setText("Clicked");
             }
         });

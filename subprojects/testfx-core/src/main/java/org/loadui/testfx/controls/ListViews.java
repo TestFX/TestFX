@@ -26,14 +26,14 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 import static org.loadui.testfx.GuiTest.find;
 
 public class ListViews {
+
     /**
      * Get the number of rows in the list.
      *
      * @param list
      * @return number of rows in list
      */
-    public static int numberOfRowsIn(ListView<?> list)
-    {
+    public static int numberOfRowsIn(ListView<?> list) {
         return list.getItems().size();
     }
 
@@ -43,25 +43,21 @@ public class ListViews {
      * @param listQuery
      * @return
      */
-    public static int numberOfRowsIn(String listQuery)
-    {
+    public static int numberOfRowsIn(String listQuery) {
         ListView<?> table = find(listQuery);
         return table.getItems().size();
     }
 
     @SuppressWarnings("unchecked")
     @Factory
-    public static <S> org.hamcrest.Matcher<S> containsRow(Object rowValue)
-    {
+    public static <S> org.hamcrest.Matcher<S> containsRow(Object rowValue) {
         return new ListContainsMatcher(rowValue);
     }
 
-    static boolean containsRow(ListView<?> list, Object rowValue)
-    {
-        for(int i=0; i<list.getItems().size(); i++ )
-        {
+    static boolean containsRow(ListView<?> list, Object rowValue) {
+        for (int i = 0; i < list.getItems().size(); i++) {
             Object rowData = list.getItems().get(i);
-            if( rowValue.equals( rowData ) || rowValue.equals(rowData.toString()) )
+            if (rowValue.equals(rowData) || rowValue.equals(rowData.toString()))
                 return true;
         }
         return false;
@@ -70,7 +66,8 @@ public class ListViews {
     static ListView<?> getListView(String listSelector) {
         Node node = find(listSelector);
         if (!(node instanceof ListView)) {
-            throw new NoNodesFoundException(listSelector + " selected " + node + " which is not a ListView!");
+            throw new NoNodesFoundException(listSelector + " selected " + node +
+                " which is not a ListView!");
         }
         return (ListView<?>) node;
     }
@@ -79,19 +76,17 @@ public class ListViews {
     private static class ListContainsMatcher extends BaseMatcher {
         private Object valueToMatch;
 
-        public ListContainsMatcher(Object valueToMatch)
-        {
+        public ListContainsMatcher(Object valueToMatch) {
             this.valueToMatch = valueToMatch;
         }
 
         @Override
         public boolean matches(Object o) {
-            if( o instanceof String)
-            {
+            if (o instanceof String) {
                 String query = (String) o;
                 return ListViews.containsRow(getListView(query), valueToMatch);
-            } else if( o instanceof ListView)
-            {
+            }
+            else if (o instanceof ListView) {
                 ListView tableView = (ListView) o;
                 return ListViews.containsRow(tableView, valueToMatch);
             }
@@ -100,7 +95,8 @@ public class ListViews {
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("The list does not contain a row with value '" + valueToMatch + "'");
+            description.appendText("The list does not contain a row with value '" +
+                valueToMatch + "'");
         }
     }
 

@@ -38,9 +38,6 @@ import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
 
 public class DragDropTest extends GuiTest {
 
-    private ListView<String> list1;
-    private ListView<String> list2;
-
     /**
      * A typical event handler to start a drag-drop operation.
      */
@@ -55,7 +52,6 @@ public class DragDropTest extends GuiTest {
             event.consume();
         }
     };
-
     /**
      * A typical event handler to delete the source item from the source list after the drag-drop operation completed.
      */
@@ -65,7 +61,6 @@ public class DragDropTest extends GuiTest {
             listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
         }
     };
-
     /**
      * A typical event handler to accept drag events.
      */
@@ -74,7 +69,6 @@ public class DragDropTest extends GuiTest {
             event.acceptTransferModes(TransferMode.MOVE);
         }
     };
-
     /**
      * A typical event handler to handle drop events.
      */
@@ -91,6 +85,8 @@ public class DragDropTest extends GuiTest {
             }
         }
     };
+    private ListView<String> list1;
+    private ListView<String> list2;
 
     @Override
     protected Parent getRootNode() {
@@ -111,7 +107,7 @@ public class DragDropTest extends GuiTest {
         return HBoxBuilder.create().children(list1, list2).build();
     }
 
-    @Test(timeout=10000)
+    @Test(timeout = 10000)
     public void shouldMoveElements() throws Exception {
 
         FXTestUtils.invokeAndWait(new Runnable() {
@@ -136,6 +132,6 @@ public class DragDropTest extends GuiTest {
         verifyThat(list2.getItems().size(), is(3));
         verifyThat(list1.getItems(), hasItems("Z", "B", "C"));
         verifyThat(list2.getItems(), hasItems("A", "X", "Y"));
-
     }
+
 }

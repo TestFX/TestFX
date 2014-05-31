@@ -29,8 +29,7 @@ import static org.loadui.testfx.Assertions.verifyThat;
 public class AssertionsTest extends GuiTest {
 
     @Test
-    public void shouldSupportPredicatesForQueries()
-    {
+    public void shouldSupportPredicatesForQueries() {
         verifyThat("Button A", new Predicate<Button>() {
             @Override
             public boolean apply(Button b) {
@@ -40,8 +39,7 @@ public class AssertionsTest extends GuiTest {
     }
 
     @Test
-    public void shouldSupportPredicatesForQueries2()
-    {
+    public void shouldSupportPredicatesForQueries2() {
         try {
             verifyThat("Button A", new Predicate<Button>() {
                 @Override
@@ -49,16 +47,15 @@ public class AssertionsTest extends GuiTest {
                     return b.isCancelButton();
                 }
             });
-        } catch (AssertionError e)
-        {
+        }
+        catch (AssertionError e) {
             return;
         }
         throw new AssertionError("verifyThat should have failed.");
     }
 
     @Test
-    public void shouldSupportPredicatesForNodes()
-    {
+    public void shouldSupportPredicatesForNodes() {
         Button b = find("Button A");
 
         verifyThat(b, new Predicate<Button>() {
@@ -70,12 +67,12 @@ public class AssertionsTest extends GuiTest {
     }
 
     @Override
-    protected Parent getRootNode()
-    {
+    protected Parent getRootNode() {
         return VBoxBuilder
-                .create()
-                .children( ButtonBuilder.create().id( "button1" ).text( "Button A" ).defaultButton(true).build(),
-                        ButtonBuilder.create().id( "button2" ).text( "Button B" ).build(),
-                        TextFieldBuilder.create().id( "text" ).build() ).build();
+            .create()
+            .children(ButtonBuilder.create().id("button1").text("Button A").defaultButton(true).build(),
+                ButtonBuilder.create().id("button2").text("Button B").build(),
+                TextFieldBuilder.create().id("text").build()).build();
     }
+
 }

@@ -39,21 +39,21 @@ import static org.loadui.testfx.GuiTest.find;
 /**
  * Utility methods for TableView.
  *
- * "Clicking a row/cell & asserting its value would be great. My feature wish list: double/right-click row, select 1+ rows, edit a cell"
+ * Clicking a row/cell and asserting its value would be great. My feature wish list:
+ * double/right-click row, select 1+ rows, edit a cell.
  *
  * @author Philipp91
  * @author minisu
  */
-public class TableViews
-{
+public class TableViews {
+
     /**
      * Get the number of rows in the table.
      *
      * @param table
      * @return number of rows in table
      */
-    public static int numberOfRowsIn(TableView<?> table)
-    {
+    public static int numberOfRowsIn(TableView<?> table) {
         return table.getItems().size();
     }
 
@@ -63,61 +63,54 @@ public class TableViews
      * @param tableQuery
      * @return
      */
-    public static int numberOfRowsIn(String tableQuery)
-    {
+    public static int numberOfRowsIn(String tableQuery) {
         TableView<?> table = find(tableQuery);
         return table.getItems().size();
     }
 
     @SuppressWarnings("unchecked")
     @Factory
-    public static <S> Matcher<S> containsCell(Object cellValue)
-    {
+    public static <S> Matcher<S> containsCell(Object cellValue) {
         return new TableContainsMatcher(cellValue);
     }
 
     static List<TableColumn> flatten(TableColumn col) {
         if (col.getColumns().size() == 0) {
             return Arrays.asList(col);
-        } else {
+        }
+        else {
             List<TableColumn> l = new ArrayList<TableColumn>();
             for (Object xa : col.getColumns()) {
-                l.addAll(flatten((TableColumn)xa));
+                l.addAll(flatten((TableColumn) xa));
             }
             return l;
         }
     }
 
-    static List<TableColumn> getFlattenedColumns(TableView<?> table)  {
+    static List<TableColumn> getFlattenedColumns(TableView<?> table) {
         List<TableColumn> l = new ArrayList<TableColumn>();
-        for(TableColumn c : table.getColumns()) {
+        for (TableColumn c : table.getColumns()) {
             l.addAll(flatten(c));
         }
         return l;
     }
 
-    static boolean containsCell(TableView<?> table, Predicate<String> cellPredicate)
-    {
-        for( TableColumn<?, ?> column : getFlattenedColumns(table) )
-        {
-            for(int i=0; i<table.getItems().size(); i++ )
-            {
-                Object cellData = column.getCellData( i );
-                if( cellPredicate.apply( cellData.toString() ) )
+    static boolean containsCell(TableView<?> table, Predicate<String> cellPredicate) {
+        for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
+            for (int i = 0; i < table.getItems().size(); i++) {
+                Object cellData = column.getCellData(i);
+                if (cellPredicate.apply(cellData.toString()))
                     return true;
             }
         }
         return false;
     }
 
-    static boolean containsCell(TableView<?> table, Object cellValue)
-    {
-        for( TableColumn<?, ?> column : getFlattenedColumns(table) )
-        {
-            for(int i=0; i<table.getItems().size(); i++ )
-            {
-                Object cellData = column.getCellData( i );
-                if( cellValue.equals( cellData ) || cellValue.equals( cellData.toString() ) )
+    static boolean containsCell(TableView<?> table, Object cellValue) {
+        for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
+            for (int i = 0; i < table.getItems().size(); i++) {
+                Object cellData = column.getCellData(i);
+                if (cellValue.equals(cellData) || cellValue.equals(cellData.toString()))
                     return true;
             }
         }
@@ -131,17 +124,19 @@ public class TableViews
     static TableView<?> getTableView(String tableSelector) {
         Node node = find(tableSelector);
         if (!(node instanceof TableView)) {
-            throw new NoNodesFoundException(tableSelector + " selected " + node + " which is not a TableView!");
+            throw new NoNodesFoundException(tableSelector + " selected " + node +
+                " which is not a TableView!");
         }
         return (TableView<?>) node;
     }
 
     /**
      * @param tableSelector CSS selector
-     * @param row row number
-     * @param column column number
-     * @return Der Wert der gegebenen Zelle in der Tabelle. Es handelt sich nicht um das, was auf der UI dransteht,
-     *         sondern um den Wert, also nicht notwendigerweise ein String.
+     * @param row           row number
+     * @param column        column number
+     * @return Der Wert der gegebenen Zelle in der Tabelle. Es handelt sich nicht um das, was auf
+     * der UI dransteht,
+     * sondern um den Wert, also nicht notwendigerweise ein String.
      */
     protected static Object cellValue(String tableSelector, int row, int column) {
         return getTableView(tableSelector).getColumns().get(column).getCellData(row);
@@ -149,7 +144,7 @@ public class TableViews
 
     /**
      * @param tableSelector Selektor zur Identifikation der Tabelle.
-     * @param row Zeilennummer
+     * @param row           Zeilennummer
      * @return Die entsprechende Zeile.
      */
     protected static TableRow<?> row(String tableSelector, int row) {
@@ -169,15 +164,16 @@ public class TableViews
         Node node = current.get(row);
         if (node instanceof TableRow) {
             return (TableRow<?>) node;
-        } else {
+        }
+        else {
             throw new RuntimeException("Expected Group with only TableRows as children");
         }
     }
 
     /**
      * @param tableSelector Selektor zur Identifikation der Tabelle.
-     * @param row Zeilennummer
-     * @param column Spaltennummer
+     * @param row           Zeilennummer
+     * @param column        Spaltennummer
      * @return Die entsprechende Zelle.
      */
     protected static TableCell<?, ?> cell(String tableSelector, int row, int column) {
@@ -189,34 +185,32 @@ public class TableViews
         Node node = current.get(column);
         if (node instanceof TableCell) {
             return (TableCell<?, ?>) node;
-        } else {
+        }
+        else {
             throw new RuntimeException("Expected TableRowSkin with only TableCells as children");
         }
     }
 
     @SuppressWarnings("rawtypes")
-    private static class TableContainsMatcher extends BaseMatcher
-    {
+    private static class TableContainsMatcher extends BaseMatcher {
         private Object valueToMatch;
 
-        public TableContainsMatcher(Object valueToMatch)
-        {
+        public TableContainsMatcher(Object valueToMatch) {
             this.valueToMatch = valueToMatch;
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public boolean matches(Object o) {
-            if( o instanceof String)
-            {
+            if (o instanceof String) {
                 String query = (String) o;
-                if( valueToMatch instanceof Predicate )
+                if (valueToMatch instanceof Predicate)
                     return TableViews.containsCell(getTableView(query), (Predicate) valueToMatch);
                 return TableViews.containsCell(getTableView(query), valueToMatch);
-            } else if( o instanceof TableView )
-            {
+            }
+            else if (o instanceof TableView) {
                 TableView tableView = (TableView) o;
-                if( valueToMatch instanceof Predicate )
+                if (valueToMatch instanceof Predicate)
                     return TableViews.containsCell(tableView, (Predicate) valueToMatch);
                 return TableViews.containsCell(tableView, valueToMatch);
             }
@@ -225,7 +219,9 @@ public class TableViews
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("The table does not contain a cell with value '" + valueToMatch + "'");
+            description.appendText("The table does not contain a cell with value '" +
+                valueToMatch + "'");
         }
     }
+
 }

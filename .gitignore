@@ -23,3 +23,6 @@ target/
 # Gradle
 build/
 .gradle
+
+# Tests
+screenshot*.png

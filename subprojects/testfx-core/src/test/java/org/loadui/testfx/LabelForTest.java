@@ -26,31 +26,30 @@ import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.controls.Commons.nodeLabeledBy;
 
-@Category( TestFX.class )
-public class LabelForTest extends GuiTest
-{
-	@Override
-	protected Parent getRootNode()
-	{
-		TextField uText = TextFieldBuilder.create().id( "uname" ).build();
-		TextField pText = PasswordFieldBuilder.create().id( "pword" ).build();
-		Label u = LabelBuilder.create().text( "User name" ).labelFor(uText).build();
-		Label p = LabelBuilder.create().text( "Password" ).labelFor( pText ).build();
+@Category(TestFX.class)
+public class LabelForTest extends GuiTest {
 
-		GridPane grid = new GridPane();
-		grid.add( u, 0, 0 );
-		grid.add( uText, 1, 0 );
-		grid.add( p, 0, 1 );
-		grid.add( pText, 1, 1 );
-		return grid;
-	}
+    @Override
+    protected Parent getRootNode() {
+        TextField uText = TextFieldBuilder.create().id("uname").build();
+        TextField pText = PasswordFieldBuilder.create().id("pword").build();
+        Label u = LabelBuilder.create().text("User name").labelFor(uText).build();
+        Label p = LabelBuilder.create().text("Password").labelFor(pText).build();
 
-	@Test
-	public void shouldClickButton()
-	{
-		click( nodeLabeledBy("User name") ).type( "Steve" );
-		click( nodeLabeledBy("Password") ).type( "duke4ever" );
+        GridPane grid = new GridPane();
+        grid.add(u, 0, 0);
+        grid.add(uText, 1, 0);
+        grid.add(p, 0, 1);
+        grid.add(pText, 1, 1);
+        return grid;
+    }
 
-		verifyThat( "#pword", hasText( "duke4ever" ) );
-	}
+    @Test
+    public void shouldClickButton() {
+        click(nodeLabeledBy("User name")).type("Steve");
+        click(nodeLabeledBy("Password")).type("duke4ever");
+
+        verifyThat("#pword", hasText("duke4ever"));
+    }
+
 }

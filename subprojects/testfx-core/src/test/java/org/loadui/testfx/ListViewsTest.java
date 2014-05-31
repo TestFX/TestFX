@@ -20,44 +20,42 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.categories.TestFX;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.controls.ListViews.*;
+import static org.loadui.testfx.controls.ListViews.containsRow;
+import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
 
 @Category(TestFX.class)
-public class ListViewsTest extends GuiTest
-{
-	@Override
-	protected Parent getRootNode()
-	{
-		ListView<Integer> list = new ListView<>();
-		list.setItems( observableArrayList( 1, 2, 3 ) );
-		return VBoxBuilder
-				.create()
-				.children( list ).build();
-	}
+public class ListViewsTest extends GuiTest {
 
-	@Test
-	public void shouldFindRowValues()
-	{
-		verifyThat( ".list-view", containsRow( "1" ) );
-		verifyThat( ".list-view", not( containsRow( "4" ) ) );
+    @Override
+    protected Parent getRootNode() {
+        ListView<Integer> list = new ListView<>();
+        list.setItems(observableArrayList(1, 2, 3));
+        return VBoxBuilder
+            .create()
+            .children(list).build();
+    }
 
-		ListView<?> listView = find( ".list-view" );
-		verifyThat( listView, containsRow( 1 ) );
-	}
+    @Test
+    public void shouldFindRowValues() {
+        verifyThat(".list-view", containsRow("1"));
+        verifyThat(".list-view", not(containsRow("4")));
 
-	@Test
-	public void shouldHaveCorrectNumberOfRows()
-	{
-		verifyThat( numberOfRowsIn( ".list-view" ), is( 3 ) );
+        ListView<?> listView = find(".list-view");
+        verifyThat(listView, containsRow(1));
+    }
 
-		ListView<?> listView = find( ".list-view" );
-		verifyThat( numberOfRowsIn( listView ), is( 3 ) );
-	}
+    @Test
+    public void shouldHaveCorrectNumberOfRows() {
+        verifyThat(numberOfRowsIn(".list-view"), is(3));
+
+        ListView<?> listView = find(".list-view");
+        verifyThat(numberOfRowsIn(listView), is(3));
+    }
+
 }

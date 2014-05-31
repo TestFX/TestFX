@@ -25,29 +25,27 @@ import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
 import static org.loadui.testfx.controls.TextInputControls.clearTextIn;
 
-public class TextInputControlsTest extends GuiTest
-{
+public class TextInputControlsTest extends GuiTest {
 
-	public static final String TEXT_FIELD = ".text-field";
+    public static final String TEXT_FIELD = ".text-field";
 
-	@Override
-	protected Parent getRootNode()
-	{
-		TextField textField = new TextField();
-		return VBoxBuilder
-				.create()
-				.children( textField ).build();
-	}
+    @Override
+    protected Parent getRootNode() {
+        TextField textField = new TextField();
+        return VBoxBuilder
+            .create()
+            .children(textField).build();
+    }
 
-	@Test
-	public void shouldClearText()
-	{
-		click( TEXT_FIELD ).type( "Some text" );
-		verifyThat( TEXT_FIELD, hasText("Some text") );
+    @Test
+    public void shouldClearText() {
+        click(TEXT_FIELD).type("Some text");
+        verifyThat(TEXT_FIELD, hasText("Some text"));
 
-		push(TAB); // To change focus from the TextField.
+        push(TAB); // To change focus from the TextField.
 
-		clearTextIn( TEXT_FIELD );
-		verifyThat( TEXT_FIELD, hasText("") );
-	}
+        clearTextIn(TEXT_FIELD);
+        verifyThat(TEXT_FIELD, hasText(""));
+    }
+
 }
