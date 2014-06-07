@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.robot;
+package org.loadui.testfx.robots.impl;
 
 import java.awt.AWTException;
 import java.awt.MouseInfo;
@@ -31,6 +31,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 import com.google.common.collect.ImmutableMap;
+import org.loadui.testfx.robots.ScreenRobot;
 import org.loadui.testfx.utils.FXTestUtils;
 
 public class ScreenRobotImpl implements ScreenRobot {

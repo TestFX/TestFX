@@ -25,7 +25,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
-import org.loadui.testfx.framework.robot.ScreenRobot;
+import org.loadui.testfx.robots.ScreenRobot;
 
 public class CaptureSupport {
 

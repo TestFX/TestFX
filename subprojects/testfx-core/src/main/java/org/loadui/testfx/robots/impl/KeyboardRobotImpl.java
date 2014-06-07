@@ -19,8 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javafx.scene.input.KeyCode;
 
-import org.loadui.testfx.framework.robot.ScreenRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
+import org.loadui.testfx.robots.ScreenRobot;
 
 public class KeyboardRobotImpl implements KeyboardRobot {
 
