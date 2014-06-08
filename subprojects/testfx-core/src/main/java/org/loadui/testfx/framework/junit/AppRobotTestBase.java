@@ -23,9 +23,9 @@ import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.app.impl.DefaultAppSetupFactory;
 import org.loadui.testfx.framework.app.impl.StageSetupImpl;
-import org.loadui.testfx.framework.robot.FxRobot;
+import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
 
-public abstract class AppRobotTestBase extends FxRobot {
+public abstract class AppRobotTestBase extends FxRobotImpl {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
@@ -56,7 +56,7 @@ public abstract class AppRobotTestBase extends FxRobot {
     }
 
     protected static void setupStages(StageSetupCallback callback) throws TimeoutException {
-        targetWindow(primaryStage);
+        //targetWindow(primaryStage);
         stageSetup.setPrimaryStage(primaryStage);
         stageSetup.setCallback(callback);
         stageSetup.invokeCallbackAndWait(STAGE_SETUP_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);

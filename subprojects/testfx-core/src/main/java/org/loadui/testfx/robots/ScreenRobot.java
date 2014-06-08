@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.robot;
+package org.loadui.testfx.robots;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -22,6 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 public interface ScreenRobot {
+
     public Point2D getMouseLocation();
 
     public Image captureRegion(Rectangle2D region);
@@ -39,4 +40,5 @@ public interface ScreenRobot {
     public void pressKey(KeyCode key);
 
     public void releaseKey(KeyCode key);
+
 }

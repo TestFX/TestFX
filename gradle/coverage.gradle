@@ -15,22 +15,22 @@
  */
 
 apply plugin: 'cobertura'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 
 cobertura {
     coverageFormats = ['html', 'xml']
     coverageSourceDirs = sourceSets.main.java.srcDirs
 }
 
-jacocoTestReport {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports after running tests."
-    additionalSourceDirs = project.files(sourceSets.main.allSource.srcDirs)
-    sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
-    classDirectories =  project.files(sourceSets.main.allSource.srcDirs)
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.enabled = true
-    }
-}
+//jacocoTestReport {
+//    group = "Reporting"
+//    description = "Generate Jacoco coverage reports after running tests."
+//    additionalSourceDirs = project.files(sourceSets.main.allSource.srcDirs)
+//    sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
+//    classDirectories =  project.files(sourceSets.main.allSource.srcDirs)
+//    reports {
+//        xml.enabled false
+//        csv.enabled false
+//        html.enabled = true
+//    }
+//}
