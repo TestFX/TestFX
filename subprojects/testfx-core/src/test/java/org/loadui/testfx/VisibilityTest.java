@@ -70,7 +70,7 @@ public class VisibilityTest extends GuiTest {
     public void shouldClickNodeThatIsMostlyOutsideTheScene()
     {
         String target = "#node-mostly-outside-of-scene";
-        click(target);
+        clickOn(target);
         verifyThat(target, hasText("Clicked"));
     }
 

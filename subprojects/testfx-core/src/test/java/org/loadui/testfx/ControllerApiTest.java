@@ -46,7 +46,7 @@ public class ControllerApiTest extends GuiTest {
     public void shouldTypeString() {
         final String text = "H3llo W0rld";
 
-        click("#text").type(text);
+        clickOn("#text").type(text);
 
         verifyThat("#text", hasText(text));
     }
@@ -61,7 +61,7 @@ public class ControllerApiTest extends GuiTest {
             }
         });
 
-        click("Button A");
+        clickOn("Button A");
 
         verifyThat("#button1", hasText("Was clicked"));
     }
@@ -78,7 +78,7 @@ public class ControllerApiTest extends GuiTest {
 
         // In Java 8, this can be written as click( (Button b) -> b.isDefaultButton() )
         // To stay compatible with both Java 7 and 8, this test uses Java 7 code.
-        click(new Predicate<Button>() {
+        clickOn(new Predicate<Button>() {
             @Override
             public boolean apply(Button b) {
                 return b.isDefaultButton();

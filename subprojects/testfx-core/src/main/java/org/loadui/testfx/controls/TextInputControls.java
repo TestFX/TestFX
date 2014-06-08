@@ -51,7 +51,7 @@ public class TextInputControls {
             }
         };
 
-        fx.click(textControl);
+        fx.clickOn(textControl);
         fx.push(CONTROL, A).push(BACK_SPACE);
     }
 

@@ -39,7 +39,7 @@ public class TextInputControlsTest extends GuiTest {
 
     @Test
     public void shouldClearText() {
-        click(TEXT_FIELD).type("Some text");
+        clickOn(TEXT_FIELD).type("Some text");
         verifyThat(TEXT_FIELD, hasText("Some text"));
 
         push(TAB); // To change focus from the TextField.
