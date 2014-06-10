@@ -34,10 +34,10 @@ Colums:
 ### Example
 
 For French Azerty Keyboards, digits are shited keys. So without the keycharmap file, asking testFX to type "12" will issue "&é". To correct this 4 lines are needed :
-1 0x31 1 1
-2 0x32 1 2
-& 0x31 0 1
-é 0x32 0 2
+ * 1 0x31 1 1
+ * 2 0x32 1 2
+ * & 0x31 0 1
+ * é 0x32 0 2
 
 Explanation for first line :
  * Characted wanted : 1
@@ -46,7 +46,7 @@ Explanation for first line :
  * KeyCode name associated with the 0x31 code: 1
 
 A more complicated example can be the dead trema "¨". On French Azerty Keyboards, this character is a dead key (meaning that it will not issue a character but modify the next one), and is obtained with a combination of the SHIFT + ^.
-¨	0x82	33	Dead Circumflex
+ * ¨	0x82	33	Dead Circumflex
 
 Explanation :
  * Characted wanted : ¨
