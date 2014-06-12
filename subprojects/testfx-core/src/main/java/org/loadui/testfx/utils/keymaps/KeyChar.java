@@ -9,13 +9,17 @@ public class KeyChar
 {
 	private final char character;
 
-	private final int code;
-
 	private final int modifiers;
 
 	private final KeyCode keyCode;
 
-	private final KeyCode[] modifierKeyCodes;
+	private int extraModifiers;
+
+	private  KeyCode extraKeyCode;
+
+	private final KeyCode[] modifiersKeyCodes;
+
+	private KeyCode[] extraModifiersKeyCodes;
 
 	public static final int SHIFT = 1;
 
@@ -32,48 +36,24 @@ public class KeyChar
 	/**
 	 * Constructor for the key or serie of keys to get the character typed
 	 * @param character
-	 * @param code
 	 * @param modifiers
 	 * @param name
 	 */
 	public KeyChar(final char character,
-	    final int code,
 	    final int modifiers,
 	    final KeyCode keyCode)
 	{
 		super();
 		this.character = character;
-		this.code = code;
 		this.modifiers = modifiers;
 		this.keyCode = keyCode;
-		this.modifierKeyCodes = modifiersToKeyCodes();
+		this.modifiersKeyCodes = modifiersToKeyCodes(this.modifiers);
 	}
 
-	private KeyCode[] modifiersToKeyCodes()
-	{
-		List<KeyCode> list = new ArrayList<>();
-		if ( (modifiers & SHIFT) != 0 ) {
-			list.add(KeyCode.SHIFT);
-		}
-		if ( (modifiers & CTRL) != 0 ) {
-			list.add(KeyCode.CONTROL);
-		}
-		if ( (modifiers & ALT) != 0 ) {
-			list.add(KeyCode.ALT);
-		}
-		if ( (modifiers & ALT_GRAPH) != 0 ) {
-			// Due to invalid key code exception when using the ALT_GRAPH key code ...
-			// list.add(KeyCode.ALT_GRAPH);
-			// I use the ALT + CTRL key codes
-			list.add(KeyCode.CONTROL);
-			list.add(KeyCode.ALT);
-		}
-		if ( (modifiers & META) != 0 ) {
-			list.add(KeyCode.META);
-		}
-
-		KeyCode[] param = new KeyCode[list.size()];
-		return list.toArray(param);
+	public void setExtraKey(int extraModifiers, KeyCode extraKeyCode) {
+		this.extraModifiers=extraModifiers;
+		this.extraKeyCode=extraKeyCode;
+		this.extraModifiersKeyCodes = modifiersToKeyCodes(this.extraModifiers);
 	}
 
 	/**
@@ -91,7 +71,7 @@ public class KeyChar
 	 */
 	public int getCode()
 	{
-		return code;
+		return keyCode.impl_getCode();
 	}
 
 	/**
@@ -124,9 +104,57 @@ public class KeyChar
 	/**
 	 * @return the list of modifiers key codes to maintain pressed to get the character
 	 */
-	public KeyCode[] getModifierKeyCodes()
+	public KeyCode[] getModifiersKeyCodes()
 	{
-		return modifierKeyCodes;
+		return modifiersKeyCodes;
+	}
+
+	/**
+	 * @return the modifiers to maintain pressed to type the character after the dead key
+	 */
+	public int getExtraModifiers() {
+		return extraModifiers;
+	}
+
+	/**
+	 * @return the key code to type after the dead key (if any)
+	 */
+	public KeyCode getExtraKeyCode() {
+		return extraKeyCode;
+	}
+
+	/**
+	 * @return the list of modifiers key codes to maintain pressed to get the character, after the dead key (if any)
+	 */
+	public KeyCode[] getExtraModifiersKeyCodes() {
+		return extraModifiersKeyCodes;
+	}
+
+	private static KeyCode[] modifiersToKeyCodes(final int modifiers)
+	{
+		List<KeyCode> list = new ArrayList<>();
+		if ( (modifiers & SHIFT) != 0 ) {
+			list.add(KeyCode.SHIFT);
+		}
+		if ( (modifiers & CTRL) != 0 ) {
+			list.add(KeyCode.CONTROL);
+		}
+		if ( (modifiers & ALT) != 0 ) {
+			list.add(KeyCode.ALT);
+		}
+		if ( (modifiers & ALT_GRAPH) != 0 ) {
+			// Due to invalid key code exception when using the ALT_GRAPH key code ...
+			// list.add(KeyCode.ALT_GRAPH);
+			// I use the ALT + CTRL key codes
+			list.add(KeyCode.CONTROL);
+			list.add(KeyCode.ALT);
+		}
+		if ( (modifiers & META) != 0 ) {
+			list.add(KeyCode.META);
+		}
+	
+		KeyCode[] param = new KeyCode[list.size()];
+		return list.toArray(param);
 	}
 
 }

@@ -19,42 +19,49 @@ The correct file will be automatically loaded if it's present, and named as foll
 
 Fisrt line of file is not taken in account, Empty lines neither.
 
-Colums:
+Columns:
  - The character to print.
- - The keycode (in fact, this information is not taken in account)
  - The modifiers :
   - 1 <=> SHIFT
   - 2 <=> CONTROL
   - 4 <=> ALT
   - 8 <=> ALT GRAPH (Alt Gr)
   - 16 <=> META
-  - 32 <=> DEAD Key (a whitespace will be pressed after the key to get it printed)
+  - 32 <=> DEAD Key
  - The name of the KeyCode instance in the class javafx.scene.input.KeyCode
+ - (Optional) if the character need a dead key, then a second modifiers can be specified
+ - (Optional) if the character need a dead key, then a second name for the KeyCode instance can be specified
 
 ### Example
 
 For French Azerty Keyboards, digits are shited keys. So without the keycharmap file, asking testFX to type "12" will issue "&é". To correct this 4 lines are needed :
- * 1 0x31 1 1
- * 2 0x32 1 2
- * & 0x31 0 1
- * é 0x32 0 2
+ * 1 1 1
+ * 2  2
+ * & 0 1
+ * é 0 2
 
 Explanation for first line :
  * Characted wanted : 1
- * Key Code : 0x31 (Hexadecimal mandatory, prefix 0x mandatory)
  * Modifier: 1 <=> SHIFT
  * KeyCode name associated with the 0x31 code: 1
 
-A more complicated example can be the dead trema "¨". On French Azerty Keyboards, this character is a dead key (meaning that it will not issue a character but modify the next one), and is obtained with a combination of the SHIFT + ^.
- * ¨	0x82	33	Dead Circumflex
+A more complicated example can be the dead diaeresis "¨". On French Azerty Keyboards, this character is a dead key (meaning that it will not issue a character but modify the next one), and is obtained with a combination of the SHIFT + ^.
+ * ¨	33	Dead Circumflex
 
 Explanation :
  * Characted wanted : ¨
- * Key Code : 0x82
+ * Modifiers : 1 (Shift) + 32 (Dead) = 33
+ * KeyCode name : "Dead Circumflex"
+
+NB: This is a dead key, and not extra keys are specified, so a whitespace will be issued automatically.
+
+Last example : Ë
+  * Ë 33 Dead Circumflex 1 E
+
+Explanation :
+ * Characted wanted : Ë
  * Modifiers : 1 (Shift) + 32 (Dead) = 33
  * KeyCode name "Dead Circumflex"
+ * Extra modifiers (for the capital E) : 1 (Shift)
+ * Extra KeyCode name : "E"
 
-
-### Furtherwork
-
-This file cannot print complex combination of key, for example, the character ë need to press SHIFT + ^, and then "e" (dead key combination).

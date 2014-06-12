@@ -13,9 +13,7 @@ import java.util.Map;
 
 import javafx.scene.input.KeyCode;
 
-public final class KeyCharMap
-    implements Cloneable, Serializable
-{
+public final class KeyCharMap implements Cloneable, Serializable {
 
 	private volatile static KeyCharMap defaultKeyCharMap = initDefault();
 
@@ -26,97 +24,104 @@ public final class KeyCharMap
 	private final Map<Character, KeyChar> keyCharMap;
 
 	/**
-	 * Gets the current value of the keyboard layout reading default locale
-	 * of the Java Virtual Machine.
+	 * Gets the current value of the keyboard layout reading default locale of
+	 * the Java Virtual Machine.
 	 *
 	 * @return the default characted map for the current keyboard layout
 	 */
-	public static KeyCharMap getDefault()
-	{
+	public static KeyCharMap getDefault() {
 		return defaultKeyCharMap;
 	}
 
-	public static KeyCharMap getInstance(
-	    final String keyboardLayoutName)
-	{
+	public static KeyCharMap getInstance(final String keyboardLayoutName) {
 		KeyCharMap ret = cachedCharMap.get(keyboardLayoutName);
-		if ( ret == null ) {
+		if ((ret == null)&&(!cachedCharMap.containsKey(keyboardLayoutName))) {
 			ret = initKeyCharMap(keyboardLayoutName);
 		}
 		return ret;
 	}
 
-	private static KeyCharMap initDefault()
-	{
+	private static KeyCharMap initDefault() {
 		String name = InputContext.getInstance().getLocale().toString();
 		return initKeyCharMap(name);
 	}
 
-	private static KeyCharMap initKeyCharMap(
-	    final String name)
-	{
+	private static KeyCharMap initKeyCharMap(final String name) {
 		URL url = KeyCharMap.class.getResource("/keycharmaps/keycharmap_" + name + ".tsv");
 		Map<Character, KeyChar> map = null;
-		try {
+		KeyCharMap ret = null;
+		if(url != null){
 			map = readKeyCharMapFile(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if(map!=null){
+				ret  = new KeyCharMap(name, map);
+			}
 		}
-		return new KeyCharMap(name, map);
+		return ret;
 	}
 
 	/**
 	 * Private constructor to prevent instanciation
+	 * 
 	 * @param map
 	 */
 	private KeyCharMap(final String keyCharMapName,
-	    final Map<Character, KeyChar> map)
-	{
+			final Map<Character, KeyChar> map) {
 		this.keyCharMapName = keyCharMapName;
 		this.keyCharMap = map;
-		if ( cachedCharMap == null ) {
+		if (cachedCharMap == null) {
 			cachedCharMap = new HashMap<>();
 		}
 		cachedCharMap.put(this.keyCharMapName, this);
 	}
 
 	static private Map<Character, KeyChar> readKeyCharMapFile(
-	    final URL keyCharMapFile)
-	    throws IOException
-	{
+			final URL keyCharMapFile) {
 		Map<Character, KeyChar> keyCharMap = null;
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(keyCharMapFile.openStream(), Charset.forName("UTF-8")))) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+				keyCharMapFile.openStream(), Charset.forName("UTF-8")))) {
 			keyCharMap = new HashMap<>();
 			String line = null;
 			reader.readLine(); // Header (column names)
-			while ( (line = reader.readLine()) != null ) {
+			while ((line = reader.readLine()) != null) {
 				line = line.trim();
-				if ( !line.isEmpty() ) {
+				if (!line.isEmpty()) {
 					String[] parts = line.split("\t");
-					if ( parts.length == 4 ) {
-						KeyCode keyCode = KeyCode.getKeyCode(parts[3]);
-						// Workaround bug JavaFX RT-37431
-						if ( parts[3].equals("Dead Circumflex") ) {
-							keyCode = KeyCode.DEAD_CIRCUMFLEX;
+					if (parts.length >= 3) {
+						KeyChar c = new KeyChar(parts[0].charAt(0), Integer.parseInt(parts[1]), getKeyCodeByName(parts[2]));
+						// Is it a dead key ?
+						if(c.isDeadKey()){
+							// So another combination of key maybe needed (if not, whitespace is pressed)
+							if(parts.length==5){
+								c.setExtraKey(Integer.parseInt(parts[3]),getKeyCodeByName(parts[4]));
+							}else{
+								c.setExtraKey(0,KeyCode.SPACE);
+							}
 						}
-						KeyChar c = new KeyChar(parts[0].charAt(0), Integer.parseInt(parts[1].substring(2), 16), Integer.parseInt(parts[2]), keyCode);
 						keyCharMap.put(c.getCharacter(), c);
 					}
 				}
 			}
+		}catch(IOException ioe){
+			System.err.print("Cannot load keycharmap file : " + keyCharMapFile.toString());
+			keyCharMap=null;
 		}
 		return keyCharMap;
 	}
+	
+	private static KeyCode getKeyCodeByName(final String name){
+		KeyCode keyCode = KeyCode.getKeyCode(name);
+		// Workaround bug JavaFX RT-37431
+		if (name.equals("Dead Circumflex")) {
+			keyCode = KeyCode.DEAD_CIRCUMFLEX;
+		}
+		return keyCode;
+	}
 
-	public Map<Character, KeyChar> getKeyCharMap()
-	{
+	public Map<Character, KeyChar> getKeyCharMap() {
 		return Collections.unmodifiableMap(keyCharMap);
 	}
 
-	public KeyChar getKeyChar(
-	    final char character)
-	{
+	public KeyChar getKeyChar(final char character) {
 		return keyCharMap.get(character);
 	}
 }

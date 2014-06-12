@@ -36,8 +36,16 @@ public class TypeRobotImpl implements TypeRobot {
     //---------------------------------------------------------------------------------------------
 
     public TypeRobotImpl(KeyboardRobot keyboardRobot) {
+    	this(keyboardRobot,null);
+    }
+
+    public TypeRobotImpl(KeyboardRobot keyboardRobot, String keyboardLayoutName) {
         this.keyboardRobot = keyboardRobot;
-		localKeyCharMap = KeyCharMap.getDefault();
+        if(keyboardLayoutName == null){
+        	localKeyCharMap = KeyCharMap.getDefault();
+        }else{
+        	localKeyCharMap = KeyCharMap.getInstance(keyboardLayoutName);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -112,7 +120,7 @@ public class TypeRobotImpl implements TypeRobot {
 	private void type(
 	    final KeyChar keyChar)
 	{
-		KeyCode[] modifiers = keyChar.getModifierKeyCodes();
+		KeyCode[] modifiers = keyChar.getModifiersKeyCodes();
 		for (KeyCode modifier : modifiers) {
 			keyboardRobot.press(modifier);
 		}
@@ -121,7 +129,14 @@ public class TypeRobotImpl implements TypeRobot {
 			keyboardRobot.release(modifier);
 		}
 		if ( keyChar.isDeadKey() ) {
-			type(KeyCode.SPACE);
+			modifiers = keyChar.getExtraModifiersKeyCodes();
+			for (KeyCode modifier : modifiers) {
+				keyboardRobot.press(modifier);
+			}
+			type(keyChar.getExtraKeyCode());
+			for (KeyCode modifier : modifiers) {
+				keyboardRobot.release(modifier);
+			}
 		}
 	}
 
