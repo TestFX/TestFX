@@ -15,27 +15,34 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javafx.scene.input.MouseButton;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.ScreenRobot;
 
 public class MouseRobotImpl implements MouseRobot {
 
     //---------------------------------------------------------------------------------------------
+    // FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    public ScreenRobot screenRobot;
+
+    //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final ScreenRobot screenRobot;
-    private final Set<MouseButton> pressedButtons = new HashSet<>();
+    private final Set<MouseButton> pressedButtons = Sets.newHashSet();
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public MouseRobotImpl(final ScreenRobot screenRobot) {
+    public MouseRobotImpl(ScreenRobot screenRobot) {
         this.screenRobot = screenRobot;
     }
 
@@ -44,32 +51,62 @@ public class MouseRobotImpl implements MouseRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void press(MouseButton... mouseButtons) {
-        if (mouseButtons.length == 0) {
-            press(MouseButton.PRIMARY);
+    public void press(MouseButton... buttons) {
+        if (isEmptyButtonList(buttons)) {
+            pressPrimaryButton();
         }
-
-        for (MouseButton mouseButton : mouseButtons) {
-            if (pressedButtons.add(mouseButton)) {
-                screenRobot.pressMouse(mouseButton);
-            }
+        else {
+            pressButtons(Lists.newArrayList(buttons));
         }
     }
 
     @Override
-    public void release(MouseButton... mouseButtons) {
-        if (mouseButtons.length == 0) {
-            for (MouseButton mouseButton : pressedButtons) {
-                screenRobot.releaseMouse(mouseButton);
-            }
-            pressedButtons.clear();
+    public void release(MouseButton... buttons) {
+        if (isEmptyButtonList(buttons)) {
+            releasePressedButtons();
         }
         else {
-            for (MouseButton button : mouseButtons) {
-                if (pressedButtons.remove(button)) {
-                    screenRobot.releaseMouse(button);
-                }
-            }
+            releaseButtons(Lists.newArrayList(buttons));
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private boolean isEmptyButtonList(MouseButton... buttons) {
+        return buttons.length == 0;
+    }
+
+    private void pressPrimaryButton() {
+        pressButton(MouseButton.PRIMARY);
+    }
+
+    private void releasePressedButtons() {
+        releaseButtons(Lists.newArrayList(pressedButtons));
+    }
+
+    private void pressButtons(List<MouseButton> buttons) {
+        for (MouseButton button : buttons) {
+            pressButton(button);
+        }
+    }
+
+    private void releaseButtons(List<MouseButton> buttons) {
+        for (MouseButton button : buttons) {
+            releaseButton(button);
+        }
+    }
+
+    private void pressButton(MouseButton button) {
+        if (pressedButtons.add(button)) {
+            screenRobot.pressMouse(button);
+        }
+    }
+
+    private void releaseButton(MouseButton button) {
+        if (this.pressedButtons.remove(button)) {
+            this.screenRobot.releaseMouse(button);
         }
     }
 
