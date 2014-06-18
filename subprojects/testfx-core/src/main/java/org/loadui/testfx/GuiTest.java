@@ -179,7 +179,7 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     // Runs in JavaFX Application Thread.
     public void setupStages(Stage primaryStage) {
         Parent sceneRootNode = getRootNode();
-        Scene scene = new Scene(sceneRootNode, 600, 400);
+        Scene scene = new Scene(sceneRootNode);
         primaryStage.setScene(scene);
     }
 
