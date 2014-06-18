@@ -31,12 +31,14 @@ import org.hamcrest.Matcher;
 import org.loadui.testfx.framework.robot.FxRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
+import org.loadui.testfx.robots.MoveRobot;
 import org.loadui.testfx.robots.ScreenRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
 import org.loadui.testfx.robots.impl.MouseRobotImpl;
+import org.loadui.testfx.robots.impl.MoveRobotImpl;
 import org.loadui.testfx.robots.impl.ScreenRobotImpl;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.robots.impl.SleepRobotImpl;
@@ -67,6 +69,7 @@ public class FxRobotImpl implements FxRobot {
     private final ScreenRobot screenRobot;
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
+    private final MoveRobot moveRobot;
     private final ScrollRobot scrollRobot;
     private final SleepRobot sleepRobot;
     private final TypeRobot typeRobot;
@@ -82,6 +85,7 @@ public class FxRobotImpl implements FxRobot {
         screenRobot = new ScreenRobotImpl();
         mouseRobot = new MouseRobotImpl(screenRobot);
         keyboardRobot = new KeyboardRobotImpl(screenRobot);
+        moveRobot = new MoveRobotImpl(screenRobot);
         scrollRobot = new ScrollRobotImpl(screenRobot);
         sleepRobot = new SleepRobotImpl();
         typeRobot = new TypeRobotImpl(keyboardRobot);
@@ -660,81 +664,62 @@ public class FxRobotImpl implements FxRobot {
 
     @Override
     public FxRobotImpl moveTo(double x, double y) {
-        moveToImpl(pointLocator.pointFor(new Point2D(x, y)));
+        moveRobot.moveTo(pointFor(new Point2D(x, y)));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(Point2D point) {
-        moveToImpl(pointLocator.pointFor(point));
+        moveRobot.moveTo(pointFor(point));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(Bounds bounds) {
-        moveToImpl(pointLocator.pointFor(bounds));
+        moveRobot.moveTo(pointFor(bounds));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(Node node) {
-        moveToImpl(pointLocator.pointFor(node));
+        moveRobot.moveTo(pointFor(node));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(Scene scene) {
-        moveToImpl(pointLocator.pointFor(scene));
+        moveRobot.moveTo(pointFor(scene));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(Window window) {
-        moveToImpl(pointLocator.pointFor(window));
+        moveRobot.moveTo(pointFor(window));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(String query) {
-        moveToImpl(pointFor(query));
+        moveRobot.moveTo(pointFor(query));
         return this;
     }
 
     @Override
     public FxRobotImpl moveTo(Matcher<Object> matcher) {
-        moveToImpl(pointFor(matcher));
+        moveRobot.moveTo(pointFor(matcher));
         return this;
     }
 
     @Override
     public <T extends Node> FxRobotImpl moveTo(Predicate<T> predicate) {
-        moveToImpl(pointFor(predicate));
+        moveRobot.moveTo(pointFor(predicate));
         return this;
     }
 
     @Override
     public FxRobotImpl moveBy(double x, double y) {
-        Point2D mouseLocation = screenRobot.getMouseLocation();
-        Point2D targetPoint = new Point2D(mouseLocation.getX() + x, mouseLocation.getY() + y);
-        screenRobot.moveMouseLinearTo(targetPoint.getX(), targetPoint.getY());
+        moveRobot.moveBy(x, y);
         return this;
-    }
-
-    private void moveToImpl(PointQuery pointQuery) {
-        // Since moving takes time, only do it if we're not already at the desired point.
-        Point2D point = pointQuery.atPosition(pointPosition).query();
-        if (!isPointAtMouseLocation(point)) {
-            screenRobot.moveMouseLinearTo(point.getX(), point.getY());
-        }
-
-        // If the target has moved while we were moving the mouse, update to the new position.
-        Point2D endPoint = pointQuery.atPosition(pointPosition).query();
-        screenRobot.moveMouseTo(endPoint.getX(), endPoint.getY());
-    }
-
-    private boolean isPointAtMouseLocation(Point2D point) {
-        Point2D mouseLocation = screenRobot.getMouseLocation();
-        return mouseLocation.equals(point);
     }
 
 }

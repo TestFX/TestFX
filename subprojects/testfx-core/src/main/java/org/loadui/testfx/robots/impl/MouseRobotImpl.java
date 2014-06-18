@@ -52,7 +52,7 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void press(MouseButton... buttons) {
-        if (isEmptyButtonList(buttons)) {
+        if (isArrayEmpty(buttons)) {
             pressPrimaryButton();
         }
         else {
@@ -62,7 +62,7 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void release(MouseButton... buttons) {
-        if (isEmptyButtonList(buttons)) {
+        if (isArrayEmpty(buttons)) {
             releasePressedButtons();
         }
         else {
@@ -74,8 +74,8 @@ public class MouseRobotImpl implements MouseRobot {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private boolean isEmptyButtonList(MouseButton... buttons) {
-        return buttons.length == 0;
+    private boolean isArrayEmpty(Object[] elements) {
+        return elements.length == 0;
     }
 
     private void pressPrimaryButton() {
