@@ -23,13 +23,11 @@ import javafx.scene.input.MouseButton;
 
 public interface ScreenRobot {
 
-    public Point2D getMouseLocation();
-
     public Image captureRegion(Rectangle2D region);
 
-    public void moveMouseTo(double x, double y);
+    public Point2D retrieveMouse();
 
-    public void moveMouseLinearTo(double x, double y);
+    public void moveMouse(Point2D point);
 
     public void scrollMouse(int amount);
 
@@ -40,5 +38,7 @@ public interface ScreenRobot {
     public void pressKey(KeyCode key);
 
     public void releaseKey(KeyCode key);
+
+    public void awaitEvents();
 
 }
