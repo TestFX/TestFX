@@ -15,12 +15,13 @@
  */
 package org.loadui.testfx.controls.impl;
 
-import org.loadui.testfx.exceptions.NoNodesFoundException;
 import javafx.scene.Node;
+
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import static org.loadui.testfx.GuiTest.find;
 
