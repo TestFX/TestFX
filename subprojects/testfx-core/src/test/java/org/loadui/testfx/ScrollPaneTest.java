@@ -13,10 +13,8 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.robots.impl;
+package org.loadui.testfx;
 
-import static org.hamcrest.Matchers.is;
-import static org.loadui.testfx.Assertions.verifyThat;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
@@ -27,16 +25,18 @@ import javafx.scene.layout.VBox;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.Test;
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.controls.impl.VisibleNodesMatcher;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
-public class ScrollRobotImplTest extends GuiTest {
+import static org.hamcrest.Matchers.is;
+import static org.loadui.testfx.Assertions.verifyThat;
+
+public class ScrollPaneTest extends GuiTest {
     public static final int IMAGE_WIDTH = 525;
 
     public static final int IMAGE_HEIGHT = 448;
 
-    public static final String IMAGE_RESOURCE = "/java-duke-guitar.png";
+    public static final String IMAGE_RESOURCE = "java-duke-guitar.png";
 
     private static final String ID1 = "ID1";
 
