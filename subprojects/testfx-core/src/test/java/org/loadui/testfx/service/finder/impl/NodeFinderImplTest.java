@@ -32,11 +32,11 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.internal.matchers.TypeSafeMatcher;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.loadui.testfx.framework.app.StageSetupCallback;
@@ -283,6 +283,7 @@ public class NodeFinderImplTest extends AppRobotTestBase {
         };
     }
 
+    @SuppressWarnings("unchecked")
     public Predicate<Node> createNodePredicate(final Predicate predicate) {
         return (Predicate<Node>) predicate;
     }

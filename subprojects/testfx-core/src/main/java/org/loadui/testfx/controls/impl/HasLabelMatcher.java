@@ -16,9 +16,10 @@
 package org.loadui.testfx.controls.impl;
 
 import javafx.scene.control.Labeled;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 import static org.loadui.testfx.GuiTest.find;
 

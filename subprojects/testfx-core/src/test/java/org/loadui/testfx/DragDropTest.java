@@ -31,7 +31,7 @@ import org.loadui.testfx.utils.FXTestUtils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.matchers.JUnitMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.ListViews.containsRow;
 import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
