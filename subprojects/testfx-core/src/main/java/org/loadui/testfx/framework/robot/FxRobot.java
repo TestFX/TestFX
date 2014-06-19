@@ -117,9 +117,9 @@ public interface FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public FxRobot clickOn(MouseButton... buttons);
-    //public FxRobot clickOn(PointQuery pointQuery, MouseButton... buttons);
+    public FxRobot clickOn(PointQuery pointQuery, MouseButton... buttons);
     public FxRobot doubleClickOn(MouseButton... buttons);
-    //public FxRobot doubleClickOn(PointQuery pointQuery, MouseButton... buttons);
+    public FxRobot doubleClickOn(PointQuery pointQuery, MouseButton... buttons);
 
     // Convenience methods:
     public FxRobot clickOn(double x, double y, MouseButton... buttons);
@@ -132,7 +132,7 @@ public interface FxRobot {
     public FxRobot clickOn(Matcher<Object> matcher, MouseButton... buttons);
     public <T extends Node> FxRobot clickOn(Predicate<T> predicate, MouseButton... buttons);
     public FxRobot rightClickOn();
-    //public FxRobot rightClickOn(PointQuery pointQuery);
+    public FxRobot rightClickOn(PointQuery pointQuery);
     public FxRobot rightClickOn(double x, double y);
     public FxRobot rightClickOn(Point2D point);
     public FxRobot rightClickOn(Bounds bounds);

@@ -63,8 +63,8 @@ public final class MoveRobotImplTest {
     @Test
     public void moveTo_a_point_within_1000_pixels() {
         // given:
-        Point2D currentPoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(currentPoint);
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // and:
         Point2D targetPoint = new Point2D(1000, 0);
@@ -83,8 +83,8 @@ public final class MoveRobotImplTest {
     @Test
     public void moveTo_should_move_to_moved_target_point() {
         // given:
-        Point2D currentPoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(currentPoint);
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // and:
         Point2D targetPoint = new Point2D(10, 0);
@@ -104,8 +104,8 @@ public final class MoveRobotImplTest {
     @Test
     public void moveBy_a_distance_of_10_pixels() {
         // given:
-        Point2D currentPoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(currentPoint);
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // when:
         Point2D targetPoint = new Point2D(10, 0);
@@ -120,8 +120,8 @@ public final class MoveRobotImplTest {
     @Test
     public void moveBy_a_distance_of_1000_pixels() {
         // given:
-        Point2D currentPoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(currentPoint);
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // when:
         Point2D targetPoint = new Point2D(1000, 0);
