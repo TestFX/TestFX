@@ -29,10 +29,10 @@ public class ScrollRobotImpl implements ScrollRobot {
     private static final int SCROLL_ONE_DOWN = 1;
 
     //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
+    // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private ScreenRobot screenRobot;
+    public ScreenRobot screenRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
