@@ -15,27 +15,34 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javafx.scene.input.KeyCode;
 
+import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.ScreenRobot;
 
 public class KeyboardRobotImpl implements KeyboardRobot {
 
     //---------------------------------------------------------------------------------------------
+    // FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    public ScreenRobot screenRobot;
+
+    //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final ScreenRobot screenRobot;
-    private final Set<KeyCode> pressedKeys = new HashSet<>();
+    private final Set<KeyCode> pressedKeys = Sets.newHashSet();
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public KeyboardRobotImpl(final ScreenRobot screenRobot) {
+    public KeyboardRobotImpl(ScreenRobot screenRobot) {
         this.screenRobot = screenRobot;
     }
 
@@ -45,27 +52,52 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void press(KeyCode... keyCodes) {
-        for (KeyCode keyCode : keyCodes) {
-            if (pressedKeys.add(keyCode)) {
-                screenRobot.pressKey(keyCode);
-            }
-        }
+        pressKeys(Lists.newArrayList(keyCodes));
     }
 
     @Override
     public void release(KeyCode... keyCodes) {
-        if (keyCodes.length == 0) {
-            for (KeyCode button : pressedKeys) {
-                screenRobot.releaseKey(button);
-            }
-            pressedKeys.clear();
+        if (isArrayEmpty(keyCodes)) {
+            releasePressedKeys();
         }
         else {
-            for (KeyCode keyCode : keyCodes) {
-                if (pressedKeys.remove(keyCode)) {
-                    screenRobot.releaseKey(keyCode);
-                }
-            }
+            releaseKeys(Lists.newArrayList(keyCodes));
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private boolean isArrayEmpty(Object[] elements) {
+        return elements.length == 0;
+    }
+
+    private void releasePressedKeys() {
+        releaseKeys(Lists.newArrayList(pressedKeys));
+    }
+
+    private void pressKeys(List<KeyCode> keyCodes) {
+        for (KeyCode keyCode : keyCodes) {
+            pressKey(keyCode);
+        }
+    }
+
+    private void releaseKeys(List<KeyCode> keyCodes) {
+        for (KeyCode keyCode : keyCodes) {
+            releaseKey(keyCode);
+        }
+    }
+
+    private void pressKey(KeyCode keyCode) {
+        if (pressedKeys.add(keyCode)) {
+            screenRobot.pressKey(keyCode);
+        }
+    }
+
+    private void releaseKey(KeyCode keyCode) {
+        if (pressedKeys.remove(keyCode)) {
+            screenRobot.releaseKey(keyCode);
         }
     }
 
