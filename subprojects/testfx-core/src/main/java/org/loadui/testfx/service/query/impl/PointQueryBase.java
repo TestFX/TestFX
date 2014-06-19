@@ -27,9 +27,9 @@ abstract public class PointQueryBase implements PointQuery {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Point2D position = Point2D.ZERO;
+    private Point2D position = new Point2D(0, 0);
 
-    private Point2D offset = Point2D.ZERO;
+    private Point2D offset = new Point2D(0, 0);
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -57,7 +57,10 @@ abstract public class PointQueryBase implements PointQuery {
     }
 
     public PointQuery atOffset(Point2D offset) {
-        this.offset = this.offset.add(offset);
+        this.offset = new Point2D(
+            this.offset.getX() + offset.getX(),
+            this.offset.getY() + offset.getY()
+        );
         return this;
     }
 
