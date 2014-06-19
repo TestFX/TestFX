@@ -17,19 +17,12 @@ package org.loadui.testfx.robots.impl;
 
 import javafx.scene.input.MouseButton;
 
-import org.loadui.testfx.robots.ClickRobot;
+import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
-import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.service.query.PointQuery;
 
-public class ClickRobotImpl implements ClickRobot {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
-    private static final long WAIT_AFTER_DOUBLE_CLICK_DURATION = 50;
+public class DragRobotImpl implements DragRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -37,18 +30,15 @@ public class ClickRobotImpl implements ClickRobot {
 
     public MouseRobot mouseRobot;
     public MoveRobot moveRobot;
-    public SleepRobot sleepRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public ClickRobotImpl(MouseRobot mouseRobot,
-                          MoveRobot moveRobot,
-                          SleepRobot sleepRobot) {
+    public DragRobotImpl(MouseRobot mouseRobot,
+                          MoveRobot moveRobot) {
         this.mouseRobot = mouseRobot;
         this.moveRobot = moveRobot;
-        this.sleepRobot = sleepRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -56,30 +46,33 @@ public class ClickRobotImpl implements ClickRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void clickOn(MouseButton... buttons) {
+    public void drag(MouseButton... buttons) {
         mouseRobot.press(buttons);
-        mouseRobot.release(buttons);
     }
 
     @Override
-    public void clickOn(PointQuery pointQuery,
-                        MouseButton... buttons) {
+    public void drag(PointQuery pointQuery,
+                     MouseButton... buttons) {
         moveRobot.moveTo(pointQuery);
-        clickOn(buttons);
+        drag(buttons);
     }
 
     @Override
-    public void doubleClickOn(MouseButton... buttons) {
-        clickOn(buttons);
-        clickOn(buttons);
-        sleepRobot.sleep(WAIT_AFTER_DOUBLE_CLICK_DURATION);
+    public void drop() {
+        mouseRobot.release();
     }
 
     @Override
-    public void doubleClickOn(PointQuery pointQuery,
-                              MouseButton... buttons) {
-        clickOn(pointQuery, buttons);
-        clickOn(buttons);
-        sleepRobot.sleep(WAIT_AFTER_DOUBLE_CLICK_DURATION);
+    public void dropTo(PointQuery pointQuery) {
+        moveRobot.moveTo(pointQuery);
+        drop();
     }
+
+    @Override
+    public void dropBy(double x,
+                       double y) {
+        moveRobot.moveBy(x, y);
+        drop();
+    }
+
 }
