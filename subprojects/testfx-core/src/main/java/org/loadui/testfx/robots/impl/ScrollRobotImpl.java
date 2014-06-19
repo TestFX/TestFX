@@ -22,6 +22,13 @@ import org.loadui.testfx.robots.ScrollRobot;
 public class ScrollRobotImpl implements ScrollRobot {
 
     //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final int SCROLL_ONE_UP = -1;
+    private static final int SCROLL_ONE_DOWN = 1;
+
+    //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
@@ -50,7 +57,8 @@ public class ScrollRobotImpl implements ScrollRobot {
     }
 
     @Override
-    public void scroll(int positiveAmount, VerticalDirection direction) {
+    public void scroll(int positiveAmount,
+                       VerticalDirection direction) {
         if (direction == VerticalDirection.UP) {
             scrollUp(positiveAmount);
         }
@@ -62,14 +70,14 @@ public class ScrollRobotImpl implements ScrollRobot {
     @Override
     public void scrollUp(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            screenRobot.scrollMouse(-1);
+            screenRobot.scrollMouse(SCROLL_ONE_UP);
         }
     }
 
     @Override
     public void scrollDown(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            screenRobot.scrollMouse(1);
+            screenRobot.scrollMouse(SCROLL_ONE_DOWN);
         }
     }
 
