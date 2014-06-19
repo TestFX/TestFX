@@ -16,24 +16,29 @@
 package org.loadui.testfx.robots.impl;
 
 import javafx.scene.input.KeyCode;
+
 import org.loadui.testfx.robots.KeyboardRobot;
+import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.utils.KeyCodeUtils;
 
 public class TypeRobotImpl implements TypeRobot {
 
     //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
+    // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private KeyboardRobot keyboardRobot;
+    public KeyboardRobot keyboardRobot;
+    public SleepRobot sleepRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public TypeRobotImpl(KeyboardRobot keyboardRobot) {
+    public TypeRobotImpl(KeyboardRobot keyboardRobot,
+                         SleepRobot sleepRobot) {
         this.keyboardRobot = keyboardRobot;
+        this.sleepRobot = sleepRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -61,7 +66,7 @@ public class TypeRobotImpl implements TypeRobot {
     public void type(String text) {
         for (int index = 0; index < text.length(); index++) {
             type(text.charAt(index));
-            waitBetweenCharacters(25);
+            sleepRobot.sleep(25);
         }
     }
 
@@ -88,13 +93,6 @@ public class TypeRobotImpl implements TypeRobot {
         keyboardRobot.press(KeyCode.SHIFT);
         type(keyCode);
         keyboardRobot.release(KeyCode.SHIFT);
-    }
-
-    private void waitBetweenCharacters(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        }
-        catch (InterruptedException ignore) {}
     }
 
 }
