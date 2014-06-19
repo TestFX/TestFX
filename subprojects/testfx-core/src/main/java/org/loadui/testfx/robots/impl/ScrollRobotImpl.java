@@ -42,10 +42,10 @@ public class ScrollRobotImpl implements ScrollRobot {
     @Override
     public void scroll(int amount) {
         if (amount >= 0) {
-            scrollUp(amount);
+            scrollDown(amount);
         }
         else {
-            scrollDown(Math.abs(amount));
+            scrollUp(Math.abs(amount));
         }
     }
 
@@ -62,14 +62,14 @@ public class ScrollRobotImpl implements ScrollRobot {
     @Override
     public void scrollUp(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            screenRobot.scrollMouse(1);
+            screenRobot.scrollMouse(-1);
         }
     }
 
     @Override
     public void scrollDown(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            screenRobot.scrollMouse(-1);
+            screenRobot.scrollMouse(1);
         }
     }
 
