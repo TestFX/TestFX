@@ -1,0 +1,129 @@
+Character	Modifiers	KeyCodeName
+0	1	0
+1	1	1
+2	1	2
+3	1	3
+4	1	4
+5	1	5
+6	1	6
+7	1	7
+8	1	8
+9	1	9
+A	1	A
+B	1	B
+C	1	C
+D	1	D
+E	1	E
+F	1	F
+G	1	G
+H	1	H
+I	1	I
+J	1	J
+K	1	K
+L	1	L
+M	1	M
+N	1	N
+O	1	O
+P	1	P
+Q	1	Q
+R	1	R
+S	1	S
+T	1	T
+U	1	U
+V	1	V
+W	1	W
+X	1	X
+Y	1	Y
+Z	1	Z
+a	0	A
+b	0	B
+c	0	C
+d	0	D
+e	0	E
+f	0	F
+g	0	G
+h	0	H
+i	0	I
+j	0	J
+k	0	K
+l	0	L
+m	0	M
+n	0	N
+o	0	O
+p	0	P
+q	0	Q
+r	0	R
+s	0	S
+t	0	T
+u	0	U
+v	0	V
+w	0	W
+x	0	X
+y	0	Y
+z	0	Z
+€	8	E
+&	0	1
+é	0	2
+~	40	2
+"	0	3
+#	8	3
+'	0	4
+[	8	5
+{	8	4
+(	0	5
+-	0	6
+|	8	6
+è	0	7
+`	40	7
+_	0	8
+\	8	8
+ç	0	9
+^	8	9
+à	0	0
+@	8	0
+)	0	Right Parenthesis
+]	8	Right Parenthesis
+°	1	Right Parenthesis
+=	0	Equals
++	1	Equals
+}	8	Equals
+¨	33	Dead Circumflex
+$	0	Dollar
+£	1	Dollar
+¤	8	Dollar
+*	0	Asterisk
+µ	1	Asterisk
+,	0	Comma
+?	1	Comma
+;	0	Semicolon
+.	1	Semicolon
+:	0	Colon
+/	1	Colon
+!	0	Exclamation Mark
+§	1	Exclamation Mark
+<	0	Less
+>	1	Less
+â	32	Dead Circumflex	0	A
+ê	32	Dead Circumflex	0	E
+î	32	Dead Circumflex	0	I
+ô	32	Dead Circumflex	0	O
+û	32	Dead Circumflex	0	U
+ŷ	32	Dead Circumflex	0	Y
+Â	32	Dead Circumflex	1	A
+Ê	32	Dead Circumflex	1	E
+Î	32	Dead Circumflex	1	I
+Ô	32	Dead Circumflex	1	O
+Û	32	Dead Circumflex	1	U
+Ŷ	32	Dead Circumflex	1	Y
+ä	33	Dead Circumflex	0	A
+ë	33	Dead Circumflex	0	E
+ï	33	Dead Circumflex	0	I
+ö	33	Dead Circumflex	0	O
+ü	33	Dead Circumflex	0	U
+ÿ	33	Dead Circumflex	0	Y
+Ä	33	Dead Circumflex	1	A
+Ë	33	Dead Circumflex	1	E
+Ï	33	Dead Circumflex	1	I
+Ö	33	Dead Circumflex	1	O
+Ü	33	Dead Circumflex	1	U
+Ÿ	33	Dead Circumflex	1	Y

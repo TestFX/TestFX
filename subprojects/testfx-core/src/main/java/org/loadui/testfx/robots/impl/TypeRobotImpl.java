@@ -19,6 +19,8 @@ import javafx.scene.input.KeyCode;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.utils.KeyCodeUtils;
+import org.loadui.testfx.utils.keymaps.KeyChar;
+import org.loadui.testfx.utils.keymaps.KeyCharMap;
 
 public class TypeRobotImpl implements TypeRobot {
 
@@ -27,13 +29,23 @@ public class TypeRobotImpl implements TypeRobot {
     //---------------------------------------------------------------------------------------------
 
     private KeyboardRobot keyboardRobot;
+    private KeyCharMap localKeyCharMap;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public TypeRobotImpl(KeyboardRobot keyboardRobot) {
+        this(keyboardRobot,null);
+    }
+
+    public TypeRobotImpl(KeyboardRobot keyboardRobot, String keyboardLayoutName) {
         this.keyboardRobot = keyboardRobot;
+        if(keyboardLayoutName == null){
+            localKeyCharMap = KeyCharMap.getDefault();
+        }else{
+            localKeyCharMap = KeyCharMap.getInstance(keyboardLayoutName);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -48,12 +60,15 @@ public class TypeRobotImpl implements TypeRobot {
 
     @Override
     public void type(char character) {
-        KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
-        if (isNotUpperCase(character)) {
-            typeLowerCase(keyCode);
-        }
-        else {
-            typeUpperCase(keyCode);
+        if ( localKeyCharMap != null ) {
+            KeyChar keyChar = localKeyCharMap.getKeyChar(character);
+            if ( keyChar != null ) {
+                type(keyChar);
+            } else {
+                fallbackType(character);
+            }
+        } else {
+            fallbackType(character);
         }
     }
 
@@ -76,6 +91,18 @@ public class TypeRobotImpl implements TypeRobot {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /* Old method that does not use KeyChar */
+    private void fallbackType(
+        final char character)
+    {
+        KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
+        if ( isNotUpperCase(character) ) {
+            typeLowerCase(keyCode);
+        } else {
+            typeUpperCase(keyCode);
+        }
+    }
+
     private boolean isNotUpperCase(char character) {
         return !Character.isUpperCase(character);
     }
@@ -90,11 +117,33 @@ public class TypeRobotImpl implements TypeRobot {
         keyboardRobot.release(KeyCode.SHIFT);
     }
 
+    private void type(
+        final KeyChar keyChar)
+    {
+        KeyCode[] modifiers = keyChar.getModifiersKeyCodes();
+        for (KeyCode modifier : modifiers) {
+            keyboardRobot.press(modifier);
+        }
+        type(keyChar.getKeyCode());
+        for (KeyCode modifier : modifiers) {
+            keyboardRobot.release(modifier);
+        }
+        if ( keyChar.isDeadKey() ) {
+            modifiers = keyChar.getExtraModifiersKeyCodes();
+            for (KeyCode modifier : modifiers) {
+                keyboardRobot.press(modifier);
+            }
+            type(keyChar.getExtraKeyCode());
+            for (KeyCode modifier : modifiers) {
+                keyboardRobot.release(modifier);
+            }
+        }
+    }
+
     private void waitBetweenCharacters(long milliseconds) {
         try {
             Thread.sleep(milliseconds);
         }
         catch (InterruptedException ignore) {}
     }
-
 }
