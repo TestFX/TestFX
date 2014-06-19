@@ -115,7 +115,8 @@ public class FxRobotImpl implements FxRobot {
     // METHODS FOR POINT LOCATION.
     //---------------------------------------------------------------------------------------------
 
-    public PointQuery pointFor(double x, double y) {
+    public PointQuery pointFor(double x,
+                               double y) {
         return pointLocator.pointFor(new Point2D(x, y)).atPosition(pointPosition);
     }
 
@@ -162,35 +163,51 @@ public class FxRobotImpl implements FxRobot {
     // METHODS FOR POINT OFFSET.
     //---------------------------------------------------------------------------------------------
 
-    public PointQuery offset(Point2D point, double offsetX, double offsetY) {
+    public PointQuery offset(Point2D point,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(point).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(Bounds bounds, double offsetX, double offsetY) {
+    public PointQuery offset(Bounds bounds,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(bounds).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(Node node, double offsetX, double offsetY) {
+    public PointQuery offset(Node node,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(node).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(Scene scene, double offsetX, double offsetY) {
+    public PointQuery offset(Scene scene,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(scene).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(Window window, double offsetX, double offsetY) {
+    public PointQuery offset(Window window,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(window).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(String query, double offsetX, double offsetY) {
+    public PointQuery offset(String query,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(query).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(Matcher<Object> matcher, double offsetX, double offsetY) {
+    public PointQuery offset(Matcher<Object> matcher,
+                             double offsetX,
+                             double offsetY) {
         return pointFor(matcher).atOffset(offsetX, offsetY);
     }
 
-    public <T extends Node> PointQuery offset(Predicate<T> predicate, double offsetX, double offsetY) {
+    public <T extends Node> PointQuery offset(Predicate<T> predicate,
+                                              double offsetX,
+                                              double offsetY) {
         return pointFor(predicate).atOffset(offsetX, offsetY);
     }
 
@@ -198,22 +215,22 @@ public class FxRobotImpl implements FxRobot {
     // METHODS FOR WINDOW TARGETING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotImpl target(Window window) {
+    public FxRobot target(Window window) {
         windowFinder.target(window);
         return this;
     }
 
-    public FxRobotImpl target(int windowNumber) {
+    public FxRobot target(int windowNumber) {
         windowFinder.target(windowNumber);
         return this;
     }
 
-    public FxRobotImpl target(String stageTitleRegex) {
+    public FxRobot target(String stageTitleRegex) {
         windowFinder.target(stageTitleRegex);
         return this;
     }
 
-    public FxRobotImpl target(Scene scene) {
+    public FxRobot target(Scene scene) {
         windowFinder.target(scene);
         return this;
     }
@@ -222,40 +239,37 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF TYPE ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotImpl type(KeyCode... keys) {
+    public FxRobot type(KeyCode... keys) {
         typeRobot.type(keys);
         return this;
     }
 
-    public FxRobotImpl type(char character) {
+    public FxRobot type(char character) {
         typeRobot.type(character);
         return this;
     }
 
-    public FxRobotImpl type(String text) {
+    public FxRobot type(String text) {
         typeRobot.type(text);
         return this;
     }
 
-    public FxRobotImpl erase(int characters) {
+    public FxRobot erase(int characters) {
         typeRobot.erase(characters);
         return this;
     }
 
-    public FxRobotImpl push(KeyCode... keys) {
+    public FxRobot push(KeyCode... keys) {
         type(keys);
         return this;
     }
 
-    public FxRobotImpl push(char character) {
+    public FxRobot push(char character) {
         type(character);
         return this;
     }
 
-    /**
-     * Closes the front-most window using the Alt+F4 keyboard shortcut.
-     */
-    public FxRobotImpl closeCurrentWindow() {
+    public FxRobot closeCurrentWindow() {
         push(KeyCode.ALT, KeyCode.F4).sleep(100);
         return this;
     }
@@ -264,12 +278,13 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF SLEEP ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotImpl sleep(long milliseconds) {
+    public FxRobot sleep(long milliseconds) {
         sleepRobot.sleep(milliseconds);
         return this;
     }
 
-    public FxRobotImpl sleep(long duration, TimeUnit timeUnit) {
+    public FxRobot sleep(long duration,
+                         TimeUnit timeUnit) {
         sleepRobot.sleep(duration, timeUnit);
         return this;
     }
@@ -279,17 +294,18 @@ public class FxRobotImpl implements FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Deprecated
-    public FxRobotImpl scroll(int amount) {
+    public FxRobot scroll(int amount) {
         scrollRobot.scroll(amount);
         return this;
     }
 
-    public FxRobotImpl scroll(int amount, VerticalDirection direction) {
+    public FxRobot scroll(int amount,
+                          VerticalDirection direction) {
         scrollRobot.scroll(amount, direction);
         return this;
     }
 
-    public FxRobotImpl scroll(VerticalDirection direction) {
+    public FxRobot scroll(VerticalDirection direction) {
         scroll(1, direction);
         return this;
     }
@@ -298,12 +314,12 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF MOUSE ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotImpl press(MouseButton... buttons) {
+    public FxRobot press(MouseButton... buttons) {
         mouseRobot.press(buttons);
         return this;
     }
 
-    public FxRobotImpl release(MouseButton... buttons) {
+    public FxRobot release(MouseButton... buttons) {
         mouseRobot.release(buttons);
         return this;
     }
@@ -312,12 +328,12 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF KEYBOARD ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotImpl press(KeyCode... keys) {
+    public FxRobot press(KeyCode... keys) {
         keyboardRobot.press(keys);
         return this;
     }
 
-    public FxRobotImpl release(KeyCode... keys) {
+    public FxRobot release(KeyCode... keys) {
         keyboardRobot.release(keys);
         return this;
     }
@@ -336,6 +352,7 @@ public class FxRobotImpl implements FxRobot {
     public FxRobot clickOn(PointQuery pointQuery,
                            MouseButton... buttons) {
         clickRobot.clickOn(pointQuery, buttons);
+
         return this;
     }
 
@@ -660,63 +677,62 @@ public class FxRobotImpl implements FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public FxRobotImpl moveTo(double x, double y) {
-        moveRobot.moveTo(pointFor(new Point2D(x, y)));
+    public FxRobot moveTo(PointQuery pointQuery) {
+        moveRobot.moveTo(pointQuery);
         return this;
     }
 
     @Override
-    public FxRobotImpl moveTo(Point2D point) {
-        moveRobot.moveTo(pointFor(point));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveTo(Bounds bounds) {
-        moveRobot.moveTo(pointFor(bounds));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveTo(Node node) {
-        moveRobot.moveTo(pointFor(node));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveTo(Scene scene) {
-        moveRobot.moveTo(pointFor(scene));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveTo(Window window) {
-        moveRobot.moveTo(pointFor(window));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveTo(String query) {
-        moveRobot.moveTo(pointFor(query));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveTo(Matcher<Object> matcher) {
-        moveRobot.moveTo(pointFor(matcher));
-        return this;
-    }
-
-    @Override
-    public <T extends Node> FxRobotImpl moveTo(Predicate<T> predicate) {
-        moveRobot.moveTo(pointFor(predicate));
-        return this;
-    }
-
-    @Override
-    public FxRobotImpl moveBy(double x, double y) {
+    public FxRobot moveBy(double x,
+                          double y) {
         moveRobot.moveBy(x, y);
         return this;
+    }
+
+    @Override
+    public FxRobot moveTo(double x,
+                          double y) {
+        return moveTo(pointFor(new Point2D(x, y)));
+    }
+
+    @Override
+    public FxRobot moveTo(Point2D point) {
+        return moveTo(pointFor(point));
+    }
+
+    @Override
+    public FxRobot moveTo(Bounds bounds) {
+        return moveTo(pointFor(bounds));
+    }
+
+    @Override
+    public FxRobot moveTo(Node node) {
+        return moveTo(pointFor(node));
+    }
+
+    @Override
+    public FxRobot moveTo(Scene scene) {
+        return moveTo(pointFor(scene));
+    }
+
+    @Override
+    public FxRobot moveTo(Window window) {
+        return moveTo(pointFor(window));
+    }
+
+    @Override
+    public FxRobot moveTo(String query) {
+        return moveTo(pointFor(query));
+    }
+
+    @Override
+    public FxRobot moveTo(Matcher<Object> matcher) {
+        return moveTo(pointFor(matcher));
+    }
+
+    @Override
+    public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
+        return moveTo(pointFor(predicate));
     }
 
 }

@@ -42,7 +42,8 @@ public interface FxRobot {
     // METHODS FOR POINT LOCATION.
     //---------------------------------------------------------------------------------------------
 
-    public PointQuery pointFor(double x, double y);
+    public PointQuery pointFor(double x,
+                               double y);
     public PointQuery pointFor(Point2D point);
     public PointQuery pointFor(Bounds bounds);
     public PointQuery pointFor(Node node);
@@ -60,14 +61,27 @@ public interface FxRobot {
     //public PointQuery offset(PointQuery pointQuery, double offsetX, double offsetY);
 
     // Convenience methods:
-    public PointQuery offset(Point2D point, double offsetX, double offsetY);
-    public PointQuery offset(Bounds bounds, double offsetX, double offsetY);
-    public PointQuery offset(Node node, double offsetX, double offsetY);
-    public PointQuery offset(Scene scene, double offsetX, double offsetY);
-    public PointQuery offset(Window window, double offsetX, double offsetY);
-    public PointQuery offset(String query, double offsetX, double offsetY);
+    public PointQuery offset(Point2D point,
+                             double offsetX,
+                             double offsetY);
+    public PointQuery offset(Bounds bounds,
+                             double offsetX,
+                             double offsetY);
+    public PointQuery offset(Node node,
+                             double offsetX,
+                             double offsetY);
+    public PointQuery offset(Scene scene,
+                             double offsetX,
+                             double offsetY);
+    public PointQuery offset(Window window,
+                             double offsetX,
+                             double offsetY);
+    public PointQuery offset(String query,
+                             double offsetX,
+                             double offsetY);
     public <T extends Node> PointQuery offset(Predicate<T> predicate,
-                                              double offsetX, double offsetY);
+                                              double offsetX,
+                                              double offsetY);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR WINDOW TARGETING.
@@ -117,23 +131,36 @@ public interface FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public FxRobot clickOn(MouseButton... buttons);
-    public FxRobot clickOn(PointQuery pointQuery, MouseButton... buttons);
+    public FxRobot clickOn(PointQuery pointQuery,
+                           MouseButton... buttons);
     public FxRobot doubleClickOn(MouseButton... buttons);
-    public FxRobot doubleClickOn(PointQuery pointQuery, MouseButton... buttons);
+    public FxRobot doubleClickOn(PointQuery pointQuery,
+                                 MouseButton... buttons);
 
     // Convenience methods:
-    public FxRobot clickOn(double x, double y, MouseButton... buttons);
-    public FxRobot clickOn(Point2D point, MouseButton... buttons);
-    public FxRobot clickOn(Bounds bounds, MouseButton... buttons);
-    public FxRobot clickOn(Node node, MouseButton... buttons);
-    public FxRobot clickOn(Scene scene, MouseButton... buttons);
-    public FxRobot clickOn(Window window, MouseButton... buttons);
-    public FxRobot clickOn(String query, MouseButton... buttons);
-    public FxRobot clickOn(Matcher<Object> matcher, MouseButton... buttons);
-    public <T extends Node> FxRobot clickOn(Predicate<T> predicate, MouseButton... buttons);
+    public FxRobot clickOn(double x,
+                           double y,
+                           MouseButton... buttons);
+    public FxRobot clickOn(Point2D point,
+                           MouseButton... buttons);
+    public FxRobot clickOn(Bounds bounds,
+                           MouseButton... buttons);
+    public FxRobot clickOn(Node node,
+                           MouseButton... buttons);
+    public FxRobot clickOn(Scene scene,
+                           MouseButton... buttons);
+    public FxRobot clickOn(Window window,
+                           MouseButton... buttons);
+    public FxRobot clickOn(String query,
+                           MouseButton... buttons);
+    public FxRobot clickOn(Matcher<Object> matcher,
+                           MouseButton... buttons);
+    public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
+                                            MouseButton... buttons);
     public FxRobot rightClickOn();
     public FxRobot rightClickOn(PointQuery pointQuery);
-    public FxRobot rightClickOn(double x, double y);
+    public FxRobot rightClickOn(double x,
+                                double y);
     public FxRobot rightClickOn(Point2D point);
     public FxRobot rightClickOn(Bounds bounds);
     public FxRobot rightClickOn(Node node);
@@ -142,15 +169,25 @@ public interface FxRobot {
     public FxRobot rightClickOn(String query);
     public FxRobot rightClickOn(Matcher<Object> matcher);
     public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate);
-    public FxRobot doubleClickOn(double x, double y, MouseButton... buttons);
-    public FxRobot doubleClickOn(Point2D point, MouseButton... buttons);
-    public FxRobot doubleClickOn(Bounds bounds, MouseButton... buttons);
-    public FxRobot doubleClickOn(Node node, MouseButton... buttons);
-    public FxRobot doubleClickOn(Scene scene, MouseButton... buttons);
-    public FxRobot doubleClickOn(Window window, MouseButton... buttons);
-    public FxRobot doubleClickOn(String query, MouseButton... buttons);
-    public FxRobot doubleClickOn(Matcher<Object> matcher, MouseButton... buttons);
-    public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate, MouseButton... buttons);
+    public FxRobot doubleClickOn(double x,
+                                 double y,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(Point2D point,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(Bounds bounds,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(Node node,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(Scene scene,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(Window window,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(String query,
+                                 MouseButton... buttons);
+    public FxRobot doubleClickOn(Matcher<Object> matcher,
+                                 MouseButton... buttons);
+    public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
+                                                  MouseButton... buttons);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR DRAGGING.
@@ -160,19 +197,31 @@ public interface FxRobot {
     public FxRobot drag(PointQuery pointQuery, MouseButton... buttons);
     public FxRobot drop();
     public FxRobot dropTo(PointQuery pointQuery);
-    public FxRobot dropBy(double x, double y);
+    public FxRobot dropBy(double x,
+                          double y);
 
     // Convenience methods:
-    public FxRobot drag(double x, double y, MouseButton... buttons);
-    public FxRobot drag(Point2D point, MouseButton... buttons);
-    public FxRobot drag(Bounds bounds, MouseButton... buttons);
-    public FxRobot drag(Node node, MouseButton... buttons);
-    public FxRobot drag(Scene scene, MouseButton... buttons);
-    public FxRobot drag(Window window, MouseButton... buttons);
-    public FxRobot drag(String query, MouseButton... buttons);
-    public FxRobot drag(Matcher<Object> matcher, MouseButton... buttons);
-    public <T extends Node> FxRobot drag(Predicate<T> predicate, MouseButton... buttons);
-    public FxRobot dropTo(double x, double y);
+    public FxRobot drag(double x,
+                        double y,
+                        MouseButton... buttons);
+    public FxRobot drag(Point2D point,
+                        MouseButton... buttons);
+    public FxRobot drag(Bounds bounds,
+                        MouseButton... buttons);
+    public FxRobot drag(Node node,
+                        MouseButton... buttons);
+    public FxRobot drag(Scene scene,
+                        MouseButton... buttons);
+    public FxRobot drag(Window window,
+                        MouseButton... buttons);
+    public FxRobot drag(String query,
+                        MouseButton... buttons);
+    public FxRobot drag(Matcher<Object> matcher,
+                        MouseButton... buttons);
+    public <T extends Node> FxRobot drag(Predicate<T> predicate,
+                                         MouseButton... buttons);
+    public FxRobot dropTo(double x,
+                          double y);
     public FxRobot dropTo(Point2D point);
     public FxRobot dropTo(Bounds bounds);
     public FxRobot dropTo(Node node);
@@ -211,11 +260,13 @@ public interface FxRobot {
     // METHODS FOR MOVING.
     //---------------------------------------------------------------------------------------------
 
-    //public FxRobot moveTo(PointQuery pointQuery);
-    public FxRobot moveBy(double x, double y);
+    public FxRobot moveTo(PointQuery pointQuery);
+    public FxRobot moveBy(double x,
+                          double y);
 
     // Convenience methods:
-    public FxRobot moveTo(double x, double y);
+    public FxRobot moveTo(double x,
+                          double y);
     public FxRobot moveTo(Point2D point);
     public FxRobot moveTo(Bounds bounds);
     public FxRobot moveTo(Node node);
@@ -229,7 +280,8 @@ public interface FxRobot {
     // METHODS FOR SCROLLING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot scroll(int amount, VerticalDirection direction);
+    public FxRobot scroll(int amount,
+                          VerticalDirection direction);
 
     // Convenience methods:
     public FxRobot scroll(VerticalDirection direction);
@@ -239,7 +291,8 @@ public interface FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public FxRobot sleep(long milliseconds);
-    public FxRobot sleep(long duration, TimeUnit timeUnit);
+    public FxRobot sleep(long duration,
+                         TimeUnit timeUnit);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR TYPING.
