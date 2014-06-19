@@ -22,10 +22,12 @@ public interface ClickRobot {
 
     public void clickOn(MouseButton... buttons);
 
-    public void clickOn(PointQuery pointQuery, MouseButton... buttons);
+    public void clickOn(PointQuery pointQuery,
+                        MouseButton... buttons);
 
     public void doubleClickOn(MouseButton... buttons);
 
-    public void doubleClickOn(PointQuery pointQuery, MouseButton... buttons);
+    public void doubleClickOn(PointQuery pointQuery,
+                              MouseButton... buttons);
 
 }

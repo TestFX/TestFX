@@ -157,9 +157,9 @@ public interface FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public FxRobot drag(MouseButton... buttons);
-    //public FxRobot drag(PointQuery pointQuery, MouseButton... buttons);
+    public FxRobot drag(PointQuery pointQuery, MouseButton... buttons);
     public FxRobot drop();
-    //public FxRobot dropTo(PointQuery pointQuery);
+    public FxRobot dropTo(PointQuery pointQuery);
     public FxRobot dropBy(double x, double y);
 
     // Convenience methods:
