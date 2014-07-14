@@ -50,8 +50,8 @@ public class HasLabelStringMatcher extends TypeSafeMatcher<Object> {
         if (target instanceof String) {
             return nodeHasLabel(find((String) target));
         }
-        else if (target instanceof Labeled) {
-            return nodeHasLabel((Labeled) target);
+        else if (target instanceof Labeled || target instanceof TextInputControl) {
+            return nodeHasLabel((Node) target);
         }
         return false;
     }
