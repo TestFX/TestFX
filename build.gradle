@@ -24,7 +24,11 @@ ext {
 
 buildscript {
     repositories {
-        jcenter()
+    	if(gradle.gradleVersion[0]=='1' && gradle.gradleVersion[2]<'7'){
+    		mavenCentral()
+    	}else {
+    		jcenter()
+    	}
     }
 
     dependencies {
@@ -73,7 +77,13 @@ subprojects { subproj ->
     }
 
     repositories {
-        jcenter()
+
+        if(gradle.gradleVersion[0]=='1' && gradle.gradleVersion[2]<'7'){
+        	println "central"
+    		mavenCentral()
+    	}else {
+    		jcenter()
+    	}
     }
 
     sourceSets {
