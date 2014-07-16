@@ -79,7 +79,6 @@ subprojects { subproj ->
     repositories {
 
         if(gradle.gradleVersion[0]=='1' && gradle.gradleVersion[2]<'7'){
-        	println "central"
     		mavenCentral()
     	}else {
     		jcenter()
