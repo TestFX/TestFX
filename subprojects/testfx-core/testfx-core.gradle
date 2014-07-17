@@ -35,3 +35,7 @@ dependencies {
     compileOnly project.files(project.jfxrtLocation)
     testCompileOnly project.files(project.jfxrtLocation)
 }
+
+test {
+    classpath += project.files(project.jfxrtLocation)
+}
