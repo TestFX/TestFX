@@ -22,9 +22,11 @@ ext {
     buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
 
-buildscript {
+buildscript{
     repositories {
-        jcenter()
+        maven {
+            url "http://jcenter.bintray.com"
+        }
     }
 
     dependencies {
@@ -73,7 +75,9 @@ subprojects { subproj ->
     }
 
     repositories {
-        jcenter()
+        maven {
+            url "http://jcenter.bintray.com"
+        }
     }
 
     sourceSets {
