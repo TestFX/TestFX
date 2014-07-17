@@ -22,13 +22,11 @@ ext {
     buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
 
-buildscript {
+buildscript{
     repositories {
-    	if(gradle.gradleVersion[0]=='1' && gradle.gradleVersion[2]<'7'){
-    		mavenCentral()
-    	}else {
-    		jcenter()
-    	}
+        maven {
+            url "http://jcenter.bintray.com"
+        }
     }
 
     dependencies {
@@ -77,12 +75,9 @@ subprojects { subproj ->
     }
 
     repositories {
-
-        if(gradle.gradleVersion[0]=='1' && gradle.gradleVersion[2]<'7'){
-    		mavenCentral()
-    	}else {
-    		jcenter()
-    	}
+        maven {
+            url "http://jcenter.bintray.com"
+        }
     }
 
     sourceSets {
