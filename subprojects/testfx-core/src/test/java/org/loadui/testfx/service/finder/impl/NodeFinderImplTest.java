@@ -44,6 +44,8 @@ import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.service.finder.WindowFinder;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assume.assumeThat;
 
 public class NodeFinderImplTest extends AppRobotTestBase {
 
@@ -91,6 +93,8 @@ public class NodeFinderImplTest extends AppRobotTestBase {
 
     @Before
     public void setup() {
+        assumeThat(System.getProperty("java.specification.version"), is("1.8"));
+
         windowFinder = new WindowFinderStub();
         windowFinder.windows = Lists.<Window>newArrayList(window, otherWindow, twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
@@ -172,6 +176,7 @@ public class NodeFinderImplTest extends AppRobotTestBase {
 
     @Test
     public void node_string_labelQuery() {
+
         // expect:
         assertThat(nodeFinder.node("first"), Matchers.is(firstIdLabel));
         assertThat(nodeFinder.node("second"), Matchers.is(secondIdLabel));
@@ -190,11 +195,11 @@ public class NodeFinderImplTest extends AppRobotTestBase {
         assertThat(nodeFinder.node("#invisibleNode"), Matchers.is(Matchers.nullValue()));
     }
 
-    @Test
-    public void node_string_cssQuery_twinNodes() {
-        System.out.println(nodeFinder.node("#twin"));
-        // TODO: test node in invisible container.
-    }
+    //@Test
+    //public void node_string_cssQuery_twinNodes() {
+    //    System.out.println(nodeFinder.node("#twin"));
+    //    // TODO: test node in invisible container.
+    //}
 
     @Test(expected=NoNodesFoundException.class)
     public void node_string_labelQuery_nonExistentNode() {
