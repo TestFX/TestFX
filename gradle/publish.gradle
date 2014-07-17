@@ -70,6 +70,16 @@ def pomConfig = {
 }
 
 publishing {
+    repositories {
+        maven {
+            url sonatypeUrl
+            credentials {
+                username = sonatypeUsername
+                password = sonatypePassword
+            }
+        }
+    }
+
     publications {
         mavenJava(MavenPublication) {
             from components.java
