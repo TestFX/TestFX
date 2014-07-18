@@ -18,6 +18,7 @@ package org.loadui.testfx.controls.impl;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -56,16 +57,22 @@ public class HasLabelStringMatcher extends TypeSafeMatcher<Object> {
         return false;
     }
 
-    private boolean nodeHasLabel(Node node) {
-        checkArgument(node instanceof Labeled || node instanceof TextInputControl,
-            "Target node must be Labeled or TextInputControl.");
+    private boolean nodeHasLabel( Node node )
+    {
+        checkArgument( node instanceof Labeled || node instanceof TextInputControl || node instanceof Text, "Target node must be Labeled or TextInputControl or Text, was ("+node.getClass().getName()+")." );
 
-        if (node instanceof Labeled) {
-            Labeled labeled = (Labeled) node;
+        if( node instanceof Labeled )
+        {
+            Labeled labeled = ( Labeled )node;
             actualText = labeled.getText();
         }
-        else {
-            TextInputControl textInput = (TextInputControl) node;
+        else if(node instanceof TextInputControl)
+        {
+            TextInputControl textInput = ( TextInputControl )node;
+            actualText = textInput.getText();
+        }else
+        {
+            Text textInput = ( Text)node;
             actualText = textInput.getText();
         }
         return label.equals(actualText);
