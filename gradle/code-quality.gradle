@@ -39,7 +39,7 @@ checkstyle {
 }
 
 //findbugs {
-//    toolVersion = '2.0.2'
+//    toolVersion = '3.0.0'
 //    sourceSets = [sourceSets.main]
 //    ignoreFailures = true
 //    reportsDir = file("$project.buildDir/reports/findbugs")

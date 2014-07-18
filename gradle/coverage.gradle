@@ -29,8 +29,8 @@ cobertura {
 //    sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
 //    classDirectories =  project.files(sourceSets.main.allSource.srcDirs)
 //    reports {
-//        xml.enabled false
-//        csv.enabled false
+//        xml.enabled = false
+//        csv.enabled = false
 //        html.enabled = true
 //    }
 //}

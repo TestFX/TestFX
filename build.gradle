@@ -18,32 +18,33 @@ import java.text.SimpleDateFormat
 
 Date buildTimeAndDate = new Date()
 ext {
-    buildTime = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildDate = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+    buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+    buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
 
 buildscript{
     repositories {
-        maven {
-            url "http://jcenter.bintray.com"
-        }
+        jcenter()
     }
 
     dependencies {
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.2'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.7.0'
+        classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.6.1'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
     }
 }
 
 apply plugin: 'base'
 apply plugin: 'idea'
-//apply plugin: 'build-dashboard'
+apply plugin: 'coveralls'
+apply plugin: 'build-dashboard'
 
 subprojects { subproj ->
     apply plugin: 'java'
     apply plugin: 'idea'
     apply from: rootProject.file('gradle/code-quality.gradle')
-    //apply from: rootProject.file('gradle/coverage.gradle')
+    apply from: rootProject.file('gradle/coverage.gradle')
     apply from: rootProject.file('gradle/publish.gradle')
 
     task sourceJar(type: Jar) {
@@ -60,6 +61,9 @@ subprojects { subproj ->
         from javadoc
     }
 
+    jar.finalizedBy sourceJar
+    jar.finalizedBy javadocJar
+
     artifacts {
         sourceJar
         javadocJar
@@ -75,28 +79,26 @@ subprojects { subproj ->
     }
 
     repositories {
-        maven {
-            url "http://jcenter.bintray.com"
-        }
+        jcenter()
     }
 
     sourceSets {
         main {
-            compileClasspath += configurations.compileOnly
+            compileClasspath += [configurations.compileOnly]
         }
         test {
-            compileClasspath += configurations.testCompileOnly
+            compileClasspath += [configurations.testCompileOnly]
         }
     }
 
     javadoc {
-        classpath += configurations.compileOnly
+        classpath += [configurations.compileOnly]
     }
 
     idea {
         module {
-            scopes.PROVIDED.plus += configurations.compileOnly
-            scopes.PROVIDED.plus += configurations.testCompileOnly
+            scopes.PROVIDED.plus += [configurations.compileOnly]
+            scopes.PROVIDED.plus += [configurations.testCompileOnly]
         }
     }
 
@@ -108,8 +110,8 @@ subprojects { subproj ->
         options.encoding    = 'UTF-8'
         options.author      = true
         options.version     = subproj.sourceCompatibility
-        options.windowTitle = "${subproj.ext.pomDescription} $version"
-        options.docTitle    = "${subproj.ext.pomDescription} $version"
+        options.windowTitle = "${subproj.pomDescription} $version"
+        options.docTitle    = "${subproj.pomDescription} $version"
         options.footer      = project.javadocFooter
         options.links       = ['http://docs.oracle.com/javase/7/docs/api/']
     }
@@ -132,4 +134,12 @@ idea {
         jdkName '1.7'
         languageLevel '1.7'
     }
+}
+
+task projectCoberturaMerge(type: ProjectCoberturaMergeTask) {
+
+}
+
+task projectCoberturaReport(type: ProjectCoberturaReportTask) {
+
 }

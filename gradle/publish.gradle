@@ -15,10 +15,11 @@
  */
 
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 def pomConfig = {
     name project.name
-    description project.ext.pomDescription
+    description project.pomDescription
     url 'https://github.com/SmartBear/TestFX'
     inceptionYear '2013'
     licenses {
@@ -93,21 +94,43 @@ publishing {
     }
 }
 
-task install(dependsOn: publishToMavenLocal)
-
 jar {
     manifest {
         attributes(
             'Built-By': System.properties['user.name'],
-            'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.getProperty("java.vm.version") + ")",
-            'Build-Date': project.buildTime,
-            'Build-Time': project.buildDate,
+            'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.properties['java.vm.version'] + ")",
+            'Build-Date': project.buildDate,
+            'Build-Time': project.buildTime,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
-            'Specification-Vendor': 'SmartBear Software',
+            'Specification-Vendor': project.project_vendor,
             'Implementation-Title': project.name,
             'Implementation-Version': project.version,
-            'Implementation-Vendor': 'SmartBear Software'
+            'Implementation-Vendor': project.project_vendor
         )
+    }
+}
+
+if (!project.hasProperty('bintrayUsername')) ext.bintrayUsername = 'invalid'
+if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = 'invalid'
+
+bintray {
+    user = project.bintrayUsername
+    key = project.bintrayApiKey
+    publications = ['mavenJava']
+    pkg {
+        repo = project.project_bintray_repo
+        userOrg = project.project_bintray_org
+        name = project.name
+        desc = project.project_description
+        licenses = ['EUPL-1.1']
+        labels = ['testfx', 'javafx']
+        websiteUrl = project.project_url
+        issueTrackerUrl = project.project_issues_url
+        vcsUrl = project.project_scm
+        publicDownloadNumbers = true
+        version {
+            vcsTag = project.version
+        }
     }
 }
