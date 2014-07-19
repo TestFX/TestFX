@@ -16,9 +16,10 @@
 package org.loadui.testfx.framework.app.impl;
 
 import javafx.application.Application;
+
 import org.loadui.testfx.framework.app.AppLauncher;
 
-public class DefaultAppLauncher implements AppLauncher {
+public class ToolkitAppLauncher implements AppLauncher {
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -26,6 +27,7 @@ public class DefaultAppLauncher implements AppLauncher {
 
     @Override
     public void launch(Class<? extends Application> appClass, String... appArgs) {
+        System.setProperty("javafx.macosx.embedded", "true");
         Application.launch(appClass, appArgs);
     }
 

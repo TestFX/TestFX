@@ -50,7 +50,7 @@ public class StageSetupImplTest {
 
     @BeforeClass
     static public void setupClass() throws Throwable {
-        AppSetup appSetup = DefaultAppSetupFactory.build();
+        AppSetup appSetup = ToolkitAppSetupFactory.build();
         if (!appSetup.hasPrimaryStage()) {
             appSetup.launchApplication();
         }

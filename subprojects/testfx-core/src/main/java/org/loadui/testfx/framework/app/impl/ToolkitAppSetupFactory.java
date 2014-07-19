@@ -22,24 +22,24 @@ import javafx.stage.StageStyle;
 import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.utils.StageFuture;
 
-public class DefaultAppSetupFactory {
+public class ToolkitAppSetupFactory {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public static final StageFuture stageFuture = StageFuture.create();
+    public static final StageFuture primaryStageFuture = StageFuture.create();
 
     //---------------------------------------------------------------------------------------------
     // STATIC CLASSES.
     //---------------------------------------------------------------------------------------------
 
-    public static class DefaultApplication extends Application {
+    public static class ToolkitApplication extends Application {
         @Override
         public void start(Stage primaryStage) throws Exception {
             primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.setTitle("DefaultApplication: primaryStage");
-            stageFuture.set(primaryStage);
+            primaryStageFuture.set(primaryStage);
         }
     }
 
@@ -49,9 +49,9 @@ public class DefaultAppSetupFactory {
 
     public static AppSetup build() {
         AppSetupImpl appSetup = new AppSetupImpl();
-        appSetup.setAppClass(DefaultApplication.class);
-        appSetup.setAppLauncher(new DefaultAppLauncher());
-        appSetup.setStageFuture(stageFuture);
+        appSetup.setAppClass(ToolkitApplication.class);
+        appSetup.setAppLauncher(new ToolkitAppLauncher());
+        appSetup.setStageFuture(primaryStageFuture);
         return appSetup;
     }
 

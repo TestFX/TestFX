@@ -20,6 +20,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.util.Map;
@@ -57,12 +58,9 @@ public class ScreenRobotImpl implements ScreenRobot {
     //---------------------------------------------------------------------------------------------
 
     public ScreenRobotImpl() {
-        try {
-            awtRobot = new Robot();
-        }
-        catch (AWTException exception) {
-            throw new IllegalArgumentException(exception);
-        }
+        System.setProperty("java.awt.headless", "false");
+        Toolkit.getDefaultToolkit();
+        awtRobot = createAwtRobot();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -125,6 +123,19 @@ public class ScreenRobotImpl implements ScreenRobot {
         );
         BufferedImage bufferedImage = awtRobot.createScreenCapture(awtRectangle);
         return SwingFXUtils.toFXImage(bufferedImage, null);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private Robot createAwtRobot() {
+        try {
+            return new Robot();
+        }
+        catch (AWTException exception) {
+            throw new IllegalArgumentException(exception);
+        }
     }
 
 }
