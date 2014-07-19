@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.app.impl.DefaultAppSetupFactory;
+import org.loadui.testfx.framework.app.impl.ToolkitAppSetupFactory;
 import org.loadui.testfx.framework.app.impl.StageSetupImpl;
 import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
 
@@ -39,7 +39,7 @@ public abstract class AppRobotTestBase extends FxRobotImpl {
     // STATIC PROTECTED FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    protected static final AppSetup appSetup = DefaultAppSetupFactory.build();
+    protected static final AppSetup appSetup = ToolkitAppSetupFactory.build();
     protected static final StageSetupImpl stageSetup = new StageSetupImpl();
 
     protected static Stage primaryStage;
