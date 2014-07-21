@@ -15,7 +15,6 @@
  */
 
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 def pomConfig = {
     name project.name
@@ -108,29 +107,5 @@ jar {
             'Implementation-Version': project.version,
             'Implementation-Vendor': project.project_vendor
         )
-    }
-}
-
-if (!project.hasProperty('bintrayUsername')) ext.bintrayUsername = 'invalid'
-if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = 'invalid'
-
-bintray {
-    user = project.bintrayUsername
-    key = project.bintrayApiKey
-    publications = ['mavenJava']
-    pkg {
-        repo = project.project_bintray_repo
-        userOrg = project.project_bintray_org
-        name = project.name
-        desc = project.project_description
-        licenses = ['EUPL-1.1']
-        labels = ['testfx', 'javafx']
-        websiteUrl = project.project_url
-        issueTrackerUrl = project.project_issues_url
-        vcsUrl = project.project_scm
-        publicDownloadNumbers = true
-        version {
-            vcsTag = project.version
-        }
     }
 }
