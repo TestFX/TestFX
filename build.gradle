@@ -70,8 +70,8 @@ subprojects { subproj ->
     }
 
     subproj.tasks.withType(JavaCompile) {
-        sourceCompatibility = '1.7'
-        targetCompatibility = '1.7'
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 
     if (JavaVersion.current().isJava8Compatible()) {
@@ -142,8 +142,8 @@ subprojects { subproj ->
 
 idea {
     project {
-        jdkName '1.7'
-        languageLevel '1.7'
+        jdkName '1.8'
+        languageLevel '1.8'
     }
 }
 

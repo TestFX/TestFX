@@ -1,7 +1,6 @@
 language: java
 script: ./gradlew build cobertura
 jdk:
-  - oraclejdk7
   - oraclejdk8
 before_install:
   - "export DISPLAY=:99.0"
