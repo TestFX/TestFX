@@ -15,18 +15,11 @@
  */
 package org.loadui.testfx;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
-
 import com.google.common.base.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import javafx.stage.Window;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -39,6 +32,13 @@ import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
 import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
+
+import java.io.File;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
 
@@ -109,12 +109,7 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
      * @return
      */
     public static Callable<Integer> numberOf(final String nodeQuery) {
-        return new Callable<Integer>() {
-            @Override
-            public Integer call() throws Exception {
-                return findAll(nodeQuery).size();
-            }
-        };
+        return () -> findAll(nodeQuery).size();
     }
 
     public static <T extends Node> void waitUntil(T node, Predicate<T> condition) {

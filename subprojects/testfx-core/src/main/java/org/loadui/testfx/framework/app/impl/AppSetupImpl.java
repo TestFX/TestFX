@@ -156,12 +156,7 @@ public class AppSetupImpl implements AppSetup {
     //---------------------------------------------------------------------------------------------
 
     private void launchApplicationInThread(final String... appArgs) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                launchApplicationImpl(appArgs);
-            }
-        };
+        Runnable runnable = () -> launchApplicationImpl(appArgs);
         invokeInThread(runnable);
     }
 

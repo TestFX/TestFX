@@ -14,7 +14,7 @@
  * and limitations under the Licence.
  */
 
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 //apply plugin: 'findbugs'
 apply plugin: 'jdepend'
 apply plugin: 'license'
@@ -33,10 +33,10 @@ license {
 def configDir = new File(buildscript.sourceFile.parentFile.parentFile, 'config')
 ext.checkstyleConfigDir = "$configDir/checkstyle"
 
-checkstyle {
-    configFile = new File(checkstyleConfigDir, 'checkstyle.xml')
-    configProperties.checkstyleConfigDir = checkstyleConfigDir
-}
+//checkstyle {
+//    configFile = new File(checkstyleConfigDir, 'checkstyle.xml')
+//    configProperties.checkstyleConfigDir = checkstyleConfigDir
+//}
 
 //findbugs {
 //    toolVersion = '3.0.0'

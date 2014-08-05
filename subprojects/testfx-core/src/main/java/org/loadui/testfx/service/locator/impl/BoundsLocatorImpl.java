@@ -107,7 +107,7 @@ public class BoundsLocatorImpl implements BoundsLocator {
     }
 
     private boolean areBoundsVisible(Bounds bounds) {
-        return bounds.getWidth() >= 0 && bounds.getHeight() >= 0;
+        return bounds.getWidth() >= 0 && bounds.getHeight() >= 0; //TODO always true...
     }
 
     private Bounds translateBounds(Bounds bounds, double x, double y) {

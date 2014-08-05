@@ -98,12 +98,7 @@ public class WindowFinderImpl implements WindowFinder {
     }
 
     private Function<Window, Integer> calculateWindowProximityFunction(final Window targetWindow) {
-        return new Function<Window, Integer>() {
-            @Override
-            public Integer apply(Window window) {
-                return calculateWindowProximityTo(targetWindow, window);
-            }
-        };
+        return window -> calculateWindowProximityTo(targetWindow, window);
     }
 
     private int calculateWindowProximityTo(Window targetWindow, Window window) {
@@ -135,13 +130,8 @@ public class WindowFinderImpl implements WindowFinder {
     }
 
     private Predicate<Window> hasStageTitlePredicate(final String stageTitleRegex) {
-        return new Predicate<Window>() {
-            @Override
-            public boolean apply(Window window) {
-                return window instanceof Stage &&
-                    hasStageTitle((Stage) window, stageTitleRegex);
-            }
-        };
+        return window -> window instanceof Stage &&
+            hasStageTitle((Stage) window, stageTitleRegex);
     }
 
     private boolean hasStageTitle(Stage stage, String stageTitleRegex) {

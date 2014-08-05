@@ -28,15 +28,8 @@ public class WaitUntilSupport {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public <T extends Node> void waitUntil(final T node, final Predicate<T> condition,
-                                           int timeoutInSeconds) {
-        Callable<Boolean> waitCallable = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.apply(node);
-            }
-        };
-        awaitCondition(waitCallable, timeoutInSeconds);
+    public <T extends Node> void waitUntil(final T node, final Predicate<T> condition, int timeoutInSeconds) {
+        awaitCondition(() -> condition.apply(node), timeoutInSeconds);
     }
 
     /**
@@ -45,37 +38,16 @@ public class WaitUntilSupport {
      * @param node the node
      * @param condition the condition
      */
-    public void waitUntil(final Node node, final Matcher<Object> condition,
-                          int timeoutInSeconds) {
-        Callable<Boolean> waitCallable = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(node);
-            }
-        };
-        awaitCondition(waitCallable, timeoutInSeconds);
+    public void waitUntil(final Node node, final Matcher<Object> condition, int timeoutInSeconds) {
+        awaitCondition(() -> condition.matches(node), timeoutInSeconds);
     }
 
-    public <T> void waitUntil(final T value, final Matcher<? super T> condition,
-                              int timeoutInSeconds) {
-        Callable<Boolean> waitCallable = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(value);
-            }
-        };
-        awaitCondition(waitCallable, timeoutInSeconds);
+    public <T> void waitUntil(final T value, final Matcher<? super T> condition, int timeoutInSeconds) {
+        awaitCondition(() -> condition.matches(value), timeoutInSeconds);
     }
 
-    public <T> void waitUntil(final Callable<T> callable, final Matcher<? super T> condition,
-                              int timeoutInSeconds) {
-        Callable<Boolean> waitCallable = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return condition.matches(callable.call());
-            }
-        };
-        awaitCondition(waitCallable, timeoutInSeconds);
+    public <T> void waitUntil(final Callable<T> callable, final Matcher<? super T> condition, int timeoutInSeconds) {
+        awaitCondition(() -> condition.matches(callable.call()), timeoutInSeconds);
     }
 
     //---------------------------------------------------------------------------------------------

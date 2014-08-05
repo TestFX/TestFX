@@ -163,33 +163,20 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     private Function<Window, Node> toRootNodeFunction() {
-        return new Function<Window, Node>() {
-            @Override
-            public Node apply(Window window) {
-                if (window != null && window.getScene() != null) {
-                    return window.getScene().getRoot();
-                }
-                return null;
+        return window -> {
+            if (window != null && window.getScene() != null) {
+                return window.getScene().getRoot();
             }
+            return null;
         };
     }
 
     private Function<Node, Set<Node>> fromNodesCssSelectorFunction(final String selector) {
-        return new Function<Node, Set<Node>>() {
-            @Override
-            public Set<Node> apply(Node rootNode) {
-                return findNodesInParent(selector, rootNode);
-            }
-        };
+        return rootNode -> findNodesInParent(selector, rootNode);
     }
 
     private Function<Node, Set<Node>> fromNodesPredicateFunction(final Predicate<Node> predicate) {
-        return new Function<Node, Set<Node>>() {
-            @Override
-            public Set<Node> apply(Node rootNode) {
-                return findNodesInParent(predicate, rootNode);
-            }
-        };
+        return rootNode -> findNodesInParent(predicate, rootNode);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -229,30 +216,15 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     private Predicate<Node> toNodeMatcherPredicate(final Matcher<Object> matcher) {
-        return new Predicate<Node>() {
-            @Override
-            public boolean apply(Node node) {
-                return matcher.matches(node);
-            }
-        };
+        return matcher::matches;
     }
 
     private Predicate<Node> isNodeVisiblePredicate() {
-        return new Predicate<Node>() {
-            @Override
-            public boolean apply(Node node) {
-                return isNodeVisible(node);
-            }
-        };
+        return NodeFinderImpl.this::isNodeVisible;
     }
 
     private Predicate<Node> hasNodeLabelPredicate(final String label) {
-        return new Predicate<Node>() {
-            @Override
-            public boolean apply(Node node) {
-                return hasNodeLabel(node, label);
-            }
-        };
+        return node -> hasNodeLabel(node, label);
     }
 
     private boolean isCssSelector(String query) {

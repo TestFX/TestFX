@@ -78,15 +78,11 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     }
 
     private void pressKeys(List<KeyCode> keyCodes) {
-        for (KeyCode keyCode : keyCodes) {
-            pressKey(keyCode);
-        }
+      keyCodes.forEach(this::pressKey);
     }
 
     private void releaseKeys(List<KeyCode> keyCodes) {
-        for (KeyCode keyCode : keyCodes) {
-            releaseKey(keyCode);
-        }
+      keyCodes.forEach(this::releaseKey);
     }
 
     private void pressKey(KeyCode keyCode) {

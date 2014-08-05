@@ -87,15 +87,11 @@ public class MouseRobotImpl implements MouseRobot {
     }
 
     private void pressButtons(List<MouseButton> buttons) {
-        for (MouseButton button : buttons) {
-            pressButton(button);
-        }
+      buttons.forEach(this::pressButton);
     }
 
     private void releaseButtons(List<MouseButton> buttons) {
-        for (MouseButton button : buttons) {
-            releaseButton(button);
-        }
+      buttons.forEach(this::releaseButton);
     }
 
     private void pressButton(MouseButton button) {

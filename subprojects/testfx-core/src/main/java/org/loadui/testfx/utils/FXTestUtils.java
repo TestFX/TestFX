@@ -43,8 +43,7 @@ public class FXTestUtils {
         awaitCondition(condition, 5);
     }
 
-    public static void awaitCondition(Callable<Boolean> condition,
-                                      int timeoutInSeconds) {
+    public static void awaitCondition(Callable<Boolean> condition, int timeoutInSeconds) {
         long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
         try {
             while (!condition.call()) {
@@ -67,12 +66,7 @@ public class FXTestUtils {
         try {
             for (int loopIndex = 0; loopIndex < 5; loopIndex++) {
                 final Semaphore semaphore = new Semaphore(0);
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        semaphore.release();
-                    }
-                });
+                Platform.runLater(semaphore::release);
                 semaphore.acquire();
                 try {
                     Thread.sleep(10);
@@ -95,20 +89,16 @@ public class FXTestUtils {
      * @param timeoutInSeconds
      * @throws Exception
      */
-    public static void invokeAndWait(final Callable<?> task,
-                                     int timeoutInSeconds) throws Exception {
+    public static void invokeAndWait(final Callable<?> task, int timeoutInSeconds) throws Exception {
         final SettableFuture<Void> future = SettableFuture.create();
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    task.call();
-                    future.set(null);
-                }
-                catch (Throwable e) {
-                    future.setException(e);
-                }
+        Platform.runLater(() -> {
+            try {
+                task.call();
+                future.set(null);
+            }
+            catch (Throwable e) {
+                future.setException(e);
             }
         });
 
@@ -134,13 +124,10 @@ public class FXTestUtils {
      */
     public static void invokeAndWait(final Runnable task,
                                      int timeoutInSeconds) throws Exception {
-        invokeAndWait(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                task.run();
+        invokeAndWait(() -> {
+            task.run();
 
-                return null;
-            }
+            return null;
         }, timeoutInSeconds);
     }
 

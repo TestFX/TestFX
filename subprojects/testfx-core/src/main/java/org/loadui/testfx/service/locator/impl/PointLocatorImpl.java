@@ -83,30 +83,15 @@ public class PointLocatorImpl implements PointLocator {
     //---------------------------------------------------------------------------------------------
 
     private Callable<Bounds> callableBoundsFor(final Node node) {
-        return new Callable<Bounds>() {
-            @Override
-            public Bounds call() throws Exception {
-                return boundsLocator.boundsOnScreenFor(node);
-            }
-        };
+        return () -> boundsLocator.boundsOnScreenFor(node);
     }
 
     private Callable<Bounds> callableBoundsFor(final Scene scene) {
-        return new Callable<Bounds>() {
-            @Override
-            public Bounds call() throws Exception {
-                return boundsLocator.boundsOnScreenFor(scene);
-            }
-        };
+        return () -> boundsLocator.boundsOnScreenFor(scene);
     }
 
     private Callable<Bounds> callableBoundsFor(final Window window) {
-        return new Callable<Bounds>() {
-            @Override
-            public Bounds call() throws Exception {
-                return boundsLocator.boundsOnScreenFor(window);
-            }
-        };
+        return () -> boundsLocator.boundsOnScreenFor(window);
     }
 
 }

@@ -79,35 +79,47 @@ public class TableViews {
             return Arrays.asList(col);
         }
         else {
-            List<TableColumn> l = new ArrayList<TableColumn>();
-            for (Object xa : col.getColumns()) {
-                l.addAll(flatten((TableColumn) xa));
-            }
+          List<TableColumn> l = new ArrayList<>();
+          col.getColumns().forEach(xa -> l.addAll( flatten((TableColumn) xa)) );
+//            for (Object xa : col.getColumns()) {
+//                l.addAll(flatten((TableColumn) xa));
+//            }
             return l;
         }
     }
 
-    static List<TableColumn> getFlattenedColumns(TableView<?> table) {
-        List<TableColumn> l = new ArrayList<TableColumn>();
-        for (TableColumn c : table.getColumns()) {
-            l.addAll(flatten(c));
-        }
+    static List<TableColumn> getFlattenedColumns(TableView<?> table) {List<TableColumn> l = new ArrayList<>();
+      table.getColumns().forEach(c -> l.addAll(flatten(c)));
+//        for (TableColumn c : table.getColumns()) {
+//            l.addAll(flatten(c));
+//        }
         return l;
     }
 
     static boolean containsCell(TableView<?> table, Predicate<String> cellPredicate) {
-        for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
-            for (int i = 0; i < table.getItems().size(); i++) {
-                Object cellData = column.getCellData(i);
-                if (cellPredicate.apply(cellData.toString()))
-                    return true;
-            }
-        }
+//      return getFlattenedColumns(table)
+//          .stream()
+//          .map(col -> {col.})
+//          .anyMatch(cellData -> cellPredicate.apply(cellData.toString()));
+
+      for (TableColumn<?, ?> column : getFlattenedColumns(table))
+          for (int i = 0; i < table.getItems().size(); i++) {
+            Object cellData = column.getCellData(i);
+            if (cellPredicate.apply(cellData.toString()))
+              return true;
+          }
         return false;
     }
 
     static boolean containsCell(TableView<?> table, Object cellValue) {
-        for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
+//     return  getFlattenedColumns(table)
+//         .stream()
+//         .map(v -> {
+//         })
+//         .anyMatch(cellData -> cellValue.equals(cellData) || cellValue.equals(cellData.toString()));
+
+
+      for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
             for (int i = 0; i < table.getItems().size(); i++) {
                 Object cellData = column.getCellData(i);
                 if (cellValue.equals(cellData) || cellValue.equals(cellData.toString()))

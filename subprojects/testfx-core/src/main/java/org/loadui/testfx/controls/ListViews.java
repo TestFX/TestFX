@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx.controls;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 
@@ -55,12 +56,9 @@ public class ListViews {
     }
 
     static boolean containsRow(ListView<?> list, Object rowValue) {
-        for (int i = 0; i < list.getItems().size(); i++) {
-            Object rowData = list.getItems().get(i);
-            if (rowValue.equals(rowData) || rowValue.equals(rowData.toString()))
-                return true;
-        }
-        return false;
+      return list.getItems()
+          .stream()
+          .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
     }
 
     static ListView<?> getListView(String listSelector) {

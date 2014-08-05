@@ -57,22 +57,14 @@ public class StageSetupImpl implements StageSetup {
     //---------------------------------------------------------------------------------------------
 
     public void invokeCallbackAndWait(long timeout, TimeUnit timeUnit) throws TimeoutException {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                callStageSetup();
-            }
-        };
+        Runnable runnable = StageSetupImpl.this::callStageSetup;
         invokeAndWait(timeout, timeUnit, runnable);
     }
 
     public void showPrimaryStage(long timeout, TimeUnit timeUnit) throws TimeoutException {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                showStage(primaryStage);
-                bringStageToFront(primaryStage);
-            }
+        Runnable runnable = () -> {
+            showStage(primaryStage);
+            bringStageToFront(primaryStage);
         };
         invokeAndWait(timeout, timeUnit, runnable);
     }
