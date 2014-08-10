@@ -15,10 +15,8 @@
  */
 package org.loadui.testfx.controls;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
-
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;

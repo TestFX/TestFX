@@ -80,19 +80,15 @@ public class TableViews {
         }
         else {
           List<TableColumn> l = new ArrayList<>();
-          col.getColumns().forEach(xa -> l.addAll( flatten((TableColumn) xa)) );
-//            for (Object xa : col.getColumns()) {
-//                l.addAll(flatten((TableColumn) xa));
-//            }
+          col.getColumns()
+              .forEach(xa -> l.addAll(flatten((TableColumn) xa)));
             return l;
         }
     }
 
     static List<TableColumn> getFlattenedColumns(TableView<?> table) {List<TableColumn> l = new ArrayList<>();
-      table.getColumns().forEach(c -> l.addAll(flatten(c)));
-//        for (TableColumn c : table.getColumns()) {
-//            l.addAll(flatten(c));
-//        }
+      table.getColumns()
+          .forEach(c -> l.addAll(flatten(c)));
         return l;
     }
 
@@ -117,8 +113,6 @@ public class TableViews {
 //         .map(v -> {
 //         })
 //         .anyMatch(cellData -> cellValue.equals(cellData) || cellValue.equals(cellData.toString()));
-
-
       for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
             for (int i = 0; i < table.getItems().size(); i++) {
                 Object cellData = column.getCellData(i);
@@ -130,7 +124,7 @@ public class TableViews {
     }
 
     /**
-     * @param tableSelector Ein CSS-Selektor oder Label.
+     * @param tableSelector Ein CSS-Selektor oder Label.     //TODO translate to englisch
      * @return Die TableView, sofern sie anhand des Selektors gefunden wurde.
      */
     static TableView<?> getTableView(String tableSelector) {
@@ -155,7 +149,7 @@ public class TableViews {
     }
 
     /**
-     * @param tableSelector Selektor zur Identifikation der Tabelle.
+     * @param tableSelector Selektor zur Identifikation der Tabelle. //TODO translate to englisch
      * @param row           Zeilennummer
      * @return Die entsprechende Zeile.
      */
@@ -183,7 +177,7 @@ public class TableViews {
     }
 
     /**
-     * @param tableSelector Selektor zur Identifikation der Tabelle.
+     * @param tableSelector Selektor zur Identifikation der Tabelle. //TODO translate to englisch
      * @param row           Zeilennummer
      * @param column        Spaltennummer
      * @return Die entsprechende Zelle.
