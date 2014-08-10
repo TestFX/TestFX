@@ -15,15 +15,18 @@
  */
 package org.loadui.testfx.framework.junit;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import javafx.stage.Stage;
-
 import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.app.impl.ToolkitAppSetupFactory;
 import org.loadui.testfx.framework.app.impl.StageSetupImpl;
+import org.loadui.testfx.framework.app.impl.ToolkitAppSetupFactory;
 import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import static java.lang.Integer.parseInt;
+import static java.lang.System.getProperty;
 
 public abstract class AppRobotTestBase extends FxRobotImpl {
 
@@ -31,9 +34,9 @@ public abstract class AppRobotTestBase extends FxRobotImpl {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    static final int APP_SETUP_TIMEOUT_IN_SECONDS = 25;
-    static final int STAGE_SETUP_TIMEOUT_IN_SECONDS = 5;
-    static final int INVOKE_TIMEOUT_IN_SECONDS = 5;
+    static final int APP_SETUP_TIMEOUT_IN_SECONDS = parseInt(getProperty("testfx.appsetup.timeout", "25"));
+    static final int STAGE_SETUP_TIMEOUT_IN_SECONDS = parseInt(getProperty("testfx.stagesetup.timeout", "5"));
+    static final int INVOKE_TIMEOUT_IN_SECONDS = parseInt(getProperty("testfx.invoke.timeout", "5"));
 
     //---------------------------------------------------------------------------------------------
     // STATIC PROTECTED FIELDS.
