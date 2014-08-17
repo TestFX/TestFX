@@ -3,7 +3,7 @@
 *.iml
 *.iws
 *.ipr
-
+atlassian*.xml
 # Mac
 .DS_Store
 
