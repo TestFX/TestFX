@@ -1,4 +1,6 @@
+[![Build Status](https://travis-ci.org/TestFX/TestFX.svg?branch=master)](https://travis-ci.org/TestFX/TestFX)
 [![Stories in Ready](https://badge.waffle.io/TestFX/TestFX.png?label=ready&title=Ready)](https://waffle.io/TestFX/TestFX)
+
 TestFX
 ======
 
