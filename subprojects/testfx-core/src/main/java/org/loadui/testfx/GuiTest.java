@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.hamcrest.Matcher;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.robots.impl.ScreenRobotImpl;
@@ -33,12 +34,14 @@ import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 
+import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import static org.junit.Assume.assumeFalse;
 
 public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
 
@@ -164,6 +167,13 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
+
+    @BeforeClass
+    public static void checkHeadless() {
+        assumeFalse(
+                "Cannot run JavaFX in headless environment",
+                GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance());
+    }
 
     @Before
     public void setupGuiTest() throws Exception {
