@@ -15,7 +15,18 @@
  */
 package org.loadui.testfx.robots.impl;
 
+import com.google.common.collect.ImmutableMap;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.utils.FXTestUtils;
+
 import java.awt.AWTException;
+import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -24,16 +35,6 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.util.Map;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-
-import com.google.common.collect.ImmutableMap;
-import org.loadui.testfx.robots.ScreenRobot;
-import org.loadui.testfx.utils.FXTestUtils;
 
 public class ScreenRobotImpl implements ScreenRobot {
 
@@ -58,7 +59,10 @@ public class ScreenRobotImpl implements ScreenRobot {
     //---------------------------------------------------------------------------------------------
 
     public ScreenRobotImpl() {
-        System.setProperty("java.awt.headless", "false");
+        if (GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()) {
+            awtRobot = null;
+            return;
+        }
         Toolkit.getDefaultToolkit();
         awtRobot = createAwtRobot();
     }
