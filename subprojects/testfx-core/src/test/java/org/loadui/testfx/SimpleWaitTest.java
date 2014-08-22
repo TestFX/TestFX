@@ -13,6 +13,9 @@ import java.util.concurrent.*;
 import static org.loadui.testfx.controls.Commons.hasText;
 
 /**
+ *
+ * A Simple example to test the wait methods..
+ *
  * Created by Sven Ruppert on 22.08.2014.
  */
 @Category(TestFX.class)
