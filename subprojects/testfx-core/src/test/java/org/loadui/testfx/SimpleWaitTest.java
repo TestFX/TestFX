@@ -60,7 +60,7 @@ public class SimpleWaitTest extends GuiTest {
   }
 
 
-  @Test(expected = TimeoutException.class)
+  @Test(expected = java.lang.RuntimeException.class)
   public void shouldClickButton01() {
     final Button button = find("#btn");
     clickOn(button);
