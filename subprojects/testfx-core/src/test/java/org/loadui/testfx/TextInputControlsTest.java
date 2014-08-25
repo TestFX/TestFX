@@ -17,6 +17,7 @@ package org.loadui.testfx;
 
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 
@@ -29,13 +30,10 @@ public class TextInputControlsTest extends GuiTest {
 
     public static final String TEXT_FIELD = ".text-field";
 
-    @Override
-    protected Parent getRootNode() {
-        TextField textField = new TextField();
-        return VBoxBuilder
-            .create()
-            .children(textField).build();
-    }
+  @Override
+  protected Parent getRootNode() {
+    return  new VBox(new TextField());
+  }
 
     @Test
     public void shouldClearText() {
