@@ -41,48 +41,38 @@ public class DragDropTest extends GuiTest {
     /**
      * A typical event handler to start a drag-drop operation.
      */
-    private final EventHandler<MouseEvent> onDragDetected = new EventHandler<MouseEvent>() {
-        public void handle(MouseEvent event) {
-            Object draggedItem = ((ListView<?>) event.getSource()).getSelectionModel().getSelectedItem();
-            ClipboardContent content = new ClipboardContent();
-            content.putString(draggedItem.toString());
+    private final EventHandler<MouseEvent> onDragDetected = event -> {
+        Object draggedItem = ((ListView<?>) event.getSource()).getSelectionModel().getSelectedItem();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(draggedItem.toString());
 
-            Dragboard dragboard = ((Node) event.getSource()).startDragAndDrop(TransferMode.MOVE);
-            dragboard.setContent(content);
-            event.consume();
-        }
+        Dragboard dragboard = ((Node) event.getSource()).startDragAndDrop(TransferMode.MOVE);
+        dragboard.setContent(content);
+        event.consume();
     };
     /**
      * A typical event handler to delete the source item from the source list after the drag-drop operation completed.
      */
-    private final EventHandler<DragEvent> onDragDone = new EventHandler<DragEvent>() {
-        public void handle(DragEvent event) {
-            ListView<?> listView = (ListView<?>) event.getSource();
-            listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
-        }
+    private final EventHandler<DragEvent> onDragDone = event -> {
+        ListView<?> listView = (ListView<?>) event.getSource();
+        listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
     };
     /**
      * A typical event handler to accept drag events.
      */
-    private final EventHandler<DragEvent> onDragOver = new EventHandler<DragEvent>() {
-        public void handle(DragEvent event) {
-            event.acceptTransferModes(TransferMode.MOVE);
-        }
-    };
+    private final EventHandler<DragEvent> onDragOver = event -> event.acceptTransferModes(TransferMode.MOVE);
     /**
      * A typical event handler to handle drop events.
      */
-    private final EventHandler<DragEvent> onDragDropped = new EventHandler<DragEvent>() {
-        public void handle(DragEvent event) {
-            event.acceptTransferModes(TransferMode.MOVE);
-            String item = event.getDragboard().getString();
-            if (item != null) {
-                @SuppressWarnings("unchecked")
-                ListView<String> listView = (ListView<String>) event.getSource();
-                listView.getItems().add(item);
-                event.setDropCompleted(true);
-                event.consume();
-            }
+    private final EventHandler<DragEvent> onDragDropped = event -> {
+        event.acceptTransferModes(TransferMode.MOVE);
+        String item = event.getDragboard().getString();
+        if (item != null) {
+            @SuppressWarnings("unchecked")
+            ListView<String> listView = (ListView<String>) event.getSource();
+            listView.getItems().add(item);
+            event.setDropCompleted(true);
+            event.consume();
         }
     };
     private ListView<String> list1;
@@ -110,11 +100,9 @@ public class DragDropTest extends GuiTest {
     @Test(timeout = 10000)
     public void shouldMoveElements() throws Exception {
 
-        FXTestUtils.invokeAndWait(new Runnable() {
-            public void run() {
-                list1.getItems().addAll("A", "B", "C");
-                list2.getItems().addAll("X", "Y", "Z");
-            }
+        FXTestUtils.invokeAndWait(() -> {
+            list1.getItems().addAll("A", "B", "C");
+            list2.getItems().addAll("X", "Y", "Z");
         }, 1000);
 
         verifyThat(numberOfRowsIn(list1), is(3));

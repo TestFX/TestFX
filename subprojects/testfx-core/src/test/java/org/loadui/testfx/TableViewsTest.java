@@ -17,12 +17,10 @@ package org.loadui.testfx;
 
 import com.google.common.base.Predicate;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
-import javafx.util.Callback;
 import org.junit.Test;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -67,13 +65,7 @@ public class TableViewsTest extends GuiTest {
         TableView<Integer> table = new TableView<>();
         table.setItems(observableArrayList(1, 2, 3));
         TableColumn<Integer, Integer> column = new TableColumn<>("col");
-        column.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Integer, Integer>,
-                ObservableValue<Integer>>() {
-            @Override
-            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Integer, Integer> f) {
-                return new SimpleObjectProperty<Integer>(f.getValue() * 3);
-            }
-        });
+        column.setCellValueFactory(f -> new SimpleObjectProperty<>(f.getValue() * 3));
         table.getColumns().add(column);
         return VBoxBuilder
             .create()
