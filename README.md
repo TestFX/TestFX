@@ -11,7 +11,7 @@ Easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/j
  - Screenshots of failed tests.
  - Supports JavaFX 2 and JavaFX 8.
 
-[Changelog](https://github.com/SmartBear/TestFX/wiki/Changelog)
+[Changelog](https://github.com/TestFX/TestFX/wiki/Changelog)
 
 ### Usage Example
 
@@ -48,14 +48,14 @@ class DesktopTest extends GuiTest {
   * [Waiting][15]
   * Specific controls
     * [Labels][18]
-    * [TableViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TableViewsTest.java)
-    * [ListViews](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/ListViewsTest.java)
-    * [TextInputControls](https://github.com/SmartBear/TestFX/blob/master/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
+    * [TableViews](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-core/src/test/java/org/loadui/testfx/TableViewsTest.java)
+    * [ListViews](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-core/src/test/java/org/loadui/testfx/ListViewsTest.java)
+    * [TextInputControls](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-core/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
   * [Misc.][16]
 
 ### Links
 
- * [Using TestFX with Spock](https://github.com/SmartBear/TestFX/issues/38).
+ * [Using TestFX with Spock](https://github.com/TestFX/TestFX/issues/38).
  * Conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
 
 ### Motivation
@@ -74,18 +74,18 @@ Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum
 TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended and maintained by @hastebrot, @Philipp91, @minisu and the [other contributors][5].
 
 [1]: https://jemmy.java.net/              "Jemmy website"
-[2]: https://github.com/SmartBear/loadui  "LoadUI project at Github"
+[2]: https://github.com/TestFX/TestFX/tree/master/subprojects/testfx-core  "LoadUI project at Github"
 [3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
-[4]: https://github.com/SmartBear/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
-[5]: https://github.com/SmartBear/TestFX/graphs/contributors "Contributors of LoadUI"
-[11]: https://github.com/SmartBear/TestFX/wiki/Getting-started
-[12]: https://github.com/SmartBear/TestFX/wiki/Mouse-control
-[13]: https://github.com/SmartBear/TestFX/wiki/Keyboard-control
-[14]: https://github.com/SmartBear/TestFX/wiki/Assertions
-[15]: https://github.com/SmartBear/TestFX/wiki/Waiting
-[16]: https://github.com/SmartBear/TestFX/wiki/Misc
-[17]: https://github.com/SmartBear/TestFX/wiki/Examples
-[18]: https://github.com/SmartBear/TestFX/wiki/Login-form#using-textlabels
+[4]: https://github.com/TestFX/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
+[5]: https://github.com/TestFX/TestFX/graphs/contributors "Contributors of LoadUI"
+[11]: https://github.com/TestFX/TestFX/wiki/Getting-started
+[12]: https://github.com/TestFX/TestFX/wiki/Mouse-control
+[13]: https://github.com/TestFX/TestFX/wiki/Keyboard-control
+[14]: https://github.com/TestFX/TestFX/wiki/Assertions
+[15]: https://github.com/TestFX/TestFX/wiki/Waiting
+[16]: https://github.com/TestFX/TestFX/wiki/Misc
+[17]: https://github.com/TestFX/TestFX/wiki/Examples
+[18]: https://github.com/TestFX/TestFX/wiki/Login-form#using-textlabels
 [8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
-[9]: https://github.com/SmartBear/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
+[9]: https://github.com/TestFX/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
 [10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
