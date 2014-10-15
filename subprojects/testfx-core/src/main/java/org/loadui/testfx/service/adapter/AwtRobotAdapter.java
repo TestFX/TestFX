@@ -1,4 +1,4 @@
-package org.loadui.testfx.service.screen;
+package org.loadui.testfx.service.adapter;
 
 import java.awt.AWTException;
 import java.awt.GraphicsEnvironment;
@@ -21,7 +21,7 @@ import javafx.scene.paint.Color;
 
 import com.google.common.collect.ImmutableMap;
 
-public class ScreenRobotAwt {
+public class AwtRobotAdapter {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.

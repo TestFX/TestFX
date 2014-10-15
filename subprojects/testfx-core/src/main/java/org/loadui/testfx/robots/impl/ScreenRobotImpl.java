@@ -22,7 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 import org.loadui.testfx.robots.ScreenRobot;
-import org.loadui.testfx.service.screen.ScreenRobotAwt;
+import org.loadui.testfx.service.adapter.AwtRobotAdapter;
 import org.loadui.testfx.utils.FXTestUtils;
 
 public class ScreenRobotImpl implements ScreenRobot {
@@ -31,15 +31,15 @@ public class ScreenRobotImpl implements ScreenRobot {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final ScreenRobotAwt robotImpl;
+    private final AwtRobotAdapter robotAdapter;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public ScreenRobotImpl() {
-        robotImpl = new ScreenRobotAwt();
-        robotImpl.robotCreate();
+        robotAdapter = new AwtRobotAdapter();
+        robotAdapter.robotCreate();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -48,46 +48,46 @@ public class ScreenRobotImpl implements ScreenRobot {
 
     @Override
     public Image captureRegion(Rectangle2D region) {
-        return robotImpl.getCaptureRegion(region);
+        return robotAdapter.getCaptureRegion(region);
     }
 
     @Override
     public Point2D retrieveMouse() {
-        return robotImpl.getMouseLocation();
+        return robotAdapter.getMouseLocation();
     }
 
     @Override
     public void moveMouse(Point2D point) {
-        robotImpl.mouseMove(point);
+        robotAdapter.mouseMove(point);
     }
 
     @Override
     public void pressMouse(MouseButton button) {
-        robotImpl.mousePress(button);
+        robotAdapter.mousePress(button);
         awaitEvents();
     }
 
     @Override
     public void releaseMouse(MouseButton button) {
-        robotImpl.mouseRelease(button);
+        robotAdapter.mouseRelease(button);
         awaitEvents();
     }
 
     @Override
     public void scrollMouse(int amount) {
-        robotImpl.mouseWheel(amount);
+        robotAdapter.mouseWheel(amount);
         awaitEvents();
     }
 
     @Override
     public void pressKey(KeyCode key) {
-        robotImpl.keyPress(key);
+        robotAdapter.keyPress(key);
         awaitEvents();
     }
 
     @Override
     public void releaseKey(KeyCode key) {
-        robotImpl.keyRelease(key);
+        robotAdapter.keyRelease(key);
         awaitEvents();
     }
 
