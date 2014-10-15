@@ -61,6 +61,16 @@ public class AwtRobotAdapter {
         return awtRobot;
     }
 
+    // KEY.
+
+    public void keyPress(KeyCode key) {
+        awtRobot.keyPress(convertToAwtKey(key));
+    }
+
+    public void keyRelease(KeyCode key) {
+        awtRobot.keyRelease(convertToAwtKey(key));
+    }
+
     // MOUSE.
 
     public Point2D getMouseLocation() {
@@ -79,18 +89,8 @@ public class AwtRobotAdapter {
         awtRobot.mouseRelease(convertToAwtButton(button));
     }
 
-    public void mouseWheel(int amount) {
-        awtRobot.mouseWheel(amount);
-    }
-
-    // KEY.
-
-    public void keyPress(KeyCode key) {
-        awtRobot.keyPress(convertToAwtKey(key));
-    }
-
-    public void keyRelease(KeyCode key) {
-        awtRobot.keyRelease(convertToAwtKey(key));
+    public void mouseWheel(int wheelAmount) {
+        awtRobot.mouseWheel(wheelAmount);
     }
 
     // CAPTURE.
