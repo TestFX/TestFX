@@ -15,8 +15,10 @@
  */
 package org.loadui.testfx.robots.impl;
 
+import java.util.List;
 import javafx.scene.input.KeyCode;
 
+import com.google.common.collect.Lists;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
@@ -46,35 +48,35 @@ public class TypeRobotImpl implements TypeRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void type(KeyCode... keys) {
-        keyboardRobot.press(keys);
-        keyboardRobot.release(keys);
-    }
-
-    @Override
-    public void type(char character) {
-        KeyCode keyCode = KeyCodeUtils.findKeyCode(character);
-        if (isNotUpperCase(character)) {
-            typeLowerCase(keyCode);
-        }
-        else {
-            typeUpperCase(keyCode);
-        }
-    }
-
-    @Override
-    public void type(String text) {
+    public void write(String text) {
         for (int index = 0; index < text.length(); index++) {
-            type(text.charAt(index));
+            write(text.charAt(index));
             sleepRobot.sleep(25);
         }
     }
 
     @Override
-    public void erase(int characters) {
-        for (int index = 0; index < characters; index++) {
-            type(KeyCode.BACK_SPACE);
+    public void write(char character) {
+        if (isNotUpperCase(character)) {
+            writeLowerCase(character);
         }
+        else {
+            writeUpperCase(character);
+        }
+    }
+
+    @Override
+    public void push(KeyCode keyCode,
+                     int times) {
+        for (int index = 0; index < times; index++) {
+            pushKey(keyCode);
+            sleepRobot.sleep(25);
+        }
+    }
+
+    @Override
+    public void push(KeyCode... keyCodes) {
+        pushKeyCombination(keyCodes);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -85,14 +87,31 @@ public class TypeRobotImpl implements TypeRobot {
         return !Character.isUpperCase(character);
     }
 
-    private void typeLowerCase(KeyCode keyCode) {
-        type(keyCode);
+    private void writeLowerCase(char character) {
+        pushKey(findKeyCode(character));
     }
 
-    private void typeUpperCase(KeyCode keyCode) {
-        keyboardRobot.press(KeyCode.SHIFT);
-        type(keyCode);
-        keyboardRobot.release(KeyCode.SHIFT);
+    private void writeUpperCase(char character) {
+        pushKeyCombination(KeyCode.SHIFT, findKeyCode(character));
+    }
+
+    public void pushKey(KeyCode keyCode) {
+        keyboardRobot.type(keyCode);
+    }
+
+    public void pushKeyCombination(KeyCode... keyCodes) {
+        List<KeyCode> keyCodesForwards = Lists.newArrayList(keyCodes);
+        List<KeyCode> keyCodesBackwards = Lists.reverse(keyCodesForwards);
+        keyboardRobot.press(toKeyCodeArray(keyCodesForwards));
+        keyboardRobot.release(toKeyCodeArray(keyCodesBackwards));
+    }
+
+    private KeyCode findKeyCode(char character) {
+        return KeyCodeUtils.findKeyCode(character);
+    }
+
+    private KeyCode[] toKeyCodeArray(List<KeyCode> keyCodes) {
+        return keyCodes.toArray(new KeyCode[keyCodes.size()]);
     }
 
 }

@@ -19,12 +19,12 @@ import javafx.scene.input.KeyCode;
 
 public interface TypeRobot {
 
-    public void type(KeyCode... keys);
+    public void write(String text);
 
-    public void type(char character);
+    public void write(char character);
 
-    public void type(String text);
+    public void push(KeyCode keyCode, int times);
 
-    public void erase(int characters);
+    public void push(KeyCode... keyCodes);
 
 }
