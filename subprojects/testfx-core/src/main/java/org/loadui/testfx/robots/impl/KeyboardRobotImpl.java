@@ -69,19 +69,6 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         releasePressedKeys();
     }
 
-    @Override
-    public void type(KeyCode... keyCodes) {
-        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
-        typeKeys(Lists.newArrayList(keyCodes));
-    }
-
-    @Override
-    public void andType(KeyCode... keyCodes) {
-        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
-        typeKeys(Lists.newArrayList(keyCodes));
-        releasePressedKeys();
-    }
-
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
@@ -102,10 +89,6 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         releaseKeys(Lists.newArrayList(pressedKeys));
     }
 
-    private void typeKeys(List<KeyCode> keyCodes) {
-        keyCodes.forEach(this::typeKey);
-    }
-
     private void pressKey(KeyCode keyCode) {
         if (pressedKeys.add(keyCode)) {
             screenRobot.pressKey(keyCode);
@@ -116,11 +99,6 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         if (pressedKeys.remove(keyCode)) {
             screenRobot.releaseKey(keyCode);
         }
-    }
-
-    private void typeKey(KeyCode keyCode) {
-        pressKey(keyCode);
-        releaseKey(keyCode);
     }
 
 }

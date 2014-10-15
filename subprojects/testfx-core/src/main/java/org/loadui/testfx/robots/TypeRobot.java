@@ -19,12 +19,54 @@ import javafx.scene.input.KeyCode;
 
 public interface TypeRobot {
 
-    public void write(String text);
+    /**
+     * Types given keys one after the other.
+     *
+     * @param keyCodes the key codes
+     */
+    public void type(KeyCode... keyCodes);
 
-    public void write(char character);
+    /**
+     * Holds given keys, until explicitly released.
+     *
+     * @param keyCodes the key codes
+     */
+    public void hold(KeyCode... keyCodes);
 
+    /**
+     * Types given keys one after the other, then releases all currently held keys.
+     *
+     * @param keyCodes the key codes
+     */
+    public void andType(KeyCode... keyCodes);
+
+    /**
+     * Pushes a given key multiple times.
+     *
+     * @param keyCode the key code
+     * @param times number of times
+     */
     public void push(KeyCode keyCode, int times);
 
+    /**
+     * Pushes a given key combination.
+     *
+     * @param keyCodes the key codes
+     */
     public void push(KeyCode... keyCodes);
+
+    /**
+     * Writes given text characters one after the other.
+     *
+     * @param text the text characters
+     */
+    public void write(String text);
+
+    /**
+     * Writes a given text character.
+     *
+     * @param character the text character
+     */
+    public void write(char character);
 
 }

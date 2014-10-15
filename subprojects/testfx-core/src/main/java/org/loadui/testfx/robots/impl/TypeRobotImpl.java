@@ -48,26 +48,27 @@ public class TypeRobotImpl implements TypeRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void write(String text) {
-        for (int index = 0; index < text.length(); index++) {
-            write(text.charAt(index));
-            sleepRobot.sleep(25);
-        }
+    public void type(KeyCode... keyCodes) {
+        keyboardRobot.releaseAll();
+        pushKeys(Lists.newArrayList(keyCodes));
     }
 
     @Override
-    public void write(char character) {
-        if (isNotUpperCase(character)) {
-            writeLowerCase(character);
-        }
-        else {
-            writeUpperCase(character);
-        }
+    public void hold(KeyCode... keyCodes) {
+        keyboardRobot.releaseAll();
+        keyboardRobot.press(keyCodes);
+    }
+
+    @Override
+    public void andType(KeyCode... keyCodes) {
+        pushKeys(Lists.newArrayList(keyCodes));
+        keyboardRobot.releaseAll();
     }
 
     @Override
     public void push(KeyCode keyCode,
                      int times) {
+        keyboardRobot.releaseAll();
         for (int index = 0; index < times; index++) {
             pushKey(keyCode);
             sleepRobot.sleep(25);
@@ -76,7 +77,28 @@ public class TypeRobotImpl implements TypeRobot {
 
     @Override
     public void push(KeyCode... keyCodes) {
+        keyboardRobot.releaseAll();
         pushKeyCombination(keyCodes);
+    }
+
+    @Override
+    public void write(String text) {
+        keyboardRobot.releaseAll();
+        for (int index = 0; index < text.length(); index++) {
+            write(text.charAt(index));
+            sleepRobot.sleep(25);
+        }
+    }
+
+    @Override
+    public void write(char character) {
+        keyboardRobot.releaseAll();
+        if (isNotUpperCase(character)) {
+            writeLowerCase(character);
+        }
+        else {
+            writeUpperCase(character);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -95,8 +117,13 @@ public class TypeRobotImpl implements TypeRobot {
         pushKeyCombination(KeyCode.SHIFT, findKeyCode(character));
     }
 
-    public void pushKey(KeyCode keyCode) {
-        keyboardRobot.type(keyCode);
+    private void pushKeys(List<KeyCode> keyCodes) {
+        keyCodes.forEach(this::pushKey);
+    }
+
+    private void pushKey(KeyCode keyCode) {
+        keyboardRobot.press(keyCode);
+        keyboardRobot.release(keyCode);
     }
 
     public void pushKeyCombination(KeyCode... keyCodes) {
