@@ -130,7 +130,7 @@ public class JavafxRobotAdapter {
      * Block until events in the queue are processed.
      */
     public void timerWaitForIdle() {
-        throw new UnsupportedOperationException();
+        fxRobot.waitForIdle();
     }
 
     //---------------------------------------------------------------------------------------------
