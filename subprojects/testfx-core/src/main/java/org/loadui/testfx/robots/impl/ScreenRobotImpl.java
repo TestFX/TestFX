@@ -15,56 +15,31 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import com.google.common.collect.ImmutableMap;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+
 import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.service.adapter.AwtRobotAdapter;
 import org.loadui.testfx.utils.FXTestUtils;
 
-import java.awt.AWTException;
-import java.awt.GraphicsEnvironment;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.event.InputEvent;
-import java.awt.image.BufferedImage;
-import java.util.Map;
-
 public class ScreenRobotImpl implements ScreenRobot {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
-    private static final Map<MouseButton, Integer> AWT_BUTTONS = ImmutableMap.of(
-        MouseButton.PRIMARY, InputEvent.BUTTON1_MASK,
-        MouseButton.MIDDLE, InputEvent.BUTTON2_MASK,
-        MouseButton.SECONDARY, InputEvent.BUTTON3_MASK
-    );
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final Robot awtRobot;
+    private final AwtRobotAdapter robotAdapter;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public ScreenRobotImpl() {
-        if (GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()) {
-            awtRobot = null;
-            return;
-        }
-        Toolkit.getDefaultToolkit();
-        awtRobot = createAwtRobot();
+        robotAdapter = new AwtRobotAdapter();
+        robotAdapter.robotCreate();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -72,74 +47,53 @@ public class ScreenRobotImpl implements ScreenRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
+    public Image captureRegion(Rectangle2D region) {
+        return robotAdapter.getCaptureRegion(region);
+    }
+
+    @Override
     public Point2D retrieveMouse() {
-        Point awtPoint = MouseInfo.getPointerInfo().getLocation();
-        return new Point2D(awtPoint.getX(), awtPoint.getY());
+        return robotAdapter.getMouseLocation();
     }
 
     @Override
     public void moveMouse(Point2D point) {
-        awtRobot.mouseMove((int) point.getX(), (int) point.getY());
+        robotAdapter.mouseMove(point);
     }
 
     @Override
     public void pressMouse(MouseButton button) {
-        awtRobot.mousePress(AWT_BUTTONS.get(button));
+        robotAdapter.mousePress(button);
         awaitEvents();
     }
 
     @Override
     public void releaseMouse(MouseButton button) {
-        awtRobot.mouseRelease(AWT_BUTTONS.get(button));
+        robotAdapter.mouseRelease(button);
         awaitEvents();
     }
 
     @Override
     public void scrollMouse(int amount) {
-        awtRobot.mouseWheel(amount);
+        robotAdapter.mouseWheel(amount);
         awaitEvents();
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public void pressKey(KeyCode key) {
-        awtRobot.keyPress(key.impl_getCode());
+        robotAdapter.keyPress(key);
         awaitEvents();
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public void releaseKey(KeyCode key) {
-        awtRobot.keyRelease(key.impl_getCode());
+        robotAdapter.keyRelease(key);
         awaitEvents();
     }
 
     @Override
     public void awaitEvents() {
         FXTestUtils.awaitEvents();
-    }
-
-    @Override
-    public Image captureRegion(Rectangle2D region) {
-        Rectangle awtRectangle = new Rectangle(
-            (int) region.getMinX(), (int) region.getMinY(),
-            (int) region.getWidth(), (int) region.getHeight()
-        );
-        BufferedImage bufferedImage = awtRobot.createScreenCapture(awtRectangle);
-        return SwingFXUtils.toFXImage(bufferedImage, null);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Robot createAwtRobot() {
-        try {
-            return new Robot();
-        }
-        catch (AWTException exception) {
-            throw new IllegalArgumentException(exception);
-        }
     }
 
 }
