@@ -113,15 +113,55 @@ public final class KeyboardRobotImplTest {
     }
 
     @Test
-    public void release_with_no_keyCodes_should_release_pressed_keyCodes() {
+    public void releaseAll_with_pressed_keyCode_for_A() {
         // given:
         keyboardRobot.press(KeyCode.A);
         reset(screenRobot);
 
         // when:
-        keyboardRobot.release();
+        keyboardRobot.releaseAll();
 
         // then:
+        verify(screenRobot, times(1)).releaseKey(KeyCode.A);
+        verifyNoMoreInteractions(screenRobot);
+    }
+
+    @Test
+    public void type_with_keyCode_for_A() {
+        // when:
+        keyboardRobot.type(KeyCode.A);
+
+        // then:
+        verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
+        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.A));
+        verifyNoMoreInteractions(screenRobot);
+    }
+
+    @Test
+    public void type_with_keyCodes_for_A_and_B() {
+        // when:
+        keyboardRobot.type(KeyCode.A, KeyCode.B);
+
+        // then:
+        verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
+        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.A));
+        verify(screenRobot, times(1)).pressKey(eq(KeyCode.B));
+        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.B));
+        verifyNoMoreInteractions(screenRobot);
+    }
+
+    @Test
+    public void andType_with_keyCode_for_B_and_pressed_keyCode_for_A() {
+        // given:
+        keyboardRobot.press(KeyCode.A);
+        reset(screenRobot);
+
+        // when:
+        keyboardRobot.andType(KeyCode.B);
+
+        // then:
+        verify(screenRobot, times(1)).pressKey(eq(KeyCode.B));
+        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.B));
         verify(screenRobot, times(1)).releaseKey(KeyCode.A);
         verifyNoMoreInteractions(screenRobot);
     }

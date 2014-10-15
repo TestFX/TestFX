@@ -24,6 +24,8 @@ import com.google.common.collect.Lists;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.ScreenRobot;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class KeyboardRobotImpl implements KeyboardRobot {
 
     //---------------------------------------------------------------------------------------------
@@ -52,17 +54,32 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void press(KeyCode... keyCodes) {
+        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
         pressKeys(Lists.newArrayList(keyCodes));
     }
 
     @Override
     public void release(KeyCode... keyCodes) {
-        if (isArrayEmpty(keyCodes)) {
-            releasePressedKeys();
-        }
-        else {
-            releaseKeys(Lists.newArrayList(keyCodes));
-        }
+        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
+        releaseKeys(Lists.newArrayList(keyCodes));
+    }
+
+    @Override
+    public void releaseAll() {
+        releasePressedKeys();
+    }
+
+    @Override
+    public void type(KeyCode... keyCodes) {
+        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
+        typeKeys(Lists.newArrayList(keyCodes));
+    }
+
+    @Override
+    public void andType(KeyCode... keyCodes) {
+        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
+        typeKeys(Lists.newArrayList(keyCodes));
+        releasePressedKeys();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -73,16 +90,20 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         return elements.length == 0;
     }
 
+    private void pressKeys(List<KeyCode> keyCodes) {
+        keyCodes.forEach(this::pressKey);
+    }
+
+    private void releaseKeys(List<KeyCode> keyCodes) {
+        keyCodes.forEach(this::releaseKey);
+    }
+
     private void releasePressedKeys() {
         releaseKeys(Lists.newArrayList(pressedKeys));
     }
 
-    private void pressKeys(List<KeyCode> keyCodes) {
-      keyCodes.forEach(this::pressKey);
-    }
-
-    private void releaseKeys(List<KeyCode> keyCodes) {
-      keyCodes.forEach(this::releaseKey);
+    private void typeKeys(List<KeyCode> keyCodes) {
+        keyCodes.forEach(this::typeKey);
     }
 
     private void pressKey(KeyCode keyCode) {
@@ -95,6 +116,11 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         if (pressedKeys.remove(keyCode)) {
             screenRobot.releaseKey(keyCode);
         }
+    }
+
+    private void typeKey(KeyCode keyCode) {
+        pressKey(keyCode);
+        releaseKey(keyCode);
     }
 
 }

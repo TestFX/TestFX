@@ -20,17 +20,36 @@ import javafx.scene.input.KeyCode;
 public interface KeyboardRobot {
 
     /**
-     * Presses and holds a given key, until explicitly released.
+     * Presses and holds given keys one after the other, until explicitly released.
      *
      * @param keyCodes the key codes
      */
     public void press(KeyCode... keyCodes);
 
     /**
-     * Releases a given key.
+     * Releases given keys one after the other.
      *
      * @param keyCodes the key codes
      */
     public void release(KeyCode... keyCodes);
+
+    /**
+     * Releases all held keys.
+     */
+    public void releaseAll();
+
+    /**
+     * Types given keys one after the other.
+     *
+     * @param keyCodes the key codes
+     */
+    public void type(KeyCode... keyCodes);
+
+    /**
+     * Types given keys one after the other, then releases previously held keys.
+     *
+     * @param keyCodes the key codes
+     */
+    public void andType(KeyCode... keyCodes);
 
 }
