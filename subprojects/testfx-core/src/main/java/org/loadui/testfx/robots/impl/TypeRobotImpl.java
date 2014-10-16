@@ -27,6 +27,12 @@ import org.loadui.testfx.utils.KeyCodeUtils;
 public class TypeRobotImpl implements TypeRobot {
 
     //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final long TYPE_DURATION = 25;
+
+    //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
@@ -48,9 +54,28 @@ public class TypeRobotImpl implements TypeRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
+    public void push(KeyCode... keyCodes) {
+        keyboardRobot.releaseAll();
+        pushKeyCombination(keyCodes);
+    }
+
+    @Override
     public void type(KeyCode... keyCodes) {
         keyboardRobot.releaseAll();
-        pushKeys(Lists.newArrayList(keyCodes));
+        for (KeyCode keyCode : keyCodes) {
+            pushKey(keyCode);
+            sleepRobot.sleep(TYPE_DURATION);
+        }
+    }
+
+    @Override
+    public void type(KeyCode keyCode,
+                     int times) {
+        keyboardRobot.releaseAll();
+        for (int index = 0; index < times; index++) {
+            pushKey(keyCode);
+            sleepRobot.sleep(TYPE_DURATION);
+        }
     }
 
     @Override
@@ -61,38 +86,42 @@ public class TypeRobotImpl implements TypeRobot {
 
     @Override
     public void andType(KeyCode... keyCodes) {
-        pushKeys(Lists.newArrayList(keyCodes));
+        for (KeyCode keyCode : keyCodes) {
+            pushKey(keyCode);
+            sleepRobot.sleep(TYPE_DURATION);
+        }
         keyboardRobot.releaseAll();
     }
 
     @Override
-    public void push(KeyCode keyCode,
-                     int times) {
-        keyboardRobot.releaseAll();
+    public void andType(KeyCode keyCode, int times) {
         for (int index = 0; index < times; index++) {
             pushKey(keyCode);
-            sleepRobot.sleep(25);
+            sleepRobot.sleep(TYPE_DURATION);
         }
-    }
-
-    @Override
-    public void push(KeyCode... keyCodes) {
         keyboardRobot.releaseAll();
-        pushKeyCombination(keyCodes);
     }
 
     @Override
     public void write(String text) {
         keyboardRobot.releaseAll();
         for (int index = 0; index < text.length(); index++) {
-            write(text.charAt(index));
-            sleepRobot.sleep(25);
+            writeCharacter(text.charAt(index));
+            sleepRobot.sleep(TYPE_DURATION);
         }
     }
 
     @Override
     public void write(char character) {
         keyboardRobot.releaseAll();
+        writeCharacter(character);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private void writeCharacter(char character) {
         if (isNotUpperCase(character)) {
             writeLowerCase(character);
         }
@@ -100,10 +129,6 @@ public class TypeRobotImpl implements TypeRobot {
             writeUpperCase(character);
         }
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private boolean isNotUpperCase(char character) {
         return !Character.isUpperCase(character);
@@ -115,10 +140,6 @@ public class TypeRobotImpl implements TypeRobot {
 
     private void writeUpperCase(char character) {
         pushKeyCombination(KeyCode.SHIFT, findKeyCode(character));
-    }
-
-    private void pushKeys(List<KeyCode> keyCodes) {
-        keyCodes.forEach(this::pushKey);
     }
 
     private void pushKey(KeyCode keyCode) {

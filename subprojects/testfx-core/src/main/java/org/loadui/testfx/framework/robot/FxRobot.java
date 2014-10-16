@@ -299,12 +299,14 @@ public interface FxRobot {
     // METHODS FOR TYPING.
     //---------------------------------------------------------------------------------------------
 
+    public FxRobot push(KeyCode... keyCodes);
     public FxRobot type(KeyCode... keyCodes);
+    public FxRobot type(KeyCode keyCode,
+                        int times);
     public FxRobot hold(KeyCode... keyCodes);
     public FxRobot andType(KeyCode... keyCodes);
-    public FxRobot push(KeyCode keyCode,
-                        int times);
-    public FxRobot push(KeyCode... keyCodes);
+    public FxRobot andType(KeyCode keyCode,
+                           int times);
     public FxRobot type(String text);
     public FxRobot type(char character);
 

@@ -239,8 +239,19 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF TYPE ROBOT.
     //---------------------------------------------------------------------------------------------
 
+    public FxRobot push(KeyCode... keyCodes) {
+        typeRobot.push(keyCodes);
+        return this;
+    }
+
     public FxRobot type(KeyCode... keyCodes) {
         typeRobot.type(keyCodes);
+        return this;
+    }
+
+    public FxRobot type(KeyCode keyCode,
+                        int times) {
+        typeRobot.type(keyCode, times);
         return this;
     }
 
@@ -254,14 +265,9 @@ public class FxRobotImpl implements FxRobot {
         return this;
     }
 
-    public FxRobot push(KeyCode keyCode,
-                        int times) {
-        typeRobot.push(keyCode, times);
-        return this;
-    }
-
-    public FxRobot push(KeyCode... keyCodes) {
-        typeRobot.push(keyCodes);
+    public FxRobot andType(KeyCode keyCode,
+                           int times) {
+        typeRobot.andType(keyCode, times);
         return this;
     }
 
@@ -276,7 +282,7 @@ public class FxRobotImpl implements FxRobot {
     }
 
     public FxRobot eraseText(int amount) {
-        return push(KeyCode.BACK_SPACE, amount);
+        return type(KeyCode.BACK_SPACE, amount);
     }
 
     public FxRobot closeCurrentWindow() {
