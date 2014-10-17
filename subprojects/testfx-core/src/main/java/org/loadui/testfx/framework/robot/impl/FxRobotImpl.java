@@ -23,6 +23,7 @@ import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
@@ -38,6 +39,7 @@ import org.loadui.testfx.robots.ScreenRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
+import org.loadui.testfx.robots.WriteRobot;
 import org.loadui.testfx.robots.impl.ClickRobotImpl;
 import org.loadui.testfx.robots.impl.DragRobotImpl;
 import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
@@ -47,6 +49,7 @@ import org.loadui.testfx.robots.impl.ScreenRobotImpl;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.robots.impl.SleepRobotImpl;
 import org.loadui.testfx.robots.impl.TypeRobotImpl;
+import org.loadui.testfx.robots.impl.WriteRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
@@ -80,6 +83,7 @@ public class FxRobotImpl implements FxRobot {
     private final DragRobot dragRobot;
     private final ScrollRobot scrollRobot;
     private final TypeRobot typeRobot;
+    private final WriteRobot writeRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
@@ -99,6 +103,7 @@ public class FxRobotImpl implements FxRobot {
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
         scrollRobot = new ScrollRobotImpl(screenRobot);
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
+        writeRobot = new WriteRobotImpl(typeRobot, sleepRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -239,8 +244,13 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF TYPE ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot push(KeyCode... keyCodes) {
-        typeRobot.push(keyCodes);
+    public FxRobot push(KeyCode... combination) {
+        typeRobot.push(combination);
+        return this;
+    }
+
+    public FxRobot push(KeyCodeCombination combination) {
+        typeRobot.push(combination);
         return this;
     }
 
@@ -255,38 +265,26 @@ public class FxRobotImpl implements FxRobot {
         return this;
     }
 
-    public FxRobot hold(KeyCode... keyCodes) {
-        typeRobot.hold(keyCodes);
-        return this;
-    }
-
-    public FxRobot andType(KeyCode... keyCodes) {
-        typeRobot.andType(keyCodes);
-        return this;
-    }
-
-    public FxRobot andType(KeyCode keyCode,
-                           int times) {
-        typeRobot.andType(keyCode, times);
-        return this;
-    }
-
-    public FxRobot type(String text) {
-        typeRobot.write(text);
-        return this;
-    }
-
-    public FxRobot type(char character) {
-        typeRobot.write(character);
-        return this;
-    }
-
     public FxRobot eraseText(int amount) {
         return type(KeyCode.BACK_SPACE, amount);
     }
 
     public FxRobot closeCurrentWindow() {
         return push(KeyCode.ALT, KeyCode.F4).sleep(100);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF WRITE ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobot type(char character) {
+        writeRobot.write(character);
+        return this;
+    }
+
+    public FxRobot type(String text) {
+        writeRobot.write(text);
+        return this;
     }
 
     //---------------------------------------------------------------------------------------------

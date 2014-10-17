@@ -16,13 +16,18 @@
 package org.loadui.testfx.robots.impl;
 
 import java.util.List;
+import java.util.Map;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
-import org.loadui.testfx.utils.KeyCodeUtils;
 
 public class TypeRobotImpl implements TypeRobot {
 
@@ -54,108 +59,69 @@ public class TypeRobotImpl implements TypeRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void push(KeyCode... keyCodes) {
-        keyboardRobot.releaseAll();
-        pushKeyCombination(keyCodes);
+    public void push(KeyCode... combination) {
+        pushKeyCodeCombination(combination);
     }
 
     @Override
-    public void type(KeyCode... keyCodes) {
-        keyboardRobot.releaseAll();
-        for (KeyCode keyCode : keyCodes) {
-            pushKey(keyCode);
+    public void push(KeyCodeCombination combination) {
+        pushKeyCodeCombination(combination);
+    }
+
+    @Override
+    public void type(KeyCode... keys) {
+        for (KeyCode keyCode : keys) {
+            pushKeyCode(keyCode);
             sleepRobot.sleep(TYPE_DURATION);
         }
     }
 
     @Override
-    public void type(KeyCode keyCode,
+    public void type(KeyCode key,
                      int times) {
-        keyboardRobot.releaseAll();
         for (int index = 0; index < times; index++) {
-            pushKey(keyCode);
+            pushKeyCode(key);
             sleepRobot.sleep(TYPE_DURATION);
         }
-    }
-
-    @Override
-    public void hold(KeyCode... keyCodes) {
-        keyboardRobot.releaseAll();
-        keyboardRobot.press(keyCodes);
-    }
-
-    @Override
-    public void andType(KeyCode... keyCodes) {
-        for (KeyCode keyCode : keyCodes) {
-            pushKey(keyCode);
-            sleepRobot.sleep(TYPE_DURATION);
-        }
-        keyboardRobot.releaseAll();
-    }
-
-    @Override
-    public void andType(KeyCode keyCode, int times) {
-        for (int index = 0; index < times; index++) {
-            pushKey(keyCode);
-            sleepRobot.sleep(TYPE_DURATION);
-        }
-        keyboardRobot.releaseAll();
-    }
-
-    @Override
-    public void write(String text) {
-        keyboardRobot.releaseAll();
-        for (int index = 0; index < text.length(); index++) {
-            writeCharacter(text.charAt(index));
-            sleepRobot.sleep(TYPE_DURATION);
-        }
-    }
-
-    @Override
-    public void write(char character) {
-        keyboardRobot.releaseAll();
-        writeCharacter(character);
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private void writeCharacter(char character) {
-        if (isNotUpperCase(character)) {
-            writeLowerCase(character);
-        }
-        else {
-            writeUpperCase(character);
-        }
-    }
-
-    private boolean isNotUpperCase(char character) {
-        return !Character.isUpperCase(character);
-    }
-
-    private void writeLowerCase(char character) {
-        pushKey(findKeyCode(character));
-    }
-
-    private void writeUpperCase(char character) {
-        pushKeyCombination(KeyCode.SHIFT, findKeyCode(character));
-    }
-
-    private void pushKey(KeyCode keyCode) {
+    private void pushKeyCode(KeyCode keyCode) {
         keyboardRobot.press(keyCode);
         keyboardRobot.release(keyCode);
     }
 
-    public void pushKeyCombination(KeyCode... keyCodes) {
-        List<KeyCode> keyCodesForwards = Lists.newArrayList(keyCodes);
+    public void pushKeyCodeCombination(KeyCode... keyCodeCombination) {
+        List<KeyCode> keyCodesForwards = Lists.newArrayList(keyCodeCombination);
         List<KeyCode> keyCodesBackwards = Lists.reverse(keyCodesForwards);
         keyboardRobot.press(toKeyCodeArray(keyCodesForwards));
         keyboardRobot.release(toKeyCodeArray(keyCodesBackwards));
     }
 
-    private KeyCode findKeyCode(char character) {
-        return KeyCodeUtils.findKeyCode(character);
+    public void pushKeyCodeCombination(KeyCodeCombination keyCodeCombination) {
+        List<KeyCode> keyCodes = filterKeyCodes(keyCodeCombination);
+        pushKeyCodeCombination(toKeyCodeArray(keyCodes));
+    }
+
+    private List<KeyCode> filterKeyCodes(KeyCodeCombination keyCombination) {
+        Map<KeyCombination.Modifier, KeyCombination.ModifierValue> modifiers = ImmutableMap.of(
+            KeyCombination.SHIFT_DOWN, keyCombination.getShift(),
+            KeyCombination.CONTROL_DOWN, keyCombination.getControl(),
+            KeyCombination.ALT_DOWN, keyCombination.getAlt(),
+            KeyCombination.META_DOWN, keyCombination.getMeta(),
+            KeyCombination.SHORTCUT_DOWN, keyCombination.getShortcut()
+        );
+        List<KeyCode> modifierKeyCodes = FluentIterable.from(modifiers.entrySet())
+            .filter(entry -> entry.getKey().getValue() == entry.getValue())
+            .transform(entry -> entry.getKey().getKey())
+            .toList();
+        return ImmutableList.<KeyCode>builder()
+            .addAll(modifierKeyCodes)
+            .add(keyCombination.getCode())
+            .build();
     }
 
     private KeyCode[] toKeyCodeArray(List<KeyCode> keyCodes) {

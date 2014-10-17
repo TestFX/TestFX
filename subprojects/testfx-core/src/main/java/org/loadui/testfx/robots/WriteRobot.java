@@ -15,38 +15,20 @@
  */
 package org.loadui.testfx.robots;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-
-public interface TypeRobot {
+public interface WriteRobot {
 
     /**
-     * Pushes a given key combination.
+     * Writes a given text character.
      *
-     * @param combination the combination
+     * @param character the text character
      */
-    public void push(KeyCode... combination);
+    public void write(char character);
 
     /**
-     * Pushes a given key combination.
+     * Writes given text characters one after the other.
      *
-     * @param combination the combination
+     * @param text the text characters
      */
-    public void push(KeyCodeCombination combination);
-
-    /**
-     * Types given keys one after the other.
-     *
-     * @param keyCodes the key codes
-     */
-    public void type(KeyCode... keyCodes);
-
-    /**
-     * Types a given key multiple times.
-     *
-     * @param keyCode the key code
-     * @param times number of times
-     */
-    public void type(KeyCode keyCode, int times);
+    public void write(String text);
 
 }

@@ -15,31 +15,28 @@
  */
 package org.loadui.testfx.robots.impl;
 
+import com.google.common.collect.Lists;
 import javafx.scene.input.KeyCode;
 import org.junit.Before;
 import org.junit.Test;
-import org.loadui.testfx.robots.KeyboardRobot;
-import org.loadui.testfx.robots.ScreenRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
+import org.loadui.testfx.robots.WriteRobot;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public final class TypeRobotImplTest {
+public final class WriteRobotImplTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    ScreenRobot screenRobot;
-    KeyboardRobot keyboardRobot;
     SleepRobot sleepRobot;
     TypeRobot typeRobot;
+    WriteRobot writeRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -47,10 +44,9 @@ public final class TypeRobotImplTest {
 
     @Before
     public void setup() {
-        screenRobot = mock(ScreenRobot.class);
-        keyboardRobot = new KeyboardRobotImpl(screenRobot);
         sleepRobot = mock(SleepRobot.class);
-        typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
+        typeRobot = mock(TypeRobot.class);
+        writeRobot = new WriteRobotImpl(typeRobot, sleepRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -58,27 +54,21 @@ public final class TypeRobotImplTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void type_with_keyCode_for_A() {
+    public void write_lowercase_A() {
         // when:
-        typeRobot.type(KeyCode.A);
+        writeRobot.write("a");
 
         // then:
-        verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
-        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.A));
-        verifyNoMoreInteractions(screenRobot);
+        verify(typeRobot, times(1)).push(eq(KeyCode.A));
     }
 
     @Test
-    public void type_with_keyCodes_for_A_and_B() {
+    public void write_uppercase_A() {
         // when:
-        typeRobot.type(KeyCode.A, KeyCode.B);
+        writeRobot.write("A");
 
         // then:
-        verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
-        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.A));
-        verify(screenRobot, times(1)).pressKey(eq(KeyCode.B));
-        verify(screenRobot, times(1)).releaseKey(eq(KeyCode.B));
-        verifyNoMoreInteractions(screenRobot);
+        verify(typeRobot, times(1)).push(eq(KeyCode.SHIFT), eq(KeyCode.A));
     }
 
 }
