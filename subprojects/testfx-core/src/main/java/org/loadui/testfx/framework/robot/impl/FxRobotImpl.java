@@ -277,12 +277,12 @@ public class FxRobotImpl implements FxRobot {
     // IMPLEMENTATION OF WRITE ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot type(char character) {
+    public FxRobot write(char character) {
         writeRobot.write(character);
         return this;
     }
 
-    public FxRobot type(String text) {
+    public FxRobot write(String text) {
         writeRobot.write(text);
         return this;
     }

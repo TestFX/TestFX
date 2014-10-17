@@ -46,8 +46,8 @@ public class LabelForTest extends GuiTest {
 
     @Test
     public void shouldClickButton() {
-        clickOn(nodeLabeledBy("User name")).type("Steve");
-        clickOn(nodeLabeledBy("Password")).type("duke4ever");
+        clickOn(nodeLabeledBy("User name")).write("Steve");
+        clickOn(nodeLabeledBy("Password")).write("duke4ever");
 
         verifyThat("#pword", hasText("duke4ever"));
     }

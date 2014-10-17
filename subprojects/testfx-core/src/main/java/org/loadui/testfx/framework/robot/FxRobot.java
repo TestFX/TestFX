@@ -313,7 +313,7 @@ public interface FxRobot {
     // METHODS FOR WRITING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot type(char character);
-    public FxRobot type(String text);
+    public FxRobot write(char character);
+    public FxRobot write(String text);
 
 }
