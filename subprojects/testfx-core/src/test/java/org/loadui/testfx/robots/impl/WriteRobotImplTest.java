@@ -15,8 +15,8 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import com.google.common.collect.Lists;
 import javafx.scene.input.KeyCode;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.robots.SleepRobot;
@@ -54,21 +54,33 @@ public final class WriteRobotImplTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void write_lowercase_A() {
+    public void write_lowercase_AE() {
         // when:
-        writeRobot.write("a");
+        writeRobot.write("ae");
 
         // then:
         verify(typeRobot, times(1)).push(eq(KeyCode.A));
+        verify(typeRobot, times(1)).push(eq(KeyCode.E));
     }
 
     @Test
     public void write_uppercase_A() {
         // when:
-        writeRobot.write("A");
+        writeRobot.write("AE");
 
         // then:
         verify(typeRobot, times(1)).push(eq(KeyCode.SHIFT), eq(KeyCode.A));
+        verify(typeRobot, times(1)).push(eq(KeyCode.SHIFT), eq(KeyCode.E));
+    }
+
+    @Test
+    public void write_period_and_colon() {
+        // when:
+        writeRobot.write(".:");
+
+        // then:
+        verify(typeRobot, times(1)).push(eq(KeyCode.PERIOD));
+        verify(typeRobot, times(1)).push(eq(KeyCode.COLON));
     }
 
 }
