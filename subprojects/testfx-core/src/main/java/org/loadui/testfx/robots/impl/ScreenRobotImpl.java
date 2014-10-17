@@ -82,13 +82,11 @@ public class ScreenRobotImpl implements ScreenRobot {
     @Override
     public void pressKey(KeyCode key) {
         robotAdapter.keyPress(key);
-        awaitEvents();
     }
 
     @Override
     public void releaseKey(KeyCode key) {
         robotAdapter.keyRelease(key);
-        awaitEvents();
     }
 
     @Override

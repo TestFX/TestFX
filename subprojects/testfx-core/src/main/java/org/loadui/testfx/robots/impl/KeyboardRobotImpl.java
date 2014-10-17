@@ -54,18 +54,36 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void press(KeyCode... keyCodes) {
+        pressNoWait(keyCodes);
+        screenRobot.awaitEvents();
+    }
+
+    @Override
+    public void pressNoWait(KeyCode... keyCodes) {
         checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
         pressKeys(Lists.newArrayList(keyCodes));
     }
 
     @Override
     public void release(KeyCode... keyCodes) {
+        releaseNoWait(keyCodes);
+        screenRobot.awaitEvents();
+    }
+
+    @Override
+    public void releaseNoWait(KeyCode... keyCodes) {
         checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
         releaseKeys(Lists.newArrayList(keyCodes));
     }
 
     @Override
     public void releaseAll() {
+        releaseAllNoWait();
+        screenRobot.awaitEvents();
+    }
+
+    @Override
+    public void releaseAllNoWait() {
         releasePressedKeys();
     }
 

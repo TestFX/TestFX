@@ -62,7 +62,7 @@ public final class TypeRobotImplTest {
         typeRobot.push(KeyCode.A);
 
         // then:
-        verify(keyboardRobot, times(1)).press(eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.A));
         verify(keyboardRobot, times(1)).release(eq(KeyCode.A));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -73,7 +73,7 @@ public final class TypeRobotImplTest {
         typeRobot.push(KeyCode.ALT, KeyCode.A);
 
         // then:
-        verify(keyboardRobot, times(1)).press(eq(KeyCode.ALT), eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.ALT), eq(KeyCode.A));
         verify(keyboardRobot, times(1)).release(eq(KeyCode.A), eq(KeyCode.ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -84,7 +84,7 @@ public final class TypeRobotImplTest {
         typeRobot.push(new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).press(eq(KeyCode.ALT), eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.ALT), eq(KeyCode.A));
         verify(keyboardRobot, times(1)).release(eq(KeyCode.A), eq(KeyCode.ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -96,7 +96,7 @@ public final class TypeRobotImplTest {
             KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).press(
+        verify(keyboardRobot, times(1)).pressNoWait(
             eq(KeyCode.SHIFT), eq(KeyCode.CONTROL), eq(KeyCode.A));
         verify(keyboardRobot, times(1)).release(
             eq(KeyCode.A), eq(KeyCode.CONTROL), eq(KeyCode.SHIFT));
@@ -109,7 +109,7 @@ public final class TypeRobotImplTest {
         typeRobot.type(KeyCode.A);
 
         // then:
-        verify(keyboardRobot, times(1)).press(eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.A));
         verify(keyboardRobot, times(1)).release(eq(KeyCode.A));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -120,9 +120,9 @@ public final class TypeRobotImplTest {
         typeRobot.type(KeyCode.A, KeyCode.B);
 
         // then:
-        verify(keyboardRobot, times(1)).press(eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.A));
         verify(keyboardRobot, times(1)).release(eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).press(eq(KeyCode.B));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.B));
         verify(keyboardRobot, times(1)).release(eq(KeyCode.B));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -133,7 +133,7 @@ public final class TypeRobotImplTest {
         typeRobot.type(KeyCode.A, 5);
 
         // then:
-        verify(keyboardRobot, times(5)).press(eq(KeyCode.A));
+        verify(keyboardRobot, times(5)).pressNoWait(eq(KeyCode.A));
         verify(keyboardRobot, times(5)).release(eq(KeyCode.A));
         verifyNoMoreInteractions(keyboardRobot);
     }
