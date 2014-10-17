@@ -24,6 +24,8 @@ import com.google.common.collect.Lists;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.ScreenRobot;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class KeyboardRobotImpl implements KeyboardRobot {
 
     //---------------------------------------------------------------------------------------------
@@ -52,17 +54,37 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void press(KeyCode... keyCodes) {
+        pressNoWait(keyCodes);
+        screenRobot.awaitEvents();
+    }
+
+    @Override
+    public void pressNoWait(KeyCode... keyCodes) {
+        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
         pressKeys(Lists.newArrayList(keyCodes));
     }
 
     @Override
     public void release(KeyCode... keyCodes) {
-        if (isArrayEmpty(keyCodes)) {
-            releasePressedKeys();
-        }
-        else {
-            releaseKeys(Lists.newArrayList(keyCodes));
-        }
+        releaseNoWait(keyCodes);
+        screenRobot.awaitEvents();
+    }
+
+    @Override
+    public void releaseNoWait(KeyCode... keyCodes) {
+        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
+        releaseKeys(Lists.newArrayList(keyCodes));
+    }
+
+    @Override
+    public void releaseAll() {
+        releaseAllNoWait();
+        screenRobot.awaitEvents();
+    }
+
+    @Override
+    public void releaseAllNoWait() {
+        releasePressedKeys();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -73,16 +95,16 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         return elements.length == 0;
     }
 
-    private void releasePressedKeys() {
-        releaseKeys(Lists.newArrayList(pressedKeys));
-    }
-
     private void pressKeys(List<KeyCode> keyCodes) {
-      keyCodes.forEach(this::pressKey);
+        keyCodes.forEach(this::pressKey);
     }
 
     private void releaseKeys(List<KeyCode> keyCodes) {
-      keyCodes.forEach(this::releaseKey);
+        keyCodes.forEach(this::releaseKey);
+    }
+
+    private void releasePressedKeys() {
+        releaseKeys(Lists.newArrayList(pressedKeys));
     }
 
     private void pressKey(KeyCode keyCode) {

@@ -23,6 +23,7 @@ import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
@@ -237,6 +238,7 @@ public interface FxRobot {
 
     public FxRobot press(KeyCode... keys);
     public FxRobot release(KeyCode... keys);
+    public FxRobot releaseAll();
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR MOUSE.
@@ -298,13 +300,20 @@ public interface FxRobot {
     // METHODS FOR TYPING.
     //---------------------------------------------------------------------------------------------
 
+    public FxRobot push(KeyCode... combination);
+    public FxRobot push(KeyCodeCombination combination);
     public FxRobot type(KeyCode... keys);
-    public FxRobot type(char character);
-    public FxRobot type(String text);
-    public FxRobot erase(int characters);
+    public FxRobot type(KeyCode key,
+                        int times);
 
     // Convenience methods:
-    public FxRobot push(KeyCode... keys);
-    public FxRobot push(char character);
+    public FxRobot eraseText(int characters);
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR WRITING.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobot write(char character);
+    public FxRobot write(String text);
 
 }

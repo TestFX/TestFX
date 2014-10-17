@@ -46,7 +46,7 @@ public class ControllerApiTest extends GuiTest {
     public void shouldTypeString() {
         final String text = "H3llo W0rld";
 
-        clickOn("#text").type(text);
+        clickOn("#text").write(text);
 
         verifyThat("#text", hasText(text));
     }

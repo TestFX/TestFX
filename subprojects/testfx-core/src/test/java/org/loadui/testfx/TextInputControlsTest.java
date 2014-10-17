@@ -18,7 +18,6 @@ package org.loadui.testfx;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 
 import static javafx.scene.input.KeyCode.TAB;
@@ -37,7 +36,7 @@ public class TextInputControlsTest extends GuiTest {
 
     @Test
     public void shouldClearText() {
-        clickOn(TEXT_FIELD).type("Some text");
+        clickOn(TEXT_FIELD).write("Some text");
         verifyThat(TEXT_FIELD, hasText("Some text"));
 
         push(TAB); // To change focus from the TextField.

@@ -59,6 +59,7 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
+        verify(screenRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(screenRobot);
     }
 
@@ -70,6 +71,7 @@ public final class KeyboardRobotImplTest {
         // then:
         verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
         verify(screenRobot, times(1)).pressKey(eq(KeyCode.B));
+        verify(screenRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(screenRobot);
     }
 
@@ -84,6 +86,7 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(screenRobot, times(1)).releaseKey(KeyCode.A);
+        verify(screenRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(screenRobot);
     }
 
@@ -99,6 +102,7 @@ public final class KeyboardRobotImplTest {
         // then:
         verify(screenRobot, times(1)).releaseKey(KeyCode.B);
         verify(screenRobot, times(1)).releaseKey(KeyCode.A);
+        verify(screenRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(screenRobot);
     }
 
@@ -109,20 +113,22 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(screenRobot, times(0)).releaseKey(KeyCode.A);
+        verify(screenRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(screenRobot);
     }
 
     @Test
-    public void release_with_no_keyCodes_should_release_pressed_keyCodes() {
+    public void releaseAll_with_pressed_keyCode_for_A() {
         // given:
         keyboardRobot.press(KeyCode.A);
         reset(screenRobot);
 
         // when:
-        keyboardRobot.release();
+        keyboardRobot.releaseAll();
 
         // then:
         verify(screenRobot, times(1)).releaseKey(KeyCode.A);
+        verify(screenRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(screenRobot);
     }
 
