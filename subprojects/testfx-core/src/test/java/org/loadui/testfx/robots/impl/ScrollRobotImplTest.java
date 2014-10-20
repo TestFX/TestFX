@@ -17,7 +17,7 @@ package org.loadui.testfx.robots.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 
 import static org.mockito.Matchers.eq;
@@ -31,8 +31,9 @@ public class ScrollRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    ScrollRobot scrollRobot;
-    ScreenRobot screenRobot;
+    public ScrollRobot scrollRobot;
+
+    public MouseRobot mouseRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -40,8 +41,8 @@ public class ScrollRobotImplTest {
 
     @Before
     public void setup() {
-        screenRobot = mock(ScreenRobot.class);
-        scrollRobot = new ScrollRobotImpl(screenRobot);
+        mouseRobot = mock(MouseRobot.class);
+        scrollRobot = new ScrollRobotImpl(mouseRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class ScrollRobotImplTest {
         scrollRobot.scrollUp(5);
 
         // then:
-        verify(screenRobot, times(5)).scrollMouse(eq(-1));
+        verify(mouseRobot, times(5)).scroll(eq(-1));
     }
 
     @Test
@@ -63,7 +64,7 @@ public class ScrollRobotImplTest {
         scrollRobot.scrollDown(5);
 
         // then:
-        verify(screenRobot, times(5)).scrollMouse(eq(1));
+        verify(mouseRobot, times(5)).scroll(eq(1));
     }
 
 }

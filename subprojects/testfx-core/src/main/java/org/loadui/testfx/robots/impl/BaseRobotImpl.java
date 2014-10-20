@@ -21,11 +21,11 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.service.adapter.AwtRobotAdapter;
 import org.loadui.testfx.utils.FXTestUtils;
 
-public class ScreenRobotImpl implements ScreenRobot {
+public class BaseRobotImpl implements BaseRobot {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -37,7 +37,7 @@ public class ScreenRobotImpl implements ScreenRobot {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public ScreenRobotImpl() {
+    public BaseRobotImpl() {
         robotAdapter = new AwtRobotAdapter();
         robotAdapter.robotCreate();
     }
@@ -47,8 +47,13 @@ public class ScreenRobotImpl implements ScreenRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public Image captureRegion(Rectangle2D region) {
-        return robotAdapter.getCaptureRegion(region);
+    public void pressKeyboard(KeyCode key) {
+        robotAdapter.keyPress(key);
+    }
+
+    @Override
+    public void releaseKeyboard(KeyCode key) {
+        robotAdapter.keyRelease(key);
     }
 
     @Override
@@ -62,31 +67,23 @@ public class ScreenRobotImpl implements ScreenRobot {
     }
 
     @Override
+    public void scrollMouse(int amount) {
+        robotAdapter.mouseWheel(amount);
+    }
+
+    @Override
     public void pressMouse(MouseButton button) {
         robotAdapter.mousePress(button);
-        awaitEvents();
     }
 
     @Override
     public void releaseMouse(MouseButton button) {
         robotAdapter.mouseRelease(button);
-        awaitEvents();
     }
 
     @Override
-    public void scrollMouse(int amount) {
-        robotAdapter.mouseWheel(amount);
-        awaitEvents();
-    }
-
-    @Override
-    public void pressKey(KeyCode key) {
-        robotAdapter.keyPress(key);
-    }
-
-    @Override
-    public void releaseKey(KeyCode key) {
-        robotAdapter.keyRelease(key);
+    public Image captureRegion(Rectangle2D region) {
+        return robotAdapter.getCaptureRegion(region);
     }
 
     @Override

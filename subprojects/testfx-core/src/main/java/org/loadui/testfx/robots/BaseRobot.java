@@ -21,9 +21,11 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
-public interface ScreenRobot {
+public interface BaseRobot {
 
-    public Image captureRegion(Rectangle2D region);
+    public void pressKeyboard(KeyCode key);
+
+    public void releaseKeyboard(KeyCode key);
 
     public Point2D retrieveMouse();
 
@@ -35,9 +37,7 @@ public interface ScreenRobot {
 
     public void releaseMouse(MouseButton button);
 
-    public void pressKey(KeyCode key);
-
-    public void releaseKey(KeyCode key);
+    public Image captureRegion(Rectangle2D region);
 
     public void awaitEvents();
 

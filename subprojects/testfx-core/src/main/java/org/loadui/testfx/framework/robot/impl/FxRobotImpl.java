@@ -35,7 +35,7 @@ import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
@@ -45,7 +45,7 @@ import org.loadui.testfx.robots.impl.DragRobotImpl;
 import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
 import org.loadui.testfx.robots.impl.MouseRobotImpl;
 import org.loadui.testfx.robots.impl.MoveRobotImpl;
-import org.loadui.testfx.robots.impl.ScreenRobotImpl;
+import org.loadui.testfx.robots.impl.BaseRobotImpl;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.robots.impl.SleepRobotImpl;
 import org.loadui.testfx.robots.impl.TypeRobotImpl;
@@ -73,7 +73,7 @@ public class FxRobotImpl implements FxRobot {
     private final BoundsLocator boundsLocator;
     private final PointLocator pointLocator;
 
-    private final ScreenRobot screenRobot;
+    private final BaseRobot baseRobot;
     private final MouseRobot mouseRobot;
     private final KeyboardRobot keyboardRobot;
     private final MoveRobot moveRobot;
@@ -93,17 +93,17 @@ public class FxRobotImpl implements FxRobot {
         boundsLocator = new BoundsLocatorImpl();
         pointLocator = new PointLocatorImpl(boundsLocator);
 
-        screenRobot = new ScreenRobotImpl();
-        mouseRobot = new MouseRobotImpl(screenRobot);
-        keyboardRobot = new KeyboardRobotImpl(screenRobot);
-        moveRobot = new MoveRobotImpl(screenRobot);
+        baseRobot = new BaseRobotImpl();
+        keyboardRobot = new KeyboardRobotImpl(baseRobot);
+        mouseRobot = new MouseRobotImpl(baseRobot);
         sleepRobot = new SleepRobotImpl();
 
-        clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
-        dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
-        scrollRobot = new ScrollRobotImpl(screenRobot);
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
         writeRobot = new WriteRobotImpl(typeRobot, sleepRobot);
+        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot);
+        clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
+        dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
+        scrollRobot = new ScrollRobotImpl(mouseRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -334,11 +334,6 @@ public class FxRobotImpl implements FxRobot {
 
     public FxRobot release(KeyCode... keys) {
         keyboardRobot.release(keys);
-        return this;
-    }
-
-    public FxRobot releaseAll() {
-        keyboardRobot.releaseAll();
         return this;
     }
 

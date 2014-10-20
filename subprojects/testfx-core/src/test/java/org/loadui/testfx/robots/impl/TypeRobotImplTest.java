@@ -15,15 +15,22 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
+
+import static javafx.scene.input.KeyCode.A;
+import static javafx.scene.input.KeyCode.ALT;
+import static javafx.scene.input.KeyCode.B;
+import static javafx.scene.input.KeyCode.CONTROL;
+import static javafx.scene.input.KeyCode.SHIFT;
+import static javafx.scene.input.KeyCombination.ALT_DOWN;
+import static javafx.scene.input.KeyCombination.CONTROL_DOWN;
+import static javafx.scene.input.KeyCombination.SHIFT_DOWN;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -37,9 +44,10 @@ public final class TypeRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    KeyboardRobot keyboardRobot;
-    SleepRobot sleepRobot;
-    TypeRobot typeRobot;
+    public TypeRobot typeRobot;
+
+    public KeyboardRobot keyboardRobot;
+    public SleepRobot sleepRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -59,82 +67,79 @@ public final class TypeRobotImplTest {
     @Test
     public void push_with_key_for_A() {
         // when:
-        typeRobot.push(KeyCode.A);
+        typeRobot.push(A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).release(eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
     @Test
     public void push_with_keys_for_ALT_A() {
         // when:
-        typeRobot.push(KeyCode.ALT, KeyCode.A);
+        typeRobot.push(ALT, A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.ALT), eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).release(eq(KeyCode.A), eq(KeyCode.ALT));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
+        verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
     @Test
     public void push_with_combination_for_ALT_A() {
         // when:
-        typeRobot.push(new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN));
+        typeRobot.push(new KeyCodeCombination(A, ALT_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.ALT), eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).release(eq(KeyCode.A), eq(KeyCode.ALT));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
+        verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
     @Test
     public void push_with_combination_for_CONTROL_SHIFT_A() {
         // when:
-        typeRobot.push(new KeyCodeCombination(KeyCode.A,
-            KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+        typeRobot.push(new KeyCodeCombination(A, CONTROL_DOWN, SHIFT_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(
-            eq(KeyCode.SHIFT), eq(KeyCode.CONTROL), eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).release(
-            eq(KeyCode.A), eq(KeyCode.CONTROL), eq(KeyCode.SHIFT));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(SHIFT), eq(CONTROL), eq(A));
+        verify(keyboardRobot, times(1)).release(eq(A), eq(CONTROL), eq(SHIFT));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
     @Test
     public void type_with_keys_for_A() {
         // when:
-        typeRobot.type(KeyCode.A);
+        typeRobot.type(A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).release(eq(KeyCode.A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
     @Test
     public void type_with_keys_for_A_and_B() {
         // when:
-        typeRobot.type(KeyCode.A, KeyCode.B);
+        typeRobot.type(A, B);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).release(eq(KeyCode.A));
-        verify(keyboardRobot, times(1)).pressNoWait(eq(KeyCode.B));
-        verify(keyboardRobot, times(1)).release(eq(KeyCode.B));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).release(eq(A));
+        verify(keyboardRobot, times(1)).pressNoWait(eq(B));
+        verify(keyboardRobot, times(1)).release(eq(B));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
     @Test
     public void type_with_key_for_A_five_times() {
         // when:
-        typeRobot.type(KeyCode.A, 5);
+        typeRobot.type(A, 5);
 
         // then:
-        verify(keyboardRobot, times(5)).pressNoWait(eq(KeyCode.A));
-        verify(keyboardRobot, times(5)).release(eq(KeyCode.A));
+        verify(keyboardRobot, times(5)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(5)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
 

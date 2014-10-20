@@ -21,10 +21,8 @@ import javafx.scene.input.KeyCode;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Lists;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
-import org.loadui.testfx.robots.ScreenRobot;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 public class KeyboardRobotImpl implements KeyboardRobot {
 
@@ -32,7 +30,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public ScreenRobot screenRobot;
+    public BaseRobot baseRobot;
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -44,8 +42,8 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public KeyboardRobotImpl(ScreenRobot screenRobot) {
-        this.screenRobot = screenRobot;
+    public KeyboardRobotImpl(BaseRobot baseRobot) {
+        this.baseRobot = baseRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -53,38 +51,30 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void press(KeyCode... keyCodes) {
-        pressNoWait(keyCodes);
-        screenRobot.awaitEvents();
+    public void press(KeyCode... keys) {
+        pressNoWait(keys);
+        baseRobot.awaitEvents();
     }
 
     @Override
-    public void pressNoWait(KeyCode... keyCodes) {
-        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
-        pressKeys(Lists.newArrayList(keyCodes));
+    public void pressNoWait(KeyCode... keys) {
+        pressKeys(Lists.newArrayList(keys));
     }
 
     @Override
-    public void release(KeyCode... keyCodes) {
-        releaseNoWait(keyCodes);
-        screenRobot.awaitEvents();
+    public void release(KeyCode... keys) {
+        releaseNoWait(keys);
+        baseRobot.awaitEvents();
     }
 
     @Override
-    public void releaseNoWait(KeyCode... keyCodes) {
-        checkArgument(!isArrayEmpty(keyCodes), "keyCodes is empty");
-        releaseKeys(Lists.newArrayList(keyCodes));
-    }
-
-    @Override
-    public void releaseAll() {
-        releaseAllNoWait();
-        screenRobot.awaitEvents();
-    }
-
-    @Override
-    public void releaseAllNoWait() {
-        releasePressedKeys();
+    public void releaseNoWait(KeyCode... keys) {
+        if (isArrayEmpty(keys)) {
+            releasePressedKeys();
+        }
+        else {
+            releaseKeys(Lists.newArrayList(keys));
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -109,13 +99,13 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     private void pressKey(KeyCode keyCode) {
         if (pressedKeys.add(keyCode)) {
-            screenRobot.pressKey(keyCode);
+            baseRobot.pressKeyboard(keyCode);
         }
     }
 
     private void releaseKey(KeyCode keyCode) {
         if (pressedKeys.remove(keyCode)) {
-            screenRobot.releaseKey(keyCode);
+            baseRobot.releaseKeyboard(keyCode);
         }
     }
 

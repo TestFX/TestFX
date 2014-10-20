@@ -15,13 +15,17 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import javafx.scene.input.KeyCode;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.robots.WriteRobot;
+
+import static javafx.scene.input.KeyCode.A;
+import static javafx.scene.input.KeyCode.COLON;
+import static javafx.scene.input.KeyCode.E;
+import static javafx.scene.input.KeyCode.PERIOD;
+import static javafx.scene.input.KeyCode.SHIFT;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -34,9 +38,10 @@ public final class WriteRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    SleepRobot sleepRobot;
-    TypeRobot typeRobot;
-    WriteRobot writeRobot;
+    public WriteRobot writeRobot;
+
+    public SleepRobot sleepRobot;
+    public TypeRobot typeRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -59,8 +64,8 @@ public final class WriteRobotImplTest {
         writeRobot.write("ae");
 
         // then:
-        verify(typeRobot, times(1)).push(eq(KeyCode.A));
-        verify(typeRobot, times(1)).push(eq(KeyCode.E));
+        verify(typeRobot, times(1)).push(eq(A));
+        verify(typeRobot, times(1)).push(eq(E));
     }
 
     @Test
@@ -69,8 +74,8 @@ public final class WriteRobotImplTest {
         writeRobot.write("AE");
 
         // then:
-        verify(typeRobot, times(1)).push(eq(KeyCode.SHIFT), eq(KeyCode.A));
-        verify(typeRobot, times(1)).push(eq(KeyCode.SHIFT), eq(KeyCode.E));
+        verify(typeRobot, times(1)).push(eq(SHIFT), eq(A));
+        verify(typeRobot, times(1)).push(eq(SHIFT), eq(E));
     }
 
     @Test
@@ -79,8 +84,8 @@ public final class WriteRobotImplTest {
         writeRobot.write(".:");
 
         // then:
-        verify(typeRobot, times(1)).push(eq(KeyCode.PERIOD));
-        verify(typeRobot, times(1)).push(eq(KeyCode.COLON));
+        verify(typeRobot, times(1)).push(eq(PERIOD));
+        verify(typeRobot, times(1)).push(eq(COLON));
     }
 
 }

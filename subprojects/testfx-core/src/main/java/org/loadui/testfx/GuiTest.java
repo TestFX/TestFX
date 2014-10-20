@@ -15,31 +15,31 @@
  */
 package org.loadui.testfx;
 
-import com.google.common.base.Predicate;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTestBase;
-import org.loadui.testfx.robots.impl.ScreenRobotImpl;
-import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
-import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
-import org.loadui.testfx.service.support.CaptureSupport;
-import org.loadui.testfx.service.support.WaitUntilSupport;
-
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import com.google.common.base.Predicate;
+import org.hamcrest.Matcher;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.loadui.testfx.framework.app.StageSetupCallback;
+import org.loadui.testfx.framework.junit.AppRobotTestBase;
+import org.loadui.testfx.robots.impl.BaseRobotImpl;
+import org.loadui.testfx.service.finder.NodeFinder;
+import org.loadui.testfx.service.finder.WindowFinder;
+import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
+import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
+import org.loadui.testfx.service.support.CaptureSupport;
+import org.loadui.testfx.service.support.WaitUntilSupport;
 
 import static org.junit.Assume.assumeFalse;
 
@@ -162,7 +162,7 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     private static final WindowFinder windowFinder = new WindowFinderImpl();
     private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
     private static final WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
-    private static final CaptureSupport captureSupport = new CaptureSupport(new ScreenRobotImpl());
+    private static final CaptureSupport captureSupport = new CaptureSupport(new BaseRobotImpl());
 
     //---------------------------------------------------------------------------------------------
     // METHODS.

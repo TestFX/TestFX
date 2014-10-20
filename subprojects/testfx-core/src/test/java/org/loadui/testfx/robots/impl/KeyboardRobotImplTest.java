@@ -15,12 +15,13 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import javafx.scene.input.KeyCode;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.robots.KeyboardRobot;
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.BaseRobot;
+
+import static javafx.scene.input.KeyCode.A;
+import static javafx.scene.input.KeyCode.B;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -35,8 +36,9 @@ public final class KeyboardRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    ScreenRobot screenRobot;
-    KeyboardRobot keyboardRobot;
+    public KeyboardRobot keyboardRobot;
+
+    public BaseRobot baseRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -44,8 +46,8 @@ public final class KeyboardRobotImplTest {
 
     @Before
     public void setup() {
-        screenRobot = mock(ScreenRobot.class);
-        keyboardRobot = new KeyboardRobotImpl(screenRobot);
+        baseRobot = mock(BaseRobot.class);
+        keyboardRobot = new KeyboardRobotImpl(baseRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -55,81 +57,81 @@ public final class KeyboardRobotImplTest {
     @Test
     public void press_with_keyCode_for_A() {
         // when:
-        keyboardRobot.press(KeyCode.A);
+        keyboardRobot.press(A);
 
         // then:
-        verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
-        verify(screenRobot, times(1)).awaitEvents();
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).pressKeyboard(eq(A));
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void press_with_keyCodes_for_A_and_B() {
         // when:
-        keyboardRobot.press(KeyCode.A, KeyCode.B);
+        keyboardRobot.press(A, B);
 
         // then:
-        verify(screenRobot, times(1)).pressKey(eq(KeyCode.A));
-        verify(screenRobot, times(1)).pressKey(eq(KeyCode.B));
-        verify(screenRobot, times(1)).awaitEvents();
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).pressKeyboard(eq(A));
+        verify(baseRobot, times(1)).pressKeyboard(eq(B));
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void release_with_pressed_keyCode_for_A() {
         // given:
-        keyboardRobot.press(KeyCode.A);
-        reset(screenRobot);
+        keyboardRobot.press(A);
+        reset(baseRobot);
 
         // when:
-        keyboardRobot.release(KeyCode.A);
+        keyboardRobot.release(A);
 
         // then:
-        verify(screenRobot, times(1)).releaseKey(KeyCode.A);
-        verify(screenRobot, times(1)).awaitEvents();
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).releaseKeyboard(A);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void release_with_pressed_keyCodes_for_A_and_B() {
         // given:
-        keyboardRobot.press(KeyCode.A, KeyCode.B);
-        reset(screenRobot);
+        keyboardRobot.press(A, B);
+        reset(baseRobot);
 
         // when:
-        keyboardRobot.release(KeyCode.B, KeyCode.A);
+        keyboardRobot.release(B, A);
 
         // then:
-        verify(screenRobot, times(1)).releaseKey(KeyCode.B);
-        verify(screenRobot, times(1)).releaseKey(KeyCode.A);
-        verify(screenRobot, times(1)).awaitEvents();
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).releaseKeyboard(B);
+        verify(baseRobot, times(1)).releaseKeyboard(A);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void release_with_unpressed_keyCode_for_A() {
         // when:
-        keyboardRobot.release(KeyCode.A);
+        keyboardRobot.release(A);
 
         // then:
-        verify(screenRobot, times(0)).releaseKey(KeyCode.A);
-        verify(screenRobot, times(1)).awaitEvents();
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(0)).releaseKeyboard(A);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
-    public void releaseAll_with_pressed_keyCode_for_A() {
+    public void release_all_with_no_keyCodes_after_pressed_keyCode_for_A() {
         // given:
-        keyboardRobot.press(KeyCode.A);
-        reset(screenRobot);
+        keyboardRobot.press(A);
+        reset(baseRobot);
 
         // when:
-        keyboardRobot.releaseAll();
+        keyboardRobot.release();
 
         // then:
-        verify(screenRobot, times(1)).releaseKey(KeyCode.A);
-        verify(screenRobot, times(1)).awaitEvents();
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).releaseKeyboard(A);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
 }

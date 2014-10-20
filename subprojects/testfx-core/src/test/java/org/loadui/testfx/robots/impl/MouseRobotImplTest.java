@@ -20,7 +20,7 @@ import javafx.scene.input.MouseButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.robots.MouseRobot;
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.BaseRobot;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -35,8 +35,9 @@ public final class MouseRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    ScreenRobot screenRobot;
-    MouseRobot mouseRobot;
+    public MouseRobot mouseRobot;
+
+    public BaseRobot baseRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -44,8 +45,8 @@ public final class MouseRobotImplTest {
 
     @Before
     public void setup() {
-        screenRobot = mock(ScreenRobot.class);
-        mouseRobot = new MouseRobotImpl(screenRobot);
+        baseRobot = mock(BaseRobot.class);
+        mouseRobot = new MouseRobotImpl(baseRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -58,8 +59,9 @@ public final class MouseRobotImplTest {
         mouseRobot.press(MouseButton.PRIMARY);
 
         // then:
-        verify(screenRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
@@ -68,9 +70,10 @@ public final class MouseRobotImplTest {
         mouseRobot.press(MouseButton.PRIMARY, MouseButton.SECONDARY);
 
         // then:
-        verify(screenRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
-        verify(screenRobot, times(1)).pressMouse(eq(MouseButton.SECONDARY));
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
+        verify(baseRobot, times(1)).pressMouse(eq(MouseButton.SECONDARY));
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
@@ -79,37 +82,40 @@ public final class MouseRobotImplTest {
         mouseRobot.press();
 
         // then:
-        verify(screenRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void release_with_pressed_primary_button() {
         // given:
         mouseRobot.press(MouseButton.PRIMARY);
-        reset(screenRobot);
+        reset(baseRobot);
 
         // when:
         mouseRobot.release(MouseButton.PRIMARY);
 
         // then:
-        verify(screenRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void release_with_pressed_primary_and_secondary_button() {
         // given:
         mouseRobot.press(MouseButton.PRIMARY, MouseButton.SECONDARY);
-        reset(screenRobot);
+        reset(baseRobot);
 
         // when:
         mouseRobot.release(MouseButton.PRIMARY, MouseButton.SECONDARY);
 
         // then:
-        verify(screenRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
-        verify(screenRobot, times(1)).releaseMouse(MouseButton.SECONDARY);
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
+        verify(baseRobot, times(1)).releaseMouse(MouseButton.SECONDARY);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
@@ -118,22 +124,24 @@ public final class MouseRobotImplTest {
         mouseRobot.release(MouseButton.PRIMARY);
 
         // then:
-        verify(screenRobot, times(0)).releaseMouse(MouseButton.PRIMARY);
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(0)).releaseMouse(MouseButton.PRIMARY);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
     @Test
     public void release_with_no_buttons_should_release_pressed_buttons() {
         // given:
         mouseRobot.press(MouseButton.PRIMARY);
-        reset(screenRobot);
+        reset(baseRobot);
 
         // when:
         mouseRobot.release();
 
         // then:
-        verify(screenRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
-        verifyNoMoreInteractions(screenRobot);
+        verify(baseRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
+        verify(baseRobot, times(1)).awaitEvents();
+        verifyNoMoreInteractions(baseRobot);
     }
 
 }

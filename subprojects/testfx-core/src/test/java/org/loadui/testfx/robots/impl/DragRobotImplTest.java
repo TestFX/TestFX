@@ -38,10 +38,10 @@ public final class DragRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    DragRobot dragRobot;
+    public DragRobot dragRobot;
 
-    MouseRobot mouseRobot;
-    MoveRobot moveRobot;
+    public MouseRobot mouseRobot;
+    public MoveRobot moveRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
