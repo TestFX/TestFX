@@ -15,12 +15,41 @@
  */
 package org.loadui.testfx.robots;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 
 public interface MouseRobot {
 
-    void press(MouseButton... buttons);
+    /**
+     * Presses given buttons, until explicitly released.
+     *
+     * @param buttons the mouse buttons
+     */
+    public void press(MouseButton... buttons);
+    public void pressNoWait(MouseButton... buttons);
 
-    void release(MouseButton... buttons);
+    /**
+     * Releases given buttons.
+     *
+     * @param buttons the mouse buttons
+     */
+    public void release(MouseButton... buttons);
+    public void releaseNoWait(MouseButton... buttons);
+
+    /**
+     * Moves mouse to given location.
+     *
+     * @param location the location to move
+     */
+    public void move(Point2D location);
+    public void moveNoWait(Point2D location);
+
+    /**
+     * Scrolls mouse wheel given amount.
+     *
+     * @param wheelAmount the amount to scroll
+     */
+    public void scroll(int wheelAmount);
+    public void scrollNoWait(int wheelAmount);
 
 }

@@ -17,12 +17,13 @@ package org.loadui.testfx.robots.impl;
 
 import java.util.List;
 import java.util.Set;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.MouseRobot;
-import org.loadui.testfx.robots.ScreenRobot;
 
 public class MouseRobotImpl implements MouseRobot {
 
@@ -30,7 +31,7 @@ public class MouseRobotImpl implements MouseRobot {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public ScreenRobot screenRobot;
+    public BaseRobot baseRobot;
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -42,8 +43,8 @@ public class MouseRobotImpl implements MouseRobot {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public MouseRobotImpl(ScreenRobot screenRobot) {
-        this.screenRobot = screenRobot;
+    public MouseRobotImpl(BaseRobot baseRobot) {
+        this.baseRobot = baseRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -52,6 +53,12 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void press(MouseButton... buttons) {
+        pressNoWait(buttons);
+        baseRobot.awaitEvents();
+    }
+
+    @Override
+    public void pressNoWait(MouseButton... buttons) {
         if (isArrayEmpty(buttons)) {
             pressPrimaryButton();
         }
@@ -62,12 +69,40 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void release(MouseButton... buttons) {
+        releaseNoWait(buttons);
+        baseRobot.awaitEvents();
+    }
+
+    @Override
+    public void releaseNoWait(MouseButton... buttons) {
         if (isArrayEmpty(buttons)) {
             releasePressedButtons();
         }
         else {
             releaseButtons(Lists.newArrayList(buttons));
         }
+    }
+
+    @Override
+    public void move(Point2D location) {
+        moveNoWait(location);
+        baseRobot.awaitEvents();
+    }
+
+    @Override
+    public void moveNoWait(Point2D location) {
+        moveCursor(location);
+    }
+
+    @Override
+    public void scroll(int wheelAmount) {
+        scrollNoWait(wheelAmount);
+        baseRobot.awaitEvents();
+    }
+
+    @Override
+    public void scrollNoWait(int wheelAmount) {
+        scrollWheel(wheelAmount);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -96,14 +131,22 @@ public class MouseRobotImpl implements MouseRobot {
 
     private void pressButton(MouseButton button) {
         if (pressedButtons.add(button)) {
-            screenRobot.pressMouse(button);
+            baseRobot.pressMouse(button);
         }
     }
 
     private void releaseButton(MouseButton button) {
-        if (this.pressedButtons.remove(button)) {
-            this.screenRobot.releaseMouse(button);
+        if (pressedButtons.remove(button)) {
+            baseRobot.releaseMouse(button);
         }
+    }
+
+    private void moveCursor(Point2D location) {
+        baseRobot.moveMouse(location);
+    }
+
+    private void scrollWheel(int amount) {
+        baseRobot.scrollMouse(amount);
     }
 
 }

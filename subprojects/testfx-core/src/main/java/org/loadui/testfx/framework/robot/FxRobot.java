@@ -238,7 +238,6 @@ public interface FxRobot {
 
     public FxRobot press(KeyCode... keys);
     public FxRobot release(KeyCode... keys);
-    public FxRobot releaseAll();
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR MOUSE.

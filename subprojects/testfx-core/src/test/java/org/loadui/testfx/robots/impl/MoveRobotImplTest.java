@@ -19,8 +19,9 @@ import javafx.geometry.Point2D;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.service.query.PointQuery;
 
 import static org.mockito.AdditionalMatchers.not;
@@ -36,8 +37,10 @@ public final class MoveRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    ScreenRobot screenRobot;
-    MoveRobot moveRobot;
+    public MoveRobot moveRobot;
+
+    public BaseRobot baseRobot;
+    public MouseRobot mouseRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -45,8 +48,9 @@ public final class MoveRobotImplTest {
 
     @Before
     public void setup() {
-        screenRobot = mock(ScreenRobot.class);
-        moveRobot = new MoveRobotImpl(screenRobot);
+        baseRobot = mock(BaseRobot.class);
+        mouseRobot = new MouseRobotImpl(baseRobot);
+        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -57,7 +61,7 @@ public final class MoveRobotImplTest {
     public void moveTo_a_point_within_10_pixels() {
         // given:
         Point2D sourcePoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // and:
         Point2D targetPoint = new Point2D(10, 0);
@@ -69,17 +73,17 @@ public final class MoveRobotImplTest {
 
         // then:
         for (double x = 0.0; x <= 9.0; x++) {
-            verify(screenRobot, times(1)).moveMouse(new Point2D(x, 0));
+            verify(baseRobot, times(1)).moveMouse(new Point2D(x, 0));
         }
-        verify(screenRobot, times(2)).moveMouse(new Point2D(10, 0));
-        verify(screenRobot, times(2)).awaitEvents();
+        verify(baseRobot, times(2)).moveMouse(new Point2D(10, 0));
+        verify(baseRobot, times(2)).awaitEvents();
     }
 
     @Test
     public void moveTo_a_point_within_1000_pixels() {
         // given:
         Point2D sourcePoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // and:
         Point2D targetPoint = new Point2D(1000, 0);
@@ -90,16 +94,16 @@ public final class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery);
 
         // then:
-        verify(screenRobot, times(200)).moveMouse(not(eq(targetPoint)));
-        verify(screenRobot, times(2)).moveMouse(targetPoint);
-        verify(screenRobot, times(2)).awaitEvents();
+        verify(baseRobot, times(200)).moveMouse(not(eq(targetPoint)));
+        verify(baseRobot, times(2)).moveMouse(targetPoint);
+        verify(baseRobot, times(2)).awaitEvents();
     }
 
     @Test
     public void moveTo_should_move_to_moved_target_point() {
         // given:
         Point2D sourcePoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // and:
         Point2D targetPoint = new Point2D(10, 0);
@@ -111,41 +115,41 @@ public final class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery);
 
         // then:
-        verify(screenRobot, times(1)).moveMouse(targetPoint);
-        verify(screenRobot, times(1)).moveMouse(movedTargetPoint);
-        verify(screenRobot, times(2)).awaitEvents();
+        verify(baseRobot, times(1)).moveMouse(targetPoint);
+        verify(baseRobot, times(1)).moveMouse(movedTargetPoint);
+        verify(baseRobot, times(2)).awaitEvents();
     }
 
     @Test
     public void moveBy_a_distance_of_10_pixels() {
         // given:
         Point2D sourcePoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // when:
         Point2D targetPoint = new Point2D(10, 0);
         moveRobot.moveBy(10, 0);
 
         // then:
-        verify(screenRobot, times(10)).moveMouse(not(eq(targetPoint)));
-        verify(screenRobot, times(1)).moveMouse(targetPoint);
-        verify(screenRobot, times(1)).awaitEvents();
+        verify(baseRobot, times(10)).moveMouse(not(eq(targetPoint)));
+        verify(baseRobot, times(1)).moveMouse(targetPoint);
+        verify(baseRobot, times(1)).awaitEvents();
     }
 
     @Test
     public void moveBy_a_distance_of_1000_pixels() {
         // given:
         Point2D sourcePoint = new Point2D(0, 0);
-        given(screenRobot.retrieveMouse()).willReturn(sourcePoint);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
 
         // when:
         Point2D targetPoint = new Point2D(1000, 0);
         moveRobot.moveBy(1000, 0);
 
         // then:
-        verify(screenRobot, times(200)).moveMouse(not(eq(targetPoint)));
-        verify(screenRobot, times(1)).moveMouse(targetPoint);
-        verify(screenRobot, times(1)).awaitEvents();
+        verify(baseRobot, times(200)).moveMouse(not(eq(targetPoint)));
+        verify(baseRobot, times(1)).moveMouse(targetPoint);
+        verify(baseRobot, times(1)).awaitEvents();
     }
 
 }

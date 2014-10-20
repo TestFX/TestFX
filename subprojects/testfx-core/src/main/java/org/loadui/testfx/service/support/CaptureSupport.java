@@ -25,7 +25,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
-import org.loadui.testfx.robots.ScreenRobot;
+import org.loadui.testfx.robots.BaseRobot;
 
 public class CaptureSupport {
 
@@ -33,14 +33,14 @@ public class CaptureSupport {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private ScreenRobot screenRobot;
+    private BaseRobot baseRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public CaptureSupport(ScreenRobot screenRobot) {
-        this.screenRobot = screenRobot;
+    public CaptureSupport(BaseRobot baseRobot) {
+        this.baseRobot = baseRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ public class CaptureSupport {
 
     private Image captureScreenToImage(Screen screen) {
         Rectangle2D region = screen.getBounds();
-        return screenRobot.captureRegion(region);
+        return baseRobot.captureRegion(region);
     }
 
     private Image captureNodeToImage(Node node) {

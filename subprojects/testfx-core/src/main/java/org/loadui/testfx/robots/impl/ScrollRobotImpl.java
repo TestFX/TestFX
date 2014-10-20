@@ -16,7 +16,8 @@
 package org.loadui.testfx.robots.impl;
 
 import javafx.geometry.VerticalDirection;
-import org.loadui.testfx.robots.ScreenRobot;
+
+import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 
 public class ScrollRobotImpl implements ScrollRobot {
@@ -32,14 +33,14 @@ public class ScrollRobotImpl implements ScrollRobot {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public ScreenRobot screenRobot;
+    public MouseRobot mouseRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public ScrollRobotImpl(ScreenRobot screenRobot) {
-        this.screenRobot = screenRobot;
+    public ScrollRobotImpl(MouseRobot mouseRobot) {
+        this.mouseRobot = mouseRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -70,14 +71,14 @@ public class ScrollRobotImpl implements ScrollRobot {
     @Override
     public void scrollUp(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            screenRobot.scrollMouse(SCROLL_ONE_UP);
+            mouseRobot.scroll(SCROLL_ONE_UP);
         }
     }
 
     @Override
     public void scrollDown(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            screenRobot.scrollMouse(SCROLL_ONE_DOWN);
+            mouseRobot.scroll(SCROLL_ONE_DOWN);
         }
     }
 

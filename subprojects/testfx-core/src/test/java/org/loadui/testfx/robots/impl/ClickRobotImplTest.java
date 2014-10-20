@@ -39,10 +39,11 @@ public final class ClickRobotImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    ClickRobot clickRobot;
-    MouseRobot mouseRobot;
-    MoveRobot moveRobot;
-    SleepRobot sleepRobot;
+    public ClickRobot clickRobot;
+
+    public MouseRobot mouseRobot;
+    public MoveRobot moveRobot;
+    public SleepRobot sleepRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.

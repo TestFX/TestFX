@@ -22,23 +22,17 @@ public interface KeyboardRobot {
     /**
      * Presses given keys, until explicitly released.
      *
-     * @param keyCodes the key codes
+     * @param keys the key codes
      */
-    public void press(KeyCode... keyCodes);
-    public void pressNoWait(KeyCode... keyCodes);
+    public void press(KeyCode... keys);
+    public void pressNoWait(KeyCode... keys);
 
     /**
      * Releases given keys.
      *
-     * @param keyCodes the key codes
+     * @param keys the key codes
      */
-    public void release(KeyCode... keyCodes);
-    public void releaseNoWait(KeyCode... keyCodes);
-
-    /**
-     * Releases all currently pressed keys.
-     */
-    public void releaseAll();
-    public void releaseAllNoWait();
+    public void release(KeyCode... keys);
+    public void releaseNoWait(KeyCode... keys);
 
 }
