@@ -16,14 +16,9 @@
 package org.loadui.testfx.utils;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import javafx.application.Platform;
-
-import com.google.common.util.concurrent.SettableFuture;
 
 public class FXTestUtils {
 
@@ -43,15 +38,10 @@ public class FXTestUtils {
         awaitCondition(condition, 5);
     }
 
-    public static void awaitCondition(Callable<Boolean> condition, int timeoutInSeconds) {
-        long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
+    public static void awaitCondition(Callable<Boolean> condition,
+                                      int timeoutInSeconds) {
         try {
-            while (!condition.call()) {
-                Thread.sleep(10);
-                if (System.currentTimeMillis() > timeout) {
-                    throw new TimeoutException();
-                }
-            }
+            InvokeWaitUtils.waitFor(condition, timeoutInSeconds, TimeUnit.SECONDS);
         }
         catch (Exception exception) {
             throw new RuntimeException(exception);
@@ -63,20 +53,7 @@ public class FXTestUtils {
      * events triggered by them.
      */
     public static void awaitEvents() {
-        try {
-            for (int loopIndex = 0; loopIndex < 5; loopIndex++) {
-                final Semaphore semaphore = new Semaphore(0);
-                Platform.runLater(semaphore::release);
-                semaphore.acquire();
-                try {
-                    Thread.sleep(10);
-                }
-                catch (InterruptedException ignore) {}
-            }
-        }
-        catch (Throwable exception) {
-            throw new RuntimeException(exception);
-        }
+        InvokeWaitUtils.waitForApplicationThread();
     }
 
     /**
@@ -89,31 +66,14 @@ public class FXTestUtils {
      * @param timeoutInSeconds
      * @throws Exception
      */
-    public static void invokeAndWait(final Callable<?> task, int timeoutInSeconds) throws Exception {
-        final SettableFuture<Void> future = SettableFuture.create();
-
-        Platform.runLater(() -> {
-            try {
-                task.call();
-                future.set(null);
-            }
-            catch (Throwable e) {
-                future.setException(e);
-            }
+    public static void invokeAndWait(final Callable<?> task,
+                                     int timeoutInSeconds) throws Exception {
+        Future future = InvokeWaitUtils.invokeInApplicationThread(() -> {
+            task.call();
+            return null;
         });
-
-        try {
-            future.get(timeoutInSeconds, TimeUnit.SECONDS);
-            awaitEvents();
-        }
-        catch (ExecutionException exception) {
-            if (exception.getCause() instanceof Exception) {
-                throw (Exception) exception.getCause();
-            }
-            else {
-                throw exception;
-            }
-        }
+        InvokeWaitUtils.waitFor(future, timeoutInSeconds, TimeUnit.SECONDS);
+        InvokeWaitUtils.waitForApplicationThread();
     }
 
     /**
@@ -124,11 +84,7 @@ public class FXTestUtils {
      */
     public static void invokeAndWait(final Runnable task,
                                      int timeoutInSeconds) throws Exception {
-        invokeAndWait(() -> {
-            task.run();
-
-            return null;
-        }, timeoutInSeconds);
+        invokeAndWait(Executors.callable(task), timeoutInSeconds);
     }
 
 }
