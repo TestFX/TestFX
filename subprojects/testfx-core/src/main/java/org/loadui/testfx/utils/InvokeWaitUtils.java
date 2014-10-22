@@ -98,14 +98,15 @@ public class InvokeWaitUtils {
     public static void waitFor(ObservableBooleanValue booleanValue,
                                long timeout,
                                TimeUnit timeUnit) throws TimeoutException {
-        if (booleanValue.get()) { return; }
         SettableFuture<Void> future = SettableFuture.create();
         booleanValue.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 future.set(null);
             }
         });
-        waitFor(future, timeout, timeUnit);
+        if (!booleanValue.get()) {
+            waitFor(future, timeout, timeUnit);
+        }
     }
 
     public static void waitForApplicationThread() {

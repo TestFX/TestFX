@@ -17,6 +17,7 @@ package org.loadui.testfx.framework.app.impl;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -25,14 +26,13 @@ import javafx.stage.StageStyle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.utils.FXTestUtils;
-
 import org.hamcrest.Matchers;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class StageSetupImplTest {
@@ -60,24 +60,16 @@ public class StageSetupImplTest {
     @Before
     public void setup() throws Throwable {
         stageSetup = new StageSetupImpl();
-        FXTestUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                primaryStage = new Stage();
-                primaryStage.initStyle(StageStyle.UNDECORATED);
-                primaryStage.setScene(new Scene(new Region(), 600, 400));
-            }
+        FXTestUtils.invokeAndWait(() -> {
+            primaryStage = new Stage();
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.setScene(new Scene(new Region(), 600, 400));
         }, 5);
     }
 
     @After
     public void cleanup() throws Throwable {
-        FXTestUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                primaryStage.close();
-            }
-        }, 5);
+        Platform.runLater(() -> primaryStage.close());
     }
 
     //---------------------------------------------------------------------------------------------
@@ -113,10 +105,8 @@ public class StageSetupImplTest {
         assertThat("exception was not thrown", false);
     }
 
-    @Ignore @Test
+    @Test
     public void showPrimaryStage() throws Throwable {
-        // TODO: Fix lock here when FXTestUtils#invokeAndWait() awaits events via Semaphore.
-
         // given:
         stageSetup.setPrimaryStage(primaryStage);
 
