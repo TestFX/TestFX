@@ -83,8 +83,7 @@ public class RunWaitUtils {
      */
     public static void runOutsideAndWait(long millis,
                                          Runnable runnable) throws TimeoutException {
-        Callable<Void> callable = Executors.callable(runnable, null);
-        Future<Void> future = callOutside(callable);
+        Future<Void> future = runOutside(runnable);
         waitFor(millis, MILLISECONDS, future);
     }
 
@@ -99,8 +98,7 @@ public class RunWaitUtils {
      */
     public static void runLaterAndWait(long millis,
                                        Runnable runnable) throws TimeoutException {
-        Callable<Void> callable = Executors.callable(runnable, null);
-        Future<Void> future = callLater(callable);
+        Future<Void> future = runLater(runnable);
         waitFor(millis, MILLISECONDS, future);
     }
 
