@@ -37,9 +37,11 @@ public class RunWaitUtils {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    public final static long CONDITION_SLEEP_IN_MILLIS = 10;
-    public final static long SEMAPHORE_SLEEP_IN_MILLIS = 10;
-    public final static int SEMAPHORE_LOOPS_COUNT = 5;
+    private final static long CONDITION_SLEEP_IN_MILLIS = 10;
+
+    private final static long SEMAPHORE_SLEEP_IN_MILLIS = 10;
+
+    private final static int SEMAPHORE_LOOPS_COUNT = 5;
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -47,16 +49,38 @@ public class RunWaitUtils {
 
     // RUN METHODS.
 
+    /**
+     * Runs the given {@link Runnable} on a new {@link Thread} and returns a {@link Future} that
+     * is set on finish or error.
+     *
+     * @param runnable the runnable
+     * @return a future
+     */
     public static Future<Void> runOutside(Runnable runnable) {
         Callable<Void> callable = Executors.callable(runnable, null);
         return callOutside(callable);
     }
 
+    /**
+     * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
+     * in the future and returns a {@link Future} that is set on finish or error.
+     *
+     * @param runnable the runnable
+     * @return a future
+     */
     public static Future<Void> runLater(Runnable runnable) {
         Callable<Void> callable = Executors.callable(runnable, null);
         return callLater(callable);
     }
 
+    /**
+     * Runs the given {@link Runnable} on a new {@link Thread} and waits for it {@code long}
+     * milliseconds to finish, otherwise times out with {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param runnable the runnable
+     * @throws TimeoutException
+     */
     public static void runOutsideAndWait(long millis,
                                          Runnable runnable) throws TimeoutException {
         Callable<Void> callable = Executors.callable(runnable, null);
@@ -64,6 +88,15 @@ public class RunWaitUtils {
         waitFor(millis, MILLISECONDS, future);
     }
 
+    /**
+     * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
+     * in the future and waits for it {@code long} milliseconds to finish, otherwise times out with
+     * {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param runnable the runnable
+     * @throws TimeoutException
+     */
     public static void runLaterAndWait(long millis,
                                        Runnable runnable) throws TimeoutException {
         Callable<Void> callable = Executors.callable(runnable, null);
@@ -71,38 +104,86 @@ public class RunWaitUtils {
         waitFor(millis, MILLISECONDS, future);
     }
 
-    // INVOKE-IN METHODS.
+    // CALL METHODS.
 
+    /**
+     * Calls the given {@link Callable} on a new {@link Thread} and returns a {@link Future} that
+     * is set on finish or error.
+     *
+     * @param callable the callable
+     * @param <T> the callable type
+     * @return a future
+     */
     public static <T> Future<T> callOutside(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
         runInThread(() -> callCallableAndSetFuture(callable, future));
         return future;
     }
 
-    // Run on the JavaFX Application Thread at some unspecified time in the future.
+    /**
+     * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
+     * in the future and returns a {@link Future} that is set on finish or error.
+     *
+     * @param callable the callable
+     * @param <T> the callable type
+     * @return a future
+     */
     public static <T> Future<T> callLater(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
         runInFxThread(() -> callCallableAndSetFuture(callable, future));
         return future;
     }
 
+    /**
+     * Calls the given {@link Callable} on a new {@link Thread}, waits for it {@code long}
+     * milliseconds to finish and returns {@code T}, otherwise times out with
+     * {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param callable the callable
+     * @param <T> the callable type
+     * @return a result
+     * @throws TimeoutException
+     */
     public static <T> T callOutsideAndWait(long millis,
                                            Callable<T> callable) throws TimeoutException {
         Future<T> future = callOutside(callable);
         return waitFor(millis, MILLISECONDS, future);
     }
 
+    /**
+     * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
+     * in the future, waits for it {@code long} milliseconds to finish and returns {@code T},
+     * otherwise times out with {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param callable the callable
+     * @param <T> the callable type
+     * @return a result
+     * @throws TimeoutException
+     */
     public static <T> T callLaterAndWait(long millis,
                                          Callable<T> callable) throws TimeoutException {
         Future<T> future = callLater(callable);
         return waitFor(millis, MILLISECONDS, future);
     }
 
-    // WAIT-FOR METHODS.
+    // WAIT METHODS.
 
-    public static <V> V waitFor(long timeout,
+    /**
+     * Waits for given {@link Future} to be set (push) and returns {@code T}, otherwise times out
+     * with {@link TimeoutException}.
+     *
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @param future the future
+     * @param <T> the future type
+     * @return a result
+     * @throws TimeoutException
+     */
+    public static <T> T waitFor(long timeout,
                                 TimeUnit timeUnit,
-                                Future<V> future) throws TimeoutException {
+                                Future<T> future) throws TimeoutException {
         try {
             return future.get(timeout, timeUnit);
         }
@@ -114,6 +195,15 @@ public class RunWaitUtils {
         }
     }
 
+    /**
+     * Waits for given condition {@link Callable} to return (pull) {@code true}, otherwise times
+     * out with {@link TimeoutException}.
+     *
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @param condition the condition
+     * @throws TimeoutException
+     */
     public static void waitFor(long timeout,
                                TimeUnit timeUnit,
                                Callable<Boolean> condition) throws TimeoutException {
@@ -127,6 +217,15 @@ public class RunWaitUtils {
         }
     }
 
+    /**
+     * Waits for given observable {@link ObservableBooleanValue} to return (push) {@code true},
+     * otherwise times out with {@link TimeoutException}.
+     *
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @param booleanValue the observable
+     * @throws TimeoutException
+     */
     public static void waitFor(long timeout,
                                TimeUnit timeUnit,
                                ObservableBooleanValue booleanValue) throws TimeoutException {
@@ -143,14 +242,22 @@ public class RunWaitUtils {
         booleanValue.removeListener(changeListener);
     }
 
+    /**
+     * Waits for the event queue of JavaFX Application Thread to be completed, as well as any new
+     * events triggered in it.
+     */
     public static void waitForFxEvents() {
         waitForFxEvents(SEMAPHORE_LOOPS_COUNT);
     }
 
-    // Attempts to wait for events in the JavaFX event thread to complete, as well as any new
-    // events triggered by them.
-    public static void waitForFxEvents(int loopsCount) {
-        for (int loop = 0; loop < loopsCount; loop++) {
+    /**
+     * Waits the given {@link int} attempts for the event queue of JavaFX Application Thread to be
+     * completed, as well as any new events triggered on it.
+     *
+     * @param attemptsCount the attempts
+     */
+    public static void waitForFxEvents(int attemptsCount) {
+        for (int attempt = 0; attempt < attemptsCount; attempt++) {
             waitForSemaphoreInFxThread();
             sleep(SEMAPHORE_SLEEP_IN_MILLIS, MILLISECONDS);
         }
@@ -158,6 +265,12 @@ public class RunWaitUtils {
 
     // SLEEP METHODS.
 
+    /**
+     * Sleeps the given duration.
+     *
+     * @param duration the duration
+     * @param timeUnit the time unit
+     */
     public static void sleep(long duration,
                              TimeUnit timeUnit) {
         try {
