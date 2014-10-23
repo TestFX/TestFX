@@ -28,7 +28,7 @@ import org.junit.rules.ExpectedException;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class InvokeWaitUtilsTest {
+public class RunWaitUtilsTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -42,98 +42,97 @@ public class InvokeWaitUtilsTest {
     //---------------------------------------------------------------------------------------------
 
     @Test(timeout=1000)
-    public void invokeInThread() {
+    public void callOutside() throws Exception {
         // when:
-        Future future = InvokeWaitUtils.invokeInThread(() -> {
-        });
+        Future<String> future = RunWaitUtils.callOutside(() -> "foo");
 
         // then:
-        InvokeWaitUtils.sleep(10, MILLISECONDS);
-        assertThat(future.isDone(), Matchers.is(true));
+        RunWaitUtils.sleep(10, MILLISECONDS);
+        assertThat(future.get(), Matchers.is("foo"));
     }
 
     @Test(timeout=1000)
-    public void invokeInThread_with_sleep() {
+    public void callOutside_with_sleep() throws Exception {
         // when:
-        Future future = InvokeWaitUtils.invokeInThread(() -> {
-            InvokeWaitUtils.sleep(50, MILLISECONDS);
+        Future<String> future = RunWaitUtils.callOutside(() -> {
+            RunWaitUtils.sleep(50, MILLISECONDS);
+            return "foo";
         });
 
         // then:
         assertThat(future.isDone(), Matchers.is(false));
-        InvokeWaitUtils.sleep(100, MILLISECONDS);
-        assertThat(future.isDone(), Matchers.is(true));
+        RunWaitUtils.sleep(100, MILLISECONDS);
+        assertThat(future.get(), Matchers.is("foo"));
     }
 
     @Test(timeout=1000)
     public void waitFor_with_future() throws Exception {
         // given:
-        Future future = InvokeWaitUtils.invokeInThread(() -> {
-        });
+        Future<Void> future = RunWaitUtils.callOutside(() -> null);
 
         // expect:
-        InvokeWaitUtils.waitFor(future, 50, MILLISECONDS);
+        RunWaitUtils.waitFor(50, MILLISECONDS, future);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_future_with_sleep() throws Exception {
         // given:
-        Future future = InvokeWaitUtils.invokeInThread(() -> {
-            InvokeWaitUtils.sleep(100, MILLISECONDS);
+        Future<Void> future = RunWaitUtils.runOutside(() -> {
+            RunWaitUtils.sleep(100, MILLISECONDS);
         });
 
         // expect:
         thrown.expect(TimeoutException.class);
-        InvokeWaitUtils.waitFor(future, 50, MILLISECONDS);
+        RunWaitUtils.waitFor(50, MILLISECONDS, future);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanCallable() throws Exception {
         // expect:
-        InvokeWaitUtils.waitFor(() -> true, 250, MILLISECONDS);
+        RunWaitUtils.waitFor(250, MILLISECONDS, () -> true);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanCallable_with_sleep() throws Exception {
         // expect:
-        InvokeWaitUtils.waitFor(() -> {
-            InvokeWaitUtils.sleep(50, MILLISECONDS);
+        RunWaitUtils.waitFor(250, MILLISECONDS, () -> {
+            RunWaitUtils.sleep(50, MILLISECONDS);
             return true;
-        }, 250, MILLISECONDS);
+        });
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanCallable_with_false() throws Exception {
         // expect:
         thrown.expect(TimeoutException.class);
-        InvokeWaitUtils.waitFor(() -> false, 250, MILLISECONDS);
+        RunWaitUtils.waitFor(250, MILLISECONDS, () -> false);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanValue() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
-        InvokeWaitUtils.invokeInThread(() -> {
-            InvokeWaitUtils.sleep(50, MILLISECONDS);
+        RunWaitUtils.runOutside(() -> {
+            RunWaitUtils.sleep(50, MILLISECONDS);
             property.set(true);
         });
 
         // expect:
-        InvokeWaitUtils.waitFor(property, 250, MILLISECONDS);
+        RunWaitUtils.waitFor(250, MILLISECONDS, property);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanValue_with_false() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
-        InvokeWaitUtils.invokeInThread(() -> {
-            InvokeWaitUtils.sleep(50, MILLISECONDS);
+        RunWaitUtils.runOutside(() -> {
+            RunWaitUtils.sleep(50, MILLISECONDS);
             property.set(false);
         });
 
         // expect:
         thrown.expect(TimeoutException.class);
-        InvokeWaitUtils.waitFor(property, 250, MILLISECONDS);
+        RunWaitUtils.waitFor(250, MILLISECONDS, property);
     }
 
 }
