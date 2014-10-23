@@ -13,39 +13,29 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.utils;
+package org.loadui.testfx.framework.launch;
 
+import javafx.application.Application;
 import javafx.stage.Stage;
-import com.google.common.util.concurrent.AbstractFuture;
+import javafx.stage.StageStyle;
 
-public class StageFuture extends AbstractFuture<Stage> {
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    public static StageFuture create() {
-        return new StageFuture();
-    }
+public class ToolkitApplication extends Application {
 
     //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
+    // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private StageFuture() {}
+    public static final StageFuture primaryStageFuture = StageFuture.create();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public boolean set(Stage stage) {
-        return super.set(stage);
-    }
-
-    @Override
-    public boolean setException(Throwable throwable) {
-        return super.setException(throwable);
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setTitle(getClass().getSimpleName());
+        primaryStageFuture.set(primaryStage);
     }
 
 }
