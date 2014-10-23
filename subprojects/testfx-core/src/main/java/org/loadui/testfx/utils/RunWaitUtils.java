@@ -114,7 +114,7 @@ public class RunWaitUtils {
      */
     public static <T> Future<T> callOutside(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
-        runInThread(() -> callCallableAndSetFuture(callable, future));
+        runOnThread(() -> callCallableAndSetFuture(callable, future));
         return future;
     }
 
@@ -128,7 +128,7 @@ public class RunWaitUtils {
      */
     public static <T> Future<T> callLater(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
-        runInFxThread(() -> callCallableAndSetFuture(callable, future));
+        runOnFxThread(() -> callCallableAndSetFuture(callable, future));
         return future;
     }
 
@@ -256,7 +256,7 @@ public class RunWaitUtils {
      */
     public static void waitForFxEvents(int attemptsCount) {
         for (int attempt = 0; attempt < attemptsCount; attempt++) {
-            waitForSemaphoreInFxThread();
+            blockFxThreadWithSemaphore();
             sleep(SEMAPHORE_SLEEP_IN_MILLIS, MILLISECONDS);
         }
     }
@@ -281,13 +281,13 @@ public class RunWaitUtils {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static void runInThread(Runnable runnable) {
+    private static void runOnThread(Runnable runnable) {
         Thread thread = new Thread(runnable);
         thread.setDaemon(false);
         thread.start();
     }
 
-    private static void runInFxThread(Runnable runnable) {
+    private static void runOnFxThread(Runnable runnable) {
         Platform.runLater(runnable);
     }
 
@@ -310,9 +310,9 @@ public class RunWaitUtils {
         }
     }
 
-    private static void waitForSemaphoreInFxThread() {
+    private static void blockFxThreadWithSemaphore() {
         Semaphore semaphore = new Semaphore(0);
-        runInFxThread(semaphore::release);
+        runOnFxThread(semaphore::release);
         try {
             semaphore.acquire();
         }
