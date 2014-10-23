@@ -24,8 +24,8 @@ import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.loadui.testfx.framework.app.AppLauncher;
+import org.loadui.testfx.framework.launch.StageFuture;
 import org.loadui.testfx.utils.FXTestUtils;
-import org.loadui.testfx.utils.StageFuture;
 
 import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;

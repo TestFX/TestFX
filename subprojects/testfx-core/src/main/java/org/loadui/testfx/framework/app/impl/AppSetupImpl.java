@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 import org.loadui.testfx.framework.app.AppSetup;
 import org.loadui.testfx.framework.app.AppLauncher;
-import org.loadui.testfx.utils.StageFuture;
+import org.loadui.testfx.framework.launch.StageFuture;
 
 /**
  * Class that launches an application class and retrieves its primary stage.

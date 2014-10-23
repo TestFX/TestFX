@@ -15,33 +15,10 @@
  */
 package org.loadui.testfx.framework.app.impl;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import org.loadui.testfx.framework.app.AppSetup;
-import org.loadui.testfx.utils.StageFuture;
+import org.loadui.testfx.framework.launch.ToolkitApplication;
 
 public class ToolkitAppSetupFactory {
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    public static final StageFuture primaryStageFuture = StageFuture.create();
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC CLASSES.
-    //---------------------------------------------------------------------------------------------
-
-    public static class ToolkitApplication extends Application {
-        @Override
-        public void start(Stage primaryStage) throws Exception {
-            primaryStage.initStyle(StageStyle.UNDECORATED);
-            primaryStage.setTitle("DefaultApplication: primaryStage");
-            primaryStageFuture.set(primaryStage);
-        }
-    }
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -51,7 +28,7 @@ public class ToolkitAppSetupFactory {
         AppSetupImpl appSetup = new AppSetupImpl();
         appSetup.setAppClass(ToolkitApplication.class);
         appSetup.setAppLauncher(new ToolkitAppLauncher());
-        appSetup.setStageFuture(primaryStageFuture);
+        appSetup.setStageFuture(ToolkitApplication.primaryStageFuture);
         return appSetup;
     }
 
