@@ -33,19 +33,23 @@ public class FxLifecycle {
     private FxLifecycle() {
         throw new UnsupportedOperationException();
     }
-
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     // LAUNCH: SETUP PRIMARY STAGE (LAUNCH TOOLKIT AND APPLICATION).
 
-    public static Stage launchPrimaryStage() throws TimeoutException {
+    public static Stage setupPrimaryStage() throws TimeoutException {
         Stage primaryStage = waitForLaunch(
             service.setupPrimaryStage(context.getStageFuture(), context.getApplicationClass())
         );
         context.setTargetStage(primaryStage);
         return primaryStage;
+    }
+
+    public static Stage setupTargetStage(Stage stage) {
+        context.setTargetStage(stage);
+        return stage;
     }
 
     // SETUP: SETUP CONTAINERS (STAGE, SCENE) AND CONTENTS (NODE, PARENT, CONTROL, ...).
