@@ -15,10 +15,12 @@
  */
 package org.testfx.api.demo;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -49,10 +51,18 @@ public class SimpleLabelDemo {
         RunWaitUtils.sleep(3, TimeUnit.SECONDS);
 
         // Setup and show Scene Root.
-        FxLifecycle.setupSceneRoot(() -> {
+        Parent demoSceneRoot = FxLifecycle.setupSceneRoot(() -> {
             Region sceneRoot = createSceneRoot(SimpleLabelDemo.class);
             sceneRoot.setPrefSize(300, 100);
             return sceneRoot;
+        });
+        RunWaitUtils.sleep(3, TimeUnit.SECONDS);
+
+        // Setup and show Scene Root with FXML file.
+        Parent fxmlSceneRoot = FxLifecycle.setupSceneRoot(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(SimpleLabelDemo.class.getResource("simpleLabel.fxml"));
+            return uncheckException(() -> fxmlLoader.load());
         });
         RunWaitUtils.sleep(3, TimeUnit.SECONDS);
 
@@ -71,6 +81,15 @@ public class SimpleLabelDemo {
 
     private static Region createSceneRoot(Class<?> cls) {
         return new StackPane(new Label(cls.getSimpleName()));
+    }
+
+    private static <T> T uncheckException(Callable<T> callable) {
+        try {
+            return callable.call();
+        }
+        catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     //---------------------------------------------------------------------------------------------
