@@ -17,8 +17,8 @@ package org.testfx.api.demo;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -35,9 +35,9 @@ public class SimpleLabelDemo {
     //---------------------------------------------------------------------------------------------
 
     public static void main(String[] args) throws TimeoutException {
-        // Setup Stage.
-        Stage primaryStage = FxLifecycle.setupPrimaryStage();
-        Stage targetStage = FxLifecycle.setupTargetStage(FxLifecycle.setup(() -> new Stage()));
+        // Register Stages.
+        Stage primaryStage = FxLifecycle.registerPrimaryStage();
+        Stage targetStage = FxLifecycle.registerTargetStage(() -> new Stage());
 
         // Setup, show and cleanup Application.
         Application demoApplication = FxLifecycle.setupApplication(SimpleLabelApplication.class);
@@ -45,11 +45,32 @@ public class SimpleLabelDemo {
         FxLifecycle.cleanupApplication(demoApplication);
 
         // Setup and show Scene.
-        Scene demoScene = FxLifecycle.setupScene(() -> new SimpleLableScene(new Region(), 300, 100));
+        Scene demoScene = FxLifecycle.setupScene(() -> new SimpleLabelScene(300, 100));
         RunWaitUtils.sleep(3, TimeUnit.SECONDS);
 
-        // Cleanup Stage.
-        RunWaitUtils.runLaterAndWait(1000, () -> targetStage.close());
+        // Setup and show Scene Root.
+        FxLifecycle.setupSceneRoot(() -> {
+            Region sceneRoot = createSceneRoot(SimpleLabelDemo.class);
+            sceneRoot.setPrefSize(300, 100);
+            return sceneRoot;
+        });
+        RunWaitUtils.sleep(3, TimeUnit.SECONDS);
+
+        // Cleanup Stages.
+        RunWaitUtils.runLater(() -> targetStage.close());
+        RunWaitUtils.runLater(() -> primaryStage.close());
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static Region createEmptySceneRoot() {
+        return new Region();
+    }
+
+    private static Region createSceneRoot(Class<?> cls) {
+        return new StackPane(new Label(cls.getSimpleName()));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -59,17 +80,17 @@ public class SimpleLabelDemo {
     public static class SimpleLabelApplication extends Application {
         @Override
         public void start(Stage primaryStage) throws Exception {
-            StackPane sceneRoot = new StackPane(new Label(getClass().getSimpleName()));
+            Region sceneRoot = createSceneRoot(getClass());
             Scene scene = new Scene(sceneRoot, 300, 100);
             primaryStage.setScene(scene);
             primaryStage.show();
         }
     }
 
-    public static class SimpleLableScene extends Scene {
-        public SimpleLableScene(Parent root, double width, double height) {
-            super(root, width, height);
-            StackPane sceneRoot = new StackPane(new Label(getClass().getSimpleName()));
+    public static class SimpleLabelScene extends Scene {
+        public SimpleLabelScene(double width, double height) {
+            super(createEmptySceneRoot(), width, height);
+            Region sceneRoot = createSceneRoot(getClass());
             setRoot(sceneRoot);
         }
     }

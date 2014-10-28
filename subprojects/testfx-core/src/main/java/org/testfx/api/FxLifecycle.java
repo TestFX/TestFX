@@ -26,11 +26,62 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import com.google.common.annotations.Beta;
 import org.testfx.lifecycle.LifecycleService;
 import org.testfx.lifecycle.impl.LifecycleServiceImpl;
 
 import static org.loadui.testfx.utils.RunWaitUtils.waitFor;
 
+/**
+ * Responsible for setup and cleanup of JavaFX fixtures that need the JavaFX thread.
+ *
+ * <p><b>Overview</b></p>
+ *
+ * <p>This class methods cover three different kinds of fixtures:</p>
+ *
+ * <ol>
+ * <li>Container fixtures, which are registered as {@code targetStage}.</li>
+ * <li>Content fixtures, which are attached to the registered {@code targetStage}.</li>
+ * <li>Individual fixtures, which do not require a {@code targetStage}.</li>
+ * </ol>
+ *
+ * <p>Additionally it keeps an internal context.</p>
+ *
+ * <p><b>1. Container Fixtures</b></p>
+ *
+ * <p>They can be registered as {@code targetStage} and provide a top-level container, i.e.
+ * {@link Stage}s.</p>
+ *
+ * <p>The primary stage can be registered as {@code targetStage} using
+ * {@link #registerPrimaryStage}. This call is mandatory before any other JavaFX fixture can be
+ * created.</p>
+ *
+ * <p>Other stages can be registered as {@code targetStage}  using {@link #registerTargetStage
+ * registerTargetStage(Supplier&lt;Stage&gt;)}.</p>
+ *
+ * <p><b>2. Content Fixtures</b></p>
+ *
+ * <p>They can be attached to the {@code targetStage}.</p>
+ *
+ * <p>Either constructed by calling an {@link Application#start Application.start()}, by
+ * supplying {@link Scene}s, {@link Parent}s, or by consuming a {@link Stage}.</p>
+ *
+ * <p>Use: {@link #setupStage setupStage(Consumer&lt;Stage&gt;)},
+ * {@link #setupApplication setupApplication(Class&lt;? extends Application&gt;)</?>},
+ * {@link #setupScene setupScene(Supplier&lt;Scene&gt;)} or
+ * {@link #setupSceneRoot setupSceneRoot(Supplier&lt;Parent&gt;)}</p>
+ *
+ * <p><b>3. Individual Fixtures</b></p>
+ *
+ * <p>To setup individual Nodes use {@link #setup(Runnable)} and {@link #setup(Callable)}.</p>
+ *
+ * <p><b>Internal Context</b></p>
+ *
+ * <p>Is internally responsible for handle the target stage for attachments,
+ * handle timeouts, provide the Application for the Toolkit launch and execute the setup
+ * in the JavaFX thread. The primary Stage is constructed by the platform.</p>
+ */
+@Beta
 public class FxLifecycle {
 
     //---------------------------------------------------------------------------------------------
@@ -48,13 +99,15 @@ public class FxLifecycle {
     private FxLifecycle() {
         throw new UnsupportedOperationException();
     }
+
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    // LAUNCH: SETUP PRIMARY STAGE (LAUNCH TOOLKIT AND APPLICATION).
+    // CONTAINER FIXTURES.
 
-    public static Stage setupPrimaryStage() throws TimeoutException {
+    public static Stage registerPrimaryStage()
+                                      throws TimeoutException {
         Stage primaryStage = waitForLaunch(
             service.setupPrimaryStage(context.getStageFuture(), context.getApplicationClass())
         );
@@ -62,62 +115,67 @@ public class FxLifecycle {
         return primaryStage;
     }
 
-    public static Stage setupTargetStage(Stage stage) {
-        context.setTargetStage(stage);
-        return stage;
+    public static Stage registerTargetStage(Supplier<Stage> stageSupplier)
+                                     throws TimeoutException {
+        Stage targetStage = setup(() -> stageSupplier.get());
+        context.setTargetStage(targetStage);
+        return targetStage;
     }
 
-    // SETUP: SETUP CONTAINERS (STAGE, SCENE) AND CONTENTS (NODE, PARENT, CONTROL, ...).
+    // INDIVIDUAL FIXTURES.
 
-    public static void setup(Runnable runnable) throws TimeoutException {
+    public static void setup(Runnable runnable)
+                      throws TimeoutException {
         waitForSetup(
             service.setup(runnable)
         );
     }
 
-    public static <T> T setup(Callable<T> callable) throws TimeoutException {
+    public static <T> T setup(Callable<T> callable)
+                       throws TimeoutException {
         return waitForSetup(
             service.setup(callable)
         );
     }
 
-    // SETUP/CONSUME: USE STAGE TO SETUP CONTAINERS AND CONTENTS.
+    // CONTENT FIXTURES.
 
-    public static Stage setupStage(Consumer<Stage> stageConsumer) throws TimeoutException {
+    public static Stage setupStage(Consumer<Stage> stageConsumer)
+                            throws TimeoutException {
         return waitForSetup(
             service.setupStage(context.getTargetStage(), stageConsumer)
         );
     }
 
-    // SETUP/SUPPLY: USE STAGE TO SETUP APPLICATION, SCENE OR ROOT.
-
     public static Application setupApplication(Class<? extends Application> applicationClass)
-            throws TimeoutException {
+                                        throws TimeoutException {
         return waitForSetup(
             service.setupApplication(context.getTargetStage(), applicationClass)
         );
     }
 
-    public static void cleanupApplication(Application application) throws TimeoutException {
+    public static void cleanupApplication(Application application)
+                                   throws TimeoutException {
         waitForSetup(
             service.cleanupApplication(application)
         );
     }
 
-    public static Scene setupScene(Supplier<Scene> sceneSupplier) throws TimeoutException {
+    public static Scene setupScene(Supplier<Scene> sceneSupplier)
+                            throws TimeoutException {
         return waitForSetup(
             service.setupScene(context.getTargetStage(), sceneSupplier)
         );
     }
 
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
-            throws TimeoutException {
+                                 throws TimeoutException {
         return waitForSetup(
             service.setupSceneRoot(context.getTargetStage(), sceneRootSupplier)
         );
     }
 
-    // CONTEXT.
+    // INTERNAL CONTEXT.
 
     public static FxLifecycleContext lifecycleContext() {
         return context;
@@ -127,11 +185,13 @@ public class FxLifecycle {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static <T> T waitForLaunch(Future<T> future) throws TimeoutException {
+    private static <T> T waitForLaunch(Future<T> future)
+                                throws TimeoutException {
         return waitFor(context.getLaunchTimeoutInMillis(), TimeUnit.MILLISECONDS, future);
     }
 
-    private static <T> T waitForSetup(Future<T> future) throws TimeoutException {
+    private static <T> T waitForSetup(Future<T> future)
+                               throws TimeoutException {
         return waitFor(context.getSetupTimeoutInMillis(), TimeUnit.MILLISECONDS, future);
     }
 
