@@ -124,7 +124,10 @@ subprojects { subproj ->
         options.windowTitle = "${subproj.pomDescription} $version"
         options.docTitle    = "${subproj.pomDescription} $version"
         options.footer      = project.javadocFooter
-        options.links       = ['http://docs.oracle.com/javase/7/docs/api/']
+        options.links       = [
+            'http://docs.oracle.com/javase/8/docs/api/',
+            'http://docs.oracle.com/javase/8/javafx/api/'
+        ]
     }
 
     /*
