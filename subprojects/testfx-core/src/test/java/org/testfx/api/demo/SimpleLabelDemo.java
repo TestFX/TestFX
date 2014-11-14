@@ -27,7 +27,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import org.loadui.testfx.utils.RunWaitUtils;
+import org.loadui.testfx.utils.WaitForAsyncUtils;
 import org.testfx.api.FxLifecycle;
 
 public class SimpleLabelDemo {
@@ -43,12 +43,12 @@ public class SimpleLabelDemo {
 
         // Setup, show and cleanup Application.
         Application demoApplication = FxLifecycle.setupApplication(SimpleLabelApplication.class);
-        RunWaitUtils.sleep(3, TimeUnit.SECONDS);
+        WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
         FxLifecycle.cleanupApplication(demoApplication);
 
         // Setup and show Scene.
         Scene demoScene = FxLifecycle.setupScene(() -> new SimpleLabelScene(300, 100));
-        RunWaitUtils.sleep(3, TimeUnit.SECONDS);
+        WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Setup and show Scene Root.
         Parent demoSceneRoot = FxLifecycle.setupSceneRoot(() -> {
@@ -56,7 +56,7 @@ public class SimpleLabelDemo {
             sceneRoot.setPrefSize(300, 100);
             return sceneRoot;
         });
-        RunWaitUtils.sleep(3, TimeUnit.SECONDS);
+        WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Setup and show Scene Root with FXML file.
         Parent fxmlSceneRoot = FxLifecycle.setupSceneRoot(() -> {
@@ -64,11 +64,11 @@ public class SimpleLabelDemo {
             fxmlLoader.setLocation(SimpleLabelDemo.class.getResource("simpleLabel.fxml"));
             return uncheckException(() -> fxmlLoader.load());
         });
-        RunWaitUtils.sleep(3, TimeUnit.SECONDS);
+        WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Cleanup Stages.
-        RunWaitUtils.runLater(() -> targetStage.close());
-        RunWaitUtils.runLater(() -> primaryStage.close());
+        WaitForAsyncUtils.asyncFx(() -> targetStage.close());
+        WaitForAsyncUtils.asyncFx(() -> primaryStage.close());
     }
 
     //---------------------------------------------------------------------------------------------

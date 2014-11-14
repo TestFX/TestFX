@@ -28,10 +28,8 @@ import javafx.stage.Stage;
 import org.testfx.lifecycle.LifecycleLauncher;
 import org.testfx.lifecycle.LifecycleService;
 
-import static org.loadui.testfx.utils.RunWaitUtils.callLater;
-import static org.loadui.testfx.utils.RunWaitUtils.callOutside;
-import static org.loadui.testfx.utils.RunWaitUtils.runLater;
-import static org.loadui.testfx.utils.RunWaitUtils.runOutside;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.async;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
 
 public class LifecycleServiceImpl implements LifecycleService {
 
@@ -60,25 +58,25 @@ public class LifecycleServiceImpl implements LifecycleService {
                                            Class<? extends Application> toolkitApplication) {
 
         if (!primaryStageFuture.isDone()) {
-            runOutside(() -> toolkitLifecycleLauncher.launch(toolkitApplication));
+            async(() -> toolkitLifecycleLauncher.launch(toolkitApplication));
         }
         return primaryStageFuture;
     }
 
     @Override
     public Future<Void> setup(Runnable runnable) {
-        return runLater(runnable);
+        return asyncFx(runnable);
     }
 
     @Override
     public <T> Future<T> setup(Callable<T> callable) {
-        return callLater(callable);
+        return asyncFx(callable);
     }
 
     @Override
     public Future<Stage> setupStage(Stage stage,
                                     Consumer<Stage> stageConsumer) {
-        return callLater(() -> {
+        return asyncFx(() -> {
             stageConsumer.accept(stage);
             return stage;
         });
@@ -87,7 +85,7 @@ public class LifecycleServiceImpl implements LifecycleService {
     @Override
     public Future<Scene> setupScene(Stage stage,
                                     Supplier<? extends Scene> sceneSupplier) {
-        return callLater(() -> {
+        return asyncFx(() -> {
             Scene scene = sceneSupplier.get();
             stage.setScene(scene);
             return scene;
@@ -97,7 +95,7 @@ public class LifecycleServiceImpl implements LifecycleService {
     @Override
     public Future<Parent> setupSceneRoot(Stage stage,
                                          Supplier<? extends Parent> sceneRootSupplier) {
-        return callLater(() -> {
+        return asyncFx(() -> {
             Parent rootNode = sceneRootSupplier.get();
             stage.setScene(new Scene(rootNode));
             return rootNode;
@@ -107,10 +105,10 @@ public class LifecycleServiceImpl implements LifecycleService {
     @Override
     public Future<Application> setupApplication(Stage stage,
                                                 Class<? extends Application> appClass) {
-        return callLater(() -> {
+        return asyncFx(() -> {
             Application application = appClass.newInstance();
             CountDownLatch latch = new CountDownLatch(1);
-            callOutside(() -> {
+            async(() -> {
                 try {
                     application.init();
                 }
@@ -133,7 +131,7 @@ public class LifecycleServiceImpl implements LifecycleService {
 
     @Override
     public Future<Void> cleanupApplication(Application application) {
-        return callLater(() -> {
+        return asyncFx(() -> {
             application.stop();
             return null;
         });

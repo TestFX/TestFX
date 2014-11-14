@@ -32,7 +32,7 @@ import org.testfx.lifecycle.LifecycleService;
 import org.testfx.lifecycle.impl.LifecycleServiceImpl;
 import org.testfx.lifecycle.impl.LifecycleLauncherToolkitImpl;
 
-import static org.loadui.testfx.utils.RunWaitUtils.waitFor;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
 
 /**
  * Responsible for setup and cleanup of JavaFX fixtures that need the JavaFX thread.

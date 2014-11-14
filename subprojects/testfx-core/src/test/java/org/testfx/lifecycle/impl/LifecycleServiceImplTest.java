@@ -32,9 +32,9 @@ import org.junit.Test;
 import org.loadui.testfx.framework.launch.ToolkitApplication;
 import org.testfx.lifecycle.LifecycleService;
 
-import static org.loadui.testfx.utils.RunWaitUtils.runLaterAndWait;
-import static org.loadui.testfx.utils.RunWaitUtils.sleep;
-import static org.loadui.testfx.utils.RunWaitUtils.waitFor;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
 
 public class LifecycleServiceImplTest {
 
@@ -62,7 +62,7 @@ public class LifecycleServiceImplTest {
 
     @Before
     public void setup() throws Exception {
-        runLaterAndWait(2000, () -> {
+        waitForAsyncFx(2000, () -> {
             primaryStage.show();
         });
     }
