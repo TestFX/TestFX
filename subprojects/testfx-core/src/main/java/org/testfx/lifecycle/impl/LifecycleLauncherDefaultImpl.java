@@ -25,7 +25,9 @@ public class LifecycleLauncherDefaultImpl implements LifecycleLauncher {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public void launch(Class<? extends Application> appClass, String... appArgs) {
+    @Override
+    public void launch(Class<? extends Application> appClass,
+                       String... appArgs) {
         Application.launch(appClass, appArgs);
     }
 
