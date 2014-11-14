@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.testfx.lifecycle.LifecycleLauncher;
 import org.testfx.lifecycle.LifecycleService;
 
 import static org.loadui.testfx.utils.RunWaitUtils.callLater;
@@ -34,13 +35,31 @@ import static org.loadui.testfx.utils.RunWaitUtils.runOutside;
 
 public class LifecycleServiceImpl implements LifecycleService {
 
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    private LifecycleLauncher toolkitLifecycleLauncher;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
+
+    public LifecycleServiceImpl(LifecycleLauncher toolkitLifecycleLauncher) {
+        this.toolkitLifecycleLauncher = toolkitLifecycleLauncher;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
+
     // TODO: Platform.isFxApplicationThread() ? throw new RuntimeException("Dont run here");
 
     public Future<Stage> setupPrimaryStage(Future<Stage> primaryStageFuture,
                                            Class<? extends Application> toolkitApplication) {
 
         if (!primaryStageFuture.isDone()) {
-            runOutside(() -> Application.launch(toolkitApplication));
+            runOutside(() -> toolkitLifecycleLauncher.launch(toolkitApplication));
         }
         return primaryStageFuture;
     }

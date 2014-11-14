@@ -27,8 +27,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.common.annotations.Beta;
+import org.testfx.lifecycle.LifecycleLauncher;
 import org.testfx.lifecycle.LifecycleService;
 import org.testfx.lifecycle.impl.LifecycleServiceImpl;
+import org.testfx.lifecycle.impl.LifecycleLauncherToolkitImpl;
 
 import static org.loadui.testfx.utils.RunWaitUtils.waitFor;
 
@@ -88,9 +90,11 @@ public class FxLifecycle {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static FxLifecycleContext context = new FxLifecycleContext();
+    private static final FxLifecycleContext context = new FxLifecycleContext();
 
-    private static LifecycleService service = new LifecycleServiceImpl();
+    private static final LifecycleLauncher launcher = new LifecycleLauncherToolkitImpl();
+
+    private static final LifecycleService service = new LifecycleServiceImpl(launcher);
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE CONSTRUCTORS.

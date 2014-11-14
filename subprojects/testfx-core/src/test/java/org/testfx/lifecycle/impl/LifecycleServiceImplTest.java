@@ -53,7 +53,7 @@ public class LifecycleServiceImplTest {
     public static void setupSpec() throws Exception {
         Future<Stage> primaryStageFuture = ToolkitApplication.primaryStageFuture;
         Class<? extends Application> toolkitApplication = ToolkitApplication.class;
-        lifecycle = new LifecycleServiceImpl();
+        lifecycle = new LifecycleServiceImpl(new LifecycleLauncherDefaultImpl());
 
         primaryStage = waitFor(10, TimeUnit.SECONDS,
             lifecycle.setupPrimaryStage(primaryStageFuture, toolkitApplication)
