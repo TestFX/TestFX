@@ -22,7 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 import org.loadui.testfx.robots.BaseRobot;
-import org.loadui.testfx.service.adapter.AwtRobotAdapter;
+import org.loadui.testfx.service.adapter.GlassRobotAdapter;
 import org.loadui.testfx.utils.FXTestUtils;
 
 public class BaseRobotImpl implements BaseRobot {
@@ -31,15 +31,14 @@ public class BaseRobotImpl implements BaseRobot {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final AwtRobotAdapter robotAdapter;
+    private final GlassRobotAdapter robotAdapter;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public BaseRobotImpl() {
-        robotAdapter = new AwtRobotAdapter();
-        robotAdapter.robotCreate();
+        robotAdapter = new GlassRobotAdapter();
     }
 
     //---------------------------------------------------------------------------------------------
