@@ -42,7 +42,7 @@ public class GlassRobotAdapter {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    public static final int INTERACTION_TIMEOUT_MILLIS = 10000;
+    public static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
 
     public static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
     public static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
@@ -66,13 +66,13 @@ public class GlassRobotAdapter {
     // ROBOT.
 
     public void robotCreate() {
-        waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             glassRobot = createGlassRobot();
         });
     }
 
     public void robotDestroy() {
-        waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             glassRobot.destroy();
         });
     }
@@ -98,10 +98,9 @@ public class GlassRobotAdapter {
     // MOUSE.
 
     public Point2D getMouseLocation() {
-        return waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
         });
-
     }
 
     public void mouseMove(Point2D location) {
@@ -131,7 +130,7 @@ public class GlassRobotAdapter {
     // CAPTURE.
 
     public Color getCapturePixelColor(Point2D location) {
-        return waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             int glassColor = useRobot().getPixelColor(
                 (int) location.getX(), (int) location.getY()
             );
@@ -140,7 +139,7 @@ public class GlassRobotAdapter {
     }
 
     public Image getCaptureRegion(Rectangle2D region) {
-        return waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             Pixels glassPixels = useRobot().getScreenCapture(
                 (int) region.getMinX(), (int) region.getMinY(),
                 (int) region.getWidth(), (int) region.getHeight()
