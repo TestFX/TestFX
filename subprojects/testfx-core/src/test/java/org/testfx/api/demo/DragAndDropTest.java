@@ -57,7 +57,6 @@ public class DragAndDropTest {
 
     @Before
     public void setup() throws TimeoutException {
-        System.out.println("----------");
         FxLifecycle.setupSceneRoot(() -> {
             leftListView = new ListView<>();
             rightListView = new ListView<>();
@@ -71,28 +70,23 @@ public class DragAndDropTest {
 
     public void setupListView(ListView<String> listView) {
         listView.setOnDragDetected(event -> {
-            System.out.println("onDragDetected");
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             ClipboardContent content = new ClipboardContent();
             content.putString(selectedItem);
             Dragboard dragboard = listView.startDragAndDrop(TransferMode.MOVE);
             dragboard.setContent(content);
             event.consume();
-            System.out.println("onDragDetected FINISH");
         });
 
         listView.setOnDragEntered(event -> {
-            System.out.println("onDragEntered");
             event.acceptTransferModes(TransferMode.MOVE);
         });
 
         listView.setOnDragOver(event -> {
-            System.out.println("onDragOver");
             event.acceptTransferModes(TransferMode.MOVE);
         });
 
         listView.setOnDragDropped(event -> {
-            System.out.println("onDragDropped");
             event.acceptTransferModes(TransferMode.MOVE);
             Dragboard dragboard = event.getDragboard();
             String acceptedItem = dragboard.getString();
@@ -104,7 +98,6 @@ public class DragAndDropTest {
         });
 
         listView.setOnDragDone(event -> {
-            System.out.println("onDragDone");
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             listView.getItems().remove(selectedItem);
         });
