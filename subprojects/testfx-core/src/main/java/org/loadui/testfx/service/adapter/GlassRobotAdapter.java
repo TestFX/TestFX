@@ -35,12 +35,6 @@ import com.sun.glass.ui.Robot;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
 
-// PROBLEMS:
-// - we need to wait until Application.GetApplication() is available.
-// - we need to call robot methods within JavaFX thread and wait for results.
-// - retrieving the mouse location seems unreliable.
-// - retrieving screenshots in headless mode returns transparent images.
-
 public class GlassRobotAdapter {
 
     //---------------------------------------------------------------------------------------------
@@ -61,8 +55,6 @@ public class GlassRobotAdapter {
     //---------------------------------------------------------------------------------------------
 
     private Robot glassRobot;
-
-    private Point2D mouseLocation = Point2D.ZERO;
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -106,7 +98,6 @@ public class GlassRobotAdapter {
     // MOUSE.
 
     public Point2D getMouseLocation() {
-        //return mouseLocation;
         return waitForAsyncFx(1000, () -> {
             Robot robotInstance = getRobotInstance();
             return convertFromCoordinates(robotInstance.getMouseX(), robotInstance.getMouseY());
@@ -115,8 +106,8 @@ public class GlassRobotAdapter {
     }
 
     public void mouseMove(Point2D location) {
-        mouseLocation = location;
         asyncFx(() -> {
+            //sleep(1000, TimeUnit.MILLISECONDS);
             getRobotInstance().mouseMove((int) location.getX(), (int) location.getY());
         });
     }
