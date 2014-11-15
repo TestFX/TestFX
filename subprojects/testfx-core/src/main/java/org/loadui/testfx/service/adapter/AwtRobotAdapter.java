@@ -79,11 +79,11 @@ public class AwtRobotAdapter {
     // KEY.
 
     public void keyPress(KeyCode key) {
-        awtRobot.keyPress(convertToAwtKey(key));
+        useRobot().keyPress(convertToAwtKey(key));
     }
 
     public void keyRelease(KeyCode key) {
-        awtRobot.keyRelease(convertToAwtKey(key));
+        useRobot().keyRelease(convertToAwtKey(key));
     }
 
     // MOUSE.
@@ -93,19 +93,19 @@ public class AwtRobotAdapter {
     }
 
     public void mouseMove(Point2D location) {
-        awtRobot.mouseMove((int) location.getX(), (int) location.getY());
+        useRobot().mouseMove((int) location.getX(), (int) location.getY());
     }
 
     public void mousePress(MouseButton button) {
-        awtRobot.mousePress(convertToAwtButton(button));
+        useRobot().mousePress(convertToAwtButton(button));
     }
 
     public void mouseRelease(MouseButton button) {
-        awtRobot.mouseRelease(convertToAwtButton(button));
+        useRobot().mouseRelease(convertToAwtButton(button));
     }
 
     public void mouseWheel(int wheelAmount) {
-        awtRobot.mouseWheel(wheelAmount);
+        useRobot().mouseWheel(wheelAmount);
     }
 
     // CAPTURE.
@@ -116,7 +116,7 @@ public class AwtRobotAdapter {
 
     public Image getCaptureRegion(Rectangle2D region) {
         Rectangle awtRectangle = convertToAwtRectangle(region);
-        BufferedImage awtBufferedImage = awtRobot.createScreenCapture(awtRectangle);
+        BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
         return convertFromAwtBufferedImage(awtBufferedImage);
     }
 
@@ -132,6 +132,13 @@ public class AwtRobotAdapter {
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
+
+    private Robot useRobot() {
+        if (awtRobot == null) {
+            robotCreate();
+        }
+        return awtRobot;
+    }
 
     private Robot createAwtRobot() {
         try {

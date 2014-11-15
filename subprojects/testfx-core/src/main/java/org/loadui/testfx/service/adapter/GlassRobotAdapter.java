@@ -99,24 +99,28 @@ public class GlassRobotAdapter {
 
     public Point2D getMouseLocation() {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
+            System.out.println("mouseLocation");
             return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
         });
     }
 
     public void mouseMove(Point2D location) {
         asyncFx(() -> {
+            System.out.println("mouseMove");
             useRobot().mouseMove((int) location.getX(), (int) location.getY());
         });
     }
 
     public void mousePress(MouseButton button) {
         asyncFx(() -> {
+            System.out.println("mousePress");
             useRobot().mousePress(convertToButtonId(button));
         });
     }
 
     public void mouseRelease(MouseButton button) {
         asyncFx(() -> {
+            System.out.println("mouseRelease");
             useRobot().mouseRelease(convertToButtonId(button));
         });
     }
@@ -150,9 +154,6 @@ public class GlassRobotAdapter {
 
     // TIMER.
 
-    /**
-     * Block until events in the queue are processed.
-     */
     public void timerWaitForIdle() {
         waitForFxEvents();
     }
