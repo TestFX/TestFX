@@ -36,7 +36,7 @@ dependencies {
     testCompileOnly project.files(project.jfxrtLocation)
 }
 
-cobertura.auxiliaryClasspath += project.files(project.jfxrtLocation)
+//cobertura.auxiliaryClasspath += project.files(project.jfxrtLocation)
 
 test {
     classpath += project.files(project.jfxrtLocation)
