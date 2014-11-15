@@ -30,7 +30,7 @@ public class WriteRobotImpl implements WriteRobot {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final long WRITE_TYPE_DURATION = 25;
+    private static final long SLEEP_AFTER_CHARACTER_IN_MILLIS = 25;
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -58,9 +58,9 @@ public class WriteRobotImpl implements WriteRobot {
     }
 
     public void write(String text) {
-        for (int index = 0; index < text.length(); index++) {
-            pushCharacter(text.charAt(index));
-            sleepRobot.sleep(WRITE_TYPE_DURATION);
+        for (char character : Lists.charactersOf(text)) {
+            pushCharacter(character);
+            sleepRobot.sleep(SLEEP_AFTER_CHARACTER_IN_MILLIS);
         }
     }
 

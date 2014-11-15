@@ -18,10 +18,13 @@ package org.loadui.testfx.robots.impl;
 import java.util.List;
 import javafx.geometry.Point2D;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
+import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.service.query.PointQuery;
 
 public class MoveRobotImpl implements MoveRobot {
@@ -30,10 +33,11 @@ public class MoveRobotImpl implements MoveRobot {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final long MIN_POINTS = 1;
-    private static final long MAX_POINTS = 200;
+    private static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = 1;
+    private static final boolean MOVE_STEPWISE = false;
 
-    private static final long SLEEP_DURATION = 1;
+    private static final long MIN_POINT_OFFSET_COUNT = 1;
+    private static final long MAX_POINT_OFFSET_COUNT = 200;
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -41,15 +45,18 @@ public class MoveRobotImpl implements MoveRobot {
 
     private BaseRobot baseRobot;
     private MouseRobot mouseRobot;
+    private SleepRobot sleepRobot;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public MoveRobotImpl(BaseRobot baseRobot,
-                         MouseRobot mouseRobot) {
+                         MouseRobot mouseRobot,
+                         SleepRobot sleepRobot) {
         this.baseRobot = baseRobot;
         this.mouseRobot = mouseRobot;
+        this.sleepRobot = sleepRobot;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -58,11 +65,13 @@ public class MoveRobotImpl implements MoveRobot {
 
     @Override
     public void moveTo(PointQuery pointQuery) {
-        // Since moving takes time, only do it if we're not already at the desired point.
-        Point2D sourcePoint = retrieveMouseLocation();
-        Point2D targetPoint = pointQuery.query();
-        if (!isPointAtMouseLocation(targetPoint)) {
-            moveMouseStepwiseBetween(sourcePoint, targetPoint);
+        if (MOVE_STEPWISE) {
+            // Since moving takes time, only do it if we're not already at the desired point.
+            Point2D sourcePoint = retrieveMouseLocation();
+            Point2D targetPoint = pointQuery.query();
+            if (sourcePoint != targetPoint) {
+                moveMouseStepwiseBetween(sourcePoint, targetPoint);
+            }
         }
 
         // If the target has moved while we were moving the mouse, update to the new position.
@@ -82,10 +91,6 @@ public class MoveRobotImpl implements MoveRobot {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private boolean isPointAtMouseLocation(Point2D point) {
-        return retrieveMouseLocation() == point;
-    }
-
     private Point2D retrieveMouseLocation() {
         return baseRobot.retrieveMouse();
     }
@@ -97,30 +102,29 @@ public class MoveRobotImpl implements MoveRobot {
     private void moveMouseStepwiseBetween(Point2D sourcePoint,
                                           Point2D targetPoint) {
         double pointDistance = calculateDistanceBetween(sourcePoint, targetPoint);
-        int maxPointOffset = (int) limitValueBetween(pointDistance, MIN_POINTS, MAX_POINTS);
-        List<Point2D> points = interpolatePointsBetween(sourcePoint, targetPoint, maxPointOffset);
-        for (Point2D point : points) {
+        int pointOffsetCount = (int) limitValueBetween(
+            pointDistance, MIN_POINT_OFFSET_COUNT, MAX_POINT_OFFSET_COUNT
+        );
+        List<Point2D> points = interpolatePointsBetween(
+            sourcePoint, targetPoint, pointOffsetCount
+        );
+        for (Point2D point : Iterables.limit(points, points.size() - 1)) {
             mouseRobot.moveNoWait(point);
-            try {
-                Thread.sleep(SLEEP_DURATION);
-            }
-            catch (InterruptedException ignore) {
-                return;
-            }
+            sleepRobot.sleep(SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS);
         }
-        baseRobot.awaitEvents();
+        mouseRobot.move(targetPoint);
     }
 
     private List<Point2D> interpolatePointsBetween(Point2D sourcePoint,
                                                    Point2D targetPoint,
-                                                   int maxPointOffset) {
+                                                   int pointOffsetCount) {
         List<Point2D> points = Lists.newArrayList();
-        for (int pointOffset = 0; pointOffset <= maxPointOffset; pointOffset++) {
-            double factor = (double) pointOffset / (double) maxPointOffset;
+        for (int pointOffset = 0; pointOffset <= pointOffsetCount; pointOffset++) {
+            double factor = (double) pointOffset / (double) pointOffsetCount;
             Point2D point = interpolatePointBetween(sourcePoint, targetPoint, factor);
             points.add(point);
         }
-        return points;
+        return ImmutableList.copyOf(points);
     }
 
     private double calculateDistanceBetween(Point2D point0,

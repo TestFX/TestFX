@@ -35,7 +35,7 @@ public class TypeRobotImpl implements TypeRobot {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final long TYPE_DURATION = 25;
+    private static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS = 25;
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -72,7 +72,7 @@ public class TypeRobotImpl implements TypeRobot {
     public void type(KeyCode... keys) {
         for (KeyCode keyCode : keys) {
             pushKeyCode(keyCode);
-            sleepRobot.sleep(TYPE_DURATION);
+            sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
         }
     }
 
@@ -81,7 +81,7 @@ public class TypeRobotImpl implements TypeRobot {
                      int times) {
         for (int index = 0; index < times; index++) {
             pushKeyCode(key);
-            sleepRobot.sleep(TYPE_DURATION);
+            sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
         }
     }
 

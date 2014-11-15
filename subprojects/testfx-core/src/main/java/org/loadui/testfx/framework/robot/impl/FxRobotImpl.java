@@ -100,7 +100,7 @@ public class FxRobotImpl implements FxRobot {
 
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
         writeRobot = new WriteRobotImpl(typeRobot, sleepRobot);
-        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot);
+        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
         clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
         scrollRobot = new ScrollRobotImpl(mouseRobot);

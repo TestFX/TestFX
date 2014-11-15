@@ -29,7 +29,7 @@ public class ClickRobotImpl implements ClickRobot {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final long WAIT_AFTER_DOUBLE_CLICK_DURATION = 50;
+    private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -57,7 +57,7 @@ public class ClickRobotImpl implements ClickRobot {
 
     @Override
     public void clickOn(MouseButton... buttons) {
-        mouseRobot.press(buttons);
+        mouseRobot.pressNoWait(buttons);
         mouseRobot.release(buttons);
     }
 
@@ -72,7 +72,7 @@ public class ClickRobotImpl implements ClickRobot {
     public void doubleClickOn(MouseButton... buttons) {
         clickOn(buttons);
         clickOn(buttons);
-        sleepRobot.sleep(WAIT_AFTER_DOUBLE_CLICK_DURATION);
+        sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }
 
     @Override
@@ -80,6 +80,7 @@ public class ClickRobotImpl implements ClickRobot {
                               MouseButton... buttons) {
         clickOn(pointQuery, buttons);
         clickOn(buttons);
-        sleepRobot.sleep(WAIT_AFTER_DOUBLE_CLICK_DURATION);
+        sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }
+
 }
