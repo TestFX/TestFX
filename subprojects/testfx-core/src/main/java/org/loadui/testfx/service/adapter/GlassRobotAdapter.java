@@ -34,6 +34,7 @@ import com.sun.glass.ui.Robot;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForFxEvents;
 
 public class GlassRobotAdapter {
 
@@ -41,10 +42,12 @@ public class GlassRobotAdapter {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
-    private static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
+    public static final int INTERACTION_TIMEOUT_MILLIS = 10000;
 
-    private static final Map<MouseButton, Integer> GLASS_BUTTONS = ImmutableMap.of(
+    public static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
+    public static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
+
+    public static final Map<MouseButton, Integer> GLASS_BUTTONS = ImmutableMap.of(
         MouseButton.PRIMARY, Robot.MOUSE_LEFT_BTN,
         MouseButton.SECONDARY, Robot.MOUSE_RIGHT_BTN,
         MouseButton.MIDDLE, Robot.MOUSE_MIDDLE_BTN
@@ -63,21 +66,18 @@ public class GlassRobotAdapter {
     // ROBOT.
 
     public void robotCreate() {
-        waitForAsyncFx(10000, () -> {
+        waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
             glassRobot = createGlassRobot();
         });
     }
 
     public void robotDestroy() {
-        waitForAsyncFx(10000, () -> {
+        waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
             glassRobot.destroy();
         });
     }
 
     public Robot getRobotInstance() {
-        if (glassRobot == null) {
-            robotCreate();
-        }
         return glassRobot;
     }
 
@@ -85,66 +85,68 @@ public class GlassRobotAdapter {
 
     public void keyPress(KeyCode key) {
         asyncFx(() -> {
-            getRobotInstance().keyPress(convertToKeyCodeId(key));
+            useRobot().keyPress(convertToKeyCodeId(key));
         });
     }
 
     public void keyRelease(KeyCode key) {
         asyncFx(() -> {
-            getRobotInstance().keyRelease(convertToKeyCodeId(key));
+            useRobot().keyRelease(convertToKeyCodeId(key));
         });
     }
 
     // MOUSE.
 
     public Point2D getMouseLocation() {
-        return waitForAsyncFx(1000, () -> {
-            Robot robotInstance = getRobotInstance();
-            return convertFromCoordinates(robotInstance.getMouseX(), robotInstance.getMouseY());
+        return waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+            return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
         });
 
     }
 
     public void mouseMove(Point2D location) {
         asyncFx(() -> {
-            //sleep(1000, TimeUnit.MILLISECONDS);
-            getRobotInstance().mouseMove((int) location.getX(), (int) location.getY());
+            useRobot().mouseMove((int) location.getX(), (int) location.getY());
         });
     }
 
     public void mousePress(MouseButton button) {
         asyncFx(() -> {
-            getRobotInstance().mousePress(convertToButtonId(button));
+            useRobot().mousePress(convertToButtonId(button));
         });
     }
 
     public void mouseRelease(MouseButton button) {
         asyncFx(() -> {
-            getRobotInstance().mouseRelease(convertToButtonId(button));
+            useRobot().mouseRelease(convertToButtonId(button));
         });
     }
 
     public void mouseWheel(int wheelAmount) {
         asyncFx(() -> {
-            getRobotInstance().mouseWheel(wheelAmount);
+            useRobot().mouseWheel(wheelAmount);
         });
     }
 
     // CAPTURE.
 
     public Color getCapturePixelColor(Point2D location) {
-        int glassColor = getRobotInstance().getPixelColor(
-            (int) location.getX(), (int) location.getY()
-        );
-        return convertFromGlassColor(glassColor);
+        return waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+            int glassColor = useRobot().getPixelColor(
+                (int) location.getX(), (int) location.getY()
+            );
+            return convertFromGlassColor(glassColor);
+        });
     }
 
     public Image getCaptureRegion(Rectangle2D region) {
-        Pixels glassPixels = getRobotInstance().getScreenCapture(
-            (int) region.getMinX(), (int) region.getMinY(),
-            (int) region.getWidth(), (int) region.getHeight()
-        );
-        return convertFromGlassPixels(glassPixels);
+        return waitForAsyncFx(INTERACTION_TIMEOUT_MILLIS, () -> {
+            Pixels glassPixels = useRobot().getScreenCapture(
+                (int) region.getMinX(), (int) region.getMinY(),
+                (int) region.getWidth(), (int) region.getHeight()
+            );
+            return convertFromGlassPixels(glassPixels);
+        });
     }
 
     // TIMER.
@@ -153,12 +155,19 @@ public class GlassRobotAdapter {
      * Block until events in the queue are processed.
      */
     public void timerWaitForIdle() {
-        throw new UnsupportedOperationException();
+        waitForFxEvents();
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
+
+    private Robot useRobot() {
+        if (glassRobot == null) {
+            robotCreate();
+        }
+        return glassRobot;
+    }
 
     private Robot createGlassRobot() {
         return Application.GetApplication().createRobot();

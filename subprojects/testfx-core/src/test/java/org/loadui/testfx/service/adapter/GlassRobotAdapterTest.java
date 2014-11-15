@@ -38,7 +38,6 @@ import org.testfx.api.FxLifecycle;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForFxEvents;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -53,8 +52,10 @@ public class GlassRobotAdapterTest {
     public GlassRobotAdapter robotAdapter;
 
     public Stage targetStage;
-    public Region region;
     public Parent sceneRoot;
+
+    public Region region;
+    public Point2D regionPoint;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -62,6 +63,7 @@ public class GlassRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws TimeoutException {
+        //System.setProperty("javafx.monocle.headless", "true");
         FxLifecycle.registerPrimaryStage();
     }
 
@@ -75,6 +77,9 @@ public class GlassRobotAdapterTest {
             stage.setScene(scene);
             stage.show();
         });
+
+        PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
+        regionPoint = pointLocator.pointFor(region).atPosition(Pos.CENTER).query();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -102,6 +107,7 @@ public class GlassRobotAdapterTest {
         robotAdapter.mouseMove(new Point2D(100, 200));
 
         // when:
+        robotAdapter.timerWaitForIdle();
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:
@@ -117,15 +123,13 @@ public class GlassRobotAdapterTest {
         region.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEventHandler);
 
         // and:
-        PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
-        Point2D point = pointLocator.pointFor(region).atPosition(Pos.CENTER).query();
-        robotAdapter.mouseMove(point);
+        robotAdapter.mouseMove(regionPoint);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
 
         // then:
-        waitForFxEvents();
+        robotAdapter.timerWaitForIdle();
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
@@ -137,16 +141,14 @@ public class GlassRobotAdapterTest {
         region.addEventHandler(MouseEvent.MOUSE_RELEASED, mouseEventHandler);
 
         // and:
-        PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
-        Point2D point = pointLocator.pointFor(region).atPosition(Pos.CENTER).query();
-        robotAdapter.mouseMove(point);
+        robotAdapter.mouseMove(regionPoint);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
 
         // then:
-        waitForFxEvents();
+        robotAdapter.timerWaitForIdle();
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
