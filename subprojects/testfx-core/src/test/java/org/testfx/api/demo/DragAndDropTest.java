@@ -71,28 +71,28 @@ public class DragAndDropTest {
 
     public void setupListView(ListView<String> listView) {
         listView.setOnDragDetected(event -> {
+            System.out.println("onDragDetected");
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             ClipboardContent content = new ClipboardContent();
             content.putString(selectedItem);
             Dragboard dragboard = listView.startDragAndDrop(TransferMode.MOVE);
             dragboard.setContent(content);
             event.consume();
-        });
-
-        listView.setOnDragDone(event -> {
-            String selectedItem = listView.getSelectionModel().getSelectedItem();
-            listView.getItems().remove(selectedItem);
-        });
-
-        listView.setOnDragOver(event -> {
-            event.acceptTransferModes(TransferMode.MOVE);
+            System.out.println("onDragDetected FINISH");
         });
 
         listView.setOnDragEntered(event -> {
+            System.out.println("onDragEntered");
+            event.acceptTransferModes(TransferMode.MOVE);
+        });
+
+        listView.setOnDragOver(event -> {
+            System.out.println("onDragOver");
             event.acceptTransferModes(TransferMode.MOVE);
         });
 
         listView.setOnDragDropped(event -> {
+            System.out.println("onDragDropped");
             event.acceptTransferModes(TransferMode.MOVE);
             Dragboard dragboard = event.getDragboard();
             String acceptedItem = dragboard.getString();
@@ -101,6 +101,12 @@ public class DragAndDropTest {
                 event.setDropCompleted(true);
                 event.consume();
             }
+        });
+
+        listView.setOnDragDone(event -> {
+            System.out.println("onDragDone");
+            String selectedItem = listView.getSelectionModel().getSelectedItem();
+            listView.getItems().remove(selectedItem);
         });
     }
 
@@ -120,7 +126,9 @@ public class DragAndDropTest {
     @Test
     public void should_drag_and_drop_from_left_to_right() {
         // when:
-        fx.drag("L1").dropTo("R1");
+        fx.drag("L1");
+        fx.moveTo("R1");
+        fx.drop();
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(2));
@@ -132,7 +140,8 @@ public class DragAndDropTest {
     @Test
     public void should_drag_and_drop_from_right_to_left() {
         // when:
-        fx.drag("R3").dropTo("L2");
+        fx.drag("R3");
+        fx.dropTo("L2");
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(4));
@@ -144,7 +153,8 @@ public class DragAndDropTest {
     @Test
     public void should_drag_and_drop_from_left_to_left() {
         // when:
-        fx.drag("L3").dropTo("L2");
+        fx.drag("L3");
+        fx.dropTo("L2");
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(3));

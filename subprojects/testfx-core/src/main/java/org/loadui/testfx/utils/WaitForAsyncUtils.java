@@ -300,6 +300,7 @@ public class WaitForAsyncUtils {
     }
 
     private static void runOnFxThread(Runnable runnable) {
+        //Platform.runLater(runnable);
         if (Platform.isFxApplicationThread()) {
             runnable.run();
         }

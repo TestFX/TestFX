@@ -98,6 +98,7 @@ public class GlassRobotAdapter {
     // MOUSE.
 
     public Point2D getMouseLocation() {
+        System.out.println("mouseLocation.pre");
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             System.out.println("mouseLocation");
             return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
@@ -105,6 +106,7 @@ public class GlassRobotAdapter {
     }
 
     public void mouseMove(Point2D location) {
+        System.out.println("mouseMove.pre");
         asyncFx(() -> {
             System.out.println("mouseMove");
             useRobot().mouseMove((int) location.getX(), (int) location.getY());
@@ -112,6 +114,7 @@ public class GlassRobotAdapter {
     }
 
     public void mousePress(MouseButton button) {
+        System.out.println("mousePress.pre");
         asyncFx(() -> {
             System.out.println("mousePress");
             useRobot().mousePress(convertToButtonId(button));
@@ -119,6 +122,7 @@ public class GlassRobotAdapter {
     }
 
     public void mouseRelease(MouseButton button) {
+        System.out.println("mouseRelease.pre");
         asyncFx(() -> {
             System.out.println("mouseRelease");
             useRobot().mouseRelease(convertToButtonId(button));
@@ -178,9 +182,9 @@ public class GlassRobotAdapter {
         return keyCode.impl_getCode();
     }
 
-    private Point2D convertFromCoordinates(int x,
-                                           int y) {
-        return new Point2D(x, y);
+    private Point2D convertFromCoordinates(int pointX,
+                                           int pointY) {
+        return new Point2D(pointX, pointY);
     }
 
     private int convertToButtonId(MouseButton button) {
