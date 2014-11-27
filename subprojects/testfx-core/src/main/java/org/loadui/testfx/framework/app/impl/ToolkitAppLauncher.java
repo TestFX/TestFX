@@ -28,7 +28,7 @@ public class ToolkitAppLauncher implements AppLauncher {
     //---------------------------------------------------------------------------------------------
 
     private static final String PROPERTY_JAVAFX_MACOSX_EMBEDDED = "javafx.macosx.embedded";
-    private static final String PROPERTY_TESTFX_HEADLESS = "javafx.monocle.headless";
+    private static final String PROPERTY_TESTFX_HEADLESS = "testfx.headless";
 
     private static final String PLATFORM_FACTORY_CLASS =
         "com.sun.glass.ui.PlatformFactory";
@@ -67,6 +67,9 @@ public class ToolkitAppLauncher implements AppLauncher {
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();
+            }
+            catch (ClassNotFoundException exception) {
+                throw new IllegalStateException("Monocle headless platform not found", exception);
             }
             catch (Exception exception) {
                 throw new RuntimeException(exception);
