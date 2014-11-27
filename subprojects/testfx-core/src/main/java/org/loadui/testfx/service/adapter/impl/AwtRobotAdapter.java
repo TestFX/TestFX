@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.adapter;
+package org.loadui.testfx.service.adapter.impl;
 
 import java.awt.AWTException;
 import java.awt.GraphicsEnvironment;
@@ -35,14 +35,15 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
 import com.google.common.collect.ImmutableMap;
+import org.loadui.testfx.service.adapter.RobotAdapter;
 
-public class AwtRobotAdapter {
+public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final Map<MouseButton, Integer> AWT_BUTTONS = ImmutableMap.of(
+    public static final Map<MouseButton, Integer> AWT_BUTTONS = ImmutableMap.of(
         MouseButton.PRIMARY, InputEvent.BUTTON1_MASK,
         MouseButton.MIDDLE, InputEvent.BUTTON2_MASK,
         MouseButton.SECONDARY, InputEvent.BUTTON3_MASK
@@ -60,6 +61,7 @@ public class AwtRobotAdapter {
 
     // ROBOT.
 
+    @Override
     public void robotCreate() {
         if (isAwtEnvironmentHeadless()) {
             throw new RuntimeException("environment is headless");
@@ -68,52 +70,63 @@ public class AwtRobotAdapter {
         awtRobot = createAwtRobot();
     }
 
+    @Override
     public void robotDestroy() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Robot getRobotInstance() {
         return awtRobot;
     }
 
     // KEY.
 
+    @Override
     public void keyPress(KeyCode key) {
         useRobot().keyPress(convertToAwtKey(key));
     }
 
+    @Override
     public void keyRelease(KeyCode key) {
         useRobot().keyRelease(convertToAwtKey(key));
     }
 
     // MOUSE.
 
+    @Override
     public Point2D getMouseLocation() {
         return convertFromAwtPoint(MouseInfo.getPointerInfo().getLocation());
     }
 
+    @Override
     public void mouseMove(Point2D location) {
         useRobot().mouseMove((int) location.getX(), (int) location.getY());
     }
 
+    @Override
     public void mousePress(MouseButton button) {
         useRobot().mousePress(convertToAwtButton(button));
     }
 
+    @Override
     public void mouseRelease(MouseButton button) {
         useRobot().mouseRelease(convertToAwtButton(button));
     }
 
+    @Override
     public void mouseWheel(int wheelAmount) {
         useRobot().mouseWheel(wheelAmount);
     }
 
     // CAPTURE.
 
+    @Override
     public Color getCapturePixelColor(Point2D location) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Image getCaptureRegion(Rectangle2D region) {
         Rectangle awtRectangle = convertToAwtRectangle(region);
         BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
@@ -122,9 +135,7 @@ public class AwtRobotAdapter {
 
     // TIMER.
 
-    /**
-     * Block until events in the queue are processed.
-     */
+    @Override
     public void timerWaitForIdle() {
         throw new UnsupportedOperationException();
     }

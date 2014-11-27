@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.adapter;
+package org.loadui.testfx.service.adapter.impl;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -31,12 +31,13 @@ import com.google.common.collect.ImmutableMap;
 import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
+import org.loadui.testfx.service.adapter.RobotAdapter;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForFxEvents;
 
-public class GlassRobotAdapter {
+public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
@@ -65,12 +66,14 @@ public class GlassRobotAdapter {
 
     // ROBOT.
 
+    @Override
     public void robotCreate() {
         waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             glassRobot = createGlassRobot();
         });
     }
 
+    @Override
     public void robotDestroy() {
         if (glassRobot != null) {
             waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
@@ -80,18 +83,21 @@ public class GlassRobotAdapter {
         }
     }
 
+    @Override
     public Robot getRobotInstance() {
         return glassRobot;
     }
 
     // KEY.
 
+    @Override
     public void keyPress(KeyCode key) {
         asyncFx(() -> {
             useRobot().keyPress(convertToKeyCodeId(key));
         });
     }
 
+    @Override
     public void keyRelease(KeyCode key) {
         asyncFx(() -> {
             useRobot().keyRelease(convertToKeyCodeId(key));
@@ -100,30 +106,35 @@ public class GlassRobotAdapter {
 
     // MOUSE.
 
+    @Override
     public Point2D getMouseLocation() {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
         });
     }
 
+    @Override
     public void mouseMove(Point2D location) {
         asyncFx(() -> {
             useRobot().mouseMove((int) location.getX(), (int) location.getY());
         });
     }
 
+    @Override
     public void mousePress(MouseButton button) {
         asyncFx(() -> {
             useRobot().mousePress(convertToButtonId(button));
         });
     }
 
+    @Override
     public void mouseRelease(MouseButton button) {
         asyncFx(() -> {
             useRobot().mouseRelease(convertToButtonId(button));
         });
     }
 
+    @Override
     public void mouseWheel(int wheelAmount) {
         asyncFx(() -> {
             useRobot().mouseWheel(wheelAmount);
@@ -132,6 +143,7 @@ public class GlassRobotAdapter {
 
     // CAPTURE.
 
+    @Override
     public Color getCapturePixelColor(Point2D location) {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             int glassColor = useRobot().getPixelColor(
@@ -141,6 +153,7 @@ public class GlassRobotAdapter {
         });
     }
 
+    @Override
     public Image getCaptureRegion(Rectangle2D region) {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             Pixels glassPixels = useRobot().getScreenCapture(
@@ -153,6 +166,7 @@ public class GlassRobotAdapter {
 
     // TIMER.
 
+    @Override
     public void timerWaitForIdle() {
         waitForFxEvents();
     }

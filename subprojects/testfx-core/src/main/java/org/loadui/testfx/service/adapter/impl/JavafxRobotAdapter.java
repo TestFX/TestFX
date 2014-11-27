@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.adapter;
+package org.loadui.testfx.service.adapter.impl;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

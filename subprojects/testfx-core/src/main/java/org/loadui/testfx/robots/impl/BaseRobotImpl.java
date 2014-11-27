@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx.robots.impl;
 
+import java.util.Objects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -22,23 +23,46 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
 import org.loadui.testfx.robots.BaseRobot;
-import org.loadui.testfx.service.adapter.GlassRobotAdapter;
-import org.loadui.testfx.utils.FXTestUtils;
+import org.loadui.testfx.service.adapter.RobotAdapter;
+import org.loadui.testfx.service.adapter.impl.AwtRobotAdapter;
+import org.loadui.testfx.service.adapter.impl.GlassRobotAdapter;
+import org.loadui.testfx.utils.WaitForAsyncUtils;
 
 public class BaseRobotImpl implements BaseRobot {
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final String PROPERTY_TESTFX_ROBOT = "testfx.robot";
+    private static final String PROPERTY_TESTFX_ROBOT_AWT = "awt";
+    private static final String PROPERTY_TESTFX_ROBOT_GLASS = "glass";
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final GlassRobotAdapter robotAdapter;
+    private final String robotAdapterName = System.getProperty(
+        PROPERTY_TESTFX_ROBOT, PROPERTY_TESTFX_ROBOT_AWT
+    );
+
+    private final RobotAdapter robotAdapter;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public BaseRobotImpl() {
-        robotAdapter = new GlassRobotAdapter();
+        if (isAwtRobotAdapter(robotAdapterName)) {
+            robotAdapter = new AwtRobotAdapter();
+        }
+        else if (isGlassRobotAdapter(robotAdapterName)) {
+            robotAdapter = new GlassRobotAdapter();
+        }
+        else {
+            throw new IllegalStateException("Unknown robot adapter " +
+                "'" + PROPERTY_TESTFX_ROBOT + "=" + robotAdapterName + "'");
+        }
     }
 
     //---------------------------------------------------------------------------------------------
@@ -87,7 +111,19 @@ public class BaseRobotImpl implements BaseRobot {
 
     @Override
     public void awaitEvents() {
-        FXTestUtils.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private boolean isAwtRobotAdapter(String robotAdapterName) {
+        return Objects.equals(robotAdapterName, PROPERTY_TESTFX_ROBOT_AWT);
+    }
+
+    private boolean isGlassRobotAdapter(String robotAdapterName) {
+        return Objects.equals(robotAdapterName, PROPERTY_TESTFX_ROBOT_GLASS);
     }
 
 }

@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.adapter;
+package org.loadui.testfx.service.adapter.impl;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -74,7 +74,8 @@ public class GlassRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws TimeoutException {
-        //System.setProperty("javafx.monocle.headless", "true");
+        //System.setProperty("testfx.robot", "glass");
+        //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
         FxLifecycle.registerPrimaryStage();
     }
