@@ -15,7 +15,6 @@
  */
 package org.testfx.lifecycle.impl;
 
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -29,12 +28,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.loadui.testfx.framework.launch.StageFuture;
 import org.loadui.testfx.framework.launch.ToolkitApplication;
 import org.testfx.lifecycle.LifecycleService;
 
-import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
 
 public class LifecycleServiceImplTest {
 
@@ -51,7 +51,7 @@ public class LifecycleServiceImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        Future<Stage> primaryStageFuture = ToolkitApplication.primaryStageFuture;
+        StageFuture primaryStageFuture = ToolkitApplication.primaryStageFuture;
         Class<? extends Application> toolkitApplication = ToolkitApplication.class;
         lifecycle = new LifecycleServiceImpl(new LifecycleLauncherDefaultImpl());
 

@@ -19,15 +19,16 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.loadui.testfx.framework.launch.StageFuture;
+
 public interface LifecycleService {
 
-    Future<Stage> setupPrimaryStage(Future<Stage> primaryStageFuture,
+    Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
                                     Class<? extends Application> toolkitApplication);
 
     Future<Void> setup(Runnable runnable);

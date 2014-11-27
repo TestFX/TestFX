@@ -28,7 +28,7 @@ public class LifecycleLauncherToolkitImpl implements LifecycleLauncher {
     //---------------------------------------------------------------------------------------------
 
     private static final String PROPERTY_JAVAFX_MACOSX_EMBEDDED = "javafx.macosx.embedded";
-    private static final String PROPERTY_TESTFX_HEADLESS = "javafx.monocle.headless";
+    private static final String PROPERTY_TESTFX_HEADLESS = "testfx.headless";
 
     private static final String PLATFORM_FACTORY_CLASS =
         "com.sun.glass.ui.PlatformFactory";
@@ -62,16 +62,14 @@ public class LifecycleLauncherToolkitImpl implements LifecycleLauncher {
         }
     }
 
-    private boolean checkSystemPropertyEquals(String propertyName,
-                                              String valueOrNull) {
-        return Objects.equals(System.getProperty(propertyName, null), valueOrNull);
-    }
-
     private void initMonocleHeadless() {
         if (checkSystemPropertyEquals(PROPERTY_TESTFX_HEADLESS, "true")) {
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();
+            }
+            catch (ClassNotFoundException exception) {
+                throw new IllegalStateException("Monocle headless platform not found", exception);
             }
             catch (Exception exception) {
                 throw new RuntimeException(exception);
@@ -79,15 +77,20 @@ public class LifecycleLauncherToolkitImpl implements LifecycleLauncher {
         }
     }
 
+    private boolean checkSystemPropertyEquals(String propertyName,
+                                              String valueOrNull) {
+        return Objects.equals(System.getProperty(propertyName, null), valueOrNull);
+    }
+
     private void assignMonoclePlatform()
-        throws Exception {
+                                throws Exception {
         Class<?> platformFactoryClass = Class.forName(PLATFORM_FACTORY_CLASS);
         Object platformFactoryImpl = Class.forName(PLATFORM_FACTORY_MONOCLE_IMPL).newInstance();
         assignPrivateStaticField(platformFactoryClass, "instance", platformFactoryImpl);
     }
 
     private void assignHeadlessPlatform()
-        throws Exception {
+                                 throws Exception {
         Class<?> nativePlatformFactoryClass = Class.forName(NATIVE_PLATFORM_FACTORY_CLASS);
         Object nativePlatformImpl = Class.forName(NATIVE_PLATFORM_HEADLESS_IMPL).newInstance();
         assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformImpl);
@@ -96,7 +99,7 @@ public class LifecycleLauncherToolkitImpl implements LifecycleLauncher {
     private void assignPrivateStaticField(Class<?> cls,
                                           String name,
                                           Object value)
-        throws Exception {
+                                   throws Exception {
         Field field = cls.getDeclaredField(name);
         field.setAccessible(true);
         field.set(cls, value);

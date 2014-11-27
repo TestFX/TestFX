@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.loadui.testfx.framework.launch.StageFuture;
 import org.testfx.lifecycle.LifecycleLauncher;
 import org.testfx.lifecycle.LifecycleService;
 
@@ -51,14 +52,18 @@ public class LifecycleServiceImpl implements LifecycleService {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    // TODO: Platform.isFxApplicationThread() ? throw new RuntimeException("Dont run here");
-
     @Override
-    public Future<Stage> setupPrimaryStage(Future<Stage> primaryStageFuture,
+    public Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
                                            Class<? extends Application> toolkitApplication) {
-
         if (!primaryStageFuture.isDone()) {
-            async(() -> toolkitLifecycleLauncher.launch(toolkitApplication));
+            async(() -> {
+                try {
+                    toolkitLifecycleLauncher.launch(toolkitApplication);
+                }
+                catch (Throwable exception) {
+                    primaryStageFuture.setException(exception);
+                }
+            });
         }
         return primaryStageFuture;
     }
@@ -107,6 +112,7 @@ public class LifecycleServiceImpl implements LifecycleService {
                                                 Class<? extends Application> appClass) {
         return asyncFx(() -> {
             Application application = appClass.newInstance();
+            //ParametersImpl.registerParameters(application, new ParametersImpl(args));
             CountDownLatch latch = new CountDownLatch(1);
             async(() -> {
                 try {

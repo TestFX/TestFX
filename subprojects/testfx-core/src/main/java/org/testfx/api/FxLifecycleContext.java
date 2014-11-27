@@ -15,10 +15,10 @@
  */
 package org.testfx.api;
 
-import java.util.concurrent.Future;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import org.loadui.testfx.framework.launch.StageFuture;
 import org.loadui.testfx.framework.launch.ToolkitApplication;
 
 import static java.lang.Long.parseLong;
@@ -30,9 +30,9 @@ public class FxLifecycleContext {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Future<Stage> stageFuture = ToolkitApplication.primaryStageFuture;
-
     private Class<? extends Application> applicationClass = ToolkitApplication.class;
+
+    private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
 
     private Stage targetStage = null;
 
@@ -44,20 +44,20 @@ public class FxLifecycleContext {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public Future<Stage> getStageFuture() {
-        return stageFuture;
-    }
-
-    public void setStageFuture(Future<Stage> stageFuture) {
-        this.stageFuture = stageFuture;
-    }
-
     public Class<? extends Application> getApplicationClass() {
         return applicationClass;
     }
 
     public void setApplicationClass(Class<? extends Application> applicationClass) {
         this.applicationClass = applicationClass;
+    }
+
+    public StageFuture getStageFuture() {
+        return stageFuture;
+    }
+
+    public void setStageFuture(StageFuture stageFuture) {
+        this.stageFuture = stageFuture;
     }
 
     public Stage getTargetStage() {
