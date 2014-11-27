@@ -72,9 +72,12 @@ public class GlassRobotAdapter {
     }
 
     public void robotDestroy() {
-        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            glassRobot.destroy();
-        });
+        if (glassRobot != null) {
+            waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
+                glassRobot.destroy();
+                glassRobot = null;
+            });
+        }
     }
 
     public Robot getRobotInstance() {
@@ -98,33 +101,25 @@ public class GlassRobotAdapter {
     // MOUSE.
 
     public Point2D getMouseLocation() {
-        System.out.println("mouseLocation.pre");
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            System.out.println("mouseLocation");
             return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
         });
     }
 
     public void mouseMove(Point2D location) {
-        System.out.println("mouseMove.pre");
         asyncFx(() -> {
-            System.out.println("mouseMove");
             useRobot().mouseMove((int) location.getX(), (int) location.getY());
         });
     }
 
     public void mousePress(MouseButton button) {
-        System.out.println("mousePress.pre");
         asyncFx(() -> {
-            System.out.println("mousePress");
             useRobot().mousePress(convertToButtonId(button));
         });
     }
 
     public void mouseRelease(MouseButton button) {
-        System.out.println("mouseRelease.pre");
         asyncFx(() -> {
-            System.out.println("mouseRelease");
             useRobot().mouseRelease(convertToButtonId(button));
         });
     }

@@ -15,19 +15,25 @@
  */
 package org.loadui.testfx.service.adapter;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,6 +44,11 @@ import org.testfx.api.FxLifecycle;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -64,6 +75,7 @@ public class GlassRobotAdapterTest {
     @BeforeClass
     public static void setupSpec() throws TimeoutException {
         //System.setProperty("javafx.monocle.headless", "true");
+        //System.setProperty("prism.order", "sw");
         FxLifecycle.registerPrimaryStage();
     }
 
@@ -72,6 +84,7 @@ public class GlassRobotAdapterTest {
         robotAdapter = new GlassRobotAdapter();
         targetStage = FxLifecycle.setupStage(stage -> {
             region = new Region();
+            region.setStyle("-fx-background-color: green;");
             sceneRoot = new StackPane(region);
             Scene scene = new Scene(sceneRoot, 300, 100);
             stage.setScene(scene);
@@ -86,10 +99,78 @@ public class GlassRobotAdapterTest {
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    // ROBOT.
+
     @Test
     public void robotCreate() {
+        // when:
         robotAdapter.robotCreate();
+
+        // then:
+        assertThat(robotAdapter.getRobotInstance(), notNullValue());
     }
+
+    @Test
+    public void robotDestroy_initialized_robot() {
+        // given:
+        robotAdapter.robotCreate();
+
+        // when:
+        robotAdapter.robotDestroy();
+
+        // then:
+        assertThat(robotAdapter.getRobotInstance(), nullValue());
+    }
+
+    @Test
+    public void robotDestroy_uninitialized_robot() {
+        // when:
+        robotAdapter.robotDestroy();
+
+        // then:
+        assertThat(robotAdapter.getRobotInstance(), nullValue());
+    }
+
+    // KEY.
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void keyPress() {
+        // given:
+        EventHandler<KeyEvent> keyEventHandler = mock(EventHandler.class);
+        targetStage.addEventHandler(KeyEvent.KEY_PRESSED, keyEventHandler);
+
+        // and:
+        robotAdapter.mouseMove(regionPoint);
+
+        // when:
+        robotAdapter.keyPress(KeyCode.A);
+
+        // then:
+        robotAdapter.timerWaitForIdle();
+        verify(keyEventHandler, times(1)).handle(any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void keyRelease() {
+        // given:
+        EventHandler<KeyEvent> keyEventHandler = mock(EventHandler.class);
+        targetStage.addEventHandler(KeyEvent.KEY_RELEASED, keyEventHandler);
+
+        // and:
+        robotAdapter.mouseMove(regionPoint);
+
+        // when:
+        robotAdapter.keyPress(KeyCode.A);
+        robotAdapter.keyRelease(KeyCode.A);
+
+        // then:
+        robotAdapter.timerWaitForIdle();
+        verify(keyEventHandler, times(1)).handle(any());
+    }
+
+    // MOUSE.
 
     @Test
     public void getMouseLocation() {
@@ -97,8 +178,8 @@ public class GlassRobotAdapterTest {
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:
-        assertThat(mouseLocation.getX(), Matchers.is(greaterThanOrEqualTo(0.0)));
-        assertThat(mouseLocation.getY(), Matchers.is(greaterThanOrEqualTo(0.0)));
+        assertThat(mouseLocation.getX(), is(greaterThanOrEqualTo(0.0)));
+        assertThat(mouseLocation.getY(), is(greaterThanOrEqualTo(0.0)));
     }
 
     @Test
@@ -111,8 +192,8 @@ public class GlassRobotAdapterTest {
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:
-        assertThat(mouseLocation.getX(), Matchers.is(100.0));
-        assertThat(mouseLocation.getY(), Matchers.is(200.0));
+        assertThat(mouseLocation.getX(), is(100.0));
+        assertThat(mouseLocation.getY(), is(200.0));
     }
 
     @Test
@@ -150,6 +231,47 @@ public class GlassRobotAdapterTest {
         // then:
         robotAdapter.timerWaitForIdle();
         verify(mouseEventHandler, times(1)).handle(any());
+    }
+
+    // CAPTURE.
+
+    @Test
+    public void getCapturePixelColor() {
+        // when:
+        Color pixelColor = robotAdapter.getCapturePixelColor(regionPoint);
+
+        // then:
+        assertThat(pixelColor, is(Color.GREEN));
+    }
+
+    @Test
+    public void getCaptureRegion() {
+        // when:
+        Rectangle2D region = new Rectangle2D(regionPoint.getX(), regionPoint.getY(), 10, 20);
+        Image regionImage = robotAdapter.getCaptureRegion(region);
+
+        // then:
+        assertThat(regionImage.getWidth(), is(10.0));
+        assertThat(regionImage.getHeight(), is(20.0));
+        assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.GREEN));
+    }
+
+    // TIMER.
+
+    @Test
+    public void timerWaitForIdle() {
+        // when:
+        AtomicBoolean reachedStatement = new AtomicBoolean(false);
+        asyncFx(() -> {
+            sleep(100, TimeUnit.MILLISECONDS);
+            asyncFx(() -> {
+                reachedStatement.set(true);
+            });
+        });
+        robotAdapter.timerWaitForIdle();
+
+        // then:
+        assertThat(reachedStatement.get(), is(true));
     }
 
 }

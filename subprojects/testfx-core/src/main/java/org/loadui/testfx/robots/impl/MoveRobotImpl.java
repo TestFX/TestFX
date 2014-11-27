@@ -34,7 +34,6 @@ public class MoveRobotImpl implements MoveRobot {
     //---------------------------------------------------------------------------------------------
 
     private static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = 1;
-    private static final boolean MOVE_STEPWISE = false;
 
     private static final long MIN_POINT_OFFSET_COUNT = 1;
     private static final long MAX_POINT_OFFSET_COUNT = 200;
@@ -65,13 +64,11 @@ public class MoveRobotImpl implements MoveRobot {
 
     @Override
     public void moveTo(PointQuery pointQuery) {
-        if (MOVE_STEPWISE) {
-            // Since moving takes time, only do it if we're not already at the desired point.
-            Point2D sourcePoint = retrieveMouseLocation();
-            Point2D targetPoint = pointQuery.query();
-            if (sourcePoint != targetPoint) {
-                moveMouseStepwiseBetween(sourcePoint, targetPoint);
-            }
+        // Since moving takes time, only do it if we're not already at the desired point.
+        Point2D sourcePoint = retrieveMouseLocation();
+        Point2D targetPoint = pointQuery.query();
+        if (sourcePoint != targetPoint) {
+            moveMouseStepwiseBetween(sourcePoint, targetPoint);
         }
 
         // If the target has moved while we were moving the mouse, update to the new position.
