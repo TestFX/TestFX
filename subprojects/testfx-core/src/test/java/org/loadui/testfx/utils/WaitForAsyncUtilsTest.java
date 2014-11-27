@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx.utils;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 import javafx.beans.property.BooleanProperty;
@@ -27,6 +28,7 @@ import org.junit.rules.ExpectedException;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 
 public class WaitForAsyncUtilsTest {
 
@@ -63,6 +65,18 @@ public class WaitForAsyncUtilsTest {
         assertThat(future.isDone(), Matchers.is(false));
         WaitForAsyncUtils.sleep(100, MILLISECONDS);
         assertThat(future.get(), Matchers.is("foo"));
+    }
+
+    @Test(timeout=1000)
+    public void async_callable_with_exception() throws Exception {
+        // given:
+        Future<String> future = WaitForAsyncUtils.async(() -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // expect:
+        thrown.expectCause(instanceOf(ExecutionException.class));
+        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
     @Test(timeout=1000)
