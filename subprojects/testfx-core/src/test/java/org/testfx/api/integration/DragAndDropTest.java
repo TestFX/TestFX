@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.api.demo;
+package org.testfx.api.integration;
 
 import java.util.concurrent.TimeoutException;
 import javafx.scene.control.ListView;
@@ -50,7 +50,9 @@ public class DragAndDropTest {
 
     @BeforeClass
     public static void setupSpec() throws TimeoutException {
-        //System.setProperty("javafx.monocle.headless", "true");
+        //System.setProperty("testfx.robot", "glass");
+        //System.setProperty("testfx.headless", "true");
+        //System.setProperty("prism.order", "sw");
         FxLifecycle.registerPrimaryStage();
         fx = new FxRobotImpl();
     }
