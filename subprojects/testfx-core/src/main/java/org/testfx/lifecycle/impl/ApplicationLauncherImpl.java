@@ -19,9 +19,9 @@ import java.lang.reflect.Field;
 import java.util.Objects;
 import javafx.application.Application;
 
-import org.testfx.lifecycle.LifecycleLauncher;
+import org.testfx.lifecycle.ApplicationLauncher;
 
-public class LifecycleLauncherToolkitImpl implements LifecycleLauncher {
+public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.

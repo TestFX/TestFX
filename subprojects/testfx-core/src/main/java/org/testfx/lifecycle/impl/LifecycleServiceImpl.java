@@ -16,7 +16,6 @@
 package org.testfx.lifecycle.impl;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -26,7 +25,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import org.loadui.testfx.framework.launch.StageFuture;
-import org.testfx.lifecycle.LifecycleLauncher;
+import org.testfx.lifecycle.ApplicationLauncher;
+import org.testfx.lifecycle.ApplicationService;
 import org.testfx.lifecycle.LifecycleService;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.async;
@@ -38,14 +38,18 @@ public class LifecycleServiceImpl implements LifecycleService {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private LifecycleLauncher toolkitLifecycleLauncher;
+    private ApplicationLauncher applicationLauncher;
+
+    private ApplicationService applicationService;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public LifecycleServiceImpl(LifecycleLauncher toolkitLifecycleLauncher) {
-        this.toolkitLifecycleLauncher = toolkitLifecycleLauncher;
+    public LifecycleServiceImpl(ApplicationLauncher applicationLauncher,
+                                ApplicationService applicationService) {
+        this.applicationLauncher = applicationLauncher;
+        this.applicationService = applicationService;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -54,11 +58,12 @@ public class LifecycleServiceImpl implements LifecycleService {
 
     @Override
     public Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
-                                           Class<? extends Application> toolkitApplication) {
+                                           Class<? extends Application> applicationClass,
+                                           String... applicationArgs) {
         if (!primaryStageFuture.isDone()) {
             async(() -> {
                 try {
-                    toolkitLifecycleLauncher.launch(toolkitApplication);
+                    applicationLauncher.launch(applicationClass, applicationArgs);
                 }
                 catch (Throwable exception) {
                     primaryStageFuture.setException(exception);
@@ -109,38 +114,21 @@ public class LifecycleServiceImpl implements LifecycleService {
 
     @Override
     public Future<Application> setupApplication(Stage stage,
-                                                Class<? extends Application> appClass) {
-        return asyncFx(() -> {
-            Application application = appClass.newInstance();
-            //ParametersImpl.registerParameters(application, new ParametersImpl(args));
-            CountDownLatch latch = new CountDownLatch(1);
-            async(() -> {
-                try {
-                    application.init();
-                }
-                finally {
-                    latch.countDown();
-                }
-                return null;
-            });
-            // TODO: check if ok to block javafx thread.
-            latch.await();
-            try {
-                application.start(stage);
-            }
-            catch (Throwable throwable) {
-                throw throwable;
-            }
+                                                Class<? extends Application> applicationClass,
+                                                String... applicationArgs) {
+        return async(() -> {
+            Application application = applicationService.create(
+                applicationClass, applicationArgs
+            ).get();
+            applicationService.init(application).get();
+            applicationService.start(application, stage).get();
             return application;
         });
     }
 
     @Override
     public Future<Void> cleanupApplication(Application application) {
-        return asyncFx(() -> {
-            application.stop();
-            return null;
-        });
+        return applicationService.stop(application);
     }
 
 }

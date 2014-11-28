@@ -17,7 +17,7 @@ package org.testfx.lifecycle;
 
 import javafx.application.Application;
 
-public interface LifecycleLauncher {
+public interface ApplicationLauncher {
 
     public void launch(Class<? extends Application> appClass,
                        String... appArgs);

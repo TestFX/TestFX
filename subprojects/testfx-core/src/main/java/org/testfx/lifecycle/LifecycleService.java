@@ -29,7 +29,8 @@ import org.loadui.testfx.framework.launch.StageFuture;
 public interface LifecycleService {
 
     Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
-                                    Class<? extends Application> toolkitApplication);
+                                    Class<? extends Application> applicationClass,
+                                    String... applicationArgs);
 
     Future<Void> setup(Runnable runnable);
 
@@ -45,7 +46,8 @@ public interface LifecycleService {
                                   Supplier<? extends Parent> sceneRootSupplier);
 
     Future<Application> setupApplication(Stage stage,
-                                         Class<? extends Application> appClass);
+                                         Class<? extends Application> applicationClass,
+                                         String... applicationArgs);
 
     Future<Void> cleanupApplication(Application application);
 
