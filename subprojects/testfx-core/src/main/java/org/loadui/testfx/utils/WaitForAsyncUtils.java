@@ -132,7 +132,8 @@ public class WaitForAsyncUtils {
 
     /**
      * Waits for given condition {@link Callable} to return (pull) {@code true}, otherwise times
-     * out with {@link TimeoutException}.
+     * out with {@link TimeoutException}. The condition will be evaluated at least once. The method
+     * will wait for the last condition to finish after a timeout.
      *
      * @param timeout the timeout
      * @param timeUnit the time unit
