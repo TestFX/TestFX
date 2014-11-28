@@ -123,6 +123,15 @@ public class WaitForAsyncUtilsTest {
     }
 
     @Test(timeout=1000)
+    public void waitFor_with_booleanCallable_with_exception() throws Exception {
+        // expect:
+        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
+            throw new UnsupportedOperationException();
+        });
+    }
+
+    @Test(timeout=1000)
     public void waitFor_with_booleanValue() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
