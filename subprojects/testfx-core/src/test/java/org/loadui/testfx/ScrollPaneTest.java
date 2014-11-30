@@ -63,7 +63,6 @@ public class ScrollPaneTest extends GuiTest {
     }
 
     @Test
-    @Ignore
     public void testScroll() {
         String id1 = "#" + ID1;
         String id2 = "#" + ID2;

@@ -18,12 +18,14 @@ package org.testfx.api;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import com.google.common.annotations.Beta;
 import org.loadui.testfx.framework.launch.StageFuture;
 import org.loadui.testfx.framework.launch.ToolkitApplication;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
+@Beta
 public class FxLifecycleContext {
 
     //---------------------------------------------------------------------------------------------
@@ -41,7 +43,7 @@ public class FxLifecycleContext {
     private long setupTimeoutInMillis = parseLong(getProperty("testfx.setup.timeout", "30000"));
 
     //---------------------------------------------------------------------------------------------
-    // METHODS.
+    // GETTER AND SETTER.
     //---------------------------------------------------------------------------------------------
 
     public Class<? extends Application> getApplicationClass() {

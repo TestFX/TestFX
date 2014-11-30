@@ -36,12 +36,11 @@ import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.robots.impl.BaseRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
-import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 
 import static org.junit.Assume.assumeFalse;
+import static org.testfx.api.FxSelector.selectorContext;
 
 public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
 
@@ -159,8 +158,9 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final WindowFinder windowFinder = new WindowFinderImpl();
-    private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
+    private static final WindowFinder windowFinder = selectorContext().getWindowFinder();
+    private static final NodeFinder nodeFinder = selectorContext().getNodeFinder();
+
     private static final WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
     private static final CaptureSupport captureSupport = new CaptureSupport(new BaseRobotImpl());
 
