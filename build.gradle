@@ -79,6 +79,10 @@ subprojects { subproj ->
             options.addStringOption('Xdoclint:none', '-quiet')
         }
     }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
 }
 
 evaluationDependsOnChildren()
