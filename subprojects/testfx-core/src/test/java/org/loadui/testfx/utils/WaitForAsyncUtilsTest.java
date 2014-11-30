@@ -15,6 +15,7 @@
  */
 package org.loadui.testfx.utils;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
@@ -70,9 +71,10 @@ public class WaitForAsyncUtilsTest {
     @Test(timeout=1000)
     public void async_callable_with_exception() throws Exception {
         // given:
-        Future<String> future = WaitForAsyncUtils.async(() -> {
+        Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
-        });
+        };
+        Future<Void> future = WaitForAsyncUtils.async(callable);
 
         // expect:
         thrown.expectCause(instanceOf(ExecutionException.class));

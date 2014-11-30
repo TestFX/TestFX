@@ -191,7 +191,7 @@ public class WaitForAsyncUtils {
     }
 
     /**
-     * Waits the given {@link int} attempts for the event queue of JavaFX Application Thread to be
+     * Waits the given {@code int} attempts for the event queue of JavaFX Application Thread to be
      * completed, as well as any new events triggered on it.
      *
      * @param attemptsCount the attempts
