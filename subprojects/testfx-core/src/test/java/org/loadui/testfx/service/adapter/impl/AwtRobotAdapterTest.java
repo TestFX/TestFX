@@ -57,13 +57,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class GlassRobotAdapterTest {
+public class AwtRobotAdapterTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public GlassRobotAdapter robotAdapter;
+    public AwtRobotAdapter robotAdapter;
 
     public Stage targetStage;
     public Parent sceneRoot;
@@ -77,15 +77,12 @@ public class GlassRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        //System.setProperty("testfx.robot", "glass");
-        //System.setProperty("testfx.headless", "true");
-        //System.setProperty("prism.order", "sw");
         FxLifecycle.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
-        robotAdapter = new GlassRobotAdapter();
+        robotAdapter = new AwtRobotAdapter();
         targetStage = FxLifecycle.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
