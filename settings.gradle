@@ -1,4 +1,5 @@
 include 'subprojects/testfx-core'
+include 'subprojects/testfx-junit'
 
 rootProject.name = 'testfx'
 rootProject.children.each { project ->
