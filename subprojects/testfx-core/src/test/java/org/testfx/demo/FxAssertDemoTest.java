@@ -19,8 +19,8 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isNotNull;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import static org.testfx.matcher.base.PredicateMatchers.nodeMatcher;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
+import static org.testfx.matcher.predicate.PredicateMatchers.nodeMatcher;
 
 public class FxAssertDemoTest {
 

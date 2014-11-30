@@ -4,19 +4,18 @@ import javafx.scene.control.Labeled;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-
-import static org.testfx.matcher.base.PredicateMatchers.nodeMatcher;
+import org.testfx.matcher.predicate.PredicateMatchers;
 
 public class LabeledMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // MATCHER METHODS.
+    // STATIC FACTORY METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
     public static Matcher<Labeled> hasText(final String text) {
         String descriptionText = "Labeled has text '" + text + "'";
-        return nodeMatcher(descriptionText, labeled -> hasText(labeled, text));
+        return PredicateMatchers.nodeMatcher(descriptionText, labeled -> hasText(labeled, text));
     }
 
     @Factory
@@ -25,7 +24,7 @@ public class LabeledMatchers {
     }
 
     //---------------------------------------------------------------------------------------------
-    // CONDITION METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     public static boolean hasText(Labeled labeled, String text) {

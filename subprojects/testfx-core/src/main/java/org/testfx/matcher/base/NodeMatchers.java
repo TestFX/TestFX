@@ -4,11 +4,12 @@ import javafx.scene.Node;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.testfx.matcher.predicate.PredicateMatchers;
 
 public class NodeMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // MATCHER METHODS.
+    // STATIC FACTORY METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
@@ -47,7 +48,7 @@ public class NodeMatchers {
     }
 
     //---------------------------------------------------------------------------------------------
-    // CONDITION METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     public static boolean isNull(Node node) {

@@ -5,12 +5,12 @@ import javafx.scene.control.TextInputControl;
 import com.google.common.base.Predicate;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.matcher.base.PredicateMatchers;
+import org.testfx.matcher.predicate.PredicateMatchers;
 
 public class TextInputControlMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // MATCHER METHODS.
+    // STATIC FACTORY METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
@@ -25,7 +25,7 @@ public class TextInputControlMatchers {
     }
 
     //---------------------------------------------------------------------------------------------
-    // CONDITION METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     public static boolean hasText(TextInputControl textInputControl, String text) {

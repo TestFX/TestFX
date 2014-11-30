@@ -8,7 +8,7 @@ import org.hamcrest.MatcherAssert;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
 import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
-import org.testfx.matcher.base.PredicateMatchers;
+import org.testfx.matcher.predicate.PredicateMatchers;
 
 public class FxAssert {
 

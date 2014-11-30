@@ -1,4 +1,4 @@
-package org.testfx.matcher.base;
+package org.testfx.matcher.predicate;
 
 import javafx.scene.Node;
 

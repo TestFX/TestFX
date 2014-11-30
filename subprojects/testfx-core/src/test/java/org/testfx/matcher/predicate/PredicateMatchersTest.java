@@ -1,4 +1,4 @@
-package org.testfx.matcher.base;
+package org.testfx.matcher.predicate;
 
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -10,6 +10,7 @@ import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.matcher.predicate.PredicateMatchers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
