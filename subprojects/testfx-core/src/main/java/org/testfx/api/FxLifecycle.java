@@ -27,12 +27,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.common.annotations.Beta;
-import org.testfx.lifecycle.LifecycleLauncher;
+import org.testfx.lifecycle.ApplicationLauncher;
+import org.testfx.lifecycle.ApplicationService;
 import org.testfx.lifecycle.LifecycleService;
+import org.testfx.lifecycle.impl.ApplicationServiceImpl;
 import org.testfx.lifecycle.impl.LifecycleServiceImpl;
-import org.testfx.lifecycle.impl.LifecycleLauncherToolkitImpl;
+import org.testfx.lifecycle.impl.ApplicationLauncherImpl;
 
-import static org.loadui.testfx.utils.RunWaitUtils.waitFor;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
 
 /**
  * Responsible for setup and cleanup of JavaFX fixtures that need the JavaFX thread.
@@ -90,11 +92,15 @@ public class FxLifecycle {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
+    private static final ApplicationLauncher appLauncher = new ApplicationLauncherImpl();
+
+    private static final ApplicationService appService = new ApplicationServiceImpl();
+
     private static final FxLifecycleContext context = new FxLifecycleContext();
 
-    private static final LifecycleLauncher launcher = new LifecycleLauncherToolkitImpl();
-
-    private static final LifecycleService service = new LifecycleServiceImpl(launcher);
+    private static final LifecycleService service = new LifecycleServiceImpl(
+        appLauncher, appService
+    );
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE CONSTRUCTORS.

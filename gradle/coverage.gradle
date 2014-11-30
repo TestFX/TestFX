@@ -14,13 +14,13 @@
  * and limitations under the Licence.
  */
 
-apply plugin: 'cobertura'
+//apply plugin: 'cobertura'
 //apply plugin: 'jacoco'
 
-cobertura {
-    coverageFormats = ['html', 'xml']
-    coverageSourceDirs = sourceSets.main.java.srcDirs
-}
+//cobertura {
+//    coverageFormats = ['html', 'xml']
+//    coverageSourceDirs = sourceSets.main.java.srcDirs
+//}
 
 //jacocoTestReport {
 //    group = "Reporting"

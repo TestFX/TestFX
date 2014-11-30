@@ -13,26 +13,27 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.service.adapter;
+package org.loadui.testfx.service.adapter.impl;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
-import com.sun.glass.ui.Application;
-import com.sun.glass.ui.Pixels;
-import com.sun.glass.ui.Robot;
+import com.sun.javafx.robot.FXRobot;
+import com.sun.javafx.robot.FXRobotFactory;
+import com.sun.javafx.robot.FXRobotImage;
 
-public class GlassRobotAdapter {
+public class JavafxRobotAdapter {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Robot glassRobot;
+    private FXRobot fxRobot;
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -40,63 +41,87 @@ public class GlassRobotAdapter {
 
     // ROBOT.
 
-    public void robotCreate() {
-        glassRobot = createGlassRobot();
+    public void robotCreate(Scene scene) {
+        fxRobot = createFxRobot(scene);
     }
 
     public void robotDestroy() {
-        glassRobot.destroy();
+        throw new UnsupportedOperationException();
     }
 
-    public Robot getRobotInstance() {
-        return glassRobot;
+    public FXRobot getRobotInstance() {
+        return fxRobot;
     }
 
     // KEY.
 
     public void keyPress(KeyCode key) {
-        glassRobot.keyPress(convertToKeyCodeId(key));
+        fxRobot.keyPress(key);
     }
 
     public void keyRelease(KeyCode key) {
-        glassRobot.keyRelease(convertToKeyCodeId(key));
+        fxRobot.keyRelease(key);
+    }
+
+    public void keyType(KeyCode key, String character) {
+        fxRobot.keyType(key, character);
     }
 
     // MOUSE.
 
     public Point2D getMouseLocation() {
-        return convertFromCoordinates(glassRobot.getMouseX(), glassRobot.getMouseY());
+        throw new UnsupportedOperationException();
     }
 
     public void mouseMove(Point2D location) {
-        glassRobot.mouseMove((int) location.getX(), (int) location.getY());
+        fxRobot.mouseMove((int) location.getX(), (int) location.getY());
+    }
+
+    public void mousePress(MouseButton button, int clickCount) {
+        fxRobot.mousePress(button, clickCount);
+    }
+
+    public void mouseRelease(MouseButton button, int clickCount) {
+        fxRobot.mouseRelease(button, clickCount);
+    }
+
+    public void mouseClick(MouseButton button, int clickCount) {
+        fxRobot.mouseClick(button, clickCount);
     }
 
     public void mousePress(MouseButton button) {
-        glassRobot.mousePress(convertToButtonId(button));
+        fxRobot.mousePress(button);
     }
 
     public void mouseRelease(MouseButton button) {
-        glassRobot.mouseRelease(convertToButtonId(button));
+        fxRobot.mouseRelease(button);
+    }
+
+    public void mouseClick(MouseButton button) {
+        fxRobot.mouseClick(button);
+    }
+
+    public void mouseDrag(MouseButton button) {
+        fxRobot.mouseDrag(button);
     }
 
     public void mouseWheel(int wheelAmount) {
-        glassRobot.mouseWheel(wheelAmount);
+        fxRobot.mouseWheel(wheelAmount);
     }
 
     // CAPTURE.
 
     public Color getCapturePixelColor(Point2D location) {
-        int glassColor = glassRobot.getPixelColor((int) location.getX(), (int) location.getY());
-        return convertFromGlassColor(glassColor);
+        int fxRobotColor = fxRobot.getPixelColor((int) location.getX(), (int) location.getY());
+        return convertFromFxRobotColor(fxRobotColor);
     }
 
     public Image getCaptureRegion(Rectangle2D region) {
-        Pixels glassPixels = glassRobot.getScreenCapture(
+        FXRobotImage fxRobotImage = fxRobot.getSceneCapture(
             (int) region.getMinX(), (int) region.getMinY(),
             (int) region.getWidth(), (int) region.getHeight()
         );
-        return convertFromGlassPixels(glassPixels);
+        return convertFromFxRobotImage(fxRobotImage);
     }
 
     // TIMER.
@@ -105,39 +130,24 @@ public class GlassRobotAdapter {
      * Block until events in the queue are processed.
      */
     public void timerWaitForIdle() {
-        throw new UnsupportedOperationException();
+        fxRobot.waitForIdle();
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Robot createGlassRobot() {
-        return Application.GetApplication().createRobot();
+    private FXRobot createFxRobot(Scene scene) {
+        FXRobot fxRobot = FXRobotFactory.createRobot(scene);
+        fxRobot.setAutoWaitForIdle(false);
+        return fxRobot;
     }
 
-    @SuppressWarnings("deprecation")
-    private int convertToKeyCodeId(KeyCode keyCode) {
-        return keyCode.impl_getCode();
-    }
-
-    private Point2D convertFromCoordinates(int x,
-                                           int y) {
-        return new Point2D(x, y);
-    }
-
-    private int convertToButtonId(MouseButton button) {
-        //int MOUSE_LEFT_BTN   = 1;
-        //int MOUSE_RIGHT_BTN  = 2;
-        //int MOUSE_MIDDLE_BTN = 4;
+    private Color convertFromFxRobotColor(int fxRobotColor) {
         throw new UnsupportedOperationException();
     }
 
-    private Color convertFromGlassColor(int glassColor) {
-        throw new UnsupportedOperationException();
-    }
-
-    private Image convertFromGlassPixels(Pixels glassPixels) {
+    private Image convertFromFxRobotImage(FXRobotImage fxRobotImage) {
         throw new UnsupportedOperationException();
     }
 

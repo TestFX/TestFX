@@ -15,6 +15,8 @@
  */
 package org.loadui.testfx.utils;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 import javafx.beans.property.BooleanProperty;
@@ -27,8 +29,9 @@ import org.junit.rules.ExpectedException;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 
-public class RunWaitUtilsTest {
+public class WaitForAsyncUtilsTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -42,61 +45,74 @@ public class RunWaitUtilsTest {
     //---------------------------------------------------------------------------------------------
 
     @Test(timeout=1000)
-    public void callOutside() throws Exception {
+    public void async_callable() throws Exception {
         // when:
-        Future<String> future = RunWaitUtils.callOutside(() -> "foo");
+        Future<String> future = WaitForAsyncUtils.async(() -> "foo");
 
         // then:
-        RunWaitUtils.sleep(10, MILLISECONDS);
+        WaitForAsyncUtils.sleep(10, MILLISECONDS);
         assertThat(future.get(), Matchers.is("foo"));
     }
 
     @Test(timeout=1000)
-    public void callOutside_with_sleep() throws Exception {
+    public void async_callable_with_sleep() throws Exception {
         // when:
-        Future<String> future = RunWaitUtils.callOutside(() -> {
-            RunWaitUtils.sleep(50, MILLISECONDS);
+        Future<String> future = WaitForAsyncUtils.async(() -> {
+            WaitForAsyncUtils.sleep(50, MILLISECONDS);
             return "foo";
         });
 
         // then:
         assertThat(future.isDone(), Matchers.is(false));
-        RunWaitUtils.sleep(100, MILLISECONDS);
+        WaitForAsyncUtils.sleep(100, MILLISECONDS);
         assertThat(future.get(), Matchers.is("foo"));
+    }
+
+    @Test(timeout=1000)
+    public void async_callable_with_exception() throws Exception {
+        // given:
+        Callable<Void> callable = () -> {
+            throw new UnsupportedOperationException();
+        };
+        Future<Void> future = WaitForAsyncUtils.async(callable);
+
+        // expect:
+        thrown.expectCause(instanceOf(ExecutionException.class));
+        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_future() throws Exception {
         // given:
-        Future<Void> future = RunWaitUtils.callOutside(() -> null);
+        Future<Void> future = WaitForAsyncUtils.async(() -> null);
 
         // expect:
-        RunWaitUtils.waitFor(50, MILLISECONDS, future);
+        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_future_with_sleep() throws Exception {
         // given:
-        Future<Void> future = RunWaitUtils.runOutside(() -> {
-            RunWaitUtils.sleep(100, MILLISECONDS);
+        Future<Void> future = WaitForAsyncUtils.async(() -> {
+            WaitForAsyncUtils.sleep(100, MILLISECONDS);
         });
 
         // expect:
         thrown.expect(TimeoutException.class);
-        RunWaitUtils.waitFor(50, MILLISECONDS, future);
+        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanCallable() throws Exception {
         // expect:
-        RunWaitUtils.waitFor(250, MILLISECONDS, () -> true);
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> true);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanCallable_with_sleep() throws Exception {
         // expect:
-        RunWaitUtils.waitFor(250, MILLISECONDS, () -> {
-            RunWaitUtils.sleep(50, MILLISECONDS);
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
+            WaitForAsyncUtils.sleep(50, MILLISECONDS);
             return true;
         });
     }
@@ -105,34 +121,43 @@ public class RunWaitUtilsTest {
     public void waitFor_with_booleanCallable_with_false() throws Exception {
         // expect:
         thrown.expect(TimeoutException.class);
-        RunWaitUtils.waitFor(250, MILLISECONDS, () -> false);
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> false);
+    }
+
+    @Test(timeout=1000)
+    public void waitFor_with_booleanCallable_with_exception() throws Exception {
+        // expect:
+        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
+            throw new UnsupportedOperationException();
+        });
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanValue() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
-        RunWaitUtils.runOutside(() -> {
-            RunWaitUtils.sleep(50, MILLISECONDS);
+        WaitForAsyncUtils.async(() -> {
+            WaitForAsyncUtils.sleep(50, MILLISECONDS);
             property.set(true);
         });
 
         // expect:
-        RunWaitUtils.waitFor(250, MILLISECONDS, property);
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
     @Test(timeout=1000)
     public void waitFor_with_booleanValue_with_false() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
-        RunWaitUtils.runOutside(() -> {
-            RunWaitUtils.sleep(50, MILLISECONDS);
+        WaitForAsyncUtils.async(() -> {
+            WaitForAsyncUtils.sleep(50, MILLISECONDS);
             property.set(false);
         });
 
         // expect:
         thrown.expect(TimeoutException.class);
-        RunWaitUtils.waitFor(250, MILLISECONDS, property);
+        WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
 }

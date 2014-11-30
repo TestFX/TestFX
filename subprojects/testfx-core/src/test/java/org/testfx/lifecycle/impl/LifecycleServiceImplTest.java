@@ -15,7 +15,6 @@
  */
 package org.testfx.lifecycle.impl;
 
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -29,12 +28,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.loadui.testfx.framework.launch.StageFuture;
 import org.loadui.testfx.framework.launch.ToolkitApplication;
 import org.testfx.lifecycle.LifecycleService;
 
-import static org.loadui.testfx.utils.RunWaitUtils.runLaterAndWait;
-import static org.loadui.testfx.utils.RunWaitUtils.sleep;
-import static org.loadui.testfx.utils.RunWaitUtils.waitFor;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
 
 public class LifecycleServiceImplTest {
 
@@ -51,9 +51,11 @@ public class LifecycleServiceImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        Future<Stage> primaryStageFuture = ToolkitApplication.primaryStageFuture;
+        StageFuture primaryStageFuture = ToolkitApplication.primaryStageFuture;
         Class<? extends Application> toolkitApplication = ToolkitApplication.class;
-        lifecycle = new LifecycleServiceImpl(new LifecycleLauncherDefaultImpl());
+        lifecycle = new LifecycleServiceImpl(
+            new ApplicationLauncherImpl(), new ApplicationServiceImpl()
+        );
 
         primaryStage = waitFor(10, TimeUnit.SECONDS,
             lifecycle.setupPrimaryStage(primaryStageFuture, toolkitApplication)
@@ -62,14 +64,14 @@ public class LifecycleServiceImplTest {
 
     @Before
     public void setup() throws Exception {
-        runLaterAndWait(2000, () -> {
+        waitForAsyncFx(2000, () -> {
             primaryStage.show();
         });
     }
 
     @After
     public void cleanup() throws Exception {
-        //runLater(() -> primaryStage.hide());
+        //waitForAsyncFx(2000, () -> primaryStage.hide());
     }
 
     //---------------------------------------------------------------------------------------------
@@ -78,6 +80,7 @@ public class LifecycleServiceImplTest {
 
     @Test
     public void should_construct_application() throws Exception {
+        printCurrentThreadName("should_construct_application()");
         Application application = waitFor(5, TimeUnit.SECONDS,
             lifecycle.setupApplication(primaryStage, FixtureApplication.class)
         );
@@ -86,6 +89,7 @@ public class LifecycleServiceImplTest {
 
     @Test
     public void should_construct_scene() throws Exception {
+        printCurrentThreadName("should_construct_scene");
         Scene scene = waitFor(5, TimeUnit.SECONDS,
             lifecycle.setupScene(primaryStage, () -> new FixtureScene())
         );
@@ -98,11 +102,11 @@ public class LifecycleServiceImplTest {
 
     public static class FixtureApplication extends Application {
         public void init() throws Exception {
-            System.out.println("Application#init()");
+            printCurrentThreadName("Application#init()");
         }
 
         public void start(Stage primaryStage) throws Exception {
-            System.out.println("Application#start()");
+            printCurrentThreadName("Application#start()");
             Parent parent = new StackPane(new Label(getClass().getSimpleName()));
             Scene scene = new Scene(parent, 400, 200);
             primaryStage.setScene(scene);
@@ -110,17 +114,26 @@ public class LifecycleServiceImplTest {
         }
 
         public void stop() throws Exception {
-            System.out.println("Application#stop()");
+            printCurrentThreadName("Application#stop()");
         }
     }
 
     public static class FixtureScene extends Scene {
         public FixtureScene() {
             super(new Region(), 400, 200);
-            System.out.println("Scene#init()");
+            printCurrentThreadName("Scene#init()");
             Parent parent = new StackPane(new Label(getClass().getSimpleName()));
             setRoot(parent);
         }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // HELPER METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static void printCurrentThreadName(String methodSignature) {
+        String threadName = Thread.currentThread().getName();
+        System.out.println(methodSignature + " in '" + threadName + "'");
     }
 
 }

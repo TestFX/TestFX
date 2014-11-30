@@ -19,16 +19,18 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.loadui.testfx.framework.launch.StageFuture;
+
 public interface LifecycleService {
 
-    Future<Stage> setupPrimaryStage(Future<Stage> primaryStageFuture,
-                                    Class<? extends Application> toolkitApplication);
+    Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
+                                    Class<? extends Application> applicationClass,
+                                    String... applicationArgs);
 
     Future<Void> setup(Runnable runnable);
 
@@ -44,7 +46,8 @@ public interface LifecycleService {
                                   Supplier<? extends Parent> sceneRootSupplier);
 
     Future<Application> setupApplication(Stage stage,
-                                         Class<? extends Application> appClass);
+                                         Class<? extends Application> applicationClass,
+                                         String... applicationArgs);
 
     Future<Void> cleanupApplication(Application application);
 

@@ -13,22 +13,13 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.lifecycle.impl;
+package org.testfx.lifecycle;
 
 import javafx.application.Application;
 
-import org.testfx.lifecycle.LifecycleLauncher;
+public interface ApplicationLauncher {
 
-public class LifecycleLauncherDefaultImpl implements LifecycleLauncher {
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @Override
     public void launch(Class<? extends Application> appClass,
-                       String... appArgs) {
-        Application.launch(appClass, appArgs);
-    }
+                       String... appArgs);
 
 }

@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
 import org.loadui.testfx.robots.BaseRobot;
+import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.service.query.PointQuery;
 
 import static org.mockito.AdditionalMatchers.not;
@@ -41,6 +42,7 @@ public final class MoveRobotImplTest {
 
     public BaseRobot baseRobot;
     public MouseRobot mouseRobot;
+    public SleepRobot sleepRobot;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -50,7 +52,8 @@ public final class MoveRobotImplTest {
     public void setup() {
         baseRobot = mock(BaseRobot.class);
         mouseRobot = new MouseRobotImpl(baseRobot);
-        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot);
+        sleepRobot = mock(SleepRobot.class);
+        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
     }
 
     //---------------------------------------------------------------------------------------------

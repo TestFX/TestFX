@@ -31,7 +31,7 @@ import com.google.common.util.concurrent.SettableFuture;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class RunWaitUtils {
+public class WaitForAsyncUtils {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
@@ -47,7 +47,7 @@ public class RunWaitUtils {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    // RUN METHODS.
+    // ASYNC METHODS.
 
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a {@link Future} that
@@ -56,53 +56,10 @@ public class RunWaitUtils {
      * @param runnable the runnable
      * @return a future
      */
-    public static Future<Void> runOutside(Runnable runnable) {
+    public static Future<Void> async(Runnable runnable) {
         Callable<Void> callable = Executors.callable(runnable, null);
-        return callOutside(callable);
+        return async(callable);
     }
-
-    /**
-     * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
-     * in the future and returns a {@link Future} that is set on finish or error.
-     *
-     * @param runnable the runnable
-     * @return a future
-     */
-    public static Future<Void> runLater(Runnable runnable) {
-        Callable<Void> callable = Executors.callable(runnable, null);
-        return callLater(callable);
-    }
-
-    /**
-     * Runs the given {@link Runnable} on a new {@link Thread} and waits for it {@code long}
-     * milliseconds to finish, otherwise times out with {@link TimeoutException}.
-     *
-     * @param millis the milliseconds
-     * @param runnable the runnable
-     * @throws TimeoutException
-     */
-    public static void runOutsideAndWait(long millis,
-                                         Runnable runnable) throws TimeoutException {
-        Future<Void> future = runOutside(runnable);
-        waitFor(millis, MILLISECONDS, future);
-    }
-
-    /**
-     * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
-     * in the future and waits for it {@code long} milliseconds to finish, otherwise times out with
-     * {@link TimeoutException}.
-     *
-     * @param millis the milliseconds
-     * @param runnable the runnable
-     * @throws TimeoutException
-     */
-    public static void runLaterAndWait(long millis,
-                                       Runnable runnable) throws TimeoutException {
-        Future<Void> future = runLater(runnable);
-        waitFor(millis, MILLISECONDS, future);
-    }
-
-    // CALL METHODS.
 
     /**
      * Calls the given {@link Callable} on a new {@link Thread} and returns a {@link Future} that
@@ -112,11 +69,24 @@ public class RunWaitUtils {
      * @param <T> the callable type
      * @return a future
      */
-    public static <T> Future<T> callOutside(Callable<T> callable) {
+    public static <T> Future<T> async(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
         runOnThread(() -> callCallableAndSetFuture(callable, future));
         return future;
     }
+
+    /**
+     * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
+     * in the future and returns a {@link Future} that is set on finish or error.
+     *
+     * @param runnable the runnable
+     * @return a future
+     */
+    public static Future<Void> asyncFx(Runnable runnable) {
+        Callable<Void> callable = Executors.callable(runnable, null);
+        return asyncFx(callable);
+    }
+
 
     /**
      * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
@@ -126,47 +96,13 @@ public class RunWaitUtils {
      * @param <T> the callable type
      * @return a future
      */
-    public static <T> Future<T> callLater(Callable<T> callable) {
+    public static <T> Future<T> asyncFx(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
         runOnFxThread(() -> callCallableAndSetFuture(callable, future));
         return future;
     }
 
-    /**
-     * Calls the given {@link Callable} on a new {@link Thread}, waits for it {@code long}
-     * milliseconds to finish and returns {@code T}, otherwise times out with
-     * {@link TimeoutException}.
-     *
-     * @param millis the milliseconds
-     * @param callable the callable
-     * @param <T> the callable type
-     * @return a result
-     * @throws TimeoutException
-     */
-    public static <T> T callOutsideAndWait(long millis,
-                                           Callable<T> callable) throws TimeoutException {
-        Future<T> future = callOutside(callable);
-        return waitFor(millis, MILLISECONDS, future);
-    }
-
-    /**
-     * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
-     * in the future, waits for it {@code long} milliseconds to finish and returns {@code T},
-     * otherwise times out with {@link TimeoutException}.
-     *
-     * @param millis the milliseconds
-     * @param callable the callable
-     * @param <T> the callable type
-     * @return a result
-     * @throws TimeoutException
-     */
-    public static <T> T callLaterAndWait(long millis,
-                                         Callable<T> callable) throws TimeoutException {
-        Future<T> future = callLater(callable);
-        return waitFor(millis, MILLISECONDS, future);
-    }
-
-    // WAIT METHODS.
+    // WAIT-FOR METHODS.
 
     /**
      * Waits for given {@link Future} to be set (push) and returns {@code T}, otherwise times out
@@ -181,7 +117,8 @@ public class RunWaitUtils {
      */
     public static <T> T waitFor(long timeout,
                                 TimeUnit timeUnit,
-                                Future<T> future) throws TimeoutException {
+                                Future<T> future)
+                         throws TimeoutException {
         try {
             return future.get(timeout, timeUnit);
         }
@@ -195,7 +132,8 @@ public class RunWaitUtils {
 
     /**
      * Waits for given condition {@link Callable} to return (pull) {@code true}, otherwise times
-     * out with {@link TimeoutException}.
+     * out with {@link TimeoutException}. The condition will be evaluated at least once. The method
+     * will wait for the last condition to finish after a timeout.
      *
      * @param timeout the timeout
      * @param timeUnit the time unit
@@ -204,7 +142,8 @@ public class RunWaitUtils {
      */
     public static void waitFor(long timeout,
                                TimeUnit timeUnit,
-                               Callable<Boolean> condition) throws TimeoutException {
+                               Callable<Boolean> condition)
+                        throws TimeoutException {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.start();
         while (!callConditionAndReturnResult(condition)) {
@@ -226,7 +165,8 @@ public class RunWaitUtils {
      */
     public static void waitFor(long timeout,
                                TimeUnit timeUnit,
-                               ObservableBooleanValue booleanValue) throws TimeoutException {
+                               ObservableBooleanValue booleanValue)
+                        throws TimeoutException {
         SettableFuture<Void> future = SettableFuture.create();
         ChangeListener<Boolean> changeListener = (observable, oldValue, newValue) -> {
             if (newValue) {
@@ -240,6 +180,8 @@ public class RunWaitUtils {
         booleanValue.removeListener(changeListener);
     }
 
+    // WAIT-FOR-FX-EVENTS METHODS.
+
     /**
      * Waits for the event queue of JavaFX Application Thread to be completed, as well as any new
      * events triggered in it.
@@ -249,7 +191,7 @@ public class RunWaitUtils {
     }
 
     /**
-     * Waits the given {@link int} attempts for the event queue of JavaFX Application Thread to be
+     * Waits the given {@code int} attempts for the event queue of JavaFX Application Thread to be
      * completed, as well as any new events triggered on it.
      *
      * @param attemptsCount the attempts
@@ -277,9 +219,80 @@ public class RunWaitUtils {
         catch (InterruptedException ignore) {}
     }
 
+    // WAIT-FOR-ASYNC METHODS.
+
+    /**
+     * Runs the given {@link Runnable} on a new {@link Thread} and waits for it {@code long}
+     * milliseconds to finish, otherwise times out with {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param runnable the runnable
+     */
+    public static void waitForAsync(long millis,
+                                    Runnable runnable) {
+        Future<Void> future = async(runnable);
+        waitForMillis(millis, future);
+    }
+
+    /**
+     * Calls the given {@link Callable} on a new {@link Thread}, waits for it {@code long}
+     * milliseconds to finish and returns {@code T}, otherwise times out with
+     * {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param callable the callable
+     * @param <T> the callable type
+     * @return a result
+     */
+    public static <T> T waitForAsync(long millis,
+                                     Callable<T> callable) {
+        Future<T> future = async(callable);
+        return waitForMillis(millis, future);
+    }
+
+    /**
+     * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
+     * in the future and waits for it {@code long} milliseconds to finish, otherwise times out with
+     * {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param runnable the runnable
+     */
+    public static void waitForAsyncFx(long millis,
+                                      Runnable runnable) {
+        Future<Void> future = asyncFx(runnable);
+        waitForMillis(millis, future);
+    }
+
+    /**
+     * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
+     * in the future, waits for it {@code long} milliseconds to finish and returns {@code T},
+     * otherwise times out with {@link TimeoutException}.
+     *
+     * @param millis the milliseconds
+     * @param callable the callable
+     * @param <T> the callable type
+     * @return a result
+     */
+    public static <T> T waitForAsyncFx(long millis,
+                                       Callable<T> callable) {
+        Future<T> future = asyncFx(callable);
+        return waitForMillis(millis, future);
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
+
+    private static <T> T waitForMillis(long millis,
+                                       Future<T> future) {
+        try {
+            return waitFor(millis, MILLISECONDS, future);
+        }
+        catch (TimeoutException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     private static void runOnThread(Runnable runnable) {
         Thread thread = new Thread(runnable);
@@ -288,7 +301,13 @@ public class RunWaitUtils {
     }
 
     private static void runOnFxThread(Runnable runnable) {
-        Platform.runLater(runnable);
+        //Platform.runLater(runnable);
+        if (Platform.isFxApplicationThread()) {
+            runnable.run();
+        }
+        else {
+            Platform.runLater(runnable);
+        }
     }
 
     private static <T> void callCallableAndSetFuture(Callable<T> callable,

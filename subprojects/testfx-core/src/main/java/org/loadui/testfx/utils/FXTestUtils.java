@@ -41,7 +41,7 @@ public class FXTestUtils {
     public static void awaitCondition(Callable<Boolean> condition,
                                       int timeoutInSeconds) {
         try {
-            RunWaitUtils.waitFor(timeoutInSeconds, TimeUnit.SECONDS, condition);
+            WaitForAsyncUtils.waitFor(timeoutInSeconds, TimeUnit.SECONDS, condition);
         }
         catch (Exception exception) {
             throw new RuntimeException(exception);
@@ -53,7 +53,7 @@ public class FXTestUtils {
      * events triggered by them.
      */
     public static void awaitEvents() {
-        RunWaitUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     /**
@@ -68,9 +68,9 @@ public class FXTestUtils {
      */
     public static void invokeAndWait(final Callable<?> task,
                                      int timeoutInSeconds) throws Exception {
-        Future<?> future = RunWaitUtils.callLater(task);
-        RunWaitUtils.waitFor(timeoutInSeconds, TimeUnit.SECONDS, future);
-        RunWaitUtils.waitForFxEvents();
+        Future<?> future = WaitForAsyncUtils.asyncFx(task);
+        WaitForAsyncUtils.waitFor(timeoutInSeconds, TimeUnit.SECONDS, future);
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     /**

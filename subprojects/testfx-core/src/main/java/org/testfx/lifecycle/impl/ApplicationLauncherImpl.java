@@ -13,15 +13,15 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.app.impl;
+package org.testfx.lifecycle.impl;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
 import javafx.application.Application;
 
-import org.loadui.testfx.framework.app.AppLauncher;
+import org.testfx.lifecycle.ApplicationLauncher;
 
-public class ToolkitAppLauncher implements AppLauncher {
+public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
