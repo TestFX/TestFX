@@ -30,35 +30,34 @@ import javafx.stage.Window;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.loadui.testfx.framework.robot.FxRobot;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.ClickRobot;
 import org.loadui.testfx.robots.DragRobot;
 import org.loadui.testfx.robots.KeyboardRobot;
 import org.loadui.testfx.robots.MouseRobot;
 import org.loadui.testfx.robots.MoveRobot;
-import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.ScrollRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.robots.WriteRobot;
+import org.loadui.testfx.robots.impl.BaseRobotImpl;
 import org.loadui.testfx.robots.impl.ClickRobotImpl;
 import org.loadui.testfx.robots.impl.DragRobotImpl;
 import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
 import org.loadui.testfx.robots.impl.MouseRobotImpl;
 import org.loadui.testfx.robots.impl.MoveRobotImpl;
-import org.loadui.testfx.robots.impl.BaseRobotImpl;
 import org.loadui.testfx.robots.impl.ScrollRobotImpl;
 import org.loadui.testfx.robots.impl.SleepRobotImpl;
 import org.loadui.testfx.robots.impl.TypeRobotImpl;
 import org.loadui.testfx.robots.impl.WriteRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
-import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
 import org.loadui.testfx.service.query.PointQuery;
+import org.testfx.api.FxSelector;
 
 public class FxRobotImpl implements FxRobot {
 
@@ -66,8 +65,8 @@ public class FxRobotImpl implements FxRobot {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final WindowFinder windowFinder = new WindowFinderImpl();
-    private final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
+    private final WindowFinder windowFinder;
+    private final NodeFinder nodeFinder;
 
     private Pos pointPosition = Pos.CENTER;
     private final BoundsLocator boundsLocator;
@@ -90,6 +89,9 @@ public class FxRobotImpl implements FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public FxRobotImpl() {
+        windowFinder = FxSelector.selectorContext().getWindowFinder();
+        nodeFinder = FxSelector.selectorContext().getNodeFinder();
+
         boundsLocator = new BoundsLocatorImpl();
         pointLocator = new PointLocatorImpl(boundsLocator);
 

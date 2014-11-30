@@ -25,6 +25,7 @@ public interface WindowFinder {
     public void target(int windowIndex);
     public void target(String stageTitleRegex);
     public void target(Scene scene);
+    //public void target(Node node);
 
     public List<Window> listWindows();
     public List<Window> listOrderedWindows();
@@ -32,4 +33,5 @@ public interface WindowFinder {
     public Window window(int windowIndex);
     public Window window(String stageTitleRegex);
     public Window window(Scene scene);
+    //public Window window(Node node);
 }
