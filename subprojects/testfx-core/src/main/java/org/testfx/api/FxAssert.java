@@ -2,12 +2,13 @@ package org.testfx.api;
 
 import javafx.scene.Node;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-import org.loadui.testfx.service.finder.NodeFinder;
 import org.testfx.matcher.predicate.PredicateMatchers;
 
+@Beta
 public class FxAssert {
 
     //---------------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ public class FxAssert {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static NodeFinder nodeFinder = FxSelector.selectorContext().getNodeFinder();
+    private static FxAssertContext context = new FxAssertContext();
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -61,6 +62,10 @@ public class FxAssert {
         verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
     }
 
+    public static FxAssertContext assertContext() {
+        return context;
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -83,7 +88,7 @@ public class FxAssert {
 
     private static Node toNode(String nodeQuery) {
         try {
-            return nodeFinder.node(nodeQuery);
+            return context.getNodeFinder().node(nodeQuery);
         }
         catch (Exception ignore) {
             return null;

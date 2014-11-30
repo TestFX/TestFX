@@ -1,4 +1,4 @@
-package org.testfx.demo;
+package org.testfx.api.integration;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
