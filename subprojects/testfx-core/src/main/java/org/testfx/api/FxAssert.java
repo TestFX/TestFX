@@ -6,8 +6,6 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
-import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
 import org.testfx.matcher.predicate.PredicateMatchers;
 
 public class FxAssert {
@@ -22,7 +20,7 @@ public class FxAssert {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static NodeFinder nodeFinder = new NodeFinderImpl(new WindowFinderImpl());
+    private static NodeFinder nodeFinder = FxSelector.selectorContext().getNodeFinder();
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
