@@ -26,7 +26,6 @@ import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.service.adapter.RobotAdapter;
 import org.loadui.testfx.service.adapter.impl.AwtRobotAdapter;
 import org.loadui.testfx.service.adapter.impl.GlassRobotAdapter;
-import org.loadui.testfx.utils.WaitForAsyncUtils;
 
 public class BaseRobotImpl implements BaseRobot {
 
@@ -111,7 +110,7 @@ public class BaseRobotImpl implements BaseRobot {
 
     @Override
     public void awaitEvents() {
-        WaitForAsyncUtils.waitForFxEvents();
+        robotAdapter.timerWaitForIdle();
     }
 
     //---------------------------------------------------------------------------------------------

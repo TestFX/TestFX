@@ -37,6 +37,8 @@ import javafx.scene.paint.Color;
 import com.google.common.collect.ImmutableMap;
 import org.loadui.testfx.service.adapter.RobotAdapter;
 
+import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForFxEvents;
+
 public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     //---------------------------------------------------------------------------------------------
@@ -72,7 +74,7 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void robotDestroy() {
-        throw new UnsupportedOperationException();
+        awtRobot = null;
     }
 
     @Override
@@ -123,7 +125,9 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Color getCapturePixelColor(Point2D location) {
-        throw new UnsupportedOperationException();
+        Rectangle2D region = new Rectangle2D(location.getX(), location.getY(), 1, 1);
+        Image image = getCaptureRegion(region);
+        return image.getPixelReader().getColor(0, 0);
     }
 
     @Override
@@ -137,7 +141,7 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void timerWaitForIdle() {
-        throw new UnsupportedOperationException();
+        waitForFxEvents();
     }
 
     //---------------------------------------------------------------------------------------------
