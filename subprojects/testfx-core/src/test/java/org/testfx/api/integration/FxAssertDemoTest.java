@@ -3,7 +3,6 @@ package org.testfx.api.integration;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 
 import org.junit.Before;
@@ -20,7 +19,6 @@ import static org.testfx.matcher.base.NodeMatchers.isNotNull;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
-import static org.testfx.matcher.predicate.PredicateMatchers.nodeMatcher;
 
 public class FxAssertDemoTest {
 
@@ -81,10 +79,10 @@ public class FxAssertDemoTest {
         verifyThat("#button", hasText("clicked!"));
     }
 
-    @Test
-    public void foo() {
-        verifyThat("#button", nodeMatcher(TreeView.class, "is true", (TreeView input) -> true));
-    }
+    //@Test
+    //public void foo() {
+    //    verifyThat("#button", nodeMatcher(TreeView.class, "is true", (TreeView input) -> true));
+    //}
 
     //---------------------------------------------------------------------------------------------
     // TEST FIXTURES.
@@ -99,6 +97,7 @@ public class FxAssertDemoTest {
             Scene scene = new Scene(button, 600, 400);
             stage.setScene(scene);
             stage.setTitle(this.getClass().getSimpleName());
+            stage.show();
         }
     }
 

@@ -21,7 +21,7 @@ public class FxAssert {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static FxAssertContext context = new FxAssertContext();
+    private static FxAssertContext context;
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -63,6 +63,9 @@ public class FxAssert {
     }
 
     public static FxAssertContext assertContext() {
+        if (context == null) {
+            context = new FxAssertContext();
+        }
         return context;
     }
 
@@ -88,7 +91,7 @@ public class FxAssert {
 
     private static Node toNode(String nodeQuery) {
         try {
-            return context.getNodeFinder().node(nodeQuery);
+            return assertContext().getNodeFinder().node(nodeQuery);
         }
         catch (Exception ignore) {
             return null;

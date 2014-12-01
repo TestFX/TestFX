@@ -10,7 +10,7 @@ public class FxAssertContext {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private NodeFinder nodeFinder = FxSelector.selectorContext().getNodeFinder();
+    private NodeFinder nodeFinder = FxService.serviceContext().getNodeFinder();
 
     //---------------------------------------------------------------------------------------------
     // GETTER AND SETTER.
