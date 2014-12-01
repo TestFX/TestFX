@@ -89,6 +89,20 @@ public final class WriteRobotImplTest {
     }
 
     @Test
+    public void write_char_with_whitespace() {
+        // given:
+        given(windowFinder.target()).willReturn(stage);
+
+        // when:
+        writeRobot.write('\t');
+        writeRobot.write('\n');
+
+        // then:
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.TAB), eq("\t"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.ENTER), eq("\n"));
+    }
+
+    @Test
     public void write_string() {
         // given:
         given(windowFinder.target()).willReturn(stage);

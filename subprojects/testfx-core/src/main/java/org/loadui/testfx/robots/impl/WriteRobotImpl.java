@@ -75,8 +75,16 @@ public class WriteRobotImpl implements WriteRobot {
 
     private void pushCharacter(char character) {
         Scene scene = windowFinder.target().getScene();
-        baseRobot.typeKeyboard(scene, KeyCode.UNDEFINED, Character.toString(character));
+        KeyCode key = determineKeyCode(character);
+        baseRobot.typeKeyboard(scene, key, Character.toString(character));
         baseRobot.awaitEvents();
+    }
+
+    private KeyCode determineKeyCode(char character) {
+        KeyCode key = KeyCode.UNDEFINED;
+        key = (character == '\n') ? KeyCode.ENTER : key;
+        key = (character == '\t') ? KeyCode.TAB : key;
+        return key;
     }
 
 }
