@@ -15,11 +15,12 @@
  */
 package org.loadui.testfx.utils;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import javafx.scene.input.KeyCode;
 
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
+@Deprecated
 public class KeyCodeUtils {
 
     private static final Map<Character, KeyCode> KEY_CODES = ImmutableMap.<Character, KeyCode>builder()
