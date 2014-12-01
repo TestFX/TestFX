@@ -18,6 +18,7 @@ package org.loadui.testfx.robots.impl;
 import java.util.Objects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -26,6 +27,7 @@ import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.service.adapter.RobotAdapter;
 import org.loadui.testfx.service.adapter.impl.AwtRobotAdapter;
 import org.loadui.testfx.service.adapter.impl.GlassRobotAdapter;
+import org.loadui.testfx.service.adapter.impl.JavafxRobotAdapter;
 
 public class BaseRobotImpl implements BaseRobot {
 
@@ -46,6 +48,7 @@ public class BaseRobotImpl implements BaseRobot {
     );
 
     private final RobotAdapter robotAdapter;
+    private final JavafxRobotAdapter javafxRobotAdapter;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
@@ -62,6 +65,7 @@ public class BaseRobotImpl implements BaseRobot {
             throw new IllegalStateException("Unknown robot adapter " +
                 "'" + PROPERTY_TESTFX_ROBOT + "=" + robotAdapterName + "'");
         }
+        javafxRobotAdapter = new JavafxRobotAdapter();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -76,6 +80,17 @@ public class BaseRobotImpl implements BaseRobot {
     @Override
     public void releaseKeyboard(KeyCode key) {
         robotAdapter.keyRelease(key);
+    }
+
+    @Override
+    public void typeKeyboard(Scene scene,
+                             KeyCode key,
+                             String character) {
+        // KeyEvent: "For key typed events, {@code code} is always {@code KeyCode.UNDEFINED}."
+        javafxRobotAdapter.robotCreate(scene);
+        javafxRobotAdapter.keyPress(key);
+        javafxRobotAdapter.keyType(KeyCode.UNDEFINED, character);
+        javafxRobotAdapter.keyRelease(key);
     }
 
     @Override

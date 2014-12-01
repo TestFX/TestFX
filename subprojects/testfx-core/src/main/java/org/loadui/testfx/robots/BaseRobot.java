@@ -17,6 +17,7 @@ package org.loadui.testfx.robots;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -26,6 +27,10 @@ public interface BaseRobot {
     public void pressKeyboard(KeyCode key);
 
     public void releaseKeyboard(KeyCode key);
+
+    public void typeKeyboard(Scene scene,
+                             KeyCode key,
+                             String character);
 
     public Point2D retrieveMouse();
 
