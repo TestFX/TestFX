@@ -57,7 +57,7 @@ import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
 import org.loadui.testfx.service.query.PointQuery;
-import org.testfx.api.FxSelector;
+import org.testfx.api.FxService;
 
 public class FxRobotImpl implements FxRobot {
 
@@ -89,8 +89,8 @@ public class FxRobotImpl implements FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public FxRobotImpl() {
-        windowFinder = FxSelector.selectorContext().getWindowFinder();
-        nodeFinder = FxSelector.selectorContext().getNodeFinder();
+        windowFinder = FxService.serviceContext().getWindowFinder();
+        nodeFinder = FxService.serviceContext().getNodeFinder();
 
         boundsLocator = new BoundsLocatorImpl();
         pointLocator = new PointLocatorImpl(boundsLocator);
@@ -367,7 +367,6 @@ public class FxRobotImpl implements FxRobot {
     public FxRobot clickOn(PointQuery pointQuery,
                            MouseButton... buttons) {
         clickRobot.clickOn(pointQuery, buttons);
-
         return this;
     }
 

@@ -33,14 +33,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.loadui.testfx.framework.app.StageSetupCallback;
 import org.loadui.testfx.framework.junit.AppRobotTestBase;
-import org.loadui.testfx.robots.impl.BaseRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 
 import static org.junit.Assume.assumeFalse;
-import static org.testfx.api.FxSelector.selectorContext;
+import static org.testfx.api.FxService.serviceContext;
 
 public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
 
@@ -158,11 +157,12 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final WindowFinder windowFinder = selectorContext().getWindowFinder();
-    private static final NodeFinder nodeFinder = selectorContext().getNodeFinder();
+    private static final WindowFinder windowFinder = serviceContext().getWindowFinder();
+    private static final NodeFinder nodeFinder = serviceContext().getNodeFinder();
 
-    private static final WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
-    private static final CaptureSupport captureSupport = new CaptureSupport(new BaseRobotImpl());
+    private static final WaitUntilSupport waitUntilSupport =
+        serviceContext().getWaitUntilSupport();
+    private static final CaptureSupport captureSupport = serviceContext().getCaptureSupport();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.

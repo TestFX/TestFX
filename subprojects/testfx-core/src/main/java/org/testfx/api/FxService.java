@@ -18,19 +18,19 @@ package org.testfx.api;
 import com.google.common.annotations.Beta;
 
 @Beta
-public class FxSelector {
+public class FxService {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final FxSelectorContext context = new FxSelectorContext();
+    private static FxServiceContext context;
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    private FxSelector() {
+    private FxService() {
         throw new UnsupportedOperationException();
     }
 
@@ -38,7 +38,10 @@ public class FxSelector {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static FxSelectorContext selectorContext() {
+    public static FxServiceContext serviceContext() {
+        if (context == null) {
+            context = new FxServiceContext();
+        }
         return context;
     }
 
