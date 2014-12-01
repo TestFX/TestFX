@@ -15,18 +15,21 @@
  */
 package org.loadui.testfx.robots.impl;
 
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
+import javafx.stage.Stage;
+
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.SleepRobot;
-import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.robots.WriteRobot;
+import org.loadui.testfx.service.finder.WindowFinder;
+import org.testfx.api.FxLifecycle;
 
-import static javafx.scene.input.KeyCode.A;
-import static javafx.scene.input.KeyCode.COLON;
-import static javafx.scene.input.KeyCode.E;
-import static javafx.scene.input.KeyCode.PERIOD;
-import static javafx.scene.input.KeyCode.SHIFT;
-
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -40,18 +43,33 @@ public final class WriteRobotImplTest {
 
     public WriteRobot writeRobot;
 
+    public Stage stage;
+    public Scene scene;
+    public BaseRobot baseRobot;
     public SleepRobot sleepRobot;
-    public TypeRobot typeRobot;
+    public WindowFinder windowFinder;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @BeforeClass
+    public static void setupSpec() throws Exception {
+        FxLifecycle.registerPrimaryStage();
+    }
+
     @Before
-    public void setup() {
+    public void setup() throws Exception {
+        FxLifecycle.setup(() -> {
+            scene = new Scene(new Region());
+            stage = new Stage();
+            stage.setScene(scene);
+        });
+
+        baseRobot = mock(BaseRobot.class);
         sleepRobot = mock(SleepRobot.class);
-        typeRobot = mock(TypeRobot.class);
-        writeRobot = new WriteRobotImpl(typeRobot, sleepRobot);
+        windowFinder = mock(WindowFinder.class);
+        writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -59,33 +77,42 @@ public final class WriteRobotImplTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void write_lowercase_AE() {
+    public void write_char() {
+        // given:
+        given(windowFinder.target()).willReturn(stage);
+
+        // when:
+        writeRobot.write('a');
+
+        // then:
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("a"));
+    }
+
+    @Test
+    public void write_char_with_whitespace() {
+        // given:
+        given(windowFinder.target()).willReturn(stage);
+
+        // when:
+        writeRobot.write('\t');
+        writeRobot.write('\n');
+
+        // then:
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.TAB), eq("\t"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.ENTER), eq("\n"));
+    }
+
+    @Test
+    public void write_string() {
+        // given:
+        given(windowFinder.target()).willReturn(stage);
+
         // when:
         writeRobot.write("ae");
 
         // then:
-        verify(typeRobot, times(1)).push(eq(A));
-        verify(typeRobot, times(1)).push(eq(E));
-    }
-
-    @Test
-    public void write_uppercase_A() {
-        // when:
-        writeRobot.write("AE");
-
-        // then:
-        verify(typeRobot, times(1)).push(eq(SHIFT), eq(A));
-        verify(typeRobot, times(1)).push(eq(SHIFT), eq(E));
-    }
-
-    @Test
-    public void write_period_and_colon() {
-        // when:
-        writeRobot.write(".:");
-
-        // then:
-        verify(typeRobot, times(1)).push(eq(PERIOD));
-        verify(typeRobot, times(1)).push(eq(COLON));
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("a"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("e"));
     }
 
 }

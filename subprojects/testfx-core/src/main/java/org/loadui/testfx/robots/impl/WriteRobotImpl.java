@@ -15,14 +15,14 @@
  */
 package org.loadui.testfx.robots.impl;
 
-import java.util.List;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 import com.google.common.collect.Lists;
+import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.SleepRobot;
-import org.loadui.testfx.robots.TypeRobot;
 import org.loadui.testfx.robots.WriteRobot;
-import org.loadui.testfx.utils.KeyCodeUtils;
+import org.loadui.testfx.service.finder.WindowFinder;
 
 public class WriteRobotImpl implements WriteRobot {
 
@@ -36,27 +36,32 @@ public class WriteRobotImpl implements WriteRobot {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public TypeRobot typeRobot;
+    public BaseRobot baseRobot;
     public SleepRobot sleepRobot;
+    public WindowFinder windowFinder;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public WriteRobotImpl(TypeRobot typeRobot,
-                          SleepRobot sleepRobot) {
-        this.typeRobot = typeRobot;
+    public WriteRobotImpl(BaseRobot baseRobot,
+                          SleepRobot sleepRobot,
+                          WindowFinder windowFinder) {
+        this.baseRobot = baseRobot;
         this.sleepRobot = sleepRobot;
+        this.windowFinder = windowFinder;
     }
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     public void write(char character) {
         pushCharacter(character);
     }
 
+    @Override
     public void write(String text) {
         for (char character : Lists.charactersOf(text)) {
             pushCharacter(character);
@@ -69,36 +74,17 @@ public class WriteRobotImpl implements WriteRobot {
     //---------------------------------------------------------------------------------------------
 
     private void pushCharacter(char character) {
-        typeRobot.push(toKeyCodeArray(buildCharacterCombination(character)));
+        Scene scene = windowFinder.target().getScene();
+        KeyCode key = determineKeyCode(character);
+        baseRobot.typeKeyboard(scene, key, Character.toString(character));
+        baseRobot.awaitEvents();
     }
 
-    private List<KeyCode> buildCharacterCombination(char character) {
-        if (isNotUpperCase(character)) {
-            return buildLowerCaseCombination(character);
-        }
-        else {
-            return buildUpperCaseCombination(character);
-        }
-    }
-
-    private boolean isNotUpperCase(char character) {
-        return !Character.isUpperCase(character);
-    }
-
-    private List<KeyCode> buildLowerCaseCombination(char character) {
-        return Lists.newArrayList(findKeyCode(character));
-    }
-
-    private List<KeyCode> buildUpperCaseCombination(char character) {
-        return Lists.newArrayList(KeyCode.SHIFT, findKeyCode(character));
-    }
-
-    private KeyCode findKeyCode(char character) {
-        return KeyCodeUtils.findKeyCode(character);
-    }
-
-    private KeyCode[] toKeyCodeArray(List<KeyCode> keyCodes) {
-        return keyCodes.toArray(new KeyCode[keyCodes.size()]);
+    private KeyCode determineKeyCode(char character) {
+        KeyCode key = KeyCode.UNDEFINED;
+        key = (character == '\n') ? KeyCode.ENTER : key;
+        key = (character == '\t') ? KeyCode.TAB : key;
+        return key;
     }
 
 }
