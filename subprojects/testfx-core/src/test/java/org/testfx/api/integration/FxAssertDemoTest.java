@@ -1,3 +1,18 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
+ * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
+ * except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the Licence for the specific language governing permissions
+ * and limitations under the Licence.
+ */
 package org.testfx.api.integration;
 
 import javafx.application.Application;
@@ -47,9 +62,9 @@ public class FxAssertDemoTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void nonExistingNode_is_null() {
+    public void missing_is_null() {
         // expect:
-        verifyThat("#nonExistingNode", isNull());
+        verifyThat("#missing", isNull());
     }
 
     @Test
@@ -91,7 +106,7 @@ public class FxAssertDemoTest {
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
-            final Button button = new Button("click me!");
+            Button button = new Button("click me!");
             button.setId("button");
             button.setOnAction(actionEvent -> button.setText("clicked!"));
             Scene scene = new Scene(button, 600, 400);
