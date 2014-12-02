@@ -28,9 +28,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.framework.launch.StageFuture;
-import org.loadui.testfx.framework.launch.ToolkitApplication;
 import org.testfx.lifecycle.LifecycleService;
+import org.testfx.lifecycle.StageFuture;
+import org.testfx.lifecycle.ToolkitApplication;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;

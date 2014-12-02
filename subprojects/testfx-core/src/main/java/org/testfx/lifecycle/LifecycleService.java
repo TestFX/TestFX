@@ -24,8 +24,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import org.loadui.testfx.framework.launch.StageFuture;
-
 public interface LifecycleService {
 
     Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,

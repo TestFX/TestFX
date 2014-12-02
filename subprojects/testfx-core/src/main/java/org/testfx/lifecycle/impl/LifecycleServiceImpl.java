@@ -24,10 +24,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import org.loadui.testfx.framework.launch.StageFuture;
 import org.testfx.lifecycle.ApplicationLauncher;
 import org.testfx.lifecycle.ApplicationService;
 import org.testfx.lifecycle.LifecycleService;
+import org.testfx.lifecycle.StageFuture;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.async;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;

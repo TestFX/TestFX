@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.launch;
+package org.testfx.lifecycle;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

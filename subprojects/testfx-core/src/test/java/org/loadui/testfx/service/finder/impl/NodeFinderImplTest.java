@@ -39,15 +39,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
-import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.service.finder.WindowFinder;
+import org.testfx.api.FxLifecycle;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assume.assumeThat;
 
-public class NodeFinderImplTest extends AppRobotTestBase {
+public class NodeFinderImplTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -80,15 +79,15 @@ public class NodeFinderImplTest extends AppRobotTestBase {
     //---------------------------------------------------------------------------------------------
 
     @BeforeClass
-    public static void setupClass() throws Throwable {
-        setupApplication();
-        setupStages(new StageSetupCallback() {
-            @Override
-            public void setupStages(Stage primaryStage) {
-                primaryStage.setScene(new Scene(new Region(), 600, 400));
-                setupStagesClass();
-            }
-        });
+    public static void setupSpec() throws Exception {
+        FxLifecycle.registerPrimaryStage();
+        FxLifecycle.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxLifecycle.setup(() -> setupStagesClass());
+    }
+
+    @AfterClass
+    public static void cleanupSpec() throws Exception {
+        FxLifecycle.setup(() -> cleanupStagesClass());
     }
 
     @Before
@@ -98,16 +97,6 @@ public class NodeFinderImplTest extends AppRobotTestBase {
         windowFinder = new WindowFinderStub();
         windowFinder.windows = Lists.<Window>newArrayList(window, otherWindow, twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
-    }
-
-    @AfterClass
-    public static void cleanupClass() throws Throwable {
-        invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                cleanupStagesClass();
-            }
-        });
     }
 
     public static void setupStagesClass() {

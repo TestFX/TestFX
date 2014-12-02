@@ -19,8 +19,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import com.google.common.annotations.Beta;
-import org.loadui.testfx.framework.launch.StageFuture;
-import org.loadui.testfx.framework.launch.ToolkitApplication;
+import org.testfx.lifecycle.StageFuture;
+import org.testfx.lifecycle.ToolkitApplication;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
