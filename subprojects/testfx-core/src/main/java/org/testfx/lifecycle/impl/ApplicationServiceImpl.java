@@ -37,7 +37,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         // Should run in JavaFX application thread.
         return asyncFx(() -> {
             Application application = createApplication(appClass);
-            //registerApplicationParameters(application, appArgs);
+            registerApplicationParameters(application, appArgs);
             return application;
         });
     }

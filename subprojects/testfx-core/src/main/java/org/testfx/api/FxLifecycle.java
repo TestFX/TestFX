@@ -30,9 +30,9 @@ import com.google.common.annotations.Beta;
 import org.testfx.lifecycle.ApplicationLauncher;
 import org.testfx.lifecycle.ApplicationService;
 import org.testfx.lifecycle.LifecycleService;
+import org.testfx.lifecycle.impl.ApplicationLauncherImpl;
 import org.testfx.lifecycle.impl.ApplicationServiceImpl;
 import org.testfx.lifecycle.impl.LifecycleServiceImpl;
-import org.testfx.lifecycle.impl.ApplicationLauncherImpl;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
 
@@ -119,7 +119,11 @@ public class FxLifecycle {
     public static Stage registerPrimaryStage()
                                       throws TimeoutException {
         Stage primaryStage = waitForLaunch(
-            service.setupPrimaryStage(context.getStageFuture(), context.getApplicationClass())
+            service.setupPrimaryStage(
+                context.getStageFuture(),
+                context.getApplicationClass(),
+                context.getApplicationArgs()
+            )
         );
         context.setTargetStage(primaryStage);
         return primaryStage;
@@ -157,10 +161,11 @@ public class FxLifecycle {
         );
     }
 
-    public static Application setupApplication(Class<? extends Application> applicationClass)
+    public static Application setupApplication(Class<? extends Application> applicationClass,
+                                               String... applicationArgs)
                                         throws TimeoutException {
         return waitForSetup(
-            service.setupApplication(context.getTargetStage(), applicationClass)
+            service.setupApplication(context.getTargetStage(), applicationClass, applicationArgs)
         );
     }
 

@@ -32,9 +32,11 @@ public class FxLifecycleContext {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
+    private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
+
     private Class<? extends Application> applicationClass = ToolkitApplication.class;
 
-    private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
+    private String[] applicationArgs = new String[] {};
 
     private Stage targetStage = null;
 
@@ -46,6 +48,14 @@ public class FxLifecycleContext {
     // GETTER AND SETTER.
     //---------------------------------------------------------------------------------------------
 
+    public StageFuture getStageFuture() {
+        return stageFuture;
+    }
+
+    public void setStageFuture(StageFuture stageFuture) {
+        this.stageFuture = stageFuture;
+    }
+
     public Class<? extends Application> getApplicationClass() {
         return applicationClass;
     }
@@ -54,12 +64,12 @@ public class FxLifecycleContext {
         this.applicationClass = applicationClass;
     }
 
-    public StageFuture getStageFuture() {
-        return stageFuture;
+    public String[] getApplicationArgs() {
+        return applicationArgs;
     }
 
-    public void setStageFuture(StageFuture stageFuture) {
-        this.stageFuture = stageFuture;
+    public void setApplicationArgs(String[] applicationArgs) {
+        this.applicationArgs = applicationArgs;
     }
 
     public Stage getTargetStage() {
