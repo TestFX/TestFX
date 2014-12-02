@@ -32,9 +32,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.exceptions.NoNodesFoundException;
-import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 
 public class NodeFinderImpl implements NodeFinder {
@@ -260,14 +259,14 @@ public class NodeFinderImpl implements NodeFinder {
     private void assertNodesFound(Set<Node> resultNodes, String errorMessage) {
         // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
-            throw new NoNodesFoundException(errorMessage);
+            throw new NodeFinderException(errorMessage);
         }
     }
 
     private void assertNodesVisible(Set<Node> resultNodes, String errorMessage) {
         // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
-            throw new NoNodesVisibleException(errorMessage);
+            throw new NodeFinderException(errorMessage);
         }
     }
 

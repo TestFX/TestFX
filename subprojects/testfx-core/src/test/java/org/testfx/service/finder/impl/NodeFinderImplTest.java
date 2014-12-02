@@ -36,13 +36,15 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
-import org.loadui.testfx.exceptions.NoNodesFoundException;
-import org.loadui.testfx.exceptions.NoNodesVisibleException;
-import org.testfx.service.finder.WindowFinder;
+import org.junit.rules.ExpectedException;
 import org.testfx.api.FxToolkit;
+import org.testfx.service.finder.NodeFinderException;
+import org.testfx.service.finder.WindowFinder;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assume.assumeThat;
 
@@ -73,6 +75,9 @@ public class NodeFinderImplTest {
 
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -172,15 +177,19 @@ public class NodeFinderImplTest {
         assertThat(nodeFinder.node("third"), Matchers.is(thirdClassLabel));
     }
 
-    @Test(expected=NoNodesFoundException.class)
+    @Test
     public void node_string_cssQuery_nonExistentNode() {
         // expect:
+        thrown.expect(NodeFinderException.class);
+        thrown.expectMessage("No matching nodes were found.");
         assertThat(nodeFinder.node("#nonExistentNode"), Matchers.is(Matchers.nullValue()));
     }
 
-    @Test(expected=NoNodesVisibleException.class)
+    @Test
     public void node_string_cssQuery_invisibleNode() {
         // expect:
+        thrown.expect(NodeFinderException.class);
+        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.node("#invisibleNode"), Matchers.is(Matchers.nullValue()));
     }
 
@@ -190,15 +199,19 @@ public class NodeFinderImplTest {
     //    // TODO: test node in invisible container.
     //}
 
-    @Test(expected=NoNodesFoundException.class)
+    @Test
     public void node_string_labelQuery_nonExistentNode() {
         // expect:
+        thrown.expect(NodeFinderException.class);
+        thrown.expectMessage("No matching nodes were found.");
         assertThat(nodeFinder.nodes("nonExistent"), Matchers.is(Matchers.nullValue()));
     }
 
-    @Test(expected=NoNodesVisibleException.class)
+    @Test
     public void node_string_labelQuery_invisibleNode() {
         // expect:
+        thrown.expect(NodeFinderException.class);
+        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.nodes("invisible"), Matchers.is(Matchers.nullValue()));
     }
 
@@ -223,33 +236,37 @@ public class NodeFinderImplTest {
     @Test
     public void nodes_string_cssQuery() {
         // expect:
-        assertThat(nodeFinder.nodes(".sub"), Matchers.contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.nodes(".sub"), contains(subLabel, subSubLabel));
     }
 
-    @Test(expected=NoNodesFoundException.class)
+    @Test
     public void nodes_string_cssQuery_nonExistentNode() {
         // expect:
+        thrown.expect(NodeFinderException.class);
+        thrown.expectMessage("No matching nodes were found.");
         assertThat(nodeFinder.nodes("#nonExistentNode"), Matchers.is(Matchers.nullValue()));
     }
 
-    @Test(expected=NoNodesVisibleException.class)
+    @Test
     public void nodes_string_cssQuery_invisibleNode() {
         // expect:
+        thrown.expect(NodeFinderException.class);
+        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.nodes("#invisibleNode"), Matchers.is(Matchers.nullValue()));
     }
 
     @Test
     public void nodes_string_cssQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.nodes(".sub", otherPane), Matchers.contains(subLabel, subSubLabel));
-        assertThat(nodeFinder.nodes(".sub", otherSubPane), Matchers.contains(subSubLabel));
+        assertThat(nodeFinder.nodes(".sub", otherPane), contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.nodes(".sub", otherSubPane), contains(subSubLabel));
     }
 
     @Test
     public void nodes_string_labelQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.nodes("#subLabel", otherPane), Matchers.contains(subLabel));
-        assertThat(nodeFinder.nodes("#subSubLabel", otherSubPane), Matchers.contains(subSubLabel));
+        assertThat(nodeFinder.nodes("#subLabel", otherPane), contains(subLabel));
+        assertThat(nodeFinder.nodes("#subSubLabel", otherSubPane), contains(subSubLabel));
     }
 
     //---------------------------------------------------------------------------------------------
