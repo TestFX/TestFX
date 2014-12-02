@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.robot.impl;
+package org.testfx.api.impl;
 
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
@@ -29,7 +29,6 @@ import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.framework.robot.FxRobot;
 import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.ClickRobot;
 import org.loadui.testfx.robots.DragRobot;
@@ -57,6 +56,7 @@ import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
 import org.loadui.testfx.service.query.PointQuery;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxService;
 
 public class FxRobotImpl implements FxRobot {

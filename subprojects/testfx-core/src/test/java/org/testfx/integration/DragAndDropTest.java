@@ -26,7 +26,7 @@ import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
+import org.testfx.api.impl.FxRobotImpl;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.Matchers.hasItems;

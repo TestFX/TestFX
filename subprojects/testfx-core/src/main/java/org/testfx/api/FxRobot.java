@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.robot;
+package org.testfx.api;
 
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;

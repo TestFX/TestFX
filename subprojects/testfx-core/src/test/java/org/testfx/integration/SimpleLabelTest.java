@@ -24,7 +24,7 @@ import javafx.scene.layout.StackPane;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
+import org.testfx.api.impl.FxRobotImpl;
 import org.testfx.api.FxToolkit;
 
 public class SimpleLabelTest extends FxRobotImpl {
