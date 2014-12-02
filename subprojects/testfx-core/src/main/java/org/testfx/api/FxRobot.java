@@ -29,32 +29,7 @@ import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.robots.BaseRobot;
-import org.loadui.testfx.robots.ClickRobot;
-import org.loadui.testfx.robots.DragRobot;
-import org.loadui.testfx.robots.KeyboardRobot;
-import org.loadui.testfx.robots.MouseRobot;
-import org.loadui.testfx.robots.MoveRobot;
-import org.loadui.testfx.robots.ScrollRobot;
-import org.loadui.testfx.robots.SleepRobot;
-import org.loadui.testfx.robots.TypeRobot;
-import org.loadui.testfx.robots.WriteRobot;
-import org.loadui.testfx.robots.impl.BaseRobotImpl;
-import org.loadui.testfx.robots.impl.ClickRobotImpl;
-import org.loadui.testfx.robots.impl.DragRobotImpl;
-import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
-import org.loadui.testfx.robots.impl.MouseRobotImpl;
-import org.loadui.testfx.robots.impl.MoveRobotImpl;
-import org.loadui.testfx.robots.impl.ScrollRobotImpl;
-import org.loadui.testfx.robots.impl.SleepRobotImpl;
-import org.loadui.testfx.robots.impl.TypeRobotImpl;
-import org.loadui.testfx.robots.impl.WriteRobotImpl;
-import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
-import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
 import org.loadui.testfx.service.query.PointQuery;
 
 public class FxRobot implements FxRobotInterface {
@@ -63,47 +38,14 @@ public class FxRobot implements FxRobotInterface {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final WindowFinder windowFinder;
-    private final NodeFinder nodeFinder;
-
-    private Pos pointPosition = Pos.CENTER;
-    private final BoundsLocator boundsLocator;
-    private final PointLocator pointLocator;
-
-    private final BaseRobot baseRobot;
-    private final MouseRobot mouseRobot;
-    private final KeyboardRobot keyboardRobot;
-    private final MoveRobot moveRobot;
-    private final SleepRobot sleepRobot;
-
-    private final ClickRobot clickRobot;
-    private final DragRobot dragRobot;
-    private final ScrollRobot scrollRobot;
-    private final TypeRobot typeRobot;
-    private final WriteRobot writeRobot;
+    private final FxRobotContext context;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public FxRobot() {
-        windowFinder = FxService.serviceContext().getWindowFinder();
-        nodeFinder = FxService.serviceContext().getNodeFinder();
-
-        boundsLocator = new BoundsLocatorImpl();
-        pointLocator = new PointLocatorImpl(boundsLocator);
-
-        baseRobot = new BaseRobotImpl();
-        keyboardRobot = new KeyboardRobotImpl(baseRobot);
-        mouseRobot = new MouseRobotImpl(baseRobot);
-        sleepRobot = new SleepRobotImpl();
-
-        typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
-        writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
-        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
-        clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
-        dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
-        scrollRobot = new ScrollRobotImpl(mouseRobot);
+        context = new FxRobotContext();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -112,7 +54,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot pos(Pos pointPosition) {
-        this.pointPosition = pointPosition;
+        context.setPointPosition(pointPosition);
         return this;
     }
 
@@ -123,53 +65,65 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public PointQuery pointFor(double x,
                                double y) {
+        PointLocator pointLocator = context.getPointLocator();
+        Pos pointPosition = context.getPointPosition();
         return pointLocator.pointFor(new Point2D(x, y)).atPosition(pointPosition);
     }
 
     @Override
     public PointQuery pointFor(Point2D point) {
+        PointLocator pointLocator = context.getPointLocator();
+        Pos pointPosition = context.getPointPosition();
         return pointLocator.pointFor(point).atPosition(pointPosition);
     }
 
     @Override
     public PointQuery pointFor(Bounds bounds) {
+        PointLocator pointLocator = context.getPointLocator();
+        Pos pointPosition = context.getPointPosition();
         return pointLocator.pointFor(bounds).atPosition(pointPosition);
     }
 
     @Override
     public PointQuery pointFor(Node node) {
+        PointLocator pointLocator = context.getPointLocator();
+        Pos pointPosition = context.getPointPosition();
         target(node.getScene().getWindow());
         return pointLocator.pointFor(node).atPosition(pointPosition);
     }
 
     @Override
     public PointQuery pointFor(Scene scene) {
+        PointLocator pointLocator = context.getPointLocator();
+        Pos pointPosition = context.getPointPosition();
         target(scene.getWindow());
         return pointLocator.pointFor(scene).atPosition(pointPosition);
     }
 
     @Override
     public PointQuery pointFor(Window window) {
+        PointLocator pointLocator = context.getPointLocator();
+        Pos pointPosition = context.getPointPosition();
         target(window);
         return pointLocator.pointFor(window).atPosition(pointPosition);
     }
 
     @Override
     public PointQuery pointFor(String query) {
-        Node node = nodeFinder.node(query);
-        return pointFor(node).atPosition(pointPosition);
+        Node node = context.getNodeFinder().node(query);
+        return pointFor(node).atPosition(context.getPointPosition());
     }
 
     public PointQuery pointFor(Matcher<Object> matcher) {
-        Node node = nodeFinder.node(matcher);
-        return pointFor(node).atPosition(pointPosition);
+        Node node = context.getNodeFinder().node(matcher);
+        return pointFor(node).atPosition(context.getPointPosition());
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
-        Node node = nodeFinder.node((Predicate<Node>) predicate);
-        return pointFor(node).atPosition(pointPosition);
+        Node node = context.getNodeFinder().node((Predicate<Node>) predicate);
+        return pointFor(node).atPosition(context.getPointPosition());
     }
 
     //---------------------------------------------------------------------------------------------
@@ -237,25 +191,25 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot target(Window window) {
-        windowFinder.target(window);
+        context.getWindowFinder().target(window);
         return this;
     }
 
     @Override
     public FxRobot target(int windowNumber) {
-        windowFinder.target(windowNumber);
+        context.getWindowFinder().target(windowNumber);
         return this;
     }
 
     @Override
     public FxRobot target(String stageTitleRegex) {
-        windowFinder.target(stageTitleRegex);
+        context.getWindowFinder().target(stageTitleRegex);
         return this;
     }
 
     @Override
     public FxRobot target(Scene scene) {
-        windowFinder.target(scene);
+        context.getWindowFinder().target(scene);
         return this;
     }
 
@@ -265,26 +219,26 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot push(KeyCode... combination) {
-        typeRobot.push(combination);
+        context.getTypeRobot().push(combination);
         return this;
     }
 
     @Override
     public FxRobot push(KeyCodeCombination combination) {
-        typeRobot.push(combination);
+        context.getTypeRobot().push(combination);
         return this;
     }
 
     @Override
     public FxRobot type(KeyCode... keyCodes) {
-        typeRobot.type(keyCodes);
+        context.getTypeRobot().type(keyCodes);
         return this;
     }
 
     @Override
     public FxRobot type(KeyCode keyCode,
                         int times) {
-        typeRobot.type(keyCode, times);
+        context.getTypeRobot().type(keyCode, times);
         return this;
     }
 
@@ -303,13 +257,13 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot write(char character) {
-        writeRobot.write(character);
+        context.getWriteRobot().write(character);
         return this;
     }
 
     @Override
     public FxRobot write(String text) {
-        writeRobot.write(text);
+        context.getWriteRobot().write(text);
         return this;
     }
 
@@ -319,14 +273,14 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot sleep(long milliseconds) {
-        sleepRobot.sleep(milliseconds);
+        context.getSleepRobot().sleep(milliseconds);
         return this;
     }
 
     @Override
     public FxRobot sleep(long duration,
                          TimeUnit timeUnit) {
-        sleepRobot.sleep(duration, timeUnit);
+        context.getSleepRobot().sleep(duration, timeUnit);
         return this;
     }
 
@@ -336,14 +290,14 @@ public class FxRobot implements FxRobotInterface {
 
     @Deprecated
     public FxRobot scroll(int amount) {
-        scrollRobot.scroll(amount);
+        context.getScrollRobot().scroll(amount);
         return this;
     }
 
     @Override
     public FxRobot scroll(int amount,
                           VerticalDirection direction) {
-        scrollRobot.scroll(amount, direction);
+        context.getScrollRobot().scroll(amount, direction);
         return this;
     }
 
@@ -359,13 +313,13 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot press(KeyCode... keys) {
-        keyboardRobot.press(keys);
+        context.getKeyboardRobot().press(keys);
         return this;
     }
 
     @Override
     public FxRobot release(KeyCode... keys) {
-        keyboardRobot.release(keys);
+        context.getKeyboardRobot().release(keys);
         return this;
     }
 
@@ -375,13 +329,13 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot press(MouseButton... buttons) {
-        mouseRobot.press(buttons);
+        context.getMouseRobot().press(buttons);
         return this;
     }
 
     @Override
     public FxRobot release(MouseButton... buttons) {
-        mouseRobot.release(buttons);
+        context.getMouseRobot().release(buttons);
         return this;
     }
 
@@ -391,27 +345,27 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot clickOn(MouseButton... buttons) {
-        clickRobot.clickOn(buttons);
+        context.getClickRobot().clickOn(buttons);
         return this;
     }
 
     @Override
     public FxRobot clickOn(PointQuery pointQuery,
                            MouseButton... buttons) {
-        clickRobot.clickOn(pointQuery, buttons);
+        context.getClickRobot().clickOn(pointQuery, buttons);
         return this;
     }
 
     @Override
     public FxRobot doubleClickOn(MouseButton... buttons) {
-        clickRobot.clickOn(buttons);
+        context.getClickRobot().doubleClickOn(buttons);
         return this;
     }
 
     @Override
     public FxRobot doubleClickOn(PointQuery pointQuery,
                                  MouseButton... buttons) {
-        clickRobot.doubleClickOn(pointQuery, buttons);
+        context.getClickRobot().doubleClickOn(pointQuery, buttons);
         return this;
     }
 
@@ -587,33 +541,33 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot drag(MouseButton... buttons) {
-        dragRobot.drag(buttons);
+        context.getDragRobot().drag(buttons);
         return this;
     }
 
     @Override
     public FxRobot drag(PointQuery pointQuery,
                         MouseButton... buttons) {
-        dragRobot.drag(pointQuery, buttons);
+        context.getDragRobot().drag(pointQuery, buttons);
         return this;
     }
 
     @Override
     public FxRobot drop() {
-        dragRobot.drop();
+        context.getDragRobot().drop();
         return this;
     }
 
     @Override
     public FxRobot dropTo(PointQuery pointQuery) {
-        dragRobot.dropTo(pointQuery);
+        context.getDragRobot().dropTo(pointQuery);
         return this;
     }
 
     @Override
     public FxRobot dropBy(double x,
                           double y) {
-        dragRobot.dropBy(x, y);
+        context.getDragRobot().dropBy(x, y);
         return this;
     }
 
@@ -724,14 +678,14 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot moveTo(PointQuery pointQuery) {
-        moveRobot.moveTo(pointQuery);
+        context.getMoveRobot().moveTo(pointQuery);
         return this;
     }
 
     @Override
     public FxRobot moveBy(double x,
                           double y) {
-        moveRobot.moveBy(x, y);
+        context.getMoveRobot().moveBy(x, y);
         return this;
     }
 
