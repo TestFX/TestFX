@@ -27,12 +27,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.common.annotations.Beta;
-import org.testfx.lifecycle.ApplicationLauncher;
-import org.testfx.lifecycle.ApplicationService;
-import org.testfx.lifecycle.LifecycleService;
-import org.testfx.lifecycle.impl.ApplicationServiceImpl;
-import org.testfx.lifecycle.impl.LifecycleServiceImpl;
-import org.testfx.lifecycle.impl.ApplicationLauncherImpl;
+import org.testfx.toolkit.ApplicationLauncher;
+import org.testfx.toolkit.ApplicationService;
+import org.testfx.toolkit.ToolkitService;
+import org.testfx.toolkit.impl.ApplicationLauncherImpl;
+import org.testfx.toolkit.impl.ApplicationServiceImpl;
+import org.testfx.toolkit.impl.ToolkitServiceImpl;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
 
@@ -86,7 +86,7 @@ import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
  * in the JavaFX thread. The primary Stage is constructed by the platform.</p>
  */
 @Beta
-public class FxLifecycle {
+public class FxToolkit {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
@@ -96,17 +96,15 @@ public class FxLifecycle {
 
     private static final ApplicationService appService = new ApplicationServiceImpl();
 
-    private static final FxLifecycleContext context = new FxLifecycleContext();
+    private static final FxToolkitContext context = new FxToolkitContext();
 
-    private static final LifecycleService service = new LifecycleServiceImpl(
-        appLauncher, appService
-    );
+    private static final ToolkitService service = new ToolkitServiceImpl(appLauncher, appService);
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    private FxLifecycle() {
+    private FxToolkit() {
         throw new UnsupportedOperationException();
     }
 
@@ -119,7 +117,11 @@ public class FxLifecycle {
     public static Stage registerPrimaryStage()
                                       throws TimeoutException {
         Stage primaryStage = waitForLaunch(
-            service.setupPrimaryStage(context.getStageFuture(), context.getApplicationClass())
+            service.setupPrimaryStage(
+                context.getStageFuture(),
+                context.getApplicationClass(),
+                context.getApplicationArgs()
+            )
         );
         context.setTargetStage(primaryStage);
         return primaryStage;
@@ -157,10 +159,11 @@ public class FxLifecycle {
         );
     }
 
-    public static Application setupApplication(Class<? extends Application> applicationClass)
+    public static Application setupApplication(Class<? extends Application> applicationClass,
+                                               String... applicationArgs)
                                         throws TimeoutException {
         return waitForSetup(
-            service.setupApplication(context.getTargetStage(), applicationClass)
+            service.setupApplication(context.getTargetStage(), applicationClass, applicationArgs)
         );
     }
 
@@ -187,7 +190,7 @@ public class FxLifecycle {
 
     // INTERNAL CONTEXT.
 
-    public static FxLifecycleContext lifecycleContext() {
+    public static FxToolkitContext toolkitContext() {
         return context;
     }
 

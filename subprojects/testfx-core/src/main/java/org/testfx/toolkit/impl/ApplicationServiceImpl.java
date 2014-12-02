@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.lifecycle.impl;
+package org.testfx.toolkit.impl;
 
 import java.util.concurrent.Future;
 import javafx.application.Application;
@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.SettableFuture;
 import com.sun.javafx.application.ParametersImpl;
-import org.testfx.lifecycle.ApplicationService;
+import org.testfx.toolkit.ApplicationService;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
 
@@ -37,7 +37,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         // Should run in JavaFX application thread.
         return asyncFx(() -> {
             Application application = createApplication(appClass);
-            //registerApplicationParameters(application, appArgs);
+            registerApplicationParameters(application, appArgs);
             return application;
         });
     }

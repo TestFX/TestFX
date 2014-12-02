@@ -27,7 +27,7 @@ import org.loadui.testfx.robots.BaseRobot;
 import org.loadui.testfx.robots.SleepRobot;
 import org.loadui.testfx.robots.WriteRobot;
 import org.loadui.testfx.service.finder.WindowFinder;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;
@@ -55,12 +55,12 @@ public final class WriteRobotImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
-        FxLifecycle.setup(() -> {
+        FxToolkit.setup(() -> {
             scene = new Scene(new Region());
             stage = new Stage();
             stage.setScene(scene);

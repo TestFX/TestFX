@@ -25,13 +25,12 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTestBase;
-
 import org.hamcrest.Matchers;
+import org.testfx.api.FxToolkit;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WindowFinderImplTest extends AppRobotTestBase {
+public class WindowFinderImplTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -50,30 +49,20 @@ public class WindowFinderImplTest extends AppRobotTestBase {
     //---------------------------------------------------------------------------------------------
 
     @BeforeClass
-    public static void setupSpec() throws Throwable {
-        setupApplication();
-        setupStages(new StageSetupCallback() {
-            @Override
-            public void setupStages(Stage primaryStage) {
-                primaryStage.setScene(new Scene(new Region(), 600, 400));
-                setupStagesClass();
-            }
-        });
+    public static void setupSpec() throws Exception {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setup(() -> setupStagesClass());
+    }
+
+    @AfterClass
+    public static void cleanupSpec() throws Exception {
+        FxToolkit.setup(() -> cleanupStagesClass());
     }
 
     @Before
     public void setup() {
         windowFinder = new WindowFinderImpl();
-    }
-
-    @AfterClass
-    public static void cleanupClass() throws Throwable {
-        invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                cleanupStagesClass();
-            }
-        });
     }
 
     public static void setupStagesClass() {

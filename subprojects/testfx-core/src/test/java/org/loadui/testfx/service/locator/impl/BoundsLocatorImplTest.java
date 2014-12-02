@@ -31,17 +31,15 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTestBase;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
+import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
-public class BoundsLocatorImplTest extends AppRobotTestBase {
+public class BoundsLocatorImplTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -66,31 +64,21 @@ public class BoundsLocatorImplTest extends AppRobotTestBase {
     //---------------------------------------------------------------------------------------------
 
     @BeforeClass
-    public static void setupSpec() throws Throwable {
-        setupApplication();
-        setupStages(new StageSetupCallback() {
-            @Override
-            public void setupStages(Stage primaryStage) {
-                primaryStage.setScene(new Scene(new Region(), 600, 400));
-                setupStagesClass();
-            }
-        });
-    }
-
-    @Before
-    public void setup() throws Throwable {
-        boundsLocator = new BoundsLocatorImpl();
-        windowInsets = calculateWindowInsets(primaryWindow, primaryScene);
+    public static void setupSpec() throws Exception {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setup(() -> setupStagesClass());
     }
 
     @AfterClass
-    public static void cleanupSpec() throws Throwable {
-        invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                cleanupStagesClass();
-            }
-        });
+    public static void cleanupSpec() throws Exception {
+        FxToolkit.setup(() -> cleanupStagesClass());
+    }
+
+    @Before
+    public void setup() {
+        boundsLocator = new BoundsLocatorImpl();
+        windowInsets = calculateWindowInsets(primaryWindow, primaryScene);
     }
 
     public static void setupStagesClass() {

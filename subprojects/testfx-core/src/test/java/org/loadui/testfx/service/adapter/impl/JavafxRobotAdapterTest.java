@@ -40,7 +40,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
@@ -69,12 +69,12 @@ public class JavafxRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
-        targetStage = FxLifecycle.setupStage(stage -> {
+        targetStage = FxToolkit.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
             textField = new TextField();

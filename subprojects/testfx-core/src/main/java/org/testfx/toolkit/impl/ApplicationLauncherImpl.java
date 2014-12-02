@@ -13,13 +13,13 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.lifecycle.impl;
+package org.testfx.toolkit.impl;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
 import javafx.application.Application;
 
-import org.testfx.lifecycle.ApplicationLauncher;
+import org.testfx.toolkit.ApplicationLauncher;
 
 public class ApplicationLauncherImpl implements ApplicationLauncher {
 

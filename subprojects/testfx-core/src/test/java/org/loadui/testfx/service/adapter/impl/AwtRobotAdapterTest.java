@@ -43,7 +43,7 @@ import org.junit.Test;
 import org.loadui.testfx.service.locator.PointLocator;
 import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -77,13 +77,13 @@ public class AwtRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
         robotAdapter = new AwtRobotAdapter();
-        targetStage = FxLifecycle.setupStage(stage -> {
+        targetStage = FxToolkit.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
 

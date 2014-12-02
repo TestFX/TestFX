@@ -19,22 +19,24 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import com.google.common.annotations.Beta;
-import org.loadui.testfx.framework.launch.StageFuture;
-import org.loadui.testfx.framework.launch.ToolkitApplication;
+import org.testfx.toolkit.StageFuture;
+import org.testfx.toolkit.ToolkitApplication;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
 @Beta
-public class FxLifecycleContext {
+public class FxToolkitContext {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
+    private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
+
     private Class<? extends Application> applicationClass = ToolkitApplication.class;
 
-    private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
+    private String[] applicationArgs = new String[] {};
 
     private Stage targetStage = null;
 
@@ -46,6 +48,14 @@ public class FxLifecycleContext {
     // GETTER AND SETTER.
     //---------------------------------------------------------------------------------------------
 
+    public StageFuture getStageFuture() {
+        return stageFuture;
+    }
+
+    public void setStageFuture(StageFuture stageFuture) {
+        this.stageFuture = stageFuture;
+    }
+
     public Class<? extends Application> getApplicationClass() {
         return applicationClass;
     }
@@ -54,12 +64,12 @@ public class FxLifecycleContext {
         this.applicationClass = applicationClass;
     }
 
-    public StageFuture getStageFuture() {
-        return stageFuture;
+    public String[] getApplicationArgs() {
+        return applicationArgs;
     }
 
-    public void setStageFuture(StageFuture stageFuture) {
-        this.stageFuture = stageFuture;
+    public void setApplicationArgs(String[] applicationArgs) {
+        this.applicationArgs = applicationArgs;
     }
 
     public Stage getTargetStage() {

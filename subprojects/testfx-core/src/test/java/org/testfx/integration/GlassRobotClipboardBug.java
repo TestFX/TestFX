@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.api.integration;
+package org.testfx.integration;
 
 import java.util.concurrent.TimeoutException;
 import javafx.scene.control.ListView;
@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 public class GlassRobotClipboardBug {
 
@@ -45,13 +45,13 @@ public class GlassRobotClipboardBug {
         //System.setProperty("testfx.robot", "glass");
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
         fx = new FxRobotImpl();
     }
 
     @Before
     public void setup() throws TimeoutException {
-        FxLifecycle.setupSceneRoot(() -> {
+        FxToolkit.setupSceneRoot(() -> {
             ListView<String> listView = new ListView<>();
             listView.getItems().addAll("item.1", "item.2", "item.3");
             listView.setOnDragDetected(event -> {
@@ -63,7 +63,7 @@ public class GlassRobotClipboardBug {
             });
             return new HBox(listView);
         });
-        FxLifecycle.setupStage(stage -> stage.show());
+        FxToolkit.setupStage(stage -> stage.show());
     }
 
     //---------------------------------------------------------------------------------------------
