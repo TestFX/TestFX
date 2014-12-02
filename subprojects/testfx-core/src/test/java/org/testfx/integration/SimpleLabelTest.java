@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.api.integration;
+package org.testfx.integration;
 
 import java.util.concurrent.TimeoutException;
 import javafx.scene.Scene;
