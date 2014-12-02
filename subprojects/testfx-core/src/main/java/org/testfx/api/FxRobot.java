@@ -29,290 +29,756 @@ import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.loadui.testfx.robots.BaseRobot;
+import org.loadui.testfx.robots.ClickRobot;
+import org.loadui.testfx.robots.DragRobot;
+import org.loadui.testfx.robots.KeyboardRobot;
+import org.loadui.testfx.robots.MouseRobot;
+import org.loadui.testfx.robots.MoveRobot;
+import org.loadui.testfx.robots.ScrollRobot;
+import org.loadui.testfx.robots.SleepRobot;
+import org.loadui.testfx.robots.TypeRobot;
+import org.loadui.testfx.robots.WriteRobot;
+import org.loadui.testfx.robots.impl.BaseRobotImpl;
+import org.loadui.testfx.robots.impl.ClickRobotImpl;
+import org.loadui.testfx.robots.impl.DragRobotImpl;
+import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
+import org.loadui.testfx.robots.impl.MouseRobotImpl;
+import org.loadui.testfx.robots.impl.MoveRobotImpl;
+import org.loadui.testfx.robots.impl.ScrollRobotImpl;
+import org.loadui.testfx.robots.impl.SleepRobotImpl;
+import org.loadui.testfx.robots.impl.TypeRobotImpl;
+import org.loadui.testfx.robots.impl.WriteRobotImpl;
+import org.loadui.testfx.service.finder.NodeFinder;
+import org.loadui.testfx.service.finder.WindowFinder;
+import org.loadui.testfx.service.locator.BoundsLocator;
+import org.loadui.testfx.service.locator.PointLocator;
+import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
+import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
 import org.loadui.testfx.service.query.PointQuery;
 
-public interface FxRobot {
+public class FxRobot implements FxRobotInterface {
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    private final WindowFinder windowFinder;
+    private final NodeFinder nodeFinder;
+
+    private Pos pointPosition = Pos.CENTER;
+    private final BoundsLocator boundsLocator;
+    private final PointLocator pointLocator;
+
+    private final BaseRobot baseRobot;
+    private final MouseRobot mouseRobot;
+    private final KeyboardRobot keyboardRobot;
+    private final MoveRobot moveRobot;
+    private final SleepRobot sleepRobot;
+
+    private final ClickRobot clickRobot;
+    private final DragRobot dragRobot;
+    private final ScrollRobot scrollRobot;
+    private final TypeRobot typeRobot;
+    private final WriteRobot writeRobot;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobot() {
+        windowFinder = FxService.serviceContext().getWindowFinder();
+        nodeFinder = FxService.serviceContext().getNodeFinder();
+
+        boundsLocator = new BoundsLocatorImpl();
+        pointLocator = new PointLocatorImpl(boundsLocator);
+
+        baseRobot = new BaseRobotImpl();
+        keyboardRobot = new KeyboardRobotImpl(baseRobot);
+        mouseRobot = new MouseRobotImpl(baseRobot);
+        sleepRobot = new SleepRobotImpl();
+
+        typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
+        writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
+        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
+        clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
+        dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
+        scrollRobot = new ScrollRobotImpl(mouseRobot);
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT POSITION.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot pos(Pos pointPosition);
+    @Override
+    public FxRobot pos(Pos pointPosition) {
+        this.pointPosition = pointPosition;
+        return this;
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT LOCATION.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     public PointQuery pointFor(double x,
-                               double y);
-    public PointQuery pointFor(Point2D point);
-    public PointQuery pointFor(Bounds bounds);
-    public PointQuery pointFor(Node node);
-    public PointQuery pointFor(Scene scene);
-    public PointQuery pointFor(Window window);
+                               double y) {
+        return pointLocator.pointFor(new Point2D(x, y)).atPosition(pointPosition);
+    }
 
-    // Convenience methods:
-    public PointQuery pointFor(String query);
-    public <T extends Node> PointQuery pointFor(Predicate<T> predicate);
+    @Override
+    public PointQuery pointFor(Point2D point) {
+        return pointLocator.pointFor(point).atPosition(pointPosition);
+    }
+
+    @Override
+    public PointQuery pointFor(Bounds bounds) {
+        return pointLocator.pointFor(bounds).atPosition(pointPosition);
+    }
+
+    @Override
+    public PointQuery pointFor(Node node) {
+        target(node.getScene().getWindow());
+        return pointLocator.pointFor(node).atPosition(pointPosition);
+    }
+
+    @Override
+    public PointQuery pointFor(Scene scene) {
+        target(scene.getWindow());
+        return pointLocator.pointFor(scene).atPosition(pointPosition);
+    }
+
+    @Override
+    public PointQuery pointFor(Window window) {
+        target(window);
+        return pointLocator.pointFor(window).atPosition(pointPosition);
+    }
+
+    @Override
+    public PointQuery pointFor(String query) {
+        Node node = nodeFinder.node(query);
+        return pointFor(node).atPosition(pointPosition);
+    }
+
+    public PointQuery pointFor(Matcher<Object> matcher) {
+        Node node = nodeFinder.node(matcher);
+        return pointFor(node).atPosition(pointPosition);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
+        Node node = nodeFinder.node((Predicate<Node>) predicate);
+        return pointFor(node).atPosition(pointPosition);
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT OFFSET.
     //---------------------------------------------------------------------------------------------
 
-    //public PointQuery offset(PointQuery pointQuery, double offsetX, double offsetY);
-
-    // Convenience methods:
+    @Override
     public PointQuery offset(Point2D point,
                              double offsetX,
-                             double offsetY);
+                             double offsetY) {
+        return pointFor(point).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public PointQuery offset(Bounds bounds,
                              double offsetX,
-                             double offsetY);
+                             double offsetY) {
+        return pointFor(bounds).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public PointQuery offset(Node node,
                              double offsetX,
-                             double offsetY);
+                             double offsetY) {
+        return pointFor(node).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public PointQuery offset(Scene scene,
                              double offsetX,
-                             double offsetY);
+                             double offsetY) {
+        return pointFor(scene).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public PointQuery offset(Window window,
                              double offsetX,
-                             double offsetY);
+                             double offsetY) {
+        return pointFor(window).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public PointQuery offset(String query,
                              double offsetX,
-                             double offsetY);
+                             double offsetY) {
+        return pointFor(query).atOffset(offsetX, offsetY);
+    }
+
+    public PointQuery offset(Matcher<Object> matcher,
+                             double offsetX,
+                             double offsetY) {
+        return pointFor(matcher).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public <T extends Node> PointQuery offset(Predicate<T> predicate,
                                               double offsetX,
-                                              double offsetY);
+                                              double offsetY) {
+        return pointFor(predicate).atOffset(offsetX, offsetY);
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR WINDOW TARGETING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot target(Window window);
-    public FxRobot target(int windowNumber);
-    public FxRobot target(String stageTitleRegex);
+    @Override
+    public FxRobot target(Window window) {
+        windowFinder.target(window);
+        return this;
+    }
 
-    // Convenience methods:
-    public FxRobot target(Scene scene);
+    @Override
+    public FxRobot target(int windowNumber) {
+        windowFinder.target(windowNumber);
+        return this;
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WINDOW LOOKUP.
-    //---------------------------------------------------------------------------------------------
+    @Override
+    public FxRobot target(String stageTitleRegex) {
+        windowFinder.target(stageTitleRegex);
+        return this;
+    }
 
-    //public List<Window> listWindows();
-    //public List<Window> listTargetWindows();
-
-    //public Window window(int windowIndex);
-    //public Window window(String stageTitleRegex);
-
-    // Convenience methods:
-    //public Window window(Scene scene);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR NODE LOOKUP.
-    //---------------------------------------------------------------------------------------------
-
-    //public <T extends Node> T node(String query);
-    //public <T extends Node> Set<T> nodes(String query)
-    //public <T extends Node> T node(Predicate<T> predicate);
-    //public <T extends Node> Set<T> nodes(Predicate<T> predicate);
-
-    //public <T extends Node> T node(String query, Node... parentNodes);
-    //public <T extends Node> Set<T> nodes(String query, Node... parentNodes);
-    //public <T extends Node> T node(Predicate<T> predicate, Node... parentNodes);
-    //public <T extends Node> Set<T> nodes(Predicate<T> predicate, Node... parentNodes);
-
-    //public Node parentNode(Window window);
-    //public Node parentNode(int windowIndex);
-    //public Node parentNode(String stageTitleRegex);
-    //public Node parentNode(Scene scene);
+    @Override
+    public FxRobot target(Scene scene) {
+        windowFinder.target(scene);
+        return this;
+    }
 
     //---------------------------------------------------------------------------------------------
-    // METHODS FOR CLICKING.
+    // IMPLEMENTATION OF TYPE ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot clickOn(MouseButton... buttons);
+    @Override
+    public FxRobot push(KeyCode... combination) {
+        typeRobot.push(combination);
+        return this;
+    }
+
+    @Override
+    public FxRobot push(KeyCodeCombination combination) {
+        typeRobot.push(combination);
+        return this;
+    }
+
+    @Override
+    public FxRobot type(KeyCode... keyCodes) {
+        typeRobot.type(keyCodes);
+        return this;
+    }
+
+    @Override
+    public FxRobot type(KeyCode keyCode,
+                        int times) {
+        typeRobot.type(keyCode, times);
+        return this;
+    }
+
+    @Override
+    public FxRobot eraseText(int amount) {
+        return type(KeyCode.BACK_SPACE, amount);
+    }
+
+    public FxRobot closeCurrentWindow() {
+        return push(KeyCode.ALT, KeyCode.F4).sleep(100);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF WRITE ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public FxRobot write(char character) {
+        writeRobot.write(character);
+        return this;
+    }
+
+    @Override
+    public FxRobot write(String text) {
+        writeRobot.write(text);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF SLEEP ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public FxRobot sleep(long milliseconds) {
+        sleepRobot.sleep(milliseconds);
+        return this;
+    }
+
+    @Override
+    public FxRobot sleep(long duration,
+                         TimeUnit timeUnit) {
+        sleepRobot.sleep(duration, timeUnit);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF SCROLL ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Deprecated
+    public FxRobot scroll(int amount) {
+        scrollRobot.scroll(amount);
+        return this;
+    }
+
+    @Override
+    public FxRobot scroll(int amount,
+                          VerticalDirection direction) {
+        scrollRobot.scroll(amount, direction);
+        return this;
+    }
+
+    @Override
+    public FxRobot scroll(VerticalDirection direction) {
+        scroll(1, direction);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF KEYBOARD ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public FxRobot press(KeyCode... keys) {
+        keyboardRobot.press(keys);
+        return this;
+    }
+
+    @Override
+    public FxRobot release(KeyCode... keys) {
+        keyboardRobot.release(keys);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF MOUSE ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public FxRobot press(MouseButton... buttons) {
+        mouseRobot.press(buttons);
+        return this;
+    }
+
+    @Override
+    public FxRobot release(MouseButton... buttons) {
+        mouseRobot.release(buttons);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // IMPLEMENTATION OF CLICK ROBOT.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public FxRobot clickOn(MouseButton... buttons) {
+        clickRobot.clickOn(buttons);
+        return this;
+    }
+
+    @Override
     public FxRobot clickOn(PointQuery pointQuery,
-                           MouseButton... buttons);
-    public FxRobot doubleClickOn(MouseButton... buttons);
-    public FxRobot doubleClickOn(PointQuery pointQuery,
-                                 MouseButton... buttons);
+                           MouseButton... buttons) {
+        clickRobot.clickOn(pointQuery, buttons);
+        return this;
+    }
 
-    // Convenience methods:
+    @Override
+    public FxRobot doubleClickOn(MouseButton... buttons) {
+        clickRobot.clickOn(buttons);
+        return this;
+    }
+
+    @Override
+    public FxRobot doubleClickOn(PointQuery pointQuery,
+                                 MouseButton... buttons) {
+        clickRobot.doubleClickOn(pointQuery, buttons);
+        return this;
+    }
+
+    @Override
     public FxRobot clickOn(double x,
                            double y,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(x, y), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(Point2D point,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(point), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(Bounds bounds,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(bounds), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(Node node,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(node), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(Scene scene,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(scene), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(Window window,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(window), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(String query,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(query), buttons);
+    }
+
+    @Override
     public FxRobot clickOn(Matcher<Object> matcher,
-                           MouseButton... buttons);
+                           MouseButton... buttons) {
+        return clickOn(pointFor(matcher), buttons);
+    }
+
+    @Override
     public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
-                                            MouseButton... buttons);
-    public FxRobot rightClickOn();
-    public FxRobot rightClickOn(PointQuery pointQuery);
+                                            MouseButton... buttons) {
+        return clickOn(pointFor(predicate), buttons);
+    }
+
+    @Override
+    public FxRobot rightClickOn() {
+        return clickOn(MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(PointQuery pointQuery) {
+        return clickOn(pointQuery, MouseButton.SECONDARY);
+    }
+
+    @Override
     public FxRobot rightClickOn(double x,
-                                double y);
-    public FxRobot rightClickOn(Point2D point);
-    public FxRobot rightClickOn(Bounds bounds);
-    public FxRobot rightClickOn(Node node);
-    public FxRobot rightClickOn(Scene scene);
-    public FxRobot rightClickOn(Window window);
-    public FxRobot rightClickOn(String query);
-    public FxRobot rightClickOn(Matcher<Object> matcher);
-    public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate);
+                                double y) {
+        return clickOn(x, y, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(Point2D point) {
+        return clickOn(point, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(Bounds bounds) {
+        return clickOn(bounds, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(Node node) {
+        return clickOn(node, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(Scene scene) {
+        return clickOn(scene, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(Window window) {
+        return clickOn(window, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(String query) {
+        return clickOn(query, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public FxRobot rightClickOn(Matcher<Object> matcher) {
+        return clickOn(matcher, MouseButton.SECONDARY);
+    }
+
+    @Override
+    public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate) {
+        return clickOn(predicate, MouseButton.SECONDARY);
+    }
+
+    @Override
     public FxRobot doubleClickOn(double x,
                                  double y,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(x, y), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(Point2D point,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(point), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(Bounds bounds,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(bounds), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(Node node,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(node), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(Scene scene,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(scene), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(Window window,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(window), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(String query,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(query), buttons);
+    }
+
+    @Override
     public FxRobot doubleClickOn(Matcher<Object> matcher,
-                                 MouseButton... buttons);
+                                 MouseButton... buttons) {
+        return doubleClickOn(pointFor(matcher), buttons);
+    }
+
+    @Override
     public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
-                                                  MouseButton... buttons);
+                                                  MouseButton... buttons) {
+        return doubleClickOn(pointFor(predicate), buttons);
+    }
 
     //---------------------------------------------------------------------------------------------
-    // METHODS FOR DRAGGING.
+    // IMPLEMENTATION OF DRAG ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot drag(MouseButton... buttons);
-    public FxRobot drag(PointQuery pointQuery, MouseButton... buttons);
-    public FxRobot drop();
-    public FxRobot dropTo(PointQuery pointQuery);
+    @Override
+    public FxRobot drag(MouseButton... buttons) {
+        dragRobot.drag(buttons);
+        return this;
+    }
+
+    @Override
+    public FxRobot drag(PointQuery pointQuery,
+                        MouseButton... buttons) {
+        dragRobot.drag(pointQuery, buttons);
+        return this;
+    }
+
+    @Override
+    public FxRobot drop() {
+        dragRobot.drop();
+        return this;
+    }
+
+    @Override
+    public FxRobot dropTo(PointQuery pointQuery) {
+        dragRobot.dropTo(pointQuery);
+        return this;
+    }
+
+    @Override
     public FxRobot dropBy(double x,
-                          double y);
+                          double y) {
+        dragRobot.dropBy(x, y);
+        return this;
+    }
 
-    // Convenience methods:
+    @Override
     public FxRobot drag(double x,
                         double y,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(x, y), buttons);
+    }
+
+    @Override
     public FxRobot drag(Point2D point,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(point), buttons);
+    }
+
+    @Override
     public FxRobot drag(Bounds bounds,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(bounds), buttons);
+    }
+
+    @Override
     public FxRobot drag(Node node,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(node), buttons);
+    }
+
+    @Override
     public FxRobot drag(Scene scene,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(scene), buttons);
+    }
+
+    @Override
     public FxRobot drag(Window window,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(window), buttons);
+    }
+
+    @Override
     public FxRobot drag(String query,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(query), buttons);
+    }
+
+    @Override
     public FxRobot drag(Matcher<Object> matcher,
-                        MouseButton... buttons);
+                        MouseButton... buttons) {
+        return drag(pointFor(matcher), buttons);
+    }
+
+    @Override
     public <T extends Node> FxRobot drag(Predicate<T> predicate,
-                                         MouseButton... buttons);
+                                         MouseButton... buttons) {
+        return drag(pointFor(predicate), buttons);
+    }
+
+    @Override
     public FxRobot dropTo(double x,
-                          double y);
-    public FxRobot dropTo(Point2D point);
-    public FxRobot dropTo(Bounds bounds);
-    public FxRobot dropTo(Node node);
-    public FxRobot dropTo(Scene scene);
-    public FxRobot dropTo(Window window);
-    public FxRobot dropTo(String query);
-    public FxRobot dropTo(Matcher<Object> matcher);
-    public <T extends Node> FxRobot dropTo(Predicate<T> predicate);
+                          double y) {
+        return dropTo(pointFor(x, y));
+    }
+
+    @Override
+    public FxRobot dropTo(Point2D point) {
+        return dropTo(pointFor(point));
+    }
+
+    @Override
+    public FxRobot dropTo(Bounds bounds) {
+        return dropTo(pointFor(bounds));
+    }
+
+    @Override
+    public FxRobot dropTo(Node node) {
+        return dropTo(pointFor(node));
+    }
+
+    @Override
+    public FxRobot dropTo(Scene scene) {
+        return dropTo(pointFor(scene));
+    }
+
+    @Override
+    public FxRobot dropTo(Window window) {
+        return dropTo(pointFor(window));
+    }
+
+    @Override
+    public FxRobot dropTo(String query) {
+        return dropTo(pointFor(query));
+    }
+
+    @Override
+    public FxRobot dropTo(Matcher<Object> matcher) {
+        return dropTo(pointFor(matcher));
+    }
+
+    @Override
+    public <T extends Node> FxRobot dropTo(Predicate<T> predicate) {
+        return dropTo(pointFor(predicate));
+    }
 
     //---------------------------------------------------------------------------------------------
-    // METHODS FOR KEYBOARD.
+    // IMPLEMENTATION OF MOVE ROBOT.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot press(KeyCode... keys);
-    public FxRobot release(KeyCode... keys);
+    @Override
+    public FxRobot moveTo(PointQuery pointQuery) {
+        moveRobot.moveTo(pointQuery);
+        return this;
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR MOUSE.
-    //---------------------------------------------------------------------------------------------
-
-    /**
-     * Presses and holds mouse buttons.
-     *
-     * @param buttons mouse buttons to press, defaults to primary mouse button.
-     */
-    public FxRobot press(MouseButton... buttons);
-
-    /**
-     * Releases pressed mouse buttons.
-     *
-     * @param buttons mouse buttons to release, defaults to all pressed mouse buttons.
-     */
-    public FxRobot release(MouseButton... buttons);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR MOVING.
-    //---------------------------------------------------------------------------------------------
-
-    public FxRobot moveTo(PointQuery pointQuery);
+    @Override
     public FxRobot moveBy(double x,
-                          double y);
+                          double y) {
+        moveRobot.moveBy(x, y);
+        return this;
+    }
 
-    // Convenience methods:
+    @Override
     public FxRobot moveTo(double x,
-                          double y);
-    public FxRobot moveTo(Point2D point);
-    public FxRobot moveTo(Bounds bounds);
-    public FxRobot moveTo(Node node);
-    public FxRobot moveTo(Scene scene);
-    public FxRobot moveTo(Window window);
-    public FxRobot moveTo(String query);
-    public FxRobot moveTo(Matcher<Object> matcher);
-    public <T extends Node> FxRobot moveTo(Predicate<T> predicate);
+                          double y) {
+        return moveTo(pointFor(new Point2D(x, y)));
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR SCROLLING.
-    //---------------------------------------------------------------------------------------------
+    @Override
+    public FxRobot moveTo(Point2D point) {
+        return moveTo(pointFor(point));
+    }
 
-    public FxRobot scroll(int amount,
-                          VerticalDirection direction);
+    @Override
+    public FxRobot moveTo(Bounds bounds) {
+        return moveTo(pointFor(bounds));
+    }
 
-    // Convenience methods:
-    public FxRobot scroll(VerticalDirection direction);
+    @Override
+    public FxRobot moveTo(Node node) {
+        return moveTo(pointFor(node));
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR SLEEPING.
-    //---------------------------------------------------------------------------------------------
+    @Override
+    public FxRobot moveTo(Scene scene) {
+        return moveTo(pointFor(scene));
+    }
 
-    public FxRobot sleep(long milliseconds);
-    public FxRobot sleep(long duration,
-                         TimeUnit timeUnit);
+    @Override
+    public FxRobot moveTo(Window window) {
+        return moveTo(pointFor(window));
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR TYPING.
-    //---------------------------------------------------------------------------------------------
+    @Override
+    public FxRobot moveTo(String query) {
+        return moveTo(pointFor(query));
+    }
 
-    public FxRobot push(KeyCode... combination);
-    public FxRobot push(KeyCodeCombination combination);
-    public FxRobot type(KeyCode... keys);
-    public FxRobot type(KeyCode key,
-                        int times);
+    @Override
+    public FxRobot moveTo(Matcher<Object> matcher) {
+        return moveTo(pointFor(matcher));
+    }
 
-    // Convenience methods:
-    public FxRobot eraseText(int characters);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WRITING.
-    //---------------------------------------------------------------------------------------------
-
-    public FxRobot write(char character);
-    public FxRobot write(String text);
+    @Override
+    public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
+        return moveTo(pointFor(predicate));
+    }
 
 }

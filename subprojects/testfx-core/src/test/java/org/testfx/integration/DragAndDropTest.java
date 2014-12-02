@@ -26,7 +26,7 @@ import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.impl.FxRobotImpl;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.Matchers.hasItems;
@@ -39,7 +39,7 @@ public class DragAndDropTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public static FxRobotImpl fx;
+    public static FxRobot fx;
 
     public ListView<String> leftListView;
     public ListView<String> rightListView;
@@ -54,7 +54,7 @@ public class DragAndDropTest {
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
         FxToolkit.registerPrimaryStage();
-        fx = new FxRobotImpl();
+        fx = new FxRobot();
     }
 
     @Before

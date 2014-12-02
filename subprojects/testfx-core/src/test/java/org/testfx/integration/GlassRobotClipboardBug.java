@@ -25,7 +25,7 @@ import javafx.scene.layout.HBox;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.impl.FxRobotImpl;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 public class GlassRobotClipboardBug {
@@ -34,7 +34,7 @@ public class GlassRobotClipboardBug {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public static FxRobotImpl fx;
+    public static FxRobot fx;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -46,7 +46,7 @@ public class GlassRobotClipboardBug {
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
         FxToolkit.registerPrimaryStage();
-        fx = new FxRobotImpl();
+        fx = new FxRobot();
     }
 
     @Before

@@ -24,10 +24,10 @@ import javafx.scene.layout.StackPane;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.impl.FxRobotImpl;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-public class SimpleLabelTest extends FxRobotImpl {
+public class SimpleLabelTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.

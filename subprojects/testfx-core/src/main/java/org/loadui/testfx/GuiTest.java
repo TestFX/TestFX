@@ -35,13 +35,13 @@ import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 import org.loadui.testfx.utils.WaitForAsyncUtils;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.api.impl.FxRobotImpl;
 
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxService.serviceContext;
 
-public abstract class GuiTest extends FxRobotImpl {
+public abstract class GuiTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
