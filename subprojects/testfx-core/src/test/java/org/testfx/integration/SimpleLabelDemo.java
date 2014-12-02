@@ -27,8 +27,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import org.loadui.testfx.utils.WaitForAsyncUtils;
 import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class SimpleLabelDemo {
 

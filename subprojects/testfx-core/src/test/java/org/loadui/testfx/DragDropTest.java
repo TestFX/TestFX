@@ -27,7 +27,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBoxBuilder;
 
 import org.junit.Test;
-import org.loadui.testfx.utils.FXTestUtils;
+import org.testfx.util.FXTestUtils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;

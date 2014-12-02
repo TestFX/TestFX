@@ -29,8 +29,8 @@ import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.query.PointQuery;
+import org.testfx.service.locator.PointLocator;
+import org.testfx.service.query.PointQuery;
 
 public class FxRobot implements FxRobotInterface {
 

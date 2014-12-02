@@ -23,7 +23,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.sun.javafx.application.ParametersImpl;
 import org.testfx.toolkit.ApplicationService;
 
-import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
 public class ApplicationServiceImpl implements ApplicationService {
 

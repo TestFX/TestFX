@@ -34,7 +34,7 @@ import org.testfx.toolkit.impl.ApplicationLauncherImpl;
 import org.testfx.toolkit.impl.ApplicationServiceImpl;
 import org.testfx.toolkit.impl.ToolkitServiceImpl;
 
-import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
+import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 /**
  * Responsible for setup and cleanup of JavaFX fixtures that need the JavaFX thread.

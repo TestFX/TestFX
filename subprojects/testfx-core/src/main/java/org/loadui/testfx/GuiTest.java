@@ -30,13 +30,13 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.support.CaptureSupport;
-import org.loadui.testfx.service.support.WaitUntilSupport;
-import org.loadui.testfx.utils.WaitForAsyncUtils;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.WindowFinder;
+import org.testfx.service.support.CaptureSupport;
+import org.testfx.service.support.WaitUntilSupport;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxService.serviceContext;
