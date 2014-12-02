@@ -53,7 +53,7 @@ public class FxRobotContext {
     private WindowFinder windowFinder;
     private NodeFinder nodeFinder;
 
-    private Pos pointPosition = Pos.CENTER;
+    private Pos pointPosition;
     private BoundsLocator boundsLocator;
     private PointLocator pointLocator;
 

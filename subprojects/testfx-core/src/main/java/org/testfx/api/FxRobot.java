@@ -46,6 +46,7 @@ public class FxRobot implements FxRobotInterface {
 
     public FxRobot() {
         context = new FxRobotContext();
+        context.setPointPosition(Pos.CENTER);
     }
 
     //---------------------------------------------------------------------------------------------
