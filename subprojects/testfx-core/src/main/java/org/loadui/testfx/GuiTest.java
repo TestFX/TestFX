@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -31,17 +30,17 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTestBase;
+import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
+import org.testfx.api.FxLifecycle;
 
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxService.serviceContext;
 
-public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
+public abstract class GuiTest extends FxRobotImpl {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -169,23 +168,18 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     //---------------------------------------------------------------------------------------------
 
     @BeforeClass
-    public static void checkHeadless() {
+    public static void internalSetupSpec() {
         assumeFalse(
-                "Cannot run JavaFX in headless environment",
-                GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance());
+            "Cannot run JavaFX in headless environment",
+            GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()
+        );
     }
 
     @Before
-    public void setupGuiTest() throws Exception {
-        setupApplication();
-        setupStages(this);
-    }
-
-    // Runs in JavaFX Application Thread.
-    public void setupStages(Stage primaryStage) {
-        Parent sceneRootNode = getRootNode();
-        Scene scene = new Scene(sceneRootNode);
-        primaryStage.setScene(scene);
+    public void internalSetup() throws Exception {
+        target(FxLifecycle.registerPrimaryStage());
+        FxLifecycle.setupSceneRoot(() -> getRootNode());
+        FxLifecycle.setupStage((stage) -> stage.show());
     }
 
     //---------------------------------------------------------------------------------------------
