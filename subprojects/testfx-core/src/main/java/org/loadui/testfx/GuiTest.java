@@ -35,6 +35,7 @@ import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
+import org.loadui.testfx.utils.WaitForAsyncUtils;
 import org.testfx.api.FxLifecycle;
 
 import static org.junit.Assume.assumeFalse;
@@ -179,7 +180,12 @@ public abstract class GuiTest extends FxRobotImpl {
     public void internalSetup() throws Exception {
         target(FxLifecycle.registerPrimaryStage());
         FxLifecycle.setupSceneRoot(() -> getRootNode());
-        FxLifecycle.setupStage((stage) -> stage.show());
+        FxLifecycle.setupStage((stage) -> {
+            stage.show();
+            stage.toBack();
+            stage.toFront();
+        });
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     //---------------------------------------------------------------------------------------------
