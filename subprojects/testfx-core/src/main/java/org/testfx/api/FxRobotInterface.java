@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.loadui.testfx.framework.robot;
+package org.testfx.api;
 
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
@@ -31,13 +31,13 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.loadui.testfx.service.query.PointQuery;
 
-public interface FxRobot {
+public interface FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT POSITION.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot pos(Pos pointPosition);
+    public FxRobotInterface pos(Pos pointPosition);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT LOCATION.
@@ -88,12 +88,12 @@ public interface FxRobot {
     // METHODS FOR WINDOW TARGETING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot target(Window window);
-    public FxRobot target(int windowNumber);
-    public FxRobot target(String stageTitleRegex);
+    public FxRobotInterface target(Window window);
+    public FxRobotInterface target(int windowNumber);
+    public FxRobotInterface target(String stageTitleRegex);
 
     // Convenience methods:
-    public FxRobot target(Scene scene);
+    public FxRobotInterface target(Scene scene);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR WINDOW LOOKUP.
@@ -131,113 +131,114 @@ public interface FxRobot {
     // METHODS FOR CLICKING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot clickOn(MouseButton... buttons);
-    public FxRobot clickOn(PointQuery pointQuery,
-                           MouseButton... buttons);
-    public FxRobot doubleClickOn(MouseButton... buttons);
-    public FxRobot doubleClickOn(PointQuery pointQuery,
-                                 MouseButton... buttons);
+    public FxRobotInterface clickOn(MouseButton... buttons);
+    public FxRobotInterface clickOn(PointQuery pointQuery,
+                                    MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(PointQuery pointQuery,
+                                          MouseButton... buttons);
 
     // Convenience methods:
-    public FxRobot clickOn(double x,
-                           double y,
-                           MouseButton... buttons);
-    public FxRobot clickOn(Point2D point,
-                           MouseButton... buttons);
-    public FxRobot clickOn(Bounds bounds,
-                           MouseButton... buttons);
-    public FxRobot clickOn(Node node,
-                           MouseButton... buttons);
-    public FxRobot clickOn(Scene scene,
-                           MouseButton... buttons);
-    public FxRobot clickOn(Window window,
-                           MouseButton... buttons);
-    public FxRobot clickOn(String query,
-                           MouseButton... buttons);
-    public FxRobot clickOn(Matcher<Object> matcher,
-                           MouseButton... buttons);
-    public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
-                                            MouseButton... buttons);
-    public FxRobot rightClickOn();
-    public FxRobot rightClickOn(PointQuery pointQuery);
-    public FxRobot rightClickOn(double x,
-                                double y);
-    public FxRobot rightClickOn(Point2D point);
-    public FxRobot rightClickOn(Bounds bounds);
-    public FxRobot rightClickOn(Node node);
-    public FxRobot rightClickOn(Scene scene);
-    public FxRobot rightClickOn(Window window);
-    public FxRobot rightClickOn(String query);
-    public FxRobot rightClickOn(Matcher<Object> matcher);
-    public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate);
-    public FxRobot doubleClickOn(double x,
-                                 double y,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(Point2D point,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(Bounds bounds,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(Node node,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(Scene scene,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(Window window,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(String query,
-                                 MouseButton... buttons);
-    public FxRobot doubleClickOn(Matcher<Object> matcher,
-                                 MouseButton... buttons);
-    public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
-                                                  MouseButton... buttons);
+    public FxRobotInterface clickOn(double x,
+                                    double y,
+                                    MouseButton... buttons);
+    public FxRobotInterface clickOn(Point2D point,
+                                    MouseButton... buttons);
+    public FxRobotInterface clickOn(Bounds bounds,
+                                    MouseButton... buttons);
+    public FxRobotInterface clickOn(Node node,
+                                    MouseButton... buttons);
+    public FxRobotInterface clickOn(Scene scene,
+                                   MouseButton... buttons);
+    public FxRobotInterface clickOn(Window window,
+                                    MouseButton... buttons);
+    public FxRobotInterface clickOn(String query,
+                                    MouseButton... buttons);
+    public FxRobotInterface clickOn(Matcher<Object> matcher,
+                                    MouseButton... buttons);
+    public <T extends Node> FxRobotInterface clickOn(Predicate<T> predicate,
+                                                     MouseButton... buttons);
+    public FxRobotInterface rightClickOn();
+    public FxRobotInterface rightClickOn(PointQuery pointQuery);
+    public FxRobotInterface rightClickOn(double x,
+                                         double y);
+    public FxRobotInterface rightClickOn(Point2D point);
+    public FxRobotInterface rightClickOn(Bounds bounds);
+    public FxRobotInterface rightClickOn(Node node);
+    public FxRobotInterface rightClickOn(Scene scene);
+    public FxRobotInterface rightClickOn(Window window);
+    public FxRobotInterface rightClickOn(String query);
+    public FxRobotInterface rightClickOn(Matcher<Object> matcher);
+    public <T extends Node> FxRobotInterface rightClickOn(Predicate<T> predicate);
+    public FxRobotInterface doubleClickOn(double x,
+                                          double y,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(Point2D point,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(Bounds bounds,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(Node node,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(Scene scene,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(Window window,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(String query,
+                                          MouseButton... buttons);
+    public FxRobotInterface doubleClickOn(Matcher<Object> matcher,
+                                          MouseButton... buttons);
+    public <T extends Node> FxRobotInterface doubleClickOn(Predicate<T> predicate,
+                                                           MouseButton... buttons);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR DRAGGING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot drag(MouseButton... buttons);
-    public FxRobot drag(PointQuery pointQuery, MouseButton... buttons);
-    public FxRobot drop();
-    public FxRobot dropTo(PointQuery pointQuery);
-    public FxRobot dropBy(double x,
-                          double y);
+    public FxRobotInterface drag(MouseButton... buttons);
+    public FxRobotInterface drag(PointQuery pointQuery,
+                                 MouseButton... buttons);
+    public FxRobotInterface drop();
+    public FxRobotInterface dropTo(PointQuery pointQuery);
+    public FxRobotInterface dropBy(double x,
+                                   double y);
 
     // Convenience methods:
-    public FxRobot drag(double x,
-                        double y,
-                        MouseButton... buttons);
-    public FxRobot drag(Point2D point,
-                        MouseButton... buttons);
-    public FxRobot drag(Bounds bounds,
-                        MouseButton... buttons);
-    public FxRobot drag(Node node,
-                        MouseButton... buttons);
-    public FxRobot drag(Scene scene,
-                        MouseButton... buttons);
-    public FxRobot drag(Window window,
-                        MouseButton... buttons);
-    public FxRobot drag(String query,
-                        MouseButton... buttons);
-    public FxRobot drag(Matcher<Object> matcher,
-                        MouseButton... buttons);
-    public <T extends Node> FxRobot drag(Predicate<T> predicate,
-                                         MouseButton... buttons);
-    public FxRobot dropTo(double x,
-                          double y);
-    public FxRobot dropTo(Point2D point);
-    public FxRobot dropTo(Bounds bounds);
-    public FxRobot dropTo(Node node);
-    public FxRobot dropTo(Scene scene);
-    public FxRobot dropTo(Window window);
-    public FxRobot dropTo(String query);
-    public FxRobot dropTo(Matcher<Object> matcher);
-    public <T extends Node> FxRobot dropTo(Predicate<T> predicate);
+    public FxRobotInterface drag(double x,
+                                 double y,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(Point2D point,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(Bounds bounds,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(Node node,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(Scene scene,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(Window window,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(String query,
+                                 MouseButton... buttons);
+    public FxRobotInterface drag(Matcher<Object> matcher,
+                                 MouseButton... buttons);
+    public <T extends Node> FxRobotInterface drag(Predicate<T> predicate,
+                                                  MouseButton... buttons);
+    public FxRobotInterface dropTo(double x,
+                                   double y);
+    public FxRobotInterface dropTo(Point2D point);
+    public FxRobotInterface dropTo(Bounds bounds);
+    public FxRobotInterface dropTo(Node node);
+    public FxRobotInterface dropTo(Scene scene);
+    public FxRobotInterface dropTo(Window window);
+    public FxRobotInterface dropTo(String query);
+    public FxRobotInterface dropTo(Matcher<Object> matcher);
+    public <T extends Node> FxRobotInterface dropTo(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR KEYBOARD.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot press(KeyCode... keys);
-    public FxRobot release(KeyCode... keys);
+    public FxRobotInterface press(KeyCode... keys);
+    public FxRobotInterface release(KeyCode... keys);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR MOUSE.
@@ -248,71 +249,71 @@ public interface FxRobot {
      *
      * @param buttons mouse buttons to press, defaults to primary mouse button.
      */
-    public FxRobot press(MouseButton... buttons);
+    public FxRobotInterface press(MouseButton... buttons);
 
     /**
      * Releases pressed mouse buttons.
      *
      * @param buttons mouse buttons to release, defaults to all pressed mouse buttons.
      */
-    public FxRobot release(MouseButton... buttons);
+    public FxRobotInterface release(MouseButton... buttons);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR MOVING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot moveTo(PointQuery pointQuery);
-    public FxRobot moveBy(double x,
-                          double y);
+    public FxRobotInterface moveTo(PointQuery pointQuery);
+    public FxRobotInterface moveBy(double x,
+                                   double y);
 
     // Convenience methods:
-    public FxRobot moveTo(double x,
-                          double y);
-    public FxRobot moveTo(Point2D point);
-    public FxRobot moveTo(Bounds bounds);
-    public FxRobot moveTo(Node node);
-    public FxRobot moveTo(Scene scene);
-    public FxRobot moveTo(Window window);
-    public FxRobot moveTo(String query);
-    public FxRobot moveTo(Matcher<Object> matcher);
-    public <T extends Node> FxRobot moveTo(Predicate<T> predicate);
+    public FxRobotInterface moveTo(double x,
+                                   double y);
+    public FxRobotInterface moveTo(Point2D point);
+    public FxRobotInterface moveTo(Bounds bounds);
+    public FxRobotInterface moveTo(Node node);
+    public FxRobotInterface moveTo(Scene scene);
+    public FxRobotInterface moveTo(Window window);
+    public FxRobotInterface moveTo(String query);
+    public FxRobotInterface moveTo(Matcher<Object> matcher);
+    public <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR SCROLLING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot scroll(int amount,
-                          VerticalDirection direction);
+    public FxRobotInterface scroll(int amount,
+                                   VerticalDirection direction);
 
     // Convenience methods:
-    public FxRobot scroll(VerticalDirection direction);
+    public FxRobotInterface scroll(VerticalDirection direction);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR SLEEPING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot sleep(long milliseconds);
-    public FxRobot sleep(long duration,
-                         TimeUnit timeUnit);
+    public FxRobotInterface sleep(long milliseconds);
+    public FxRobotInterface sleep(long duration,
+                                  TimeUnit timeUnit);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR TYPING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot push(KeyCode... combination);
-    public FxRobot push(KeyCodeCombination combination);
-    public FxRobot type(KeyCode... keys);
-    public FxRobot type(KeyCode key,
-                        int times);
+    public FxRobotInterface push(KeyCode... combination);
+    public FxRobotInterface push(KeyCodeCombination combination);
+    public FxRobotInterface type(KeyCode... keys);
+    public FxRobotInterface type(KeyCode key,
+                                 int times);
 
     // Convenience methods:
-    public FxRobot eraseText(int characters);
+    public FxRobotInterface eraseText(int characters);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR WRITING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobot write(char character);
-    public FxRobot write(String text);
+    public FxRobotInterface write(char character);
+    public FxRobotInterface write(String text);
 
 }

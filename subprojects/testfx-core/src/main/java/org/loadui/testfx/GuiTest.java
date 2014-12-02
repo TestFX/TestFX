@@ -30,18 +30,18 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
 import org.loadui.testfx.service.finder.NodeFinder;
 import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 import org.loadui.testfx.utils.WaitForAsyncUtils;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxService.serviceContext;
 
-public abstract class GuiTest extends FxRobotImpl {
+public abstract class GuiTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
