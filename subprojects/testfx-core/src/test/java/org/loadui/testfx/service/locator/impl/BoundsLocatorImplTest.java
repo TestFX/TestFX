@@ -33,7 +33,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.service.locator.BoundsLocator;
 import org.loadui.testfx.service.locator.BoundsLocatorException;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -65,14 +65,14 @@ public class BoundsLocatorImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxLifecycle.registerPrimaryStage();
-        FxLifecycle.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxLifecycle.setup(() -> setupStagesClass());
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setup(() -> setupStagesClass());
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxLifecycle.setup(() -> cleanupStagesClass());
+        FxToolkit.setup(() -> cleanupStagesClass());
     }
 
     @Before

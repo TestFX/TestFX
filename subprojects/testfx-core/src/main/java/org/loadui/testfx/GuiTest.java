@@ -36,7 +36,7 @@ import org.loadui.testfx.service.finder.WindowFinder;
 import org.loadui.testfx.service.support.CaptureSupport;
 import org.loadui.testfx.service.support.WaitUntilSupport;
 import org.loadui.testfx.utils.WaitForAsyncUtils;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxService.serviceContext;
@@ -178,9 +178,10 @@ public abstract class GuiTest extends FxRobotImpl {
 
     @Before
     public void internalSetup() throws Exception {
-        target(FxLifecycle.registerPrimaryStage());
-        FxLifecycle.setupSceneRoot(() -> getRootNode());
-        FxLifecycle.setupStage((stage) -> {
+        target(FxToolkit.registerPrimaryStage());
+        FxToolkit.setupSceneRoot(() -> getRootNode());
+        WaitForAsyncUtils.waitForFxEvents();
+        FxToolkit.setupStage((stage) -> {
             stage.show();
             stage.toBack();
             stage.toFront();

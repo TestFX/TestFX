@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 public class SimpleLabelTest extends FxRobotImpl {
 
@@ -35,12 +35,12 @@ public class SimpleLabelTest extends FxRobotImpl {
 
     @BeforeClass
     public static void setupSpec() throws TimeoutException {
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws TimeoutException {
-        FxLifecycle.setupStage(stage -> {
+        FxToolkit.setupStage(stage -> {
             Scene scene = new Scene(createSceneRoot(this.getClass()), 300, 100);
             stage.setScene(scene);
             stage.show();

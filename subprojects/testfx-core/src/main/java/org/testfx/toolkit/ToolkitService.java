@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.lifecycle;
+package org.testfx.toolkit;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -24,7 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public interface LifecycleService {
+public interface ToolkitService {
 
     Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
                                     Class<? extends Application> applicationClass,

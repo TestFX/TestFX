@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -53,13 +53,13 @@ public class DragAndDropTest {
         //System.setProperty("testfx.robot", "glass");
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
         fx = new FxRobotImpl();
     }
 
     @Before
     public void setup() throws TimeoutException {
-        FxLifecycle.setupSceneRoot(() -> {
+        FxToolkit.setupSceneRoot(() -> {
             leftListView = new ListView<>();
             rightListView = new ListView<>();
             leftListView.getItems().addAll("L1", "L2", "L3");
@@ -67,7 +67,7 @@ public class DragAndDropTest {
             ImmutableList.of(leftListView, rightListView).forEach(this::setupListView);
             return new HBox(leftListView, rightListView);
         });
-        FxLifecycle.setupStage(stage -> stage.show());
+        FxToolkit.setupStage(stage -> stage.show());
     }
 
     public void setupListView(ListView<String> listView) {

@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.lifecycle.impl;
+package org.testfx.toolkit.impl;
 
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
@@ -28,22 +28,22 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.lifecycle.LifecycleService;
-import org.testfx.lifecycle.StageFuture;
-import org.testfx.lifecycle.ToolkitApplication;
+import org.testfx.toolkit.ToolkitService;
+import org.testfx.toolkit.StageFuture;
+import org.testfx.toolkit.ToolkitApplication;
 
 import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
 import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
 
-public class LifecycleServiceImplTest {
+public class ToolkitServiceImplTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
     public static Stage primaryStage;
-    public static LifecycleService lifecycle;
+    public static ToolkitService toolkitService;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -53,12 +53,12 @@ public class LifecycleServiceImplTest {
     public static void setupSpec() throws Exception {
         StageFuture primaryStageFuture = ToolkitApplication.primaryStageFuture;
         Class<? extends Application> toolkitApplication = ToolkitApplication.class;
-        lifecycle = new LifecycleServiceImpl(
+        toolkitService = new ToolkitServiceImpl(
             new ApplicationLauncherImpl(), new ApplicationServiceImpl()
         );
 
         primaryStage = waitFor(10, TimeUnit.SECONDS,
-            lifecycle.setupPrimaryStage(primaryStageFuture, toolkitApplication)
+            toolkitService.setupPrimaryStage(primaryStageFuture, toolkitApplication)
         );
     }
 
@@ -82,7 +82,7 @@ public class LifecycleServiceImplTest {
     public void should_construct_application() throws Exception {
         printCurrentThreadName("should_construct_application()");
         Application application = waitFor(5, TimeUnit.SECONDS,
-            lifecycle.setupApplication(primaryStage, FixtureApplication.class)
+            toolkitService.setupApplication(primaryStage, FixtureApplication.class)
         );
         sleep(2, TimeUnit.SECONDS);
     }
@@ -91,7 +91,7 @@ public class LifecycleServiceImplTest {
     public void should_construct_scene() throws Exception {
         printCurrentThreadName("should_construct_scene");
         Scene scene = waitFor(5, TimeUnit.SECONDS,
-            lifecycle.setupScene(primaryStage, () -> new FixtureScene())
+            toolkitService.setupScene(primaryStage, () -> new FixtureScene())
         );
         sleep(2, TimeUnit.SECONDS);
     }

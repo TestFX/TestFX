@@ -19,14 +19,14 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import com.google.common.annotations.Beta;
-import org.testfx.lifecycle.StageFuture;
-import org.testfx.lifecycle.ToolkitApplication;
+import org.testfx.toolkit.StageFuture;
+import org.testfx.toolkit.ToolkitApplication;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
 @Beta
-public class FxLifecycleContext {
+public class FxToolkitContext {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.

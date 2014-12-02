@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.hamcrest.Matchers;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -50,14 +50,14 @@ public class WindowFinderImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxLifecycle.registerPrimaryStage();
-        FxLifecycle.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxLifecycle.setup(() -> setupStagesClass());
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setup(() -> setupStagesClass());
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxLifecycle.setup(() -> cleanupStagesClass());
+        FxToolkit.setup(() -> cleanupStagesClass());
     }
 
     @Before
