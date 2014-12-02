@@ -18,8 +18,8 @@ package org.testfx.service.query.impl;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
-
 import javafx.geometry.Pos;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;

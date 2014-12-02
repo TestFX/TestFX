@@ -40,22 +40,22 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testfx.api.FxToolkit;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
-import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.testfx.util.WaitForAsyncUtils.asyncFx;
-import static org.testfx.util.WaitForAsyncUtils.sleep;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
+import static org.testfx.util.WaitForAsyncUtils.sleep;
 
 public class GlassRobotAdapterTest {
 

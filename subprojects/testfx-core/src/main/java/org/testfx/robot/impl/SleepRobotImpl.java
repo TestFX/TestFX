@@ -16,6 +16,7 @@
 package org.testfx.robot.impl;
 
 import java.util.concurrent.TimeUnit;
+
 import org.testfx.robot.SleepRobot;
 
 public class SleepRobotImpl implements SleepRobot {
