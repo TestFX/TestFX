@@ -111,7 +111,7 @@ public class FxAssertDemoTest {
             button.setOnAction(actionEvent -> button.setText("clicked!"));
             Scene scene = new Scene(button, 600, 400);
             stage.setScene(scene);
-            stage.setTitle(this.getClass().getSimpleName());
+            stage.setTitle(getClass().getSimpleName());
             stage.show();
         }
     }

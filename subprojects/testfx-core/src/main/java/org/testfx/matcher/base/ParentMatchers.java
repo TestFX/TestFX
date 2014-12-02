@@ -35,7 +35,8 @@ public class ParentMatchers {
     }
 
     @Factory
-    public static Matcher<Parent> hasChildren(int amount, String nodeQuery) {
+    public static Matcher<Parent> hasChildren(int amount,
+                                              String nodeQuery) {
         return null;
     }
 
@@ -47,7 +48,8 @@ public class ParentMatchers {
         return !parent.getChildrenUnmodifiable().isEmpty();
     }
 
-    public static boolean hasChildren(int amount, Parent parent) {
+    public static boolean hasChildren(int amount,
+                                      Parent parent) {
         return parent.getChildrenUnmodifiable().size() == amount;
     }
 

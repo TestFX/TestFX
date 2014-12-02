@@ -32,16 +32,20 @@ public class PredicateMatchers {
     public static <T extends Node> Matcher<T> nodeMatcher(final String descriptionText,
                                                           final Predicate<T> nodePredicate) {
         return new BaseMatcher<T>() {
+            @Override
             public void describeTo(Description description) {
                 description.appendText(descriptionText);
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public boolean matches(Object node) {
                 return nodePredicate.apply((T) node);
             }
 
-            public void describeMismatch(Object node, Description description) {
+            @Override
+            public void describeMismatch(Object node,
+                                         Description description) {
                 description.appendText("was ").appendValue(node);
             }
         };
@@ -52,16 +56,20 @@ public class PredicateMatchers {
                                                           final Predicate<T> nodePredicate) {
         // This simply implements the null check, checks the type and then casts.
         return new TypeSafeMatcher<T>(expectedType) {
+            @Override
             public void describeTo(Description description) {
                 description.appendText(expectedType.getSimpleName());
                 description.appendText(" ").appendText(descriptionText);
             }
 
+            @Override
             protected boolean matchesSafely(T node) {
                 return nodePredicate.apply(node);
             }
 
-            protected void describeMismatchSafely(Node node, Description mismatchDescription) {
+            @Override
+            protected void describeMismatchSafely(Node node,
+                                                  Description mismatchDescription) {
                 mismatchDescription.appendText("was ").appendValue(node);
             }
         };

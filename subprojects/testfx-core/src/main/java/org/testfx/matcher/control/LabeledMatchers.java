@@ -29,13 +29,13 @@ public class LabeledMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static Matcher<Labeled> hasText(final String text) {
+    public static Matcher<Labeled> hasText(String text) {
         String descriptionText = "Labeled has text '" + text + "'";
         return nodeMatcher(descriptionText, labeled -> hasText(labeled, text));
     }
 
     @Factory
-    public static Matcher<Labeled> hasText(final Matcher<String> matcher) {
+    public static Matcher<Labeled> hasText(Matcher<String> matcher) {
         return null;
     }
 

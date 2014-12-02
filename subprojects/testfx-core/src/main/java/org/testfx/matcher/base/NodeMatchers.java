@@ -19,7 +19,8 @@ import javafx.scene.Node;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.matcher.predicate.PredicateMatchers;
+
+import static org.testfx.matcher.predicate.PredicateMatchers.nodeMatcher;
 
 public class NodeMatchers {
 
@@ -29,32 +30,32 @@ public class NodeMatchers {
 
     @Factory
     public static Matcher<Node> isNull() {
-        return PredicateMatchers.nodeMatcher("Node is null", node -> isNull(node));
+        return nodeMatcher("Node is null", node -> isNull(node));
     }
 
     @Factory
     public static Matcher<Node> isNotNull() {
-        return PredicateMatchers.nodeMatcher("Node is not null", node -> !isNull(node));
+        return nodeMatcher("Node is not null", node -> !isNull(node));
     }
 
     @Factory
     public static Matcher<Node> isVisible() {
-        return PredicateMatchers.nodeMatcher("Node is visible", node -> isVisible(node));
+        return nodeMatcher("Node is visible", node -> isVisible(node));
     }
 
     @Factory
     public static Matcher<Node> isInvisible() {
-        return PredicateMatchers.nodeMatcher("Node is invisible", node -> !isVisible(node));
+        return nodeMatcher("Node is invisible", node -> !isVisible(node));
     }
 
     @Factory
     public static Matcher<Node> isEnabled() {
-        return PredicateMatchers.nodeMatcher("Node is enabled", node -> isEnabled(node));
+        return nodeMatcher("Node is enabled", node -> isEnabled(node));
     }
 
     @Factory
     public static Matcher<Node> isDisabled() {
-        return PredicateMatchers.nodeMatcher("Node is disabled", node -> !isEnabled(node));
+        return nodeMatcher("Node is disabled", node -> !isEnabled(node));
     }
 
     @Factory

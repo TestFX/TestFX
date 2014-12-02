@@ -17,10 +17,10 @@ package org.testfx.matcher.control;
 
 import javafx.scene.control.TextInputControl;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.matcher.predicate.PredicateMatchers;
+
+import static org.testfx.matcher.predicate.PredicateMatchers.nodeMatcher;
 
 public class TextInputControlMatchers {
 
@@ -29,13 +29,10 @@ public class TextInputControlMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static Matcher<TextInputControl> hasText(final String text) {
+    public static Matcher<TextInputControl> hasText(String text) {
         String descriptionText = "TextInputControl has text '" + text + "'";
-        return PredicateMatchers.nodeMatcher(descriptionText, new Predicate<TextInputControl>() {
-            @Override
-            public boolean apply(TextInputControl textInputControl) {
-                return hasText(textInputControl, text);
-            }
+        return nodeMatcher(descriptionText, (TextInputControl textInputControl) -> {
+            return hasText(textInputControl, text);
         });
     }
 
@@ -43,7 +40,8 @@ public class TextInputControlMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean hasText(TextInputControl textInputControl, String text) {
+    public static boolean hasText(TextInputControl textInputControl,
+                                  String text) {
         return text.equals(lookupText(textInputControl));
     }
 
