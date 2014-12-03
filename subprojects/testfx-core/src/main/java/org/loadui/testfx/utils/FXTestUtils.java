@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.testfx.util.WaitForAsyncUtils;
 
-@Deprecated
 public class FXTestUtils {
 
     //---------------------------------------------------------------------------------------------

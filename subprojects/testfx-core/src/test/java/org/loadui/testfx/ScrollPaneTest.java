@@ -24,10 +24,9 @@ import javafx.scene.layout.VBox;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.controls.impl.VisibleNodesMatcher;
-import org.testfx.service.finder.NodeFinderException;
+import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
 import static org.hamcrest.Matchers.is;
 import static org.loadui.testfx.Assertions.verifyThat;
@@ -92,7 +91,7 @@ public class ScrollPaneTest extends GuiTest {
         boolean visible = true;
         try {
             find(query);
-        } catch (NodeFinderException e) {
+        } catch (NoNodesVisibleException e) {
             visible = false;
         }
         return visible;

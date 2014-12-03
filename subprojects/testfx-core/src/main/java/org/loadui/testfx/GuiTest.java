@@ -30,9 +30,13 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.loadui.testfx.exceptions.NoNodesFoundException;
+import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.exceptions.NodeQueryException;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.WaitUntilSupport;
@@ -66,48 +70,87 @@ public abstract class GuiTest extends FxRobot {
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(String query) {
-        return (T) nodeFinder.node(query);
+        try {
+            return (T) nodeFinder.node(query);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(String query) {
-        return (Set<T>) nodeFinder.nodes(query);
+        try {
+            return (Set<T>) nodeFinder.nodes(query);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(Predicate<T> predicate) {
-        return (T) nodeFinder.node((Predicate<Node>) predicate);
+        try {
+            return (T) nodeFinder.node((Predicate<Node>) predicate);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(Matcher<Object> matcher) {
-        return (T) nodeFinder.node(matcher);
+        try {
+            return (T) nodeFinder.node(matcher);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(String query, Node parent) {
-        return (T) nodeFinder.node(query, parent);
+        try {
+            return (T) nodeFinder.node(query, parent);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
-        return (Set<T>) nodeFinder.nodes((Predicate<Node>) predicate);
+        try {
+            return (Set<T>) nodeFinder.nodes((Predicate<Node>) predicate);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(Matcher<Object> matcher, Node parent) {
-        return (Set<T>) nodeFinder.nodes(matcher);
+        try {
+            return (Set<T>) nodeFinder.nodes(matcher);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     public static boolean exists(String nodeQuery) {
-        return find(nodeQuery) != null;
+        try {
+            return find(nodeQuery) != null;
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     /**
      * Returns a Callable that calculates the number of nodes that matches the given query.
      *
      * @param nodeQuery a CSS query or the label of a node.
-     * @return
      */
     public static Callable<Integer> numberOf(final String nodeQuery) {
         return () -> findAll(nodeQuery).size();
@@ -152,6 +195,22 @@ public abstract class GuiTest extends FxRobot {
         captureSupport.capturePrimaryScreenToFile(captureFile);
         return captureFile;
     }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static NodeQueryException buildNodeQueryException(NodeFinderException exception) {
+        switch (exception.getErrorType()) {
+            case NO_NODES_FOUND:
+                throw new NoNodesFoundException(exception.getMessage());
+            case NO_VISIBLE_NODES_FOUND:
+                throw new NoNodesVisibleException(exception.getMessage());
+            default:
+                throw new AssertionError("Unhandled NodeFinderException.");
+        }
+    }
+
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC FIELDS.
