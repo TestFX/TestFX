@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.controls.impl.VisibleNodesMatcher;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;

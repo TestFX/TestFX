@@ -41,7 +41,7 @@ public class SimpleLabelTest extends FxRobot {
     @Before
     public void setup() throws TimeoutException {
         FxToolkit.setupStage(stage -> {
-            Scene scene = new Scene(createSceneRoot(this.getClass()), 300, 100);
+            Scene scene = new Scene(createSceneRoot(getClass()), 300, 100);
             stage.setScene(scene);
             stage.show();
         });

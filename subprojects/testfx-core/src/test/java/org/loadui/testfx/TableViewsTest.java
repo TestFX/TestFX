@@ -15,17 +15,18 @@
  */
 package org.loadui.testfx;
 
-import com.google.common.base.Predicate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
+
+import com.google.common.base.Predicate;
 import org.junit.Test;
 
 import static javafx.collections.FXCollections.observableArrayList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.TableViews.containsCell;
 import static org.loadui.testfx.controls.TableViews.numberOfRowsIn;

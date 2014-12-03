@@ -29,8 +29,8 @@ import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
 import org.testfx.toolkit.StageFuture;
 
-import static org.loadui.testfx.utils.WaitForAsyncUtils.async;
-import static org.loadui.testfx.utils.WaitForAsyncUtils.asyncFx;
+import static org.testfx.util.WaitForAsyncUtils.async;
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
 public class ToolkitServiceImpl implements ToolkitService {
 

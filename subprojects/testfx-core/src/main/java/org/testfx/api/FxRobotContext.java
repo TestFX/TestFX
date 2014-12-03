@@ -17,33 +17,35 @@ package org.testfx.api;
 
 import javafx.geometry.Pos;
 
-import org.loadui.testfx.robots.BaseRobot;
-import org.loadui.testfx.robots.ClickRobot;
-import org.loadui.testfx.robots.DragRobot;
-import org.loadui.testfx.robots.KeyboardRobot;
-import org.loadui.testfx.robots.MouseRobot;
-import org.loadui.testfx.robots.MoveRobot;
-import org.loadui.testfx.robots.ScrollRobot;
-import org.loadui.testfx.robots.SleepRobot;
-import org.loadui.testfx.robots.TypeRobot;
-import org.loadui.testfx.robots.WriteRobot;
-import org.loadui.testfx.robots.impl.BaseRobotImpl;
-import org.loadui.testfx.robots.impl.ClickRobotImpl;
-import org.loadui.testfx.robots.impl.DragRobotImpl;
-import org.loadui.testfx.robots.impl.KeyboardRobotImpl;
-import org.loadui.testfx.robots.impl.MouseRobotImpl;
-import org.loadui.testfx.robots.impl.MoveRobotImpl;
-import org.loadui.testfx.robots.impl.ScrollRobotImpl;
-import org.loadui.testfx.robots.impl.SleepRobotImpl;
-import org.loadui.testfx.robots.impl.TypeRobotImpl;
-import org.loadui.testfx.robots.impl.WriteRobotImpl;
-import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.locator.BoundsLocator;
-import org.loadui.testfx.service.locator.PointLocator;
-import org.loadui.testfx.service.locator.impl.BoundsLocatorImpl;
-import org.loadui.testfx.service.locator.impl.PointLocatorImpl;
+import com.google.common.annotations.Beta;
+import org.testfx.robot.BaseRobot;
+import org.testfx.robot.ClickRobot;
+import org.testfx.robot.DragRobot;
+import org.testfx.robot.KeyboardRobot;
+import org.testfx.robot.MouseRobot;
+import org.testfx.robot.MoveRobot;
+import org.testfx.robot.ScrollRobot;
+import org.testfx.robot.SleepRobot;
+import org.testfx.robot.TypeRobot;
+import org.testfx.robot.WriteRobot;
+import org.testfx.robot.impl.BaseRobotImpl;
+import org.testfx.robot.impl.ClickRobotImpl;
+import org.testfx.robot.impl.DragRobotImpl;
+import org.testfx.robot.impl.KeyboardRobotImpl;
+import org.testfx.robot.impl.MouseRobotImpl;
+import org.testfx.robot.impl.MoveRobotImpl;
+import org.testfx.robot.impl.ScrollRobotImpl;
+import org.testfx.robot.impl.SleepRobotImpl;
+import org.testfx.robot.impl.TypeRobotImpl;
+import org.testfx.robot.impl.WriteRobotImpl;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.WindowFinder;
+import org.testfx.service.locator.BoundsLocator;
+import org.testfx.service.locator.PointLocator;
+import org.testfx.service.locator.impl.BoundsLocatorImpl;
+import org.testfx.service.locator.impl.PointLocatorImpl;
 
+@Beta
 public class FxRobotContext {
 
     //---------------------------------------------------------------------------------------------

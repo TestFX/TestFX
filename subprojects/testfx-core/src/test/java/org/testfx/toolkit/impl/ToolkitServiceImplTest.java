@@ -32,9 +32,9 @@ import org.testfx.toolkit.ToolkitService;
 import org.testfx.toolkit.StageFuture;
 import org.testfx.toolkit.ToolkitApplication;
 
-import static org.loadui.testfx.utils.WaitForAsyncUtils.sleep;
-import static org.loadui.testfx.utils.WaitForAsyncUtils.waitFor;
-import static org.loadui.testfx.utils.WaitForAsyncUtils.waitForAsyncFx;
+import static org.testfx.util.WaitForAsyncUtils.sleep;
+import static org.testfx.util.WaitForAsyncUtils.waitFor;
+import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public class ToolkitServiceImplTest {
 

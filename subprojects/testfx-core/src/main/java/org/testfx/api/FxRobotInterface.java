@@ -27,10 +27,12 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.loadui.testfx.service.query.PointQuery;
+import org.testfx.service.query.PointQuery;
 
+@Beta
 public interface FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------
