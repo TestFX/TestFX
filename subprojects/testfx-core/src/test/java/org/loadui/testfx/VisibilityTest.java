@@ -24,10 +24,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
 
-import org.junit.Ignore;
 import org.junit.Test;
-import org.loadui.testfx.exceptions.NoNodesFoundException;
-import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.testfx.service.finder.NodeFinderException;
 
 import static org.hamcrest.Matchers.is;
 import static org.loadui.testfx.Assertions.verifyThat;
@@ -36,30 +34,29 @@ import static org.loadui.testfx.controls.Commons.hasText;
 /**
  * TestFX should not find/click invisible nodes.
  */
-@Ignore
 public class VisibilityTest extends GuiTest {
 
-    @Test(expected = NoNodesVisibleException.class)
+    @Test(expected = NodeFinderException.class)
     public void nodeNotInScene_should_notBeFound() {
         find("#node-not-in-scene");
     }
 
-    @Test(expected = NoNodesVisibleException.class)
+    @Test(expected = NodeFinderException.class)
     public void nodeNotInScene_should_notBeFound_2() {
         find("Node not in scene");
     }
 
-    @Test(expected = NoNodesVisibleException.class)
+    @Test(expected = NodeFinderException.class)
     public void invisibleNode_should_notBeFound() {
         find("#invisible-node");
     }
 
-    @Test(expected = NoNodesVisibleException.class)
+    @Test(expected = NodeFinderException.class)
     public void nodeInInvisibleContainer_should_notBeFound() {
         find("#node-in-invisible-container");
     }
 
-    @Test(expected = NoNodesFoundException.class)
+    @Test(expected = NodeFinderException.class)
     public void nonExistingNode_should_notBeFound() {
         find("#non-existing-node");
     }

@@ -27,12 +27,11 @@ import org.hamcrest.Matcher;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.controls.impl.VisibleNodesMatcher;
-import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.testfx.service.finder.NodeFinderException;
 
 import static org.hamcrest.Matchers.is;
 import static org.loadui.testfx.Assertions.verifyThat;
 
-@Ignore
 public class ScrollPaneTest extends GuiTest {
     public static final int IMAGE_WIDTH = 525;
 
@@ -93,7 +92,7 @@ public class ScrollPaneTest extends GuiTest {
         boolean visible = true;
         try {
             find(query);
-        } catch (NoNodesVisibleException e) {
+        } catch (NodeFinderException e) {
             visible = false;
         }
         return visible;
