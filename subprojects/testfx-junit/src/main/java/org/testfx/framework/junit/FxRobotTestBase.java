@@ -18,12 +18,12 @@ package org.testfx.framework.junit;
 import java.awt.GraphicsEnvironment;
 
 import org.junit.BeforeClass;
-import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxRobot;
+import org.testfx.api.FxToolkit;
 
 import static org.junit.Assume.assumeFalse;
 
-public abstract class FxRobotTestBase extends FxRobotImpl {
+public abstract class FxRobotTestBase extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -36,7 +36,7 @@ public abstract class FxRobotTestBase extends FxRobotImpl {
             "Cannot run JavaFX in headless environment",
             GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()
         );
-        FxLifecycle.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
 }

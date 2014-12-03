@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.testfx.api.FxLifecycle;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.FxRobotTestBase;
 
 import static org.loadui.testfx.Assertions.verifyThat;
@@ -51,7 +51,7 @@ public class FxRobotApplicationTest extends FxRobotTestBase {
 
     @Before
     public void setup() throws Exception {
-        FxLifecycle.setupApplication(DemoApplication.class);
+        FxToolkit.setupApplication(DemoApplication.class);
     }
 
     //---------------------------------------------------------------------------------------------
