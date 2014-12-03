@@ -36,6 +36,9 @@ import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 
+import static org.testfx.service.finder.NodeFinderException.ErrorType.NO_NODES_FOUND;
+import static org.testfx.service.finder.NodeFinderException.ErrorType.NO_VISIBLE_NODES_FOUND;
+
 public class NodeFinderImpl implements NodeFinder {
 
     //---------------------------------------------------------------------------------------------
@@ -139,6 +142,7 @@ public class NodeFinderImpl implements NodeFinder {
         return Iterables.getFirst(resultNodes, null);
     }
 
+    @Override
     public Set<Node> nodes(String query,
                            Node parentNode) {
         // TODO: Filter visible nodes and allow label queries.
@@ -277,7 +281,7 @@ public class NodeFinderImpl implements NodeFinder {
                                   String errorMessage) {
         // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
-            throw new NodeFinderException(errorMessage);
+            throw new NodeFinderException(errorMessage, NO_NODES_FOUND);
         }
     }
 
@@ -285,7 +289,7 @@ public class NodeFinderImpl implements NodeFinder {
                                     String errorMessage) {
         // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
-            throw new NodeFinderException(errorMessage);
+            throw new NodeFinderException(errorMessage, NO_VISIBLE_NODES_FOUND);
         }
     }
 
