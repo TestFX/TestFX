@@ -67,11 +67,13 @@ public class NodeFinderImpl implements NodeFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     public Node node(String query) {
         Set<Node> resultNodes = nodes(query);
         return Iterables.getFirst(resultNodes, null);
     }
 
+    @Override
     public Set<Node> nodes(String query) {
         Function<Node, Set<Node>> toResultNodesFunction;
         if (isCssSelector(query)) {
@@ -85,49 +87,60 @@ public class NodeFinderImpl implements NodeFinder {
         return nodesImpl(orderedWindows, toResultNodesFunction);
     }
 
+    @Override
     public Node node(Predicate<Node> predicate) {
         Set<Node> resultNodes = nodes(predicate);
         return Iterables.getFirst(resultNodes, null);
     }
 
+    @Override
     public Set<Node> nodes(Predicate<Node> predicate) {
         List<Window> windows = windowFinder.listWindows();
         Function<Node, Set<Node>> toResultNodesFunction = fromNodesPredicateFunction(predicate);
         return nodesImpl(windows, toResultNodesFunction);
     }
 
+    @Override
     public Node node(Matcher<Object> matcher) {
         Set<Node> resultNodes = nodes(matcher);
         return Iterables.getFirst(resultNodes, null);
     }
 
+    @Override
     public Set<Node> nodes(Matcher<Object> matcher) {
         Predicate<Node> nodeMatcherPredicate = toNodeMatcherPredicate(matcher);
         return nodes(nodeMatcherPredicate);
     }
 
+    @Override
     public Node parent(Window window) {
         return window.getScene().getRoot();
     }
 
+    @Override
     public Node parent(int windowIndex) {
         return parent(windowFinder.window(windowIndex));
     }
 
+    @Override
     public Node parent(String stageTitleRegex) {
         return parent(windowFinder.window(stageTitleRegex));
     }
 
+    @Override
     public Node parent(Scene scene) {
         return scene.getRoot();
     }
 
-    public Node node(String query, Node parentNode) {
+    @Override
+    public Node node(String query,
+                     Node parentNode) {
         Set<Node> resultNodes = nodes(query, parentNode);
         return Iterables.getFirst(resultNodes, null);
     }
 
-    public Set<Node> nodes(String query, Node parentNode) {
+    public Set<Node> nodes(String query,
+                           Node parentNode) {
         // TODO: Filter visible nodes and allow label queries.
         // TODO: Filter instances of javafx.scene.control.Skin.
         windowFinder.target(parentNode.getScene().getWindow());
@@ -139,7 +152,7 @@ public class NodeFinderImpl implements NodeFinder {
     //---------------------------------------------------------------------------------------------
 
     private Set<Node> nodesImpl(List<Window> windows,
-            Function<Node, Set<Node>> toResultNodesFunction) {
+                                Function<Node, Set<Node>> toResultNodesFunction) {
         Set<Node> resultNodes = transformToResultNodes(windows, toResultNodesFunction);
         assertNodesFound(resultNodes, ERROR_NO_NODES_FOUND);
 
@@ -149,7 +162,7 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     private Set<Node> transformToResultNodes(List<Window> windows,
-            Function<Node, Set<Node>> toResultNodesFunction) {
+                                             Function<Node, Set<Node>> toResultNodesFunction) {
         //return FluentIterable.from(windows)
         //    .transform(toRootNodeFunction())
         //    .transformAndConcat(toResultNodesFunction)
@@ -170,11 +183,11 @@ public class NodeFinderImpl implements NodeFinder {
         };
     }
 
-    private Function<Node, Set<Node>> fromNodesCssSelectorFunction(final String selector) {
+    private Function<Node, Set<Node>> fromNodesCssSelectorFunction(String selector) {
         return rootNode -> findNodesInParent(selector, rootNode);
     }
 
-    private Function<Node, Set<Node>> fromNodesPredicateFunction(final Predicate<Node> predicate) {
+    private Function<Node, Set<Node>> fromNodesPredicateFunction(Predicate<Node> predicate) {
         return rootNode -> findNodesInParent(predicate, rootNode);
     }
 
@@ -182,11 +195,13 @@ public class NodeFinderImpl implements NodeFinder {
     // PRIVATE BACKEND METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Set<Node> findNodesInParent(String selector, Node parentNode) {
+    private Set<Node> findNodesInParent(String selector,
+                                        Node parentNode) {
         return parentNode.lookupAll(selector);
     }
 
-    private Set<Node> findNodesInParent(Predicate<Node> predicate, Node parentNode) {
+    private Set<Node> findNodesInParent(Predicate<Node> predicate,
+                                        Node parentNode) {
         Set<Node> resultNodes = Sets.newLinkedHashSet();
         if (applyPredicateOnNode(predicate, parentNode)) {
             resultNodes.add(parentNode);
@@ -204,7 +219,8 @@ public class NodeFinderImpl implements NodeFinder {
     // PRIVATE HELPER METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private boolean applyPredicateOnNode(Predicate<Node> predicate, Node node) {
+    private boolean applyPredicateOnNode(Predicate<Node> predicate,
+                                         Node node) {
         // TODO: Test cases with ClassCastException.
         try {
             return predicate.apply(node);
@@ -214,7 +230,7 @@ public class NodeFinderImpl implements NodeFinder {
         }
     }
 
-    private Predicate<Node> toNodeMatcherPredicate(final Matcher<Object> matcher) {
+    private Predicate<Node> toNodeMatcherPredicate(Matcher<Object> matcher) {
         return matcher::matches;
     }
 
@@ -222,7 +238,7 @@ public class NodeFinderImpl implements NodeFinder {
         return NodeFinderImpl.this::isNodeVisible;
     }
 
-    private Predicate<Node> hasNodeLabelPredicate(final String label) {
+    private Predicate<Node> hasNodeLabelPredicate(String label) {
         return node -> hasNodeLabel(node, label);
     }
 
@@ -231,7 +247,8 @@ public class NodeFinderImpl implements NodeFinder {
             query.startsWith(CSS_CLASS_SELECTOR_SYMBOL);
     }
 
-    private boolean hasNodeLabel(Node node, String label) {
+    private boolean hasNodeLabel(Node node,
+                                 String label) {
         // TODO: Test cases with node.getText() == null.
         if (node instanceof Labeled) {
             return label.equals(((Labeled) node).getText());
@@ -256,14 +273,16 @@ public class NodeFinderImpl implements NodeFinder {
         return nodeBounds.intersects(0, 0, scene.getWidth(), scene.getHeight());
     }
 
-    private void assertNodesFound(Set<Node> resultNodes, String errorMessage) {
+    private void assertNodesFound(Set<Node> resultNodes,
+                                  String errorMessage) {
         // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
             throw new NodeFinderException(errorMessage);
         }
     }
 
-    private void assertNodesVisible(Set<Node> resultNodes, String errorMessage) {
+    private void assertNodesVisible(Set<Node> resultNodes,
+                                    String errorMessage) {
         // TODO: Save screenshot on exception.
         if (resultNodes.isEmpty()) {
             throw new NodeFinderException(errorMessage);
