@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.api.integration;
+package org.testfx.integration;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -23,12 +23,11 @@ import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.loadui.testfx.framework.robot.FxRobot;
-import org.loadui.testfx.framework.robot.impl.FxRobotImpl;
+import org.testfx.api.FxRobot;
 
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.api.FxLifecycle.registerPrimaryStage;
-import static org.testfx.api.FxLifecycle.setupApplication;
+import static org.testfx.api.FxToolkit.registerPrimaryStage;
+import static org.testfx.api.FxToolkit.setupApplication;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isNotNull;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
@@ -41,7 +40,7 @@ public class FxAssertDemoTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    FxRobot fx = new FxRobotImpl();
+    FxRobot fx = new FxRobot();
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.

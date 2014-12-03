@@ -16,7 +16,7 @@
 package org.testfx.api;
 
 import com.google.common.annotations.Beta;
-import org.loadui.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.NodeFinder;
 
 @Beta
 public class FxAssertContext {

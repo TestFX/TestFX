@@ -21,8 +21,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-import org.loadui.testfx.service.finder.NodeFinder;
 import org.testfx.matcher.predicate.PredicateMatchers;
+import org.testfx.service.finder.NodeFinder;
 
 @Beta
 public class FxAssert {
