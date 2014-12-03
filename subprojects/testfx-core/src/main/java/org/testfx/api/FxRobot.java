@@ -27,11 +27,13 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.PointQuery;
 
+@Beta
 public class FxRobot implements FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------
@@ -47,6 +49,14 @@ public class FxRobot implements FxRobotInterface {
     public FxRobot() {
         context = new FxRobotContext();
         context.setPointPosition(Pos.CENTER);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR ROBOT CONTEXT.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobotContext robotContext() {
+        return context;
     }
 
     //---------------------------------------------------------------------------------------------

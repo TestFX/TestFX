@@ -17,6 +17,7 @@ package org.testfx.api;
 
 import javafx.geometry.Pos;
 
+import com.google.common.annotations.Beta;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.DragRobot;
@@ -44,6 +45,7 @@ import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
 
+@Beta
 public class FxRobotContext {
 
     //---------------------------------------------------------------------------------------------
