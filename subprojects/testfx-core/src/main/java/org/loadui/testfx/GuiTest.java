@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -31,19 +30,22 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.loadui.testfx.framework.app.StageSetupCallback;
-import org.loadui.testfx.framework.junit.AppRobotTestBase;
-import org.loadui.testfx.robots.impl.BaseRobotImpl;
-import org.loadui.testfx.service.finder.NodeFinder;
-import org.loadui.testfx.service.finder.WindowFinder;
-import org.loadui.testfx.service.finder.impl.NodeFinderImpl;
-import org.loadui.testfx.service.finder.impl.WindowFinderImpl;
-import org.loadui.testfx.service.support.CaptureSupport;
-import org.loadui.testfx.service.support.WaitUntilSupport;
+import org.loadui.testfx.exceptions.NoNodesFoundException;
+import org.loadui.testfx.exceptions.NoNodesVisibleException;
+import org.loadui.testfx.exceptions.NodeQueryException;
+import org.testfx.api.FxRobot;
+import org.testfx.api.FxToolkit;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.finder.NodeFinderException;
+import org.testfx.service.finder.WindowFinder;
+import org.testfx.service.support.CaptureSupport;
+import org.testfx.service.support.WaitUntilSupport;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.Assume.assumeFalse;
+import static org.testfx.api.FxService.serviceContext;
 
-public abstract class GuiTest extends AppRobotTestBase implements StageSetupCallback {
+public abstract class GuiTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -68,48 +70,87 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(String query) {
-        return (T) nodeFinder.node(query);
+        try {
+            return (T) nodeFinder.node(query);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(String query) {
-        return (Set<T>) nodeFinder.nodes(query);
+        try {
+            return (Set<T>) nodeFinder.nodes(query);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(Predicate<T> predicate) {
-        return (T) nodeFinder.node((Predicate<Node>) predicate);
+        try {
+            return (T) nodeFinder.node((Predicate<Node>) predicate);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(Matcher<Object> matcher) {
-        return (T) nodeFinder.node(matcher);
+        try {
+            return (T) nodeFinder.node(matcher);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> T find(String query, Node parent) {
-        return (T) nodeFinder.node(query, parent);
+        try {
+            return (T) nodeFinder.node(query, parent);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
-        return (Set<T>) nodeFinder.nodes((Predicate<Node>) predicate);
+        try {
+            return (Set<T>) nodeFinder.nodes((Predicate<Node>) predicate);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(Matcher<Object> matcher, Node parent) {
-        return (Set<T>) nodeFinder.nodes(matcher);
+        try {
+            return (Set<T>) nodeFinder.nodes(matcher);
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     public static boolean exists(String nodeQuery) {
-        return find(nodeQuery) != null;
+        try {
+            return find(nodeQuery) != null;
+        }
+        catch (NodeFinderException exception) {
+            throw buildNodeQueryException(exception);
+        }
     }
 
     /**
      * Returns a Callable that calculates the number of nodes that matches the given query.
      *
      * @param nodeQuery a CSS query or the label of a node.
-     * @return
      */
     public static Callable<Integer> numberOf(final String nodeQuery) {
         return () -> findAll(nodeQuery).size();
@@ -156,36 +197,55 @@ public abstract class GuiTest extends AppRobotTestBase implements StageSetupCall
     }
 
     //---------------------------------------------------------------------------------------------
+    // PRIVATE STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static NodeQueryException buildNodeQueryException(NodeFinderException exception) {
+        switch (exception.getErrorType()) {
+            case NO_NODES_FOUND:
+                throw new NoNodesFoundException(exception.getMessage());
+            case NO_VISIBLE_NODES_FOUND:
+                throw new NoNodesVisibleException(exception.getMessage());
+            default:
+                throw new AssertionError("Unhandled NodeFinderException.");
+        }
+    }
+
+
+    //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final WindowFinder windowFinder = new WindowFinderImpl();
-    private static final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
-    private static final WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
-    private static final CaptureSupport captureSupport = new CaptureSupport(new BaseRobotImpl());
+    private static final WindowFinder windowFinder = serviceContext().getWindowFinder();
+    private static final NodeFinder nodeFinder = serviceContext().getNodeFinder();
+
+    private static final WaitUntilSupport waitUntilSupport =
+        serviceContext().getWaitUntilSupport();
+    private static final CaptureSupport captureSupport = serviceContext().getCaptureSupport();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
     @BeforeClass
-    public static void checkHeadless() {
+    public static void internalSetupSpec() {
         assumeFalse(
-                "Cannot run JavaFX in headless environment",
-                GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance());
+            "Cannot run JavaFX in headless environment",
+            GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()
+        );
     }
 
     @Before
-    public void setupGuiTest() throws Exception {
-        setupApplication();
-        setupStages(this);
-    }
-
-    // Runs in JavaFX Application Thread.
-    public void setupStages(Stage primaryStage) {
-        Parent sceneRootNode = getRootNode();
-        Scene scene = new Scene(sceneRootNode);
-        primaryStage.setScene(scene);
+    public void internalSetup() throws Exception {
+        target(FxToolkit.registerPrimaryStage());
+        FxToolkit.setupSceneRoot(() -> getRootNode());
+        WaitForAsyncUtils.waitForFxEvents();
+        FxToolkit.setupStage((stage) -> {
+            stage.show();
+            stage.toBack();
+            stage.toFront();
+        });
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     //---------------------------------------------------------------------------------------------

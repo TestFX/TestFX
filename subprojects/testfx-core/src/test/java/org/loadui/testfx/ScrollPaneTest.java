@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.controls.impl.VisibleNodesMatcher;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
@@ -63,7 +62,6 @@ public class ScrollPaneTest extends GuiTest {
     }
 
     @Test
-    @Ignore
     public void testScroll() {
         String id1 = "#" + ID1;
         String id2 = "#" + ID2;

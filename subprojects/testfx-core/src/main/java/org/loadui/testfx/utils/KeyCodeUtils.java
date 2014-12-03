@@ -15,10 +15,10 @@
  */
 package org.loadui.testfx.utils;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import javafx.scene.input.KeyCode;
 
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
 public class KeyCodeUtils {
 
