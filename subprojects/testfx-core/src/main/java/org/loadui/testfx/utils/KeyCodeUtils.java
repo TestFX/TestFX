@@ -20,7 +20,6 @@ import javafx.scene.input.KeyCode;
 
 import com.google.common.collect.ImmutableMap;
 
-@Deprecated
 public class KeyCodeUtils {
 
     private static final Map<Character, KeyCode> KEY_CODES = ImmutableMap.<Character, KeyCode>builder()

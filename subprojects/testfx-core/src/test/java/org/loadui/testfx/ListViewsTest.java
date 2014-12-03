@@ -23,8 +23,8 @@ import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
 
 import static javafx.collections.FXCollections.observableArrayList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.ListViews.containsRow;
 import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
