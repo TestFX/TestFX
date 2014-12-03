@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.util;
+package org.loadui.testfx.utils;
 
 import java.util.Map;
 import javafx.scene.input.KeyCode;

@@ -18,6 +18,7 @@ package org.loadui.testfx;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+
 import org.junit.Test;
 
 import static javafx.scene.input.KeyCode.TAB;

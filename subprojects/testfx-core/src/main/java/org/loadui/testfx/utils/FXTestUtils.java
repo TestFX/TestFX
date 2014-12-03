@@ -13,12 +13,14 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.util;
+package org.loadui.testfx.utils;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import org.testfx.util.WaitForAsyncUtils;
 
 @Deprecated
 public class FXTestUtils {

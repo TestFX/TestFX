@@ -16,11 +16,12 @@
 package org.testfx.service.support;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 import javafx.scene.Node;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.testfx.util.FXTestUtils;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class WaitUntilSupport {
 
@@ -28,7 +29,9 @@ public class WaitUntilSupport {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public <T extends Node> void waitUntil(final T node, final Predicate<T> condition, int timeoutInSeconds) {
+    public <T extends Node> void waitUntil(final T node,
+                                           final Predicate<T> condition,
+                                           int timeoutInSeconds) {
         awaitCondition(() -> condition.apply(node), timeoutInSeconds);
     }
 
@@ -38,15 +41,21 @@ public class WaitUntilSupport {
      * @param node the node
      * @param condition the condition
      */
-    public void waitUntil(final Node node, final Matcher<Object> condition, int timeoutInSeconds) {
+    public void waitUntil(final Node node,
+                          final Matcher<Object> condition,
+                          int timeoutInSeconds) {
         awaitCondition(() -> condition.matches(node), timeoutInSeconds);
     }
 
-    public <T> void waitUntil(final T value, final Matcher<? super T> condition, int timeoutInSeconds) {
+    public <T> void waitUntil(final T value,
+                              final Matcher<? super T> condition,
+                              int timeoutInSeconds) {
         awaitCondition(() -> condition.matches(value), timeoutInSeconds);
     }
 
-    public <T> void waitUntil(final Callable<T> callable, final Matcher<? super T> condition, int timeoutInSeconds) {
+    public <T> void waitUntil(final Callable<T> callable,
+                              final Matcher<? super T> condition,
+                              int timeoutInSeconds) {
         awaitCondition(() -> condition.matches(callable.call()), timeoutInSeconds);
     }
 
@@ -55,7 +64,12 @@ public class WaitUntilSupport {
     //---------------------------------------------------------------------------------------------
 
     private void awaitCondition(Callable<Boolean> condition, int timeoutInSeconds) {
-        FXTestUtils.awaitCondition(condition, timeoutInSeconds);
+        try {
+            WaitForAsyncUtils.waitFor(timeoutInSeconds, TimeUnit.SECONDS, condition);
+        }
+        catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
 }

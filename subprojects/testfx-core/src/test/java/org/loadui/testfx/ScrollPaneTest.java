@@ -32,6 +32,7 @@ import org.loadui.testfx.exceptions.NoNodesVisibleException;
 import static org.hamcrest.Matchers.is;
 import static org.loadui.testfx.Assertions.verifyThat;
 
+@Ignore
 public class ScrollPaneTest extends GuiTest {
     public static final int IMAGE_WIDTH = 525;
 

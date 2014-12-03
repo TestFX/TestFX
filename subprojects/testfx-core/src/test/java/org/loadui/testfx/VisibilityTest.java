@@ -23,60 +23,56 @@ import javafx.scene.control.ButtonBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
+import static org.hamcrest.Matchers.is;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
-import static org.hamcrest.Matchers.is;
 
 /**
  * TestFX should not find/click invisible nodes.
  */
+@Ignore
 public class VisibilityTest extends GuiTest {
 
-    @Test(expected=NoNodesVisibleException.class)
-    public void nodeNotInScene_should_notBeFound()
-    {
+    @Test(expected = NoNodesVisibleException.class)
+    public void nodeNotInScene_should_notBeFound() {
         find("#node-not-in-scene");
     }
 
-    @Test(expected=NoNodesVisibleException.class)
-    public void nodeNotInScene_should_notBeFound_2()
-    {
+    @Test(expected = NoNodesVisibleException.class)
+    public void nodeNotInScene_should_notBeFound_2() {
         find("Node not in scene");
     }
 
-    @Test(expected=NoNodesVisibleException.class)
-    public void invisibleNode_should_notBeFound()
-    {
+    @Test(expected = NoNodesVisibleException.class)
+    public void invisibleNode_should_notBeFound() {
         find("#invisible-node");
     }
 
-    @Test(expected=NoNodesVisibleException.class)
-    public void nodeInInvisibleContainer_should_notBeFound()
-    {
+    @Test(expected = NoNodesVisibleException.class)
+    public void nodeInInvisibleContainer_should_notBeFound() {
         find("#node-in-invisible-container");
     }
 
-    @Test(expected=NoNodesFoundException.class)
-    public void nonExistingNode_should_notBeFound()
-    {
+    @Test(expected = NoNodesFoundException.class)
+    public void nonExistingNode_should_notBeFound() {
         find("#non-existing-node");
     }
 
     @Test
-    public void shouldClickNodeThatIsMostlyOutsideTheScene()
-    {
+    public void shouldClickNodeThatIsMostlyOutsideTheScene() {
         String target = "#node-mostly-outside-of-scene";
         clickOn(target);
         verifyThat(target, hasText("Clicked"));
     }
 
     @Test
-    public void shouldFindVisibleTwinOnly()
-    {
+    public void shouldFindVisibleTwinOnly() {
         verifyThat(findAll("Twin").size(), is(1));
         verifyThat(find("#twin").isVisible(), is(true));
     }
@@ -96,7 +92,8 @@ public class VisibilityTest extends GuiTest {
         });
         Button visibleTwin = ButtonBuilder.create().text("Twin").id("twin").build();
         Button invisibleTwin = ButtonBuilder.create().text("Twin").id("twin").visible(false).build();
-        return VBoxBuilder.create().minWidth( 600 )
-            .minHeight( 400 ).children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
+        return VBoxBuilder.create().minWidth(600)
+            .minHeight(400).children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
     }
+
 }
