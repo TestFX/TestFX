@@ -83,19 +83,6 @@ public class NodeQueryImpl implements NodeQuery {
         return this;
     }
 
-//    public NodeQuery peek(Predicate<Node> consumer) {
-//        checkNotNull(consumer, "consumer is null");
-//        Predicate<Node> filter = (node) -> { consumer.apply(node); return true; };
-//        this.filters.add(filter);
-//        return this;
-//    }
-
-    @Override
-    public NodeQuery throwIfEmpty() {
-        throw new UnsupportedOperationException();
-        //return this;
-    }
-
     @Override
     public Set<Node> queryAll() {
         FluentIterable<Node> resultNodes = this.buildQuery(this.parentNodes);
@@ -113,28 +100,30 @@ public class NodeQueryImpl implements NodeQuery {
     //---------------------------------------------------------------------------------------------
 
     private FluentIterable<Node> buildQuery(Set<Node> parentNodes) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes).filter(Predicates.notNull());
-        query = this.applySelectors(query, this.selectors);
-        query = this.applyFilters(query, this.filters);
-        return query;
-    }
-
-    private FluentIterable<Node> applySelectors(FluentIterable<Node> query,
-                                                List<Selector<Node>> selectors) {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        query = query.filter(Predicates.notNull());
         for (Selector<Node> selector : selectors) {
-            query = query.transformAndConcat(selector.selector);
-            if (selector.index != null) {
-                query = query.skip(selector.index).limit(1);
-            }
+            query = applySelector(query, selector.selector, selector.index);
+        }
+        for (Predicate<Node> filter : filters) {
+            query = applyFilter(query, filter);
         }
         return query;
     }
 
-    private FluentIterable<Node> applyFilters(FluentIterable<Node> query,
-                                              List<Predicate<Node>> filters) {
-        for (Predicate<Node> filter : filters) {
-            query = query.filter(filter);
+    private FluentIterable<Node> applySelector(FluentIterable<Node> query,
+                                               Function<Node, Set<Node>> selector,
+                                               Integer index) {
+        query = query.transformAndConcat(selector);
+        if (index != null) {
+            query = query.skip(index).limit(1);
         }
+        return query;
+    }
+
+    private FluentIterable<Node> applyFilter(FluentIterable<Node> query,
+                                             Predicate<Node> filter) {
+        query = query.filter(filter);
         return query;
     }
 

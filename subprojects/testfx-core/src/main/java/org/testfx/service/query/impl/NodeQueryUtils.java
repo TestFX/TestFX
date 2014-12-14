@@ -34,6 +34,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 public final class NodeQueryUtils {
@@ -51,13 +52,14 @@ public final class NodeQueryUtils {
     //---------------------------------------------------------------------------------------------
 
     public static Set<Node> rootsOfWindows(Collection<Window> windows) {
-        return FluentIterable.from(windows)
-            .<Node>transform((window) -> fromWindow(window))
-            .toSet();
+        return rootOfWindow(Iterables.toArray(windows, Window.class));
     }
 
     public static Set<Node> rootOfWindow(Window... windows) {
-        return rootsOfWindows(ImmutableList.copyOf(windows));
+        // TODO: is this set (toSet()) in order?
+        return FluentIterable.from(ImmutableList.copyOf(windows))
+            .<Node>transform((window) -> fromWindow(window))
+            .toSet();
     }
 
     public static Set<Node> rootOfStage(Stage... stages) {
@@ -176,7 +178,10 @@ public final class NodeQueryUtils {
         if (!node.isVisible() || !node.impl_isTreeVisible()) {
             return false;
         }
-        return isNodeWithinSceneBounds(node);
+        else if (!isNodeWithinSceneBounds(node)) {
+            return false;
+        }
+        return true;
     }
 
     private static boolean isNodeWithinSceneBounds(Node node) {

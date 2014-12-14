@@ -13,34 +13,22 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.service.query;
+package org.testfx.api;
 
-import java.util.Set;
-import javafx.scene.Node;
-
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-
-public interface NodeQuery {
+public class FxRobotException extends RuntimeException {
 
     //---------------------------------------------------------------------------------------------
-    // METHODS.
+    // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public NodeQuery from(Node... parentNodes);
+    private static final long serialVersionUID = 1L;
 
-    public NodeQuery from(Set<Node> parentNodes);
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
 
-    public NodeQuery lookup(Function<Node, Set<Node>> selector);
-
-    public NodeQuery lookupAt(int index,
-                              Function<Node, Set<Node>> selector);
-
-    public NodeQuery match(Predicate<Node> filter);
-
-    public Set<Node> queryAll();
-
-    public Optional<Node> queryFirst();
+    public FxRobotException(String message) {
+        super(message);
+    }
 
 }

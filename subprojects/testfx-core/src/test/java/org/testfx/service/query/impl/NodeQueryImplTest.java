@@ -133,6 +133,16 @@ public class NodeQueryImplTest {
     }
 
     @Test
+    public void from_label1_label0() {
+        // when:
+        Set<Node> result = nodeQuery.from(label1, label0)
+            .queryAll();
+
+        // then:
+        assertThat(result, contains(label1, label0));
+    }
+
+    @Test
     public void from_label0_from_label1() {
         // when:
         Set<Node> result = nodeQuery.from(label0).from(label1)
@@ -174,7 +184,7 @@ public class NodeQueryImplTest {
     }
 
     // TODO: lookup(bySelector(".pane")).lookup(bySelector(".label"))
-    // TODO: lookup(bySelector(".label"), bySelector(".button"))
+    // TODO: lookup(combine(bySelector(".label"), bySelector(".button")))
 
     @Test
     public void lookupAt() {

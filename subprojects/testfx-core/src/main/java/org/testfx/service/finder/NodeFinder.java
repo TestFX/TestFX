@@ -24,7 +24,21 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 
 public interface NodeFinder {
-    public Node      node(String query);
+//    public NodeQuery node();
+//
+//    public NodeQuery node(String query);
+//    public NodeQuery node(String query,
+//                          Node... parentNodes);
+//
+//    public NodeQuery node(Predicate<Node> predicate);
+//    public NodeQuery node(Predicate<Node> predicate,
+//                          Node... parentNodes);
+//
+//    public NodeQuery node(Matcher<Object> matcher);
+//    public NodeQuery node(Matcher<Object> matcher,
+//                          Node... parentNodes);
+
+    public Node node(String query);
     public Set<Node> nodes(String query);
     public Node      node(Predicate<Node> predicate);
     public Set<Node> nodes(Predicate<Node> predicate);
@@ -36,6 +50,8 @@ public interface NodeFinder {
     public Node      parent(String stageTitleRegex);
     public Node      parent(Scene scene);
 
-    public Node      node(String query, Node parentNode);
-    public Set<Node> nodes(String query, Node parentNode);
+    public Node      node(String query,
+                          Node parentNode);
+    public Set<Node> nodes(String query,
+                           Node parentNode);
 }
