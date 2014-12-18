@@ -17,11 +17,11 @@ package org.testfx.api;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -34,6 +34,7 @@ import org.testfx.toolkit.impl.ApplicationLauncherImpl;
 import org.testfx.toolkit.impl.ApplicationServiceImpl;
 import org.testfx.toolkit.impl.ToolkitServiceImpl;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 /**
@@ -44,28 +45,28 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
  * <p>This class methods cover three different kinds of fixtures:</p>
  *
  * <ol>
- * <li>Container fixtures, which are registered as {@code targetStage}.</li>
- * <li>Content fixtures, which are attached to the registered {@code targetStage}.</li>
- * <li>Individual fixtures, which do not require a {@code targetStage}.</li>
+ * <li>Container fixtures, which are registered as {@code registeredStage}.</li>
+ * <li>Content fixtures, which are attached to the registered {@code registeredStage}.</li>
+ * <li>Individual fixtures, which do not require a {@code registeredStage}.</li>
  * </ol>
  *
  * <p>Additionally it keeps an internal context.</p>
  *
  * <p><b>1. Container Fixtures</b></p>
  *
- * <p>They can be registered as {@code targetStage} and provide a top-level container, i.e.
+ * <p>They can be registered as {@code registeredStage} and provide a top-level container, i.e.
  * {@link Stage}s.</p>
  *
- * <p>The primary stage can be registered as {@code targetStage} using
+ * <p>The primary stage can be registered as {@code registeredStage} using
  * {@link #registerPrimaryStage}. This call is mandatory before any other JavaFX fixture can be
  * created.</p>
  *
- * <p>Other stages can be registered as {@code targetStage}  using {@link #registerTargetStage
- * registerTargetStage(Supplier&lt;Stage&gt;)}.</p>
+ * <p>Other stages can be registered as {@code registeredStage}  using {@link #registerStage
+ * registerStage(Supplier&lt;Stage&gt;)}.</p>
  *
  * <p><b>2. Content Fixtures</b></p>
  *
- * <p>They can be attached to the {@code targetStage}.</p>
+ * <p>They can be attached to the {@code registeredStage}.</p>
  *
  * <p>Either constructed by calling an {@link Application#start Application.start()}, by
  * supplying {@link Scene}s, {@link Parent}s, or by consuming a {@link Stage}.</p>
@@ -77,11 +78,12 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
  *
  * <p><b>3. Individual Fixtures</b></p>
  *
- * <p>To setup individual Nodes use {@link #setup(Runnable)} and {@link #setup(Callable)}.</p>
+ * <p>To setup individual Stages, Scenes or Nodes use {@link #setupFixture(Runnable)} and
+ * {@link #setupFixture(Callable)}.</p>
  *
  * <p><b>Internal Context</b></p>
  *
- * <p>Is internally responsible for handle the target stage for attachments,
+ * <p>Is internally responsible for handle the registered Stage for attachments,
  * handle timeouts, provide the Application for the Toolkit launch and execute the setup
  * in the JavaFX thread. The primary Stage is constructed by the platform.</p>
  */
@@ -112,50 +114,37 @@ public class FxToolkit {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    // CONTAINER FIXTURES.
+    // REGISTER STAGES (CONTAINERS).
 
     public static Stage registerPrimaryStage()
                                       throws TimeoutException {
         Stage primaryStage = waitForLaunch(
             service.setupPrimaryStage(
-                context.getStageFuture(),
+                context.getPrimaryStageFuture(),
                 context.getApplicationClass(),
                 context.getApplicationArgs()
             )
         );
-        context.setTargetStage(primaryStage);
+        context.setRegisteredStage(primaryStage);
         return primaryStage;
     }
 
-    public static Stage registerTargetStage(Supplier<Stage> stageSupplier)
-                                     throws TimeoutException {
-        Stage targetStage = setup(() -> stageSupplier.get());
-        context.setTargetStage(targetStage);
-        return targetStage;
+    public static Stage registerStage(Supplier<Stage> stageSupplier)
+                               throws TimeoutException {
+        Stage stage = setupFixture(() -> stageSupplier.get());
+        context.setRegisteredStage(stage);
+        return stage;
     }
 
-    // INDIVIDUAL FIXTURES.
-
-    public static void setup(Runnable runnable)
-                      throws TimeoutException {
-        waitForSetup(
-            service.setup(runnable)
-        );
-    }
-
-    public static <T> T setup(Callable<T> callable)
-                       throws TimeoutException {
-        return waitForSetup(
-            service.setup(callable)
-        );
-    }
-
-    // CONTENT FIXTURES.
+    // SETUP REGISTERED STAGES (CONTENTS).
 
     public static Stage setupStage(Consumer<Stage> stageConsumer)
                             throws TimeoutException {
         return waitForSetup(
-            service.setupStage(context.getTargetStage(), stageConsumer)
+            service.setupStage(
+                context.getRegisteredStage(),
+                stageConsumer
+            )
         );
     }
 
@@ -163,7 +152,11 @@ public class FxToolkit {
                                                String... applicationArgs)
                                         throws TimeoutException {
         return waitForSetup(
-            service.setupApplication(context.getTargetStage(), applicationClass, applicationArgs)
+            service.setupApplication(
+                context.getRegisteredStage(),
+                applicationClass,
+                applicationArgs
+            )
         );
     }
 
@@ -177,15 +170,48 @@ public class FxToolkit {
     public static Scene setupScene(Supplier<Scene> sceneSupplier)
                             throws TimeoutException {
         return waitForSetup(
-            service.setupScene(context.getTargetStage(), sceneSupplier)
+            service.setupScene(
+                context.getRegisteredStage(),
+                sceneSupplier
+            )
         );
     }
 
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
                                  throws TimeoutException {
         return waitForSetup(
-            service.setupSceneRoot(context.getTargetStage(), sceneRootSupplier)
+            service.setupSceneRoot(
+                context.getRegisteredStage(),
+                sceneRootSupplier
+            )
         );
+    }
+
+    // UTILITY METHODS.
+
+    public static void setupFixture(Runnable runnable)
+                             throws TimeoutException {
+        waitForSetup(
+            service.setupFixture(runnable)
+        );
+    }
+
+    public static <T> T setupFixture(Callable<T> callable)
+                              throws TimeoutException {
+        return waitForSetup(
+            service.setupFixture(callable)
+        );
+    }
+
+    public static void showStage()
+                          throws TimeoutException {
+        setupStage((stage) -> showStage(stage));
+    }
+
+    public static void hideStage()
+                          throws TimeoutException {
+        Platform.setImplicitExit(false);
+        setupStage((stage) -> hideStage(stage));
     }
 
     // INTERNAL CONTEXT.
@@ -200,12 +226,22 @@ public class FxToolkit {
 
     private static <T> T waitForLaunch(Future<T> future)
                                 throws TimeoutException {
-        return waitFor(context.getLaunchTimeoutInMillis(), TimeUnit.MILLISECONDS, future);
+        return waitFor(context.getLaunchTimeoutInMillis(), MILLISECONDS, future);
     }
 
     private static <T> T waitForSetup(Future<T> future)
                                throws TimeoutException {
-        return waitFor(context.getSetupTimeoutInMillis(), TimeUnit.MILLISECONDS, future);
+        return waitFor(context.getSetupTimeoutInMillis(), MILLISECONDS, future);
+    }
+
+    private static void showStage(Stage stage) {
+        stage.show();
+        stage.toBack();
+        stage.toFront();
+    }
+
+    private static void hideStage(Stage stage) {
+        stage.hide();
     }
 
 }

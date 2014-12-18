@@ -13,29 +13,48 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.toolkit;
+package org.testfx.cases.integration;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 
-public class ToolkitApplication extends Application {
+import org.junit.Before;
+import org.junit.Test;
+import org.testfx.api.FxToolkit;
+import org.testfx.cases.TestCaseBase;
+
+public class SimpleLabelTest extends TestCaseBase {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
+    // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static final StageFuture primaryStageFuture = StageFuture.create();
+    @Before
+    public void setup() throws Exception {
+        FxToolkit.setupStage(stage -> {
+            Scene scene = new Scene(createSceneRoot(getClass()), 300, 100);
+            stage.setScene(scene);
+            stage.show();
+        });
+    }
 
     //---------------------------------------------------------------------------------------------
-    // METHODS.
+    // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setTitle(getClass().getSimpleName());
-        primaryStageFuture.set(primaryStage);
+    @Test
+    public void should_move_to_label() {
+        moveTo(".label").sleep(1000);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // HELPER METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private Region createSceneRoot(Class<?> cls) {
+        return new StackPane(new Label(cls.getSimpleName()));
     }
 
 }

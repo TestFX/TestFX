@@ -13,9 +13,8 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.integration;
+package org.testfx.cases.bugs;
 
-import java.util.concurrent.TimeoutException;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -40,23 +39,26 @@ public class GlassRobotClipboardBug {
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @BeforeClass
-    public static void setupSpec() throws TimeoutException {
+    static {
         //System.setProperty("testfx.robot", "glass");
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
+    }
+
+    @BeforeClass
+    public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
         fx = new FxRobot();
     }
 
     @Before
-    public void setup() throws TimeoutException {
+    public void setup() throws Exception {
         FxToolkit.setupSceneRoot(() -> {
             ListView<String> listView = new ListView<>();
             listView.getItems().addAll("item.1", "item.2", "item.3");
             listView.setOnDragDetected(event -> {
                 ClipboardContent content = new ClipboardContent();
-                content.putString("item.1"); // <--
+                content.putString("item.1"); // <-- BUG
                 Dragboard dragboard = listView.startDragAndDrop(TransferMode.MOVE);
                 dragboard.setContent(content);
                 event.consume();

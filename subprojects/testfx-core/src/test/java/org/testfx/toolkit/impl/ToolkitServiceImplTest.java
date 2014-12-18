@@ -29,8 +29,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.toolkit.ToolkitService;
-import org.testfx.toolkit.StageFuture;
-import org.testfx.toolkit.ToolkitApplication;
+import org.testfx.toolkit.PrimaryStageFuture;
+import org.testfx.toolkit.PrimaryStageApplication;
 
 import static org.testfx.util.WaitForAsyncUtils.sleep;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
@@ -51,8 +51,8 @@ public class ToolkitServiceImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        StageFuture primaryStageFuture = ToolkitApplication.primaryStageFuture;
-        Class<? extends Application> toolkitApplication = ToolkitApplication.class;
+        PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.primaryStageFuture;
+        Class<? extends Application> toolkitApplication = PrimaryStageApplication.class;
         toolkitService = new ToolkitServiceImpl(
             new ApplicationLauncherImpl(), new ApplicationServiceImpl()
         );

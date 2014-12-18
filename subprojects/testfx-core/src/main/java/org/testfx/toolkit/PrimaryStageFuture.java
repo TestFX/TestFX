@@ -13,55 +13,40 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.integration;
+package org.testfx.toolkit;
 
-import java.util.concurrent.TimeoutException;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import com.google.common.util.concurrent.AbstractFuture;
 
-public class SimpleLabelTest extends FxRobot {
+public class PrimaryStageFuture extends AbstractFuture<Stage> {
 
     //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @BeforeClass
-    public static void setupSpec() throws TimeoutException {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws TimeoutException {
-        FxToolkit.setupStage(stage -> {
-            Scene scene = new Scene(createSceneRoot(getClass()), 300, 100);
-            stage.setScene(scene);
-            stage.show();
-        });
+    public static PrimaryStageFuture create() {
+        return new PrimaryStageFuture();
     }
 
     //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
+    // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    @Test
-    public void should_move_to_label() {
-        moveTo(".label").sleep(1000);
+    private PrimaryStageFuture() {}
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public boolean set(Stage stage) {
+        return super.set(stage);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Region createSceneRoot(Class<?> cls) {
-        return new StackPane(new Label(cls.getSimpleName()));
+    @Override
+    public boolean setException(Throwable throwable) {
+        return super.setException(throwable);
     }
 
 }
