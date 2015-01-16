@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import com.google.common.annotations.Beta;
 import org.testfx.toolkit.StageFuture;
 import org.testfx.toolkit.ToolkitApplication;
+import org.testfx.toolkit.ToolkitDummyApplication;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
@@ -34,7 +35,7 @@ public class FxToolkitContext {
 
     private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
 
-    private Class<? extends Application> applicationClass = ToolkitApplication.class;
+    private Class<? extends ToolkitApplication> applicationClass = ToolkitDummyApplication.class;
 
     private String[] applicationArgs = new String[] {};
 
@@ -60,7 +61,7 @@ public class FxToolkitContext {
         return applicationClass;
     }
 
-    public void setApplicationClass(Class<? extends Application> applicationClass) {
+    public void setApplicationClass(Class<? extends ToolkitApplication> applicationClass) {
         this.applicationClass = applicationClass;
     }
 

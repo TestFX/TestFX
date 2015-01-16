@@ -32,26 +32,28 @@ import org.testfx.util.WaitForAsyncUtils;
 
 public class SimpleLabelDemo {
 
+    private static final FxToolkit toolkit = new FxToolkit();
+
     //---------------------------------------------------------------------------------------------
     // MAIN METHOD.
     //---------------------------------------------------------------------------------------------
 
     public static void main(String[] args) throws TimeoutException {
         // Register Stages.
-        Stage primaryStage = FxToolkit.registerPrimaryStage();
-        Stage targetStage = FxToolkit.registerTargetStage(() -> new Stage());
+        Stage primaryStage = toolkit.registerPrimaryStage();
+        Stage targetStage = toolkit.registerTargetStage(() -> new Stage());
 
         // Setup, show and cleanup Application.
-        Application demoApplication = FxToolkit.setupApplication(SimpleLabelApplication.class);
+        Application demoApplication = toolkit.setupApplication(SimpleLabelApplication.class);
         WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
-        FxToolkit.cleanupApplication(demoApplication);
+        toolkit.cleanupApplication(demoApplication);
 
         // Setup and show Scene.
-        Scene demoScene = FxToolkit.setupScene(() -> new SimpleLabelScene(300, 100));
+        Scene demoScene = toolkit.setupScene(() -> new SimpleLabelScene(300, 100));
         WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Setup and show Scene Root.
-        Parent demoSceneRoot = FxToolkit.setupSceneRoot(() -> {
+        Parent demoSceneRoot = toolkit.setupSceneRoot(() -> {
             Region sceneRoot = createSceneRoot(SimpleLabelDemo.class);
             sceneRoot.setPrefSize(300, 100);
             return sceneRoot;
@@ -59,7 +61,7 @@ public class SimpleLabelDemo {
         WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Setup and show Scene Root with FXML file.
-        Parent fxmlSceneRoot = FxToolkit.setupSceneRoot(() -> {
+        Parent fxmlSceneRoot = toolkit.setupSceneRoot(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(SimpleLabelDemo.class.getResource("simpleLabel.fxml"));
             return uncheckException(() -> fxmlLoader.load());

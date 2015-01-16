@@ -41,6 +41,8 @@ import static org.hamcrest.Matchers.not;
 
 public class BoundsLocatorImplTest {
 
+    private static final FxToolkit toolkit = new FxToolkit();
+
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -65,14 +67,14 @@ public class BoundsLocatorImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setup(() -> setupStagesClass());
+        toolkit.registerPrimaryStage();
+        toolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        toolkit.setup(() -> setupStagesClass());
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxToolkit.setup(() -> cleanupStagesClass());
+        toolkit.setup(() -> cleanupStagesClass());
     }
 
     @Before

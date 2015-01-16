@@ -32,6 +32,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class WindowFinderImplTest {
 
+    private static final FxToolkit toolkit = new FxToolkit();
+
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -50,14 +52,14 @@ public class WindowFinderImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setup(() -> setupStagesClass());
+        toolkit.registerPrimaryStage();
+        toolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        toolkit.setup(() -> setupStagesClass());
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxToolkit.setup(() -> cleanupStagesClass());
+        toolkit.setup(() -> cleanupStagesClass());
     }
 
     @Before

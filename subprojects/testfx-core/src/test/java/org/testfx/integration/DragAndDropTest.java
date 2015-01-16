@@ -35,6 +35,8 @@ import static org.loadui.testfx.Assertions.verifyThat;
 
 public class DragAndDropTest {
 
+    private static final FxToolkit toolkit = new FxToolkit();
+
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -53,13 +55,13 @@ public class DragAndDropTest {
         //System.setProperty("testfx.robot", "glass");
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
-        FxToolkit.registerPrimaryStage();
+        toolkit.registerPrimaryStage();
         fx = new FxRobot();
     }
 
     @Before
     public void setup() throws TimeoutException {
-        FxToolkit.setupSceneRoot(() -> {
+        toolkit.setupSceneRoot(() -> {
             leftListView = new ListView<>();
             rightListView = new ListView<>();
             leftListView.getItems().addAll("L1", "L2", "L3");
@@ -67,7 +69,7 @@ public class DragAndDropTest {
             ImmutableList.of(leftListView, rightListView).forEach(this::setupListView);
             return new HBox(leftListView, rightListView);
         });
-        FxToolkit.setupStage(stage -> stage.show());
+        toolkit.setupStage(stage -> stage.show());
     }
 
     public void setupListView(ListView<String> listView) {
