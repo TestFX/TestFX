@@ -19,7 +19,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public abstract class ToolkitApplication extends Application {
+public class ToolkitApplication extends Application {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
@@ -31,29 +31,11 @@ public abstract class ToolkitApplication extends Application {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private final Application delegate;
-
-    public ToolkitApplication() throws InstantiationException, IllegalAccessException {
-        super();
-
-        delegate = getDelegate();
-    }
-
     @Override
-    public void init() throws Exception {
-        delegate.init();
-    }
-
-    @Override
-    public final void start(Stage primaryStage) throws Exception {
-        delegate.start(primaryStage);
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setTitle(getClass().getSimpleName());
         primaryStageFuture.set(primaryStage);
     }
 
-    @Override
-    public void stop() throws Exception {
-        delegate.stop();
-    }
-
-    public abstract Application getDelegate() throws IllegalAccessException, InstantiationException;
 }

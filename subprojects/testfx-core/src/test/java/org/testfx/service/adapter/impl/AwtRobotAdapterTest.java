@@ -59,8 +59,6 @@ import static org.testfx.util.WaitForAsyncUtils.sleep;
 
 public class AwtRobotAdapterTest {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -79,13 +77,13 @@ public class AwtRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        toolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
         robotAdapter = new AwtRobotAdapter();
-        targetStage = toolkit.setupStage(stage -> {
+        targetStage = FxToolkit.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
 

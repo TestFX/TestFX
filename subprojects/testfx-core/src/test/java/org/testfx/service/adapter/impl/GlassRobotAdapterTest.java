@@ -59,8 +59,6 @@ import static org.testfx.util.WaitForAsyncUtils.sleep;
 
 public class GlassRobotAdapterTest {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -82,13 +80,13 @@ public class GlassRobotAdapterTest {
         //System.setProperty("testfx.robot", "glass");
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
-        toolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
         robotAdapter = new GlassRobotAdapter();
-        targetStage = toolkit.setupStage(stage -> {
+        targetStage = FxToolkit.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
 

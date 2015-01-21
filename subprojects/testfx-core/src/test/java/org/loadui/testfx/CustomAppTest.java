@@ -53,6 +53,7 @@ public class CustomAppTest extends ApplicationTest {
 
             primaryStage.setTitle("New stage");
             primaryStage.setScene(scene);
+            primaryStage.show();
         }
     }
 

@@ -96,20 +96,16 @@ public class FxToolkit {
 
     private static final ApplicationService appService = new ApplicationServiceImpl();
 
+    private static final FxToolkitContext context = new FxToolkitContext();
+
     private static final ToolkitService service = new ToolkitServiceImpl(appLauncher, appService);
 
-    private final FxToolkitContext context;
-
     //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
+    // PRIVATE CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public FxToolkit(FxToolkitContext context) {
-        this.context = context;
-    }
-
-    public FxToolkit() {
-        this(new FxToolkitContext());
+    private FxToolkit() {
+        throw new UnsupportedOperationException();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -118,7 +114,7 @@ public class FxToolkit {
 
     // CONTAINER FIXTURES.
 
-    public Stage registerPrimaryStage()
+    public static Stage registerPrimaryStage()
                                       throws TimeoutException {
         Stage primaryStage = waitForLaunch(
             service.setupPrimaryStage(
@@ -131,7 +127,7 @@ public class FxToolkit {
         return primaryStage;
     }
 
-    public Stage registerTargetStage(Supplier<Stage> stageSupplier)
+    public static Stage registerTargetStage(Supplier<Stage> stageSupplier)
                                      throws TimeoutException {
         Stage targetStage = setup(() -> stageSupplier.get());
         context.setTargetStage(targetStage);
@@ -140,14 +136,14 @@ public class FxToolkit {
 
     // INDIVIDUAL FIXTURES.
 
-    public void setup(Runnable runnable)
+    public static void setup(Runnable runnable)
                       throws TimeoutException {
         waitForSetup(
             service.setup(runnable)
         );
     }
 
-    public <T> T setup(Callable<T> callable)
+    public static <T> T setup(Callable<T> callable)
                        throws TimeoutException {
         return waitForSetup(
             service.setup(callable)
@@ -156,14 +152,14 @@ public class FxToolkit {
 
     // CONTENT FIXTURES.
 
-    public Stage setupStage(Consumer<Stage> stageConsumer)
+    public static Stage setupStage(Consumer<Stage> stageConsumer)
                             throws TimeoutException {
         return waitForSetup(
             service.setupStage(context.getTargetStage(), stageConsumer)
         );
     }
 
-    public Application setupApplication(Class<? extends Application> applicationClass,
+    public static Application setupApplication(Class<? extends Application> applicationClass,
                                                String... applicationArgs)
                                         throws TimeoutException {
         return waitForSetup(
@@ -171,21 +167,21 @@ public class FxToolkit {
         );
     }
 
-    public void cleanupApplication(Application application)
+    public static void cleanupApplication(Application application)
                                    throws TimeoutException {
         waitForSetup(
             service.cleanupApplication(application)
         );
     }
 
-    public Scene setupScene(Supplier<Scene> sceneSupplier)
+    public static Scene setupScene(Supplier<Scene> sceneSupplier)
                             throws TimeoutException {
         return waitForSetup(
             service.setupScene(context.getTargetStage(), sceneSupplier)
         );
     }
 
-    public Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
+    public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
                                  throws TimeoutException {
         return waitForSetup(
             service.setupSceneRoot(context.getTargetStage(), sceneRootSupplier)
@@ -194,7 +190,7 @@ public class FxToolkit {
 
     // INTERNAL CONTEXT.
 
-    public FxToolkitContext toolkitContext() {
+    public static FxToolkitContext toolkitContext() {
         return context;
     }
 
@@ -202,12 +198,12 @@ public class FxToolkit {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private <T> T waitForLaunch(Future<T> future)
+    private static <T> T waitForLaunch(Future<T> future)
                                 throws TimeoutException {
         return waitFor(context.getLaunchTimeoutInMillis(), TimeUnit.MILLISECONDS, future);
     }
 
-    private <T> T waitForSetup(Future<T> future)
+    private static <T> T waitForSetup(Future<T> future)
                                throws TimeoutException {
         return waitFor(context.getSetupTimeoutInMillis(), TimeUnit.MILLISECONDS, future);
     }

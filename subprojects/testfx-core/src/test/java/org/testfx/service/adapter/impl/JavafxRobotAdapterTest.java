@@ -47,8 +47,6 @@ import static org.loadui.testfx.controls.Commons.hasText;
 
 public class JavafxRobotAdapterTest {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -71,12 +69,12 @@ public class JavafxRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        toolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
-        targetStage = toolkit.setupStage(stage -> {
+        targetStage = FxToolkit.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
             textField = new TextField();

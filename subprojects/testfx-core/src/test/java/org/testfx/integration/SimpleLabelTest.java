@@ -29,20 +29,18 @@ import org.testfx.api.FxToolkit;
 
 public class SimpleLabelTest extends FxRobot {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws TimeoutException {
-        toolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws TimeoutException {
-        toolkit.setupStage(stage -> {
+        FxToolkit.setupStage(stage -> {
             Scene scene = new Scene(createSceneRoot(getClass()), 300, 100);
             stage.setScene(scene);
             stage.show();

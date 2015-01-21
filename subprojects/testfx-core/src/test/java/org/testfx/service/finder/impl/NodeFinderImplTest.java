@@ -50,8 +50,6 @@ import static org.junit.Assume.assumeThat;
 
 public class NodeFinderImplTest {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -87,14 +85,14 @@ public class NodeFinderImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        toolkit.registerPrimaryStage();
-        toolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        toolkit.setup(() -> setupStagesClass());
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setup(() -> setupStagesClass());
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        toolkit.setup(() -> cleanupStagesClass());
+        FxToolkit.setup(() -> cleanupStagesClass());
     }
 
     @Before

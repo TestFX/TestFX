@@ -37,8 +37,6 @@ import static org.mockito.Mockito.verify;
 
 public final class WriteRobotImplTest {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -57,12 +55,12 @@ public final class WriteRobotImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        toolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
     }
 
     @Before
     public void setup() throws Exception {
-        toolkit.setup(() -> {
+        FxToolkit.setup(() -> {
             scene = new Scene(new Region());
             stage = new Stage();
             stage.setScene(scene);

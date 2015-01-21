@@ -30,8 +30,6 @@ import org.testfx.api.FxToolkit;
 
 public class GlassRobotClipboardBug {
 
-    private static final FxToolkit toolkit = new FxToolkit();
-
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -47,13 +45,13 @@ public class GlassRobotClipboardBug {
         //System.setProperty("testfx.robot", "glass");
         //System.setProperty("testfx.headless", "true");
         //System.setProperty("prism.order", "sw");
-        toolkit.registerPrimaryStage();
+        FxToolkit.registerPrimaryStage();
         fx = new FxRobot();
     }
 
     @Before
     public void setup() throws TimeoutException {
-        toolkit.setupSceneRoot(() -> {
+        FxToolkit.setupSceneRoot(() -> {
             ListView<String> listView = new ListView<>();
             listView.getItems().addAll("item.1", "item.2", "item.3");
             listView.setOnDragDetected(event -> {
@@ -65,7 +63,7 @@ public class GlassRobotClipboardBug {
             });
             return new HBox(listView);
         });
-        toolkit.setupStage(stage -> stage.show());
+        FxToolkit.setupStage(stage -> stage.show());
     }
 
     //---------------------------------------------------------------------------------------------

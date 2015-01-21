@@ -16,54 +16,38 @@
 package org.loadui.testfx;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
+import org.junit.After;
 import org.junit.Before;
 import org.testfx.api.FxToolkit;
-import org.testfx.api.FxToolkitContext;
-import org.testfx.toolkit.ToolkitApplication;
 import org.testfx.util.WaitForAsyncUtils;
+
+import java.util.concurrent.TimeoutException;
 
 public abstract class ApplicationTest extends FxTest {
 
-    private static Class<? extends Application> applicationClass = null;
+    protected Application demoApplication = null;
 
-    public static class ToolkitApplicationProxy extends ToolkitApplication {
-
-        public ToolkitApplicationProxy() throws InstantiationException, IllegalAccessException {
-            super();
-        }
-
-        @Override
-        public Application getDelegate() throws IllegalAccessException, InstantiationException {
-            return ApplicationTest.applicationClass.newInstance();
-        }
-    }
-
-    public ApplicationTest() {
-        applicationClass = getApplicationClass();
-    }
+    protected Stage primaryStage = null;
+    protected Stage targetStage = null;
 
     @Before
     public void internalSetup() throws Exception {
-        if (ToolkitApplication.primaryStageFuture.isDone()) {
-            throw new RuntimeException("There is already one existing stage.");
-        }
+        primaryStage = FxToolkit.registerPrimaryStage();
+        targetStage = FxToolkit.registerTargetStage(() -> new Stage());
 
-        FxToolkitContext context = new FxToolkitContext();
-        FxToolkit toolkit = new FxToolkit(context);
-
-        context.setApplicationClass(ToolkitApplicationProxy.class);
-        context.setStageFuture(ToolkitApplicationProxy.primaryStageFuture);
-
-        target(toolkit.registerPrimaryStage());
-        WaitForAsyncUtils.waitForFxEvents();
-
-        toolkit.setupStage((stage) -> {
-            stage.show();
-            stage.toBack();
-            stage.toFront();
-        });
-        WaitForAsyncUtils.waitForFxEvents();
+        // Setup, show and cleanup Application.
+        demoApplication = FxToolkit.setupApplication(getApplicationClass());
     }
+
+    @After
+    public void cleanup() throws TimeoutException {
+        WaitForAsyncUtils.asyncFx(() -> targetStage.close());
+        WaitForAsyncUtils.asyncFx(() -> primaryStage.close());
+
+        FxToolkit.cleanupApplication(demoApplication);
+    }
+
 
     protected abstract Class<? extends Application> getApplicationClass();
 }

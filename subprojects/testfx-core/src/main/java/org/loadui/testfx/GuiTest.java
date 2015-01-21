@@ -24,11 +24,10 @@ public abstract class GuiTest extends FxTest {
 
     @Before
     public void internalSetup() throws Exception {
-        FxToolkit toolkit = new FxToolkit();
-        target(toolkit.registerPrimaryStage());
-        toolkit.setupSceneRoot(() -> getRootNode());
+        target(FxToolkit.registerPrimaryStage());
+        FxToolkit.setupSceneRoot(() -> getRootNode());
         WaitForAsyncUtils.waitForFxEvents();
-        toolkit.setupStage((stage) -> {
+        FxToolkit.setupStage((stage) -> {
             stage.show();
             stage.toBack();
             stage.toFront();
