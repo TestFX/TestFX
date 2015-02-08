@@ -18,11 +18,10 @@ package org.testfx.cases.acceptance;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 import org.testfx.api.FxToolkit;
 
-public class HelloCustomStageDemo {
+public class PrimaryStageFixtureDemo {
 
     public static void main(String[] args) throws Exception {
         beforeClass();
@@ -35,28 +34,26 @@ public class HelloCustomStageDemo {
 
     private static void beforeClass() throws Exception {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.hideStage(); // hide the primary Stage, if was previously shown.
+        FxToolkit.showStage(); // show the primary Stage, if was previously hidden.
     }
 
     private static void afterClass() throws Exception {}
 
     private static void before() throws Exception {
-        FxToolkit.registerStage(() -> new Stage());
         FxToolkit.setupStage(stage -> {
-            stage.setScene(new Scene(new Label("within custom stage")));
+            stage.setScene(new Scene(new Label("within primary stage")));
         });
         FxToolkit.showStage();
     }
 
-    private static void after() throws Exception {
-        FxToolkit.hideStage();
-    }
+    private static void after() throws Exception {}
 
     private static void test() throws Exception {
         Thread.sleep(500);
     }
 
     private static void cleanup() throws Exception {
+        FxToolkit.hideStage();
         Platform.setImplicitExit(true);
     }
 
