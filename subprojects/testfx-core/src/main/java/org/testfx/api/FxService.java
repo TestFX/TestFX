@@ -15,9 +15,9 @@
  */
 package org.testfx.api;
 
-import com.google.common.annotations.Beta;
+import org.testfx.api.annotation.Unstable;
 
-@Beta
+@Unstable(reason = "This class is under review in candidate phase.")
 public class FxService {
 
     //---------------------------------------------------------------------------------------------

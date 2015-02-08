@@ -18,14 +18,14 @@ package org.testfx.api;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import com.google.common.annotations.Beta;
-import org.testfx.toolkit.PrimaryStageFuture;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.PrimaryStageApplication;
+import org.testfx.toolkit.PrimaryStageFuture;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
-@Beta
+@Unstable(reason = "This class is under review in candidate phase.")
 public class FxToolkitContext {
 
     //---------------------------------------------------------------------------------------------
