@@ -1,4 +1,4 @@
-# Toolkit Component
+# Robot Component
 
 _This manual page is an early draft. The class `FxRobot` is annotated with `@Beta`, thus might be subject to change._
 
