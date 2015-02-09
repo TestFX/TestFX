@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
@@ -28,6 +29,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Ignore
 public class FxToolkitBasicTest extends TestCaseBase {
 
     // `FxToolkit` is responsible for setup and cleanup of JavaFX fixtures.

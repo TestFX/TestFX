@@ -21,10 +21,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 
+@Ignore
 public class SimpleLabelTest extends TestCaseBase {
 
     //---------------------------------------------------------------------------------------------
