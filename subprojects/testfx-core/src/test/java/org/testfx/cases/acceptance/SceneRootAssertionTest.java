@@ -43,6 +43,7 @@ public class SceneRootAssertionTest {
             stackPane = new StackPane(label);
             return stackPane;
         });
+        FxToolkit.showStage();
     }
 
     // FEATURE METHODS.

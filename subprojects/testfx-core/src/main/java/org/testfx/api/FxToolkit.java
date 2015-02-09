@@ -15,6 +15,7 @@
  */
 package org.testfx.api;
 
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
@@ -25,7 +26,9 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import com.google.common.collect.ImmutableSet;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
@@ -214,6 +217,14 @@ public class FxToolkit {
         setupStage((stage) -> hideStage(stage));
     }
 
+    public static void cleanupStages()
+                              throws TimeoutException {
+        Platform.setImplicitExit(false);
+        setupFixture(() -> {
+            fetchAllWindows().forEach((window) -> hideWindow(window));
+        });
+    }
+
     // INTERNAL CONTEXT.
 
     public static FxToolkitContext toolkitContext() {
@@ -242,6 +253,15 @@ public class FxToolkit {
 
     private static void hideStage(Stage stage) {
         stage.hide();
+    }
+
+    private static void hideWindow(Window window) {
+        window.hide();
+    }
+
+    @SuppressWarnings("deprecation")
+    private static Set<Window> fetchAllWindows() {
+        return ImmutableSet.copyOf(Window.impl_getWindows());
     }
 
 }
