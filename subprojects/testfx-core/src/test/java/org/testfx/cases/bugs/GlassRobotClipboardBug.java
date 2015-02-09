@@ -23,10 +23,12 @@ import javafx.scene.layout.HBox;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+@Ignore
 public class GlassRobotClipboardBug {
 
     //---------------------------------------------------------------------------------------------
