@@ -23,7 +23,6 @@ import javafx.scene.layout.HBox;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
@@ -32,7 +31,6 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.loadui.testfx.Assertions.verifyThat;
 
-@Ignore
 public class DragAndDropTest extends TestCaseBase {
 
     //---------------------------------------------------------------------------------------------
