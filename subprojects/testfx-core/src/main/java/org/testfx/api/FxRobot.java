@@ -15,8 +15,6 @@
  */
 package org.testfx.api;
 
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -29,19 +27,13 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
-import com.google.common.annotations.Beta;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.PointLocator;
-import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
-import org.testfx.service.query.impl.NodeQueryImpl;
-import org.testfx.service.query.impl.NodeQueryUtils;
 
-import static org.testfx.service.query.impl.NodeQueryUtils.isVisible;
-
-@Beta
+@Unstable(reason = "class was recently added")
 public class FxRobot implements FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------
@@ -752,64 +744,6 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
         return moveTo(pointFor(predicate));
-    }
-
-    // -----
-
-    public NodeQuery _queryNode() {
-        return new NodeQueryImpl();
-    }
-
-    public NodeQuery _node() {
-        List<Window> windows = context.getWindowFinder().listOrderedWindows();
-        return _queryNode().from(NodeQueryUtils.rootsOfWindows(windows));
-    }
-
-    public NodeQuery _node(String query) {
-        return _node().lookup(NodeQueryUtils.bySelector(query));
-    }
-
-    public PointQuery _point(String query) {
-        NodeQuery nodeQuery = _node(query);
-        Node resultNode = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
-        return pointFor(resultNode).atPosition(context.getPointPosition());
-    }
-
-    private PointQuery _visiblePoint(String query) {
-        NodeQuery nodeQuery = _node(query);
-        Node resultNode = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
-        return pointFor(resultNode).atPosition(context.getPointPosition());
-    }
-
-    public FxRobot _moveTo(String query) {
-        return moveTo(_visiblePoint(query));
-    }
-
-    private Node queryFirstNode(NodeQuery nodeQuery,
-                                String queryDescription) {
-        Optional<Node> resultNode = nodeQuery.queryFirst();
-        if (!resultNode.isPresent()) {
-            String message = queryDescription + " returned no nodes.";
-            throw new FxRobotException(message);
-        }
-        return resultNode.get();
-    }
-
-    private Node queryFirstVisibleNode(NodeQuery nodeQuery,
-                                       String queryDescription) {
-        Set<Node> resultNodes = nodeQuery.queryAll();
-        if (resultNodes.isEmpty()) {
-            String message = queryDescription + " returned no nodes.";
-            throw new FxRobotException(message);
-        }
-        Optional<Node> resultNode = _queryNode().from(resultNodes)
-            .match(isVisible()).queryFirst();
-        if (!resultNode.isPresent()) {
-            String message = queryDescription + " returned " + resultNodes.size() + " nodes" +
-                ", but no nodes were visible.";
-            throw new FxRobotException(message);
-        }
-        return resultNode.get();
     }
 
 }
