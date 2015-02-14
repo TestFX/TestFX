@@ -26,13 +26,13 @@ import javafx.stage.Stage;
 
 public interface ToolkitService {
 
-    Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
+    Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
                                     Class<? extends Application> applicationClass,
                                     String... applicationArgs);
 
-    Future<Void> setup(Runnable runnable);
+    Future<Void> setupFixture(Runnable runnable);
 
-    <T> Future<T> setup(Callable<T> callable);
+    <T> Future<T> setupFixture(Callable<T> callable);
 
     Future<Stage> setupStage(Stage stage,
                              Consumer<Stage> stageConsumer);

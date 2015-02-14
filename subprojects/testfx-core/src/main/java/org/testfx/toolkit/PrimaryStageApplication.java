@@ -15,38 +15,27 @@
  */
 package org.testfx.toolkit;
 
+import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-import com.google.common.util.concurrent.AbstractFuture;
-
-public class StageFuture extends AbstractFuture<Stage> {
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    public static StageFuture create() {
-        return new StageFuture();
-    }
+public class PrimaryStageApplication extends Application {
 
     //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
+    // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private StageFuture() {}
+    public static final PrimaryStageFuture primaryStageFuture = PrimaryStageFuture.create();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public boolean set(Stage stage) {
-        return super.set(stage);
-    }
-
-    @Override
-    public boolean setException(Throwable throwable) {
-        return super.setException(throwable);
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setTitle(getClass().getSimpleName());
+        primaryStageFuture.set(primaryStage);
     }
 
 }

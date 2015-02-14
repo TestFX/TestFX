@@ -13,11 +13,10 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.integration;
+package org.testfx.cases.integration;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,10 +35,10 @@ public class SimpleLabelDemo {
     // MAIN METHOD.
     //---------------------------------------------------------------------------------------------
 
-    public static void main(String[] args) throws TimeoutException {
+    public static void main(String[] args) throws Exception {
         // Register Stages.
         Stage primaryStage = FxToolkit.registerPrimaryStage();
-        Stage targetStage = FxToolkit.registerTargetStage(() -> new Stage());
+        Stage otherStage = FxToolkit.registerStage(() -> new Stage());
 
         // Setup, show and cleanup Application.
         Application demoApplication = FxToolkit.setupApplication(SimpleLabelApplication.class);
@@ -61,13 +60,13 @@ public class SimpleLabelDemo {
         // Setup and show Scene Root with FXML file.
         Parent fxmlSceneRoot = FxToolkit.setupSceneRoot(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(SimpleLabelDemo.class.getResource("simpleLabel.fxml"));
+            fxmlLoader.setLocation(SimpleLabelDemo.class.getResource("res/simpleLabel.fxml"));
             return uncheckException(() -> fxmlLoader.load());
         });
         WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Cleanup Stages.
-        WaitForAsyncUtils.asyncFx(() -> targetStage.close());
+        WaitForAsyncUtils.asyncFx(() -> otherStage.close());
         WaitForAsyncUtils.asyncFx(() -> primaryStage.close());
     }
 

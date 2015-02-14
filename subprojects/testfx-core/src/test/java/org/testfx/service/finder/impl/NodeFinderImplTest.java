@@ -87,12 +87,12 @@ public class NodeFinderImplTest {
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setup(() -> setupStagesClass());
+        FxToolkit.setupFixture(() -> setupStagesClass());
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxToolkit.setup(() -> cleanupStagesClass());
+        FxToolkit.setupFixture(() -> cleanupStagesClass());
     }
 
     @Before
