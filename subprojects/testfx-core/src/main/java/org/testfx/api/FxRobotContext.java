@@ -45,7 +45,7 @@ import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
 
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "class was recently added")
 public class FxRobotContext {
 
     //---------------------------------------------------------------------------------------------

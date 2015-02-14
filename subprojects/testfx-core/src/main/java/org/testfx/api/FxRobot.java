@@ -33,7 +33,7 @@ import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.PointQuery;
 
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "class was recently added")
 public class FxRobot implements FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------

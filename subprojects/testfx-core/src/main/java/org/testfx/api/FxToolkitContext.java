@@ -25,7 +25,7 @@ import org.testfx.toolkit.PrimaryStageFuture;
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "class was recently added")
 public class FxToolkitContext {
 
     //---------------------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.PointQuery;
 
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "interface was recently added")
 public interface FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------

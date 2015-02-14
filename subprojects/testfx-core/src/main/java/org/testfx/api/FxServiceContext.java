@@ -25,7 +25,7 @@ import org.testfx.service.finder.impl.WindowFinderImpl;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.WaitUntilSupport;
 
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "class was recently added")
 public class FxServiceContext {
 
     //---------------------------------------------------------------------------------------------

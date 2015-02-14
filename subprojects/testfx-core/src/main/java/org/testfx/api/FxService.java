@@ -17,7 +17,7 @@ package org.testfx.api;
 
 import org.testfx.api.annotation.Unstable;
 
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "class was recently added")
 public class FxService {
 
     //---------------------------------------------------------------------------------------------

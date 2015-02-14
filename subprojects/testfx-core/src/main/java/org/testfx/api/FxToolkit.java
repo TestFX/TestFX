@@ -90,7 +90,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
  * handle timeouts, provide the Application for the Toolkit launch and execute the setup
  * in the JavaFX thread. The primary Stage is constructed by the platform.</p>
  */
-@Unstable(reason = "This class is under review in candidate phase.")
+@Unstable(reason = "class was recently added")
 public class FxToolkit {
 
     //---------------------------------------------------------------------------------------------
@@ -129,6 +129,7 @@ public class FxToolkit {
             )
         );
         context.setRegisteredStage(primaryStage);
+        preventShutdownWhenLastWindowIsClosed();
         return primaryStage;
     }
 
@@ -213,13 +214,11 @@ public class FxToolkit {
 
     public static void hideStage()
                           throws TimeoutException {
-        Platform.setImplicitExit(false);
         setupStage((stage) -> hideStage(stage));
     }
 
     public static void cleanupStages()
                               throws TimeoutException {
-        Platform.setImplicitExit(false);
         setupFixture(() -> {
             fetchAllWindows().forEach((window) -> hideWindow(window));
         });
@@ -262,6 +261,10 @@ public class FxToolkit {
     @SuppressWarnings("deprecation")
     private static Set<Window> fetchAllWindows() {
         return ImmutableSet.copyOf(Window.impl_getWindows());
+    }
+
+    private static void preventShutdownWhenLastWindowIsClosed() {
+        Platform.setImplicitExit(false);
     }
 
 }
