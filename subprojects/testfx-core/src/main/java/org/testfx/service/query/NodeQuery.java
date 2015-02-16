@@ -32,12 +32,14 @@ public interface NodeQuery {
 
     public NodeQuery from(Set<Node> parentNodes);
 
-    public NodeQuery lookup(Function<Node, Set<Node>> selector);
+    public NodeQuery lookup(Function<Node, Set<Node>> function);
 
     public NodeQuery lookupAt(int index,
-                              Function<Node, Set<Node>> selector);
+                              Function<Node, Set<Node>> function);
 
-    public NodeQuery match(Predicate<Node> filter);
+    public NodeQuery childAt(int index);
+
+    public NodeQuery match(Predicate<Node> predicate);
 
     public Set<Node> queryAll();
 

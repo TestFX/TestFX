@@ -104,6 +104,11 @@ public final class NodeQueryUtils {
         return (node) -> isNodeVisible(node);
     }
 
+    public static Function<Node, Set<Node>> combine(Function<Node, Set<Node>> function0,
+                                                    Function<Node, Set<Node>> function1) {
+        return (input) -> combine(input, ImmutableList.of(function0, function1));
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -174,6 +179,7 @@ public final class NodeQueryUtils {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     private static boolean isNodeVisible(Node node) {
         if (!node.isVisible() || !node.impl_isTreeVisible()) {
             return false;
@@ -188,6 +194,13 @@ public final class NodeQueryUtils {
         Scene scene = node.getScene();
         Bounds nodeBounds = node.localToScene(node.getBoundsInLocal());
         return nodeBounds.intersects(0, 0, scene.getWidth(), scene.getHeight());
+    }
+
+    private static <T> Set<T> combine(T input,
+                                      Collection<Function<T, Set<T>>> functions) {
+        return FluentIterable.from(functions)
+            .transformAndConcat((f) -> f.apply(input))
+            .toSet();
     }
 
 }

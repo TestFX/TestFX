@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 import com.google.common.base.Optional;
@@ -36,6 +37,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.testfx.service.query.impl.NodeQueryUtils.bySelector;
+import static org.testfx.service.query.impl.NodeQueryUtils.combine;
 import static org.testfx.service.query.impl.NodeQueryUtils.hasId;
 import static org.testfx.service.query.impl.NodeQueryUtils.rootOfScene;
 
@@ -50,17 +52,20 @@ public class NodeQueryImplTest {
     Scene scene;
 
     @FXML Pane labels;
+    @FXML Pane buttons;
+    @FXML Pane textfields;
+
     @FXML Label label0;
     @FXML Label label1;
     @FXML Label label2;
 
-    @FXML Pane buttons;
     @FXML Button button0;
     @FXML Button button1;
     @FXML Button button2;
 
-    @FXML Pane panes;
-    @FXML Label pane1_label2;
+    @FXML TextField textfield0;
+    @FXML TextField textfield1;
+    @FXML TextField textfield2;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -95,7 +100,8 @@ public class NodeQueryImplTest {
     @Test
     public void queryAll() {
         // when:
-        Set<Node> result = nodeQuery.from(label0, label1, label2)
+        Set<Node> result = nodeQuery
+            .from(label0, label1, label2)
             .queryAll();
 
         // then:
@@ -105,7 +111,8 @@ public class NodeQueryImplTest {
     @Test
     public void queryFirst() {
         // when:
-        Optional<Node> result = nodeQuery.from(label0, label1, label2)
+        Optional<Node> result = nodeQuery
+            .from(label0, label1, label2)
             .queryFirst();
 
         // then:
@@ -115,7 +122,8 @@ public class NodeQueryImplTest {
     @Test
     public void queryFirst_absent() {
         // when:
-        Optional<Node> result = nodeQuery.from()
+        Optional<Node> result = nodeQuery
+            .from()
             .queryFirst();
 
         // then:
@@ -125,7 +133,8 @@ public class NodeQueryImplTest {
     @Test
     public void from_label0_label1() {
         // when:
-        Set<Node> result = nodeQuery.from(label0, label1)
+        Set<Node> result = nodeQuery
+            .from(label0, label1)
             .queryAll();
 
         // then:
@@ -135,7 +144,8 @@ public class NodeQueryImplTest {
     @Test
     public void from_label1_label0() {
         // when:
-        Set<Node> result = nodeQuery.from(label1, label0)
+        Set<Node> result = nodeQuery
+            .from(label1, label0)
             .queryAll();
 
         // then:
@@ -145,7 +155,8 @@ public class NodeQueryImplTest {
     @Test
     public void from_label0_from_label1() {
         // when:
-        Set<Node> result = nodeQuery.from(label0).from(label1)
+        Set<Node> result = nodeQuery
+            .from(label0).from(label1)
             .queryAll();
 
         // then:
@@ -155,7 +166,8 @@ public class NodeQueryImplTest {
     @Test
     public void from_label0_label0() {
         // when:
-        Set<Node> result = nodeQuery.from(label0, label0)
+        Set<Node> result = nodeQuery
+            .from(label0, label0)
             .queryAll();
 
         // then:
@@ -165,7 +177,8 @@ public class NodeQueryImplTest {
     @Test
     public void from_label0_from_label0() {
         // when:
-        Set<Node> result = nodeQuery.from(label0).from(label0)
+        Set<Node> result = nodeQuery
+            .from(label0).from(label0)
             .queryAll();
 
         // then:
@@ -175,7 +188,8 @@ public class NodeQueryImplTest {
     @Test
     public void lookup() {
         // when:
-        Set<Node> result = nodeQuery.from(labels)
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
             .lookup(bySelector(".label"))
             .queryAll();
 
@@ -183,13 +197,36 @@ public class NodeQueryImplTest {
         assertThat(result, contains(label0, label1, label2));
     }
 
-    // TODO: lookup(bySelector(".pane")).lookup(bySelector(".label"))
-    // TODO: lookup(combine(bySelector(".label"), bySelector(".button")))
+    @Test
+    public void lookup_lookup() {
+        // when:
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
+            .lookup(bySelector("#labels"))
+            .lookup(bySelector(".label"))
+            .queryAll();
+
+        // then:
+        assertThat(result, contains(label0, label1, label2));
+    }
+
+    @Test
+    public void lookup_combine() {
+        // when:
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
+            .lookup(combine(bySelector(".label"), bySelector(".button")))
+            .queryAll();
+
+        // then:
+        assertThat(result, contains(label0, label1, label2, button0, button1, button2));
+    }
 
     @Test
     public void lookupAt() {
         // when:
-        Set<Node> result = nodeQuery.from(labels)
+        Set<Node> result = nodeQuery
+            .from(labels)
             .lookupAt(1, bySelector(".label"))
             .queryAll();
 
@@ -200,19 +237,21 @@ public class NodeQueryImplTest {
     @Test
     public void lookupAt_lookupAt() {
         // when:
-        Set<Node> result = nodeQuery.from(panes)
-            .lookupAt(1, bySelector(".pane"))
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
+            .lookupAt(0, bySelector("#labels"))
             .lookupAt(2, bySelector(".label"))
             .queryAll();
 
         // then:
-        assertThat(result, contains(pane1_label2));
+        assertThat(result, contains(label2));
     }
 
     @Test
     public void lookupAt_with_index_out_of_bounds() {
         // when:
-        Set<Node> result = nodeQuery.from(labels)
+        Set<Node> result = nodeQuery
+            .from(labels)
             .lookupAt(99, bySelector(".label"))
             .queryAll();
 
@@ -223,8 +262,9 @@ public class NodeQueryImplTest {
     @Test
     public void lookupAt_lookupAt_with_indizes_out_of_bounds() {
         // when:
-        Set<Node> result = nodeQuery.from(panes)
-            .lookupAt(99, bySelector(".pane"))
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
+            .lookupAt(0, bySelector("#labels"))
             .lookupAt(99, bySelector(".label"))
             .queryAll();
 
@@ -233,9 +273,23 @@ public class NodeQueryImplTest {
     }
 
     @Test
+    public void childAt() {
+        // when:
+        Set<Node> result = nodeQuery
+            .from(labels)
+            .lookup(bySelector(".label"))
+            .childAt(1)
+            .queryAll();
+
+        // then:
+        assertThat(result, contains(label1));
+    }
+
+    @Test
     public void match() {
         // when:
-        Set<Node> result = nodeQuery.from(rootOfScene(scene))
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
             .lookup(bySelector(".button"))
             .match(hasId("button1"))
             .queryAll();

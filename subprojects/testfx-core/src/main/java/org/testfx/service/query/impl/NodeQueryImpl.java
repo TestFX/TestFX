@@ -62,24 +62,30 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     @Override
-    public NodeQuery lookup(Function<Node, Set<Node>> selector) {
-        checkNotNull(selector, "selector is null");
-        this.selectors.add(new Selector<>(selector));
+    public NodeQuery lookup(Function<Node, Set<Node>> function) {
+        checkNotNull(function, "function is null");
+        this.selectors.add(new Selector<>(function));
         return this;
     }
 
     @Override
     public NodeQuery lookupAt(int index,
-                              Function<Node, Set<Node>> selector) {
-        checkNotNull(selector, "selector is null");
-        this.selectors.add(new Selector<>(selector, index));
+                              Function<Node, Set<Node>> function) {
+        checkNotNull(function, "function is null");
+        this.selectors.add(new Selector<>(function, index));
         return this;
     }
 
     @Override
-    public NodeQuery match(Predicate<Node> filter) {
-        checkNotNull(filter, "filter is null");
-        this.filters.add(filter);
+    public NodeQuery childAt(int index) {
+        this.selectors.add(new Selector<>(index));
+        return this;
+    }
+
+    @Override
+    public NodeQuery match(Predicate<Node> predicate) {
+        checkNotNull(predicate, "predicate is null");
+        this.filters.add(predicate);
         return this;
     }
 
@@ -103,7 +109,7 @@ public class NodeQueryImpl implements NodeQuery {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
         query = query.filter(Predicates.notNull());
         for (Selector<Node> selector : selectors) {
-            query = applySelector(query, selector.selector, selector.index);
+            query = applySelector(query, selector.function, selector.index);
         }
         for (Predicate<Node> filter : filters) {
             query = applyFilter(query, filter);
@@ -112,9 +118,11 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     private FluentIterable<Node> applySelector(FluentIterable<Node> query,
-                                               Function<Node, Set<Node>> selector,
+                                               Function<Node, Set<Node>> function,
                                                Integer index) {
-        query = query.transformAndConcat(selector);
+        if (function != null) {
+            query = query.transformAndConcat(function);
+        }
         if (index != null) {
             query = query.skip(index).limit(1);
         }
@@ -122,8 +130,8 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     private FluentIterable<Node> applyFilter(FluentIterable<Node> query,
-                                             Predicate<Node> filter) {
-        query = query.filter(filter);
+                                             Predicate<Node> predicate) {
+        query = query.filter(predicate);
         return query;
     }
 
@@ -132,17 +140,21 @@ public class NodeQueryImpl implements NodeQuery {
     //---------------------------------------------------------------------------------------------
 
     private static class Selector<T> {
-        public Function<T, Set<T>> selector;
+        public Function<T, Set<T>> function;
         public Integer index;
 
-        public Selector(Function<T, Set<T>> selector,
+        public Selector(Function<T, Set<T>> function,
                         Integer index) {
-            this.selector = selector;
+            this.function = function;
             this.index = index;
         }
 
-        public Selector(Function<T, Set<T>> selector) {
-            this(selector, null);
+        public Selector(Function<T, Set<T>> function) {
+            this(function, null);
+        }
+
+        public Selector(int index) {
+            this(null, index);
         }
     }
 

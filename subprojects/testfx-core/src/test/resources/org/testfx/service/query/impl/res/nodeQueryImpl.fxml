@@ -29,36 +29,11 @@
                   <Button fx:id="button2" mnemonicParsing="false" text="2" />
                </children>
             </HBox>
-            <HBox fx:id="panes" spacing="20.0">
+            <HBox fx:id="textfields" spacing="20.0">
                <children>
-                  <VBox styleClass="pane">
-                     <children>
-                        <Label fx:id="pane0_label0" text="0, 0" />
-                        <Label fx:id="pane0_label1" text="0, 1" />
-                        <Label fx:id="pane0_label2" text="0, 2" />
-                     </children>
-                  </VBox>
-                  <VBox styleClass="pane">
-                     <children>
-                        <Label fx:id="pane1_label0" text="1, 0" />
-                        <Label fx:id="pane1_label1" text="1, 1" />
-                        <Label fx:id="pane1_label2" text="1, 2" />
-                     </children>
-                  </VBox>
-                  <VBox styleClass="pane">
-                     <children>
-                        <Label fx:id="pane2_label0" text="2, 0" />
-                        <Label fx:id="pane2_label1" text="2, 1" />
-                        <Label fx:id="pane2_label2" text="2, 2" />
-                     </children>
-                  </VBox>
-                  <VBox styleClass="pane">
-                     <children>
-                        <Label fx:id="pane3_label0" text="3, 0" />
-                        <Label fx:id="pane3_label1" text="3, 1" />
-                        <Label fx:id="pane3_label2" text="3, 2" />
-                     </children>
-                  </VBox>
+                  <TextField fx:id="textfield0" text="0" />
+                  <TextField fx:id="textfield1" text="1" />
+                  <TextField fx:id="textfield2" text="2" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -137,6 +137,7 @@ public class NodeAndPointQueryTest {
         // expect:
         thrown.expect(FxRobotException.class);
         thrown.expectMessage("the query \".missing\" returned no nodes.");
+
         fx._point(".missing");
     }
 
@@ -154,6 +155,7 @@ public class NodeAndPointQueryTest {
         // expect:
         thrown.expect(FxRobotException.class);
         thrown.expectMessage("the query \".missing\" returned no nodes.");
+
         fx._moveTo(".missing").clickOn();
     }
 
@@ -162,6 +164,7 @@ public class NodeAndPointQueryTest {
         // expect:
         thrown.expect(FxRobotException.class);
         thrown.expectMessage("the query \".label\" returned 1 nodes, but no nodes were visible.");
+
         fx._moveTo(".label").clickOn();
     }
 
