@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.cases.bugs;
+package org.testfx.cases.issue;
 
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;

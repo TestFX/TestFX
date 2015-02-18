@@ -22,36 +22,30 @@ import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.testfx.service.query.NodeQuery;
 
 public interface NodeFinder {
-//    public NodeQuery node();
-//
-//    public NodeQuery node(String query);
-//    public NodeQuery node(String query,
-//                          Node... parentNodes);
-//
-//    public NodeQuery node(Predicate<Node> predicate);
-//    public NodeQuery node(Predicate<Node> predicate,
-//                          Node... parentNodes);
-//
-//    public NodeQuery node(Matcher<Object> matcher);
-//    public NodeQuery node(Matcher<Object> matcher,
-//                          Node... parentNodes);
 
-    public Node node(String query);
-    public Set<Node> nodes(String query);
-    public Node      node(Predicate<Node> predicate);
-    public Set<Node> nodes(Predicate<Node> predicate);
-    public Node      node(Matcher<Object> matcher);
-    public Set<Node> nodes(Matcher<Object> matcher);
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
 
-    public Node      parent(Window window);
-    public Node      parent(int windowIndex);
-    public Node      parent(String stageTitleRegex);
-    public Node      parent(Scene scene);
+    NodeQuery nodes();
+    NodeQuery nodes(String query);
+    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
+    NodeQuery nodes(Matcher<Object> matcher);
 
-    public Node      node(String query,
-                          Node parentNode);
-    public Set<Node> nodes(String query,
-                           Node parentNode);
+    NodeQuery nodesFrom(Node... parentNodes);
+    NodeQuery nodesFrom(Set<Node> parentNodes);
+    NodeQuery nodesFrom(NodeQuery nodeQuery);
+
+    Node rootNode(Window window);
+    Node rootNode(Scene scene);
+    Node rootNode(Node node);
+
+    //Node rootNode(Predicate<Window> predicate);
+    //Node rootNode(int windowIndex);
+    //Node rootNode(Pattern stageTitlePattern);
+    //Node rootNode(String stageTitleRegexp);
+
 }

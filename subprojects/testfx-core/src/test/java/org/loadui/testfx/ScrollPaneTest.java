@@ -24,13 +24,14 @@ import javafx.scene.layout.VBox;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.controls.impl.VisibleNodesMatcher;
-import org.loadui.testfx.exceptions.NoNodesVisibleException;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.loadui.testfx.Assertions.verifyThat;
 
+@Ignore
 public class ScrollPaneTest extends GuiTest {
     public static final int IMAGE_WIDTH = 525;
 
@@ -67,13 +68,13 @@ public class ScrollPaneTest extends GuiTest {
         String id2 = "#" + ID2;
 
         verifyThat(id1, isVisible());
-        verifyThat(isNodeVisible(id2), is(false));
+        verifyThat(id2, not(isVisible()));
 
         moveTo(id1);
         scroll(50, VerticalDirection.DOWN);
         
         verifyThat(id2, isVisible());
-        verifyThat(isNodeVisible(id1), is(false));
+        verifyThat(id1, not(isVisible()));
     }
 
     /**
@@ -85,16 +86,6 @@ public class ScrollPaneTest extends GuiTest {
     @Factory
     public static Matcher<Object> isVisible() {
         return VisibleNodesMatcher.visible();
-    }
-
-    private boolean isNodeVisible(String query) {
-        boolean visible = true;
-        try {
-            find(query);
-        } catch (NoNodesVisibleException e) {
-            visible = false;
-        }
-        return visible;
     }
 
 }

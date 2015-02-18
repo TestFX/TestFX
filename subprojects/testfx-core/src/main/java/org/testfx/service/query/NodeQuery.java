@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import org.hamcrest.Matcher;
 
 public interface NodeQuery {
 
@@ -28,21 +29,20 @@ public interface NodeQuery {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public NodeQuery from(Node... parentNodes);
+    NodeQuery from(Node... parentNodes);
+    NodeQuery from(Set<Node> parentNodes);
 
-    public NodeQuery from(Set<Node> parentNodes);
+    NodeQuery lookup(String query);
+    <T extends Node> NodeQuery lookup(Predicate<T> predicate);
+    NodeQuery lookup(Matcher<Object> matcher);
+    NodeQuery lookup(Function<Node, Set<Node>> function);
 
-    public NodeQuery lookup(Function<Node, Set<Node>> function);
+    <T extends Node> NodeQuery select(Predicate<T> predicate);
+    NodeQuery select(Matcher<Object> matcher);
+    NodeQuery selectAt(int index);
 
-    public NodeQuery lookupAt(int index,
-                              Function<Node, Set<Node>> function);
-
-    public NodeQuery childAt(int index);
-
-    public NodeQuery match(Predicate<Node> predicate);
-
-    public Set<Node> queryAll();
-
-    public Optional<Node> queryFirst();
+    <T extends Node> T queryFirst();
+    <T extends Node> Optional<T> tryQueryFirst();
+    <T extends Node> Set<T> queryAll();
 
 }

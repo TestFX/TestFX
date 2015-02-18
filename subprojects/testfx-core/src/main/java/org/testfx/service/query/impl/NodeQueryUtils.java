@@ -36,6 +36,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import org.hamcrest.Matcher;
 
 public final class NodeQueryUtils {
 
@@ -88,6 +89,10 @@ public final class NodeQueryUtils {
         return (parentNode) -> lookupWithPredicate(parentNode, predicate);
     }
 
+    public static Function<Node, Set<Node>> byMatcher(Matcher<Object> matcher) {
+        return byPredicate(matchesMatcher(matcher));
+    }
+
     public static Function<Node, Set<Node>> byText(String text) {
         return byPredicate(hasText(text));
     }
@@ -98,6 +103,10 @@ public final class NodeQueryUtils {
 
     public static Predicate<Node> hasText(String text) {
         return (node) -> hasNodeText(node, text);
+    }
+
+    public static Predicate<Node> matchesMatcher(Matcher<Object> matcher) {
+        return (node) -> matchesNodeMatcher(node, matcher);
     }
 
     public static Predicate<Node> isVisible() {
@@ -177,6 +186,10 @@ public final class NodeQueryUtils {
             return Objects.equals(((TextInputControl) node).getText(), text);
         }
         return false;
+    }
+
+    private static boolean matchesNodeMatcher(Node node, Matcher matcher) {
+        return matcher.matches(node);
     }
 
     @SuppressWarnings("deprecation")

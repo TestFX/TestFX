@@ -15,7 +15,6 @@
  */
 package org.testfx.api;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
@@ -31,13 +30,12 @@ import javafx.stage.Window;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
-import org.testfx.service.query.impl.NodeQueryImpl;
-import org.testfx.service.query.impl.NodeQueryUtils;
 
 import static org.testfx.service.query.impl.NodeQueryUtils.isVisible;
 
@@ -129,19 +127,18 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public PointQuery pointFor(String query) {
-        Node node = context.getNodeFinder().node(query);
+        Node node = context.getNodeFinder().nodes(query).queryFirst();
         return pointFor(node).atPosition(context.getPointPosition());
     }
 
     public PointQuery pointFor(Matcher<Object> matcher) {
-        Node node = context.getNodeFinder().node(matcher);
+        Node node = context.getNodeFinder().nodes(matcher).queryFirst();
         return pointFor(node).atPosition(context.getPointPosition());
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
-        Node node = context.getNodeFinder().node((Predicate<Node>) predicate);
+        Node node = context.getNodeFinder().nodes(predicate).queryFirst();
         return pointFor(node).atPosition(context.getPointPosition());
     }
 
@@ -756,27 +753,22 @@ public class FxRobot implements FxRobotInterface {
 
     // -----
 
-    public NodeQuery _queryNode() {
-        return new NodeQueryImpl();
+    public NodeQuery _nodes(String query) {
+        return context.getNodeFinder().nodes(query);
     }
 
-    public NodeQuery _node() {
-        List<Window> windows = context.getWindowFinder().listOrderedWindows();
-        return _queryNode().from(NodeQueryUtils.rootsOfWindows(windows));
-    }
-
-    public NodeQuery _node(String query) {
-        return _node().lookup(NodeQueryUtils.bySelector(query));
+    public NodeQuery _nodesFrom(Node... parentNodes) {
+        return context.getNodeFinder().nodesFrom(parentNodes);
     }
 
     public PointQuery _point(String query) {
-        NodeQuery nodeQuery = _node(query);
+        NodeQuery nodeQuery = _nodes(query);
         Node resultNode = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
         return pointFor(resultNode).atPosition(context.getPointPosition());
     }
 
     private PointQuery _visiblePoint(String query) {
-        NodeQuery nodeQuery = _node(query);
+        NodeQuery nodeQuery = _nodes(query);
         Node resultNode = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
         return pointFor(resultNode).atPosition(context.getPointPosition());
     }
@@ -787,7 +779,7 @@ public class FxRobot implements FxRobotInterface {
 
     private Node queryFirstNode(NodeQuery nodeQuery,
                                 String queryDescription) {
-        Optional<Node> resultNode = nodeQuery.queryFirst();
+        Optional<Node> resultNode = nodeQuery.tryQueryFirst();
         if (!resultNode.isPresent()) {
             String message = queryDescription + " returned no nodes.";
             throw new FxRobotException(message);
@@ -802,8 +794,8 @@ public class FxRobot implements FxRobotInterface {
             String message = queryDescription + " returned no nodes.";
             throw new FxRobotException(message);
         }
-        Optional<Node> resultNode = _queryNode().from(resultNodes)
-            .match(isVisible()).queryFirst();
+        Optional<Node> resultNode = _nodesFrom(Iterables.toArray(resultNodes, Node.class))
+            .select(isVisible()).tryQueryFirst();
         if (!resultNode.isPresent()) {
             String message = queryDescription + " returned " + resultNodes.size() + " nodes" +
                 ", but no nodes were visible.";

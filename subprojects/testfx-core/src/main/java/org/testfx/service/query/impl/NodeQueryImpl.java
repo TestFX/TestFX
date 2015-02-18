@@ -15,7 +15,6 @@
  */
 package org.testfx.service.query.impl;
 
-import java.util.List;
 import java.util.Set;
 import javafx.scene.Node;
 
@@ -25,13 +24,19 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.hamcrest.Matcher;
 import org.testfx.service.query.NodeQuery;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class NodeQueryImpl implements NodeQuery {
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final String CSS_ID_SELECTOR_PREFIX = "#";
+
+    private static final String CSS_CLASS_SELECTOR_PREFIX = ".";
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -39,123 +44,105 @@ public class NodeQueryImpl implements NodeQuery {
 
     private Set<Node> parentNodes = Sets.newLinkedHashSet();
 
-    private List<Selector<Node>> selectors = Lists.newArrayList();
-
-    private List<Predicate<Node>> filters = Lists.newArrayList();
-
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Override
     public NodeQuery from(Set<Node> parentNodes) {
-        checkNotNull(parentNodes, "parentNodes is null");
         this.parentNodes.addAll(parentNodes);
         return this;
     }
 
     @Override
     public NodeQuery from(Node... parentNodes) {
-        checkNotNull(parentNodes, "parentNodes is null");
         this.parentNodes.addAll(ImmutableList.copyOf(parentNodes));
         return this;
     }
 
     @Override
+    public NodeQuery lookup(String query) {
+        Function<Node, Set<Node>> queryFunction = isCssSelector(query) ?
+            NodeQueryUtils.bySelector(query) : NodeQueryUtils.byText(query);
+        lookup(queryFunction);
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Node> NodeQuery lookup(Predicate<T> predicate) {
+        lookup(NodeQueryUtils.byPredicate((Predicate<Node>) predicate));
+        return this;
+    }
+
+    @Override
+    public NodeQuery lookup(Matcher<Object> matcher) {
+        lookup(NodeQueryUtils.byMatcher(matcher));
+        return this;
+    }
+
+    @Override
     public NodeQuery lookup(Function<Node, Set<Node>> function) {
-        checkNotNull(function, "function is null");
-        this.selectors.add(new Selector<>(function));
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        query = query.filter(Predicates.notNull());
+        query = query.transformAndConcat(function);
+        parentNodes = query.toSet();
         return this;
     }
 
     @Override
-    public NodeQuery lookupAt(int index,
-                              Function<Node, Set<Node>> function) {
-        checkNotNull(function, "function is null");
-        this.selectors.add(new Selector<>(function, index));
+    @SuppressWarnings("unchecked")
+    public <T extends Node> NodeQuery select(Predicate<T> predicate) {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        query = query.filter((Predicate<Node>) predicate);
+        parentNodes = query.toSet();
         return this;
     }
 
     @Override
-    public NodeQuery childAt(int index) {
-        this.selectors.add(new Selector<>(index));
+    public NodeQuery select(Matcher<Object> matcher) {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        query = query.filter(NodeQueryUtils.matchesMatcher(matcher));
+        parentNodes = query.toSet();
         return this;
     }
 
     @Override
-    public NodeQuery match(Predicate<Node> predicate) {
-        checkNotNull(predicate, "predicate is null");
-        this.filters.add(predicate);
+    public NodeQuery selectAt(int index) {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        query = query.skip(index).limit(1);
+        parentNodes = query.toSet();
         return this;
     }
 
     @Override
-    public Set<Node> queryAll() {
-        FluentIterable<Node> resultNodes = this.buildQuery(this.parentNodes);
-        return resultNodes.toSet();
+    @SuppressWarnings("unchecked")
+    public <T extends Node> T queryFirst() {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        return (T) query.first().orNull();
     }
 
     @Override
-    public Optional<Node> queryFirst() {
-        FluentIterable<Node> resultNodes = this.buildQuery(this.parentNodes);
-        return resultNodes.first();
+    @SuppressWarnings("unchecked")
+    public <T extends Node> Optional<T> tryQueryFirst() {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        return (Optional<T>) query.first();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Node> Set<T> queryAll() {
+        FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        return (Set<T>) query.toSet();
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private FluentIterable<Node> buildQuery(Set<Node> parentNodes) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter(Predicates.notNull());
-        for (Selector<Node> selector : selectors) {
-            query = applySelector(query, selector.function, selector.index);
-        }
-        for (Predicate<Node> filter : filters) {
-            query = applyFilter(query, filter);
-        }
-        return query;
-    }
-
-    private FluentIterable<Node> applySelector(FluentIterable<Node> query,
-                                               Function<Node, Set<Node>> function,
-                                               Integer index) {
-        if (function != null) {
-            query = query.transformAndConcat(function);
-        }
-        if (index != null) {
-            query = query.skip(index).limit(1);
-        }
-        return query;
-    }
-
-    private FluentIterable<Node> applyFilter(FluentIterable<Node> query,
-                                             Predicate<Node> predicate) {
-        query = query.filter(predicate);
-        return query;
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC CLASSES.
-    //---------------------------------------------------------------------------------------------
-
-    private static class Selector<T> {
-        public Function<T, Set<T>> function;
-        public Integer index;
-
-        public Selector(Function<T, Set<T>> function,
-                        Integer index) {
-            this.function = function;
-            this.index = index;
-        }
-
-        public Selector(Function<T, Set<T>> function) {
-            this(function, null);
-        }
-
-        public Selector(int index) {
-            this(null, index);
-        }
+    private boolean isCssSelector(String query) {
+        return query.startsWith(CSS_ID_SELECTOR_PREFIX) ||
+            query.startsWith(CSS_CLASS_SELECTOR_PREFIX);
     }
 
 }

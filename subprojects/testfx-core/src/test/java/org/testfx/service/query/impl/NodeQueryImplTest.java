@@ -35,6 +35,7 @@ import org.testfx.service.query.NodeQuery;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.testfx.service.query.impl.NodeQueryUtils.bySelector;
 import static org.testfx.service.query.impl.NodeQueryUtils.combine;
@@ -98,6 +99,48 @@ public class NodeQueryImplTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
+    public void queryFirst() {
+        // when:
+        Node result = nodeQuery
+            .from(label0, label1, label2)
+            .queryFirst();
+
+        // then:
+        assertThat(result, is(label0));
+    }
+
+    @Test
+    public void queryFirst_is_null() {
+        // when:
+        Node result = nodeQuery
+            .queryFirst();
+
+        // then:
+        assertThat(result, is(nullValue()));
+    }
+
+    @Test
+    public void tryQueryFirst() {
+        // when:
+        Optional<Node> result = nodeQuery
+            .from(label0, label1, label2)
+            .tryQueryFirst();
+
+        // then:
+        assertThat(result, is(Optional.of(label0)));
+    }
+
+    @Test
+    public void tryQueryFirst_is_absent() {
+        // when:
+        Optional<Node> result = nodeQuery
+            .tryQueryFirst();
+
+        // then:
+        assertThat(result, is(Optional.absent()));
+    }
+
+    @Test
     public void queryAll() {
         // when:
         Set<Node> result = nodeQuery
@@ -109,25 +152,13 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void queryFirst() {
+    public void queryAll_is_empty() {
         // when:
-        Optional<Node> result = nodeQuery
-            .from(label0, label1, label2)
-            .queryFirst();
+        Set<Node> result = nodeQuery
+            .queryAll();
 
         // then:
-        assertThat(result, is(Optional.of(label0)));
-    }
-
-    @Test
-    public void queryFirst_absent() {
-        // when:
-        Optional<Node> result = nodeQuery
-            .from()
-            .queryFirst();
-
-        // then:
-        assertThat(result, is(Optional.absent()));
+        assertThat(result, is(empty()));
     }
 
     @Test
@@ -223,11 +254,12 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void lookupAt() {
+    public void lookup_selectAt() {
         // when:
         Set<Node> result = nodeQuery
             .from(labels)
-            .lookupAt(1, bySelector(".label"))
+            .lookup(bySelector(".label"))
+            .selectAt(1)
             .queryAll();
 
         // then:
@@ -235,12 +267,14 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void lookupAt_lookupAt() {
+    public void lookup_selectAt_lookup_selectAt() {
         // when:
         Set<Node> result = nodeQuery
             .from(rootOfScene(scene))
-            .lookupAt(0, bySelector("#labels"))
-            .lookupAt(2, bySelector(".label"))
+            .lookup(bySelector("#labels"))
+            .selectAt(0)
+            .lookup(bySelector(".label"))
+            .selectAt(2)
             .queryAll();
 
         // then:
@@ -248,50 +282,40 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void lookupAt_with_index_out_of_bounds() {
-        // when:
-        Set<Node> result = nodeQuery
-            .from(labels)
-            .lookupAt(99, bySelector(".label"))
-            .queryAll();
-
-        // then:
-        assertThat(result, empty());
-    }
-
-    @Test
-    public void lookupAt_lookupAt_with_indizes_out_of_bounds() {
-        // when:
-        Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
-            .lookupAt(0, bySelector("#labels"))
-            .lookupAt(99, bySelector(".label"))
-            .queryAll();
-
-        // then:
-        assertThat(result, empty());
-    }
-
-    @Test
-    public void childAt() {
+    public void lookup_selectAt_with_index_out_of_bounds() {
         // when:
         Set<Node> result = nodeQuery
             .from(labels)
             .lookup(bySelector(".label"))
-            .childAt(1)
+            .selectAt(99)
             .queryAll();
 
         // then:
-        assertThat(result, contains(label1));
+        assertThat(result, empty());
     }
 
     @Test
-    public void match() {
+    public void lookup_selectAt_lookup_selectAt_with_indizes_out_of_bounds() {
+        // when:
+        Set<Node> result = nodeQuery
+            .from(rootOfScene(scene))
+            .lookup(bySelector("#labels"))
+            .selectAt(0)
+            .lookup(bySelector(".label"))
+            .selectAt(99)
+            .queryAll();
+
+        // then:
+        assertThat(result, empty());
+    }
+
+    @Test
+    public void lookup_select() {
         // when:
         Set<Node> result = nodeQuery
             .from(rootOfScene(scene))
             .lookup(bySelector(".button"))
-            .match(hasId("button1"))
+            .select(hasId("button1"))
             .queryAll();
 
         // then:
