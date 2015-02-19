@@ -30,7 +30,7 @@ public class ParentMatchers {
 
     @Factory
     public static Matcher<Parent> hasChild(String nodeQuery) {
-        Node node = FxAssert.assertContext().getNodeFinder().node(nodeQuery);
+        Node node = FxAssert.assertContext().getNodeFinder().nodes(nodeQuery).queryFirst();
         return null;
     }
 

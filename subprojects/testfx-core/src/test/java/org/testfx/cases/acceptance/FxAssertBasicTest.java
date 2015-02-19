@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.integration;
+package org.testfx.cases.acceptance;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,35 +21,24 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
+import org.testfx.cases.TestCaseBase;
 
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.api.FxToolkit.registerPrimaryStage;
 import static org.testfx.api.FxToolkit.setupApplication;
+import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
+import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isNotNull;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
-public class FxAssertDemoTest {
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    FxRobot fx = new FxRobot();
+public class FxAssertBasicTest extends TestCaseBase {
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
-
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        registerPrimaryStage();
-    }
 
     @Before
     public void setup() throws Exception {
@@ -79,15 +68,37 @@ public class FxAssertDemoTest {
     }
 
     @Test
+    public void button_is_disabled() {
+        // when:
+        interact(() -> {
+            nodes("#button").queryFirst().setDisable(true);
+        });
+
+        // then:
+        verifyThat("#button", isDisabled());
+    }
+
+    @Test
     public void button_is_visible() {
         // expect:
         verifyThat("#button", isVisible());
     }
 
     @Test
+    public void button_is_invisible() {
+        // when:
+        interact(() -> {
+            nodes("#button").queryFirst().setVisible(false);
+        });
+
+        // then:
+        verifyThat("#button", isInvisible());
+    }
+
+    @Test
     public void button_has_label() {
         // when:
-        fx.clickOn("#button");
+        clickOn("#button");
 
         // then:
         verifyThat("#button", hasText("clicked!"));

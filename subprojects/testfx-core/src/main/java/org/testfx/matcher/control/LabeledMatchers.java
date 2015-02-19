@@ -43,7 +43,8 @@ public class LabeledMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean hasText(Labeled labeled, String text) {
+    public static boolean hasText(Labeled labeled,
+                                  String text) {
         return text.equals(lookupText(labeled));
     }
 

@@ -17,14 +17,14 @@ package org.testfx.api;
 
 import javafx.scene.Node;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.matcher.predicate.PredicateMatchers;
 import org.testfx.service.finder.NodeFinder;
 
-@Beta
+@Unstable(reason = "class was recently added")
 public class FxAssert {
 
     //---------------------------------------------------------------------------------------------
@@ -54,17 +54,15 @@ public class FxAssert {
         verifyThatImpl(emptyReason(), node, nodeMatcher);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> void verifyThat(String reason,
                                                    String nodeQuery,
                                                    Matcher<T> nodeMatcher) {
-        verifyThatImpl(reason, (T) toNode(nodeQuery), nodeMatcher);
+        verifyThatImpl(reason, toNode(nodeQuery), nodeMatcher);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), (T) toNode(nodeQuery), nodeMatcher);
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
     }
 
     public static <T extends Node> void verifyThat(String reason,
@@ -105,17 +103,12 @@ public class FxAssert {
         return EMPTY_STRING;
     }
 
-    private static Node toNode(String nodeQuery) {
+    private static <T extends Node> T toNode(String nodeQuery) {
         NodeFinder nodeFinder = assertContext().getNodeFinder();
-        try {
-            return nodeFinder.node(nodeQuery);
-        }
-        catch (Exception ignore) {
-            return null;
-        }
+        return nodeFinder.nodes(nodeQuery).queryFirst();
     }
 
-    private static <T extends Node> Matcher<T> toNodeMatcher(final Predicate<T> nodePredicate) {
+    private static <T extends Node> Matcher<T> toNodeMatcher(Predicate<T> nodePredicate) {
         return PredicateMatchers.nodeMatcher("applies on Predicate", nodePredicate);
     }
 

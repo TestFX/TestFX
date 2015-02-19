@@ -69,8 +69,8 @@ public class PredicateMatchers {
 
             @Override
             protected void describeMismatchSafely(Node node,
-                                                  Description mismatchDescription) {
-                mismatchDescription.appendText("was ").appendValue(node);
+                                                  Description description) {
+                description.appendText("was ").appendValue(node);
             }
         };
     }

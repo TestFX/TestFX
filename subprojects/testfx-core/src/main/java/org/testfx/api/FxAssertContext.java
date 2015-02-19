@@ -15,10 +15,10 @@
  */
 package org.testfx.api;
 
-import com.google.common.annotations.Beta;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 
-@Beta
+@Unstable(reason = "class was recently added")
 public class FxAssertContext {
 
     //---------------------------------------------------------------------------------------------
