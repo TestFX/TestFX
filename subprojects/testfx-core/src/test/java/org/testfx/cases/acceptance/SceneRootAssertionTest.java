@@ -24,7 +24,7 @@ import com.google.common.base.Predicate;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.loadui.testfx.Assertions;
+import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 
 @Ignore
@@ -49,7 +49,7 @@ public class SceneRootAssertionTest {
     // FEATURE METHODS.
     @Test
     public void should_have_stage_root_with_label() {
-        Assertions.verifyThat(stackPane, hasChild(label));
+        FxAssert.verifyThat(stackPane, hasChild(label));
     }
 
     // HELPER METHODS.

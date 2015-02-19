@@ -42,8 +42,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 
-import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.controls.Commons.hasText;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.NodeMatchers.hasText;
 
 public class JavafxRobotAdapterTest {
 

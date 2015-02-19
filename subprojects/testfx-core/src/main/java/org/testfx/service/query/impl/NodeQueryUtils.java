@@ -89,7 +89,7 @@ public final class NodeQueryUtils {
         return (parentNode) -> lookupWithPredicate(parentNode, predicate);
     }
 
-    public static Function<Node, Set<Node>> byMatcher(Matcher<Object> matcher) {
+    public static Function<Node, Set<Node>> byMatcher(Matcher<Node> matcher) {
         return byPredicate(matchesMatcher(matcher));
     }
 
@@ -105,7 +105,7 @@ public final class NodeQueryUtils {
         return (node) -> hasNodeText(node, text);
     }
 
-    public static Predicate<Node> matchesMatcher(Matcher<Object> matcher) {
+    public static Predicate<Node> matchesMatcher(Matcher<Node> matcher) {
         return (node) -> matchesNodeMatcher(node, matcher);
     }
 

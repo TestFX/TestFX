@@ -15,13 +15,18 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
+import org.testfx.api.annotation.Unstable;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.query.NodeQuery;
 
+import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
+
+@Unstable(reason = "needs more tests")
 public class ParentMatchers {
 
     //---------------------------------------------------------------------------------------------
@@ -29,15 +34,22 @@ public class ParentMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static Matcher<Parent> hasChild(String nodeQuery) {
-        Node node = FxAssert.assertContext().getNodeFinder().nodes(nodeQuery).queryFirst();
-        return null;
+    public static Matcher<Parent> hasChild(String query) {
+        NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
+        return baseMatcher("Parent has child", (parent) -> {
+            NodeQuery nodeQuery = nodeFinder.nodesFrom(parent);
+            return nodeQuery.lookup(query).tryQueryFirst().isPresent();
+        });
     }
 
     @Factory
     public static Matcher<Parent> hasChildren(int amount,
-                                              String nodeQuery) {
-        return null;
+                                              String query) {
+        NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
+        return baseMatcher("Parent has children", (parent) -> {
+            NodeQuery nodeQuery = nodeFinder.nodesFrom(parent);
+            return nodeQuery.lookup(query).queryAll().size() == amount;
+        });
     }
 
     //---------------------------------------------------------------------------------------------

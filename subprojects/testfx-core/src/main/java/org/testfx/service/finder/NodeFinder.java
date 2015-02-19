@@ -15,7 +15,7 @@
  */
 package org.testfx.service.finder;
 
-import java.util.Set;
+import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
@@ -33,10 +33,10 @@ public interface NodeFinder {
     NodeQuery nodes();
     NodeQuery nodes(String query);
     <T extends Node> NodeQuery nodes(Predicate<T> predicate);
-    NodeQuery nodes(Matcher<Object> matcher);
+    <T> NodeQuery nodes(Matcher<T> matcher);
 
     NodeQuery nodesFrom(Node... parentNodes);
-    NodeQuery nodesFrom(Set<Node> parentNodes);
+    NodeQuery nodesFrom(Collection<Node> parentNodes);
     NodeQuery nodesFrom(NodeQuery nodeQuery);
 
     Node rootNode(Window window);

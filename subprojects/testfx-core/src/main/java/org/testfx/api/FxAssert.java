@@ -43,15 +43,15 @@ public class FxAssert {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static <T extends Node> void verifyThat(String reason,
-                                                   T node,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(reason, node, nodeMatcher);
+    public static <T> void verifyThat(String reason,
+                                      T value,
+                                      Matcher<? super T> matcher) {
+        verifyThatImpl(reason, value, matcher);
     }
 
-    public static <T extends Node> void verifyThat(T node,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), node, nodeMatcher);
+    public static <T> void verifyThat(T value,
+                                      Matcher<? super T> matcher) {
+        verifyThatImpl(emptyReason(), value, matcher);
     }
 
     public static <T extends Node> void verifyThat(String reason,
@@ -87,11 +87,11 @@ public class FxAssert {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static <T extends Node> void verifyThatImpl(String reason,
-                                                        T node,
-                                                        Matcher<T> nodeMatcher) {
+    private static <T> void verifyThatImpl(String reason,
+                                           T value,
+                                           Matcher<? super T> matcher) {
         try {
-            MatcherAssert.assertThat(reason, node, nodeMatcher);
+            MatcherAssert.assertThat(reason, value, matcher);
         }
         catch (AssertionError error) {
             // TODO: Save screenshot to file.

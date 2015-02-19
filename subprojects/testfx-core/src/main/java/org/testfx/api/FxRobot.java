@@ -15,6 +15,7 @@
  */
 package org.testfx.api;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -252,7 +253,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public NodeQuery nodes(Matcher<Object> matcher) {
+    public <T> NodeQuery nodes(Matcher<T> matcher) {
         return context.getNodeFinder().nodes(matcher);
     }
 
@@ -262,7 +263,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public NodeQuery nodesFrom(Set<Node> parentNodes) {
+    public NodeQuery nodesFrom(Collection<Node> parentNodes) {
         return context.getNodeFinder().nodesFrom(parentNodes);
     }
 

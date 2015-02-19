@@ -20,15 +20,19 @@ import javafx.scene.Node;
 import com.google.common.base.Predicate;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.testfx.api.annotation.Unstable;
 
+@Unstable(reason = "needs more tests")
 public class BaseMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
+    // STATIC FACTORY METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Factory
     public static <T extends Node> Matcher<T> baseMatcher(final String descriptionText,
                                                           final Predicate<T> nodePredicate) {
         return new BaseMatcher<T>() {
@@ -51,6 +55,7 @@ public class BaseMatchers {
         };
     }
 
+    @Factory
     public static <T extends Node> Matcher<T> typeSafeMatcher(final Class<T> expectedType,
                                                               final String descriptionText,
                                                               final Predicate<T> nodePredicate) {
