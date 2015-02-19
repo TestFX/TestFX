@@ -13,39 +13,25 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.service.finder;
+package org.testfx.api;
 
-import java.util.Set;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Window;
+import org.testfx.api.annotation.Unstable;
 
-import com.google.common.base.Predicate;
-import org.hamcrest.Matcher;
-import org.testfx.service.query.NodeQuery;
-
-public interface NodeFinder {
+@Unstable(reason = "class was recently added")
+public class FxRobotException extends RuntimeException {
 
     //---------------------------------------------------------------------------------------------
-    // METHODS.
+    // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    NodeQuery nodes();
-    NodeQuery nodes(String query);
-    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
-    NodeQuery nodes(Matcher<Object> matcher);
+    private static final long serialVersionUID = 1L;
 
-    NodeQuery nodesFrom(Node... parentNodes);
-    NodeQuery nodesFrom(Set<Node> parentNodes);
-    NodeQuery nodesFrom(NodeQuery nodeQuery);
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
 
-    Node rootNode(Window window);
-    Node rootNode(Scene scene);
-    Node rootNode(Node node);
-
-    //Node rootNode(Predicate<Window> predicate);
-    //Node rootNode(int windowIndex);
-    //Node rootNode(Pattern stageTitlePattern);
-    //Node rootNode(String stageTitleRegexp);
+    public FxRobotException(String message) {
+        super(message);
+    }
 
 }

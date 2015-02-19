@@ -68,70 +68,63 @@ public abstract class GuiTest extends FxRobot {
         return (Stage) windowFinder.window(stageTitleRegex);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> T find(String query) {
         try {
-            return (T) nodeFinder.node(query);
+            return nodeFinder.nodes(query).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(String query) {
         try {
-            return (Set<T>) nodeFinder.nodes(query);
+            return nodeFinder.nodes(query).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> T find(Predicate<T> predicate) {
         try {
-            return (T) nodeFinder.node((Predicate<Node>) predicate);
+            return nodeFinder.nodes(predicate).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> T find(Matcher<Object> matcher) {
         try {
-            return (T) nodeFinder.node(matcher);
+            return nodeFinder.nodes(matcher).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> T find(String query, Node parent) {
         try {
-            return (T) nodeFinder.node(query, parent);
+            return nodeFinder.nodesFrom(parent).lookup(query).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
         try {
-            return (Set<T>) nodeFinder.nodes((Predicate<Node>) predicate);
+            return nodeFinder.nodesFrom(parent).lookup(predicate).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Node> Set<T> findAll(Matcher<Object> matcher, Node parent) {
         try {
-            return (Set<T>) nodeFinder.nodes(matcher);
+            return nodeFinder.nodesFrom(parent).lookup(matcher).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);

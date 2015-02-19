@@ -13,39 +13,36 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.service.finder;
+package org.testfx.service.query;
 
 import java.util.Set;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Window;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
-import org.testfx.service.query.NodeQuery;
 
-public interface NodeFinder {
+public interface NodeQuery {
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    NodeQuery nodes();
-    NodeQuery nodes(String query);
-    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
-    NodeQuery nodes(Matcher<Object> matcher);
+    NodeQuery from(Node... parentNodes);
+    NodeQuery from(Set<Node> parentNodes);
 
-    NodeQuery nodesFrom(Node... parentNodes);
-    NodeQuery nodesFrom(Set<Node> parentNodes);
-    NodeQuery nodesFrom(NodeQuery nodeQuery);
+    NodeQuery lookup(String query);
+    <T extends Node> NodeQuery lookup(Predicate<T> predicate);
+    NodeQuery lookup(Matcher<Object> matcher);
+    NodeQuery lookup(Function<Node, Set<Node>> function);
 
-    Node rootNode(Window window);
-    Node rootNode(Scene scene);
-    Node rootNode(Node node);
+    <T extends Node> NodeQuery select(Predicate<T> predicate);
+    NodeQuery select(Matcher<Object> matcher);
+    NodeQuery selectAt(int index);
 
-    //Node rootNode(Predicate<Window> predicate);
-    //Node rootNode(int windowIndex);
-    //Node rootNode(Pattern stageTitlePattern);
-    //Node rootNode(String stageTitleRegexp);
+    <T extends Node> T queryFirst();
+    <T extends Node> Optional<T> tryQueryFirst();
+    <T extends Node> Set<T> queryAll();
 
 }
