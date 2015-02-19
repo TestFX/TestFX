@@ -16,6 +16,7 @@
 package org.testfx.api;
 
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -37,6 +38,9 @@ import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
 import static org.testfx.service.query.impl.NodeQueryUtils.isVisible;
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
+import static org.testfx.util.WaitForAsyncUtils.waitFor;
+import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
 @Unstable(reason = "class was recently added")
 public class FxRobot implements FxRobotInterface {
@@ -280,6 +284,26 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public Node rootNode(Node node) {
         return context.getNodeFinder().rootNode(node);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR INTERACTION.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    @Unstable(reason = "method was recently added")
+    public FxRobot interact(Runnable runnable) {
+        waitFor(asyncFx(runnable));
+        waitForFxEvents();
+        return this;
+    }
+
+    @Override
+    @Unstable(reason = "method was recently added")
+    public <T> FxRobot interact(Callable<T> callable) {
+        waitFor(asyncFx(callable));
+        waitForFxEvents();
+        return this;
     }
 
     //---------------------------------------------------------------------------------------------

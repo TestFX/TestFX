@@ -105,6 +105,24 @@ public class WaitForAsyncUtils {
     // WAIT-FOR METHODS.
 
     /**
+     * Waits for given {@link Future} to be set (push) and returns {@code T}.
+     * @param future the future
+     * @param <T> the future type
+     * @return a result
+     */
+    public static <T> T waitFor(Future<T> future) {
+        try {
+            return future.get();
+        }
+        catch (InterruptedException ignore) {
+            return null;
+        }
+        catch (ExecutionException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    /**
      * Waits for given {@link Future} to be set (push) and returns {@code T}, otherwise times out
      * with {@link TimeoutException}.
      *

@@ -16,6 +16,7 @@
 package org.testfx.api;
 
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -131,6 +132,13 @@ public interface FxRobotInterface {
     public NodeQuery nodes(Matcher<Object> matcher);
 
     public NodeQuery nodesFrom(NodeQuery nodeQuery);
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR INTERACTION.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobotInterface interact(Runnable runnable);
+    public <T> FxRobotInterface interact(Callable<T> callable);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR CLICKING.
