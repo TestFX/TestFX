@@ -30,7 +30,6 @@ import javafx.stage.Window;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.PointLocator;
@@ -227,6 +226,60 @@ public class FxRobot implements FxRobotInterface {
     public FxRobot target(Scene scene) {
         context.getWindowFinder().target(scene);
         return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR NODE LOOKUP.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    public NodeQuery nodes() {
+        return context.getNodeFinder().nodes();
+    }
+
+    @Override
+    public NodeQuery nodes(String query) {
+        return context.getNodeFinder().nodes(query);
+    }
+
+    @Override
+    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
+        return context.getNodeFinder().nodes(predicate);
+    }
+
+    @Override
+    public NodeQuery nodes(Matcher<Object> matcher) {
+        return context.getNodeFinder().nodes(matcher);
+    }
+
+    @Override
+    public NodeQuery nodesFrom(Node... parentNodes) {
+        return context.getNodeFinder().nodesFrom(parentNodes);
+    }
+
+    @Override
+    public NodeQuery nodesFrom(Set<Node> parentNodes) {
+        return context.getNodeFinder().nodesFrom(parentNodes);
+    }
+
+    @Override
+    public NodeQuery nodesFrom(NodeQuery nodeQuery) {
+        return context.getNodeFinder().nodesFrom(nodeQuery);
+    }
+
+    @Override
+    public Node rootNode(Window window) {
+        return context.getNodeFinder().rootNode(window);
+    }
+
+    @Override
+    public Node rootNode(Scene scene) {
+        return context.getNodeFinder().rootNode(scene);
+    }
+
+    @Override
+    public Node rootNode(Node node) {
+        return context.getNodeFinder().rootNode(node);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -753,22 +806,14 @@ public class FxRobot implements FxRobotInterface {
 
     // -----
 
-    public NodeQuery _nodes(String query) {
-        return context.getNodeFinder().nodes(query);
-    }
-
-    public NodeQuery _nodesFrom(Node... parentNodes) {
-        return context.getNodeFinder().nodesFrom(parentNodes);
-    }
-
     public PointQuery _point(String query) {
-        NodeQuery nodeQuery = _nodes(query);
+        NodeQuery nodeQuery = nodes(query);
         Node resultNode = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
         return pointFor(resultNode).atPosition(context.getPointPosition());
     }
 
     private PointQuery _visiblePoint(String query) {
-        NodeQuery nodeQuery = _nodes(query);
+        NodeQuery nodeQuery = nodes(query);
         Node resultNode = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
         return pointFor(resultNode).atPosition(context.getPointPosition());
     }
@@ -794,8 +839,7 @@ public class FxRobot implements FxRobotInterface {
             String message = queryDescription + " returned no nodes.";
             throw new FxRobotException(message);
         }
-        Optional<Node> resultNode = _nodesFrom(Iterables.toArray(resultNodes, Node.class))
-            .select(isVisible()).tryQueryFirst();
+        Optional<Node> resultNode = nodesFrom(resultNodes).select(isVisible()).tryQueryFirst();
         if (!resultNode.isPresent()) {
             String message = queryDescription + " returned " + resultNodes.size() + " nodes" +
                 ", but no nodes were visible.";

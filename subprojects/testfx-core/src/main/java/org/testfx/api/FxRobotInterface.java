@@ -15,6 +15,7 @@
  */
 package org.testfx.api;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -30,6 +31,7 @@ import javafx.stage.Window;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
 @Unstable(reason = "interface was recently added")
@@ -114,20 +116,21 @@ public interface FxRobotInterface {
     // METHODS FOR NODE LOOKUP.
     //---------------------------------------------------------------------------------------------
 
-    //public <T extends Node> T node(String query);
-    //public <T extends Node> Set<T> nodes(String query)
-    //public <T extends Node> T node(Predicate<T> predicate);
-    //public <T extends Node> Set<T> nodes(Predicate<T> predicate);
+    public NodeQuery nodes();
 
-    //public <T extends Node> T node(String query, Node... parentNodes);
-    //public <T extends Node> Set<T> nodes(String query, Node... parentNodes);
-    //public <T extends Node> T node(Predicate<T> predicate, Node... parentNodes);
-    //public <T extends Node> Set<T> nodes(Predicate<T> predicate, Node... parentNodes);
+    public NodeQuery nodesFrom(Node... parentNodes);
+    public NodeQuery nodesFrom(Set<Node> parentNodes);
 
-    //public Node parentNode(Window window);
-    //public Node parentNode(int windowIndex);
-    //public Node parentNode(String stageTitleRegex);
-    //public Node parentNode(Scene scene);
+    public Node rootNode(Window window);
+    public Node rootNode(Scene scene);
+    public Node rootNode(Node node);
+
+    // Convenience methods:
+    public NodeQuery nodes(String query);
+    public <T extends Node> NodeQuery nodes(Predicate<T> predicate);
+    public NodeQuery nodes(Matcher<Object> matcher);
+
+    public NodeQuery nodesFrom(NodeQuery nodeQuery);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR CLICKING.
