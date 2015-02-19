@@ -13,36 +13,29 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.api;
+package org.testfx.toolkit;
 
-import org.testfx.api.annotation.Unstable;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-@Unstable(reason = "class was recently added")
-public class FxService {
+public class PrimaryStageApplication extends Application {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static FxServiceContext context;
+    public static final PrimaryStageFuture primaryStageFuture = PrimaryStageFuture.create();
 
     //---------------------------------------------------------------------------------------------
-    // PRIVATE CONSTRUCTORS.
+    // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private FxService() {
-        throw new UnsupportedOperationException();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    public static FxServiceContext serviceContext() {
-        if (context == null) {
-            context = new FxServiceContext();
-        }
-        return context;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setTitle(getClass().getSimpleName());
+        primaryStageFuture.set(primaryStage);
     }
 
 }

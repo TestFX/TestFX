@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 import org.loadui.testfx.exceptions.NoNodesVisibleException;
@@ -35,6 +36,7 @@ import static org.loadui.testfx.controls.Commons.hasText;
 /**
  * TestFX should not find/click invisible nodes.
  */
+@Ignore
 public class VisibilityTest extends GuiTest {
 
     @Test(expected = NoNodesVisibleException.class)

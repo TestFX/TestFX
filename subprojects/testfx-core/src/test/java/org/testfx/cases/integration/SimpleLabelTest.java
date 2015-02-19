@@ -13,33 +13,26 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.integration;
+package org.testfx.cases.integration;
 
-import java.util.concurrent.TimeoutException;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.cases.TestCaseBase;
 
-public class SimpleLabelTest extends FxRobot {
+public class SimpleLabelTest extends TestCaseBase {
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @BeforeClass
-    public static void setupSpec() throws TimeoutException {
-        FxToolkit.registerPrimaryStage();
-    }
-
     @Before
-    public void setup() throws TimeoutException {
+    public void setup() throws Exception {
         FxToolkit.setupStage(stage -> {
             Scene scene = new Scene(createSceneRoot(getClass()), 300, 100);
             stage.setScene(scene);

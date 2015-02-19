@@ -13,9 +13,8 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.integration;
+package org.testfx.cases.integration;
 
-import java.util.concurrent.TimeoutException;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -24,22 +23,19 @@ import javafx.scene.layout.HBox;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.cases.TestCaseBase;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.loadui.testfx.Assertions.verifyThat;
 
-public class DragAndDropTest {
+public class DragAndDropTest extends TestCaseBase {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------
-
-    public static FxRobot fx;
 
     public ListView<String> leftListView;
     public ListView<String> rightListView;
@@ -48,17 +44,8 @@ public class DragAndDropTest {
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @BeforeClass
-    public static void setupSpec() throws TimeoutException {
-        //System.setProperty("testfx.robot", "glass");
-        //System.setProperty("testfx.headless", "true");
-        //System.setProperty("prism.order", "sw");
-        FxToolkit.registerPrimaryStage();
-        fx = new FxRobot();
-    }
-
     @Before
-    public void setup() throws TimeoutException {
+    public void setup() throws Exception {
         FxToolkit.setupSceneRoot(() -> {
             leftListView = new ListView<>();
             rightListView = new ListView<>();
@@ -121,9 +108,9 @@ public class DragAndDropTest {
     @Test
     public void should_drag_and_drop_from_left_to_right() {
         // when:
-        fx.drag("L1");
-        fx.moveTo("R1");
-        fx.drop();
+        drag("L1");
+        moveTo("R1");
+        drop();
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(2));
@@ -135,8 +122,8 @@ public class DragAndDropTest {
     @Test
     public void should_drag_and_drop_from_right_to_left() {
         // when:
-        fx.drag("R3");
-        fx.dropTo("L2");
+        drag("R3");
+        dropTo("L2");
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(4));
@@ -148,8 +135,8 @@ public class DragAndDropTest {
     @Test
     public void should_drag_and_drop_from_left_to_left() {
         // when:
-        fx.drag("L3");
-        fx.dropTo("L2");
+        drag("L3");
+        dropTo("L2");
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(3));

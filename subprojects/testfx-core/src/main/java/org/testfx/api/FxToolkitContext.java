@@ -18,27 +18,27 @@ package org.testfx.api;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import com.google.common.annotations.Beta;
-import org.testfx.toolkit.StageFuture;
-import org.testfx.toolkit.ToolkitApplication;
+import org.testfx.api.annotation.Unstable;
+import org.testfx.toolkit.PrimaryStageApplication;
+import org.testfx.toolkit.PrimaryStageFuture;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
-@Beta
+@Unstable(reason = "class was recently added")
 public class FxToolkitContext {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private StageFuture stageFuture = ToolkitApplication.primaryStageFuture;
+    private PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.primaryStageFuture;
 
-    private Class<? extends Application> applicationClass = ToolkitApplication.class;
+    private Class<? extends Application> applicationClass = PrimaryStageApplication.class;
 
     private String[] applicationArgs = new String[] {};
 
-    private Stage targetStage = null;
+    private Stage registeredStage = null;
 
     private long launchTimeoutInMillis = parseLong(getProperty("testfx.launch.timeout", "60000"));
 
@@ -48,12 +48,12 @@ public class FxToolkitContext {
     // GETTER AND SETTER.
     //---------------------------------------------------------------------------------------------
 
-    public StageFuture getStageFuture() {
-        return stageFuture;
+    public PrimaryStageFuture getPrimaryStageFuture() {
+        return primaryStageFuture;
     }
 
-    public void setStageFuture(StageFuture stageFuture) {
-        this.stageFuture = stageFuture;
+    public void setPrimaryStageFuture(PrimaryStageFuture primaryStageFuture) {
+        this.primaryStageFuture = primaryStageFuture;
     }
 
     public Class<? extends Application> getApplicationClass() {
@@ -72,12 +72,12 @@ public class FxToolkitContext {
         this.applicationArgs = applicationArgs;
     }
 
-    public Stage getTargetStage() {
-        return targetStage;
+    public Stage getRegisteredStage() {
+        return registeredStage;
     }
 
-    public void setTargetStage(Stage targetStage) {
-        this.targetStage = targetStage;
+    public void setRegisteredStage(Stage registeredStage) {
+        this.registeredStage = registeredStage;
     }
 
     public long getLaunchTimeoutInMillis() {

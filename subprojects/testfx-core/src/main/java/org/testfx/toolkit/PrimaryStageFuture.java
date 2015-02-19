@@ -19,21 +19,21 @@ import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.AbstractFuture;
 
-public class StageFuture extends AbstractFuture<Stage> {
+public class PrimaryStageFuture extends AbstractFuture<Stage> {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static StageFuture create() {
-        return new StageFuture();
+    public static PrimaryStageFuture create() {
+        return new PrimaryStageFuture();
     }
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    private StageFuture() {}
+    private PrimaryStageFuture() {}
 
     //---------------------------------------------------------------------------------------------
     // METHODS.

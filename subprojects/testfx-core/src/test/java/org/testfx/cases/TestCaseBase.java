@@ -13,36 +13,29 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.api;
+package org.testfx.cases;
 
-import org.testfx.api.annotation.Unstable;
+import java.awt.GraphicsEnvironment;
 
-@Unstable(reason = "class was recently added")
-public class FxService {
+import org.junit.BeforeClass;
+import org.testfx.api.FxRobot;
+import org.testfx.api.FxToolkit;
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
+import static org.junit.Assume.assumeFalse;
 
-    private static FxServiceContext context;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    private FxService() {
-        throw new UnsupportedOperationException();
-    }
+public abstract class TestCaseBase extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static FxServiceContext serviceContext() {
-        if (context == null) {
-            context = new FxServiceContext();
-        }
-        return context;
+    @BeforeClass
+    public static void baseSetupSpec() throws Exception {
+        assumeFalse(
+            "Cannot run JavaFX in headless environment",
+            GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()
+        );
+        FxToolkit.registerPrimaryStage();
     }
 
 }

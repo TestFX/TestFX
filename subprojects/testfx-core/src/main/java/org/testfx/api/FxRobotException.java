@@ -13,29 +13,25 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.toolkit;
+package org.testfx.api;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import org.testfx.api.annotation.Unstable;
 
-public class ToolkitApplication extends Application {
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    public static final StageFuture primaryStageFuture = StageFuture.create();
+@Unstable(reason = "class was recently added")
+public class FxRobotException extends RuntimeException {
 
     //---------------------------------------------------------------------------------------------
-    // METHODS.
+    // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setTitle(getClass().getSimpleName());
-        primaryStageFuture.set(primaryStage);
+    private static final long serialVersionUID = 1L;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobotException(String message) {
+        super(message);
     }
 
 }
