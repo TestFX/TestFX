@@ -21,7 +21,7 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.matcher.predicate.PredicateMatchers;
+import org.testfx.matcher.base.BaseMatchers;
 import org.testfx.service.finder.NodeFinder;
 
 @Unstable(reason = "class was recently added")
@@ -109,7 +109,7 @@ public class FxAssert {
     }
 
     private static <T extends Node> Matcher<T> toNodeMatcher(Predicate<T> nodePredicate) {
-        return PredicateMatchers.nodeMatcher("applies on Predicate", nodePredicate);
+        return BaseMatchers.baseMatcher("applies on Predicate", nodePredicate);
     }
 
 }

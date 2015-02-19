@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.cases.TestCaseBase;
 
+import static org.hamcrest.Matchers.not;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.api.FxToolkit.setupApplication;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
@@ -102,6 +103,12 @@ public class FxAssertBasicTest extends TestCaseBase {
 
         // then:
         verifyThat("#button", hasText("clicked!"));
+    }
+
+    @Test
+    public void button_has_not_label() {
+        // expect:
+        verifyThat("#button", not(hasText("clicked!")));
     }
 
     //@Test
