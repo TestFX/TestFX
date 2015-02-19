@@ -20,7 +20,7 @@ import javafx.scene.control.TextInputControl;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
-import static org.testfx.matcher.predicate.PredicateMatchers.nodeMatcher;
+import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 
 public class TextInputControlMatchers {
 
@@ -31,9 +31,7 @@ public class TextInputControlMatchers {
     @Factory
     public static Matcher<TextInputControl> hasText(String text) {
         String descriptionText = "TextInputControl has text '" + text + "'";
-        return nodeMatcher(descriptionText, (TextInputControl textInputControl) -> {
-            return hasText(textInputControl, text);
-        });
+        return baseMatcher(descriptionText, textInputControl -> hasText(textInputControl, text));
     }
 
     //---------------------------------------------------------------------------------------------

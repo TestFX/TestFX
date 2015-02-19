@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.matcher.predicate;
+package org.testfx.matcher.base;
 
 import javafx.scene.Node;
 
@@ -23,13 +23,13 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class PredicateMatchers {
+public class BaseMatchers {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static <T extends Node> Matcher<T> nodeMatcher(final String descriptionText,
+    public static <T extends Node> Matcher<T> baseMatcher(final String descriptionText,
                                                           final Predicate<T> nodePredicate) {
         return new BaseMatcher<T>() {
             @Override
@@ -51,9 +51,9 @@ public class PredicateMatchers {
         };
     }
 
-    public static <T extends Node> Matcher<T> nodeMatcher(final Class<T> expectedType,
-                                                          final String descriptionText,
-                                                          final Predicate<T> nodePredicate) {
+    public static <T extends Node> Matcher<T> typeSafeMatcher(final Class<T> expectedType,
+                                                              final String descriptionText,
+                                                              final Predicate<T> nodePredicate) {
         // This simply implements the null check, checks the type and then casts.
         return new TypeSafeMatcher<T>(expectedType) {
             @Override

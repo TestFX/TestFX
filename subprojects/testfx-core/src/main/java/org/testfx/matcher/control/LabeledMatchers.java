@@ -20,7 +20,7 @@ import javafx.scene.control.Labeled;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
-import static org.testfx.matcher.predicate.PredicateMatchers.nodeMatcher;
+import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 
 public class LabeledMatchers {
 
@@ -31,7 +31,7 @@ public class LabeledMatchers {
     @Factory
     public static Matcher<Labeled> hasText(String text) {
         String descriptionText = "Labeled has text '" + text + "'";
-        return nodeMatcher(descriptionText, labeled -> hasText(labeled, text));
+        return baseMatcher(descriptionText, labeled -> hasText(labeled, text));
     }
 
     @Factory

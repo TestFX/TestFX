@@ -13,7 +13,7 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.matcher.predicate;
+package org.testfx.matcher.base;
 
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -29,7 +29,7 @@ import org.junit.rules.ExpectedException;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @SuppressWarnings("unchecked")
-public class PredicateMatchersTest {
+public class BaseMatchersTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -55,9 +55,9 @@ public class PredicateMatchersTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void uncheckedNodeMatcher_with_nullNode() {
+    public void baseMatcher_with_nullNode() {
         // given:
-        Matcher notNullNodeMatcher = PredicateMatchers.nodeMatcher(
+        Matcher notNullNodeMatcher = BaseMatchers.baseMatcher(
             "Node is not null", notNullNodePredicate
         );
 
@@ -69,9 +69,9 @@ public class PredicateMatchersTest {
     }
 
     @Test
-    public void checkedNodeMatcher_with_notMatchingNode() {
+    public void typeSafeMatcher_with_notMatchingNode() {
         // given:
-        Matcher hasChildrenParentMatcher = PredicateMatchers.nodeMatcher(
+        Matcher hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -83,9 +83,9 @@ public class PredicateMatchersTest {
     }
 
     @Test
-    public void checkedNodeMatcher_with_nullNode() {
+    public void typeSafeMatcher_with_nullNode() {
         // given:
-        Matcher hasChildrenParentMatcher = PredicateMatchers.nodeMatcher(
+        Matcher hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -99,9 +99,9 @@ public class PredicateMatchersTest {
     // java.lang.ClassCastException: javafx.scene.control.Button cannot be cast to javafx.scene.control.TreeView
 
     @Test
-    public void checkedNodeMatcher_with_notNode() {
+    public void typeSafeMatcher_with_notNode() {
         // given:
-        Matcher hasChildrenParentMatcher = PredicateMatchers.nodeMatcher(
+        Matcher hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
