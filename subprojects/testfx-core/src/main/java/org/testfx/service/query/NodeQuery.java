@@ -15,6 +15,7 @@
  */
 package org.testfx.service.query;
 
+import java.util.Collection;
 import java.util.Set;
 import javafx.scene.Node;
 
@@ -30,15 +31,15 @@ public interface NodeQuery {
     //---------------------------------------------------------------------------------------------
 
     NodeQuery from(Node... parentNodes);
-    NodeQuery from(Set<Node> parentNodes);
+    NodeQuery from(Collection<Node> parentNodes);
 
     NodeQuery lookup(String query);
     <T extends Node> NodeQuery lookup(Predicate<T> predicate);
-    NodeQuery lookup(Matcher<Object> matcher);
+    <T> NodeQuery lookup(Matcher<T> matcher);
     NodeQuery lookup(Function<Node, Set<Node>> function);
 
     <T extends Node> NodeQuery select(Predicate<T> predicate);
-    NodeQuery select(Matcher<Object> matcher);
+    <T> NodeQuery select(Matcher<T> matcher);
     NodeQuery selectAt(int index);
 
     <T extends Node> T queryFirst();

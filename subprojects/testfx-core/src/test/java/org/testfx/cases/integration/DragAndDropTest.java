@@ -29,7 +29,7 @@ import org.testfx.cases.TestCaseBase;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.loadui.testfx.Assertions.verifyThat;
+import static org.testfx.api.FxAssert.verifyThat;
 
 public class DragAndDropTest extends TestCaseBase {
 

@@ -15,6 +15,7 @@
  */
 package org.testfx.service.finder.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import javafx.scene.Node;
@@ -69,7 +70,7 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     @Override
-    public NodeQuery nodes(Matcher<Object> matcher) {
+    public <T> NodeQuery nodes(Matcher<T> matcher) {
         return nodes().lookup(matcher);
     }
 
@@ -79,7 +80,7 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     @Override
-    public NodeQuery nodesFrom(Set<Node> parentNodes) {
+    public NodeQuery nodesFrom(Collection<Node> parentNodes) {
         return nodeQueryFactory.build().from(parentNodes);
     }
 

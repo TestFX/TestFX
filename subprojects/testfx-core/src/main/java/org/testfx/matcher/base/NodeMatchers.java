@@ -16,12 +16,18 @@
 package org.testfx.matcher.base;
 
 import javafx.scene.Node;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.TextInputControl;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
+import org.testfx.matcher.control.LabeledMatchers;
+import org.testfx.matcher.control.TextInputControlMatchers;
 
 import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 
+@Unstable(reason = "needs more tests")
 public class NodeMatchers {
 
     //---------------------------------------------------------------------------------------------
@@ -60,7 +66,8 @@ public class NodeMatchers {
 
     @Factory
     public static Matcher<Node> hasText(String text) {
-        return null;
+        String descriptionText = "Node has text '" + text + "'";
+        return baseMatcher(descriptionText, node -> hasText(node, text));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -77,6 +84,17 @@ public class NodeMatchers {
 
     public static boolean isEnabled(Node node) {
         return !node.isDisabled();
+    }
+
+    public static boolean hasText(Node node,
+                                  String text) {
+        if (node instanceof Labeled) {
+            return LabeledMatchers.hasText((Labeled) node, text);
+        }
+        else if (node instanceof TextInputControl) {
+            return TextInputControlMatchers.hasText((TextInputControl) node, text);
+        }
+        return false;
     }
 
 }

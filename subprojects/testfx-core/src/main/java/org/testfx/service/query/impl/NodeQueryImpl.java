@@ -15,6 +15,7 @@
  */
 package org.testfx.service.query.impl;
 
+import java.util.Collection;
 import java.util.Set;
 import javafx.scene.Node;
 
@@ -49,14 +50,14 @@ public class NodeQueryImpl implements NodeQuery {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public NodeQuery from(Set<Node> parentNodes) {
-        this.parentNodes.addAll(parentNodes);
+    public NodeQuery from(Node... parentNodes) {
+        this.parentNodes.addAll(ImmutableList.copyOf(parentNodes));
         return this;
     }
 
     @Override
-    public NodeQuery from(Node... parentNodes) {
-        this.parentNodes.addAll(ImmutableList.copyOf(parentNodes));
+    public NodeQuery from(Collection<Node> parentNodes) {
+        this.parentNodes.addAll(parentNodes);
         return this;
     }
 
@@ -76,8 +77,9 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     @Override
-    public NodeQuery lookup(Matcher<Object> matcher) {
-        lookup(NodeQueryUtils.byMatcher(matcher));
+    @SuppressWarnings("unchecked")
+    public <T> NodeQuery lookup(Matcher<T> matcher) {
+        lookup(NodeQueryUtils.byMatcher((Matcher<Node>) matcher));
         return this;
     }
 
@@ -100,9 +102,10 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     @Override
-    public NodeQuery select(Matcher<Object> matcher) {
+    @SuppressWarnings("unchecked")
+    public <T> NodeQuery select(Matcher<T> matcher) {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter(NodeQueryUtils.matchesMatcher(matcher));
+        query = query.filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher));
         parentNodes = query.toSet();
         return this;
     }

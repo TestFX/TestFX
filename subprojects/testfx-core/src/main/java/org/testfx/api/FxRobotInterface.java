@@ -15,7 +15,7 @@
  */
 package org.testfx.api;
 
-import java.util.Set;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
@@ -120,7 +120,7 @@ public interface FxRobotInterface {
     public NodeQuery nodes();
 
     public NodeQuery nodesFrom(Node... parentNodes);
-    public NodeQuery nodesFrom(Set<Node> parentNodes);
+    public NodeQuery nodesFrom(Collection<Node> parentNodes);
 
     public Node rootNode(Window window);
     public Node rootNode(Scene scene);
@@ -129,7 +129,7 @@ public interface FxRobotInterface {
     // Convenience methods:
     public NodeQuery nodes(String query);
     public <T extends Node> NodeQuery nodes(Predicate<T> predicate);
-    public NodeQuery nodes(Matcher<Object> matcher);
+    public <T> NodeQuery nodes(Matcher<T> matcher);
 
     public NodeQuery nodesFrom(NodeQuery nodeQuery);
 
