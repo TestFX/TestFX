@@ -131,19 +131,22 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public PointQuery point(String query) {
-        Node node = context.getNodeFinder().nodes(query).queryFirst();
+        NodeQuery nodeQuery = nodes(query);
+        Node node = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
         return point(node).atPosition(context.getPointPosition());
     }
 
     @Override
     public <T> PointQuery point(Matcher<T> matcher) {
-        Node node = context.getNodeFinder().nodes(matcher).queryFirst();
+        NodeQuery nodeQuery = nodes(matcher);
+        Node node = queryFirstNode(nodeQuery, "the matcher");
         return point(node).atPosition(context.getPointPosition());
     }
 
     @Override
     public <T extends Node> PointQuery point(Predicate<T> predicate) {
-        Node node = context.getNodeFinder().nodes(predicate).queryFirst();
+        NodeQuery nodeQuery = nodes(predicate);
+        Node node = queryFirstNode(nodeQuery, "the predicate");
         return point(node).atPosition(context.getPointPosition());
     }
 
@@ -505,19 +508,19 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public FxRobot clickOn(String query,
                            MouseButton... buttons) {
-        return clickOn(point(query), buttons);
+        return clickOn(pointOfVisibleNode(query), buttons);
     }
 
     @Override
     public <T> FxRobot clickOn(Matcher<T> matcher,
                                MouseButton... buttons) {
-        return clickOn(point(matcher), buttons);
+        return clickOn(pointOfVisibleNode(matcher), buttons);
     }
 
     @Override
     public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
                                             MouseButton... buttons) {
-        return clickOn(point(predicate), buttons);
+        return clickOn(pointOfVisibleNode(predicate), buttons);
     }
 
     @Override
@@ -616,19 +619,19 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public FxRobot doubleClickOn(String query,
                                  MouseButton... buttons) {
-        return doubleClickOn(point(query), buttons);
+        return doubleClickOn(pointOfVisibleNode(query), buttons);
     }
 
     @Override
     public <T> FxRobot doubleClickOn(Matcher<T> matcher,
                                      MouseButton... buttons) {
-        return doubleClickOn(point(matcher), buttons);
+        return doubleClickOn(pointOfVisibleNode(matcher), buttons);
     }
 
     @Override
     public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
                                                   MouseButton... buttons) {
-        return doubleClickOn(point(predicate), buttons);
+        return doubleClickOn(pointOfVisibleNode(predicate), buttons);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -707,19 +710,19 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public FxRobot drag(String query,
                         MouseButton... buttons) {
-        return drag(point(query), buttons);
+        return drag(pointOfVisibleNode(query), buttons);
     }
 
     @Override
     public <T> FxRobot drag(Matcher<T> matcher,
                             MouseButton... buttons) {
-        return drag(point(matcher), buttons);
+        return drag(pointOfVisibleNode(matcher), buttons);
     }
 
     @Override
     public <T extends Node> FxRobot drag(Predicate<T> predicate,
                                          MouseButton... buttons) {
-        return drag(point(predicate), buttons);
+        return drag(pointOfVisibleNode(predicate), buttons);
     }
 
     @Override
@@ -755,17 +758,17 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot dropTo(String query) {
-        return dropTo(point(query));
+        return dropTo(pointOfVisibleNode(query));
     }
 
     @Override
     public <T> FxRobot dropTo(Matcher<T> matcher) {
-        return dropTo(point(matcher));
+        return dropTo(pointOfVisibleNode(matcher));
     }
 
     @Override
     public <T extends Node> FxRobot dropTo(Predicate<T> predicate) {
-        return dropTo(point(predicate));
+        return dropTo(pointOfVisibleNode(predicate));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -818,37 +821,39 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot moveTo(String query) {
-        return moveTo(point(query));
+        return moveTo(pointOfVisibleNode(query));
     }
 
     @Override
     public <T> FxRobot moveTo(Matcher<T> matcher) {
-        return moveTo(point(matcher));
+        return moveTo(pointOfVisibleNode(matcher));
     }
 
     @Override
     public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
-        return moveTo(point(predicate));
+        return moveTo(pointOfVisibleNode(predicate));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public PointQuery _point(String query) {
+    private PointQuery pointOfVisibleNode(String query) {
         NodeQuery nodeQuery = nodes(query);
-        Node resultNode = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
-        return point(resultNode).atPosition(context.getPointPosition());
+        Node node = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
+        return point(node);
     }
 
-    private PointQuery _pointOfVisibleNode(String query) {
-        NodeQuery nodeQuery = nodes(query);
-        Node resultNode = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
-        return point(resultNode).atPosition(context.getPointPosition());
+    private <T> PointQuery pointOfVisibleNode(Matcher<T> matcher) {
+        NodeQuery nodeQuery = nodes(matcher);
+        Node node = queryFirstVisibleNode(nodeQuery, "the matcher");
+        return point(node);
     }
 
-    public FxRobot _moveTo(String query) {
-        return moveTo(_pointOfVisibleNode(query));
+    private <T extends Node> PointQuery pointOfVisibleNode(Predicate<T> predicate) {
+        NodeQuery nodeQuery = nodes(predicate);
+        Node node = queryFirstVisibleNode(nodeQuery, "the predicate");
+        return point(node);
     }
 
     private Node queryFirstNode(NodeQuery nodeQuery,

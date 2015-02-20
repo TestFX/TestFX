@@ -43,15 +43,29 @@ public class FxAssert {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static <T> void verifyThat(String reason,
-                                      T value,
-                                      Matcher<? super T> matcher) {
-        verifyThatImpl(reason, value, matcher);
-    }
+    // ASSERTIONS WITH EMPTY REASON.
 
     public static <T> void verifyThat(T value,
                                       Matcher<? super T> matcher) {
         verifyThatImpl(emptyReason(), value, matcher);
+    }
+
+    public static <T extends Node> void verifyThat(String nodeQuery,
+                                                   Matcher<T> nodeMatcher) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
+    }
+
+    public static <T extends Node> void verifyThat(T node,
+                                                   Predicate<T> nodePredicate) {
+        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
+    }
+
+    // ASSERTIONS WITH REASON.
+
+    public static <T> void verifyThat(String reason,
+                                      T value,
+                                      Matcher<? super T> matcher) {
+        verifyThatImpl(reason, value, matcher);
     }
 
     public static <T extends Node> void verifyThat(String reason,
@@ -60,21 +74,13 @@ public class FxAssert {
         verifyThatImpl(reason, toNode(nodeQuery), nodeMatcher);
     }
 
-    public static <T extends Node> void verifyThat(String nodeQuery,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
-    }
-
     public static <T extends Node> void verifyThat(String reason,
                                                    T node,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(reason, node, toNodeMatcher(nodePredicate));
     }
 
-    public static <T extends Node> void verifyThat(T node,
-                                                   Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
-    }
+    // INTERNAL CONTEXT.
 
     public static FxAssertContext assertContext() {
         if (context == null) {
