@@ -29,12 +29,12 @@ import org.testfx.api.annotation.Unstable;
 public class BaseMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
     public static <T extends Node> Matcher<T> baseMatcher(final String descriptionText,
-                                                          final Predicate<T> nodePredicate) {
+                                                          final Predicate<T> predicate) {
         return new BaseMatcher<T>() {
             @Override
             public void describeTo(Description description) {
@@ -44,7 +44,7 @@ public class BaseMatchers {
             @Override
             @SuppressWarnings("unchecked")
             public boolean matches(Object node) {
-                return nodePredicate.apply((T) node);
+                return predicate.apply((T) node);
             }
 
             @Override
@@ -56,11 +56,11 @@ public class BaseMatchers {
     }
 
     @Factory
-    public static <T extends Node> Matcher<T> typeSafeMatcher(final Class<T> expectedType,
-                                                              final String descriptionText,
-                                                              final Predicate<T> nodePredicate) {
+    public static <T extends Node> Matcher<Node> typeSafeMatcher(final Class<T> expectedType,
+                                                                 final String descriptionText,
+                                                                 final Predicate<T> predicate) {
         // This simply implements the null check, checks the type and then casts.
-        return new TypeSafeMatcher<T>(expectedType) {
+        return new TypeSafeMatcher<Node>(expectedType) {
             @Override
             public void describeTo(Description description) {
                 description.appendText(expectedType.getSimpleName());
@@ -68,8 +68,9 @@ public class BaseMatchers {
             }
 
             @Override
-            protected boolean matchesSafely(T node) {
-                return nodePredicate.apply(node);
+            @SuppressWarnings("unchecked")
+            protected boolean matchesSafely(Node node) {
+                return predicate.apply((T) node);
             }
 
             @Override

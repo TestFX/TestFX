@@ -17,7 +17,7 @@ package org.testfx.matcher.control;
 
 import java.util.Objects;
 import javafx.scene.Node;
-import javafx.scene.control.Labeled;
+import javafx.scene.text.Text;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -26,7 +26,7 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.BaseMatchers.typeSafeMatcher;
 
 @Unstable(reason = "needs more tests")
-public class LabeledMatchers {
+public class TextMatchers {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -35,31 +35,32 @@ public class LabeledMatchers {
     @Factory
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "has text '" + string + "'";
-        return typeSafeMatcher(Labeled.class, descriptionText, (node) -> hasText(node, string));
+        return typeSafeMatcher(Text.class, descriptionText, (node) -> hasText(node, string));
     }
 
     @Factory
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "has text that matches";
-        return typeSafeMatcher(Labeled.class, descriptionText, (node) -> hasText(node, matcher));
+        return typeSafeMatcher(Text.class, descriptionText, (node) -> hasText(node, matcher));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static boolean hasText(Labeled labeled,
+    private static boolean hasText(Text text,
                                    String string) {
-        return Objects.equals(string, lookupText(labeled));
+        return Objects.equals(string, lookupText(text));
     }
 
-    private static boolean hasText(Labeled labeled,
+    private static boolean hasText(Text text,
                                    Matcher<String> matcher) {
-        return matcher.matches(lookupText(labeled));
+        return matcher.matches(lookupText(text));
     }
 
-    private static String lookupText(Labeled labeled) {
-        return labeled.getText();
+    private static String lookupText(Text text) {
+        return text.getText();
     }
 
 }
+

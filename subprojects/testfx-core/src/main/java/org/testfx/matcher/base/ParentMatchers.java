@@ -30,7 +30,7 @@ import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 public class ParentMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
@@ -53,14 +53,14 @@ public class ParentMatchers {
     }
 
     //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
+    // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean hasChild(Parent parent) {
+    private static boolean hasChild(Parent parent) {
         return !parent.getChildrenUnmodifiable().isEmpty();
     }
 
-    public static boolean hasChildren(int amount,
+    private static boolean hasChildren(int amount,
                                       Parent parent) {
         return parent.getChildrenUnmodifiable().size() == amount;
     }

@@ -15,37 +15,52 @@
  */
 package org.testfx.matcher.control;
 
+import java.util.Objects;
+import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 
-import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
+import static org.testfx.matcher.base.BaseMatchers.typeSafeMatcher;
 
 @Unstable(reason = "needs more tests")
 public class TextInputControlMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @Factory
-    public static Matcher<TextInputControl> hasText(String text) {
-        String descriptionText = "TextInputControl has text '" + text + "'";
-        return baseMatcher(descriptionText, textInputControl -> hasText(textInputControl, text));
-    }
-
-    //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean hasText(TextInputControl textInputControl,
-                                  String text) {
-        return text.equals(lookupText(textInputControl));
+    @Factory
+    public static Matcher<Node> hasText(String string) {
+        String descriptionText = "has text '" + string + "'";
+        return typeSafeMatcher(TextInputControl.class, descriptionText,
+            (node) -> hasText(node, string));
     }
 
-    public static String lookupText(TextInputControl textInputControl) {
+    @Factory
+    public static Matcher<Node> hasText(Matcher<String> matcher) {
+        String descriptionText = "has text that matches";
+        return typeSafeMatcher(TextInputControl.class, descriptionText,
+            (node) -> hasText(node, matcher));
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static boolean hasText(TextInputControl textInputControl,
+                                   String string) {
+        return Objects.equals(string, lookupText(textInputControl));
+    }
+
+    private static boolean hasText(TextInputControl textInputControl,
+                                   Matcher<String> matcher) {
+        return matcher.matches(lookupText(textInputControl));
+    }
+
+    private static String lookupText(TextInputControl textInputControl) {
         return textInputControl.getText();
     }
 

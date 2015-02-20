@@ -18,12 +18,14 @@ package org.testfx.matcher.base;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
+import org.testfx.matcher.control.TextMatchers;
 
 import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 
@@ -31,8 +33,13 @@ import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 public class NodeMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
+
+    @Factory
+    public static Matcher<Node> anything() {
+        return baseMatcher("anything", node -> true);
+    }
 
     @Factory
     public static Matcher<Node> isNull() {
@@ -70,29 +77,52 @@ public class NodeMatchers {
         return baseMatcher(descriptionText, node -> hasText(node, text));
     }
 
+    @Factory
+    public static Matcher<Node> hasText(Matcher<String> textMatcher) {
+        String descriptionText = "Node has text that matches";
+        return baseMatcher(descriptionText, node -> hasText(node, textMatcher));
+    }
+
     //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
+    // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean isNull(Node node) {
+    private static boolean isNull(Node node) {
         return node == null;
     }
 
-    public static boolean isVisible(Node node) {
+    private static boolean isVisible(Node node) {
         return node.isVisible();
     }
 
-    public static boolean isEnabled(Node node) {
+    private static boolean isEnabled(Node node) {
         return !node.isDisabled();
     }
 
-    public static boolean hasText(Node node,
-                                  String text) {
+    private static boolean hasText(Node node,
+                                   String string) {
         if (node instanceof Labeled) {
-            return LabeledMatchers.hasText((Labeled) node, text);
+            return LabeledMatchers.hasText(string).matches(node);
         }
         else if (node instanceof TextInputControl) {
-            return TextInputControlMatchers.hasText((TextInputControl) node, text);
+            return TextInputControlMatchers.hasText(string).matches(node);
+        }
+        else if (node instanceof Text) {
+            return TextMatchers.hasText(string).matches(node);
+        }
+        return false;
+    }
+
+    private static boolean hasText(Node node,
+                                   Matcher<String> matcher) {
+        if (node instanceof Labeled) {
+            return LabeledMatchers.hasText(matcher).matches(node);
+        }
+        else if (node instanceof TextInputControl) {
+            return TextInputControlMatchers.hasText(matcher).matches(node);
+        }
+        else if (node instanceof Text) {
+            return TextMatchers.hasText(matcher).matches(node);
         }
         return false;
     }
