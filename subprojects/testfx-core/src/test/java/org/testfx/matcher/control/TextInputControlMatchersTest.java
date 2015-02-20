@@ -18,6 +18,7 @@ package org.testfx.matcher.control;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 
 public class TextInputControlMatchersTest extends FxRobot {
 
@@ -36,6 +38,10 @@ public class TextInputControlMatchersTest extends FxRobot {
     @Rule
     public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
 
+    public TextField foobarTextField;
+    public TextField quuxTextField;
+    public Region region;
+
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
@@ -45,41 +51,65 @@ public class TextInputControlMatchersTest extends FxRobot {
         FxToolkit.registerPrimaryStage();
     }
 
+    @Before
+    public void setup() throws Exception {
+        FxToolkit.setupFixture(() -> {
+            foobarTextField = new TextField("foobar");
+            quuxTextField = new TextField("quux");
+            region = new Region();
+        });
+    }
+
     //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void hasText_with_text_field() throws Exception {
-        // given:
-        TextField textField = FxToolkit.setupFixture(() -> new TextField("foo"));
-
+    public void hasText() {
         // expect:
-        assertThat(textField, TextInputControlMatchers.hasText("foo"));
+        assertThat(foobarTextField, TextInputControlMatchers.hasText("foobar"));
     }
 
     @Test
-    public void hasText_with_text_field_fails() throws Exception {
-        // given:
-        TextField textField = FxToolkit.setupFixture(() -> new TextField("bar"));
-
+    public void hasText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextInputControl has text 'foo'\n");
+        exception.expectMessage("Expected: TextInputControl has text \"foobar\"\n");
 
-        assertThat(textField, TextInputControlMatchers.hasText("foo"));
+        assertThat(quuxTextField, TextInputControlMatchers.hasText("foobar"));
     }
 
     @Test
-    public void hasText_with_region_fails() throws Exception {
-        // given:
-        Region region = FxToolkit.setupFixture(() -> new Region());
-
+    public void hasText_with_region_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextInputControl has text 'foo'\n");
+        exception.expectMessage("Expected: TextInputControl has text \"foobar\"\n");
 
-        assertThat(region, TextInputControlMatchers.hasText("foo"));
+        assertThat(region, TextInputControlMatchers.hasText("foobar"));
+    }
+
+    @Test
+    public void hasText_matcher() {
+        // expect:
+        assertThat(foobarTextField, TextInputControlMatchers.hasText(endsWith("bar")));
+    }
+
+    @Test
+    public void hasText_matcher_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TextInputControl has a string ending with \"bar\"\n");
+
+        assertThat(quuxTextField, TextInputControlMatchers.hasText(endsWith("bar")));
+    }
+
+    @Test
+    public void hasText_matcher_with_region_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TextInputControl has a string ending with \"bar\"\n");
+
+        assertThat(region, TextInputControlMatchers.hasText(endsWith("bar")));
     }
 
 }

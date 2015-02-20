@@ -34,14 +34,14 @@ public class TextInputControlMatchers {
 
     @Factory
     public static Matcher<Node> hasText(String string) {
-        String descriptionText = "has text '" + string + "'";
+        String descriptionText = "has text \"" + string + "\"";
         return typeSafeMatcher(TextInputControl.class, descriptionText,
             (node) -> hasText(node, string));
     }
 
     @Factory
     public static Matcher<Node> hasText(Matcher<String> matcher) {
-        String descriptionText = "has text that matches";
+        String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(TextInputControl.class, descriptionText,
             (node) -> hasText(node, matcher));
     }

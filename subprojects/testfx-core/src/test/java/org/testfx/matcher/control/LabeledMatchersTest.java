@@ -18,6 +18,7 @@ package org.testfx.matcher.control;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 
 public class LabeledMatchersTest extends FxRobot {
 
@@ -36,6 +38,10 @@ public class LabeledMatchersTest extends FxRobot {
     @Rule
     public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
 
+    public Button foobarButton;
+    public Button quuxButton;
+    public Region region;
+
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
@@ -45,41 +51,65 @@ public class LabeledMatchersTest extends FxRobot {
         FxToolkit.registerPrimaryStage();
     }
 
+    @Before
+    public void setup() throws Exception {
+        FxToolkit.setupFixture(() -> {
+            foobarButton = new Button("foobar");
+            quuxButton = new Button("quux");
+            region = new Region();
+        });
+    }
+
     //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void hasText_with_button() throws Exception {
-        // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
-
+    public void hasText() {
         // expect:
-        assertThat(button, LabeledMatchers.hasText("foo"));
+        assertThat(foobarButton, LabeledMatchers.hasText("foobar"));
     }
 
     @Test
-    public void hasText_with_button_fails() throws Exception {
-        // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("bar"));
-
+    public void hasText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Labeled has text 'foo'\n");
+        exception.expectMessage("Expected: Labeled has text \"foobar\"\n");
 
-        assertThat(button, LabeledMatchers.hasText("foo"));
+        assertThat(quuxButton, LabeledMatchers.hasText("foobar"));
     }
 
     @Test
-    public void hasText_with_region_fails() throws Exception {
-        // given:
-        Region region = FxToolkit.setupFixture(() -> new Region());
-
+    public void hasText_with_region_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Labeled has text 'foo'\n");
+        exception.expectMessage("Expected: Labeled has text \"foobar\"\n");
 
-        assertThat(region, LabeledMatchers.hasText("foo"));
+        assertThat(region, LabeledMatchers.hasText("foobar"));
+    }
+
+    @Test
+    public void hasText_matcher() {
+        // expect:
+        assertThat(foobarButton, LabeledMatchers.hasText(endsWith("bar")));
+    }
+
+    @Test
+    public void hasText_matcher_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Labeled has a string ending with \"bar\"\n");
+
+        assertThat(quuxButton, LabeledMatchers.hasText(endsWith("bar")));
+    }
+
+    @Test
+    public void hasText_matcher_with_region_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Labeled has a string ending with \"bar\"\n");
+
+        assertThat(region, LabeledMatchers.hasText(endsWith("bar")));
     }
 
 }

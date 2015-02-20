@@ -73,13 +73,13 @@ public class NodeMatchers {
 
     @Factory
     public static Matcher<Node> hasText(String text) {
-        String descriptionText = "Node has text '" + text + "'";
+        String descriptionText = "Node has text \"" + text + "\"";
         return baseMatcher(descriptionText, node -> hasText(node, text));
     }
 
     @Factory
     public static Matcher<Node> hasText(Matcher<String> textMatcher) {
-        String descriptionText = "Node has text that matches";
+        String descriptionText = "Node has " + textMatcher.toString();
         return baseMatcher(descriptionText, node -> hasText(node, textMatcher));
     }
 

@@ -90,7 +90,7 @@ public class NodeMatchersTest extends FxRobot {
 
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text 'foo'\n");
+        exception.expectMessage("Expected: Node has text \"foo\"\n");
 
         assertThat(region, NodeMatchers.hasText("foo"));
     }

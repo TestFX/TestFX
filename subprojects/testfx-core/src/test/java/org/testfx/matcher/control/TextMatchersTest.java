@@ -18,6 +18,7 @@ package org.testfx.matcher.control;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 
 public class TextMatchersTest extends FxRobot {
 
@@ -36,6 +38,10 @@ public class TextMatchersTest extends FxRobot {
     @Rule
     public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
 
+    public Text foobarText;
+    public Text quuxText;
+    public Region region;
+
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
@@ -45,41 +51,65 @@ public class TextMatchersTest extends FxRobot {
         FxToolkit.registerPrimaryStage();
     }
 
+    @Before
+    public void setup() throws Exception {
+        FxToolkit.setupFixture(() -> {
+            foobarText = new Text("foobar");
+            quuxText = new Text("quux");
+            region = new Region();
+        });
+    }
+
     //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void hasText_with_text() throws Exception {
-        // given:
-        Text textShape = FxToolkit.setupFixture(() -> new Text("foo"));
-
+    public void hasText() {
         // expect:
-        assertThat(textShape, TextMatchers.hasText("foo"));
+        assertThat(foobarText, TextMatchers.hasText("foobar"));
     }
 
     @Test
-    public void hasText_with_text_fails() throws Exception {
-        // given:
-        Text textShape = FxToolkit.setupFixture(() -> new Text("bar"));
-
+    public void hasText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has text 'foo'\n");
+        exception.expectMessage("Expected: Text has text \"foobar\"\n");
 
-        assertThat(textShape, TextMatchers.hasText("foo"));
+        assertThat(quuxText, TextMatchers.hasText("foobar"));
     }
 
     @Test
-    public void hasText_with_region_fails() throws Exception {
-        // given:
-        Region region = FxToolkit.setupFixture(() -> new Region());
-
+    public void hasText_with_region_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has text 'foo'\n");
+        exception.expectMessage("Expected: Text has text \"foobar\"\n");
 
-        assertThat(region, TextMatchers.hasText("foo"));
+        assertThat(region, TextMatchers.hasText("foobar"));
+    }
+
+    @Test
+    public void hasText_matcher() {
+        // expect:
+        assertThat(foobarText, TextMatchers.hasText(endsWith("bar")));
+    }
+
+    @Test
+    public void hasText_matcher_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Text has a string ending with \"bar\"\n");
+
+        assertThat(quuxText, TextMatchers.hasText(endsWith("bar")));
+    }
+
+    @Test
+    public void hasText_matcher_with_region_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Text has a string ending with \"bar\"\n");
+
+        assertThat(region, TextMatchers.hasText(endsWith("bar")));
     }
 
 }
