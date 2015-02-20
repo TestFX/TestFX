@@ -32,6 +32,7 @@ public interface SleepRobot {
      * @param duration the duration
      * @param timeUnit the unit of time
      */
-    public void sleep(long duration, TimeUnit timeUnit);
+    public void sleep(long duration,
+                      TimeUnit timeUnit);
 
 }

@@ -65,13 +65,13 @@ public class NodeFinderImpl implements NodeFinder {
     }
 
     @Override
-    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
-        return nodes().lookup(predicate);
+    public <T> NodeQuery nodes(Matcher<T> matcher) {
+        return nodes().lookup(matcher);
     }
 
     @Override
-    public <T> NodeQuery nodes(Matcher<T> matcher) {
-        return nodes().lookup(matcher);
+    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
+        return nodes().lookup(predicate);
     }
 
     @Override

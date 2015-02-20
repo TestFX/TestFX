@@ -71,15 +71,15 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Node> NodeQuery lookup(Predicate<T> predicate) {
-        lookup(NodeQueryUtils.byPredicate((Predicate<Node>) predicate));
+    public <T> NodeQuery lookup(Matcher<T> matcher) {
+        lookup(NodeQueryUtils.byMatcher((Matcher<Node>) matcher));
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> NodeQuery lookup(Matcher<T> matcher) {
-        lookup(NodeQueryUtils.byMatcher((Matcher<Node>) matcher));
+    public <T extends Node> NodeQuery lookup(Predicate<T> predicate) {
+        lookup(NodeQueryUtils.byPredicate((Predicate<Node>) predicate));
         return this;
     }
 
@@ -94,18 +94,18 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Node> NodeQuery select(Predicate<T> predicate) {
+    public <T> NodeQuery select(Matcher<T> matcher) {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter((Predicate<Node>) predicate);
+        query = query.filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher));
         parentNodes = query.toSet();
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> NodeQuery select(Matcher<T> matcher) {
+    public <T extends Node> NodeQuery select(Predicate<T> predicate) {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher));
+        query = query.filter((Predicate<Node>) predicate);
         parentNodes = query.toSet();
         return this;
     }

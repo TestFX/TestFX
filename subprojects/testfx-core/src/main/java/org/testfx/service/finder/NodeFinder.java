@@ -32,8 +32,8 @@ public interface NodeFinder {
 
     NodeQuery nodes();
     NodeQuery nodes(String query);
-    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
     <T> NodeQuery nodes(Matcher<T> matcher);
+    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
 
     NodeQuery nodesFrom(Node... parentNodes);
     NodeQuery nodesFrom(Collection<Node> parentNodes);

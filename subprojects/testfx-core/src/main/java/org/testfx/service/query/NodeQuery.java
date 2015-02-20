@@ -34,12 +34,12 @@ public interface NodeQuery {
     NodeQuery from(Collection<Node> parentNodes);
 
     NodeQuery lookup(String query);
-    <T extends Node> NodeQuery lookup(Predicate<T> predicate);
     <T> NodeQuery lookup(Matcher<T> matcher);
+    <T extends Node> NodeQuery lookup(Predicate<T> predicate);
     NodeQuery lookup(Function<Node, Set<Node>> function);
 
-    <T extends Node> NodeQuery select(Predicate<T> predicate);
     <T> NodeQuery select(Matcher<T> matcher);
+    <T extends Node> NodeQuery select(Predicate<T> predicate);
     NodeQuery selectAt(int index);
 
     <T extends Node> T queryFirst();

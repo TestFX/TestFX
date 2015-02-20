@@ -84,29 +84,29 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public PointQuery pointFor(double x,
-                               double y) {
+    public PointQuery point(double x,
+                            double y) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         return pointLocator.pointFor(new Point2D(x, y)).atPosition(pointPosition);
     }
 
     @Override
-    public PointQuery pointFor(Point2D point) {
+    public PointQuery point(Point2D point) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         return pointLocator.pointFor(point).atPosition(pointPosition);
     }
 
     @Override
-    public PointQuery pointFor(Bounds bounds) {
+    public PointQuery point(Bounds bounds) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         return pointLocator.pointFor(bounds).atPosition(pointPosition);
     }
 
     @Override
-    public PointQuery pointFor(Node node) {
+    public PointQuery point(Node node) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         target(node.getScene().getWindow());
@@ -114,7 +114,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public PointQuery pointFor(Scene scene) {
+    public PointQuery point(Scene scene) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         target(scene.getWindow());
@@ -122,7 +122,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public PointQuery pointFor(Window window) {
+    public PointQuery point(Window window) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         target(window);
@@ -130,20 +130,21 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public PointQuery pointFor(String query) {
+    public PointQuery point(String query) {
         Node node = context.getNodeFinder().nodes(query).queryFirst();
-        return pointFor(node).atPosition(context.getPointPosition());
-    }
-
-    public PointQuery pointFor(Matcher<Object> matcher) {
-        Node node = context.getNodeFinder().nodes(matcher).queryFirst();
-        return pointFor(node).atPosition(context.getPointPosition());
+        return point(node).atPosition(context.getPointPosition());
     }
 
     @Override
-    public <T extends Node> PointQuery pointFor(Predicate<T> predicate) {
+    public <T> PointQuery point(Matcher<T> matcher) {
+        Node node = context.getNodeFinder().nodes(matcher).queryFirst();
+        return point(node).atPosition(context.getPointPosition());
+    }
+
+    @Override
+    public <T extends Node> PointQuery point(Predicate<T> predicate) {
         Node node = context.getNodeFinder().nodes(predicate).queryFirst();
-        return pointFor(node).atPosition(context.getPointPosition());
+        return point(node).atPosition(context.getPointPosition());
     }
 
     //---------------------------------------------------------------------------------------------
@@ -154,55 +155,56 @@ public class FxRobot implements FxRobotInterface {
     public PointQuery offset(Point2D point,
                              double offsetX,
                              double offsetY) {
-        return pointFor(point).atOffset(offsetX, offsetY);
+        return point(point).atOffset(offsetX, offsetY);
     }
 
     @Override
     public PointQuery offset(Bounds bounds,
                              double offsetX,
                              double offsetY) {
-        return pointFor(bounds).atOffset(offsetX, offsetY);
+        return point(bounds).atOffset(offsetX, offsetY);
     }
 
     @Override
     public PointQuery offset(Node node,
                              double offsetX,
                              double offsetY) {
-        return pointFor(node).atOffset(offsetX, offsetY);
+        return point(node).atOffset(offsetX, offsetY);
     }
 
     @Override
     public PointQuery offset(Scene scene,
                              double offsetX,
                              double offsetY) {
-        return pointFor(scene).atOffset(offsetX, offsetY);
+        return point(scene).atOffset(offsetX, offsetY);
     }
 
     @Override
     public PointQuery offset(Window window,
                              double offsetX,
                              double offsetY) {
-        return pointFor(window).atOffset(offsetX, offsetY);
+        return point(window).atOffset(offsetX, offsetY);
     }
 
     @Override
     public PointQuery offset(String query,
                              double offsetX,
                              double offsetY) {
-        return pointFor(query).atOffset(offsetX, offsetY);
+        return point(query).atOffset(offsetX, offsetY);
     }
 
-    public PointQuery offset(Matcher<Object> matcher,
-                             double offsetX,
-                             double offsetY) {
-        return pointFor(matcher).atOffset(offsetX, offsetY);
+    @Override
+    public <T> PointQuery offset(Matcher<T> matcher,
+                                 double offsetX,
+                                 double offsetY) {
+        return point(matcher).atOffset(offsetX, offsetY);
     }
 
     @Override
     public <T extends Node> PointQuery offset(Predicate<T> predicate,
                                               double offsetX,
                                               double offsetY) {
-        return pointFor(predicate).atOffset(offsetX, offsetY);
+        return point(predicate).atOffset(offsetX, offsetY);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -248,13 +250,13 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
-        return context.getNodeFinder().nodes(predicate);
+    public <T> NodeQuery nodes(Matcher<T> matcher) {
+        return context.getNodeFinder().nodes(matcher);
     }
 
     @Override
-    public <T> NodeQuery nodes(Matcher<T> matcher) {
-        return context.getNodeFinder().nodes(matcher);
+    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
+        return context.getNodeFinder().nodes(predicate);
     }
 
     @Override
@@ -467,55 +469,55 @@ public class FxRobot implements FxRobotInterface {
     public FxRobot clickOn(double x,
                            double y,
                            MouseButton... buttons) {
-        return clickOn(pointFor(x, y), buttons);
+        return clickOn(point(x, y), buttons);
     }
 
     @Override
     public FxRobot clickOn(Point2D point,
                            MouseButton... buttons) {
-        return clickOn(pointFor(point), buttons);
+        return clickOn(point(point), buttons);
     }
 
     @Override
     public FxRobot clickOn(Bounds bounds,
                            MouseButton... buttons) {
-        return clickOn(pointFor(bounds), buttons);
+        return clickOn(point(bounds), buttons);
     }
 
     @Override
     public FxRobot clickOn(Node node,
                            MouseButton... buttons) {
-        return clickOn(pointFor(node), buttons);
+        return clickOn(point(node), buttons);
     }
 
     @Override
     public FxRobot clickOn(Scene scene,
                            MouseButton... buttons) {
-        return clickOn(pointFor(scene), buttons);
+        return clickOn(point(scene), buttons);
     }
 
     @Override
     public FxRobot clickOn(Window window,
                            MouseButton... buttons) {
-        return clickOn(pointFor(window), buttons);
+        return clickOn(point(window), buttons);
     }
 
     @Override
     public FxRobot clickOn(String query,
                            MouseButton... buttons) {
-        return clickOn(pointFor(query), buttons);
+        return clickOn(point(query), buttons);
     }
 
     @Override
-    public FxRobot clickOn(Matcher<Object> matcher,
-                           MouseButton... buttons) {
-        return clickOn(pointFor(matcher), buttons);
+    public <T> FxRobot clickOn(Matcher<T> matcher,
+                               MouseButton... buttons) {
+        return clickOn(point(matcher), buttons);
     }
 
     @Override
     public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
                                             MouseButton... buttons) {
-        return clickOn(pointFor(predicate), buttons);
+        return clickOn(point(predicate), buttons);
     }
 
     @Override
@@ -565,7 +567,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public FxRobot rightClickOn(Matcher<Object> matcher) {
+    public <T> FxRobot rightClickOn(Matcher<T> matcher) {
         return clickOn(matcher, MouseButton.SECONDARY);
     }
 
@@ -578,55 +580,55 @@ public class FxRobot implements FxRobotInterface {
     public FxRobot doubleClickOn(double x,
                                  double y,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(x, y), buttons);
+        return doubleClickOn(point(x, y), buttons);
     }
 
     @Override
     public FxRobot doubleClickOn(Point2D point,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(point), buttons);
+        return doubleClickOn(point(point), buttons);
     }
 
     @Override
     public FxRobot doubleClickOn(Bounds bounds,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(bounds), buttons);
+        return doubleClickOn(point(bounds), buttons);
     }
 
     @Override
     public FxRobot doubleClickOn(Node node,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(node), buttons);
+        return doubleClickOn(point(node), buttons);
     }
 
     @Override
     public FxRobot doubleClickOn(Scene scene,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(scene), buttons);
+        return doubleClickOn(point(scene), buttons);
     }
 
     @Override
     public FxRobot doubleClickOn(Window window,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(window), buttons);
+        return doubleClickOn(point(window), buttons);
     }
 
     @Override
     public FxRobot doubleClickOn(String query,
                                  MouseButton... buttons) {
-        return doubleClickOn(pointFor(query), buttons);
+        return doubleClickOn(point(query), buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(Matcher<Object> matcher,
-                                 MouseButton... buttons) {
-        return doubleClickOn(pointFor(matcher), buttons);
+    public <T> FxRobot doubleClickOn(Matcher<T> matcher,
+                                     MouseButton... buttons) {
+        return doubleClickOn(point(matcher), buttons);
     }
 
     @Override
     public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
                                                   MouseButton... buttons) {
-        return doubleClickOn(pointFor(predicate), buttons);
+        return doubleClickOn(point(predicate), buttons);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -669,101 +671,101 @@ public class FxRobot implements FxRobotInterface {
     public FxRobot drag(double x,
                         double y,
                         MouseButton... buttons) {
-        return drag(pointFor(x, y), buttons);
+        return drag(point(x, y), buttons);
     }
 
     @Override
     public FxRobot drag(Point2D point,
                         MouseButton... buttons) {
-        return drag(pointFor(point), buttons);
+        return drag(point(point), buttons);
     }
 
     @Override
     public FxRobot drag(Bounds bounds,
                         MouseButton... buttons) {
-        return drag(pointFor(bounds), buttons);
+        return drag(point(bounds), buttons);
     }
 
     @Override
     public FxRobot drag(Node node,
                         MouseButton... buttons) {
-        return drag(pointFor(node), buttons);
+        return drag(point(node), buttons);
     }
 
     @Override
     public FxRobot drag(Scene scene,
                         MouseButton... buttons) {
-        return drag(pointFor(scene), buttons);
+        return drag(point(scene), buttons);
     }
 
     @Override
     public FxRobot drag(Window window,
                         MouseButton... buttons) {
-        return drag(pointFor(window), buttons);
+        return drag(point(window), buttons);
     }
 
     @Override
     public FxRobot drag(String query,
                         MouseButton... buttons) {
-        return drag(pointFor(query), buttons);
+        return drag(point(query), buttons);
     }
 
     @Override
-    public FxRobot drag(Matcher<Object> matcher,
-                        MouseButton... buttons) {
-        return drag(pointFor(matcher), buttons);
+    public <T> FxRobot drag(Matcher<T> matcher,
+                            MouseButton... buttons) {
+        return drag(point(matcher), buttons);
     }
 
     @Override
     public <T extends Node> FxRobot drag(Predicate<T> predicate,
                                          MouseButton... buttons) {
-        return drag(pointFor(predicate), buttons);
+        return drag(point(predicate), buttons);
     }
 
     @Override
     public FxRobot dropTo(double x,
                           double y) {
-        return dropTo(pointFor(x, y));
+        return dropTo(point(x, y));
     }
 
     @Override
     public FxRobot dropTo(Point2D point) {
-        return dropTo(pointFor(point));
+        return dropTo(point(point));
     }
 
     @Override
     public FxRobot dropTo(Bounds bounds) {
-        return dropTo(pointFor(bounds));
+        return dropTo(point(bounds));
     }
 
     @Override
     public FxRobot dropTo(Node node) {
-        return dropTo(pointFor(node));
+        return dropTo(point(node));
     }
 
     @Override
     public FxRobot dropTo(Scene scene) {
-        return dropTo(pointFor(scene));
+        return dropTo(point(scene));
     }
 
     @Override
     public FxRobot dropTo(Window window) {
-        return dropTo(pointFor(window));
+        return dropTo(point(window));
     }
 
     @Override
     public FxRobot dropTo(String query) {
-        return dropTo(pointFor(query));
+        return dropTo(point(query));
     }
 
     @Override
-    public FxRobot dropTo(Matcher<Object> matcher) {
-        return dropTo(pointFor(matcher));
+    public <T> FxRobot dropTo(Matcher<T> matcher) {
+        return dropTo(point(matcher));
     }
 
     @Override
     public <T extends Node> FxRobot dropTo(Predicate<T> predicate) {
-        return dropTo(pointFor(predicate));
+        return dropTo(point(predicate));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -786,65 +788,67 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public FxRobot moveTo(double x,
                           double y) {
-        return moveTo(pointFor(new Point2D(x, y)));
+        return moveTo(point(new Point2D(x, y)));
     }
 
     @Override
     public FxRobot moveTo(Point2D point) {
-        return moveTo(pointFor(point));
+        return moveTo(point(point));
     }
 
     @Override
     public FxRobot moveTo(Bounds bounds) {
-        return moveTo(pointFor(bounds));
+        return moveTo(point(bounds));
     }
 
     @Override
     public FxRobot moveTo(Node node) {
-        return moveTo(pointFor(node));
+        return moveTo(point(node));
     }
 
     @Override
     public FxRobot moveTo(Scene scene) {
-        return moveTo(pointFor(scene));
+        return moveTo(point(scene));
     }
 
     @Override
     public FxRobot moveTo(Window window) {
-        return moveTo(pointFor(window));
+        return moveTo(point(window));
     }
 
     @Override
     public FxRobot moveTo(String query) {
-        return moveTo(pointFor(query));
+        return moveTo(point(query));
     }
 
     @Override
-    public FxRobot moveTo(Matcher<Object> matcher) {
-        return moveTo(pointFor(matcher));
+    public <T> FxRobot moveTo(Matcher<T> matcher) {
+        return moveTo(point(matcher));
     }
 
     @Override
     public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
-        return moveTo(pointFor(predicate));
+        return moveTo(point(predicate));
     }
 
-    // -----
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
 
     public PointQuery _point(String query) {
         NodeQuery nodeQuery = nodes(query);
         Node resultNode = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
-        return pointFor(resultNode).atPosition(context.getPointPosition());
+        return point(resultNode).atPosition(context.getPointPosition());
     }
 
-    private PointQuery _visiblePoint(String query) {
+    private PointQuery _pointOfVisibleNode(String query) {
         NodeQuery nodeQuery = nodes(query);
         Node resultNode = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
-        return pointFor(resultNode).atPosition(context.getPointPosition());
+        return point(resultNode).atPosition(context.getPointPosition());
     }
 
     public FxRobot _moveTo(String query) {
-        return moveTo(_visiblePoint(query));
+        return moveTo(_pointOfVisibleNode(query));
     }
 
     private Node queryFirstNode(NodeQuery nodeQuery,
