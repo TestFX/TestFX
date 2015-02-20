@@ -31,7 +31,7 @@ import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class BaseMatchersTest {
+public class GeneralMatchersTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -74,7 +74,7 @@ public class BaseMatchersTest {
     @Test
     public void baseMatcher_with_nullNode() {
         // given:
-        Matcher<Node> notNullNodeMatcher = BaseMatchers.baseMatcher(
+        Matcher<Node> notNullNodeMatcher = GeneralMatchers.baseMatcher(
             "Node is not null", notNullNodePredicate
         );
 
@@ -88,7 +88,7 @@ public class BaseMatchersTest {
     @Test
     public void typeSafeMatcher_with_notMatchingNode() {
         // given:
-        Matcher<Node> hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
+        Matcher<Node> hasChildrenParentMatcher = GeneralMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -102,7 +102,7 @@ public class BaseMatchersTest {
     @Test
     public void typeSafeMatcher_with_nullNode() {
         // given:
-        Matcher<Node> hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
+        Matcher<Node> hasChildrenParentMatcher = GeneralMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -118,7 +118,7 @@ public class BaseMatchersTest {
     @Test
     public void typeSafeMatcher_with_notParentNode() {
         // given:
-        Matcher<Node> hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
+        Matcher<Node> hasChildrenParentMatcher = GeneralMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 

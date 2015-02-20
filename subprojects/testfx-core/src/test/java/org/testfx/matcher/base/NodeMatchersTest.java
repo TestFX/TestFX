@@ -35,6 +35,7 @@ import org.testfx.service.query.NodeQuery;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItem;
 
 public class NodeMatchersTest extends FxRobot {
 
@@ -57,6 +58,17 @@ public class NodeMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
+
+    @Test
+    public void anything() throws Exception {
+        List<Node> nodes = FxToolkit.setupFixture(() -> {
+            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
+        });
+
+        // expect:
+        assertThat(nodesFrom(nodes).select(NodeMatchers.anything()).queryAll(),
+            hasItem(NodeMatchers.hasText("bar")));
+    }
 
     @Test
     public void hasText_with_button() throws Exception {

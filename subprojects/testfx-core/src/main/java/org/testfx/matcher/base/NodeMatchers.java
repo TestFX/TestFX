@@ -30,7 +30,7 @@ import org.testfx.matcher.control.TextMatchers;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
-import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
+import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 @Unstable(reason = "needs more tests")
 public class NodeMatchers {
@@ -40,6 +40,7 @@ public class NodeMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "maybe find a better method name")
     public static Matcher<Node> anything() {
         return baseMatcher("anything", node -> true);
     }

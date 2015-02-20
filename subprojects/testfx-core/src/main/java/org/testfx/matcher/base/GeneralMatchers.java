@@ -25,8 +25,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.testfx.api.annotation.Unstable;
 
-@Unstable(reason = "needs more tests")
-public class BaseMatchers {
+@Unstable(reason = "requires more testing; likely to be replaced by a builder")
+public class GeneralMatchers {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.

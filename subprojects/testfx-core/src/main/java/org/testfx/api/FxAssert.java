@@ -21,10 +21,10 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.matcher.base.BaseMatchers;
+import org.testfx.matcher.base.GeneralMatchers;
 import org.testfx.service.finder.NodeFinder;
 
-@Unstable(reason = "class was recently added")
+@Unstable(reason = "method signatures need fine-tuning")
 public class FxAssert {
 
     //---------------------------------------------------------------------------------------------
@@ -59,6 +59,11 @@ public class FxAssert {
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
     }
+
+    //public static <T extends Node> void verifyThat2(String nodeQuery,
+    //                                                Matcher<Iterable<T>> nodeMatcher) {
+    //    verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodeMatcher);
+    //}
 
     // ASSERTIONS WITH REASON.
 
@@ -114,8 +119,13 @@ public class FxAssert {
         return nodeFinder.nodes(nodeQuery).queryFirst();
     }
 
+    //private static <T extends Node> Set<T> toNodeSet(String nodeQuery) {
+    //    NodeFinder nodeFinder = assertContext().getNodeFinder();
+    //    return nodeFinder.nodes(nodeQuery).queryAll();
+    //}
+
     private static <T extends Node> Matcher<T> toNodeMatcher(Predicate<T> nodePredicate) {
-        return BaseMatchers.baseMatcher("applies on Predicate", nodePredicate);
+        return GeneralMatchers.baseMatcher("applies on Predicate", nodePredicate);
     }
 
 }
