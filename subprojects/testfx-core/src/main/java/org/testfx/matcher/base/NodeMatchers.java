@@ -22,10 +22,13 @@ import javafx.scene.text.Text;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.testfx.api.FxAssert;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.matcher.control.TextMatchers;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
 
@@ -83,6 +86,19 @@ public class NodeMatchers {
         return baseMatcher(descriptionText, node -> hasText(node, textMatcher));
     }
 
+    @Factory
+    public static Matcher<Node> hasChild(String query) {
+        String descriptionText = "Node has child \"" + query + "\"";
+        return baseMatcher(descriptionText, (node) -> hasChild(node, query));
+    }
+
+    @Factory
+    public static Matcher<Node> hasChildren(int amount,
+                                            String query) {
+        String descriptionText = "Node has " + amount + " children \"" + query + "\"";
+        return baseMatcher(descriptionText, (node) -> hasChildren(node, amount, query));
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -125,6 +141,21 @@ public class NodeMatchers {
             return TextMatchers.hasText(matcher).matches(node);
         }
         return false;
+    }
+
+    private static boolean hasChild(Node node,
+                                    String query) {
+        NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
+        NodeQuery nodeQuery = nodeFinder.nodesFrom(node);
+        return !nodeQuery.lookup(query).queryAll().isEmpty();
+    }
+
+    private static boolean hasChildren(Node node,
+                                       int amount,
+                                       String query) {
+        NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
+        NodeQuery nodeQuery = nodeFinder.nodesFrom(node);
+        return nodeQuery.lookup(query).queryAll().size() == amount;
     }
 
 }

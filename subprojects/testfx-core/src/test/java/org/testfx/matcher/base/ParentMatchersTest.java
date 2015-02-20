@@ -15,28 +15,20 @@
  */
 package org.testfx.matcher.base;
 
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.service.query.NodeQuery;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 
-public class NodeMatchersTest extends FxRobot {
+public class ParentMatchersTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -59,61 +51,6 @@ public class NodeMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void hasText_with_button() throws Exception {
-        // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
-
-        // expect:
-        assertThat(button, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_text_field() throws Exception {
-        // given:
-        TextField textField = FxToolkit.setupFixture(() -> new TextField("foo"));
-
-        // expect:
-        assertThat(textField, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_text() throws Exception {
-        // given:
-        Text textShape = FxToolkit.setupFixture(() -> new Text("foo"));
-
-        // expect:
-        assertThat(textShape, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_region_fails() throws Exception {
-        // given:
-        Region region = FxToolkit.setupFixture(() -> new Region());
-
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text \"foo\"\n");
-
-        assertThat(region, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_filters_nodes() throws Exception {
-        // given:
-        List<Node> nodes = FxToolkit.setupFixture(() -> {
-            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
-        });
-
-        // expect:
-        NodeQuery query1 = nodesFrom(nodes).select(NodeMatchers.hasText("foo"));
-        assertThat(query1.queryAll(), contains(nodes.get(1)));
-
-        // and:
-        NodeQuery query2 = nodesFrom(nodes).select(NodeMatchers.hasText("bar"));
-        assertThat(query2.queryAll(), contains(nodes.get(2)));
-    }
-
-    @Test
     public void hasChild() throws Exception {
         // given:
         Node parent = FxToolkit.setupFixture(() -> {
@@ -121,7 +58,18 @@ public class NodeMatchersTest extends FxRobot {
         });
 
         // expect:
-        assertThat(parent, NodeMatchers.hasChild(".button"));
+        assertThat(parent, ParentMatchers.hasChild());
+    }
+
+    @Test
+    public void hasChildren() throws Exception {
+        // given:
+        Node parent = FxToolkit.setupFixture(() -> {
+            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
+        });
+
+        // expect:
+        assertThat(parent, ParentMatchers.hasChildren(3));
     }
 
     @Test
@@ -133,20 +81,9 @@ public class NodeMatchersTest extends FxRobot {
 
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has child \".button\"\n");
+        exception.expectMessage("Expected: Parent has child\n");
 
-        assertThat(parent, NodeMatchers.hasChild(".button"));
-    }
-
-    @Test
-    public void hasChildren() throws Exception {
-        // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
-        });
-
-        // expect:
-        assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
+        assertThat(parent, ParentMatchers.hasChild());
     }
 
     @Test
@@ -158,9 +95,9 @@ public class NodeMatchersTest extends FxRobot {
 
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has 2 children \".button\"\n");
+        exception.expectMessage("Expected: Parent has 3 children\n");
 
-        assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
+        assertThat(parent, ParentMatchers.hasChildren(3));
     }
 
 }
