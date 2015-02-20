@@ -34,13 +34,13 @@ public class ParentMatchers {
     @Factory
     public static Matcher<Node> hasChild() {
         String descriptionText = "has child";
-        return typeSafeMatcher(Parent.class, descriptionText, (node) -> hasChild(node));
+        return typeSafeMatcher(Parent.class, descriptionText, node -> hasChild(node));
     }
 
     @Factory
     public static Matcher<Node> hasChildren(int amount) {
         String descriptionText = "has " + amount + " children";
-        return typeSafeMatcher(Parent.class, descriptionText, (node) -> hasChildren(amount, node));
+        return typeSafeMatcher(Parent.class, descriptionText, node -> hasChildren(amount, node));
     }
 
     //---------------------------------------------------------------------------------------------

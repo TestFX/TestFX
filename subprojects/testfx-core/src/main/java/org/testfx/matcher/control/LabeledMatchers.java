@@ -35,13 +35,13 @@ public class LabeledMatchers {
     @Factory
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
-        return typeSafeMatcher(Labeled.class, descriptionText, (node) -> hasText(node, string));
+        return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, string));
     }
 
     @Factory
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
-        return typeSafeMatcher(Labeled.class, descriptionText, (node) -> hasText(node, matcher));
+        return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, matcher));
     }
 
     //---------------------------------------------------------------------------------------------

@@ -75,28 +75,28 @@ public class NodeMatchers {
     }
 
     @Factory
-    public static Matcher<Node> hasText(String text) {
-        String descriptionText = "Node has text \"" + text + "\"";
-        return baseMatcher(descriptionText, node -> hasText(node, text));
+    public static Matcher<Node> hasText(String string) {
+        String descriptionText = "Node has text \"" + string + "\"";
+        return baseMatcher(descriptionText, node -> hasText(node, string));
     }
 
     @Factory
-    public static Matcher<Node> hasText(Matcher<String> textMatcher) {
-        String descriptionText = "Node has " + textMatcher.toString();
-        return baseMatcher(descriptionText, node -> hasText(node, textMatcher));
+    public static Matcher<Node> hasText(Matcher<String> matcher) {
+        String descriptionText = "Node has " + matcher.toString();
+        return baseMatcher(descriptionText, node -> hasText(node, matcher));
     }
 
     @Factory
     public static Matcher<Node> hasChild(String query) {
         String descriptionText = "Node has child \"" + query + "\"";
-        return baseMatcher(descriptionText, (node) -> hasChild(node, query));
+        return baseMatcher(descriptionText, node -> hasChild(node, query));
     }
 
     @Factory
     public static Matcher<Node> hasChildren(int amount,
                                             String query) {
         String descriptionText = "Node has " + amount + " children \"" + query + "\"";
-        return baseMatcher(descriptionText, (node) -> hasChildren(node, amount, query));
+        return baseMatcher(descriptionText, node -> hasChildren(node, amount, query));
     }
 
     //---------------------------------------------------------------------------------------------
