@@ -21,6 +21,7 @@ public interface MoveRobot {
 
     public void moveTo(PointQuery pointQuery);
 
-    public void moveBy(double x, double y);
+    public void moveBy(double x,
+                       double y);
 
 }

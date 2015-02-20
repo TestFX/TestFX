@@ -126,7 +126,7 @@ public class NodeAndPointQueryTest {
     @Test
     public void point_query_returns_point() {
         // when:
-        PointQuery pointQuery = fx._point(".button");
+        PointQuery pointQuery = fx.point(".button");
 
         // then:
         assertThat(pointQuery.query(), instanceOf(Point2D.class));
@@ -138,13 +138,13 @@ public class NodeAndPointQueryTest {
         thrown.expect(FxRobotException.class);
         thrown.expectMessage("the query \".missing\" returned no nodes.");
 
-        fx._point(".missing");
+        fx.point(".missing");
     }
 
     @Test
     public void moveTo() {
         // when:
-        fx._moveTo(".button").clickOn();
+        fx.moveTo(".button").clickOn();
 
         // then:
         assertThat(button0.getText(), is("clicked!"));
@@ -156,7 +156,7 @@ public class NodeAndPointQueryTest {
         thrown.expect(FxRobotException.class);
         thrown.expectMessage("the query \".missing\" returned no nodes.");
 
-        fx._moveTo(".missing").clickOn();
+        fx.moveTo(".missing").clickOn();
     }
 
     @Test
@@ -165,7 +165,7 @@ public class NodeAndPointQueryTest {
         thrown.expect(FxRobotException.class);
         thrown.expectMessage("the query \".label\" returned 1 nodes, but no nodes were visible.");
 
-        fx._moveTo(".label").clickOn();
+        fx.moveTo(".label").clickOn();
     }
 
 }
