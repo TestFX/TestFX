@@ -162,8 +162,7 @@ public class WaitForAsyncUtils {
                                TimeUnit timeUnit,
                                Callable<Boolean> condition)
                         throws TimeoutException {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.start();
+        Stopwatch stopwatch = Stopwatch.createStarted();
         while (!callConditionAndReturnResult(condition)) {
             sleep(CONDITION_SLEEP_IN_MILLIS, MILLISECONDS);
             if (stopwatch.elapsed(timeUnit) > timeout) {
