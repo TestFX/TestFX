@@ -41,14 +41,14 @@ public class GeneralMatchers {
 
             @Override
             @SuppressWarnings("unchecked")
-            public boolean matches(Object node) {
-                return predicate.apply((T) node);
+            public boolean matches(Object object) {
+                return predicate.apply((T) object);
             }
 
             @Override
-            public void describeMismatch(Object node,
+            public void describeMismatch(Object object,
                                          Description description) {
-                description.appendText("was ").appendValue(node);
+                description.appendText("was ").appendValue(object);
             }
         };
     }
