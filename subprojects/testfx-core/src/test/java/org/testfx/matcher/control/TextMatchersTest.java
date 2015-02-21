@@ -36,7 +36,7 @@ public class TextMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     public Text foobarText;
     public Text quuxText;

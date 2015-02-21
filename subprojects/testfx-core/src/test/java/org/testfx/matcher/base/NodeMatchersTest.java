@@ -44,7 +44,7 @@ public class NodeMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.

@@ -40,7 +40,7 @@ public class TableViewMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     public TableView<Map> tableView;
 
