@@ -126,7 +126,7 @@ public class GeneralMatchersTest {
         // TODO: Hint expected type on AssertError explicitly.
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Parent has children\n" +
-                                "     but: was <Button");
+                                "     but: was <" + notParentNode.toString() + ">");
         assertThat(notParentNode, hasChildrenParentMatcher);
     }
 
