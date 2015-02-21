@@ -17,10 +17,17 @@ Working towards version 4.0.0 on `master`. The [changelog wiki page][20] is pret
 
 ## Features
 
- - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
- - Supports Hamcrest Matchers and Lambda expressions.
- - Screenshots of failed tests.
- - Supports JavaFX 2 and JavaFX 8.
+- A fluent and clean API.
+- Flexible setup and cleanup of JavaFX test fixtures.
+- Simple robots to simulate user interactions.
+- Rich collection of matchers to verify expected states.
+
+**Support for:**
+
+- Java 8 features and JavaFX 8 controls.
+- The JUnit testing framework and Hamcrest matchers.
+- Screenshots of failed tests.
+- Headless testing using Monocle.
 
 
 ## Example
@@ -47,6 +54,17 @@ public class DesktopPaneTest extends FxRobotTestBase {
     }
 }
 ```
+
+
+## Documentation
+
+- [How to use TestFX in your project][100]
+- [How to build and deploy TestFX][101]
+- [How to contribute][102]
+
+[100]: https://github.com/TestFX/TestFX/wiki/How-to-use-TestFX-in-your-project
+[101]: https://github.com/TestFX/TestFX/wiki/How-to-build-and-deploy-TestFX
+[102]: https://github.com/TestFX/TestFX/wiki/How-to-Contribute
 
 
 ## Motivation
@@ -80,6 +98,7 @@ Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([vi
 Head over to [testfx-discuss@googlegroups.com][50] for discussions, questions and announcements.
 
 [50]: https://groups.google.com/d/forum/testfx-discus
+
 
 ## Credits
 
