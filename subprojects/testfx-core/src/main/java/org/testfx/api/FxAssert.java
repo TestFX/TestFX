@@ -15,7 +15,6 @@
  */
 package org.testfx.api;
 
-import java.util.Collection;
 import java.util.Set;
 import javafx.scene.Node;
 
@@ -60,8 +59,8 @@ public class FxAssert {
         verifyThatImpl(emptyReason(), node, nodeMatcher);
     }
 
-    public static <T extends Node> void verifyThat(Collection<T> nodes,
-                                                   Matcher<Iterable<T>> nodesMatcher) {
+    public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
+                                                       Matcher<Iterable<T>> nodesMatcher) {
         verifyThatImpl(emptyReason(), nodes, nodesMatcher);
     }
 
@@ -72,8 +71,8 @@ public class FxAssert {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
     }
 
-    public static <T extends Node> void verifyThat2(String nodeQuery,
-                                                    Matcher<Iterable<T>> nodesMatcher) {
+    public static <T extends Node> void verifyThatIter(String nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher) {
         verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
     }
 
@@ -84,8 +83,8 @@ public class FxAssert {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
     }
 
-    public static <T extends Node> void verifyThat2(NodeQuery nodeQuery,
-                                                    Matcher<Iterable<T>> nodesMatcher) {
+    public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher) {
         verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
     }
 
