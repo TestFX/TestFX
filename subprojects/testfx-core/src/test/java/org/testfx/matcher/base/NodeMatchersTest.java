@@ -18,8 +18,11 @@ package org.testfx.matcher.base;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.BeforeClass;
@@ -32,6 +35,7 @@ import org.testfx.service.query.NodeQuery;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItem;
 
 public class NodeMatchersTest extends FxRobot {
 
@@ -56,23 +60,22 @@ public class NodeMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Test
+    public void anything() throws Exception {
+        List<Node> nodes = FxToolkit.setupFixture(() -> {
+            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
+        });
+
+        // expect:
+        assertThat(nodesFrom(nodes).select(NodeMatchers.anything()).queryAll(),
+            hasItem(NodeMatchers.hasText("bar")));
+    }
+
+    @Test
     public void hasText_with_button() throws Exception {
         // given:
         Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
         // expect:
-        assertThat(button, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_button_fails() throws Exception {
-        // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("bar"));
-
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text 'foo'\n");
-
         assertThat(button, NodeMatchers.hasText("foo"));
     }
 
@@ -86,15 +89,12 @@ public class NodeMatchersTest extends FxRobot {
     }
 
     @Test
-    public void hasText_with_text_field_fails() throws Exception {
+    public void hasText_with_text() throws Exception {
         // given:
-        TextField textField = FxToolkit.setupFixture(() -> new TextField("bar"));
+        Text textShape = FxToolkit.setupFixture(() -> new Text("foo"));
 
         // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text 'foo'\n");
-
-        assertThat(textField, NodeMatchers.hasText("foo"));
+        assertThat(textShape, NodeMatchers.hasText("foo"));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class NodeMatchersTest extends FxRobot {
 
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text 'foo'\n");
+        exception.expectMessage("Expected: Node has text \"foo\"\n");
 
         assertThat(region, NodeMatchers.hasText("foo"));
     }
@@ -123,6 +123,56 @@ public class NodeMatchersTest extends FxRobot {
         // and:
         NodeQuery query2 = nodesFrom(nodes).select(NodeMatchers.hasText("bar"));
         assertThat(query2.queryAll(), contains(nodes.get(2)));
+    }
+
+    @Test
+    public void hasChild() throws Exception {
+        // given:
+        Node parent = FxToolkit.setupFixture(() -> {
+            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
+        });
+
+        // expect:
+        assertThat(parent, NodeMatchers.hasChild(".button"));
+    }
+
+    @Test
+    public void hasChild_fails() throws Exception {
+        // given:
+        Node parent = FxToolkit.setupFixture(() -> {
+            return new StackPane();
+        });
+
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Node has child \".button\"\n");
+
+        assertThat(parent, NodeMatchers.hasChild(".button"));
+    }
+
+    @Test
+    public void hasChildren() throws Exception {
+        // given:
+        Node parent = FxToolkit.setupFixture(() -> {
+            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
+        });
+
+        // expect:
+        assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
+    }
+
+    @Test
+    public void hasChildren_fails() throws Exception {
+        // given:
+        Node parent = FxToolkit.setupFixture(() -> {
+            return new StackPane(new Label("foo"), new Button("bar"));
+        });
+
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Node has 2 children \".button\"\n");
+
+        assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
     }
 
 }

@@ -15,21 +15,23 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SuppressWarnings("unchecked")
-public class BaseMatchersTest {
+public class GeneralMatchersTest {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -37,9 +39,9 @@ public class BaseMatchersTest {
 
     public Node nullNode = null;
 
-    public Pane notMatchingNode = new Pane();
+    public Pane notMatchingNode;
 
-    public Cursor notNode = Cursor.DEFAULT;
+    public Button notParentNode;
 
     public Predicate<Node> notNullNodePredicate =
         node -> node != null;
@@ -51,13 +53,28 @@ public class BaseMatchersTest {
     public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
 
     //---------------------------------------------------------------------------------------------
+    // FIXTURE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    @BeforeClass
+    public static void setupSpec() throws Exception {
+        FxToolkit.registerPrimaryStage();
+    }
+
+    @Before
+    public void setup() throws Exception {
+        notMatchingNode = FxToolkit.setupFixture(() -> new Pane());
+        notParentNode = FxToolkit.setupFixture(() -> new Button());
+    }
+
+    //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Test
     public void baseMatcher_with_nullNode() {
         // given:
-        Matcher notNullNodeMatcher = BaseMatchers.baseMatcher(
+        Matcher<Node> notNullNodeMatcher = GeneralMatchers.baseMatcher(
             "Node is not null", notNullNodePredicate
         );
 
@@ -71,7 +88,7 @@ public class BaseMatchersTest {
     @Test
     public void typeSafeMatcher_with_notMatchingNode() {
         // given:
-        Matcher hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
+        Matcher<Node> hasChildrenParentMatcher = GeneralMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -85,7 +102,7 @@ public class BaseMatchersTest {
     @Test
     public void typeSafeMatcher_with_nullNode() {
         // given:
-        Matcher hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
+        Matcher<Node> hasChildrenParentMatcher = GeneralMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -99,9 +116,9 @@ public class BaseMatchersTest {
     // java.lang.ClassCastException: javafx.scene.control.Button cannot be cast to javafx.scene.control.TreeView
 
     @Test
-    public void typeSafeMatcher_with_notNode() {
+    public void typeSafeMatcher_with_notParentNode() {
         // given:
-        Matcher hasChildrenParentMatcher = BaseMatchers.typeSafeMatcher(
+        Matcher<Node> hasChildrenParentMatcher = GeneralMatchers.typeSafeMatcher(
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
@@ -109,8 +126,8 @@ public class BaseMatchersTest {
         // TODO: Hint expected type on AssertError explicitly.
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Parent has children\n" +
-                                "     but: was a javafx.scene.Cursor$StandardCursor (<DEFAULT>)");
-        assertThat(notNode, hasChildrenParentMatcher);
+                                "     but: was <" + notParentNode.toString() + ">");
+        assertThat(notParentNode, hasChildrenParentMatcher);
     }
 
 }

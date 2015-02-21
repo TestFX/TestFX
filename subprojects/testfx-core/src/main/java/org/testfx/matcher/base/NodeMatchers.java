@@ -18,21 +18,32 @@ package org.testfx.matcher.base;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.testfx.api.FxAssert;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
+import org.testfx.matcher.control.TextMatchers;
+import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.query.NodeQuery;
 
-import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
+import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 @Unstable(reason = "needs more tests")
 public class NodeMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
+
+    @Factory
+    @Unstable(reason = "maybe find a better method name")
+    public static Matcher<Node> anything() {
+        return baseMatcher("anything", node -> true);
+    }
 
     @Factory
     public static Matcher<Node> isNull() {
@@ -65,36 +76,87 @@ public class NodeMatchers {
     }
 
     @Factory
-    public static Matcher<Node> hasText(String text) {
-        String descriptionText = "Node has text '" + text + "'";
-        return baseMatcher(descriptionText, node -> hasText(node, text));
+    public static Matcher<Node> hasText(String string) {
+        String descriptionText = "Node has text \"" + string + "\"";
+        return baseMatcher(descriptionText, node -> hasText(node, string));
+    }
+
+    @Factory
+    public static Matcher<Node> hasText(Matcher<String> matcher) {
+        String descriptionText = "Node has " + matcher.toString();
+        return baseMatcher(descriptionText, node -> hasText(node, matcher));
+    }
+
+    @Factory
+    public static Matcher<Node> hasChild(String query) {
+        String descriptionText = "Node has child \"" + query + "\"";
+        return baseMatcher(descriptionText, node -> hasChild(node, query));
+    }
+
+    @Factory
+    public static Matcher<Node> hasChildren(int amount,
+                                            String query) {
+        String descriptionText = "Node has " + amount + " children \"" + query + "\"";
+        return baseMatcher(descriptionText, node -> hasChildren(node, amount, query));
     }
 
     //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
+    // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean isNull(Node node) {
+    private static boolean isNull(Node node) {
         return node == null;
     }
 
-    public static boolean isVisible(Node node) {
+    private static boolean isVisible(Node node) {
         return node.isVisible();
     }
 
-    public static boolean isEnabled(Node node) {
+    private static boolean isEnabled(Node node) {
         return !node.isDisabled();
     }
 
-    public static boolean hasText(Node node,
-                                  String text) {
+    private static boolean hasText(Node node,
+                                   String string) {
         if (node instanceof Labeled) {
-            return LabeledMatchers.hasText((Labeled) node, text);
+            return LabeledMatchers.hasText(string).matches(node);
         }
         else if (node instanceof TextInputControl) {
-            return TextInputControlMatchers.hasText((TextInputControl) node, text);
+            return TextInputControlMatchers.hasText(string).matches(node);
+        }
+        else if (node instanceof Text) {
+            return TextMatchers.hasText(string).matches(node);
         }
         return false;
+    }
+
+    private static boolean hasText(Node node,
+                                   Matcher<String> matcher) {
+        if (node instanceof Labeled) {
+            return LabeledMatchers.hasText(matcher).matches(node);
+        }
+        else if (node instanceof TextInputControl) {
+            return TextInputControlMatchers.hasText(matcher).matches(node);
+        }
+        else if (node instanceof Text) {
+            return TextMatchers.hasText(matcher).matches(node);
+        }
+        return false;
+    }
+
+    private static boolean hasChild(Node node,
+                                    String query) {
+        NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
+        NodeQuery nodeQuery = nodeFinder.nodesFrom(node);
+        return !nodeQuery.lookup(query).queryAll().isEmpty();
+    }
+
+    private static boolean hasChildren(Node node,
+                                       int amount,
+                                       String query) {
+        NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
+        NodeQuery nodeQuery = nodeFinder.nodesFrom(node);
+        return nodeQuery.lookup(query).queryAll().size() == amount;
     }
 
 }

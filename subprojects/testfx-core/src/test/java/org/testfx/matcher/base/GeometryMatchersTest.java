@@ -15,45 +15,41 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Node;
-import javafx.scene.Parent;
+import javafx.geometry.Dimension2D;
 
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.testfx.api.FxRobot;
 
-import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-@Unstable(reason = "needs more tests")
-public class ParentMatchers {
+public class GeometryMatchersTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
+    // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    @Factory
-    public static Matcher<Node> hasChild() {
-        String descriptionText = "has child";
-        return typeSafeMatcher(Parent.class, descriptionText, node -> hasChild(node));
+    @Rule
+    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+
+    //---------------------------------------------------------------------------------------------
+    // FEATURE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    @Test
+    public void hasDimension() {
+        // expect:
+        assertThat(new Dimension2D(10, 20), GeometryMatchers.hasDimension(10, 20));
     }
 
-    @Factory
-    public static Matcher<Node> hasChildren(int amount) {
-        String descriptionText = "has " + amount + " children";
-        return typeSafeMatcher(Parent.class, descriptionText, node -> hasChildren(amount, node));
-    }
+    @Test
+    public void hasDimension_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Dimension2D has dimension (0.0, 0.0)\n");
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasChild(Parent parent) {
-        return !parent.getChildrenUnmodifiable().isEmpty();
-    }
-
-    private static boolean hasChildren(int amount,
-                                       Parent parent) {
-        return parent.getChildrenUnmodifiable().size() == amount;
+        assertThat(new Dimension2D(10, 20), GeometryMatchers.hasDimension(0, 0));
     }
 
 }

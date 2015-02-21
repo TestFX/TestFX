@@ -173,11 +173,13 @@ public final class NodeQueryUtils {
         }
     }
 
-    private static boolean hasNodeId(Node node, String id) {
+    private static boolean hasNodeId(Node node,
+                                     String id) {
         return Objects.equals(node.getId(), id);
     }
 
-    private static boolean hasNodeText(Node node, String text) {
+    private static boolean hasNodeText(Node node,
+                                       String text) {
         // TODO: Test cases with node.getText() == null.
         if (node instanceof Labeled) {
             return Objects.equals(((Labeled) node).getText(), text);
@@ -188,7 +190,9 @@ public final class NodeQueryUtils {
         return false;
     }
 
-    private static boolean matchesNodeMatcher(Node node, Matcher matcher) {
+    private static boolean matchesNodeMatcher(Node node,
+                                              Matcher matcher) {
+        // TODO: Test cases with ClassCastException.
         return matcher.matches(node);
     }
 

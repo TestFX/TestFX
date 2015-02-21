@@ -15,8 +15,6 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Node;
-
 import com.google.common.base.Predicate;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -25,16 +23,16 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.testfx.api.annotation.Unstable;
 
-@Unstable(reason = "needs more tests")
-public class BaseMatchers {
+@Unstable(reason = "requires more testing; likely to be replaced by a builder")
+public class GeneralMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
+    // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static <T extends Node> Matcher<T> baseMatcher(final String descriptionText,
-                                                          final Predicate<T> nodePredicate) {
+    public static <T> Matcher<T> baseMatcher(final String descriptionText,
+                                             final Predicate<T> predicate) {
         return new BaseMatcher<T>() {
             @Override
             public void describeTo(Description description) {
@@ -43,24 +41,24 @@ public class BaseMatchers {
 
             @Override
             @SuppressWarnings("unchecked")
-            public boolean matches(Object node) {
-                return nodePredicate.apply((T) node);
+            public boolean matches(Object object) {
+                return predicate.apply((T) object);
             }
 
             @Override
-            public void describeMismatch(Object node,
+            public void describeMismatch(Object object,
                                          Description description) {
-                description.appendText("was ").appendValue(node);
+                description.appendText("was ").appendValue(object);
             }
         };
     }
 
     @Factory
-    public static <T extends Node> Matcher<T> typeSafeMatcher(final Class<T> expectedType,
+    public static <S, T extends S> Matcher<S> typeSafeMatcher(final Class<T> expectedType,
                                                               final String descriptionText,
-                                                              final Predicate<T> nodePredicate) {
+                                                              final Predicate<T> predicate) {
         // This simply implements the null check, checks the type and then casts.
-        return new TypeSafeMatcher<T>(expectedType) {
+        return new TypeSafeMatcher<S>(expectedType) {
             @Override
             public void describeTo(Description description) {
                 description.appendText(expectedType.getSimpleName());
@@ -68,14 +66,15 @@ public class BaseMatchers {
             }
 
             @Override
-            protected boolean matchesSafely(T node) {
-                return nodePredicate.apply(node);
+            @SuppressWarnings("unchecked")
+            protected boolean matchesSafely(S object) {
+                return predicate.apply((T) object);
             }
 
             @Override
-            protected void describeMismatchSafely(Node node,
+            protected void describeMismatchSafely(S object,
                                                   Description description) {
-                description.appendText("was ").appendValue(node);
+                description.appendText("was ").appendValue(object);
             }
         };
     }

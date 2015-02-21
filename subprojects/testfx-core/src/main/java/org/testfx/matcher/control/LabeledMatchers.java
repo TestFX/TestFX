@@ -15,42 +15,50 @@
  */
 package org.testfx.matcher.control;
 
+import java.util.Objects;
+import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 
-import static org.testfx.matcher.base.BaseMatchers.baseMatcher;
+import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 @Unstable(reason = "needs more tests")
 public class LabeledMatchers {
 
     //---------------------------------------------------------------------------------------------
-    // STATIC FACTORY METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @Factory
-    public static Matcher<Labeled> hasText(String text) {
-        String descriptionText = "Labeled has text '" + text + "'";
-        return baseMatcher(descriptionText, labeled -> hasText(labeled, text));
-    }
-
-    @Factory
-    public static Matcher<Labeled> hasText(Matcher<String> matcher) {
-        return null;
-    }
-
-    //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static boolean hasText(Labeled labeled,
-                                  String text) {
-        return text.equals(lookupText(labeled));
+    @Factory
+    public static Matcher<Node> hasText(String string) {
+        String descriptionText = "has text \"" + string + "\"";
+        return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, string));
     }
 
-    public static String lookupText(Labeled labeled) {
+    @Factory
+    public static Matcher<Node> hasText(Matcher<String> matcher) {
+        String descriptionText = "has " + matcher.toString();
+        return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, matcher));
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static boolean hasText(Labeled labeled,
+                                   String string) {
+        return Objects.equals(string, lookupText(labeled));
+    }
+
+    private static boolean hasText(Labeled labeled,
+                                   Matcher<String> matcher) {
+        return matcher.matches(lookupText(labeled));
+    }
+
+    private static String lookupText(Labeled labeled) {
         return labeled.getText();
     }
 

@@ -139,7 +139,7 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public <T> PointQuery point(Matcher<T> matcher) {
         NodeQuery nodeQuery = nodes(matcher);
-        Node node = queryFirstNode(nodeQuery, "the matcher");
+        Node node = queryFirstNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
         return point(node).atPosition(context.getPointPosition());
     }
 
@@ -846,7 +846,7 @@ public class FxRobot implements FxRobotInterface {
 
     private <T> PointQuery pointOfVisibleNode(Matcher<T> matcher) {
         NodeQuery nodeQuery = nodes(matcher);
-        Node node = queryFirstVisibleNode(nodeQuery, "the matcher");
+        Node node = queryFirstVisibleNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
         return point(node);
     }
 

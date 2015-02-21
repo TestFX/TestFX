@@ -13,11 +13,9 @@
  * either express or implied. See the Licence for the specific language governing permissions
  * and limitations under the Licence.
  */
-package org.testfx.matcher.control;
+package org.testfx.matcher.base;
 
-import java.util.Objects;
-import javafx.scene.Node;
-import javafx.scene.control.TextInputControl;
+import javafx.geometry.Dimension2D;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -26,42 +24,28 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 @Unstable(reason = "needs more tests")
-public class TextInputControlMatchers {
+public class GeometryMatchers {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static Matcher<Node> hasText(String string) {
-        String descriptionText = "has text \"" + string + "\"";
-        return typeSafeMatcher(TextInputControl.class, descriptionText,
-            node -> hasText(node, string));
-    }
-
-    @Factory
-    public static Matcher<Node> hasText(Matcher<String> matcher) {
-        String descriptionText = "has " + matcher.toString();
-        return typeSafeMatcher(TextInputControl.class, descriptionText,
-            node -> hasText(node, matcher));
+    public static Matcher<Object> hasDimension(double width,
+                                               double height) {
+        String descriptionText = "has dimension (" + width + ", " + height + ")";
+        return typeSafeMatcher(Dimension2D.class, descriptionText,
+            dimension -> hasDimension(dimension, width, height));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static boolean hasText(TextInputControl textInputControl,
-                                   String string) {
-        return Objects.equals(string, lookupText(textInputControl));
-    }
-
-    private static boolean hasText(TextInputControl textInputControl,
-                                   Matcher<String> matcher) {
-        return matcher.matches(lookupText(textInputControl));
-    }
-
-    private static String lookupText(TextInputControl textInputControl) {
-        return textInputControl.getText();
+    private static boolean hasDimension(Dimension2D dimension,
+                                        double width,
+                                        double height) {
+        return dimension.getWidth() == width && dimension.getHeight() == height;
     }
 
 }

@@ -15,16 +15,18 @@
  */
 package org.testfx.api;
 
+import java.util.Set;
 import javafx.scene.Node;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.matcher.base.BaseMatchers;
+import org.testfx.matcher.base.GeneralMatchers;
 import org.testfx.service.finder.NodeFinder;
+import org.testfx.service.query.NodeQuery;
 
-@Unstable(reason = "class was recently added")
+@Unstable(reason = "method signatures need fine-tuning")
 public class FxAssert {
 
     //---------------------------------------------------------------------------------------------
@@ -43,41 +45,64 @@ public class FxAssert {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    // ASSERTIONS WITH EMPTY REASON.
+    // ASSERTIONS: GENERAL.
 
     public static <T> void verifyThat(T value,
                                       Matcher<? super T> matcher) {
         verifyThatImpl(emptyReason(), value, matcher);
     }
 
+    // ASSERTIONS: {NODE, NODES} + MATCHER.
+
+    public static <T extends Node> void verifyThat(T node,
+                                                   Matcher<T> nodeMatcher) {
+        verifyThatImpl(emptyReason(), node, nodeMatcher);
+    }
+
+    public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
+                                                       Matcher<Iterable<T>> nodesMatcher) {
+        verifyThatImpl(emptyReason(), nodes, nodesMatcher);
+    }
+
+    // ASSERTIONS: STRING QUERY + MATCHER.
+
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Matcher<T> nodeMatcher) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
     }
+
+    public static <T extends Node> void verifyThatIter(String nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher) {
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
+    }
+
+    // ASSERTIONS: NODE QUERY + MATCHER.
+
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
+                                                   Matcher<T> nodeMatcher) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
+    }
+
+    public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher) {
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
+    }
+
+    // ASSERTIONS: {NODE, STRING QUERY, NODE QUERY} + PREDICATE.
 
     public static <T extends Node> void verifyThat(T node,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
     }
 
-    // ASSERTIONS WITH REASON.
-
-    public static <T> void verifyThat(String reason,
-                                      T value,
-                                      Matcher<? super T> matcher) {
-        verifyThatImpl(reason, value, matcher);
-    }
-
-    public static <T extends Node> void verifyThat(String reason,
-                                                   String nodeQuery,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(reason, toNode(nodeQuery), nodeMatcher);
-    }
-
-    public static <T extends Node> void verifyThat(String reason,
-                                                   T node,
+    public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Predicate<T> nodePredicate) {
-        verifyThatImpl(reason, node, toNodeMatcher(nodePredicate));
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
+    }
+
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
+                                                   Predicate<T> nodePredicate) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
     }
 
     // INTERNAL CONTEXT.
@@ -111,11 +136,24 @@ public class FxAssert {
 
     private static <T extends Node> T toNode(String nodeQuery) {
         NodeFinder nodeFinder = assertContext().getNodeFinder();
-        return nodeFinder.nodes(nodeQuery).queryFirst();
+        return toNode(nodeFinder.nodes(nodeQuery));
+    }
+
+    private static <T extends Node> Set<T> toNodeSet(String nodeQuery) {
+        NodeFinder nodeFinder = assertContext().getNodeFinder();
+        return toNodeSet(nodeFinder.nodes(nodeQuery));
+    }
+
+    private static <T extends Node> T toNode(NodeQuery nodeQuery) {
+        return nodeQuery.queryFirst();
+    }
+
+    private static <T extends Node> Set<T> toNodeSet(NodeQuery nodeQuery) {
+        return nodeQuery.queryAll();
     }
 
     private static <T extends Node> Matcher<T> toNodeMatcher(Predicate<T> nodePredicate) {
-        return BaseMatchers.baseMatcher("applies on Predicate", nodePredicate);
+        return GeneralMatchers.baseMatcher("applies on Predicate", nodePredicate);
     }
 
 }
