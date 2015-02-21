@@ -28,6 +28,9 @@ import static java.lang.annotation.ElementType.PACKAGE;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 
+/**
+ * Functionality that is likely to be changed or removed even in minor or patch releases.
+ */
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target({CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, PARAMETER, TYPE})
