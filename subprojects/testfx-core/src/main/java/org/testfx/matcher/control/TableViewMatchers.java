@@ -18,7 +18,7 @@ package org.testfx.matcher.control;
 import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.control.Cell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -30,46 +30,47 @@ import org.testfx.service.query.NodeQuery;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 @Unstable(reason = "needs more tests")
-public class ListViewMatchers {
+public class TableViewMatchers {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final String SELECTOR_LIST_CELL = ".list-cell";
+    private static final String SELECTOR_TABLE_CELL = ".table-cell";
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static Matcher<Node> hasListCell(Object value) {
-        String descriptionText = "has list cell \"" + value + "\"";
-        return typeSafeMatcher(ListView.class, descriptionText, node -> hasListCell(node, value));
+    public static Matcher<Node> hasTableCell(Object value) {
+        String descriptionText = "has table cell \"" + value + "\"";
+        return typeSafeMatcher(TableView.class, descriptionText,
+            node -> hasTableCell(node, value));
     }
 
     @Factory
     public static Matcher<Node> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
-        return typeSafeMatcher(ListView.class, descriptionText, node -> hasItems(node, amount));
+        return typeSafeMatcher(TableView.class, descriptionText, node -> hasItems(node, amount));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static boolean hasListCell(ListView listView,
-                                       Object value) {
+    private static boolean hasTableCell(TableView tableView,
+                                        Object value) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
-        NodeQuery nodeQuery = nodeFinder.nodesFrom(listView);
-        return nodeQuery.lookup(SELECTOR_LIST_CELL)
+        NodeQuery nodeQuery = nodeFinder.nodesFrom(tableView);
+        return nodeQuery.lookup(SELECTOR_TABLE_CELL)
             .<Cell>select(cell -> hasCellValue(cell, value))
             .tryQueryFirst().isPresent();
     }
 
-    private static boolean hasItems(ListView listView,
+    private static boolean hasItems(TableView tableView,
                                     int amount) {
-        return listView.getItems().size() == amount;
+        return tableView.getItems().size() == amount;
     }
 
     private static boolean hasCellValue(Cell cell,

@@ -26,12 +26,12 @@ public class MatcherReflectionDemo {
 
     public static void main(String[] args) {
         Matcher matcherIterable = Matchers.emptyIterable();
-        Matcher matcherColletion = Matchers.empty();
+        Matcher matcherCollection = Matchers.empty();
         Matcher matcherArray = Matchers.emptyArray();
         Matcher matcherString = Matchers.isEmptyString();
 
         Type typeIterable = fetchGenericArgumentType(matcherIterable, 0);
-        Type typeCollection = fetchGenericArgumentType(matcherColletion, 0);
+        Type typeCollection = fetchGenericArgumentType(matcherCollection, 0);
         Type typeArray = fetchGenericArgumentType(matcherArray, 0);
         Type typeString = fetchGenericArgumentType(matcherString, 0);
 
