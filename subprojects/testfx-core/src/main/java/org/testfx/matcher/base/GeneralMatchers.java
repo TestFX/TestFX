@@ -15,8 +15,6 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Node;
-
 import com.google.common.base.Predicate;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -33,8 +31,8 @@ public class GeneralMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
-    public static <T extends Node> Matcher<T> baseMatcher(final String descriptionText,
-                                                          final Predicate<T> predicate) {
+    public static <T> Matcher<T> baseMatcher(final String descriptionText,
+                                             final Predicate<T> predicate) {
         return new BaseMatcher<T>() {
             @Override
             public void describeTo(Description description) {
@@ -56,11 +54,11 @@ public class GeneralMatchers {
     }
 
     @Factory
-    public static <T extends Node> Matcher<Node> typeSafeMatcher(final Class<T> expectedType,
-                                                                 final String descriptionText,
-                                                                 final Predicate<T> predicate) {
+    public static <S, T extends S> Matcher<S> typeSafeMatcher(final Class<T> expectedType,
+                                                              final String descriptionText,
+                                                              final Predicate<T> predicate) {
         // This simply implements the null check, checks the type and then casts.
-        return new TypeSafeMatcher<Node>(expectedType) {
+        return new TypeSafeMatcher<S>(expectedType) {
             @Override
             public void describeTo(Description description) {
                 description.appendText(expectedType.getSimpleName());
@@ -69,14 +67,14 @@ public class GeneralMatchers {
 
             @Override
             @SuppressWarnings("unchecked")
-            protected boolean matchesSafely(Node node) {
-                return predicate.apply((T) node);
+            protected boolean matchesSafely(S object) {
+                return predicate.apply((T) object);
             }
 
             @Override
-            protected void describeMismatchSafely(Node node,
+            protected void describeMismatchSafely(S object,
                                                   Description description) {
-                description.appendText("was ").appendValue(node);
+                description.appendText("was ").appendValue(object);
             }
         };
     }
