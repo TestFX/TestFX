@@ -35,7 +35,7 @@ public class ParentMatchersTest {
     //---------------------------------------------------------------------------------------------
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.

@@ -36,7 +36,7 @@ public class TextInputControlMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     public TextField foobarTextField;
     public TextField quuxTextField;

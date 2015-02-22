@@ -50,7 +50,7 @@ public class GeneralMatchersTest {
         parent -> parent.getChildrenUnmodifiable().size() > 0;
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.

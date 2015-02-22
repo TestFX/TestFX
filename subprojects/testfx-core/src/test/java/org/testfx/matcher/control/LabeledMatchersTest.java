@@ -36,7 +36,7 @@ public class LabeledMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Rule
-    public ExpectedException exception = ExpectedException.none().handleAssertionErrors();
+    public ExpectedException exception = ExpectedException.none();
 
     public Button foobarButton;
     public Button quuxButton;
