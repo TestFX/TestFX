@@ -56,6 +56,44 @@ public class DesktopPaneTest extends FxRobotTestBase {
 ```
 
 
+## Maven and Gradle
+
+Gradle `build.gradle`:
+~~~groovy
+dependencies {
+    testCompile "org.testfx:testfx-core:4.0.0-SNAPSHOT"
+}
+
+repositories {
+    maven { 
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+~~~
+
+Maven `pom.xml`:
+~~~xml
+<dependencies>
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-core</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+<repositories>
+    <repository>
+        <id>sonatype-snapshots-repo</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <snapshots>
+            <enabled>true</enabled>
+       </snapshots>
+    </repository>
+</repositories>
+~~~
+
+
 ## Documentation
 
 - [How to use TestFX in your project][100]
