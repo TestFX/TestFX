@@ -1,13 +1,13 @@
 ## master &mdash; February 26, 2015
 
-294 commits by 14 authors:
-- **Benjamin Gudehus** (@hastebrot) &mdash; 259 commits
-- **Sven Ruppert** (@svenruppert) &mdash; 10 commits
+295 commits by 14 authors:
+- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 260 commits
+- **Sven Ruppert** ([@svenruppert](https://github.com/svenruppert)) &mdash; 10 commits
 - **Henrik Olsson** &mdash; 8 commits
-- **Andres Almiray** (@aalmiray) &mdash; 6 commits
-- **Naimdjon Takhirov** (@naimdjon) &mdash; 4 commits
-- **Grégory Fernandez** (@lgringo) &mdash; 2 commits
-- **Andrea Vacondio** (@torakiki), **Johannes Mockenhaupt** (@jotomo), **Making GitHub Delicious.** (@waffle-iron), **Robert Ladstätter** (@rladstaetter), **Sergei Ivanov** (@sergei-ivanov) &mdash; 1 commit
+- **Andres Almiray** ([@aalmiray](https://github.com/aalmiray)) &mdash; 6 commits
+- **Naimdjon Takhirov** ([@naimdjon](https://github.com/naimdjon)) &mdash; 4 commits
+- **Grégory Fernandez** ([@lgringo](https://github.com/lgringo)) &mdash; 2 commits
+- **Andrea Vacondio** ([@torakiki](https://github.com/torakiki)), **Johannes Mockenhaupt** ([@jotomo](https://github.com/jotomo)), **Making GitHub Delicious.** ([@waffle-iron](https://github.com/waffle-iron)), **Robert Ladstätter** ([@rladstaetter](https://github.com/rladstaetter)), **Sergei Ivanov** ([@sergei-ivanov](https://github.com/sergei-ivanov)) &mdash; 1 commit
 
 61 merged pull requests:
 - **(chore)** Gradle: Add project.jfxrtLocation to test.classpath. ([#120](https://github.com/TestFX/TestFX/pull/120)) &mdash; 2 commits
@@ -22,8 +22,8 @@
 - **(doc)** Readme: Fix broken links to source code and update links to TestFX... ([#142](https://github.com/TestFX/TestFX/pull/142)) &mdash; 1 commit
 - **(doc)** Readme: Update `README.md`. ([#196](https://github.com/TestFX/TestFX/pull/196)) &mdash; 2 commits
 - **(doc)** Toolkit: Prepare docs and tests for candidate phase. ([#176](https://github.com/TestFX/TestFX/pull/176)) &mdash; 12 commits
-- **(feat)** Assert, Matcher: Implement type-aware matchers. ([#195](https://github.com/TestFX/TestFX/pull/195)) &mdash; 11 commits
 - **(feat)** Assert, Matcher: Implement type-aware matchers. ([#164](https://github.com/TestFX/TestFX/pull/164)) &mdash; 16 commits
+- **(feat)** Assert, Matcher: Improve type-aware matchers. ([#195](https://github.com/TestFX/TestFX/pull/195)) &mdash; 11 commits
 - **(feat)** Implement CallableBoundsPointQuery. ([#68](https://github.com/TestFX/TestFX/pull/68)) &mdash; 5 commits
 - **(feat)** Lifecycle, Robot: Headless support. ([#159](https://github.com/TestFX/TestFX/pull/159)) &mdash; 27 commits
 - **(feat)** Lifecycle: Implement LifecycleService. ([#156](https://github.com/TestFX/TestFX/pull/156)) &mdash; 12 commits
@@ -76,7 +76,7 @@
 
 14 commits by 3 authors:
 - **Henrik Olsson** &mdash; 10 commits
-- **Henrik Stråth** (@minisu), **Philipp Keck** (@Philipp91) &mdash; 2 commits
+- **Henrik Stråth** ([@minisu](https://github.com/minisu)), **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
 
 4 merged pull requests:
 - #43: push() does not wait between press/release calls ([#45](https://github.com/TestFX/TestFX/pull/45)) &mdash; 1 commit
@@ -86,14 +86,24 @@
 
 ## v3.1.0 &mdash; January 12, 2014
 
-176 commits by 6 authors:
-- **Henrik Olsson** &mdash; 119 commits
-- **Henrik Stråth** (@minisu) &mdash; 42 commits
-- **Renato Athaydes** (@renatoathaydes) &mdash; 6 commits
-- **Maximilian Skog** (@maxonline), **Philipp Keck** (@Philipp91) &mdash; 4 commits
-- **Bitdeli Chef** (@bitdeli-chef) &mdash; 1 commit
+21 commits by 2 authors:
+- **Henrik Olsson** &mdash; 14 commits
+- **Henrik Stråth** ([@minisu](https://github.com/minisu)) &mdash; 5 commits
+- **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
 
-3 merged pull requests:
+1 merged pull request:
+- Faster mouse movement over long distances ([#35](https://github.com/TestFX/TestFX/pull/35)) &mdash; 1 commit
+
+## v3.0.0 &mdash; December 23, 2013
+
+155 commits by 6 authors:
+- **Henrik Olsson** &mdash; 105 commits
+- **Henrik Stråth** ([@minisu](https://github.com/minisu)) &mdash; 37 commits
+- **Renato Athaydes** ([@renatoathaydes](https://github.com/renatoathaydes)) &mdash; 6 commits
+- **Maximilian Skog** ([@maxonline](https://github.com/maxonline)) &mdash; 4 commits
+- **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
+- **Bitdeli Chef** ([@bitdeli-chef](https://github.com/bitdeli-chef)) &mdash; 1 commit
+
+2 merged pull requests:
 - Add a Bitdeli Badge to README ([#26](https://github.com/TestFX/TestFX/pull/26)) &mdash; 1 commit
 - Corrected verifyThat() to accept super-Matchers ([#22](https://github.com/TestFX/TestFX/pull/22)) &mdash; 2 commits
-- Faster mouse movement over long distances ([#35](https://github.com/TestFX/TestFX/pull/35)) &mdash; 1 commit
