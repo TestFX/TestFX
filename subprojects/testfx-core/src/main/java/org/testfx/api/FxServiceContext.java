@@ -15,7 +15,7 @@
  */
 package org.testfx.api;
 
-import com.google.common.annotations.Beta;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.finder.NodeFinder;
@@ -25,7 +25,7 @@ import org.testfx.service.finder.impl.WindowFinderImpl;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.WaitUntilSupport;
 
-@Beta
+@Unstable(reason = "class was recently added")
 public class FxServiceContext {
 
     //---------------------------------------------------------------------------------------------

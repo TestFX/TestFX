@@ -15,6 +15,8 @@
  */
 package org.testfx.api;
 
+import java.util.Collection;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -27,12 +29,13 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
+import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
-@Beta
+@Unstable(reason = "interface was recently added")
 public interface FxRobotInterface {
 
     //---------------------------------------------------------------------------------------------
@@ -45,17 +48,18 @@ public interface FxRobotInterface {
     // METHODS FOR POINT LOCATION.
     //---------------------------------------------------------------------------------------------
 
-    public PointQuery pointFor(double x,
-                               double y);
-    public PointQuery pointFor(Point2D point);
-    public PointQuery pointFor(Bounds bounds);
-    public PointQuery pointFor(Node node);
-    public PointQuery pointFor(Scene scene);
-    public PointQuery pointFor(Window window);
+    public PointQuery point(double x,
+                            double y);
+    public PointQuery point(Point2D point);
+    public PointQuery point(Bounds bounds);
+    public PointQuery point(Node node);
+    public PointQuery point(Scene scene);
+    public PointQuery point(Window window);
 
     // Convenience methods:
-    public PointQuery pointFor(String query);
-    public <T extends Node> PointQuery pointFor(Predicate<T> predicate);
+    public PointQuery point(String query);
+    public <T> PointQuery point(Matcher<T> matcher);
+    public <T extends Node> PointQuery point(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT OFFSET.
@@ -82,6 +86,9 @@ public interface FxRobotInterface {
     public PointQuery offset(String query,
                              double offsetX,
                              double offsetY);
+    public <T> PointQuery offset(Matcher<T> matcher,
+                                 double offsetX,
+                                 double offsetY);
     public <T extends Node> PointQuery offset(Predicate<T> predicate,
                                               double offsetX,
                                               double offsetY);
@@ -114,20 +121,28 @@ public interface FxRobotInterface {
     // METHODS FOR NODE LOOKUP.
     //---------------------------------------------------------------------------------------------
 
-    //public <T extends Node> T node(String query);
-    //public <T extends Node> Set<T> nodes(String query)
-    //public <T extends Node> T node(Predicate<T> predicate);
-    //public <T extends Node> Set<T> nodes(Predicate<T> predicate);
+    public NodeQuery nodes();
 
-    //public <T extends Node> T node(String query, Node... parentNodes);
-    //public <T extends Node> Set<T> nodes(String query, Node... parentNodes);
-    //public <T extends Node> T node(Predicate<T> predicate, Node... parentNodes);
-    //public <T extends Node> Set<T> nodes(Predicate<T> predicate, Node... parentNodes);
+    public NodeQuery nodesFrom(Node... parentNodes);
+    public NodeQuery nodesFrom(Collection<Node> parentNodes);
 
-    //public Node parentNode(Window window);
-    //public Node parentNode(int windowIndex);
-    //public Node parentNode(String stageTitleRegex);
-    //public Node parentNode(Scene scene);
+    public Node rootNode(Window window);
+    public Node rootNode(Scene scene);
+    public Node rootNode(Node node);
+
+    // Convenience methods:
+    public NodeQuery nodes(String query);
+    public <T> NodeQuery nodes(Matcher<T> matcher);
+    public <T extends Node> NodeQuery nodes(Predicate<T> predicate);
+
+    public NodeQuery nodesFrom(NodeQuery nodeQuery);
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR INTERACTION.
+    //---------------------------------------------------------------------------------------------
+
+    public FxRobotInterface interact(Runnable runnable);
+    public <T> FxRobotInterface interact(Callable<T> callable);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR CLICKING.
@@ -156,8 +171,8 @@ public interface FxRobotInterface {
                                     MouseButton... buttons);
     public FxRobotInterface clickOn(String query,
                                     MouseButton... buttons);
-    public FxRobotInterface clickOn(Matcher<Object> matcher,
-                                    MouseButton... buttons);
+    public <T> FxRobotInterface clickOn(Matcher<T> matcher,
+                                        MouseButton... buttons);
     public <T extends Node> FxRobotInterface clickOn(Predicate<T> predicate,
                                                      MouseButton... buttons);
     public FxRobotInterface rightClickOn();
@@ -170,7 +185,7 @@ public interface FxRobotInterface {
     public FxRobotInterface rightClickOn(Scene scene);
     public FxRobotInterface rightClickOn(Window window);
     public FxRobotInterface rightClickOn(String query);
-    public FxRobotInterface rightClickOn(Matcher<Object> matcher);
+    public <T> FxRobotInterface rightClickOn(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface rightClickOn(Predicate<T> predicate);
     public FxRobotInterface doubleClickOn(double x,
                                           double y,
@@ -187,8 +202,8 @@ public interface FxRobotInterface {
                                           MouseButton... buttons);
     public FxRobotInterface doubleClickOn(String query,
                                           MouseButton... buttons);
-    public FxRobotInterface doubleClickOn(Matcher<Object> matcher,
-                                          MouseButton... buttons);
+    public <T> FxRobotInterface doubleClickOn(Matcher<T> matcher,
+                                              MouseButton... buttons);
     public <T extends Node> FxRobotInterface doubleClickOn(Predicate<T> predicate,
                                                            MouseButton... buttons);
 
@@ -220,8 +235,8 @@ public interface FxRobotInterface {
                                  MouseButton... buttons);
     public FxRobotInterface drag(String query,
                                  MouseButton... buttons);
-    public FxRobotInterface drag(Matcher<Object> matcher,
-                                 MouseButton... buttons);
+    public <T> FxRobotInterface drag(Matcher<T> matcher,
+                                     MouseButton... buttons);
     public <T extends Node> FxRobotInterface drag(Predicate<T> predicate,
                                                   MouseButton... buttons);
     public FxRobotInterface dropTo(double x,
@@ -232,7 +247,7 @@ public interface FxRobotInterface {
     public FxRobotInterface dropTo(Scene scene);
     public FxRobotInterface dropTo(Window window);
     public FxRobotInterface dropTo(String query);
-    public FxRobotInterface dropTo(Matcher<Object> matcher);
+    public <T> FxRobotInterface dropTo(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface dropTo(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
@@ -277,7 +292,7 @@ public interface FxRobotInterface {
     public FxRobotInterface moveTo(Scene scene);
     public FxRobotInterface moveTo(Window window);
     public FxRobotInterface moveTo(String query);
-    public FxRobotInterface moveTo(Matcher<Object> matcher);
+    public <T> FxRobotInterface moveTo(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------

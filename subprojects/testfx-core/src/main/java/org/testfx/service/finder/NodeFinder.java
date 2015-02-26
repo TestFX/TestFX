@@ -15,27 +15,37 @@
  */
 package org.testfx.service.finder;
 
-import java.util.Set;
+import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.testfx.service.query.NodeQuery;
 
 public interface NodeFinder {
-    public Node      node(String query);
-    public Set<Node> nodes(String query);
-    public Node      node(Predicate<Node> predicate);
-    public Set<Node> nodes(Predicate<Node> predicate);
-    public Node      node(Matcher<Object> matcher);
-    public Set<Node> nodes(Matcher<Object> matcher);
 
-    public Node      parent(Window window);
-    public Node      parent(int windowIndex);
-    public Node      parent(String stageTitleRegex);
-    public Node      parent(Scene scene);
+    //---------------------------------------------------------------------------------------------
+    // METHODS.
+    //---------------------------------------------------------------------------------------------
 
-    public Node      node(String query, Node parentNode);
-    public Set<Node> nodes(String query, Node parentNode);
+    NodeQuery nodes();
+    NodeQuery nodes(String query);
+    <T> NodeQuery nodes(Matcher<T> matcher);
+    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
+
+    NodeQuery nodesFrom(Node... parentNodes);
+    NodeQuery nodesFrom(Collection<Node> parentNodes);
+    NodeQuery nodesFrom(NodeQuery nodeQuery);
+
+    Node rootNode(Window window);
+    Node rootNode(Scene scene);
+    Node rootNode(Node node);
+
+    //Node rootNode(Predicate<Window> predicate);
+    //Node rootNode(int windowIndex);
+    //Node rootNode(Pattern stageTitlePattern);
+    //Node rootNode(String stageTitleRegexp);
+
 }

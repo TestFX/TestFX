@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
-import org.testfx.toolkit.StageFuture;
+import org.testfx.toolkit.PrimaryStageFuture;
 
 import static org.testfx.util.WaitForAsyncUtils.async;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
@@ -57,7 +57,7 @@ public class ToolkitServiceImpl implements ToolkitService {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
+    public Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
                                            Class<? extends Application> applicationClass,
                                            String... applicationArgs) {
         if (!primaryStageFuture.isDone()) {
@@ -74,12 +74,12 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     @Override
-    public Future<Void> setup(Runnable runnable) {
+    public Future<Void> setupFixture(Runnable runnable) {
         return asyncFx(runnable);
     }
 
     @Override
-    public <T> Future<T> setup(Callable<T> callable) {
+    public <T> Future<T> setupFixture(Callable<T> callable) {
         return asyncFx(callable);
     }
 

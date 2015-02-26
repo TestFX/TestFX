@@ -47,6 +47,7 @@ public interface TypeRobot {
      * @param keyCode the key code
      * @param times number of times
      */
-    public void type(KeyCode keyCode, int times);
+    public void type(KeyCode keyCode,
+                     int times);
 
 }
