@@ -14,8 +14,6 @@
  * and limitations under the Licence.
  */
 
-apply from: rootProject.file('gradle/javafx.gradle')
-
 ext.pomDescription = 'TestFX core'
 
 configurations {
@@ -32,13 +30,4 @@ dependencies {
     }
     testCompile 'org.mockito:mockito-all:1.9.5'
     testCompile 'org.controlsfx:controlsfx:8.20.8'
-
-    compileOnly project.files(project.jfxrtLocation)
-    testCompileOnly project.files(project.jfxrtLocation)
-}
-
-//cobertura.auxiliaryClasspath += project.files(project.jfxrtLocation)
-
-test {
-    classpath += project.files(project.jfxrtLocation)
 }

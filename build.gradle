@@ -93,33 +93,8 @@ subprojects { subproj ->
 evaluationDependsOnChildren()
 
 subprojects { subproj ->
-    configurations {
-        compileOnly
-        testCompileOnly
-    }
-
     repositories {
         jcenter()
-    }
-
-    sourceSets {
-        main {
-            compileClasspath += [configurations.compileOnly]
-        }
-        test {
-            compileClasspath += [configurations.testCompileOnly]
-        }
-    }
-
-    javadoc {
-        classpath += [configurations.compileOnly]
-    }
-
-    idea {
-        module {
-            scopes.PROVIDED.plus += [configurations.compileOnly]
-            scopes.PROVIDED.plus += [configurations.testCompileOnly]
-        }
     }
 
     javadoc {
@@ -138,18 +113,6 @@ subprojects { subproj ->
             'http://docs.oracle.com/javase/8/javafx/api/'
         ]
     }
-
-    /*
-    compileJava {
-        doFirst {
-            if (rootProject.hasProperty('lint') && rootProject.lint == true) {
-                options.compilerArgs = [
-                    '-Xlint:all', '-Xlint:deprecation', '-Xlint:unchecked'
-                ]
-            }
-        }
-    }
-    */
 }
 
 idea {
