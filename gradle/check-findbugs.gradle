@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- *
+ * 
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
  * except in compliance with the Licence.
@@ -14,20 +14,32 @@
  * and limitations under the Licence.
  */
 
-// This plugin will scan and adapt your source files to include a provided license header.
-// https://github.com/hierynomus/license-gradle-plugin
+// FindBugs is a defect detection tool for Java that uses static analysis to look for more than
+// 200 bug patterns, such as null pointer dereferences, infinite recursive loops, bad uses of
+// the Java libraries and deadlocks.
+// http://findbugs.sourceforge.net/
 
-apply plugin: "license"
+apply plugin: "findbugs"
 
-license {
-    header = rootProject.file("gradle/check/license-header.txt")
-    strictCheck = true
-    ignoreFailures = false
-    mapping {
-        java = "SLASHSTAR_STYLE"
-        groovy = "SLASHSTAR_STYLE"
+findbugs {
+    toolVersion = "3.0.0"
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+    reportLevel = "high"
+}
+
+findbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
     }
-    include "**/*.java"
-    include "**/*.groovy"
-    include "**/*.gradle"
+}
+
+findbugsTest {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
 }

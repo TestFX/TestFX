@@ -29,12 +29,8 @@ buildscript {
 
     dependencies {
         classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
-
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.6.1'
-
-        // https://github.com/hierynomus/license-gradle-plugin
         classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
     }
 }
@@ -44,12 +40,14 @@ apply plugin: 'idea'
 apply plugin: 'coveralls'
 apply plugin: 'build-dashboard'
 
-subprojects { subproj ->
+subprojects { subproject ->
     apply plugin: 'java'
     apply plugin: 'idea'
+
     //apply from: rootProject.file("gradle/check-checkstyle.gradle")
+    //apply from: rootProject.file("gradle/check-findbugs.gradle")
+    //apply from: rootProject.file("gradle/check-jdepend.gradle")
     apply from: rootProject.file("gradle/check-license.gradle")
-    apply from: rootProject.file('gradle/code-quality.gradle')
     apply from: rootProject.file('gradle/coverage.gradle')
     apply from: rootProject.file('gradle/publish.gradle')
 
@@ -75,7 +73,7 @@ subprojects { subproj ->
         javadocJar
     }
 
-    subproj.tasks.withType(JavaCompile) {
+    subproject.tasks.withType(JavaCompile) {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }

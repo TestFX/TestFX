@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
  * except in compliance with the Licence.
@@ -14,35 +14,14 @@
  * and limitations under the Licence.
  */
 
-//apply plugin: 'findbugs'
-apply plugin: 'jdepend'
+// JDepend: A Java package dependency analyzer that generates design quality metrics.
+// https://github.com/clarkware/jdepend
 
-//findbugs {
-//    toolVersion = '3.0.0'
-//    sourceSets = [sourceSets.main]
-//    ignoreFailures = true
-//    reportsDir = file("$project.buildDir/reports/findbugs")
-//    effort = 'max'
-//    reportLevel = 'high'
-//}
-
-//findbugsMain {
-//    reports {
-//        xml.enabled = false
-//        html.enabled = true
-//    }
-//}
-//
-//findbugsTest {
-//    reports {
-//        xml.enabled = false
-//        html.enabled = true
-//    }
-//}
+apply plugin: "jdepend"
 
 jdepend {
-    toolVersion = '2.9.1'
+    toolVersion = "2.9.1"
     sourceSets = [sourceSets.main]
     ignoreFailures = true
-    reportsDir = file("$project.buildDir/reports/jdepend")
+    reportsDir = file("${project.buildDir}/reports/jdepend")
 }
