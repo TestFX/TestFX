@@ -1,0 +1,42 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
+ * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
+ * except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the Licence for the specific language governing permissions
+ * and limitations under the Licence.
+ */
+
+apply plugin: "com.jfrog.bintray"
+
+if (!project.hasProperty("bintrayUsername")) ext.bintrayUsername = "invalid"
+if (!project.hasProperty("bintrayApiKey")) ext.bintrayApiKey = "invalid"
+
+bintray {
+    user = project.bintrayUsername
+    key = project.bintrayApiKey
+    publications = ["mavenJava"]
+
+    pkg {
+        repo = project.project_bintray_repo
+        userOrg = project.project_bintray_org
+        name = project.name
+        desc = project.project_description
+        licenses = ["EUPL-1.1"]
+        labels = ["testfx", "javafx"]
+        websiteUrl = project.project_url
+        issueTrackerUrl = project.project_issues_url
+        vcsUrl = project.project_scm
+        publicDownloadNumbers = true
+        version {
+            vcsTag = project.version
+        }
+    }
+}

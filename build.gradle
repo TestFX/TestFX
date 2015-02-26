@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat
 
 Date buildTimeAndDate = new Date()
 ext {
-    buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+    buildDate = new SimpleDateFormat("yyyy-MM-dd").format(buildTimeAndDate)
+    buildTime = new SimpleDateFormat("HH:mm:ss.SSSZ").format(buildTimeAndDate)
 }
 
 buildscript {
@@ -28,40 +28,38 @@ buildscript {
     }
 
     dependencies {
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.6.1'
         classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5"
     }
 }
 
-apply plugin: 'base'
-apply plugin: 'idea'
-apply plugin: 'coveralls'
-apply plugin: 'build-dashboard'
+apply plugin: "base"
+apply plugin: "idea"
 
 subprojects { subproject ->
-    apply plugin: 'java'
-    apply plugin: 'idea'
+    apply plugin: "java"
+    apply plugin: "idea"
 
     //apply from: rootProject.file("gradle/check-checkstyle.gradle")
     //apply from: rootProject.file("gradle/check-findbugs.gradle")
     //apply from: rootProject.file("gradle/check-jdepend.gradle")
     apply from: rootProject.file("gradle/check-license.gradle")
-    apply from: rootProject.file('gradle/coverage.gradle')
-    apply from: rootProject.file('gradle/publish.gradle')
+
+    apply from: rootProject.file("gradle/publish-jar.gradle")
+    apply from: rootProject.file("gradle/publish-maven.gradle")
+    apply from: rootProject.file("gradle/publish-bintray.gradle")
 
     task sourceJar(type: Jar) {
-        group 'Build'
-        description 'An archive of the source code'
-        classifier 'sources'
+        group "Build"
+        description "An archive of the source code"
+        classifier "sources"
         from sourceSets.main.allJava
     }
 
     task javadocJar(type: Jar) {
-        group 'Build'
-        description 'An archive of the javadoc'
-        classifier 'javadoc'
+        group "Build"
+        description "An archive of the javadoc"
+        classifier "javadoc"
         from javadoc
     }
 
@@ -74,49 +72,49 @@ subprojects { subproject ->
     }
 
     subproject.tasks.withType(JavaCompile) {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
 
     if (JavaVersion.current().isJava8Compatible()) {
         tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
+            options.addStringOption("Xdoclint:none", "-quiet")
         }
     }
 
     tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
+        options.encoding = "UTF-8"
     }
 }
 
 evaluationDependsOnChildren()
 
-subprojects { subproj ->
+subprojects { subproject ->
     repositories {
         jcenter()
     }
 
     javadoc {
-        excludes = ['**/*.html', 'META-INF/**']
+        excludes = ["**/*.html", "META-INF/**"]
 
         options.use         = true
         options.splitIndex  = true
-        options.encoding    = 'UTF-8'
+        options.encoding    = "UTF-8"
         options.author      = true
-        options.version     = subproj.sourceCompatibility
-        options.windowTitle = "${subproj.pomDescription} $version"
-        options.docTitle    = "${subproj.pomDescription} $version"
+        options.version     = subproject.sourceCompatibility
+        options.windowTitle = "${subproject.pomDescription} ${version}"
+        options.docTitle    = "${subproject.pomDescription} ${version}"
         options.footer      = project.javadocFooter
         options.links       = [
-            'http://docs.oracle.com/javase/8/docs/api/',
-            'http://docs.oracle.com/javase/8/javafx/api/'
+            "http://docs.oracle.com/javase/8/docs/api/",
+            "http://docs.oracle.com/javase/8/javafx/api/"
         ]
     }
 }
 
 idea {
     project {
-        jdkName '1.8'
-        languageLevel '1.8'
+        jdkName "1.8"
+        languageLevel "1.8"
     }
 }
