@@ -47,6 +47,7 @@ apply plugin: 'build-dashboard'
 subprojects { subproj ->
     apply plugin: 'java'
     apply plugin: 'idea'
+    //apply from: rootProject.file("gradle/check-checkstyle.gradle")
     apply from: rootProject.file("gradle/check-license.gradle")
     apply from: rootProject.file('gradle/code-quality.gradle')
     apply from: rootProject.file('gradle/coverage.gradle')
