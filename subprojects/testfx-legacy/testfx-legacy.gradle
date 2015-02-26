@@ -1,52 +1,30 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * 
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
- * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
- * except in compliance with the Licence.
+ * Copyright 2014-2015 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
  * http://ec.europa.eu/idabc/eupl
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the Licence for the specific language governing permissions
- * and limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
  */
 
-apply from: rootProject.file('gradle/javafx.gradle')
-
-ext.pomDescription = 'TestFX legacy'
-
-configurations {
-    compileOnly
-    testCompileOnly
-}
+ext.pomDescription = "TestFX legacy"
 
 dependencies {
-    compile project(':testfx-core')
+    compile project(":testfx-core")
 
-    compile 'com.google.guava:guava:18.0'
-    compile('junit:junit:4.12') {
-        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    compile "com.google.guava:guava:18.0"
+    compile("junit:junit:4.12") {
+        exclude group: "org.hamcrest", module: "hamcrest-core"
     }
 
-    compile 'org.hamcrest:hamcrest-all:1.3'
-    testCompile 'org.mockito:mockito-all:1.9.5'
-
-    compileOnly project.files(project.jfxrtLocation)
-    testCompileOnly project.files(project.jfxrtLocation)
-}
-
-//cobertura.auxiliaryClasspath += project.files(project.jfxrtLocation)
-
-test {
-    classpath += project.files(project.jfxrtLocation)
-}
-
-task createSourceDirs << {
-    if (project != rootProject) {
-        sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
-        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-    }
+    compile "org.hamcrest:hamcrest-all:1.3"
+    testCompile "org.mockito:mockito-all:1.9.5"
 }

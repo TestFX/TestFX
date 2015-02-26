@@ -1,25 +1,23 @@
-# IntelliJ
+# gradle cache and build files.
+.gradle/
+build/
+
+# intellij project files.
 .idea/
 *.iml
-*.iws
 *.ipr
-atlassian*.xml
+*.iws
 
-# Mac
-.DS_Store
-
-# Maven
-log/
-target/
-
-# Eclipse
+# eclipse project files.
 .classpath
 .project
 .settings/
 
-# Gradle
-build/
-.gradle
+# mac files.
+.DS_Store
 
-# Tests
+# atlassian files.
+atlassian*.xml
+
+# test screenshots.
 screenshot*.png
