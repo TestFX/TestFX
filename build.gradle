@@ -14,8 +14,29 @@
  * and limitations under the Licence.
  */
 
-import java.text.SimpleDateFormat
+// task to add gradle wrapper files.
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.3"
+}
 
+// task to print gradle and groovy versions.
+task printVersions << {
+    println "Gradle version: " + project.gradle.gradleVersion
+    println "Groovy version: " + GroovySystem.version
+}
+
+allprojects { project ->
+    // task to create main and test source directories.
+    task createSourceDirs << {
+        if (project != rootProject) {
+            sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
+            sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+        }
+    }
+}
+
+// create build date and time.
+import java.text.SimpleDateFormat
 Date buildTimeAndDate = new Date()
 ext {
     buildDate = new SimpleDateFormat("yyyy-MM-dd").format(buildTimeAndDate)
@@ -37,8 +58,8 @@ apply plugin: "base"
 apply plugin: "idea"
 
 subprojects { subproject ->
+    // provide java configurations and tasks.
     apply plugin: "java"
-    apply plugin: "idea"
 
     //apply from: rootProject.file("gradle/check-checkstyle.gradle")
     //apply from: rootProject.file("gradle/check-findbugs.gradle")
@@ -71,17 +92,20 @@ subprojects { subproject ->
         javadocJar
     }
 
+    // source code compatible to java 8.
     subproject.tasks.withType(JavaCompile) {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
     }
 
+    // configure javadoc task.
     if (JavaVersion.current().isJava8Compatible()) {
         tasks.withType(Javadoc) {
             options.addStringOption("Xdoclint:none", "-quiet")
         }
     }
 
+    // use utf-8 encoding for java compile.
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
@@ -90,13 +114,17 @@ subprojects { subproject ->
 evaluationDependsOnChildren()
 
 subprojects { subproject ->
+    // maven repositories for dependencies.
     repositories {
+        if (project.hasProperty("useMavenLocal")) {
+            mavenLocal()
+        }
         jcenter()
     }
 
+    // configure javadoc task.
     javadoc {
         excludes = ["**/*.html", "META-INF/**"]
-
         options.use         = true
         options.splitIndex  = true
         options.encoding    = "UTF-8"
@@ -112,6 +140,7 @@ subprojects { subproject ->
     }
 }
 
+// configure java jdk and language level in idea.
 idea {
     project {
         jdkName "1.8"
