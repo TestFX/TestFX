@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.ListViews.containsRow;
+import static org.loadui.testfx.controls.ListViews.hasSelectedRow;
 import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;
 
 @Category(TestFX.class)
@@ -36,6 +37,7 @@ public class ListViewsTest extends GuiTest {
     protected Parent getRootNode() {
         ListView<Integer> list = new ListView<>();
         list.setItems(observableArrayList(1, 2, 3));
+        list.getSelectionModel().select(new Integer(2));
         return VBoxBuilder
             .create()
             .children(list).build();
@@ -56,6 +58,22 @@ public class ListViewsTest extends GuiTest {
 
         ListView<?> listView = find(".list-view");
         verifyThat(numberOfRowsIn(listView), is(3));
+    }
+                  
+    @Test
+    public void shouldHaveSelectedTheRow() {
+        ListView<?> listView = find(".list-view");
+        
+        verifyThat(listView, hasSelectedRow(2));
+        verifyThat(listView, not(hasSelectedRow(1)));
+        verifyThat(listView, not(hasSelectedRow(3)));
+    }
+        
+    @Test
+    public void shouldHaveSelectedTheRowByString() {
+        verifyThat(".list-view", hasSelectedRow("2"));
+        verifyThat(".list-view", not(hasSelectedRow("1")));
+        verifyThat(".list-view", not(hasSelectedRow("3")));
     }
 
 }
