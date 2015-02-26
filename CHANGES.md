@@ -1,11 +1,11 @@
 ## master &mdash; February 26, 2015
 
-238 commits by 14 authors:
-- **Benjamin Gudehus** (@hastebrot) &mdash; 208 commits
+294 commits by 14 authors:
+- **Benjamin Gudehus** (@hastebrot) &mdash; 259 commits
 - **Sven Ruppert** (@svenruppert) &mdash; 10 commits
+- **Henrik Olsson** &mdash; 8 commits
 - **Andres Almiray** (@aalmiray) &mdash; 6 commits
 - **Naimdjon Takhirov** (@naimdjon) &mdash; 4 commits
-- **Henrik Olsson** &mdash; 3 commits
 - **Grégory Fernandez** (@lgringo) &mdash; 2 commits
 - **Andrea Vacondio** (@torakiki), **Johannes Mockenhaupt** (@jotomo), **Making GitHub Delicious.** (@waffle-iron), **Robert Ladstätter** (@rladstaetter), **Sergei Ivanov** (@sergei-ivanov) &mdash; 1 commit
 
@@ -74,9 +74,8 @@
 
 ## v3.1.2 &mdash; January 30, 2014
 
-67 commits by 4 authors:
-- **Benjamin Gudehus** (@hastebrot) &mdash; 48 commits
-- **Henrik Olsson** &mdash; 15 commits
+14 commits by 3 authors:
+- **Henrik Olsson** &mdash; 10 commits
 - **Henrik Stråth** (@minisu), **Philipp Keck** (@Philipp91) &mdash; 2 commits
 
 4 merged pull requests:
@@ -87,12 +86,11 @@
 
 ## v3.1.0 &mdash; January 12, 2014
 
-178 commits by 7 authors:
+176 commits by 6 authors:
 - **Henrik Olsson** &mdash; 119 commits
 - **Henrik Stråth** (@minisu) &mdash; 42 commits
 - **Renato Athaydes** (@renatoathaydes) &mdash; 6 commits
 - **Maximilian Skog** (@maxonline), **Philipp Keck** (@Philipp91) &mdash; 4 commits
-- **Benjamin Gudehus** (@hastebrot) &mdash; 2 commits
 - **Bitdeli Chef** (@bitdeli-chef) &mdash; 1 commit
 
 3 merged pull requests:
