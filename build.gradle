@@ -22,15 +22,19 @@ ext {
     buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
 
-buildscript{
+buildscript {
     repositories {
         jcenter()
     }
 
     dependencies {
         classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
+
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.6.1'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
+
+        // https://github.com/hierynomus/license-gradle-plugin
+        classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
+
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
     }
 }
@@ -43,6 +47,7 @@ apply plugin: 'build-dashboard'
 subprojects { subproj ->
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply from: rootProject.file("gradle/check-license.gradle")
     apply from: rootProject.file('gradle/code-quality.gradle')
     apply from: rootProject.file('gradle/coverage.gradle')
     apply from: rootProject.file('gradle/publish.gradle')

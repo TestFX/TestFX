@@ -17,18 +17,6 @@
 //apply plugin: 'checkstyle'
 //apply plugin: 'findbugs'
 apply plugin: 'jdepend'
-apply plugin: 'license'
-
-license {
-    header = rootProject.file('config/HEADER')
-    strictCheck = true
-    ignoreFailures = false
-    mapping {
-        java ='SLASHSTAR_STYLE'
-        groovy ='SLASHSTAR_STYLE'
-    }
-    ext.year = '2013-2014'
-}
 
 def configDir = new File(buildscript.sourceFile.parentFile.parentFile, 'config')
 ext.checkstyleConfigDir = "$configDir/checkstyle"

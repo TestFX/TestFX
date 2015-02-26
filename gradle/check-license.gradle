@@ -14,19 +14,17 @@
  * and limitations under the Licence.
  */
 
-// name of root project.
-rootProject.name = "testfx"
+apply plugin: "license"
 
-// list of subprojects.
-include "subprojects/testfx-core"
-include "subprojects/testfx-legacy"
-
-// build files of subprojects.
-rootProject.children.each { project ->
-    def projectDir = new File(project.name)
-    project.name = projectDir.name
-    project.projectDir = projectDir
-    project.buildFileName = "${projectDir.name}.gradle"
-    assert project.projectDir.isDirectory()
-    assert project.buildFile.isFile()
+license {
+    header = rootProject.file("gradle/check/license-header.txt")
+    strictCheck = true
+    ignoreFailures = false
+    mapping {
+        java = "SLASHSTAR_STYLE"
+        groovy = "SLASHSTAR_STYLE"
+    }
+    include "**/*.java"
+    include "**/*.groovy"
+    include "**/*.gradle"
 }
