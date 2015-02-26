@@ -58,6 +58,18 @@ public class ListViews {
       return list.getItems()
           .stream()
           .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
+    }    
+    
+    @SuppressWarnings("unchecked")
+    @Factory
+    public static <S> org.hamcrest.Matcher<S> hasSelectedRow(Object rowValue) {
+        return new ListSelectedMatcher(rowValue);
+    }
+
+    static boolean hasSelectedRow(ListView<?> list, Object rowValue) {
+      return list.getSelectionModel().getSelectedItems()
+          .stream()
+          .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
     }
 
     static ListView<?> getListView(String listSelector) {
@@ -93,6 +105,34 @@ public class ListViews {
         @Override
         public void describeTo(Description description) {
             description.appendText("The list does not contain a row with value '" +
+                valueToMatch + "'");
+        }
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private static class ListSelectedMatcher extends BaseMatcher {
+        private Object valueToMatch;
+
+        public ListSelectedMatcher(Object valueToMatch) {
+            this.valueToMatch = valueToMatch;
+        }
+
+        @Override
+        public boolean matches(Object o) {
+            if (o instanceof String) {
+                String query = (String) o;
+                return ListViews.hasSelectedRow(getListView(query), valueToMatch);
+            }
+            else if (o instanceof ListView) {
+                ListView tableView = (ListView) o;
+                return ListViews.hasSelectedRow(tableView, valueToMatch);
+            }
+            return false;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("The list does not have selected a row with value '" +
                 valueToMatch + "'");
         }
     }
