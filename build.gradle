@@ -153,11 +153,3 @@ idea {
         languageLevel '1.8'
     }
 }
-
-task projectCoberturaMerge(type: ProjectCoberturaMergeTask) {
-
-}
-
-task projectCoberturaReport(type: ProjectCoberturaReportTask) {
-
-}
