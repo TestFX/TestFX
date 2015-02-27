@@ -1,6 +1,7 @@
 # TestFX
 
 [![Build Status](http://travis-ci.org/TestFX/TestFX.svg?branch=master)](https://travis-ci.org/TestFX/TestFX)
+[![Bintray Version](https://api.bintray.com/packages/testfx/testfx/testfx-core/images/download.svg)](https://bintray.com/testfx/testfx)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.testfx/testfx-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.testfx/testfx-core)
 
 Simple and clean testing for [JavaFX][10].
@@ -8,11 +9,9 @@ Simple and clean testing for [JavaFX][10].
 [10]: http://www.oracle.com/us/technologies/java/fx/overview/index.html
 
 
-## Current Status
+## Status
 
-Working towards version 4.0.0 on `master`. The [changelog wiki page][20] is pretty out-dated and latest documentation only available via `gradle javadoc`.
-
-[20]: https://github.com/TestFX/TestFX/wiki/Changelog
+Version 4.0.0 is in alpha phase. Release notes are listed in [CHANGES.md](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
 
 
 ## Features
@@ -69,28 +68,6 @@ repositories {
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
-~~~
-
-Maven `pom.xml`:
-~~~xml
-<dependencies>
-    <dependency>
-        <groupId>org.testfx</groupId>
-        <artifactId>testfx-core</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
-
-<repositories>
-    <repository>
-        <id>sonatype-snapshots-repo</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        <snapshots>
-            <enabled>true</enabled>
-       </snapshots>
-    </repository>
-</repositories>
 ~~~
 
 
