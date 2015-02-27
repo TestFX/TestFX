@@ -46,9 +46,9 @@ public class FxAssert {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    // ASSERTIONS: GENERAL.
+    // ASSERTIONS: SUPER MATCHER.
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs")
     public static <T> void verifyThat(T value,
                                       Matcher<? super T> matcher) {
         verifyThatImpl(emptyReason(), value, matcher);
@@ -56,13 +56,13 @@ public class FxAssert {
 
     // ASSERTIONS: {NODE, NODES} + MATCHER.
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(T node,
                                                    Matcher<T> nodeMatcher) {
         verifyThatImpl(emptyReason(), node, nodeMatcher);
     }
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
                                                        Matcher<Iterable<T>> nodesMatcher) {
         verifyThatImpl(emptyReason(), nodes, nodesMatcher);
@@ -70,13 +70,13 @@ public class FxAssert {
 
     // ASSERTIONS: STRING QUERY + MATCHER.
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Matcher<T> nodeMatcher) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
     }
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(String nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
         verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
@@ -84,13 +84,13 @@ public class FxAssert {
 
     // ASSERTIONS: NODE QUERY + MATCHER.
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
                                                    Matcher<T> nodeMatcher) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
     }
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
         verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
@@ -98,19 +98,19 @@ public class FxAssert {
 
     // ASSERTIONS: {NODE, STRING QUERY, NODE QUERY} + PREDICATE.
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(T node,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
     }
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
     }
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
@@ -118,7 +118,7 @@ public class FxAssert {
 
     // INTERNAL CONTEXT.
 
-    @Unstable
+    @Unstable(reason = "is missing apidocs")
     public static FxAssertContext assertContext() {
         if (context == null) {
             context = new FxAssertContext();
