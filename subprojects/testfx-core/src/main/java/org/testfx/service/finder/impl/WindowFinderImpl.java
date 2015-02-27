@@ -28,8 +28,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.WindowFinder;
 
+@Unstable
 public class WindowFinderImpl implements WindowFinder {
 
     //---------------------------------------------------------------------------------------------
@@ -42,48 +44,58 @@ public class WindowFinderImpl implements WindowFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     public Window target() {
         return lastTargetWindow;
     }
 
+    @Override
     public void target(Window window) {
         lastTargetWindow = window;
     }
 
+    @Override
     public void target(int windowIndex) {
         target(window(windowIndex));
     }
 
+    @Override
     public void target(String stageTitleRegex) {
         target(window(stageTitleRegex));
     }
 
+    @Override
     public void target(Scene scene) {
         target(window(scene));
     }
 
+    @Override
     @SuppressWarnings("deprecation")
     public List<Window> listWindows() {
         List<Window> windows = Lists.newArrayList(Window.impl_getWindows());
         return ImmutableList.copyOf(Lists.reverse(windows));
     }
 
+    @Override
     public List<Window> listOrderedWindows() {
         List<Window> windows = listWindows();
         List<Window> orderedWindows = orderWindowsByProximityTo(lastTargetWindow, windows);
         return orderedWindows;
     }
 
+    @Override
     public Window window(int windowIndex) {
         List<Window> windows = listWindows();
         return windows.get(windowIndex);
     }
 
+    @Override
     public Window window(String stageTitleRegex) {
         List<Window> windows = listWindows();
         return Iterables.find(windows, hasStageTitlePredicate(stageTitleRegex));
     }
 
+    @Override
     public Window window(Scene scene) {
         return scene.getWindow();
     }

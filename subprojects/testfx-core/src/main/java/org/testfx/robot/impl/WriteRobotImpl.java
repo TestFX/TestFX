@@ -20,11 +20,13 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 import com.google.common.collect.Lists;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
 
+@Unstable
 public class WriteRobotImpl implements WriteRobot {
 
     //---------------------------------------------------------------------------------------------

@@ -32,12 +32,14 @@ import com.google.common.collect.ImmutableMap;
 import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
+@Unstable
 public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     //---------------------------------------------------------------------------------------------

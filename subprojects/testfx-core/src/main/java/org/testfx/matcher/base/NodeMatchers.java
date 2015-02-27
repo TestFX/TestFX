@@ -47,54 +47,64 @@ public class NodeMatchers {
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isNull() {
         return baseMatcher("Node is null", node -> isNull(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isNotNull() {
         return baseMatcher("Node is not null", node -> !isNull(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isVisible() {
         return baseMatcher("Node is visible", node -> isVisible(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isInvisible() {
         return baseMatcher("Node is invisible", node -> !isVisible(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isEnabled() {
         return baseMatcher("Node is enabled", node -> isEnabled(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isDisabled() {
         return baseMatcher("Node is disabled", node -> !isEnabled(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "Node has text \"" + string + "\"";
         return baseMatcher(descriptionText, node -> hasText(node, string));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "Node has " + matcher.toString();
         return baseMatcher(descriptionText, node -> hasText(node, matcher));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChild(String query) {
         String descriptionText = "Node has child \"" + query + "\"";
         return baseMatcher(descriptionText, node -> hasChild(node, query));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChildren(int amount,
                                             String query) {
         String descriptionText = "Node has " + amount + " children \"" + query + "\"";

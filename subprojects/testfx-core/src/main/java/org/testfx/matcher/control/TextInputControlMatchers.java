@@ -34,6 +34,7 @@ public class TextInputControlMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
         return typeSafeMatcher(TextInputControl.class, descriptionText,
@@ -41,6 +42,7 @@ public class TextInputControlMatchers {
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(TextInputControl.class, descriptionText,

@@ -33,12 +33,14 @@ public class ParentMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChild() {
         String descriptionText = "has child";
         return typeSafeMatcher(Parent.class, descriptionText, node -> hasChild(node));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChildren(int amount) {
         String descriptionText = "has " + amount + " children";
         return typeSafeMatcher(Parent.class, descriptionText, node -> hasChildren(amount, node));

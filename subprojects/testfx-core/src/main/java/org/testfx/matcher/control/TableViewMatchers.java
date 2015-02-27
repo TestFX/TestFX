@@ -44,6 +44,7 @@ public class TableViewMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasTableCell(Object value) {
         String descriptionText = "has table cell \"" + value + "\"";
         return typeSafeMatcher(TableView.class, descriptionText,
@@ -51,6 +52,7 @@ public class TableViewMatchers {
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(TableView.class, descriptionText, node -> hasItems(node, amount));

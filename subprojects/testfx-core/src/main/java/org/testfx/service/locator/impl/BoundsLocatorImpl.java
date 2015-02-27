@@ -22,9 +22,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
 
+@Unstable
 public class BoundsLocatorImpl implements BoundsLocator {
 
     //---------------------------------------------------------------------------------------------

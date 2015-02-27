@@ -32,6 +32,7 @@ public class GeometryMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Object> hasDimension(double width,
                                                double height) {
         String descriptionText = "has dimension (" + width + ", " + height + ")";

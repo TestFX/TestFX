@@ -20,8 +20,10 @@ import java.util.concurrent.Callable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.PointQuery;
 
+@Unstable
 public class CallableBoundsPointQuery extends PointQueryBase {
 
     //---------------------------------------------------------------------------------------------

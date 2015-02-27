@@ -23,9 +23,11 @@ import javafx.scene.input.MouseButton;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 
+@Unstable
 public class MouseRobotImpl implements MouseRobot {
 
     //---------------------------------------------------------------------------------------------

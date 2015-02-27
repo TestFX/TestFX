@@ -29,9 +29,11 @@ import javafx.beans.value.ObservableBooleanValue;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SettableFuture;
+import org.testfx.api.annotation.Unstable;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+@Unstable
 public class WaitForAsyncUtils {
 
     //---------------------------------------------------------------------------------------------

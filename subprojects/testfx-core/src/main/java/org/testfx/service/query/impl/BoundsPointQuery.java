@@ -19,8 +19,10 @@ package org.testfx.service.query.impl;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.util.BoundsUtils;
 
+@Unstable
 public class BoundsPointQuery extends PointQueryBase {
 
     //---------------------------------------------------------------------------------------------

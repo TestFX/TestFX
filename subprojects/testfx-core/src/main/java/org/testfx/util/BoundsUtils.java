@@ -22,6 +22,9 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 
+import org.testfx.api.annotation.Unstable;
+
+@Unstable
 public final class BoundsUtils {
 
     //---------------------------------------------------------------------------------------------

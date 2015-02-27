@@ -27,7 +27,9 @@ import javafx.scene.paint.Color;
 import com.sun.javafx.robot.FXRobot;
 import com.sun.javafx.robot.FXRobotFactory;
 import com.sun.javafx.robot.FXRobotImage;
+import org.testfx.api.annotation.Unstable;
 
+@Unstable
 public class JavafxRobotAdapter {
 
     //---------------------------------------------------------------------------------------------

@@ -18,8 +18,10 @@ package org.testfx.robot.impl;
 
 import java.util.concurrent.TimeUnit;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.SleepRobot;
 
+@Unstable(reason = "needs more tests")
 public class SleepRobotImpl implements SleepRobot {
 
     //---------------------------------------------------------------------------------------------

@@ -20,8 +20,10 @@ import java.lang.reflect.Field;
 import java.util.Objects;
 import javafx.application.Application;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 
+@Unstable(reason = "needs more tests")
 public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     //---------------------------------------------------------------------------------------------
