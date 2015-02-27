@@ -1,17 +1,20 @@
-## master &mdash; February 26, 2015
+<!-- tag: v4.0.0-alpha -->
+## TestFX 4.0.0-alpha &mdash; February 27, 2015
 
-295 commits by 14 authors:
-- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 260 commits
+322 commits by 13 authors:
+- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 277 commits
+- **Henrik Olsson** &mdash; 11 commits
 - **Sven Ruppert** ([@svenruppert](https://github.com/svenruppert)) &mdash; 10 commits
-- **Henrik Olsson** &mdash; 8 commits
 - **Andres Almiray** ([@aalmiray](https://github.com/aalmiray)) &mdash; 6 commits
-- **Naimdjon Takhirov** ([@naimdjon](https://github.com/naimdjon)) &mdash; 4 commits
+- **Jan Gassen** ([@0x4a616e](https://github.com/0x4a616e)), **Naimdjon Takhirov** ([@naimdjon](https://github.com/naimdjon)) &mdash; 4 commits
+- **Diego Cirujano** ([@Curuman](https://github.com/Ciruman)) &mdash; 3 commits
 - **Grégory Fernandez** ([@lgringo](https://github.com/lgringo)) &mdash; 2 commits
 - **Andrea Vacondio** ([@torakiki](https://github.com/torakiki)), **Johannes Mockenhaupt** ([@jotomo](https://github.com/jotomo)), **Making GitHub Delicious.** ([@waffle-iron](https://github.com/waffle-iron)), **Robert Ladstätter** ([@rladstaetter](https://github.com/rladstaetter)), **Sergei Ivanov** ([@sergei-ivanov](https://github.com/sergei-ivanov)) &mdash; 1 commit
 
-61 merged pull requests:
+65 merged pull requests:
 - **(chore)** Gradle: Add project.jfxrtLocation to test.classpath. ([#120](https://github.com/TestFX/TestFX/pull/120)) &mdash; 2 commits
 - **(chore)** Gradle: Build now runs with `gradle clean jar javadocJar sourceJar test check`. ([#88](https://github.com/TestFX/TestFX/pull/88)) &mdash; 1 commit
+- **(chore)** Gradle: Cleanup build scripts. ([#201](https://github.com/TestFX/TestFX/pull/201)) &mdash; 13 commits
 - **(chore)** Gradle: Fix missing Gradle wrapper. ([#117](https://github.com/TestFX/TestFX/pull/117)) &mdash; 2 commits
 - **(chore)** Gradle: Reintroduce BinTray support. ([#128](https://github.com/TestFX/TestFX/pull/128)) &mdash; 1 commit
 - **(chore)** Gradle: Remove JUnit compile dependency and update Guava. ([#197](https://github.com/TestFX/TestFX/pull/197)) &mdash; 3 commits
@@ -19,14 +22,17 @@
 - **(chore)** Gradle: Temporarily remove BinTray support to fix Gradle view refresh in IntelliJ IDEA. ([#127](https://github.com/TestFX/TestFX/pull/127)) &mdash; 1 commit
 - **(chore)** Travis: Add `.travis.yml`. ([#118](https://github.com/TestFX/TestFX/pull/118)) &mdash; 1 commit
 - **(chore)** Travis: Try to use xvfb (X Virtual Framebuffer). ([#119](https://github.com/TestFX/TestFX/pull/119)) &mdash; 1 commit
+- **(doc)** Add Unstable annotations to classes and methods. ([#203](https://github.com/TestFX/TestFX/pull/203)) &mdash; 1 commit
 - **(doc)** Readme: Fix broken links to source code and update links to TestFX... ([#142](https://github.com/TestFX/TestFX/pull/142)) &mdash; 1 commit
 - **(doc)** Readme: Update `README.md`. ([#196](https://github.com/TestFX/TestFX/pull/196)) &mdash; 2 commits
 - **(doc)** Toolkit: Prepare docs and tests for candidate phase. ([#176](https://github.com/TestFX/TestFX/pull/176)) &mdash; 12 commits
+- **(feat)** Allow instrumenting entire Applications. ([#183](https://github.com/TestFX/TestFX/pull/183)) &mdash; 4 commits
 - **(feat)** Assert, Matcher: Implement type-aware matchers. ([#164](https://github.com/TestFX/TestFX/pull/164)) &mdash; 16 commits
 - **(feat)** Assert, Matcher: Improve type-aware matchers. ([#195](https://github.com/TestFX/TestFX/pull/195)) &mdash; 11 commits
 - **(feat)** Implement CallableBoundsPointQuery. ([#68](https://github.com/TestFX/TestFX/pull/68)) &mdash; 5 commits
 - **(feat)** Lifecycle, Robot: Headless support. ([#159](https://github.com/TestFX/TestFX/pull/159)) &mdash; 27 commits
 - **(feat)** Lifecycle: Implement LifecycleService. ([#156](https://github.com/TestFX/TestFX/pull/156)) &mdash; 12 commits
+- **(feat)** ListViews provides a row selected matcher. ([#202](https://github.com/TestFX/TestFX/pull/202)) &mdash; 3 commits
 - **(feat)** Robot: Add regression tests and create ClickRobotImpl. ([#97](https://github.com/TestFX/TestFX/pull/97)) &mdash; 1 commit
 - **(feat)** Robot: Add regression tests and create DragRobotImpl. ([#98](https://github.com/TestFX/TestFX/pull/98)) &mdash; 1 commit
 - **(feat)** Robot: Add regression tests and create MoveRobotImpl. ([#96](https://github.com/TestFX/TestFX/pull/96)) &mdash; 1 commit
@@ -72,7 +78,8 @@
 - make timeout configurable ([#133](https://github.com/TestFX/TestFX/pull/133)) &mdash; 1 commit
 - waffle.io Badge ([#134](https://github.com/TestFX/TestFX/pull/134)) &mdash; 1 commit
 
-## v3.1.2 &mdash; January 30, 2014
+<!-- tag: v3.1.2 -->
+## TestFX 3.1.2 &mdash; January 30, 2014
 
 14 commits by 3 authors:
 - **Henrik Olsson** &mdash; 10 commits
@@ -84,7 +91,8 @@
 - Now aborts test on user mouse movement. Related to #55 ([#59](https://github.com/TestFX/TestFX/pull/59)) &mdash; 1 commit
 - Now releases keys/buttons on test aborted. #23 ([#60](https://github.com/TestFX/TestFX/pull/60)) &mdash; 1 commit
 
-## v3.1.0 &mdash; January 12, 2014
+<!-- tag: v3.1.0 -->
+## TestFX 3.1.0 &mdash; January 12, 2014
 
 21 commits by 2 authors:
 - **Henrik Olsson** &mdash; 14 commits
@@ -94,7 +102,8 @@
 1 merged pull request:
 - Faster mouse movement over long distances ([#35](https://github.com/TestFX/TestFX/pull/35)) &mdash; 1 commit
 
-## v3.0.0 &mdash; December 23, 2013
+<!-- tag: v3.0.0 -->
+## TestFX 3.0.0 &mdash; December 23, 2013
 
 155 commits by 6 authors:
 - **Henrik Olsson** &mdash; 105 commits
