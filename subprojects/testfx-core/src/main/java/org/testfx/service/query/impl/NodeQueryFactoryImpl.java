@@ -16,9 +16,11 @@
  */
 package org.testfx.service.query.impl;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.NodeQueryFactory;
 
+@Unstable
 public class NodeQueryFactoryImpl implements NodeQueryFactory {
 
     @Override

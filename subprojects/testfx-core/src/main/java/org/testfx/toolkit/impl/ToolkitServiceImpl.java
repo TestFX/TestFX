@@ -25,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -33,6 +34,7 @@ import org.testfx.toolkit.PrimaryStageFuture;
 import static org.testfx.util.WaitForAsyncUtils.async;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
+@Unstable
 public class ToolkitServiceImpl implements ToolkitService {
 
     //---------------------------------------------------------------------------------------------

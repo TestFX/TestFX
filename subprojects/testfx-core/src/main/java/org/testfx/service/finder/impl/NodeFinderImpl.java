@@ -25,6 +25,7 @@ import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.query.NodeQuery;
@@ -32,6 +33,7 @@ import org.testfx.service.query.NodeQueryFactory;
 import org.testfx.service.query.impl.NodeQueryFactoryImpl;
 import org.testfx.service.query.impl.NodeQueryUtils;
 
+@Unstable
 public class NodeFinderImpl implements NodeFinder {
 
     //---------------------------------------------------------------------------------------------

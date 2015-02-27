@@ -28,8 +28,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.NodeQuery;
 
+@Unstable
 public class NodeQueryImpl implements NodeQuery {
 
     //---------------------------------------------------------------------------------------------

@@ -19,9 +19,11 @@ package org.testfx.service.query.impl;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.PointQuery;
 import org.testfx.util.BoundsUtils;
 
+@Unstable
 abstract public class PointQueryBase implements PointQuery {
 
     //---------------------------------------------------------------------------------------------

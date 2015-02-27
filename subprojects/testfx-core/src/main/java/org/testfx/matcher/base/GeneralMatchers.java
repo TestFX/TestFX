@@ -32,6 +32,7 @@ public class GeneralMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<T> baseMatcher(final String descriptionText,
                                              final Predicate<T> predicate) {
         return new BaseMatcher<T>() {
@@ -55,6 +56,7 @@ public class GeneralMatchers {
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static <S, T extends S> Matcher<S> typeSafeMatcher(final Class<T> expectedType,
                                                               final String descriptionText,
                                                               final Predicate<T> predicate) {

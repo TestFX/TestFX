@@ -20,6 +20,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import org.testfx.api.annotation.Unstable;
+
+@Unstable(reason = "needs more tests")
 public class PrimaryStageApplication extends Application {
 
     //---------------------------------------------------------------------------------------------

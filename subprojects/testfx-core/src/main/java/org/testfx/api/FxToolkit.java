@@ -120,6 +120,7 @@ public class FxToolkit {
 
     // REGISTER STAGES (CONTAINERS).
 
+    @Unstable(reason = "is missing apidocs")
     public static Stage registerPrimaryStage()
                                       throws TimeoutException {
         Stage primaryStage = waitForLaunch(
@@ -134,6 +135,7 @@ public class FxToolkit {
         return primaryStage;
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static Stage registerStage(Supplier<Stage> stageSupplier)
                                throws TimeoutException {
         Stage stage = setupFixture(() -> stageSupplier.get());
@@ -143,6 +145,7 @@ public class FxToolkit {
 
     // SETUP REGISTERED STAGES (CONTENTS).
 
+    @Unstable(reason = "is missing apidocs")
     public static Stage setupStage(Consumer<Stage> stageConsumer)
                             throws TimeoutException {
         return waitForSetup(
@@ -153,6 +156,7 @@ public class FxToolkit {
         );
     }
 
+    @Unstable(reason = "is missing apidocs; could change to accept Application instead of Class")
     public static Application setupApplication(Class<? extends Application> applicationClass,
                                                String... applicationArgs)
                                         throws TimeoutException {
@@ -165,6 +169,7 @@ public class FxToolkit {
         );
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static void cleanupApplication(Application application)
                                    throws TimeoutException {
         waitForSetup(
@@ -172,6 +177,7 @@ public class FxToolkit {
         );
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static Scene setupScene(Supplier<Scene> sceneSupplier)
                             throws TimeoutException {
         return waitForSetup(
@@ -182,6 +188,7 @@ public class FxToolkit {
         );
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
                                  throws TimeoutException {
         return waitForSetup(
@@ -194,6 +201,7 @@ public class FxToolkit {
 
     // UTILITY METHODS.
 
+    @Unstable(reason = "is missing apidocs")
     public static void setupFixture(Runnable runnable)
                              throws TimeoutException {
         waitForSetup(
@@ -201,6 +209,7 @@ public class FxToolkit {
         );
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static <T> T setupFixture(Callable<T> callable)
                               throws TimeoutException {
         return waitForSetup(
@@ -208,16 +217,19 @@ public class FxToolkit {
         );
     }
 
+    @Unstable(reason = "is missing apidocs; could change to accept stages")
     public static void showStage()
                           throws TimeoutException {
         setupStage((stage) -> showStage(stage));
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static void hideStage()
                           throws TimeoutException {
         setupStage((stage) -> hideStage(stage));
     }
 
+    @Unstable(reason = "is missing apidocs")
     public static void cleanupStages()
                               throws TimeoutException {
         setupFixture(() -> {
@@ -227,6 +239,7 @@ public class FxToolkit {
 
     // INTERNAL CONTEXT.
 
+    @Unstable(reason = "is missing apidocs")
     public static FxToolkitContext toolkitContext() {
         return context;
     }

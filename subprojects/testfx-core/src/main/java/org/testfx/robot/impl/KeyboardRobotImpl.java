@@ -22,9 +22,11 @@ import javafx.scene.input.KeyCode;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Lists;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
 
+@Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
 
     //---------------------------------------------------------------------------------------------

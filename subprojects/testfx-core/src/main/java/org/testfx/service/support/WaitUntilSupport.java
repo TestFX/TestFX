@@ -22,8 +22,10 @@ import javafx.scene.Node;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.util.WaitForAsyncUtils;
 
+@Unstable(reason = "needs more tests")
 public class WaitUntilSupport {
 
     //---------------------------------------------------------------------------------------------

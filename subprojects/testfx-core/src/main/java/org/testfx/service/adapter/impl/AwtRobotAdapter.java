@@ -36,10 +36,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
 import com.google.common.collect.ImmutableMap;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
+@Unstable
 public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     //---------------------------------------------------------------------------------------------

@@ -18,9 +18,11 @@ package org.testfx.robot.impl;
 
 import javafx.geometry.VerticalDirection;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 
+@Unstable
 public class ScrollRobotImpl implements ScrollRobot {
 
     //---------------------------------------------------------------------------------------------

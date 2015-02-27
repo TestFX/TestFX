@@ -18,12 +18,14 @@ package org.testfx.robot.impl;
 
 import javafx.scene.input.MouseButton;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
+@Unstable
 public class ClickRobotImpl implements ClickRobot {
 
     //---------------------------------------------------------------------------------------------

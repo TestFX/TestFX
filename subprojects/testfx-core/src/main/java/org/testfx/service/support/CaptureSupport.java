@@ -26,8 +26,10 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 
+@Unstable(reason = "needs more tests")
 public class CaptureSupport {
 
     //---------------------------------------------------------------------------------------------

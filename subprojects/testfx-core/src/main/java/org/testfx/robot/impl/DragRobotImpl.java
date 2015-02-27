@@ -18,11 +18,13 @@ package org.testfx.robot.impl;
 
 import javafx.scene.input.MouseButton;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.DragRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.service.query.PointQuery;
 
+@Unstable
 public class DragRobotImpl implements DragRobot {
 
     //---------------------------------------------------------------------------------------------

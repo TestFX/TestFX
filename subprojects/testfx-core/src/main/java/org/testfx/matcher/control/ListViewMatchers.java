@@ -44,12 +44,14 @@ public class ListViewMatchers {
     //---------------------------------------------------------------------------------------------
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasListCell(Object value) {
         String descriptionText = "has list cell \"" + value + "\"";
         return typeSafeMatcher(ListView.class, descriptionText, node -> hasListCell(node, value));
     }
 
     @Factory
+    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(ListView.class, descriptionText, node -> hasItems(node, amount));

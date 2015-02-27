@@ -22,10 +22,12 @@ import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.SettableFuture;
 import com.sun.javafx.application.ParametersImpl;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationService;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
+@Unstable(reason = "needs more tests")
 public class ApplicationServiceImpl implements ApplicationService {
 
     //---------------------------------------------------------------------------------------------
