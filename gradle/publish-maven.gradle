@@ -25,14 +25,14 @@ def pomConfig = {
 
     licenses {
         license([:]) {
-            name "EUPL-1.1"
+            name "European Union Public Licence, Version 1.1"
             url "http://ec.europa.eu/idabc/eupl.html"
             distribution "repo"
         }
     }
 
     scm {
-        url "https://github.com/TestFX/TestFX.git"
+        url "https://github.com/TestFX/TestFX"
     }
 
     developers {

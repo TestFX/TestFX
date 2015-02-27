@@ -15,6 +15,9 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
+// This plugin allows you to publish artifacts to a repository on Bintray.
+// https://github.com/bintray/gradle-bintray-plugin
+
 apply plugin: "com.jfrog.bintray"
 
 if (!project.hasProperty("bintrayUsername")) ext.bintrayUsername = "invalid"
@@ -26,8 +29,8 @@ bintray {
     publications = ["mavenJava"]
 
     pkg {
-        repo = project.project_bintray_repo
         userOrg = project.project_bintray_org
+        repo = project.project_bintray_repo
         name = project.name
         desc = project.project_description
         licenses = ["EUPL-1.1"]
