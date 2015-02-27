@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-ext.pomDescription = "TestFX Legacy module"
+ext.pomDescription = "TestFX Legacy"
 
 dependencies {
     compile project(":testfx-core")

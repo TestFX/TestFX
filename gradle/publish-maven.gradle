@@ -19,7 +19,6 @@ apply plugin: "maven-publish"
 
 def pomConfig = {
     name project.name
-    description project.pomDescription
     url "https://github.com/TestFX/TestFX"
     inceptionYear "2013"
 
@@ -87,6 +86,7 @@ publishing {
             artifact javadocJar
             pom.withXml {
                 asNode().children().last() + pomConfig
+                asNode().appendNode("description", project.pomDescription)
             }
         }
     }

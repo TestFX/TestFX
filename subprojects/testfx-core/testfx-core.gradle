@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-ext.pomDescription = "TestFX Core module"
+ext.pomDescription = "TestFX Core"
 
 dependencies {
     compile "com.google.guava:guava:18.0"
