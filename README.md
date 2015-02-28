@@ -86,7 +86,7 @@ dependencies {
 }
 ~~~
 
-Gradle `build.gradle` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
+Gradle `build.gradle` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
 
 ~~~groovy
 repositories {
@@ -95,9 +95,74 @@ repositories {
 }
 
 dependencies {
-    testCompile "junit:junit:4.10"
+    testCompile "junit:junit:4.12"
     testCompile "org.testfx:testfx-core:4.0.0-SNAPSHOT"
 }
+~~~
+
+Maven `pom.xml` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
+
+~~~xml
+<repositories>
+    <repository>
+        <id>maven-central-repo</id>
+        <url>http://repo1.maven.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-core</artifactId>
+        <version>4.0.0-alpha</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+~~~
+
+Maven `pom.xml` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
+
+~~~xml
+<repositories>
+    <repository>
+        <id>maven-central-repo</id>
+        <url>http://repo1.maven.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>sonatype-snapshots-repo</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <snapshots>
+            <enabled>true</enabled>
+       </snapshots>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-core</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
 ~~~
 
 
