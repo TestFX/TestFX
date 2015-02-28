@@ -86,7 +86,7 @@ dependencies {
 }
 ~~~
 
-Gradle `build.gradle` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
+Gradle `build.gradle` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
 
 ~~~groovy
 repositories {
@@ -100,7 +100,7 @@ dependencies {
 }
 ~~~
 
-Maven `pom.xml` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
+Maven `pom.xml` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
 
 ~~~xml
 <repositories>
