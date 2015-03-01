@@ -9,10 +9,10 @@ cache:
   directories:
     - $HOME/.gradle
 
-# run with xvfb and randr extension (resize and rotate).
+# run on xvfb screen.
 before_install:
   - "export DISPLAY=:99.0"
-  - "/usr/bin/Xvfb -extension RANDR :99 -ac -screen 0 1280x1024x16 &"
+  - "sh -e /etc/init.d/xvfb start"
 
 # run gradle build.
 install: true
