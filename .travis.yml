@@ -12,7 +12,7 @@ cache:
 # run with xvfb and randr extension (resize and rotate).
 before_install:
   - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - "/usr/bin/Xvfb -extension RANDR :99 -ac -screen 0 1280x1024x16 &"
 
 # run gradle build.
 install: true
