@@ -16,27 +16,14 @@
  */
 package org.testfx.toolkit;
 
-import java.util.concurrent.Future;
-import javafx.application.Application;
 import javafx.stage.Stage;
 
-public interface ApplicationService {
+public interface ApplicationFixture {
 
-    public Future<Application> create(Class<? extends Application> appClass,
-                                      String... appArgs);
+    void init() throws Exception;
 
-    public Future<Void> init(Application application);
+    void start(Stage stage) throws Exception;
 
-    public Future<Void> start(Application application,
-                              Stage targetStage);
-
-    public Future<Void> stop(Application application);
-
-    public Future<Void> init(ApplicationFixture applicationFixture);
-
-    public Future<Void> start(ApplicationFixture applicationFixture,
-                              Stage targetStage);
-
-    public Future<Void> stop(ApplicationFixture applicationFixture);
+    void stop() throws Exception;
 
 }

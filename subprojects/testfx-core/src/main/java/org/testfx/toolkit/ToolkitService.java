@@ -44,10 +44,20 @@ public interface ToolkitService {
     Future<Parent> setupSceneRoot(Stage stage,
                                   Supplier<? extends Parent> sceneRootSupplier);
 
-    Future<Application> setupApplication(Stage stage,
+    Future<Application> setupApplication(Supplier<Stage> stageSupplier,
                                          Class<? extends Application> applicationClass,
                                          String... applicationArgs);
 
+    Future<Application> setupApplication(Supplier<Stage> stageSupplier,
+                                         Application application,
+                                         String... applicationArgs);
+
+    Future<ApplicationFixture> setupApplication(Supplier<Stage> stageSupplier,
+                                                ApplicationFixture applicationFixture,
+                                                String... applicationArgs);
+
     Future<Void> cleanupApplication(Application application);
+
+    Future<Void> cleanupApplication(ApplicationFixture applicationFixture);
 
 }
