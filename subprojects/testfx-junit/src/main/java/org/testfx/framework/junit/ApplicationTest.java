@@ -36,6 +36,7 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Unstable(reason = "is missing apidocs")
     public static void launch(Class<? extends Application> appClass,
                               String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -47,6 +48,7 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     //---------------------------------------------------------------------------------------------
 
     @Before
+    @Unstable(reason = "is missing apidocs")
     public final void internalBefore()
                               throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -54,20 +56,24 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     }
 
     @After
+    @Unstable(reason = "is missing apidocs")
     public final void internalAfter()
                              throws Exception {
         FxToolkit.cleanupApplication(this);
     }
 
     @Override
+    @Unstable(reason = "is missing apidocs")
     public void init()
               throws Exception {}
 
     @Override
+    @Unstable(reason = "is missing apidocs")
     public abstract void start(Stage stage)
                         throws Exception;
 
     @Override
+    @Unstable(reason = "is missing apidocs")
     public void stop()
               throws Exception {}
 

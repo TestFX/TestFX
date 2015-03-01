@@ -48,15 +48,8 @@ public interface ToolkitService {
                                          Class<? extends Application> applicationClass,
                                          String... applicationArgs);
 
-    Future<Application> setupApplication(Supplier<Stage> stageSupplier,
-                                         Application application,
-                                         String... applicationArgs);
-
     Future<ApplicationFixture> setupApplication(Supplier<Stage> stageSupplier,
-                                                ApplicationFixture applicationFixture,
-                                                String... applicationArgs);
-
-    Future<Void> cleanupApplication(Application application);
+                                                ApplicationFixture applicationFixture);
 
     Future<Void> cleanupApplication(ApplicationFixture applicationFixture);
 

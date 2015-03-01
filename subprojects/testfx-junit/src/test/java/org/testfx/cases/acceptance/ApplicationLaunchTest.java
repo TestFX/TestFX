@@ -14,42 +14,52 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.framework.junit.integration;
+package org.testfx.cases.acceptance;
 
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasText;
 
-public class ApplicationStartTest extends ApplicationTest {
+public class ApplicationLaunchTest extends FxRobot {
+
+    //---------------------------------------------------------------------------------------------
+    // FIXTURES.
+    //---------------------------------------------------------------------------------------------
+
+    public static class DemoApplication extends Application {
+        @Override
+        public void start(Stage stage) {
+            Button button = new Button("click me!");
+            button.setOnAction((actionEvent) -> button.setText("clicked!"));
+            stage.setScene(new Scene(new StackPane(button), 100, 100));
+            stage.show();
+        }
+    }
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @Override
-    public void init() throws Exception {
-        FxToolkit.registerStage(() -> new Stage());
+    @Before
+    public void setup() throws Exception {
+        ApplicationTest.launch(DemoApplication.class);
     }
 
-    @Override
-    public void start(Stage stage) {
-        Button button = new Button("click me!");
-        button.setOnAction((actionEvent) -> button.setText("clicked!"));
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
-        stage.show();
-    }
-
-    @Override
-    public void stop() throws Exception {
-        FxToolkit.hideStage();
+    @After
+    public void cleanup() throws Exception {
+        FxToolkit.cleanupStages();
     }
 
     //---------------------------------------------------------------------------------------------

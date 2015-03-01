@@ -47,20 +47,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Future<Void> init(Application application) {
-        // Should be called in TestFX launcher thread.
-        SettableFuture<Void> future = SettableFuture.create();
-        try {
-            application.init();
-            future.set(null);
-        }
-        catch (Exception exception) {
-            future.setException(exception);
-        }
-        return future;
-    }
-
-    @Override
     public Future<Void> init(ApplicationFixture applicationFixture) {
         // Should be called in TestFX launcher thread.
         SettableFuture<Void> future = SettableFuture.create();
@@ -72,25 +58,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             future.setException(exception);
         }
         return future;
-    }
-
-    @Override
-    public Future<Void> start(Application application,
-                              Stage targetStage) {
-        // Should run in JavaFX application thread.
-        return asyncFx(() -> {
-            application.start(targetStage);
-            return null;
-        });
-    }
-
-    @Override
-    public Future<Void> stop(Application application) {
-        // Should run in JavaFX application thread.
-        return asyncFx(() -> {
-            application.stop();
-            return null;
-        });
     }
 
     @Override

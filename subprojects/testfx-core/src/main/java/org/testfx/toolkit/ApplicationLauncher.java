@@ -20,7 +20,7 @@ import javafx.application.Application;
 
 public interface ApplicationLauncher {
 
-    public void launch(Class<? extends Application> appClass,
-                       String... appArgs);
+    void launch(Class<? extends Application> appClass,
+                String... appArgs);
 
 }

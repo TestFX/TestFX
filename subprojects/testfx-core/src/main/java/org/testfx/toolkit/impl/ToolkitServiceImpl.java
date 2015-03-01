@@ -124,37 +124,22 @@ public class ToolkitServiceImpl implements ToolkitService {
             Application application = applicationService.create(
                 applicationClass, applicationArgs
             ).get();
-            applicationService.init(application).get();
-            applicationService.start(application, stageSupplier.get()).get();
+            ApplicationFixture applicationFixture = new ApplicationAdapter(application);
+            applicationService.init(applicationFixture).get();
+            applicationService.start(applicationFixture, stageSupplier.get()).get();
             return application;
         });
     }
 
-    @Override
-    public Future<Application> setupApplication(Supplier<Stage> stageSupplier,
-                                                Application application,
-                                                String... applicationArgs) {
-        return async(() -> {
-            applicationService.init(application).get();
-            applicationService.start(application, stageSupplier.get()).get();
-            return application;
-        });
-    }
 
     @Override
     public Future<ApplicationFixture> setupApplication(Supplier<Stage> stageSupplier,
-                                                       ApplicationFixture applicationFixture,
-                                                       String... applicationArgs) {
+                                                       ApplicationFixture applicationFixture) {
         return async(() -> {
             applicationService.init(applicationFixture).get();
             applicationService.start(applicationFixture, stageSupplier.get()).get();
             return applicationFixture;
         });
-    }
-
-    @Override
-    public Future<Void> cleanupApplication(Application application) {
-        return applicationService.stop(application);
     }
 
     @Override
