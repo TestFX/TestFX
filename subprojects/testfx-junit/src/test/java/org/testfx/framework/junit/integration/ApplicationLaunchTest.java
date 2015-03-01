@@ -1,17 +1,18 @@
 /*
  * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
  *
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
- * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
- * except in compliance with the Licence.
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
  * http://ec.europa.eu/idabc/eupl
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the Licence for the specific language governing permissions
- * and limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
  */
 package org.testfx.framework.junit.integration;
 
@@ -21,15 +22,17 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.FxRobotTestBase;
+import org.testfx.framework.junit.ApplicationTest;
 
-import static org.loadui.testfx.Assertions.verifyThat;
-import static org.loadui.testfx.controls.Commons.hasText;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.NodeMatchers.hasText;
 
-public class FxRobotApplicationTest extends FxRobotTestBase {
+public class ApplicationLaunchTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIXTURES.
@@ -37,11 +40,11 @@ public class FxRobotApplicationTest extends FxRobotTestBase {
 
     public static class DemoApplication extends Application {
         @Override
-        public void start(Stage primaryStage) throws Exception {
+        public void start(Stage stage) {
             Button button = new Button("click me!");
             button.setOnAction((actionEvent) -> button.setText("clicked!"));
-            primaryStage.setScene(new Scene(new StackPane(button), 100, 100));
-            primaryStage.show();
+            stage.setScene(new Scene(new StackPane(button), 100, 100));
+            stage.show();
         }
     }
 
@@ -51,7 +54,12 @@ public class FxRobotApplicationTest extends FxRobotTestBase {
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupApplication(DemoApplication.class);
+        ApplicationTest.launch(DemoApplication.class);
+    }
+
+    @After
+    public void cleanup() throws Exception {
+        FxToolkit.cleanupStages();
     }
 
     //---------------------------------------------------------------------------------------------
