@@ -1,22 +1,24 @@
 /*
  * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
  *
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
- * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
- * except in compliance with the Licence.
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
  * http://ec.europa.eu/idabc/eupl
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the Licence for the specific language governing permissions
- * and limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
  */
 package org.testfx.toolkit.impl;
 
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -28,10 +30,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testfx.toolkit.PrimaryStageApplication;
+import org.testfx.toolkit.PrimaryStageFuture;
 import org.testfx.toolkit.ToolkitService;
-import org.testfx.toolkit.StageFuture;
-import org.testfx.toolkit.ToolkitApplication;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testfx.util.WaitForAsyncUtils.sleep;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
@@ -51,8 +55,8 @@ public class ToolkitServiceImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        StageFuture primaryStageFuture = ToolkitApplication.primaryStageFuture;
-        Class<? extends Application> toolkitApplication = ToolkitApplication.class;
+        PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.primaryStageFuture;
+        Class<? extends Application> toolkitApplication = PrimaryStageApplication.class;
         toolkitService = new ToolkitServiceImpl(
             new ApplicationLauncherImpl(), new ApplicationServiceImpl()
         );
@@ -66,12 +70,17 @@ public class ToolkitServiceImplTest {
     public void setup() throws Exception {
         waitForAsyncFx(2000, () -> {
             primaryStage.show();
+            primaryStage.toBack();
+            primaryStage.toFront();
         });
     }
 
     @After
     public void cleanup() throws Exception {
-        //waitForAsyncFx(2000, () -> primaryStage.hide());
+        waitForAsyncFx(2000, () -> {
+            Platform.setImplicitExit(false);
+            primaryStage.hide();
+        });
     }
 
     //---------------------------------------------------------------------------------------------
@@ -84,7 +93,9 @@ public class ToolkitServiceImplTest {
         Application application = waitFor(5, TimeUnit.SECONDS,
             toolkitService.setupApplication(primaryStage, FixtureApplication.class)
         );
+
         sleep(2, TimeUnit.SECONDS);
+        assertThat(application, instanceOf(FixtureApplication.class));
     }
 
     @Test
@@ -93,7 +104,9 @@ public class ToolkitServiceImplTest {
         Scene scene = waitFor(5, TimeUnit.SECONDS,
             toolkitService.setupScene(primaryStage, () -> new FixtureScene())
         );
+
         sleep(2, TimeUnit.SECONDS);
+        assertThat(scene, instanceOf(FixtureScene.class));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -101,10 +114,12 @@ public class ToolkitServiceImplTest {
     //---------------------------------------------------------------------------------------------
 
     public static class FixtureApplication extends Application {
+        @Override
         public void init() throws Exception {
             printCurrentThreadName("Application#init()");
         }
 
+        @Override
         public void start(Stage primaryStage) throws Exception {
             printCurrentThreadName("Application#start()");
             Parent parent = new StackPane(new Label(getClass().getSimpleName()));
@@ -113,6 +128,7 @@ public class ToolkitServiceImplTest {
             primaryStage.show();
         }
 
+        @Override
         public void stop() throws Exception {
             printCurrentThreadName("Application#stop()");
         }

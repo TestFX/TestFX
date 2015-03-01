@@ -1,63 +1,87 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * 
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
- * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
- * except in compliance with the Licence.
+ * Copyright 2014-2015 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
  * http://ec.europa.eu/idabc/eupl
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the Licence for the specific language governing permissions
- * and limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
  */
 
-import java.text.SimpleDateFormat
-
-Date buildTimeAndDate = new Date()
-ext {
-    buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+// task to add gradle wrapper files.
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.3"
 }
 
-buildscript{
+// task to print gradle and groovy versions.
+task printVersions << {
+    println "Gradle version: " + project.gradle.gradleVersion
+    println "Groovy version: " + GroovySystem.version
+}
+
+allprojects { project ->
+    // task to create main and test source directories.
+    task createSourceDirs << {
+        if (project != rootProject) {
+            sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
+            sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+        }
+    }
+}
+
+// create build date and time.
+import java.text.SimpleDateFormat
+Date buildTimeAndDate = new Date()
+ext {
+    buildDate = new SimpleDateFormat("yyyy-MM-dd").format(buildTimeAndDate)
+    buildTime = new SimpleDateFormat("HH:mm:ss.SSSZ").format(buildTimeAndDate)
+}
+
+buildscript {
     repositories {
         jcenter()
     }
 
     dependencies {
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.6.1'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
+        classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1"
     }
 }
 
-apply plugin: 'base'
-apply plugin: 'idea'
-apply plugin: 'coveralls'
-apply plugin: 'build-dashboard'
+apply plugin: "base"
+apply plugin: "idea"
 
-subprojects { subproj ->
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply from: rootProject.file('gradle/code-quality.gradle')
-    apply from: rootProject.file('gradle/coverage.gradle')
-    apply from: rootProject.file('gradle/publish.gradle')
+subprojects { subproject ->
+    // provide java configurations and tasks.
+    apply plugin: "java"
+
+    //apply from: rootProject.file("gradle/check-checkstyle.gradle")
+    //apply from: rootProject.file("gradle/check-findbugs.gradle")
+    //apply from: rootProject.file("gradle/check-jdepend.gradle")
+    apply from: rootProject.file("gradle/check-license.gradle")
+
+    apply from: rootProject.file("gradle/publish-jar.gradle")
+    apply from: rootProject.file("gradle/publish-maven.gradle")
+    apply from: rootProject.file("gradle/publish-bintray.gradle")
 
     task sourceJar(type: Jar) {
-        group 'Build'
-        description 'An archive of the source code'
-        classifier 'sources'
+        group "Build"
+        description "An archive of the source code"
+        classifier "sources"
         from sourceSets.main.allJava
     }
 
     task javadocJar(type: Jar) {
-        group 'Build'
-        description 'An archive of the javadoc'
-        classifier 'javadoc'
+        group "Build"
+        description "An archive of the javadoc"
+        classifier "javadoc"
         from javadoc
     }
 
@@ -69,95 +93,58 @@ subprojects { subproj ->
         javadocJar
     }
 
-    subproj.tasks.withType(JavaCompile) {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+    // source code compatible to java 8.
+    subproject.tasks.withType(JavaCompile) {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
 
+    // configure javadoc task.
     if (JavaVersion.current().isJava8Compatible()) {
         tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
+            options.addStringOption("Xdoclint:none", "-quiet")
         }
     }
 
+    // use utf-8 encoding for java compile.
     tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
+        options.encoding = "UTF-8"
     }
 }
 
 evaluationDependsOnChildren()
 
-subprojects { subproj ->
-    configurations {
-        compileOnly
-        testCompileOnly
-    }
-
+subprojects { subproject ->
+    // maven repositories for dependencies.
     repositories {
+        if (project.hasProperty("useMavenLocal")) {
+            mavenLocal()
+        }
         jcenter()
     }
 
-    sourceSets {
-        main {
-            compileClasspath += [configurations.compileOnly]
-        }
-        test {
-            compileClasspath += [configurations.testCompileOnly]
-        }
-    }
-
+    // configure javadoc task.
     javadoc {
-        classpath += [configurations.compileOnly]
-    }
-
-    idea {
-        module {
-            scopes.PROVIDED.plus += [configurations.compileOnly]
-            scopes.PROVIDED.plus += [configurations.testCompileOnly]
-        }
-    }
-
-    javadoc {
-        excludes = ['**/*.html', 'META-INF/**']
-
+        excludes = ["**/*.html", "META-INF/**"]
         options.use         = true
         options.splitIndex  = true
-        options.encoding    = 'UTF-8'
+        options.encoding    = "UTF-8"
         options.author      = true
-        options.version     = subproj.sourceCompatibility
-        options.windowTitle = "${subproj.pomDescription} $version"
-        options.docTitle    = "${subproj.pomDescription} $version"
+        options.version     = subproject.sourceCompatibility
+        options.windowTitle = "${subproject.pomDescription} ${version}"
+        options.docTitle    = "${subproject.pomDescription} ${version}"
         options.footer      = project.javadocFooter
         options.links       = [
-            'http://docs.oracle.com/javase/8/docs/api/',
-            'http://docs.oracle.com/javase/8/javafx/api/'
+            "http://docs.oracle.com/javase/8/docs/api/",
+            "http://docs.oracle.com/javase/8/javafx/api/"
         ]
     }
-
-    /*
-    compileJava {
-        doFirst {
-            if (rootProject.hasProperty('lint') && rootProject.lint == true) {
-                options.compilerArgs = [
-                    '-Xlint:all', '-Xlint:deprecation', '-Xlint:unchecked'
-                ]
-            }
-        }
-    }
-    */
 }
 
+// configure java jdk and language level in idea.
 idea {
     project {
-        jdkName '1.8'
-        languageLevel '1.8'
+        jdkName "1.8"
+        languageLevel "1.8"
     }
-}
-
-task projectCoberturaMerge(type: ProjectCoberturaMergeTask) {
-
-}
-
-task projectCoberturaReport(type: ProjectCoberturaReportTask) {
-
 }

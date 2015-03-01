@@ -1,17 +1,18 @@
 /*
  * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
  *
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
- * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
- * except in compliance with the Licence.
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
  * http://ec.europa.eu/idabc/eupl
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the Licence for the specific language governing permissions
- * and limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
  */
 package org.testfx.toolkit.impl;
 
@@ -24,14 +25,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
-import org.testfx.toolkit.StageFuture;
+import org.testfx.toolkit.PrimaryStageFuture;
 
 import static org.testfx.util.WaitForAsyncUtils.async;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
+@Unstable
 public class ToolkitServiceImpl implements ToolkitService {
 
     //---------------------------------------------------------------------------------------------
@@ -57,7 +60,7 @@ public class ToolkitServiceImpl implements ToolkitService {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public Future<Stage> setupPrimaryStage(StageFuture primaryStageFuture,
+    public Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
                                            Class<? extends Application> applicationClass,
                                            String... applicationArgs) {
         if (!primaryStageFuture.isDone()) {
@@ -74,12 +77,12 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     @Override
-    public Future<Void> setup(Runnable runnable) {
+    public Future<Void> setupFixture(Runnable runnable) {
         return asyncFx(runnable);
     }
 
     @Override
-    public <T> Future<T> setup(Callable<T> callable) {
+    public <T> Future<T> setupFixture(Callable<T> callable) {
         return asyncFx(callable);
     }
 

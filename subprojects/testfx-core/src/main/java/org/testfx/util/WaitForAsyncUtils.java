@@ -1,17 +1,18 @@
 /*
  * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
  *
- * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European
- * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work
- * except in compliance with the Licence.
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
  * http://ec.europa.eu/idabc/eupl
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the Licence for the specific language governing permissions
- * and limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
  */
 package org.testfx.util;
 
@@ -28,9 +29,11 @@ import javafx.beans.value.ObservableBooleanValue;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.SettableFuture;
+import org.testfx.api.annotation.Unstable;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+@Unstable
 public class WaitForAsyncUtils {
 
     //---------------------------------------------------------------------------------------------
@@ -105,6 +108,24 @@ public class WaitForAsyncUtils {
     // WAIT-FOR METHODS.
 
     /**
+     * Waits for given {@link Future} to be set (push) and returns {@code T}.
+     * @param future the future
+     * @param <T> the future type
+     * @return a result
+     */
+    public static <T> T waitFor(Future<T> future) {
+        try {
+            return future.get();
+        }
+        catch (InterruptedException ignore) {
+            return null;
+        }
+        catch (ExecutionException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    /**
      * Waits for given {@link Future} to be set (push) and returns {@code T}, otherwise times out
      * with {@link TimeoutException}.
      *
@@ -144,8 +165,7 @@ public class WaitForAsyncUtils {
                                TimeUnit timeUnit,
                                Callable<Boolean> condition)
                         throws TimeoutException {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.start();
+        Stopwatch stopwatch = Stopwatch.createStarted();
         while (!callConditionAndReturnResult(condition)) {
             sleep(CONDITION_SLEEP_IN_MILLIS, MILLISECONDS);
             if (stopwatch.elapsed(timeUnit) > timeout) {
