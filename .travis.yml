@@ -1,9 +1,19 @@
+# use java support.
 language: java
-script: ./gradlew build
-
 jdk:
   - oraclejdk8
 
+# run in container und keep gradle cache.
+sudo: false
+cache:
+  directories:
+    - $HOME/.gradle
+
+# run with xvfb and randr extension (resize and rotate).
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+
+# run gradle build.
+install: true
+script: ./gradlew build
