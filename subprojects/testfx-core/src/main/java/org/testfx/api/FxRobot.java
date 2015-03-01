@@ -142,15 +142,15 @@ public class FxRobot implements FxRobotInterface {
     @Override
     @Unstable(reason = "is missing apidocs")
     public PointQuery point(String query) {
-        NodeQuery nodeQuery = nodes(query);
+        NodeQuery nodeQuery = lookup(query);
         Node node = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
         return point(node).atPosition(context.getPointPosition());
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> PointQuery point(Matcher<T> matcher) {
-        NodeQuery nodeQuery = nodes(matcher);
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> PointQuery point(Matcher<T> matcher) {
+        NodeQuery nodeQuery = lookup(matcher);
         Node node = queryFirstNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
         return point(node).atPosition(context.getPointPosition());
     }
@@ -158,7 +158,7 @@ public class FxRobot implements FxRobotInterface {
     @Override
     @Unstable(reason = "is missing apidocs")
     public <T extends Node> PointQuery point(Predicate<T> predicate) {
-        NodeQuery nodeQuery = nodes(predicate);
+        NodeQuery nodeQuery = lookup(predicate);
         Node node = queryFirstNode(nodeQuery, "the predicate");
         return point(node).atPosition(context.getPointPosition());
     }
@@ -216,8 +216,8 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> PointQuery offset(Matcher<T> matcher,
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> PointQuery offset(Matcher<T> matcher,
                                  double offsetX,
                                  double offsetY) {
         return point(matcher).atOffset(offsetX, offsetY);
@@ -269,44 +269,44 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public NodeQuery nodes() {
-        return context.getNodeFinder().nodes();
+    public NodeQuery fromAll() {
+        return context.getNodeFinder().fromAll();
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public NodeQuery nodes(String query) {
-        return context.getNodeFinder().nodes(query);
+    public NodeQuery from(Node... parentNodes) {
+        return context.getNodeFinder().from(parentNodes);
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public <T> NodeQuery nodes(Matcher<T> matcher) {
-        return context.getNodeFinder().nodes(matcher);
+    public NodeQuery from(Collection<Node> parentNodes) {
+        return context.getNodeFinder().from(parentNodes);
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
-        return context.getNodeFinder().nodes(predicate);
+    public NodeQuery from(NodeQuery nodeQuery) {
+        return context.getNodeFinder().from(nodeQuery);
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public NodeQuery nodesFrom(Node... parentNodes) {
-        return context.getNodeFinder().nodesFrom(parentNodes);
+    public NodeQuery lookup(String query) {
+        return context.getNodeFinder().lookup(query);
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public NodeQuery nodesFrom(Collection<Node> parentNodes) {
-        return context.getNodeFinder().nodesFrom(parentNodes);
+    public <T extends Node> NodeQuery lookup(Matcher<T> matcher) {
+        return context.getNodeFinder().lookup(matcher);
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public NodeQuery nodesFrom(NodeQuery nodeQuery) {
-        return context.getNodeFinder().nodesFrom(nodeQuery);
+    public <T extends Node> NodeQuery lookup(Predicate<T> predicate) {
+        return context.getNodeFinder().lookup(predicate);
     }
 
     @Override
@@ -575,9 +575,9 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> FxRobot clickOn(Matcher<T> matcher,
-                               MouseButton... buttons) {
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> FxRobot clickOn(Matcher<T> matcher,
+                                            MouseButton... buttons) {
         return clickOn(pointOfVisibleNode(matcher), buttons);
     }
 
@@ -644,8 +644,8 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> FxRobot rightClickOn(Matcher<T> matcher) {
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> FxRobot rightClickOn(Matcher<T> matcher) {
         return clickOn(matcher, MouseButton.SECONDARY);
     }
 
@@ -706,9 +706,9 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> FxRobot doubleClickOn(Matcher<T> matcher,
-                                     MouseButton... buttons) {
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> FxRobot doubleClickOn(Matcher<T> matcher,
+                                                  MouseButton... buttons) {
         return doubleClickOn(pointOfVisibleNode(matcher), buttons);
     }
 
@@ -811,9 +811,9 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> FxRobot drag(Matcher<T> matcher,
-                            MouseButton... buttons) {
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> FxRobot drag(Matcher<T> matcher,
+                                         MouseButton... buttons) {
         return drag(pointOfVisibleNode(matcher), buttons);
     }
 
@@ -868,8 +868,8 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> FxRobot dropTo(Matcher<T> matcher) {
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> FxRobot dropTo(Matcher<T> matcher) {
         return dropTo(pointOfVisibleNode(matcher));
     }
 
@@ -942,8 +942,8 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; could be changed to only accept nodes")
-    public <T> FxRobot moveTo(Matcher<T> matcher) {
+    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    public <T extends Node> FxRobot moveTo(Matcher<T> matcher) {
         return moveTo(pointOfVisibleNode(matcher));
     }
 
@@ -958,19 +958,19 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     private PointQuery pointOfVisibleNode(String query) {
-        NodeQuery nodeQuery = nodes(query);
+        NodeQuery nodeQuery = lookup(query);
         Node node = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
         return point(node);
     }
 
-    private <T> PointQuery pointOfVisibleNode(Matcher<T> matcher) {
-        NodeQuery nodeQuery = nodes(matcher);
+    private <T extends Node> PointQuery pointOfVisibleNode(Matcher<T> matcher) {
+        NodeQuery nodeQuery = lookup(matcher);
         Node node = queryFirstVisibleNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
         return point(node);
     }
 
     private <T extends Node> PointQuery pointOfVisibleNode(Predicate<T> predicate) {
-        NodeQuery nodeQuery = nodes(predicate);
+        NodeQuery nodeQuery = lookup(predicate);
         Node node = queryFirstVisibleNode(nodeQuery, "the predicate");
         return point(node);
     }
@@ -992,7 +992,7 @@ public class FxRobot implements FxRobotInterface {
             String message = queryDescription + " returned no nodes.";
             throw new FxRobotException(message);
         }
-        Optional<Node> resultNode = nodesFrom(resultNodes).select(isVisible()).tryQueryFirst();
+        Optional<Node> resultNode = from(resultNodes).select(isVisible()).tryQueryFirst();
         if (!resultNode.isPresent()) {
             String message = queryDescription + " returned " + resultNodes.size() + " nodes" +
                 ", but no nodes were visible.";

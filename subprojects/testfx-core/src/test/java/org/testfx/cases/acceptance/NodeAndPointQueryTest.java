@@ -91,7 +91,7 @@ public class NodeAndPointQueryTest {
     @Test
     public void node_queryFirst_returns_node() {
         // when:
-        NodeQuery query = fx.nodes(".button");
+        NodeQuery query = fx.lookup(".button");
 
         // then:
         assertThat(query.queryFirst(), is(button0));
@@ -100,7 +100,7 @@ public class NodeAndPointQueryTest {
     @Test
     public void node_queryAll_returns_set_with_nodes() {
         // when:
-        NodeQuery query = fx.nodes(".button");
+        NodeQuery query = fx.lookup(".button");
 
         // then:
         assertThat(query.queryAll(), contains(button0, button1));
@@ -109,7 +109,7 @@ public class NodeAndPointQueryTest {
     @Test
     public void node_queryFirst_returns_null() {
         // when:
-        NodeQuery query = fx.nodes(".missing");
+        NodeQuery query = fx.lookup(".missing");
 
         // then:
         assertThat(query.queryFirst(), nullValue());
@@ -118,7 +118,7 @@ public class NodeAndPointQueryTest {
     @Test
     public void node_queryAll_returns_empty_set() {
         // when:
-        NodeQuery query = fx.nodes(".missing");
+        NodeQuery query = fx.lookup(".missing");
 
         // then:
         assertThat(query.queryAll(), is(ImmutableSet.of()));

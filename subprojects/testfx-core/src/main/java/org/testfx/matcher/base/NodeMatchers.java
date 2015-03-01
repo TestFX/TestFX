@@ -158,7 +158,7 @@ public class NodeMatchers {
     private static boolean hasChild(Node node,
                                     String query) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
-        NodeQuery nodeQuery = nodeFinder.nodesFrom(node);
+        NodeQuery nodeQuery = nodeFinder.from(node);
         return !nodeQuery.lookup(query).queryAll().isEmpty();
     }
 
@@ -166,7 +166,7 @@ public class NodeMatchers {
                                        int amount,
                                        String query) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
-        NodeQuery nodeQuery = nodeFinder.nodesFrom(node);
+        NodeQuery nodeQuery = nodeFinder.from(node);
         return nodeQuery.lookup(query).queryAll().size() == amount;
     }
 

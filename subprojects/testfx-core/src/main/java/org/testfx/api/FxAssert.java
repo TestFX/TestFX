@@ -148,12 +148,12 @@ public class FxAssert {
 
     private static <T extends Node> T toNode(String nodeQuery) {
         NodeFinder nodeFinder = assertContext().getNodeFinder();
-        return toNode(nodeFinder.nodes(nodeQuery));
+        return toNode(nodeFinder.lookup(nodeQuery));
     }
 
     private static <T extends Node> Set<T> toNodeSet(String nodeQuery) {
         NodeFinder nodeFinder = assertContext().getNodeFinder();
-        return toNodeSet(nodeFinder.nodes(nodeQuery));
+        return toNodeSet(nodeFinder.lookup(nodeQuery));
     }
 
     private static <T extends Node> T toNode(NodeQuery nodeQuery) {
