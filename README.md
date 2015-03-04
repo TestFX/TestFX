@@ -1,8 +1,8 @@
 # TestFX
 
-[![Build Status](http://travis-ci.org/TestFX/TestFX.svg?branch=master)](https://travis-ci.org/TestFX/TestFX)
-[![Bintray Version](https://api.bintray.com/packages/testfx/testfx/testfx-core/images/download.svg)](https://bintray.com/testfx/testfx)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.testfx/testfx-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.testfx/testfx-core)
+[![Travis](https://img.shields.io/travis/TestFX/TestFX/master.svg?label=travis)](https://travis-ci.org/TestFX/TestFX)
+[![Bintray](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=bintray)](https://bintray.com/testfx/testfx)
+[![Maven Central](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven central)](http://search.maven.org/#search|ga|1|org.testfx)
 
 Simple and clean testing for [JavaFX][10].
 
@@ -11,7 +11,7 @@ Simple and clean testing for [JavaFX][10].
 
 ## Status
 
-Version 4.0.0 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
+Version 4 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
 
 
 ## Features
@@ -66,8 +66,8 @@ repositories {
 }
 
 dependencies {
-    testCompile "org.testfx:testfx-core:4.0.1-alpha"
-    testCompile "org.testfx:testfx-junit:4.0.1-alpha"
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-junit:4.0.+"
 }
 ~~~
 
@@ -80,8 +80,8 @@ repositories {
 
 dependencies {
     testCompile "junit:junit:4.10"
-    testCompile "org.testfx:testfx-core:4.0.0-alpha"
-    testCompile "org.testfx:testfx-legacy:4.0.0-alpha", {
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-legacy:4.0.+", {
         exclude group: "junit", module: "junit"
     }
 }
@@ -116,17 +116,17 @@ Maven `pom.xml` with `testfx-core` from Maven Central repository (at https://rep
 
 <dependencies>
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
         <groupId>org.testfx</groupId>
         <artifactId>testfx-core</artifactId>
-        <version>4.0.0-alpha</version>
+        <version>4.0.1-alpha</version>
         <scope>test</scope>
     </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit</artifactId>
+            <version>4.0.1-alpha</version>
+            <scope>test</scope>
+        </dependency>
 </dependencies>
 ~~~
 
