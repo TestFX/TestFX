@@ -71,7 +71,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(String query) {
         try {
-            return nodeFinder.nodes(query).queryFirst();
+            return nodeFinder.lookup(query).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -80,7 +80,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> Set<T> findAll(String query) {
         try {
-            return nodeFinder.nodes(query).queryAll();
+            return nodeFinder.lookup(query).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -89,7 +89,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(Predicate<T> predicate) {
         try {
-            return nodeFinder.nodes(predicate).queryFirst();
+            return nodeFinder.lookup(predicate).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -98,7 +98,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(Matcher<Object> matcher) {
         try {
-            return nodeFinder.nodes(matcher).queryFirst();
+            return nodeFinder.lookup(matcher).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -107,7 +107,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(String query, Node parent) {
         try {
-            return nodeFinder.nodesFrom(parent).lookup(query).queryFirst();
+            return nodeFinder.from(parent).lookup(query).queryFirst();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -116,7 +116,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
         try {
-            return nodeFinder.nodesFrom(parent).lookup(predicate).queryAll();
+            return nodeFinder.from(parent).lookup(predicate).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -125,7 +125,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> Set<T> findAll(Matcher<Object> matcher, Node parent) {
         try {
-            return nodeFinder.nodesFrom(parent).lookup(matcher).queryAll();
+            return nodeFinder.from(parent).lookup(matcher).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -204,7 +204,6 @@ public abstract class GuiTest extends FxRobot {
                 throw new AssertionError("Unhandled NodeFinderException.");
         }
     }
-
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC FIELDS.
