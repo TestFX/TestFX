@@ -2,7 +2,7 @@
 
 [![Travis](https://img.shields.io/travis/TestFX/TestFX/master.svg?label=travis)](https://travis-ci.org/TestFX/TestFX)
 [![Bintray](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=bintray)](https://bintray.com/testfx/testfx)
-[![Maven Central](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven central)](http://search.maven.org/#search|ga|1|org.testfx)
+[![Maven Central](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven central)](https://search.maven.org/#search|ga|1|org.testfx)
 
 Simple and clean testing for [JavaFX][10].
 
