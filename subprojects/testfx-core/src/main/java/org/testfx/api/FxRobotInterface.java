@@ -59,7 +59,7 @@ public interface FxRobotInterface {
 
     // Convenience methods:
     public PointQuery point(String query);
-    public <T> PointQuery point(Matcher<T> matcher);
+    public <T extends Node> PointQuery point(Matcher<T> matcher);
     public <T extends Node> PointQuery point(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
@@ -87,9 +87,9 @@ public interface FxRobotInterface {
     public PointQuery offset(String query,
                              double offsetX,
                              double offsetY);
-    public <T> PointQuery offset(Matcher<T> matcher,
-                                 double offsetX,
-                                 double offsetY);
+    public <T extends Node> PointQuery offset(Matcher<T> matcher,
+                                              double offsetX,
+                                              double offsetY);
     public <T extends Node> PointQuery offset(Predicate<T> predicate,
                                               double offsetX,
                                               double offsetY);
@@ -122,21 +122,19 @@ public interface FxRobotInterface {
     // METHODS FOR NODE LOOKUP.
     //---------------------------------------------------------------------------------------------
 
-    public NodeQuery nodes();
-
-    public NodeQuery nodesFrom(Node... parentNodes);
-    public NodeQuery nodesFrom(Collection<Node> parentNodes);
+    public NodeQuery fromAll();
+    public NodeQuery from(Node... parentNodes);
+    public NodeQuery from(Collection<Node> parentNodes);
 
     public Node rootNode(Window window);
     public Node rootNode(Scene scene);
     public Node rootNode(Node node);
 
     // Convenience methods:
-    public NodeQuery nodes(String query);
-    public <T> NodeQuery nodes(Matcher<T> matcher);
-    public <T extends Node> NodeQuery nodes(Predicate<T> predicate);
-
-    public NodeQuery nodesFrom(NodeQuery nodeQuery);
+    public NodeQuery lookup(String query);
+    public <T extends Node> NodeQuery lookup(Matcher<T> matcher);
+    public <T extends Node> NodeQuery lookup(Predicate<T> predicate);
+    public NodeQuery from(NodeQuery nodeQuery);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR INTERACTION.
@@ -172,8 +170,8 @@ public interface FxRobotInterface {
                                     MouseButton... buttons);
     public FxRobotInterface clickOn(String query,
                                     MouseButton... buttons);
-    public <T> FxRobotInterface clickOn(Matcher<T> matcher,
-                                        MouseButton... buttons);
+    public <T extends Node> FxRobotInterface clickOn(Matcher<T> matcher,
+                                                     MouseButton... buttons);
     public <T extends Node> FxRobotInterface clickOn(Predicate<T> predicate,
                                                      MouseButton... buttons);
     public FxRobotInterface rightClickOn();
@@ -186,7 +184,7 @@ public interface FxRobotInterface {
     public FxRobotInterface rightClickOn(Scene scene);
     public FxRobotInterface rightClickOn(Window window);
     public FxRobotInterface rightClickOn(String query);
-    public <T> FxRobotInterface rightClickOn(Matcher<T> matcher);
+    public <T extends Node> FxRobotInterface rightClickOn(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface rightClickOn(Predicate<T> predicate);
     public FxRobotInterface doubleClickOn(double x,
                                           double y,
@@ -203,8 +201,8 @@ public interface FxRobotInterface {
                                           MouseButton... buttons);
     public FxRobotInterface doubleClickOn(String query,
                                           MouseButton... buttons);
-    public <T> FxRobotInterface doubleClickOn(Matcher<T> matcher,
-                                              MouseButton... buttons);
+    public <T extends Node> FxRobotInterface doubleClickOn(Matcher<T> matcher,
+                                                           MouseButton... buttons);
     public <T extends Node> FxRobotInterface doubleClickOn(Predicate<T> predicate,
                                                            MouseButton... buttons);
 
@@ -236,8 +234,8 @@ public interface FxRobotInterface {
                                  MouseButton... buttons);
     public FxRobotInterface drag(String query,
                                  MouseButton... buttons);
-    public <T> FxRobotInterface drag(Matcher<T> matcher,
-                                     MouseButton... buttons);
+    public <T extends Node> FxRobotInterface drag(Matcher<T> matcher,
+                                                  MouseButton... buttons);
     public <T extends Node> FxRobotInterface drag(Predicate<T> predicate,
                                                   MouseButton... buttons);
     public FxRobotInterface dropTo(double x,
@@ -248,7 +246,7 @@ public interface FxRobotInterface {
     public FxRobotInterface dropTo(Scene scene);
     public FxRobotInterface dropTo(Window window);
     public FxRobotInterface dropTo(String query);
-    public <T> FxRobotInterface dropTo(Matcher<T> matcher);
+    public <T extends Node> FxRobotInterface dropTo(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface dropTo(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
@@ -293,7 +291,7 @@ public interface FxRobotInterface {
     public FxRobotInterface moveTo(Scene scene);
     public FxRobotInterface moveTo(Window window);
     public FxRobotInterface moveTo(String query);
-    public <T> FxRobotInterface moveTo(Matcher<T> matcher);
+    public <T extends Node> FxRobotInterface moveTo(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate);
 
     //---------------------------------------------------------------------------------------------
