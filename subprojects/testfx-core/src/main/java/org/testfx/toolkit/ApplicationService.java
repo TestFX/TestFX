@@ -22,14 +22,14 @@ import javafx.stage.Stage;
 
 public interface ApplicationService {
 
-    public Future<Application> create(Class<? extends Application> appClass,
-                                      String... appArgs);
+    Future<Application> create(Class<? extends Application> appClass,
+                               String... appArgs);
 
-    public Future<Void> init(Application application);
+    Future<Void> init(ApplicationFixture applicationFixture);
 
-    public Future<Void> start(Application application,
-                              Stage targetStage);
+    Future<Void> start(ApplicationFixture applicationFixture,
+                       Stage targetStage);
 
-    public Future<Void> stop(Application application);
+    Future<Void> stop(ApplicationFixture applicationFixture);
 
 }

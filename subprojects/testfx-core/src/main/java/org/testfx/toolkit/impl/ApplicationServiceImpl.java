@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import com.google.common.util.concurrent.SettableFuture;
 import com.sun.javafx.application.ParametersImpl;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.toolkit.ApplicationFixture;
 import org.testfx.toolkit.ApplicationService;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
@@ -46,11 +47,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Future<Void> init(Application application) {
+    public Future<Void> init(ApplicationFixture applicationFixture) {
         // Should be called in TestFX launcher thread.
         SettableFuture<Void> future = SettableFuture.create();
         try {
-            application.init();
+            applicationFixture.init();
             future.set(null);
         }
         catch (Exception exception) {
@@ -60,20 +61,20 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Future<Void> start(Application application,
+    public Future<Void> start(ApplicationFixture applicationFixture,
                               Stage targetStage) {
         // Should run in JavaFX application thread.
         return asyncFx(() -> {
-            application.start(targetStage);
+            applicationFixture.start(targetStage);
             return null;
         });
     }
 
     @Override
-    public Future<Void> stop(Application application) {
+    public Future<Void> stop(ApplicationFixture applicationFixture) {
         // Should run in JavaFX application thread.
         return asyncFx(() -> {
-            application.stop();
+            applicationFixture.stop();
             return null;
         });
     }
@@ -83,7 +84,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     //---------------------------------------------------------------------------------------------
 
     public Application createApplication(Class<? extends Application> applicationClass)
-                                       throws Exception {
+                                         throws Exception {
         return applicationClass.newInstance();
     }
 

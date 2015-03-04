@@ -31,9 +31,11 @@ import javafx.stage.Window;
 
 import com.google.common.collect.ImmutableSet;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.toolkit.ApplicationFixture;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
+import org.testfx.toolkit.impl.ApplicationAdapter;
 import org.testfx.toolkit.impl.ApplicationLauncherImpl;
 import org.testfx.toolkit.impl.ApplicationServiceImpl;
 import org.testfx.toolkit.impl.ToolkitServiceImpl;
@@ -156,15 +158,38 @@ public class FxToolkit {
         );
     }
 
-    @Unstable(reason = "is missing apidocs; could change to accept Application instead of Class")
+    @Unstable(reason = "is missing apidocs")
     public static Application setupApplication(Class<? extends Application> applicationClass,
                                                String... applicationArgs)
                                         throws TimeoutException {
         return waitForSetup(
             service.setupApplication(
-                context.getRegisteredStage(),
+                () -> context.getRegisteredStage(),
                 applicationClass,
                 applicationArgs
+            )
+        );
+    }
+
+    //@Unstable(reason = "is missing apidocs")
+    //public static Application setupApplication(Application application,
+    //                                           String... applicationArgs)
+    //                                    throws TimeoutException {
+    //    return waitForSetup(
+    //        service.setupApplication(
+    //            () -> context.getRegisteredStage(),
+    //            new ApplicationAdapter(application)
+    //        )
+    //    );
+    //}
+
+    @Unstable(reason = "is missing apidocs")
+    public static ApplicationFixture setupApplication(ApplicationFixture applicationFixture)
+                                               throws TimeoutException {
+        return waitForSetup(
+            service.setupApplication(
+                () -> context.getRegisteredStage(),
+                applicationFixture
             )
         );
     }
@@ -173,7 +198,15 @@ public class FxToolkit {
     public static void cleanupApplication(Application application)
                                    throws TimeoutException {
         waitForSetup(
-            service.cleanupApplication(application)
+            service.cleanupApplication(new ApplicationAdapter(application))
+        );
+    }
+
+    @Unstable(reason = "is missing apidocs")
+    public static void cleanupApplication(ApplicationFixture applicationFixture)
+                                   throws TimeoutException {
+        waitForSetup(
+            service.cleanupApplication(applicationFixture)
         );
     }
 

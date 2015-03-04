@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import org.testfx.api.annotation.Unstable;
+import org.testfx.toolkit.ApplicationFixture;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -116,22 +117,34 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     @Override
-    public Future<Application> setupApplication(Stage stage,
+    public Future<Application> setupApplication(Supplier<Stage> stageSupplier,
                                                 Class<? extends Application> applicationClass,
                                                 String... applicationArgs) {
         return async(() -> {
             Application application = applicationService.create(
                 applicationClass, applicationArgs
             ).get();
-            applicationService.init(application).get();
-            applicationService.start(application, stage).get();
+            ApplicationFixture applicationFixture = new ApplicationAdapter(application);
+            applicationService.init(applicationFixture).get();
+            applicationService.start(applicationFixture, stageSupplier.get()).get();
             return application;
         });
     }
 
+
     @Override
-    public Future<Void> cleanupApplication(Application application) {
-        return applicationService.stop(application);
+    public Future<ApplicationFixture> setupApplication(Supplier<Stage> stageSupplier,
+                                                       ApplicationFixture applicationFixture) {
+        return async(() -> {
+            applicationService.init(applicationFixture).get();
+            applicationService.start(applicationFixture, stageSupplier.get()).get();
+            return applicationFixture;
+        });
+    }
+
+    @Override
+    public Future<Void> cleanupApplication(ApplicationFixture applicationFixture) {
+        return applicationService.stop(applicationFixture);
     }
 
 }

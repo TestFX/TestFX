@@ -20,6 +20,7 @@ rootProject.name = "testfx"
 
 // list of subprojects.
 include "subprojects/testfx-core"
+include "subprojects/testfx-junit"
 include "subprojects/testfx-legacy"
 
 // build files of subprojects.

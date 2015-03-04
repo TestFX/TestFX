@@ -6,12 +6,12 @@
 
 Simple and clean testing for [JavaFX][10].
 
-[10]: http://www.oracle.com/us/technologies/java/fx/overview/index.html
+[10]: http://www.oracle.com/technetwork/java/javase/overview/javafx-overview-2158620.html
 
 
 ## Status
 
-Version 4.0.0 is in alpha phase. Release notes are listed in [CHANGES.md](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
+Version 4.0.0 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
 
 
 ## Features
@@ -24,23 +24,24 @@ Version 4.0.0 is in alpha phase. Release notes are listed in [CHANGES.md](CHANGE
 **Support for:**
 
 - Java 8 features and JavaFX 8 controls.
-- The JUnit testing framework and Hamcrest matchers.
-- Screenshots of failed tests.
+- JUnit testing framework and Hamcrest matchers.
+- Precise screenshots of failed tests.
 - Headless testing using Monocle.
 
 
 ## Example
 
 ~~~java
-public class DesktopPaneTest extends FxRobotTestBase {
-    @Before
-    public void setup() throws Exception {
-        setupSceneRoot(() -> new DesktopPane());
-        showStage();
+public class DesktopPaneTest extends ApplicationTest {
+    @Override
+    public void start(Stage stage) {
+        Scene scene = new Scene(new DesktopPane(), 800, 600);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Test
-    public void should_drag_file_to_trashcan() {
+    public void should_drag_file_into_trashcan() {
         // given:
         rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
         write("myTextfile.txt").push(ENTER);
@@ -57,7 +58,7 @@ public class DesktopPaneTest extends FxRobotTestBase {
 
 ## Gradle and Maven
 
-Gradle `build.gradle` with `testfx-core` from Bintray's JCenter (at https://jcenter.bintray.com/):
+Gradle `build.gradle` with `testfx-core` and `testfx-junit` from Bintray's JCenter (at https://jcenter.bintray.com/):
 
 ~~~groovy
 repositories {
@@ -65,8 +66,8 @@ repositories {
 }
 
 dependencies {
-    testCompile "junit:junit:4.12"
-    testCompile "org.testfx:testfx-core:4.0.0-alpha"
+    testCompile "org.testfx:testfx-core:4.0.1-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.1-alpha"
 }
 ~~~
 
@@ -214,7 +215,7 @@ Head over to [testfx-discuss@googlegroups.com][50] for discussions, questions an
 
 TestFX was initially created by @dainnilsson and @minisu as a part of LoadUI in 2012. Today, it is being extended and maintained by @hastebrot, @Philipp91, @minisu and the [other contributors][60].
 
-[60]: https://github.com/TestFX/TestFX/graphs/contributors "Contributors of LoadUI"
+[60]: https://github.com/TestFX/TestFX/graphs/contributors "Contributors of TestFX"
 
 
 ## License

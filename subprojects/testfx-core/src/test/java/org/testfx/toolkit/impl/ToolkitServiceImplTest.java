@@ -91,7 +91,7 @@ public class ToolkitServiceImplTest {
     public void should_construct_application() throws Exception {
         printCurrentThreadName("should_construct_application()");
         Application application = waitFor(5, TimeUnit.SECONDS,
-            toolkitService.setupApplication(primaryStage, FixtureApplication.class)
+            toolkitService.setupApplication(() -> primaryStage, FixtureApplication.class)
         );
 
         sleep(2, TimeUnit.SECONDS);

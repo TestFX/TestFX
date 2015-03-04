@@ -16,11 +16,14 @@
  */
 package org.testfx.toolkit;
 
-import javafx.application.Application;
+import javafx.stage.Stage;
 
-public interface ApplicationLauncher {
+public interface ApplicationFixture {
 
-    void launch(Class<? extends Application> appClass,
-                String... appArgs);
+    void init() throws Exception;
+
+    void start(Stage stage) throws Exception;
+
+    void stop() throws Exception;
 
 }
