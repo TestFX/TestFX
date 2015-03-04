@@ -1,3 +1,14 @@
+<!-- tag: v4.0.1-alpha -->
+## TestFX 4.0.1-alpha &mdash; March 4, 2015
+
+23 commits by 1 author:
+- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 23 commits
+
+3 merged pull requests:
+- **(feat)** JUnit: Add support classes, including an `ApplicationTest` base test class. ([#163](https://github.com/TestFX/TestFX/pull/163)) &mdash; 8 commits
+- **(refactor)** Service: Make `NodeFinder` more familiar to JavaFX developers. ([#205](https://github.com/TestFX/TestFX/pull/205)) &mdash; 2 commits
+- **(revert)** Legacy: Revert `GuiTest` and remove `ApplicationTest`, `FxTest` and `CustomAppTest`. ([#204](https://github.com/TestFX/TestFX/pull/204)) &mdash; 1 commit
+
 <!-- tag: v4.0.0-alpha -->
 ## TestFX 4.0.0-alpha &mdash; February 27, 2015
 
