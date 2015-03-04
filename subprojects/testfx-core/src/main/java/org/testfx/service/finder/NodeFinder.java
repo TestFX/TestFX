@@ -31,14 +31,14 @@ public interface NodeFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    NodeQuery nodes();
-    NodeQuery nodes(String query);
-    <T> NodeQuery nodes(Matcher<T> matcher);
-    <T extends Node> NodeQuery nodes(Predicate<T> predicate);
+    NodeQuery lookup(String query);
+    <T> NodeQuery lookup(Matcher<T> matcher);
+    <T extends Node> NodeQuery lookup(Predicate<T> predicate);
 
-    NodeQuery nodesFrom(Node... parentNodes);
-    NodeQuery nodesFrom(Collection<Node> parentNodes);
-    NodeQuery nodesFrom(NodeQuery nodeQuery);
+    NodeQuery fromAll();
+    NodeQuery from(Node... parentNodes);
+    NodeQuery from(Collection<Node> parentNodes);
+    NodeQuery from(NodeQuery nodeQuery);
 
     Node rootNode(Window window);
     Node rootNode(Scene scene);

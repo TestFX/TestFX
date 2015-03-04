@@ -58,37 +58,37 @@ public class NodeFinderImpl implements NodeFinder {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public NodeQuery nodes() {
+    public NodeQuery lookup(String query) {
+        return fromAll().lookup(query);
+    }
+
+    @Override
+    public <T> NodeQuery lookup(Matcher<T> matcher) {
+        return fromAll().lookup(matcher);
+    }
+
+    @Override
+    public <T extends Node> NodeQuery lookup(Predicate<T> predicate) {
+        return fromAll().lookup(predicate);
+    }
+
+    @Override
+    public NodeQuery fromAll() {
         return nodeQueryFactory.build().from(rootsOfWindows());
     }
 
     @Override
-    public NodeQuery nodes(String query) {
-        return nodes().lookup(query);
-    }
-
-    @Override
-    public <T> NodeQuery nodes(Matcher<T> matcher) {
-        return nodes().lookup(matcher);
-    }
-
-    @Override
-    public <T extends Node> NodeQuery nodes(Predicate<T> predicate) {
-        return nodes().lookup(predicate);
-    }
-
-    @Override
-    public NodeQuery nodesFrom(Node... parentNodes) {
+    public NodeQuery from(Node... parentNodes) {
         return nodeQueryFactory.build().from(parentNodes);
     }
 
     @Override
-    public NodeQuery nodesFrom(Collection<Node> parentNodes) {
+    public NodeQuery from(Collection<Node> parentNodes) {
         return nodeQueryFactory.build().from(parentNodes);
     }
 
     @Override
-    public NodeQuery nodesFrom(NodeQuery nodeQuery) {
+    public NodeQuery from(NodeQuery nodeQuery) {
         return nodeQueryFactory.build().from(nodeQuery.queryAll());
     }
 

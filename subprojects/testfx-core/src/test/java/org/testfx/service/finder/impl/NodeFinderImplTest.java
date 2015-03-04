@@ -165,18 +165,18 @@ public class NodeFinderImplTest {
     @Test
     public void node_string_cssQuery() {
         // expect:
-        assertThat(nodeFinder.nodes("#firstId").queryFirst(), is(firstIdLabel));
-        assertThat(nodeFinder.nodes("#secondId").queryFirst(), is(secondIdLabel));
-        assertThat(nodeFinder.nodes(".thirdClass").queryFirst(), is(thirdClassLabel));
+        assertThat(nodeFinder.lookup("#firstId").queryFirst(), is(firstIdLabel));
+        assertThat(nodeFinder.lookup("#secondId").queryFirst(), is(secondIdLabel));
+        assertThat(nodeFinder.lookup(".thirdClass").queryFirst(), is(thirdClassLabel));
     }
 
     @Test
     public void node_string_labelQuery() {
 
         // expect:
-        assertThat(nodeFinder.nodes("first").queryFirst(), is(firstIdLabel));
-        assertThat(nodeFinder.nodes("second").queryFirst(), is(secondIdLabel));
-        assertThat(nodeFinder.nodes("third").queryFirst(), is(thirdClassLabel));
+        assertThat(nodeFinder.lookup("first").queryFirst(), is(firstIdLabel));
+        assertThat(nodeFinder.lookup("second").queryFirst(), is(secondIdLabel));
+        assertThat(nodeFinder.lookup("third").queryFirst(), is(thirdClassLabel));
     }
 
     @Test
@@ -185,7 +185,7 @@ public class NodeFinderImplTest {
         // expect:
         thrown.expect(NodeFinderException.class);
         thrown.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.nodes("#nonExistentNode").queryFirst(), is(nullValue()));
+        assertThat(nodeFinder.lookup("#nonExistentNode").queryFirst(), is(nullValue()));
     }
 
     @Test
@@ -194,7 +194,7 @@ public class NodeFinderImplTest {
         // expect:
         thrown.expect(NodeFinderException.class);
         thrown.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.nodes("#invisibleNode").queryFirst(), is(nullValue()));
+        assertThat(nodeFinder.lookup("#invisibleNode").queryFirst(), is(nullValue()));
     }
 
     //@Test
@@ -209,7 +209,7 @@ public class NodeFinderImplTest {
         // expect:
         thrown.expect(NodeFinderException.class);
         thrown.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.nodes("nonExistent").queryFirst(), is(nullValue()));
+        assertThat(nodeFinder.lookup("nonExistent").queryFirst(), is(nullValue()));
     }
 
     @Test
@@ -218,7 +218,7 @@ public class NodeFinderImplTest {
         // expect:
         thrown.expect(NodeFinderException.class);
         thrown.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.nodes("invisible").queryFirst(), is(nullValue()));
+        assertThat(nodeFinder.lookup("invisible").queryFirst(), is(nullValue()));
     }
 
     @Test
@@ -227,7 +227,7 @@ public class NodeFinderImplTest {
         Predicate<Node> predicate = createNodePredicate(createLabelTextPredicate("first"));
 
         // expect:
-        assertThat(nodeFinder.nodes(predicate).queryFirst(), is(firstIdLabel));
+        assertThat(nodeFinder.lookup(predicate).queryFirst(), is(firstIdLabel));
     }
 
     @Test
@@ -236,13 +236,13 @@ public class NodeFinderImplTest {
         Matcher<Object> matcher = createObjectMatcher(createLabelTextMatcher("first"));
 
         // expect:
-        assertThat(nodeFinder.nodes(matcher).queryFirst(), is(firstIdLabel));
+        assertThat(nodeFinder.lookup(matcher).queryFirst(), is(firstIdLabel));
     }
 
     @Test
     public void nodes_string_cssQuery() {
         // expect:
-        assertThat(nodeFinder.nodes(".sub").queryAll(), contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
     }
 
     @Test
@@ -251,7 +251,7 @@ public class NodeFinderImplTest {
         // expect:
         thrown.expect(NodeFinderException.class);
         thrown.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.nodes("#nonExistentNode").queryFirst(), is(nullValue()));
+        assertThat(nodeFinder.lookup("#nonExistentNode").queryFirst(), is(nullValue()));
     }
 
     @Test
@@ -260,21 +260,21 @@ public class NodeFinderImplTest {
         // expect:
         thrown.expect(NodeFinderException.class);
         thrown.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.nodes("#invisibleNode").queryFirst(), is(nullValue()));
+        assertThat(nodeFinder.lookup("#invisibleNode").queryFirst(), is(nullValue()));
     }
 
     @Test
     public void nodes_string_cssQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.nodesFrom(otherPane).lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
-        assertThat(nodeFinder.nodesFrom(otherSubPane).lookup(".sub").queryAll(), contains(subSubLabel));
+        assertThat(nodeFinder.from(otherPane).lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.from(otherSubPane).lookup(".sub").queryAll(), contains(subSubLabel));
     }
 
     @Test
     public void nodes_string_labelQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.nodesFrom(otherPane).lookup("#subLabel").queryAll(), contains(subLabel));
-        assertThat(nodeFinder.nodesFrom(otherSubPane).lookup("#subSubLabel").queryAll(), contains(subSubLabel));
+        assertThat(nodeFinder.from(otherPane).lookup("#subLabel").queryAll(), contains(subLabel));
+        assertThat(nodeFinder.from(otherSubPane).lookup("#subSubLabel").queryAll(), contains(subSubLabel));
     }
 
     //---------------------------------------------------------------------------------------------

@@ -64,7 +64,7 @@ public class ListViewMatchers {
     private static boolean hasListCell(ListView listView,
                                        Object value) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
-        NodeQuery nodeQuery = nodeFinder.nodesFrom(listView);
+        NodeQuery nodeQuery = nodeFinder.from(listView);
         return nodeQuery.lookup(SELECTOR_LIST_CELL)
             .<Cell>select(cell -> hasCellValue(cell, value))
             .tryQueryFirst().isPresent();
