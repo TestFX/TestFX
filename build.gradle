@@ -131,13 +131,53 @@ subprojects { subproject ->
         options.encoding    = "UTF-8"
         options.author      = true
         options.version     = subproject.sourceCompatibility
-        options.windowTitle = "${subproject.pomDescription} ${version}"
-        options.docTitle    = "${subproject.pomDescription} ${version}"
+        options.windowTitle = "${subproject.pomDescription} ${version} API"
+        options.docTitle    = "${subproject.pomDescription} ${version} API"
         options.footer      = project.javadocFooter
         options.links       = [
             "http://docs.oracle.com/javase/8/docs/api/",
             "http://docs.oracle.com/javase/8/javafx/api/"
         ]
+    }
+}
+
+task aggregateJavadoc(type: Javadoc) {
+    group "Documentation"
+    description "Generates aggregated Javadoc API documentation."
+
+    def javadocSubprojects = subprojects.findAll { project ->
+        project.sourceSets.main.allJava.matching { include "org/testfx/**" }.with { !it.empty }
+    }
+
+    source javadocSubprojects.collect { project ->
+        project.sourceSets.main.allJava
+    }
+    classpath = files(javadocSubprojects.collect { project ->
+        project.sourceSets.main.compileClasspath
+    })
+
+    title "${project.javadocName} ${project.version} API"
+    destinationDir = new File(projectDir, "docs/javadoc")
+
+    configure(options) {
+        use = true
+        splitIndex = true
+        encoding = "UTF-8"
+        links = [
+            "http://docs.oracle.com/javase/8/docs/api/",
+            "http://docs.oracle.com/javase/8/javafx/api/"
+        ]
+    }
+
+    // disable java 8 overly pedantic lint checking.
+    if (JavaVersion.current().isJava8Compatible()) {
+        options.addStringOption("Xdoclint:none", "-quiet")
+    }
+
+    doFirst {
+        project.delete(destinationDir)
+        logger.info "Title    : ${options.windowTitle}"
+        logger.info "Destdir  : ${destinationDir}"
     }
 }
 

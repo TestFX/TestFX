@@ -24,9 +24,9 @@ jar {
         "Build-Time": project.buildTime,
         "Specification-Title": project.name,
         "Specification-Version": project.version,
-        "Specification-Vendor": project.project_vendor,
+        "Specification-Vendor": project.projectVendor,
         "Implementation-Title": project.name,
         "Implementation-Version": project.version,
-        "Implementation-Vendor": project.project_vendor
+        "Implementation-Vendor": project.projectVendor
     )
 }

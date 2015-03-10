@@ -29,15 +29,15 @@ bintray {
     publications = ["mavenJava"]
 
     pkg {
-        userOrg = project.project_bintray_org
-        repo = project.project_bintray_repo
+        userOrg = project.bintrayOrg
+        repo = project.bintrayRepo
         name = project.name
-        desc = project.project_description
+        desc = project.projectDescription
         licenses = ["EUPL-1.1"]
         labels = ["testfx", "javafx"]
-        websiteUrl = project.project_url
-        issueTrackerUrl = project.project_issues_url
-        vcsUrl = project.project_scm
+        websiteUrl = project.projectUrl
+        issueTrackerUrl = project.projectIssues
+        vcsUrl = project.projectScm
         publicDownloadNumbers = true
         version {
             vcsTag = project.version
