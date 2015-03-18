@@ -16,6 +16,7 @@
  */
 package org.testfx.service.adapter.impl;
 
+import java.awt.GraphicsEnvironment;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.EventHandler;
@@ -51,6 +52,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assume.assumeFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -78,6 +80,8 @@ public class AwtRobotAdapterTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
+        assumeFalse("Cannot run AwtRobotAdapterTest in headless environment",
+            GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance());
         FxToolkit.registerPrimaryStage();
     }
 
