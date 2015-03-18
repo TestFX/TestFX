@@ -26,4 +26,5 @@ dependencies {
     }
     testCompile "org.mockito:mockito-all:1.9.5"
     testCompile "org.controlsfx:controlsfx:8.20.8"
+    testCompile "org.testfx:openjfx-monocle:1.8.0_20"
 }
