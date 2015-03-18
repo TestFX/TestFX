@@ -19,6 +19,7 @@ package org.testfx.cases.acceptance;
 import javafx.stage.Stage;
 
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
@@ -107,6 +108,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
     }
 
     @Test
+    @Ignore
     public void hideStage_should_hide_the_registered_stage() throws Exception {
         // given:
         Stage stage = FxToolkit.registerStage(() -> new Stage());
