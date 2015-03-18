@@ -16,13 +16,9 @@
  */
 package org.testfx.cases;
 
-import java.awt.GraphicsEnvironment;
-
 import org.junit.BeforeClass;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-
-import static org.junit.Assume.assumeFalse;
 
 public abstract class TestCaseBase extends FxRobot {
 
@@ -32,10 +28,6 @@ public abstract class TestCaseBase extends FxRobot {
 
     @BeforeClass
     public static void baseSetupSpec() throws Exception {
-        assumeFalse(
-            "Cannot run JavaFX in headless environment",
-            GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()
-        );
         FxToolkit.registerPrimaryStage();
     }
 

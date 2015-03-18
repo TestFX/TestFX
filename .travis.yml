@@ -25,7 +25,7 @@ install: true
 # run gradle build.
 env:
   #- _JAVA_OPTIONS=
-  - _JAVA_OPTIONS="-Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+  - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
 
 script:
   - ./gradlew build
