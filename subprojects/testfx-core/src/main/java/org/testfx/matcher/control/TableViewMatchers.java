@@ -78,7 +78,12 @@ public class TableViewMatchers {
 
     private static boolean hasCellValue(Cell cell,
                                         Object value) {
-        return !cell.isEmpty() && Objects.equals(cell.getItem(), value);
+        return !cell.isEmpty() && hasItemValue(cell.getItem(), value);
+    }
+
+    private static boolean hasItemValue(Object item,
+                                        Object value) {
+        return Objects.equals(item, value) || Objects.equals(item.toString(), value);
     }
 
 }
