@@ -59,14 +59,16 @@ public class TableViewMatchersTest extends FxRobot {
         FxToolkit.setupSceneRoot(() -> {
             tableView = new TableView<>();
             tableView.setItems(observableArrayList(
-                ImmutableMap.of("name", "alice"),
-                ImmutableMap.of("name", "bob"),
-                ImmutableMap.of("name", "carol"),
-                ImmutableMap.of("name", "dave")
-            ));
+                    ImmutableMap.of("name", "alice", "age", 30),
+                    ImmutableMap.of("name", "bob", "age", 31),
+                    ImmutableMap.of("name", "carol"),
+                    ImmutableMap.of("name", "dave")
+                    ));
             TableColumn<Map, String> tableColumn0 = new TableColumn<>("name");
             tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
-            tableView.getColumns().add(tableColumn0);
+            TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
+            tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
+            tableView.getColumns().setAll(tableColumn0, tableColumn1);
             return new StackPane(tableView);
         });
         FxToolkit.showStage();
@@ -80,15 +82,7 @@ public class TableViewMatchersTest extends FxRobot {
     public void hasTableCell() {
         // expect:
         assertThat(tableView, TableViewMatchers.hasTableCell("alice"));
-    }
-
-    @Test
-    public void hasTableCell_with_null_fails() {
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has table cell \"null\"\n");
-
-        assertThat(tableView, TableViewMatchers.hasTableCell(null));
+        assertThat(tableView, TableViewMatchers.hasTableCell("bob"));
     }
 
     @Test
@@ -98,6 +92,24 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expectMessage("Expected: TableView has table cell \"foobar\"\n");
 
         assertThat(tableView, TableViewMatchers.hasTableCell("foobar"));
+    }
+
+    @Test
+    public void hasTableCell_with_toString() {
+        // expect:
+        assertThat(tableView, TableViewMatchers.hasTableCell("30"));
+
+        // and:
+        assertThat(tableView, TableViewMatchers.hasTableCell(31));
+    }
+
+    @Test
+    public void hasTableCell_with_null_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has table cell \"null\"\n");
+
+        assertThat(tableView, TableViewMatchers.hasTableCell(null));
     }
 
     @Test
