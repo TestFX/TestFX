@@ -1,91 +1,238 @@
-[![Build Status](https://travis-ci.org/TestFX/TestFX.svg?branch=master)](https://travis-ci.org/TestFX/TestFX)
-[![Stories in Ready](https://badge.waffle.io/TestFX/TestFX.png?label=ready&title=Ready)](https://waffle.io/TestFX/TestFX)
+# TestFX
 
-TestFX
-======
+[![Travis CI](https://img.shields.io/travis/TestFX/TestFX/master.svg?label=travis&style=flat-square)](https://travis-ci.org/TestFX/TestFX)
+[![Bintray JCenter](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=bintray&style=flat-square)](https://bintray.com/testfx/testfx)
+[![Maven Center](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven&style=flat-square)](https://search.maven.org/#search|ga|1|org.testfx)
 
-Easy-to-use library for testing [JavaFX](http://www.oracle.com/us/technologies/java/fx/overview/index.html). TestFX provides:
+Simple and clean testing for [JavaFX][10].
 
- - A fluent and clean API for interacting with, and verifying the behavior of, JavaFX applications.
- - Supports Hamcrest Matchers and Lambda expressions.
- - Screenshots of failed tests.
- - Supports JavaFX 2 and JavaFX 8.
+[10]: http://www.oracle.com/technetwork/java/javase/overview/javafx-overview-2158620.html
 
-[Changelog](https://github.com/TestFX/TestFX/wiki/Changelog)
 
-### Usage Example
+## Status
 
-```java
-class DesktopTest extends GuiTest {
-  public Parent getRootNode() {
-    return new Desktop()
-  }
+Version 4 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
 
-  @Test
-  public void shouldBeAbleToDragFileToTrashCan() {
-    // GIVEN
-    rightClick("#desktop").move("New").click("Text Document")
-                          .type("myTextfile.txt").push(ENTER);
-  
-    // WHEN
-    drag(".file").to("#trash-can");
-    
-    // THEN
-    verifyThat("#desktop", contains(0, ".file"));
-  }
+
+## Features
+
+- A fluent and clean API.
+- Flexible setup and cleanup of JavaFX test fixtures.
+- Simple robots to simulate user interactions.
+- Rich collection of matchers to verify expected states.
+
+**Support for:**
+
+- Java 8 features and JavaFX 8 controls.
+- JUnit testing framework and Hamcrest matchers.
+- Precise screenshots of failed tests.
+- Headless testing using Monocle.
+
+
+## Example
+
+~~~java
+public class DesktopPaneTest extends ApplicationTest {
+    @Override
+    public void start(Stage stage) {
+        Scene scene = new Scene(new DesktopPane(), 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @Test
+    public void should_drag_file_into_trashcan() {
+        // given:
+        rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
+        write("myTextfile.txt").push(ENTER);
+
+        // when:
+        drag(".file").dropTo("#trash-can");
+
+        // then:
+        verifyThat("#desktop", hasChildren(0, ".file"));
+    }
 }
-```
+~~~
 
 
-### Documentation
+## Gradle and Maven
 
- * [Getting started][11]
- * [Examples][17]
- * Reference
-  * [Mouse control][12]
-  * [Keyboard control][13]
-  * [Assertions][14]
-  * [Waiting][15]
-  * Specific controls
-    * [Labels][18]
-    * [TableViews](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-core/src/test/java/org/loadui/testfx/TableViewsTest.java)
-    * [ListViews](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-core/src/test/java/org/loadui/testfx/ListViewsTest.java)
-    * [TextInputControls](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-core/src/test/java/org/loadui/testfx/TextInputControlsTest.java)
-  * [Misc.][16]
+Gradle `build.gradle` with `testfx-core` and `testfx-junit` from Bintray's JCenter (at https://jcenter.bintray.com/):
 
-### Links
+~~~groovy
+repositories {
+    jcenter()
+}
 
- * [Using TestFX with Spock](https://github.com/TestFX/TestFX/issues/38).
- * Conference sessions featuring TestFX: [JavaZone](http://jz13.java.no/presentation.html?id=89b56833) and [JavaOne][8].
+dependencies {
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-junit:4.0.+"
+}
+~~~
 
-### Motivation
-The motivation for creating TestFX was that the existing library for testing JavaFX, [Jemmy][1], was
-too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
-Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([source code][9], [video][10]).
+Gradle `build.gradle` with `testfx-core`, `testfx-legacy` and a different `junit` version from Maven Central repository (at https://repo1.maven.org/maven2/).
 
-[Comparison with Jemmy][4]
+~~~groovy
+repositories {
+    mavenCentral()
+}
 
-You might also want to try [Automaton](https://github.com/renatoathaydes/Automaton), a new testing framework that supports JavaFX as well as Swing.
+dependencies {
+    testCompile "junit:junit:4.10"
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-legacy:4.0.+", {
+        exclude group: "junit", module: "junit"
+    }
+}
+~~~
 
-### Mailing list
-Head over to [testfx-discuss@googlegroups.com](https://groups.google.com/d/forum/testfx-discuss) for discussions, questions and announcements. 
+Gradle `build.gradle` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
 
-### Credits
-TestFX was initially created by @dainnilsson and @minisu as a part of [LoadUI][2] in 2012. Today, it is being extended and maintained by @hastebrot, @Philipp91, @minisu and the [other contributors][5].
+~~~groovy
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
 
-[1]: https://jemmy.java.net/              "Jemmy website"
-[2]: https://github.com/TestFX/TestFX/tree/master/subprojects/testfx-core  "LoadUI project at Github"
-[3]: http://www.oracle.com/technetwork/java/javafx/overview/index.html "JavaFX website"
-[4]: https://github.com/TestFX/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
-[5]: https://github.com/TestFX/TestFX/graphs/contributors "Contributors of LoadUI"
-[11]: https://github.com/TestFX/TestFX/wiki/Getting-started
-[12]: https://github.com/TestFX/TestFX/wiki/Mouse-control
-[13]: https://github.com/TestFX/TestFX/wiki/Keyboard-control
-[14]: https://github.com/TestFX/TestFX/wiki/Assertions
-[15]: https://github.com/TestFX/TestFX/wiki/Waiting
-[16]: https://github.com/TestFX/TestFX/wiki/Misc
-[17]: https://github.com/TestFX/TestFX/wiki/Examples
-[18]: https://github.com/TestFX/TestFX/wiki/Login-form#using-textlabels
-[8]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
-[9]: https://github.com/TestFX/loadui/tree/master/loadui-project/loadui-fx-interface/src/test/java/com/eviware/loadui/ui/fx "GUI tests in LoadUI"
-[10]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
+dependencies {
+    testCompile "junit:junit:4.12"
+    testCompile "org.testfx:testfx-core:4.0.0-SNAPSHOT"
+}
+~~~
+
+Maven `pom.xml` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
+
+~~~xml
+<repositories>
+    <repository>
+        <id>maven-central-repo</id>
+        <url>http://repo1.maven.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-core</artifactId>
+        <version>4.0.1-alpha</version>
+        <scope>test</scope>
+    </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit</artifactId>
+            <version>4.0.1-alpha</version>
+            <scope>test</scope>
+        </dependency>
+</dependencies>
+~~~
+
+Maven `pom.xml` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
+
+~~~xml
+<repositories>
+    <repository>
+        <id>maven-central-repo</id>
+        <url>http://repo1.maven.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>sonatype-snapshots-repo</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <snapshots>
+            <enabled>true</enabled>
+       </snapshots>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-core</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+~~~
+
+
+## Documentation
+
+- [How to use TestFX in your project][100]
+- [How to build and deploy TestFX][101]
+- [How to contribute][102]
+
+[100]: https://github.com/TestFX/TestFX/wiki/How-to-use-TestFX-in-your-project
+[101]: https://github.com/TestFX/TestFX/wiki/How-to-build-and-deploy-TestFX
+[102]: https://github.com/TestFX/TestFX/wiki/How-to-Contribute
+
+
+## Motivation
+
+The motivation for creating TestFX was that the existing library for testing JavaFX, Jemmy, was too verbose and unwieldy. We wanted more behavior driven tests with easy-to-read code that our tester could follow and modify on her own.
+
+Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([video][30]).
+
+- [Comparison with Jemmy][31], in the TestFX wiki.
+- *"Ten Man-Years of JavaFX: Real-World Project Experiences"*, conference session at [JavaZone][32] and [JavaOne][33].
+
+[30]: http://youtu.be/fgD8fBn1cYw "Video of the LoadUI TestFX test suite"
+[31]: https://github.com/TestFX/TestFX/wiki/Comparison-with-Jemmy "Comparison with Jemmy"
+[32]: http://jz13.java.no/presentation.html?id=89b56833 "Ten man-years of JavaFX: Real-world project experiences"
+[33]: https://oracleus.activeevents.com/2013/connect/sessionDetail.ww?SESSION_ID=2670 "Ten Man-Years of JavaFX: Real-World Project Experiences [CON2670]"
+
+
+## Similar Frameworks
+
+- [Jemmy][40], by the Oracle SQE team.
+- [Automaton][41], a new testing framework that supports JavaFX as well as Swing.
+- [MarvinFX][42], test support for JavaFX `Property`s.
+
+[40]: https://jemmy.java.net/
+[41]: https://github.com/renatoathaydes/Automaton
+[42]: http://www.guigarage.com/2013/03/introducing-marvinfx/
+
+
+## Mailing List
+
+Head over to [testfx-discuss@googlegroups.com][50] for discussions, questions and announcements.
+
+[50]: https://groups.google.com/d/forum/testfx-discus
+
+
+## Credits
+
+TestFX was initially created by @dainnilsson and @minisu as a part of LoadUI in 2012. Today, it is being extended and maintained by @hastebrot, @Philipp91, @minisu and the [other contributors][60].
+
+[60]: https://github.com/TestFX/TestFX/graphs/contributors "Contributors of TestFX"
+
+
+## License
+
+~~~
+Copyright 2013-2014 SmartBear Software
+Copyright 2014-2015 The TestFX Contributors
+
+Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+European Commission - subsequent versions of the EUPL (the "Licence"); You may
+not use this work except in compliance with the Licence.
+
+You may obtain a copy of the Licence at:
+http://ec.europa.eu/idabc/eupl
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+specific language governing permissions and limitations under the Licence.
+~~~
