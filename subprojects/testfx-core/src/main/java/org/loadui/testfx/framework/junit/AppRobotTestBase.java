@@ -31,9 +31,9 @@ public abstract class AppRobotTestBase extends FxRobotImpl {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    static final int APP_SETUP_TIMEOUT_IN_SECONDS = 25;
-    static final int STAGE_SETUP_TIMEOUT_IN_SECONDS = 5;
-    static final int INVOKE_TIMEOUT_IN_SECONDS = 5;
+    static final int APP_SETUP_TIMEOUT_IN_SECONDS = Integer.parseInt(System.getProperty("testfx.app_setup_timeout_in_seconds","25"));
+    static final int STAGE_SETUP_TIMEOUT_IN_SECONDS = Integer.parseInt(System.getProperty("testfx.stage_setup_timeout_in_seconds","5"));
+    static final int INVOKE_TIMEOUT_IN_SECONDS = Integer.parseInt(System.getProperty("testfx.invoke_timeout_in_seconds","5"));
 
     //---------------------------------------------------------------------------------------------
     // STATIC PROTECTED FIELDS.
