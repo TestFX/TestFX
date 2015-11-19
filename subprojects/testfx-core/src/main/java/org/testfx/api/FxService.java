@@ -19,7 +19,7 @@ package org.testfx.api;
 import org.testfx.api.annotation.Unstable;
 
 @Unstable(reason = "class was recently added")
-public class FxService {
+public final class FxService {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.

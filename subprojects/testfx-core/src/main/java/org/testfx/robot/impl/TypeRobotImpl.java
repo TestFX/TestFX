@@ -97,14 +97,14 @@ public class TypeRobotImpl implements TypeRobot {
         keyboardRobot.release(keyCode);
     }
 
-    public void pushKeyCodeCombination(KeyCode... keyCodeCombination) {
+    private void pushKeyCodeCombination(KeyCode... keyCodeCombination) {
         List<KeyCode> keyCodesForwards = Lists.newArrayList(keyCodeCombination);
         List<KeyCode> keyCodesBackwards = Lists.reverse(keyCodesForwards);
         keyboardRobot.pressNoWait(toKeyCodeArray(keyCodesForwards));
         keyboardRobot.release(toKeyCodeArray(keyCodesBackwards));
     }
 
-    public void pushKeyCodeCombination(KeyCodeCombination keyCodeCombination) {
+    private void pushKeyCodeCombination(KeyCodeCombination keyCodeCombination) {
         List<KeyCode> keyCodes = filterKeyCodes(keyCodeCombination);
         pushKeyCodeCombination(toKeyCodeArray(keyCodes));
     }
