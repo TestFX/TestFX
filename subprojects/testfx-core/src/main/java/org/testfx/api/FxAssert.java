@@ -28,7 +28,7 @@ import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
 @Unstable(reason = "method signatures need fine-tuning")
-public class FxAssert {
+public final class FxAssert {
 
     //---------------------------------------------------------------------------------------------
     // CONSTANTS.
@@ -48,7 +48,7 @@ public class FxAssert {
 
     // ASSERTIONS: SUPER MATCHER.
 
-    @Unstable(reason = "is missing apidocs")
+    @Unstable(reason = "is missing apidocs; might be removed due to complications with generics")
     public static <T> void verifyThat(T value,
                                       Matcher<? super T> matcher) {
         verifyThatImpl(emptyReason(), value, matcher);

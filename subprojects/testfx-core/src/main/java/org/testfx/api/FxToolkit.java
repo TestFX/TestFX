@@ -94,7 +94,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
  * in the JavaFX thread. The primary Stage is constructed by the platform.</p>
  */
 @Unstable(reason = "class was recently added")
-public class FxToolkit {
+public final class FxToolkit {
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
