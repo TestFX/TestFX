@@ -38,13 +38,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
     private static final String MONOCLE_PLATFORM_FACTORY =
         "com.sun.glass.ui.monocle.MonoclePlatformFactory";
 
-    private static final String NATIVE_PLATFORM_FACTORY =
-        "com.sun.glass.ui.monocle.NativePlatformFactory";
-    private static final String HEADLESS_NATIVE_PLATFORM =
-        "com.sun.glass.ui.monocle.headless.HeadlessPlatform";
-    private static final String HEADLESS_U40_NATIVE_PLATFORM =
-        "com.sun.glass.ui.monocle.HeadlessPlatform";
-
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
@@ -71,7 +64,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
         if (checkSystemPropertyEquals(PROPERTY_TESTFX_HEADLESS, "true")) {
             try {
                 assignMonoclePlatform();
-                assignHeadlessPlatform();
             }
             catch (ClassNotFoundException exception) {
                 throw new IllegalStateException("Monocle headless platform not found", exception);
@@ -92,19 +84,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
         Class<?> platformFactoryClass = Class.forName(PLATFORM_FACTORY);
         Object platformFactoryImpl = Class.forName(MONOCLE_PLATFORM_FACTORY).newInstance();
         assignPrivateStaticField(platformFactoryClass, "instance", platformFactoryImpl);
-    }
-
-    private void assignHeadlessPlatform()
-                                 throws Exception {
-        Class<?> nativePlatformFactoryClass = Class.forName(NATIVE_PLATFORM_FACTORY);
-        try {
-            Object nativePlatformImpl = Class.forName(HEADLESS_U40_NATIVE_PLATFORM).newInstance();
-            assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformImpl);
-        }
-        catch (ClassNotFoundException exception) {
-            Object nativePlatformImpl = Class.forName(HEADLESS_NATIVE_PLATFORM).newInstance();
-            assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformImpl);
-        }
     }
 
     private void assignPrivateStaticField(Class<?> cls,
