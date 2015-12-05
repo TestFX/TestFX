@@ -151,6 +151,9 @@ public interface FxRobotInterface {
     public FxRobotInterface interact(Runnable runnable);
     public <T> FxRobotInterface interact(Callable<T> callable);
 
+    // Convenience methods:
+    public FxRobotInterface interrupt();
+
     //---------------------------------------------------------------------------------------------
     // METHODS FOR CLICKING.
     //---------------------------------------------------------------------------------------------
