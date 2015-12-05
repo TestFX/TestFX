@@ -18,6 +18,7 @@ package org.testfx.robot.impl;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Window;
 
 import com.google.common.collect.Lists;
 import org.testfx.api.annotation.Unstable;
@@ -61,13 +62,15 @@ public class WriteRobotImpl implements WriteRobot {
 
     @Override
     public void write(char character) {
-        pushCharacter(character);
+        Scene scene = fetchTargetWindow().getScene();
+        typeCharacterInScene(character, scene);
     }
 
     @Override
     public void write(String text) {
+        Scene scene = fetchTargetWindow().getScene();
         for (char character : Lists.charactersOf(text)) {
-            pushCharacter(character);
+            typeCharacterInScene(character, scene);
             sleepRobot.sleep(SLEEP_AFTER_CHARACTER_IN_MILLIS);
         }
     }
@@ -76,8 +79,16 @@ public class WriteRobotImpl implements WriteRobot {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private void pushCharacter(char character) {
-        Scene scene = windowFinder.targetWindow().getScene();
+    private Window fetchTargetWindow() {
+        Window targetWindow = windowFinder.window(window -> window.isFocused());
+        if (targetWindow == null) {
+            targetWindow = windowFinder.targetWindow();
+        }
+        return targetWindow;
+    }
+
+    private void typeCharacterInScene(char character,
+                                      Scene scene) {
         KeyCode key = determineKeyCode(character);
         baseRobot.typeKeyboard(scene, key, Character.toString(character));
         baseRobot.awaitEvents();
