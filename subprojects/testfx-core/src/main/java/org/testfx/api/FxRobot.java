@@ -252,7 +252,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobotInterface targetWindow(Predicate<Window> predicate) {
+    public FxRobot targetWindow(Predicate<Window> predicate) {
         context.getWindowFinder().targetWindow(predicate);
         return this;
     }
@@ -273,7 +273,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobotInterface targetWindow(Pattern stageTitlePattern) {
+    public FxRobot targetWindow(Pattern stageTitlePattern) {
         context.getWindowFinder().targetWindow(stageTitlePattern);
         return this;
     }
@@ -287,7 +287,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobotInterface targetWindow(Node node) {
+    public FxRobot targetWindow(Node node) {
         context.getWindowFinder().targetWindow(node);
         return this;
     }
@@ -425,6 +425,13 @@ public class FxRobot implements FxRobotInterface {
     public <T> FxRobot interact(Callable<T> callable) {
         waitFor(asyncFx(callable));
         waitForFxEvents();
+        return this;
+    }
+
+    @Override
+    @Unstable(reason = "method was recently added")
+    public FxRobot interrupt() {
+        interact(() -> {});
         return this;
     }
 
