@@ -17,6 +17,7 @@
 package org.testfx.service.finder.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -180,7 +181,7 @@ public class NodeFinderImplTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("error is only used for robots")
     public void node_string_cssQuery_nonExistentNode() {
         // expect:
         thrown.expect(NodeFinderException.class);
@@ -189,7 +190,7 @@ public class NodeFinderImplTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("error is only used for robots")
     public void node_string_cssQuery_invisibleNode() {
         // expect:
         thrown.expect(NodeFinderException.class);
@@ -204,7 +205,7 @@ public class NodeFinderImplTest {
     //}
 
     @Test
-    @Ignore
+    @Ignore("error is only used for robots")
     public void node_string_labelQuery_nonExistentNode() {
         // expect:
         thrown.expect(NodeFinderException.class);
@@ -213,7 +214,7 @@ public class NodeFinderImplTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("error is only used for robots")
     public void node_string_labelQuery_invisibleNode() {
         // expect:
         thrown.expect(NodeFinderException.class);
@@ -246,7 +247,7 @@ public class NodeFinderImplTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("error is only used for robots")
     public void nodes_string_cssQuery_nonExistentNode() {
         // expect:
         thrown.expect(NodeFinderException.class);
@@ -255,7 +256,7 @@ public class NodeFinderImplTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("error is only used for robots")
     public void nodes_string_cssQuery_invisibleNode() {
         // expect:
         thrown.expect(NodeFinderException.class);
@@ -333,28 +334,13 @@ public class NodeFinderImplTest {
         public List<Window> windows;
 
         @Override
-        public Window target() {
+        public Window targetWindow() {
             return targetWindow;
         }
 
         @Override
-        public void target(Window window) {
+        public void targetWindow(Window window) {
             targetWindow = window;
-        }
-
-        @Override
-        public void target(int windowIndex) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void target(String stageTitleRegex) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void target(Scene scene) {
-            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -363,23 +349,56 @@ public class NodeFinderImplTest {
         }
 
         @Override
-        public List<Window> listOrderedWindows() {
+        public List<Window> listTargetWindows() {
             return windows;
         }
 
         @Override
+        public void targetWindow(Predicate<Window> predicate) {}
+
+        @Override
+        public void targetWindow(int windowIndex) {}
+
+        @Override
+        public void targetWindow(String stageTitleRegex) {}
+
+        @Override
+        public void targetWindow(Pattern stageTitlePattern) {}
+
+        @Override
+        public void targetWindow(Scene scene) {}
+
+        @Override
+        public void targetWindow(Node node) {}
+
+        @Override
+        public Window window(Predicate<Window> predicate) {
+            return null;
+        }
+
+        @Override
         public Window window(int windowIndex) {
-            throw new UnsupportedOperationException();
+            return null;
         }
 
         @Override
         public Window window(String stageTitleRegex) {
-            throw new UnsupportedOperationException();
+            return null;
+        }
+
+        @Override
+        public Window window(Pattern stageTitlePattern) {
+            return null;
         }
 
         @Override
         public Window window(Scene scene) {
-            throw new UnsupportedOperationException();
+            return null;
+        }
+
+        @Override
+        public Window window(Node node) {
+            return null;
         }
     }
 

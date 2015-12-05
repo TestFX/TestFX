@@ -112,7 +112,7 @@ public class NodeFinderImpl implements NodeFinder {
     //---------------------------------------------------------------------------------------------
 
     private Set<Node> rootsOfWindows() {
-        List<Window> windows = windowFinder.listOrderedWindows();
+        List<Window> windows = windowFinder.listTargetWindows();
         return NodeQueryUtils.rootsOfWindows(windows);
     }
 

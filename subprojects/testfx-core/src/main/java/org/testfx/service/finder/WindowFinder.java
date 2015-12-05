@@ -17,22 +17,43 @@
 package org.testfx.service.finder;
 
 import java.util.List;
+import java.util.regex.Pattern;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
+import com.google.common.base.Predicate;
+
 public interface WindowFinder {
-    public Window target();
-    public void target(Window window);
-    public void target(int windowIndex);
-    public void target(String stageTitleRegex);
-    public void target(Scene scene);
-    //public void target(Node node);
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR WINDOW TARGETING.
+    //---------------------------------------------------------------------------------------------
+
+    public Window targetWindow();
+    public void targetWindow(Window window);
+    public void targetWindow(Predicate<Window> predicate);
+
+    // Convenience methods:
+    public void targetWindow(int windowIndex);
+    public void targetWindow(String stageTitleRegex);
+    public void targetWindow(Pattern stageTitlePattern);
+    public void targetWindow(Scene scene);
+    public void targetWindow(Node node);
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR WINDOW LOOKUP.
+    //---------------------------------------------------------------------------------------------
 
     public List<Window> listWindows();
-    public List<Window> listOrderedWindows();
+    public List<Window> listTargetWindows();
+    public Window window(Predicate<Window> predicate);
 
+    // Convenience methods:
     public Window window(int windowIndex);
     public Window window(String stageTitleRegex);
+    public Window window(Pattern stageTitlePattern);
     public Window window(Scene scene);
-    //public Window window(Node node);
+    public Window window(Node node);
+
 }

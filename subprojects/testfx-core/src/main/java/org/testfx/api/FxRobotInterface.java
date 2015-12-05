@@ -17,8 +17,10 @@
 package org.testfx.api;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -43,7 +45,7 @@ public interface FxRobotInterface {
     // METHODS FOR POINT POSITION.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotInterface pos(Pos pointPosition);
+    public FxRobotInterface targetPos(Pos pointPosition);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT LOCATION.
@@ -98,25 +100,31 @@ public interface FxRobotInterface {
     // METHODS FOR WINDOW TARGETING.
     //---------------------------------------------------------------------------------------------
 
-    public FxRobotInterface target(Window window);
-    public FxRobotInterface target(int windowNumber);
-    public FxRobotInterface target(String stageTitleRegex);
+    public Window targetWindow();
+    public FxRobotInterface targetWindow(Window window);
+    public FxRobotInterface targetWindow(Predicate<Window> predicate);
 
     // Convenience methods:
-    public FxRobotInterface target(Scene scene);
+    public FxRobotInterface targetWindow(int windowIndex);
+    public FxRobotInterface targetWindow(String stageTitleRegex);
+    public FxRobotInterface targetWindow(Pattern stageTitlePattern);
+    public FxRobotInterface targetWindow(Scene scene);
+    public FxRobotInterface targetWindow(Node node);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR WINDOW LOOKUP.
     //---------------------------------------------------------------------------------------------
 
-    //public List<Window> listWindows();
-    //public List<Window> listTargetWindows();
-
-    //public Window window(int windowIndex);
-    //public Window window(String stageTitleRegex);
+    public List<Window> listWindows();
+    public List<Window> listTargetWindows();
+    public Window window(Predicate<Window> predicate);
 
     // Convenience methods:
-    //public Window window(Scene scene);
+    public Window window(int windowIndex);
+    public Window window(String stageTitleRegex);
+    public Window window(Pattern stageTitlePattern);
+    public Window window(Scene scene);
+    public Window window(Node node);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR NODE LOOKUP.

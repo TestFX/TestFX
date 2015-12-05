@@ -77,7 +77,7 @@ public final class WriteRobotImplTest {
     @Test
     public void write_char() {
         // given:
-        given(windowFinder.target()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(stage);
 
         // when:
         writeRobot.write('a');
@@ -89,7 +89,7 @@ public final class WriteRobotImplTest {
     @Test
     public void write_char_with_whitespace() {
         // given:
-        given(windowFinder.target()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(stage);
 
         // when:
         writeRobot.write('\t');
@@ -103,7 +103,7 @@ public final class WriteRobotImplTest {
     @Test
     public void write_string() {
         // given:
-        given(windowFinder.target()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(stage);
 
         // when:
         writeRobot.write("ae");

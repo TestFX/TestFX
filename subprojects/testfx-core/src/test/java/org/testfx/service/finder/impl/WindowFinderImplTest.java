@@ -22,11 +22,11 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.hamcrest.Matchers;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -52,6 +52,7 @@ public class WindowFinderImplTest {
     @BeforeClass
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
+        FxToolkit.showStage();
         FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
         FxToolkit.setupFixture(() -> setupStagesClass());
     }
@@ -114,10 +115,10 @@ public class WindowFinderImplTest {
     }
 
     @Test
-    public void listOrderedWindows() {
+    public void listTargetWindows() {
         // TODO: Assert that ordering of windows is correct.
         // when:
-        List<Window> orderedWindows = windowFinder.listOrderedWindows();
+        List<Window> orderedWindows = windowFinder.listTargetWindows();
 
         // then:
         assertThat(orderedWindows, Matchers.hasItems((Window) window));
@@ -127,39 +128,39 @@ public class WindowFinderImplTest {
     }
 
     @Test
-    public void target_window() {
+    public void targetWindow_window() {
         // when:
-        windowFinder.target(window);
+        windowFinder.targetWindow(window);
 
         // then:
-        assertThat(windowFinder.target(), Matchers.is((Window) window));
+        assertThat(windowFinder.targetWindow(), Matchers.is((Window) window));
     }
 
     @Test
-    public void target_windowIndex() {
+    public void targetWindow_windowIndex() {
         // when:
-        windowFinder.target(1);
+        windowFinder.targetWindow(1);
 
         // then:
-        assertThat(windowFinder.target(), Matchers.is((Window) window));
+        assertThat(windowFinder.targetWindow(), Matchers.is((Window) window));
     }
 
     @Test
-    public void target_stageTitleRegex() {
+    public void targetWindow_stageTitle() {
         // when:
-        windowFinder.target("window");
+        windowFinder.targetWindow("window");
 
         // then:
-        assertThat(windowFinder.target(), Matchers.is((Window) window));
+        assertThat(windowFinder.targetWindow(), Matchers.is((Window) window));
     }
 
     @Test
-    public void target_scene() {
+    public void targetWindow_scene() {
         // when:
-        windowFinder.target(scene);
+        windowFinder.targetWindow(scene);
 
         // then:
-        assertThat(windowFinder.target(), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.targetWindow(), Matchers.is((Window) otherWindow));
     }
 
     @Test
@@ -173,7 +174,7 @@ public class WindowFinderImplTest {
     }
 
     @Test
-    public void window_stageTitleRegex() {
+    public void window_stageTitle() {
         // TODO: Assert that it thrown an exception of stage title regex does not match.
         // TODO: Assert that stages without title do not throw a NPE.
         // expect:
