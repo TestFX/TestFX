@@ -52,13 +52,13 @@ public abstract class GuiTest extends FxRobot {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static <T extends Window> T targetWindow(T window) {
-        windowFinder.target(window);
+    public static <T extends Window> T _targetWindow(T window) {
+        windowFinder.targetWindow(window);
         return window;
     }
 
     public static List<Window> getWindows() {
-        return windowFinder.listWindows();
+        return windowFinder.listTargetWindows();
     }
 
     public static Window getWindowByIndex(int windowIndex) {
@@ -230,7 +230,7 @@ public abstract class GuiTest extends FxRobot {
 
     @Before
     public void internalSetup() throws Exception {
-        target(FxToolkit.registerPrimaryStage());
+        targetWindow(FxToolkit.registerPrimaryStage());
         FxToolkit.setupSceneRoot(() -> getRootNode());
         WaitForAsyncUtils.waitForFxEvents();
         FxToolkit.setupStage((stage) -> {

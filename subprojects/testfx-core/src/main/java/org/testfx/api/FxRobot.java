@@ -17,9 +17,11 @@
 package org.testfx.api;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -78,7 +80,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobot pos(Pos pointPosition) {
+    public FxRobot targetPos(Pos pointPosition) {
         context.setPointPosition(pointPosition);
         return this;
     }
@@ -117,7 +119,7 @@ public class FxRobot implements FxRobotInterface {
     public PointQuery point(Node node) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
-        target(node.getScene().getWindow());
+        targetWindow(node.getScene().getWindow());
         return pointLocator.pointFor(node).atPosition(pointPosition);
     }
 
@@ -126,7 +128,7 @@ public class FxRobot implements FxRobotInterface {
     public PointQuery point(Scene scene) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
-        target(scene.getWindow());
+        targetWindow(scene.getWindow());
         return pointLocator.pointFor(scene).atPosition(pointPosition);
     }
 
@@ -135,7 +137,7 @@ public class FxRobot implements FxRobotInterface {
     public PointQuery point(Window window) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
-        target(window);
+        targetWindow(window);
         return pointLocator.pointFor(window).atPosition(pointPosition);
     }
 
@@ -218,8 +220,8 @@ public class FxRobot implements FxRobotInterface {
     @Override
     @Unstable(reason = "is missing apidocs; might change to accept all objects")
     public <T extends Node> PointQuery offset(Matcher<T> matcher,
-                                 double offsetX,
-                                 double offsetY) {
+                                              double offsetX,
+                                              double offsetY) {
         return point(matcher).atOffset(offsetX, offsetY);
     }
 
@@ -237,30 +239,109 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobot target(Window window) {
-        context.getWindowFinder().target(window);
+    public Window targetWindow() {
+        return context.getWindowFinder().targetWindow();
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public FxRobot targetWindow(Window window) {
+        context.getWindowFinder().targetWindow(window);
         return this;
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobot target(int windowNumber) {
-        context.getWindowFinder().target(windowNumber);
+    public FxRobotInterface targetWindow(Predicate<Window> predicate) {
+        context.getWindowFinder().targetWindow(predicate);
         return this;
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobot target(String stageTitleRegex) {
-        context.getWindowFinder().target(stageTitleRegex);
+    public FxRobot targetWindow(int windowNumber) {
+        context.getWindowFinder().targetWindow(windowNumber);
         return this;
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public FxRobot target(Scene scene) {
-        context.getWindowFinder().target(scene);
+    public FxRobot targetWindow(String stageTitleRegex) {
+        context.getWindowFinder().targetWindow(stageTitleRegex);
         return this;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public FxRobotInterface targetWindow(Pattern stageTitlePattern) {
+        context.getWindowFinder().targetWindow(stageTitlePattern);
+        return this;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public FxRobot targetWindow(Scene scene) {
+        context.getWindowFinder().targetWindow(scene);
+        return this;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public FxRobotInterface targetWindow(Node node) {
+        context.getWindowFinder().targetWindow(node);
+        return this;
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR WINDOW LOOKUP.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public List<Window> listWindows() {
+        return context.getWindowFinder().listWindows();
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public List<Window> listTargetWindows() {
+        return context.getWindowFinder().listTargetWindows();
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Window window(Predicate<Window> predicate) {
+        return context.getWindowFinder().window(predicate);
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Window window(int windowIndex) {
+        return context.getWindowFinder().window(windowIndex);
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Window window(String stageTitleRegex) {
+        return context.getWindowFinder().window(stageTitleRegex);
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Window window(Pattern stageTitlePattern) {
+        return context.getWindowFinder().window(stageTitlePattern);
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Window window(Scene scene) {
+        return context.getWindowFinder().window(scene);
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Window window(Node node) {
+        return context.getWindowFinder().window(node);
     }
 
     //---------------------------------------------------------------------------------------------
