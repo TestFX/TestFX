@@ -66,7 +66,8 @@ public class JavafxRobotAdapter {
         fxRobot.keyRelease(key);
     }
 
-    public void keyType(KeyCode key, String character) {
+    public void keyType(KeyCode key,
+                        String character) {
         fxRobot.keyType(key, character);
     }
 
@@ -80,15 +81,18 @@ public class JavafxRobotAdapter {
         fxRobot.mouseMove((int) location.getX(), (int) location.getY());
     }
 
-    public void mousePress(MouseButton button, int clickCount) {
+    public void mousePress(MouseButton button,
+                           int clickCount) {
         fxRobot.mousePress(button, clickCount);
     }
 
-    public void mouseRelease(MouseButton button, int clickCount) {
+    public void mouseRelease(MouseButton button,
+                             int clickCount) {
         fxRobot.mouseRelease(button, clickCount);
     }
 
-    public void mouseClick(MouseButton button, int clickCount) {
+    public void mouseClick(MouseButton button,
+                           int clickCount) {
         fxRobot.mouseClick(button, clickCount);
     }
 

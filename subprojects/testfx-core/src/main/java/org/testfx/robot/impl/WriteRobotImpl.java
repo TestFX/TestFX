@@ -84,6 +84,9 @@ public class WriteRobotImpl implements WriteRobot {
         if (targetWindow == null) {
             targetWindow = windowFinder.targetWindow();
         }
+        if (targetWindow == null) {
+            targetWindow = windowFinder.window(0);
+        }
         return targetWindow;
     }
 

@@ -409,11 +409,11 @@ public class FxRobot implements FxRobotInterface {
     }
 
     //---------------------------------------------------------------------------------------------
-    // METHODS FOR INTERACTION.
+    // METHODS FOR INTERACTION AND INTERRUPTION.
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "method was recently added")
+    @Unstable(reason = "is missing apidocs")
     public FxRobot interact(Runnable runnable) {
         waitFor(asyncFx(runnable));
         waitForFxEvents();
@@ -421,7 +421,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "method was recently added")
+    @Unstable(reason = "is missing apidocs")
     public <T> FxRobot interact(Callable<T> callable) {
         waitFor(asyncFx(callable));
         waitForFxEvents();
@@ -429,9 +429,16 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "method was recently added")
+    @Unstable(reason = "is missing apidocs")
     public FxRobot interrupt() {
-        interact(() -> {});
+        waitForFxEvents();
+        return this;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public FxRobot interrupt(int attemptsCount) {
+        waitForFxEvents(attemptsCount);
         return this;
     }
 

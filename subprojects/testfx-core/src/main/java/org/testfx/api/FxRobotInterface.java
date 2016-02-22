@@ -145,14 +145,14 @@ public interface FxRobotInterface {
     public NodeQuery from(NodeQuery nodeQuery);
 
     //---------------------------------------------------------------------------------------------
-    // METHODS FOR INTERACTION.
+    // METHODS FOR INTERACTION AND INTERRUPTION.
     //---------------------------------------------------------------------------------------------
 
     public FxRobotInterface interact(Runnable runnable);
     public <T> FxRobotInterface interact(Callable<T> callable);
 
-    // Convenience methods:
     public FxRobotInterface interrupt();
+    public FxRobotInterface interrupt(int attemptsCount);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR CLICKING.
