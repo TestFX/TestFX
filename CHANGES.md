@@ -1,3 +1,22 @@
+<!-- tag: v4.0.2-alpha -->
+## TestFX 4.0.2-alpha &mdash; February 22, 2016
+
+18 commits by 4 authors:
+- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 14 commits
+- **John Zeringue** ([@johnzeringue](https://github.com/johnzeringue)) &mdash; 3 commits
+- **Joachim Prinzbach** ([@joachimprinzbach](https://github.com/joachimprinzbach)) &mdash; 1 commit
+
+9 merged pull requests:
+- **(chore)** Travis: Allow jobs without framebuffer to fail. ([#211](https://github.com/testfx/testfx/pull/211)) &mdash; 1 commit
+- **(chore)** Travis: Run tests once with and once without framebuffer screen. ([#209](https://github.com/testfx/testfx/pull/209)) &mdash; 6 commits
+- **(feat)** Add `FxRobot::interrupt()` method to wait for the JavaFX thread. ([#240](https://github.com/testfx/testfx/pull/240)) &mdash; 1 commit
+- **(feat)** `hasTableCell()`: Match the string value of cell item. ([#210](https://github.com/testfx/testfx/pull/210)) &mdash; 1 commit
+- **(feature)** Added ApplicationRule ([#234](https://github.com/testfx/testfx/pull/234)) &mdash; 1 commit
+- **(fix)** `WriteRobot::write()` to prefer the `Scene` of the focused window. ([#239](https://github.com/testfx/testfx/pull/239)) &mdash; 1 commit
+- **(refactor)** Improve encapsulation of classes. ([#233](https://github.com/testfx/testfx/pull/233)) &mdash; 1 commit
+- **(refactor)** Rename window methods to `targetWindow()`, `listWindows()`, and `window()`. ([#238](https://github.com/testfx/testfx/pull/238)) &mdash; 1 commit
+- Fixed google group link ([#221](https://github.com/testfx/testfx/pull/221)) &mdash; 1 commit
+
 <!-- tag: v4.0.1-alpha -->
 ## TestFX 4.0.1-alpha &mdash; March 4, 2015
 
@@ -19,8 +38,8 @@
 - **Andres Almiray** ([@aalmiray](https://github.com/aalmiray)) &mdash; 6 commits
 - **Jan Gassen** ([@0x4a616e](https://github.com/0x4a616e)), **Naimdjon Takhirov** ([@naimdjon](https://github.com/naimdjon)) &mdash; 4 commits
 - **Diego Cirujano** ([@Curuman](https://github.com/Ciruman)) &mdash; 3 commits
-- **GrÈgory Fernandez** ([@lgringo](https://github.com/lgringo)) &mdash; 2 commits
-- **Andrea Vacondio** ([@torakiki](https://github.com/torakiki)), **Johannes Mockenhaupt** ([@jotomo](https://github.com/jotomo)), **Making GitHub Delicious.** ([@waffle-iron](https://github.com/waffle-iron)), **Robert Ladst‰tter** ([@rladstaetter](https://github.com/rladstaetter)), **Sergei Ivanov** ([@sergei-ivanov](https://github.com/sergei-ivanov)) &mdash; 1 commit
+- **Gr√©gory Fernandez** ([@lgringo](https://github.com/lgringo)) &mdash; 2 commits
+- **Andrea Vacondio** ([@torakiki](https://github.com/torakiki)), **Johannes Mockenhaupt** ([@jotomo](https://github.com/jotomo)), **Making GitHub Delicious.** ([@waffle-iron](https://github.com/waffle-iron)), **Robert Ladst√§tter** ([@rladstaetter](https://github.com/rladstaetter)), **Sergei Ivanov** ([@sergei-ivanov](https://github.com/sergei-ivanov)) &mdash; 1 commit
 
 65 merged pull requests:
 - **(chore)** Gradle: Add project.jfxrtLocation to test.classpath. ([#120](https://github.com/TestFX/TestFX/pull/120)) &mdash; 2 commits
@@ -94,7 +113,7 @@
 
 14 commits by 3 authors:
 - **Henrik Olsson** &mdash; 10 commits
-- **Henrik StrÂth** ([@minisu](https://github.com/minisu)), **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
+- **Henrik Str√•th** ([@minisu](https://github.com/minisu)), **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
 
 4 merged pull requests:
 - #43: push() does not wait between press/release calls ([#45](https://github.com/TestFX/TestFX/pull/45)) &mdash; 1 commit
@@ -107,7 +126,7 @@
 
 21 commits by 2 authors:
 - **Henrik Olsson** &mdash; 14 commits
-- **Henrik StrÂth** ([@minisu](https://github.com/minisu)) &mdash; 5 commits
+- **Henrik Str√•th** ([@minisu](https://github.com/minisu)) &mdash; 5 commits
 - **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
 
 1 merged pull request:
@@ -118,7 +137,7 @@
 
 155 commits by 6 authors:
 - **Henrik Olsson** &mdash; 105 commits
-- **Henrik StrÂth** ([@minisu](https://github.com/minisu)) &mdash; 37 commits
+- **Henrik Str√•th** ([@minisu](https://github.com/minisu)) &mdash; 37 commits
 - **Renato Athaydes** ([@renatoathaydes](https://github.com/renatoathaydes)) &mdash; 6 commits
 - **Maximilian Skog** ([@maxonline](https://github.com/maxonline)) &mdash; 4 commits
 - **Philipp Keck** ([@Philipp91](https://github.com/Philipp91)) &mdash; 2 commits
