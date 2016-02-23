@@ -16,13 +16,16 @@
  */
 package org.testfx.service.support.impl;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.impl.BaseRobotImpl;
@@ -33,6 +36,21 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class CaptureSupportImplTest {
 
+    public static class LoginDialog extends Application {
+        @Override
+        public void start(Stage stage) throws Exception {
+            Pane rootPane = new StackPane();
+            Scene scene = new Scene(rootPane);
+            stage.setScene(scene);
+
+            String fxmlDocument = "res/acmekit-login-flower.fxml";
+            Node fxmlHierarchy = FXMLLoader.load(getClass().getResource(fxmlDocument));
+            rootPane.getChildren().add(fxmlHierarchy);
+            fxmlHierarchy.lookup("#loginButton").requestFocus();
+
+            stage.show();
+        }
+    }
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -40,27 +58,17 @@ public class CaptureSupportImplTest {
 
     private CaptureSupport captureSupport;
 
-    private Rectangle rectangle;
+    private Stage primaryStage;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
     @Before
     public void setup() throws Exception {
+        primaryStage = FxToolkit.registerPrimaryStage();
         captureSupport = new CaptureSupportImpl(new BaseRobotImpl());
-        FxToolkit.setupScene(() -> {
-            StackPane root = new StackPane();
-            Scene scene = new Scene(root, 400, 400);
-            rectangle = new Rectangle(0, 0, 100, 200);
-            root.getChildren().add(rectangle);
-            return scene;
-        });
+        FxToolkit.setupApplication(LoginDialog.class);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -80,11 +88,16 @@ public class CaptureSupportImplTest {
     @Test
     public void capture_node() {
         // when:
-        Image image = captureSupport.captureNode(rectangle);
+        Image image = captureSupport.captureNode(primaryStage.getScene().getRoot());
 
         // then:
-        assertThat(image.getWidth(), equalTo(100.0));
-        assertThat(image.getHeight(), equalTo(200.0));
+        assertThat(image.getWidth(), equalTo(primaryStage.getScene().getWidth()));
+        assertThat(image.getHeight(), equalTo(primaryStage.getScene().getHeight()));
+    }
+
+    @Test
+    public void load_image() throws Exception {
+        //waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
     }
 
 }
