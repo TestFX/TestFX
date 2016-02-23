@@ -36,6 +36,9 @@ import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.MatchAlgorithm;
 
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
+import static org.testfx.util.WaitForAsyncUtils.waitFor;
+
 @Unstable(reason = "needs more tests")
 public class CaptureSupportImpl implements CaptureSupport {
 
@@ -64,7 +67,7 @@ public class CaptureSupportImpl implements CaptureSupport {
 
     @Override
     public Image captureNode(Node node) {
-        return node.snapshot(null, null);
+        return waitFor(asyncFx(() -> snapshotNodeToImage(node)));
     }
 
     @Override
@@ -76,12 +79,13 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public Image blendImages(Image image0,
                              Image image1,
-                             BlendMode blendMode) {
+                             BlendMode blendMode,
+                             Pos alignment) {
         StackPane stackPane = new StackPane();
-        stackPane.setAlignment(Pos.TOP_LEFT);
+        stackPane.setAlignment(alignment);
+        stackPane.setBlendMode(blendMode);
         stackPane.getChildren().add(new ImageView(image0));
         stackPane.getChildren().add(new ImageView(image1));
-        stackPane.setBlendMode(blendMode);
         return captureNode(stackPane);
     }
 
@@ -107,6 +111,14 @@ public class CaptureSupportImpl implements CaptureSupport {
         catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private Image snapshotNodeToImage(Node node) {
+        return node.snapshot(null, null);
     }
 
 }

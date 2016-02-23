@@ -16,6 +16,7 @@
  */
 package org.testfx.service.support;
 
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
@@ -38,7 +39,8 @@ public interface CaptureSupport {
                     Image image);
     Image blendImages(Image image0,
                       Image image1,
-                      BlendMode blendMode);
+                      BlendMode blendMode,
+                      Pos alignment);
     MatchResult<Image> matchImages(Image image0,
                                    Image image1,
                                    MatchAlgorithm algorithm);

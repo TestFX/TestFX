@@ -40,11 +40,11 @@ public class MatchResult<T> {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    T getResult() {
+    public T getResult() {
         return result;
     }
 
-    int getDistance() {
+    public int getDistance() {
         return distance;
     }
 
