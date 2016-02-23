@@ -24,16 +24,16 @@ public class MatchResult<T> {
 
     private T result;
 
-    private int distance;
+    private double difference;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
     public MatchResult(T result,
-                       int distance) {
+                       double difference) {
         this.result = result;
-        this.distance = distance;
+        this.difference = difference;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -44,8 +44,8 @@ public class MatchResult<T> {
         return result;
     }
 
-    public int getDistance() {
-        return distance;
+    public double getDifference() {
+        return difference;
     }
 
 }

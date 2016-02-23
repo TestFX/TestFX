@@ -19,8 +19,9 @@ package org.testfx.service.support.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.imageio.ImageIO;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -31,6 +32,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 
+import com.google.common.io.Files;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.CaptureSupport;
@@ -41,6 +43,12 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 @Unstable(reason = "needs more tests")
 public class CaptureSupportImpl implements CaptureSupport {
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final String PNG_IMAGE_FORMAT = "png";
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -71,6 +79,27 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     @Override
+    public Image loadImage(File file) {
+        try {
+            return readImageFromStream(Files.asByteSource(file).openBufferedStream());
+        }
+        catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    @Override
+    public void saveImage(File file,
+                          Image image) {
+        try {
+            writeImageToStream(Files.asByteSink(file).openBufferedStream(), image);
+        }
+        catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    @Override
     public Image drawShape(Shape shape,
                            Image image) {
         throw new UnsupportedOperationException();
@@ -96,29 +125,23 @@ public class CaptureSupportImpl implements CaptureSupport {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Image loadImage(File file) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void saveImage(Image image,
-                          File file) {
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-        try {
-            ImageIO.write(bufferedImage, "png", file);
-        }
-        catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
     private Image snapshotNodeToImage(Node node) {
         return node.snapshot(null, null);
+    }
+
+    private Image readImageFromStream(InputStream inputStream) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(inputStream);
+        return SwingFXUtils.toFXImage(bufferedImage, null);
+    }
+
+    private void writeImageToStream(OutputStream outputStream,
+                                    Image image) throws IOException {
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+        ImageIO.write(bufferedImage, PNG_IMAGE_FORMAT, outputStream);
     }
 
 }

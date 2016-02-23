@@ -189,7 +189,7 @@ public abstract class GuiTest extends FxRobot {
     public static File captureScreenshot() {
         File captureFile = new File("screenshot" + new Date().getTime() + ".png");
         Image captureImage = captureSupport.captureRegion(Screen.getPrimary().getBounds());
-        captureSupport.saveImage(captureImage, captureFile);
+        captureSupport.saveImage(captureFile, captureImage);
         return captureFile;
     }
 
