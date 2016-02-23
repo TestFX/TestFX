@@ -14,36 +14,38 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.service.support;
+package org.testfx.service.support.impl;
 
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.image.Image;
-import javafx.scene.shape.Shape;
-import org.testfx.service.support.impl.MatchResult;
+public class MatchResult<T> {
 
-import java.io.File;
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE FIELDS.
+    //---------------------------------------------------------------------------------------------
 
-public interface CaptureSupport {
+    private T result;
+
+    private int distance;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
+
+    public MatchResult(T result,
+                       int distance) {
+        this.result = result;
+        this.distance = distance;
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    Image captureRegion(Rectangle2D region);
-    Image captureNode(Node node);
+    T getResult() {
+        return result;
+    }
 
-    Image drawShape(Shape shape,
-                    Image image);
-    Image blendImages(Image image0,
-                      Image image1,
-                      BlendMode blendMode);
-    MatchResult<Image> matchImages(Image image0,
-                                   Image image1,
-                                   MatchAlgorithm algorithm);
-
-    Image loadImage(File file);
-    void saveImage(Image image, File file);
+    int getDistance() {
+        return distance;
+    }
 
 }
