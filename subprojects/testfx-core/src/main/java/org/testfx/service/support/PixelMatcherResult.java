@@ -14,38 +14,62 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.service.support.impl;
+package org.testfx.service.support;
 
-public class MatchResult<T> {
+import javafx.scene.image.Image;
+
+public class PixelMatcherResult {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private T result;
+    private final Image matchImage;
+    private final int totalPixels;
 
-    private double difference;
+    private final int matchPixels;
+    private final double matchFactor;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public MatchResult(T result,
-                       double difference) {
-        this.result = result;
-        this.difference = difference;
+    public PixelMatcherResult(Image matchImage,
+                              int matchPixels,
+                              int totalPixels) {
+        this.matchImage = matchImage;
+        this.totalPixels = totalPixels;
+
+        this.matchPixels = matchPixels;
+        this.matchFactor = matchPixels / (double) totalPixels;
     }
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public T getResult() {
-        return result;
+    public Image getMatchImage() {
+        return matchImage;
     }
 
-    public double getDifference() {
-        return difference;
+    public int getTotalPixels() {
+        return totalPixels;
+    }
+
+    public int getMatchPixels() {
+        return matchPixels;
+    }
+
+    public int getNonMatchPixels() {
+        return totalPixels - matchPixels;
+    }
+
+    public double getMatchFactor() {
+        return matchFactor;
+    }
+
+    public double getNonMatchFactor() {
+        return 1.0 - matchFactor;
     }
 
 }

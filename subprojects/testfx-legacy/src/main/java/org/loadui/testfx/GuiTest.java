@@ -18,6 +18,8 @@ package org.loadui.testfx;
 
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -187,10 +189,10 @@ public abstract class GuiTest extends FxRobot {
     }
 
     public static File captureScreenshot() {
-        File captureFile = new File("screenshot" + new Date().getTime() + ".png");
+        Path captureFile = Paths.get("screenshot" + new Date().getTime() + ".png");
         Image captureImage = captureSupport.captureRegion(Screen.getPrimary().getBounds());
-        captureSupport.saveImage(captureFile, captureImage);
-        return captureFile;
+        captureSupport.saveImage(captureImage, captureFile);
+        return captureFile.toFile();
     }
 
     //---------------------------------------------------------------------------------------------

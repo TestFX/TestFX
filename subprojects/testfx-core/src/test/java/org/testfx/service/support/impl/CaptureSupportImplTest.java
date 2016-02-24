@@ -16,6 +16,9 @@
  */
 package org.testfx.service.support.impl;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -25,14 +28,19 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.support.CaptureSupport;
+import org.testfx.service.support.PixelMatcherResult;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
+import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 public class CaptureSupportImplTest {
 
@@ -43,7 +51,7 @@ public class CaptureSupportImplTest {
             Scene scene = new Scene(rootPane);
             stage.setScene(scene);
 
-            String fxmlDocument = "res/acmekit-login-flower.fxml";
+            String fxmlDocument = "res/acme-login.fxml";
             Node fxmlHierarchy = FXMLLoader.load(getClass().getResource(fxmlDocument));
             rootPane.getChildren().add(fxmlHierarchy);
             fxmlHierarchy.lookup("#loginButton").requestFocus();
@@ -56,7 +64,7 @@ public class CaptureSupportImplTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private CaptureSupport captureSupport;
+    private CaptureSupport capturer;
 
     private Stage primaryStage;
 
@@ -67,7 +75,7 @@ public class CaptureSupportImplTest {
     @Before
     public void setup() throws Exception {
         primaryStage = FxToolkit.registerPrimaryStage();
-        captureSupport = new CaptureSupportImpl(new BaseRobotImpl());
+        capturer = new CaptureSupportImpl(new BaseRobotImpl());
         FxToolkit.setupApplication(LoginDialog.class);
     }
 
@@ -78,7 +86,7 @@ public class CaptureSupportImplTest {
     @Test
     public void capture_region() {
         // when:
-        Image image = captureSupport.captureRegion(new Rectangle2D(0, 0, 100, 200));
+        Image image = capturer.captureRegion(new Rectangle2D(0, 0, 100, 200));
 
         // then:
         assertThat(image.getWidth(), equalTo(100.0));
@@ -88,7 +96,7 @@ public class CaptureSupportImplTest {
     @Test
     public void capture_node() {
         // when:
-        Image image = captureSupport.captureNode(primaryStage.getScene().getRoot());
+        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
 
         // then:
         assertThat(image.getWidth(), equalTo(primaryStage.getScene().getWidth()));
@@ -96,8 +104,43 @@ public class CaptureSupportImplTest {
     }
 
     @Test
-    public void load_image() throws Exception {
+    public void load_image() {
+        // TODO: test file not exist.
+        capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
+    }
+
+    @Test
+    public void save_image() {
+        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+        //capturer.saveImage(Paths.get("acme-login-actual.png"), image);
         //waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
+    }
+
+    @Test
+    public void match_images() {
+        Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
+        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#username").requestFocus()));
+        Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
+
+        PixelMatcherResult result = capturer.matchImages(image0, image1, new PixelMatcherImpl());
+        System.out.println(result.getNonMatchPixels());
+        System.out.println(result.getNonMatchFactor());
+
+        //capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-match.png"));
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // HELPER METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private Path resourcePath(Class<?> contextClass,
+                              String resourceName) {
+        try {
+            return Paths.get(Resources.getResource(contextClass, resourceName).toURI());
+        }
+        catch (URISyntaxException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
 }

@@ -17,10 +17,10 @@
 package org.testfx.service.support.impl;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
@@ -36,7 +36,8 @@ import com.google.common.io.Files;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.CaptureSupport;
-import org.testfx.service.support.MatchAlgorithm;
+import org.testfx.service.support.PixelMatcher;
+import org.testfx.service.support.PixelMatcherResult;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
@@ -48,7 +49,7 @@ public class CaptureSupportImpl implements CaptureSupport {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final String PNG_IMAGE_FORMAT = "png";
+    public static final String PNG_IMAGE_FORMAT = "png";
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
@@ -79,9 +80,10 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     @Override
-    public Image loadImage(File file) {
+    public Image loadImage(Path path) {
         try {
-            return readImageFromStream(Files.asByteSource(file).openBufferedStream());
+            InputStream inputStream = Files.asByteSource(path.toFile()).openBufferedStream();
+            return readImageFromStream(inputStream);
         }
         catch (IOException exception) {
             throw new RuntimeException(exception);
@@ -89,10 +91,11 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     @Override
-    public void saveImage(File file,
-                          Image image) {
+    public void saveImage(Image image,
+                          Path path) {
         try {
-            writeImageToStream(Files.asByteSink(file).openBufferedStream(), image);
+            OutputStream outputStream = Files.asByteSink(path.toFile()).openBufferedStream();
+            writeImageToStream(image, outputStream);
         }
         catch (IOException exception) {
             throw new RuntimeException(exception);
@@ -119,10 +122,10 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     @Override
-    public MatchResult<Image> matchImages(Image image0,
+    public PixelMatcherResult matchImages(Image image0,
                                           Image image1,
-                                          MatchAlgorithm algorithm) {
-        throw new UnsupportedOperationException();
+                                          PixelMatcher pixelMatcher) {
+        return pixelMatcher.match(image0, image1);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -138,11 +141,10 @@ public class CaptureSupportImpl implements CaptureSupport {
         return SwingFXUtils.toFXImage(bufferedImage, null);
     }
 
-    private void writeImageToStream(OutputStream outputStream,
-                                    Image image) throws IOException {
+    private void writeImageToStream(Image image,
+                                    OutputStream outputStream) throws IOException {
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         ImageIO.write(bufferedImage, PNG_IMAGE_FORMAT, outputStream);
     }
 
 }
-

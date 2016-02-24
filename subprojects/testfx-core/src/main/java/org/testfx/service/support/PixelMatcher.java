@@ -16,5 +16,21 @@
  */
 package org.testfx.service.support;
 
-public interface MatchAlgorithm {
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+
+public interface PixelMatcher {
+
+    PixelMatcherResult match(Image image0,
+                             Image image1);
+
+    boolean matchColors(Color color0,
+                        Color color1);
+
+    Color createMatchColor(Color color0,
+                           Color color1);
+
+    Color createNonMatchColor(Color color0,
+                              Color color1);
+
 }

@@ -16,15 +16,13 @@
  */
 package org.testfx.service.support;
 
-import java.io.File;
+import java.nio.file.Path;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Shape;
-
-import org.testfx.service.support.impl.MatchResult;
 
 public interface CaptureSupport {
 
@@ -35,9 +33,9 @@ public interface CaptureSupport {
     Image captureRegion(Rectangle2D region);
     Image captureNode(Node node);
 
-    Image loadImage(File file);
-    void saveImage(File file,
-                   Image image);
+    Image loadImage(Path path);
+    void saveImage(Image image,
+                   Path path);
 
     Image drawShape(Shape shape,
                     Image image);
@@ -45,8 +43,8 @@ public interface CaptureSupport {
                       Image image1,
                       BlendMode blendMode,
                       Pos alignment);
-    MatchResult<Image> matchImages(Image image0,
+    PixelMatcherResult matchImages(Image image0,
                                    Image image1,
-                                   MatchAlgorithm algorithm);
+                                   PixelMatcher pixelMatcher);
 
 }
