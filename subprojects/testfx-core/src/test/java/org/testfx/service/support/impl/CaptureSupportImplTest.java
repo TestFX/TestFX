@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 
 import com.google.common.io.Resources;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.impl.BaseRobotImpl;
@@ -122,6 +123,7 @@ public class CaptureSupportImplTest {
     }
 
     @Test
+    @Ignore
     public void match_images() {
         // given:
         Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
