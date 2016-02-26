@@ -31,8 +31,8 @@ import javafx.stage.Stage;
 
 import com.google.common.io.Resources;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.support.CaptureSupport;
@@ -43,8 +43,9 @@ import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
+import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
-public class CaptureSupportImplTest {
+public class CaptureSupportImplTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIXTURES.
@@ -125,9 +126,17 @@ public class CaptureSupportImplTest {
     @Test
     public void match_images() {
         // given:
+        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#loginButton").requestFocus()));
+        waitForFxEvents();
         Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
+
+        // and:
         waitFor(asyncFx(() -> primaryStage.getScene().lookup("#username").requestFocus()));
+        waitForFxEvents();
         Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
+
+//        Image image0 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
+//        Image image1 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-actual.png"));
 
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
