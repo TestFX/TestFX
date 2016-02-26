@@ -32,4 +32,4 @@ install: true
 
 # run gradle build.
 script:
-  - ./gradlew build
+  - ./gradlew build --info

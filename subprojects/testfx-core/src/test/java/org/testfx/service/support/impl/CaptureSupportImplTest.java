@@ -123,7 +123,6 @@ public class CaptureSupportImplTest {
     }
 
     @Test
-    @Ignore
     public void match_images() {
         // given:
         Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
