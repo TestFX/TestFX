@@ -17,10 +17,8 @@
 package org.testfx.service.support;
 
 import java.nio.file.Path;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Shape;
 
@@ -30,19 +28,18 @@ public interface CaptureSupport {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
-    Image captureRegion(Rectangle2D region);
     Image captureNode(Node node);
 
+    Image captureRegion(Rectangle2D region);
+
     Image loadImage(Path path);
+
     void saveImage(Image image,
                    Path path);
 
-    Image drawShape(Shape shape,
-                    Image image);
-    Image blendImages(Image image0,
-                      Image image1,
-                      BlendMode blendMode,
-                      Pos alignment);
+    Image annotateImage(Shape shape,
+                        Image image);
+
     PixelMatcherResult matchImages(Image image0,
                                    Image image1,
                                    PixelMatcher pixelMatcher);

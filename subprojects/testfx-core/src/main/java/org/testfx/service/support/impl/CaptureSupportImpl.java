@@ -70,17 +70,18 @@ public class CaptureSupportImpl implements CaptureSupport {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public Image captureRegion(Rectangle2D region) {
-        return baseRobot.captureRegion(region);
-    }
-
-    @Override
     public Image captureNode(Node node) {
         return waitFor(asyncFx(() -> snapshotNodeToImage(node)));
     }
 
     @Override
+    public Image captureRegion(Rectangle2D region) {
+        return baseRobot.captureRegion(region);
+    }
+
+    @Override
     public Image loadImage(Path path) {
+        checkFileExists(path);
         try {
             InputStream inputStream = Files.asByteSource(path.toFile()).openBufferedStream();
             return readImageFromStream(inputStream);
@@ -93,6 +94,7 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public void saveImage(Image image,
                           Path path) {
+        checkParentDirectoryExists(path);
         try {
             OutputStream outputStream = Files.asByteSink(path.toFile()).openBufferedStream();
             writeImageToStream(image, outputStream);
@@ -103,22 +105,9 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     @Override
-    public Image drawShape(Shape shape,
-                           Image image) {
+    public Image annotateImage(Shape shape,
+                               Image image) {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Image blendImages(Image image0,
-                             Image image1,
-                             BlendMode blendMode,
-                             Pos alignment) {
-        StackPane stackPane = new StackPane();
-        stackPane.setAlignment(alignment);
-        stackPane.setBlendMode(blendMode);
-        stackPane.getChildren().add(new ImageView(image0));
-        stackPane.getChildren().add(new ImageView(image1));
-        return captureNode(stackPane);
     }
 
     @Override
@@ -131,6 +120,18 @@ public class CaptureSupportImpl implements CaptureSupport {
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
+
+    private void checkFileExists(Path path) {
+        if (!path.toFile().isFile()) {
+            throw new RuntimeException("File " + path.getFileName() + " not found.");
+        }
+    }
+
+    private void checkParentDirectoryExists(Path path) {
+        if (!path.toAbsolutePath().getParent().toFile().isDirectory()) {
+            throw new RuntimeException("Directory " + path.getFileName() + " not found.");
+        }
+    }
 
     private Image snapshotNodeToImage(Node node) {
         return node.snapshot(null, null);
@@ -145,6 +146,18 @@ public class CaptureSupportImpl implements CaptureSupport {
                                     OutputStream outputStream) throws IOException {
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         ImageIO.write(bufferedImage, PNG_IMAGE_FORMAT, outputStream);
+    }
+
+    private Image blendImages(Image image0,
+                              Image image1,
+                              BlendMode blendMode,
+                              Pos alignment) {
+        StackPane stackPane = new StackPane();
+        stackPane.setAlignment(alignment);
+        stackPane.setBlendMode(blendMode);
+        stackPane.getChildren().add(new ImageView(image0));
+        stackPane.getChildren().add(new ImageView(image1));
+        return captureNode(stackPane);
     }
 
 }

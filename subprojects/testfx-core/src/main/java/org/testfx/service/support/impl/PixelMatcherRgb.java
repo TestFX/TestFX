@@ -21,68 +21,61 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import org.testfx.service.support.PixelMatcher;
-import org.testfx.service.support.PixelMatcherResult;
 
-public class PixelMatcherImpl implements PixelMatcher {
+public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private double minColorDistFactor = 0.20;
+    private double minColorDistSq = Double.MIN_VALUE;
 
-    private double colorBlendFactor = 0.75;
+    private final double minColorDistFactor;
+
+    private final double colorBlendFactor;
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTRUCTORS.
+    //---------------------------------------------------------------------------------------------
+
+    public PixelMatcherRgb() {
+        this.minColorDistFactor = 0.20;
+        this.colorBlendFactor = 0.75;
+    }
+
+    public PixelMatcherRgb(double minColorDistFactor,
+                           double colorBlendFactor) {
+        this.minColorDistFactor = minColorDistFactor;
+        this.colorBlendFactor = colorBlendFactor;
+    }
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public PixelMatcherResult match(Image image0,
-                                    Image image1) {
-        int imageWidth = (int) image0.getWidth();
-        int imageHeight = (int) image0.getHeight();
-        WritableImage matchImage = new WritableImage(imageWidth, imageHeight);
-
-        int matchPixels = 0;
-        int totalPixels = imageWidth * imageHeight;
-
-        for (int imageY = 0; imageY < imageHeight; imageY += 1) {
-            for (int imageX = 0; imageX < imageWidth; imageX += 1) {
-                Color color0 = image0.getPixelReader().getColor(imageX, imageY);
-                Color color1 = image1.getPixelReader().getColor(imageX, imageY);
-                boolean areColorsMatching = matchColors(color0, color1);
-
-                if (areColorsMatching) {
-                    matchPixels += 1;
-                    Color blendColor = createMatchColor(color0, color1);
-                    matchImage.getPixelWriter().setColor(imageX, imageY, blendColor);
-                }
-                else {
-                    Color markColor = createNonMatchColor(color0, color1);
-                    matchImage.getPixelWriter().setColor(imageX, imageY, markColor);
-                }
-            }
-        }
-
-        return new PixelMatcherResult(matchImage, matchPixels, totalPixels);
-    }
-
-    @Override
     public boolean matchColors(Color color0, Color color1) {
-        double maxColorDistSq = calculateColorDistSq(Color.BLACK, Color.WHITE);
-        double minColorDistSq = maxColorDistSq * (minColorDistFactor * minColorDistFactor);
+        if (minColorDistSq == Double.MIN_VALUE) {
+            double maxColorDistSq = calculateColorDistSq(Color.BLACK, Color.WHITE);
+            minColorDistSq = maxColorDistSq * (minColorDistFactor * minColorDistFactor);
+        }
 
         double colorDistSq = calculateColorDistSq(color0, color1);
         return colorDistSq < minColorDistSq;
     }
 
     @Override
+    public WritableImage createEmptyMatchImage(Image image0,
+                                               Image image1) {
+        return new WritableImage((int) image0.getWidth(), (int) image1.getHeight());
+    }
+
+    @Override
     public Color createMatchColor(Color color0, Color color1) {
-        double luma = calculateLuma(color0);
+        double gray = color0.grayscale().getRed();
         double opacity = color0.getOpacity();
-        double colorValue = blendToWhite(luma, colorBlendFactor);
-        return Color.gray(colorValue, opacity);
+        return Color.gray(blendToWhite(gray, colorBlendFactor), opacity);
+        //return Color.YELLOW // anti-aliased pixel.
     }
 
     @Override
@@ -94,24 +87,17 @@ public class PixelMatcherImpl implements PixelMatcher {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private double calculateLuma(Color color) {
-        double luma = (color.getRed() * 0.29889531) +
-                      (color.getGreen() * 0.58662247) +
-                      (color.getBlue() * 0.11448223);
-        return Math.max(0.0, Math.min(1.0, luma));
-    }
-
-    private double blendToWhite(double luma,
-                                double factor) {
-        return ((1.0 - factor) * luma) + factor;
-    }
-
     private double calculateColorDistSq(Color color0,
                                         Color color1) {
         double diffRed = color0.getRed() - color1.getRed();
         double diffGreen = color0.getGreen() - color1.getGreen();
         double diffBlue = color0.getBlue() - color1.getBlue();
         return (diffRed * diffRed) + (diffGreen * diffGreen) + (diffBlue * diffBlue);
+    }
+
+    private double blendToWhite(double gray,
+                                double factor) {
+        return ((1.0 - factor) * gray) + factor;
     }
 
 }

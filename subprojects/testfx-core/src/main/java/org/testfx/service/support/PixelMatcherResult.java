@@ -25,9 +25,9 @@ public class PixelMatcherResult {
     //---------------------------------------------------------------------------------------------
 
     private final Image matchImage;
-    private final int totalPixels;
+    private final long totalPixels;
 
-    private final int matchPixels;
+    private final long matchPixels;
     private final double matchFactor;
 
     //---------------------------------------------------------------------------------------------
@@ -35,8 +35,8 @@ public class PixelMatcherResult {
     //---------------------------------------------------------------------------------------------
 
     public PixelMatcherResult(Image matchImage,
-                              int matchPixels,
-                              int totalPixels) {
+                              long matchPixels,
+                              long totalPixels) {
         this.matchImage = matchImage;
         this.totalPixels = totalPixels;
 
@@ -52,15 +52,15 @@ public class PixelMatcherResult {
         return matchImage;
     }
 
-    public int getTotalPixels() {
+    public long getTotalPixels() {
         return totalPixels;
     }
 
-    public int getMatchPixels() {
+    public long getMatchPixels() {
         return matchPixels;
     }
 
-    public int getNonMatchPixels() {
+    public long getNonMatchPixels() {
         return totalPixels - matchPixels;
     }
 

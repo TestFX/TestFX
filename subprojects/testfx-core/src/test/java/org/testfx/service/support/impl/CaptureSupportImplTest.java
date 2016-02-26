@@ -38,11 +38,20 @@ import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcherResult;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 public class CaptureSupportImplTest {
+
+    //---------------------------------------------------------------------------------------------
+    // FIXTURES.
+    //---------------------------------------------------------------------------------------------
+
+    private CaptureSupport capturer;
+
+    private Stage primaryStage;
 
     public static class LoginDialog extends Application {
         @Override
@@ -61,14 +70,6 @@ public class CaptureSupportImplTest {
     }
 
     //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    private CaptureSupport capturer;
-
-    private Stage primaryStage;
-
-    //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
@@ -84,16 +85,6 @@ public class CaptureSupportImplTest {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void capture_region() {
-        // when:
-        Image image = capturer.captureRegion(new Rectangle2D(0, 0, 100, 200));
-
-        // then:
-        assertThat(image.getWidth(), equalTo(100.0));
-        assertThat(image.getHeight(), equalTo(200.0));
-    }
-
-    @Test
     public void capture_node() {
         // when:
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
@@ -104,29 +95,47 @@ public class CaptureSupportImplTest {
     }
 
     @Test
+    public void capture_region() {
+        // when:
+        Image image = capturer.captureRegion(new Rectangle2D(0, 0, 100, 200));
+
+        // then:
+        assertThat(image.getWidth(), equalTo(100.0));
+        assertThat(image.getHeight(), equalTo(200.0));
+    }
+
+    @Test
     public void load_image() {
-        // TODO: test file not exist.
-        capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
+        // when:
+        Image image = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
+
+        // then:
+        assertThat(image.getWidth(), equalTo(300.0));
+        assertThat(image.getHeight(), equalTo(384.0));
     }
 
     @Test
     public void save_image() {
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-        //capturer.saveImage(Paths.get("acme-login-actual.png"), image);
-        //waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
+//        capturer.saveImage(image, Paths.get("acme-login-actual.png"));
+//        waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
     }
 
     @Test
     public void match_images() {
+        // given:
         Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
         waitFor(asyncFx(() -> primaryStage.getScene().lookup("#username").requestFocus()));
         Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
 
-        PixelMatcherResult result = capturer.matchImages(image0, image1, new PixelMatcherImpl());
-        System.out.println(result.getNonMatchPixels());
-        System.out.println(result.getNonMatchFactor());
+        // when:
+        PixelMatcherRgb matcher = new PixelMatcherRgb();
+        PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
+//        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-match.png"));
 
-        //capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-match.png"));
+        // then:
+        assertThat(result.getNonMatchPixels(), equalTo(2191L));
+        assertThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
     }
 
     //---------------------------------------------------------------------------------------------

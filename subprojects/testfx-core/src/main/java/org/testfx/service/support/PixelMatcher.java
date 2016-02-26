@@ -17,6 +17,7 @@
 package org.testfx.service.support;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 public interface PixelMatcher {
@@ -26,6 +27,9 @@ public interface PixelMatcher {
 
     boolean matchColors(Color color0,
                         Color color1);
+
+    WritableImage createEmptyMatchImage(Image image0,
+                                        Image image1);
 
     Color createMatchColor(Color color0,
                            Color color1);
