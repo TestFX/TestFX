@@ -126,22 +126,22 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void match_images() {
         // given:
-        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#loginButton").requestFocus()));
-        waitForFxEvents();
-        Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
+//        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#loginButton").requestFocus()));
+//        waitForFxEvents();
+//        Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
 
         // and:
-        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#username").requestFocus()));
-        waitForFxEvents();
-        Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
+//        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#username").requestFocus()));
+//        waitForFxEvents();
+//        Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
 
-//        Image image0 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
-//        Image image1 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-actual.png"));
+        Image image0 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
+        Image image1 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-actual.png"));
 
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
-//        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-match.png"));
+//        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
 
         // then:
         assertThat(result.getNonMatchPixels(), equalTo(2191L));
