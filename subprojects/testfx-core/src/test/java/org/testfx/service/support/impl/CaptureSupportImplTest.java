@@ -19,9 +19,6 @@ package org.testfx.service.support.impl;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -174,17 +171,6 @@ public class CaptureSupportImplTest extends FxRobot {
         catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
         }
-    }
-
-    private String generateCaptureFilename(ZonedDateTime dateTime,
-                                           String dateTimePattern,
-                                           ZoneId zoneId) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimePattern);
-        return dateTime.withZoneSameInstant(zoneId).format(formatter);
-    }
-
-    private ZonedDateTime toZuluTime(ZonedDateTime dateTime) {
-        return dateTime.withZoneSameInstant(ZoneId.of(/* UTC */ "Z"));
     }
 
 }
