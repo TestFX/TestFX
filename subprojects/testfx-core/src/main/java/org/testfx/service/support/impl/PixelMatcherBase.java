@@ -19,6 +19,7 @@ package org.testfx.service.support.impl;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+
 import org.testfx.service.support.PixelMatcher;
 import org.testfx.service.support.PixelMatcherResult;
 
@@ -63,16 +64,16 @@ public abstract class PixelMatcherBase implements PixelMatcher {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    Color readPixel(Image image,
-                    int x,
-                    int y) {
+    private Color readPixel(Image image,
+                            int x,
+                            int y) {
         return image.getPixelReader().getColor(x, y);
     }
 
-    void writePixel(WritableImage image,
-                    int x,
-                    int y,
-                    Color color) {
+    private void writePixel(WritableImage image,
+                            int x,
+                            int y,
+                            Color color) {
         image.getPixelWriter().setColor(x, y, color);
     }
 

@@ -19,6 +19,9 @@ package org.testfx.service.support.impl;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -31,6 +34,7 @@ import javafx.stage.Stage;
 
 import com.google.common.io.Resources;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -41,9 +45,6 @@ import org.testfx.service.support.PixelMatcherResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
-import static org.testfx.util.WaitForAsyncUtils.asyncFx;
-import static org.testfx.util.WaitForAsyncUtils.waitFor;
-import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
 public class CaptureSupportImplTest extends FxRobot {
 
@@ -119,6 +120,7 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void save_image() {
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+//        Files.createTempDir();
 //        capturer.saveImage(image, Paths.get("acme-login-actual.png"));
 //        waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
     }
@@ -126,15 +128,6 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void match_images() {
         // given:
-//        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#loginButton").requestFocus()));
-//        waitForFxEvents();
-//        Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
-
-        // and:
-//        waitFor(asyncFx(() -> primaryStage.getScene().lookup("#username").requestFocus()));
-//        waitForFxEvents();
-//        Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
-
         Image image0 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
         Image image1 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-actual.png"));
 
@@ -142,6 +135,30 @@ public class CaptureSupportImplTest extends FxRobot {
         PixelMatcherRgb matcher = new PixelMatcherRgb();
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
 //        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
+
+        // then:
+        assertThat(result.getNonMatchPixels(), equalTo(2191L));
+        assertThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
+    }
+
+    @Test
+    @Ignore
+    public void match_images_from_scene() {
+        // given:
+        interact(() -> primaryStage.getScene().lookup("#loginButton").requestFocus());
+        Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
+
+        // and:
+        interact(() -> primaryStage.getScene().lookup("#username").requestFocus());
+        Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
+
+        // when:
+        PixelMatcherRgb matcher = new PixelMatcherRgb();
+        PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
+//        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
+
+//        String fileName = generateCaptureFilename(ZonedDateTime.now(), "yyyyMMdd-HHmmss-SSS", ZoneId.systemDefault());
+//        capturer.saveImage(result.getMatchImage(), Paths.get("testfx-" + fileName + ".png"));
 
         // then:
         assertThat(result.getNonMatchPixels(), equalTo(2191L));
@@ -160,6 +177,17 @@ public class CaptureSupportImplTest extends FxRobot {
         catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    private String generateCaptureFilename(ZonedDateTime dateTime,
+                                           String dateTimePattern,
+                                           ZoneId zoneId) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimePattern);
+        return dateTime.withZoneSameInstant(zoneId).format(formatter);
+    }
+
+    private ZonedDateTime toZuluTime(ZonedDateTime dateTime) {
+        return dateTime.withZoneSameInstant(ZoneId.of(/* UTC */ "Z"));
     }
 
 }

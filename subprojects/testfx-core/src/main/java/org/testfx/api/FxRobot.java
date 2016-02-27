@@ -25,12 +25,15 @@ import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Screen;
 import javafx.stage.Window;
 
 import com.google.common.base.Optional;
@@ -406,6 +409,30 @@ public class FxRobot implements FxRobotInterface {
     @Unstable(reason = "is missing apidocs")
     public Node rootNode(Node node) {
         return context.getNodeFinder().rootNode(node);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR SCREEN CAPTURING.
+    //---------------------------------------------------------------------------------------------
+
+    @Override
+    @Unstable(reason = "likely to be refactored with builder pattern")
+    public Image capture(Screen screen) {
+        return context.getCaptureSupport().captureRegion(screen.getBounds());
+    }
+
+    @Override
+    @Unstable(reason = "likely to be refactored with builder pattern")
+    public Image capture(Bounds bounds) {
+        Rectangle2D region = new Rectangle2D(bounds.getMinX(), bounds.getMinX(),
+                                             bounds.getWidth(), bounds.getHeight());
+        return context.getCaptureSupport().captureRegion(region);
+    }
+
+    @Override
+    @Unstable(reason = "likely to be refactored with builder pattern")
+    public Image capture(Node node) {
+        return context.getCaptureSupport().captureNode(node);
     }
 
     //---------------------------------------------------------------------------------------------

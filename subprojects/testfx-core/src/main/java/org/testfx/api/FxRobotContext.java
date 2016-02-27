@@ -45,6 +45,8 @@ import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
+import org.testfx.service.support.CaptureSupport;
+import org.testfx.service.support.impl.CaptureSupportImpl;
 
 @Unstable(reason = "class was recently added")
 public class FxRobotContext {
@@ -72,6 +74,8 @@ public class FxRobotContext {
     private TypeRobot typeRobot;
     private WriteRobot writeRobot;
 
+    private CaptureSupport captureSupport;
+
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
@@ -94,6 +98,8 @@ public class FxRobotContext {
         clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
         scrollRobot = new ScrollRobotImpl(mouseRobot);
+
+        captureSupport = new CaptureSupportImpl(baseRobot);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -218,6 +224,14 @@ public class FxRobotContext {
 
     public void setWriteRobot(WriteRobot writeRobot) {
         this.writeRobot = writeRobot;
+    }
+
+    public CaptureSupport getCaptureSupport() {
+        return captureSupport;
+    }
+
+    public void setCaptureSupport(CaptureSupport captureSupport) {
+        this.captureSupport = captureSupport;
     }
 
 }
