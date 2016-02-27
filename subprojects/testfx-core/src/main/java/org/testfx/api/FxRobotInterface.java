@@ -27,9 +27,11 @@ import javafx.geometry.Pos;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Screen;
 import javafx.stage.Window;
 
 import com.google.common.base.Predicate;
@@ -143,6 +145,14 @@ public interface FxRobotInterface {
     public <T extends Node> NodeQuery lookup(Matcher<T> matcher);
     public <T extends Node> NodeQuery lookup(Predicate<T> predicate);
     public NodeQuery from(NodeQuery nodeQuery);
+
+    //---------------------------------------------------------------------------------------------
+    // METHODS FOR SCREEN CAPTURING.
+    //---------------------------------------------------------------------------------------------
+
+    public Image capture(Screen screen);
+    public Image capture(Bounds bounds);
+    public Image capture(Node node);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR INTERACTION AND INTERRUPTION.

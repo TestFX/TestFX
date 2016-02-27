@@ -110,6 +110,14 @@ subprojects { subproject ->
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
+
+    // use test logging.
+    test {
+        testLogging {
+            events "failed"
+            exceptionFormat "short"
+        }
+    }
 }
 
 evaluationDependsOnChildren()

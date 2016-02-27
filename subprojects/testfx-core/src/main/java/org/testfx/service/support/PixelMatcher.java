@@ -16,32 +16,25 @@
  */
 package org.testfx.service.support;
 
-import java.nio.file.Path;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Shape;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
-public interface CaptureSupport {
+public interface PixelMatcher {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
+    PixelMatcherResult match(Image image0,
+                             Image image1);
 
-    Image captureNode(Node node);
+    boolean matchColors(Color color0,
+                        Color color1);
 
-    Image captureRegion(Rectangle2D region);
+    WritableImage createEmptyMatchImage(Image image0,
+                                        Image image1);
 
-    Image loadImage(Path path);
+    Color createMatchColor(Color color0,
+                           Color color1);
 
-    void saveImage(Image image,
-                   Path path);
-
-    Image annotateImage(Shape shape,
-                        Image image);
-
-    PixelMatcherResult matchImages(Image image0,
-                                   Image image1,
-                                   PixelMatcher pixelMatcher);
+    Color createNonMatchColor(Color color0,
+                              Color color1);
 
 }

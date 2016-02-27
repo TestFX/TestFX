@@ -24,6 +24,7 @@ import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.finder.impl.NodeFinderImpl;
 import org.testfx.service.finder.impl.WindowFinderImpl;
 import org.testfx.service.support.CaptureSupport;
+import org.testfx.service.support.impl.CaptureSupportImpl;
 import org.testfx.service.support.WaitUntilSupport;
 
 @Unstable(reason = "class was recently added")
@@ -39,7 +40,7 @@ public class FxServiceContext {
 
     private BaseRobot baseRobot = new BaseRobotImpl();
 
-    private CaptureSupport captureSupport = new CaptureSupport(baseRobot);
+    private CaptureSupport captureSupport = new CaptureSupportImpl(baseRobot);
 
     private WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
 

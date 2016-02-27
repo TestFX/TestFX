@@ -3,6 +3,12 @@ language: java
 jdk:
   - oraclejdk8
 
+# install the newest java.
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
 # use operating systems.
 os:
   - linux
@@ -32,4 +38,4 @@ install: true
 
 # run gradle build.
 script:
-  - ./gradlew build
+  - ./gradlew build --info
