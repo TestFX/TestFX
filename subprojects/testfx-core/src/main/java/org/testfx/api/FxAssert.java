@@ -16,8 +16,14 @@
  */
 package org.testfx.api;
 
+import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.stage.Screen;
 
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
@@ -35,6 +41,8 @@ public final class FxAssert {
     //---------------------------------------------------------------------------------------------
 
     private static final String EMPTY_STRING = "";
+
+    private static final String ERROR_TIMESTAMP_PATTERN = "yyyyMMdd.HHmmss.SSS";
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.
@@ -137,7 +145,8 @@ public final class FxAssert {
             MatcherAssert.assertThat(reason, value, matcher);
         }
         catch (AssertionError error) {
-            // TODO: Save screenshot to file.
+            // TODO: make error capture and assertion throw more reliable.
+//            captureErrorScreenshot();
             throw new AssertionError(error.getMessage());
         }
     }
@@ -167,5 +176,27 @@ public final class FxAssert {
     private static <T extends Node> Matcher<T> toNodeMatcher(Predicate<T> nodePredicate) {
         return GeneralMatchers.baseMatcher("applies on Predicate", nodePredicate);
     }
+
+    private static void captureErrorScreenshot() {
+        ZonedDateTime errorDateTime = ZonedDateTime.now();
+
+        Rectangle2D primaryScreenRegion = Screen.getPrimary().getBounds();
+        Image errorImage = assertContext().getCaptureSupport().captureRegion(primaryScreenRegion);
+
+        String errorTimestamp = formatErrorTimestamp(errorDateTime, ERROR_TIMESTAMP_PATTERN);
+        String errorImageFilename = "testfx-" + errorTimestamp + ".png";
+
+        assertContext().getCaptureSupport().saveImage(errorImage, Paths.get(errorImageFilename));
+    }
+
+    private static String formatErrorTimestamp(ZonedDateTime dateTime,
+                                               String dateTimePattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimePattern);
+        return dateTime.format(formatter);
+    }
+
+//    private static ZonedDateTime toZuluTime(ZonedDateTime dateTime) {
+//        return dateTime.withZoneSameInstant(ZoneId.of(/* UTC */ "Z"));
+//    }
 
 }

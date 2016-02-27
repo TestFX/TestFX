@@ -34,7 +34,6 @@ import javafx.stage.Stage;
 
 import com.google.common.io.Resources;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -45,6 +44,7 @@ import org.testfx.service.support.PixelMatcherResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
+import static org.testfx.api.FxAssert.verifyThat;
 
 public class CaptureSupportImplTest extends FxRobot {
 
@@ -59,15 +59,14 @@ public class CaptureSupportImplTest extends FxRobot {
     public static class LoginDialog extends Application {
         @Override
         public void start(Stage stage) throws Exception {
-            Pane rootPane = new StackPane();
-            Scene scene = new Scene(rootPane);
-            stage.setScene(scene);
-
             String fxmlDocument = "res/acme-login.fxml";
             Node fxmlHierarchy = FXMLLoader.load(getClass().getResource(fxmlDocument));
-            rootPane.getChildren().add(fxmlHierarchy);
-            fxmlHierarchy.lookup("#loginButton").requestFocus();
 
+            Pane rootPane = new StackPane();
+            rootPane.getChildren().add(fxmlHierarchy);
+
+            Scene scene = new Scene(rootPane);
+            stage.setScene(scene);
             stage.show();
         }
     }
@@ -137,12 +136,12 @@ public class CaptureSupportImplTest extends FxRobot {
 //        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
 
         // then:
-        assertThat(result.getNonMatchPixels(), equalTo(2191L));
-        assertThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
+        verifyThat(result.getNonMatchPixels(), equalTo(2191L));
+        verifyThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void match_images_from_scene() {
         // given:
         interact(() -> primaryStage.getScene().lookup("#loginButton").requestFocus());
@@ -157,12 +156,9 @@ public class CaptureSupportImplTest extends FxRobot {
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
 //        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
 
-//        String fileName = generateCaptureFilename(ZonedDateTime.now(), "yyyyMMdd-HHmmss-SSS", ZoneId.systemDefault());
-//        capturer.saveImage(result.getMatchImage(), Paths.get("testfx-" + fileName + ".png"));
-
         // then:
-        assertThat(result.getNonMatchPixels(), equalTo(2191L));
-        assertThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
+        verifyThat(result.getNonMatchPixels(), equalTo(2191L));
+        verifyThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
     }
 
     //---------------------------------------------------------------------------------------------
