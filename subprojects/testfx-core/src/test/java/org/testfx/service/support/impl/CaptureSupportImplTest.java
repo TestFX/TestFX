@@ -34,6 +34,7 @@ import javafx.stage.Stage;
 
 import com.google.common.io.Resources;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -141,7 +142,7 @@ public class CaptureSupportImplTest extends FxRobot {
     }
 
     @Test
-//    @Ignore
+    @Ignore
     public void match_images_from_scene() {
         // given:
         interact(() -> primaryStage.getScene().lookup("#loginButton").requestFocus());
