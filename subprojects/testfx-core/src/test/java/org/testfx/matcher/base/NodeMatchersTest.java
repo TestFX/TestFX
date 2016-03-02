@@ -67,7 +67,7 @@ public class NodeMatchersTest extends FxRobot {
         });
 
         // expect:
-        assertThat(from(nodes).select(NodeMatchers.anything()).queryAll(),
+        assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(),
             hasItem(NodeMatchers.hasText("bar")));
     }
 
@@ -118,11 +118,11 @@ public class NodeMatchersTest extends FxRobot {
         });
 
         // expect:
-        NodeQuery query1 = from(nodes).select(NodeMatchers.hasText("foo"));
+        NodeQuery query1 = from(nodes).match(NodeMatchers.hasText("foo"));
         assertThat(query1.queryAll(), contains(nodes.get(1)));
 
         // and:
-        NodeQuery query2 = from(nodes).select(NodeMatchers.hasText("bar"));
+        NodeQuery query2 = from(nodes).match(NodeMatchers.hasText("bar"));
         assertThat(query2.queryAll(), contains(nodes.get(2)));
     }
 

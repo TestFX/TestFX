@@ -39,12 +39,12 @@ public interface NodeQuery {
     <T extends Node> NodeQuery lookup(Predicate<T> predicate);
     NodeQuery lookup(Function<Node, Set<Node>> function);
 
-    <T> NodeQuery select(Matcher<T> matcher);
-    <T extends Node> NodeQuery select(Predicate<T> predicate);
-    NodeQuery selectAt(int index);
+    <T> NodeQuery match(Matcher<T> matcher);
+    <T extends Node> NodeQuery match(Predicate<T> predicate);
+    NodeQuery nth(int index);
 
-    <T extends Node> T queryFirst();
-    <T extends Node> Optional<T> tryQueryFirst();
+    <T extends Node> T query();
+    <T extends Node> Optional<T> tryQuery();
     <T extends Node> Set<T> queryAll();
 
 }

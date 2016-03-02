@@ -75,7 +75,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(String query) {
         try {
-            return nodeFinder.lookup(query).queryFirst();
+            return nodeFinder.lookup(query).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -93,7 +93,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(Predicate<T> predicate) {
         try {
-            return nodeFinder.lookup(predicate).queryFirst();
+            return nodeFinder.lookup(predicate).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -102,7 +102,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(Matcher<Object> matcher) {
         try {
-            return nodeFinder.lookup(matcher).queryFirst();
+            return nodeFinder.lookup(matcher).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -111,7 +111,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(String query, Node parent) {
         try {
-            return nodeFinder.from(parent).lookup(query).queryFirst();
+            return nodeFinder.from(parent).lookup(query).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);

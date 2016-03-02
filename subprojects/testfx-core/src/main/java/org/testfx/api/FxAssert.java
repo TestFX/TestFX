@@ -166,7 +166,7 @@ public final class FxAssert {
     }
 
     private static <T extends Node> T toNode(NodeQuery nodeQuery) {
-        return nodeQuery.queryFirst();
+        return nodeQuery.query();
     }
 
     private static <T extends Node> Set<T> toNodeSet(NodeQuery nodeQuery) {

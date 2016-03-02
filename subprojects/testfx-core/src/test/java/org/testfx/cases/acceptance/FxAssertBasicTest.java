@@ -73,7 +73,7 @@ public class FxAssertBasicTest extends TestCaseBase {
     public void button_is_disabled() {
         // when:
         interact(() -> {
-            lookup("#button").queryFirst().setDisable(true);
+            lookup("#button").query().setDisable(true);
         });
 
         // then:
@@ -90,7 +90,7 @@ public class FxAssertBasicTest extends TestCaseBase {
     public void button_is_invisible() {
         // when:
         interact(() -> {
-            lookup("#button").queryFirst().setVisible(false);
+            lookup("#button").query().setVisible(false);
         });
 
         // then:

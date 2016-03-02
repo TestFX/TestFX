@@ -44,7 +44,7 @@ import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
-import static org.testfx.service.query.impl.NodeQueryUtils.isVisible;
+import static org.testfx.util.NodeQueryUtils.isVisible;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
@@ -148,7 +148,7 @@ public class FxRobot implements FxRobotInterface {
     @Unstable(reason = "is missing apidocs")
     public PointQuery point(String query) {
         NodeQuery nodeQuery = lookup(query);
-        Node node = queryFirstNode(nodeQuery, "the query \"" + query + "\"");
+        Node node = queryNode(nodeQuery, "the query \"" + query + "\"");
         return point(node).atPosition(context.getPointPosition());
     }
 
@@ -156,7 +156,7 @@ public class FxRobot implements FxRobotInterface {
     @Unstable(reason = "is missing apidocs; might change to accept all objects")
     public <T extends Node> PointQuery point(Matcher<T> matcher) {
         NodeQuery nodeQuery = lookup(matcher);
-        Node node = queryFirstNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
+        Node node = queryNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
         return point(node).atPosition(context.getPointPosition());
     }
 
@@ -164,7 +164,7 @@ public class FxRobot implements FxRobotInterface {
     @Unstable(reason = "is missing apidocs")
     public <T extends Node> PointQuery point(Predicate<T> predicate) {
         NodeQuery nodeQuery = lookup(predicate);
-        Node node = queryFirstNode(nodeQuery, "the predicate");
+        Node node = queryNode(nodeQuery, "the predicate");
         return point(node).atPosition(context.getPointPosition());
     }
 
@@ -1081,25 +1081,25 @@ public class FxRobot implements FxRobotInterface {
 
     private PointQuery pointOfVisibleNode(String query) {
         NodeQuery nodeQuery = lookup(query);
-        Node node = queryFirstVisibleNode(nodeQuery, "the query \"" + query + "\"");
+        Node node = queryVisibleNode(nodeQuery, "the query \"" + query + "\"");
         return point(node);
     }
 
     private <T extends Node> PointQuery pointOfVisibleNode(Matcher<T> matcher) {
         NodeQuery nodeQuery = lookup(matcher);
-        Node node = queryFirstVisibleNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
+        Node node = queryVisibleNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
         return point(node);
     }
 
     private <T extends Node> PointQuery pointOfVisibleNode(Predicate<T> predicate) {
         NodeQuery nodeQuery = lookup(predicate);
-        Node node = queryFirstVisibleNode(nodeQuery, "the predicate");
+        Node node = queryVisibleNode(nodeQuery, "the predicate");
         return point(node);
     }
 
-    private Node queryFirstNode(NodeQuery nodeQuery,
-                                String queryDescription) {
-        Optional<Node> resultNode = nodeQuery.tryQueryFirst();
+    private Node queryNode(NodeQuery nodeQuery,
+                           String queryDescription) {
+        Optional<Node> resultNode = nodeQuery.tryQuery();
         if (!resultNode.isPresent()) {
             String message = queryDescription + " returned no nodes.";
             throw new FxRobotException(message);
@@ -1107,14 +1107,14 @@ public class FxRobot implements FxRobotInterface {
         return resultNode.get();
     }
 
-    private Node queryFirstVisibleNode(NodeQuery nodeQuery,
-                                       String queryDescription) {
+    private Node queryVisibleNode(NodeQuery nodeQuery,
+                                  String queryDescription) {
         Set<Node> resultNodes = nodeQuery.queryAll();
         if (resultNodes.isEmpty()) {
             String message = queryDescription + " returned no nodes.";
             throw new FxRobotException(message);
         }
-        Optional<Node> resultNode = from(resultNodes).select(isVisible()).tryQueryFirst();
+        Optional<Node> resultNode = from(resultNodes).match(isVisible()).tryQuery();
         if (!resultNode.isPresent()) {
             String message = queryDescription + " returned " + resultNodes.size() + " nodes" +
                 ", but no nodes were visible.";

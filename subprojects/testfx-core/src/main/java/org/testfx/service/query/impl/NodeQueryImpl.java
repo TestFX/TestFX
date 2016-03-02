@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.NodeQuery;
+import org.testfx.util.NodeQueryUtils;
 
 @Unstable
 public class NodeQueryImpl implements NodeQuery {
@@ -97,7 +98,7 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> NodeQuery select(Matcher<T> matcher) {
+    public <T> NodeQuery match(Matcher<T> matcher) {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
         query = query.filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher));
         parentNodes = query.toSet();
@@ -106,7 +107,7 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Node> NodeQuery select(Predicate<T> predicate) {
+    public <T extends Node> NodeQuery match(Predicate<T> predicate) {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
         query = query.filter((Predicate<Node>) predicate);
         parentNodes = query.toSet();
@@ -114,7 +115,7 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     @Override
-    public NodeQuery selectAt(int index) {
+    public NodeQuery nth(int index) {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
         query = query.skip(index).limit(1);
         parentNodes = query.toSet();
@@ -123,14 +124,14 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Node> T queryFirst() {
+    public <T extends Node> T query() {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
         return (T) query.first().orNull();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Node> Optional<T> tryQueryFirst() {
+    public <T extends Node> Optional<T> tryQuery() {
         FluentIterable<Node> query = FluentIterable.from(parentNodes);
         return (Optional<T>) query.first();
     }

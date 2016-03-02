@@ -31,7 +31,7 @@ import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.NodeQueryFactory;
 import org.testfx.service.query.impl.NodeQueryFactoryImpl;
-import org.testfx.service.query.impl.NodeQueryUtils;
+import org.testfx.util.NodeQueryUtils;
 
 @Unstable
 public class NodeFinderImpl implements NodeFinder {

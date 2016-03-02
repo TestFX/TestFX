@@ -67,8 +67,8 @@ public class TableViewMatchers {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(tableView);
         return nodeQuery.lookup(SELECTOR_TABLE_CELL)
-            .<Cell>select(cell -> hasCellValue(cell, value))
-            .tryQueryFirst().isPresent();
+            .<Cell>match(cell -> hasCellValue(cell, value))
+            .tryQuery().isPresent();
     }
 
     private static boolean hasItems(TableView tableView,

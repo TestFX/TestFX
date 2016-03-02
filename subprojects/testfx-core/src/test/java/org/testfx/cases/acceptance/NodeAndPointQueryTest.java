@@ -94,7 +94,7 @@ public class NodeAndPointQueryTest {
         NodeQuery query = fx.lookup(".button");
 
         // then:
-        assertThat(query.queryFirst(), is(button0));
+        assertThat(query.query(), is(button0));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class NodeAndPointQueryTest {
         NodeQuery query = fx.lookup(".missing");
 
         // then:
-        assertThat(query.queryFirst(), nullValue());
+        assertThat(query.query(), nullValue());
     }
 
     @Test
