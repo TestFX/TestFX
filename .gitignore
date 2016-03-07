@@ -21,3 +21,7 @@ atlassian*.xml
 
 # test screenshots.
 screenshot*.png
+
+# ctags
+tags
+
