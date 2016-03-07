@@ -16,6 +16,7 @@
  */
 package org.testfx.matcher.control;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 
@@ -55,6 +56,7 @@ public class ListViewMatchersTest extends FxRobot {
         FxToolkit.setupSceneRoot(() -> {
             listView = new ListView<>();
             listView.setItems(observableArrayList("alice", "bob", "carol", "dave"));
+            listView.setPlaceholder(new Label("Empty!"));
             return new StackPane(listView);
         });
         FxToolkit.showStage();
@@ -103,4 +105,18 @@ public class ListViewMatchersTest extends FxRobot {
         assertThat(listView, ListViewMatchers.hasItems(0));
     }
 
+    @Test
+    public void hasPlaceholder() {
+        // expect:
+        assertThat(listView, ListViewMatchers.hasPlaceholder(new Label("Empty!")));
+    }
+
+    @Test
+    public void hasPlaceholder_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: ListView has labeled placeholder containing text: \"foobar\"\n");
+
+        assertThat(listView, ListViewMatchers.hasPlaceholder(new Label("foobar")));
+    }
 }
