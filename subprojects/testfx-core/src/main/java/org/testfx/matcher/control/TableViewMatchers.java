@@ -16,9 +16,14 @@
  */
 package org.testfx.matcher.control;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Cell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import org.hamcrest.Factory;
@@ -58,6 +63,14 @@ public class TableViewMatchers {
         return typeSafeMatcher(TableView.class, descriptionText, node -> hasItems(node, amount));
     }
 
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> containsRow(int rowIndex, Object...cells) {
+        String descriptionText = "has row: " + Arrays.toString(cells);
+        return typeSafeMatcher(TableView.class, descriptionText,
+             node -> containsRow(node, rowIndex, cells));
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -74,6 +87,33 @@ public class TableViewMatchers {
     private static boolean hasItems(TableView tableView,
                                     int amount) {
         return tableView.getItems().size() == amount;
+    }
+
+    private static <T> boolean containsRow(TableView<T> tableView, int rowIndex,
+                                       Object...cells) {
+        if (rowIndex >= tableView.getItems().size()) {
+            return false;
+        }
+
+        T rowObject = tableView.getItems().get(rowIndex);
+        List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
+        for (int i = 0; i < tableView.getColumns().size(); i++) {
+            TableColumn<T, ?> column = tableView.getColumns().get(i);
+            TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures<>(tableView, column, rowObject);
+            rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
+        }
+        for (int i = 0; i < cells.length; i++) {
+            if (rowValues.get(i).getValue() == null) {
+                if (cells[i] != null) {
+                    return false;
+                }
+            } else {
+                if (!rowValues.get(i).getValue().equals(cells[i])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private static boolean hasCellValue(Cell cell,
