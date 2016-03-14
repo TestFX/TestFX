@@ -57,6 +57,13 @@ public class ListViewMatchers {
         return typeSafeMatcher(ListView.class, descriptionText, node -> hasItems(node, amount));
     }
 
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> isEmpty() {
+        String descriptionText = "is empty (has no items)";
+        return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::isListEmpty);
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -78,6 +85,10 @@ public class ListViewMatchers {
     private static boolean hasCellValue(Cell cell,
                                         Object value) {
         return !cell.isEmpty() && Objects.equals(cell.getItem(), value);
+    }
+
+    private static boolean isListEmpty(ListView listView) {
+        return listView.getItems().isEmpty();
     }
 
 }
