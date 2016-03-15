@@ -127,4 +127,61 @@ public class TableViewMatchersTest extends FxRobot {
         assertThat(tableView, TableViewMatchers.hasItems(0));
     }
 
+    @Test
+    public void containsRow() {
+        tableView.setItems(observableArrayList(
+                ImmutableMap.of("name", "alice", "age", 30),
+                ImmutableMap.of("name", "bob", "age", 31),
+                ImmutableMap.of("name", "carol", "age", 42),
+                ImmutableMap.of("name", "dave", "age", 55)
+        ));
+
+        // expect:
+        assertThat(tableView, TableViewMatchers.containsRow(0, "alice", 30));
+        assertThat(tableView, TableViewMatchers.containsRow(1, "bob", 31));
+        assertThat(tableView, TableViewMatchers.containsRow(2, "carol", 42));
+        assertThat(tableView, TableViewMatchers.containsRow(3, "dave", 55));
+    }
+
+    @Test
+    public void containsRow_with_empty_cells() {
+        tableView.setItems(observableArrayList(
+                ImmutableMap.of("name", "alice", "age", 30),
+                ImmutableMap.of("name", "bob", "age", 31),
+                ImmutableMap.of("name", "carol"),
+                ImmutableMap.of("name", "dave")
+        ));
+        // expect:
+        assertThat(tableView, TableViewMatchers.containsRow(0, "alice", 30));
+        assertThat(tableView, TableViewMatchers.containsRow(1, "bob", 31));
+        assertThat(tableView, TableViewMatchers.containsRow(2, "carol", null));
+        assertThat(tableView, TableViewMatchers.containsRow(3, "dave", null));
+    }
+
+    @Test
+    public void containsRow_no_such_row_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [jerry, 29]\n");
+
+        assertThat(tableView, TableViewMatchers.containsRow(0, "jerry", 29));
+    }
+
+    @Test
+    public void containsRow_out_of_bounds_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [tom, 54]\n");
+
+        assertThat(tableView, TableViewMatchers.containsRow(4, "tom", 54));
+    }
+
+    @Test
+    public void containsRow_wrong_types_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
+
+        assertThat(tableView, TableViewMatchers.containsRow(1, 63, "deedee"));
+    }
 }
