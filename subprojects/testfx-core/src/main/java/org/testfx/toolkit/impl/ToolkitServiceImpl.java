@@ -25,8 +25,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import com.sun.javafx.application.ParametersImpl;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.toolkit.ApplicationFixture;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -121,30 +121,49 @@ public class ToolkitServiceImpl implements ToolkitService {
                                                 Class<? extends Application> applicationClass,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = applicationService.create(
-                applicationClass, applicationArgs
+            Application application = applicationService.create(() ->
+                createApplication(applicationClass)
             ).get();
-            ApplicationFixture applicationFixture = new ApplicationAdapter(application);
-            applicationService.init(applicationFixture).get();
-            applicationService.start(applicationFixture, stageSupplier.get()).get();
+            registerApplicationParameters(application, applicationArgs);
+            applicationService.init(application).get();
+            applicationService.start(application, stageSupplier.get()).get();
             return application;
         });
     }
 
-
     @Override
-    public Future<ApplicationFixture> setupApplication(Supplier<Stage> stageSupplier,
-                                                       ApplicationFixture applicationFixture) {
+    public Future<Application> setupApplication(Supplier<Stage> stageSupplier,
+                                                Supplier<Application> applicationSupplier,
+                                                String... applicationArgs) {
         return async(() -> {
-            applicationService.init(applicationFixture).get();
-            applicationService.start(applicationFixture, stageSupplier.get()).get();
-            return applicationFixture;
+            Application application = applicationService.create(() ->
+                applicationSupplier.get()
+            ).get();
+            registerApplicationParameters(application, applicationArgs);
+            applicationService.init(application).get();
+            applicationService.start(application, stageSupplier.get()).get();
+            return application;
         });
     }
 
     @Override
-    public Future<Void> cleanupApplication(ApplicationFixture applicationFixture) {
-        return applicationService.stop(applicationFixture);
+    public Future<Void> cleanupApplication(Application application) {
+        return applicationService.stop(application);
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private Application createApplication(Class<? extends Application> applicationClass)
+                                   throws Exception {
+        return applicationClass.newInstance();
+    }
+
+    private void registerApplicationParameters(Application application,
+                                               String... applicationArgs) {
+        ParametersImpl parameters = new ParametersImpl(applicationArgs);
+        ParametersImpl.registerParameters(application, parameters);
     }
 
 }

@@ -16,14 +16,13 @@
  */
 package org.testfx.toolkit.impl;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import com.google.common.util.concurrent.SettableFuture;
-import com.sun.javafx.application.ParametersImpl;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.toolkit.ApplicationFixture;
 import org.testfx.toolkit.ApplicationService;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
@@ -36,22 +35,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public Future<Application> create(Class<? extends Application> appClass,
-                                      String... appArgs) {
+    public Future<Application> create(Callable<Application> applicationCallable) {
         // Should run in JavaFX application thread.
-        return asyncFx(() -> {
-            Application application = createApplication(appClass);
-            registerApplicationParameters(application, appArgs);
-            return application;
-        });
+        return asyncFx(applicationCallable);
     }
 
     @Override
-    public Future<Void> init(ApplicationFixture applicationFixture) {
+    public Future<Void> init(Application application) {
         // Should be called in TestFX launcher thread.
         SettableFuture<Void> future = SettableFuture.create();
         try {
-            applicationFixture.init();
+            application.init();
             future.set(null);
         }
         catch (Exception exception) {
@@ -61,37 +55,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Future<Void> start(ApplicationFixture applicationFixture,
+    public Future<Void> start(Application application,
                               Stage targetStage) {
         // Should run in JavaFX application thread.
         return asyncFx(() -> {
-            applicationFixture.start(targetStage);
+            application.start(targetStage);
             return null;
         });
     }
 
     @Override
-    public Future<Void> stop(ApplicationFixture applicationFixture) {
+    public Future<Void> stop(Application application) {
         // Should run in JavaFX application thread.
         return asyncFx(() -> {
-            applicationFixture.stop();
+            application.stop();
             return null;
         });
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    public Application createApplication(Class<? extends Application> applicationClass)
-                                         throws Exception {
-        return applicationClass.newInstance();
-    }
-
-    public void registerApplicationParameters(Application application,
-                                              String... applicationArgs) {
-        ParametersImpl parameters = new ParametersImpl(applicationArgs);
-        ParametersImpl.registerParameters(application, parameters);
     }
 
 }
