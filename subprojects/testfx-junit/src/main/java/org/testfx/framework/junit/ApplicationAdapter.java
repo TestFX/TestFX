@@ -14,29 +14,28 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.toolkit.impl;
+package org.testfx.framework.junit;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import org.testfx.api.annotation.Unstable;
-import org.testfx.toolkit.ApplicationFixture;
 
 @Unstable(reason = "needs more tests")
-public final class ApplicationAdapter implements ApplicationFixture {
+public final class ApplicationAdapter extends Application {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Application application;
+    private ApplicationFixture applicationFixture;
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public ApplicationAdapter(Application application) {
-        this.application = application;
+    public ApplicationAdapter(ApplicationFixture applicationFixture) {
+        this.applicationFixture = applicationFixture;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -44,18 +43,21 @@ public final class ApplicationAdapter implements ApplicationFixture {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void init() throws Exception {
-        application.init();
+    public void init()
+              throws Exception {
+        applicationFixture.init();
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-        application.start(stage);
+    public void start(Stage primaryStage)
+               throws Exception {
+        applicationFixture.start(primaryStage);
     }
 
     @Override
-    public void stop() throws Exception {
-        application.stop();
+    public void stop()
+              throws Exception {
+        applicationFixture.stop();
     }
 
 }

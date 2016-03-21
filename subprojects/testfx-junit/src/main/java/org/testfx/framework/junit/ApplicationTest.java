@@ -27,7 +27,6 @@ import org.junit.Before;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.toolkit.ApplicationFixture;
 
 @Unstable(reason = "might be renamed to ApplicationTestBase")
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
@@ -52,14 +51,14 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     public final void internalBefore()
                               throws Exception {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(this);
+        FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     @After
     @Unstable(reason = "is missing apidocs")
     public final void internalAfter()
                              throws Exception {
-        FxToolkit.cleanupApplication(this);
+        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
 
     @Override
