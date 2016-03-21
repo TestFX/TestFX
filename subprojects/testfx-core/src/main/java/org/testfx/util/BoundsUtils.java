@@ -39,11 +39,13 @@ public final class BoundsUtils {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    public static Point2D atPosition(Bounds bounds, Pos position) {
+    public static Point2D atPosition(Bounds bounds,
+                                     Pos position) {
         return atPositionFactors(bounds, computePositionFactors(position));
     }
 
-    public static Point2D atPositionFactors(Bounds bounds, Point2D positionFactors) {
+    public static Point2D atPositionFactors(Bounds bounds,
+                                            Point2D positionFactors) {
         double pointX = lerp(bounds.getMinX(), bounds.getMaxX(), positionFactors.getX());
         double pointY = lerp(bounds.getMinY(), bounds.getMaxY(), positionFactors.getY());
         return new Point2D(pointX, pointY);
@@ -59,7 +61,9 @@ public final class BoundsUtils {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static double lerp(double start, double end, double factor) {
+    private static double lerp(double start,
+                               double end,
+                               double factor) {
         return start + ((end - start) * factor);
     }
 
