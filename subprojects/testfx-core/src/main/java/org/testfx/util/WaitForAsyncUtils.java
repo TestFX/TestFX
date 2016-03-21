@@ -18,6 +18,7 @@ package org.testfx.util;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
@@ -47,6 +48,16 @@ public class WaitForAsyncUtils {
     private final static int SEMAPHORE_LOOPS_COUNT = 5;
 
     //---------------------------------------------------------------------------------------------
+    // STATIC FIELDS.
+    //---------------------------------------------------------------------------------------------
+
+    private static ExecutorService executorService = Executors.newCachedThreadPool(runnable -> {
+        Thread thread = new Thread(runnable);
+        thread.setDaemon(true);
+        return thread;
+    });
+
+    //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
@@ -74,7 +85,7 @@ public class WaitForAsyncUtils {
      */
     public static <T> Future<T> async(Callable<T> callable) {
         SettableFuture<T> future = SettableFuture.create();
-        runOnThread(() -> callCallableAndSetFuture(callable, future));
+        runOnThread(() -> callCallableAndSetFuture(callable, future), executorService);
         return future;
     }
 
@@ -117,11 +128,13 @@ public class WaitForAsyncUtils {
         try {
             return future.get();
         }
-        catch (InterruptedException ignore) {
-            return null;
-        }
         catch (ExecutionException exception) {
-            throw new RuntimeException(exception);
+            // if the computation threw an exception.
+            throw new RuntimeException(exception.getCause());
+        }
+        catch (InterruptedException ignore) {
+            // if the current thread was interrupted while waiting.
+            return null;
         }
     }
 
@@ -143,11 +156,13 @@ public class WaitForAsyncUtils {
         try {
             return future.get(timeout, timeUnit);
         }
-        catch (InterruptedException ignore) {
-            return null;
-        }
         catch (ExecutionException exception) {
-            throw new RuntimeException(exception);
+            // if the computation threw an exception.
+            throw new RuntimeException(exception.getCause());
+        }
+        catch (InterruptedException ignore) {
+            // if the current thread was interrupted while waiting.
+            return null;
         }
     }
 
@@ -234,9 +249,22 @@ public class WaitForAsyncUtils {
     public static void sleep(long duration,
                              TimeUnit timeUnit) {
         try {
-            Thread.sleep(timeUnit.toMillis(duration));
+            sleepWithException(duration, timeUnit);
         }
         catch (InterruptedException ignore) {}
+    }
+
+    /**
+     * Sleeps the given duration.
+     *
+     * @param duration the duration
+     * @param timeUnit the time unit
+     * @throws InterruptedException
+     */
+    public static void sleepWithException(long duration,
+                                          TimeUnit timeUnit)
+                                   throws InterruptedException {
+        Thread.sleep(timeUnit.toMillis(duration));
     }
 
     // WAIT-FOR-ASYNC METHODS.
@@ -314,10 +342,9 @@ public class WaitForAsyncUtils {
         }
     }
 
-    private static void runOnThread(Runnable runnable) {
-        Thread thread = new Thread(runnable);
-        thread.setDaemon(false);
-        thread.start();
+    private static void runOnThread(Runnable runnable,
+                                    ExecutorService executorService) {
+        executorService.submit(runnable);
     }
 
     private static void runOnFxThread(Runnable runnable) {
