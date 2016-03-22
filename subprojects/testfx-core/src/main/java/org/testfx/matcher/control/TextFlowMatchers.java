@@ -1,0 +1,91 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
+ */
+package org.testfx.matcher.control;
+
+import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
+
+import java.util.Locale;
+import java.util.Objects;
+
+import javafx.scene.Node;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
+import org.hamcrest.Factory;
+import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
+import org.testfx.util.ColorUtils;
+
+@Unstable(reason = "needs more tests")
+public class TextFlowMatchers {
+
+    //---------------------------------------------------------------------------------------------
+    // STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> hasText(String string) {
+        String descriptionText = "has text \"" + string + "\"";
+        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasText(node, string));
+    }
+
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> hasColoredText(String string) {
+        String descriptionText = "has colored text \"" + string + "\"";
+        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string));
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // PRIVATE STATIC METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    private static boolean hasText(TextFlow textFlow, String string) {
+        StringBuilder textBuilder = new StringBuilder();
+
+        for (Node child : textFlow.getChildren()) {
+            if (Text.class.isAssignableFrom(child.getClass())) {
+                textBuilder.append(((Text) child).getText());
+            }
+        }
+        return Objects.equals(string, textBuilder.toString());
+    }
+
+    private static boolean hasColoredText(TextFlow textFlow, String string) {
+        StringBuilder textBuilder = new StringBuilder();
+
+        for (Node child : textFlow.getChildren()) {
+            if (Text.class.isAssignableFrom(child.getClass())) {
+                Text text = ((Text) child);
+                String color = ColorUtils.getColorNameFromHex(text.getFill().toString()
+                        .substring(2, 8)).toUpperCase(Locale.US);
+
+                if (!color.equals("BLACK")) {
+                    textBuilder.append("<").append(color).append(">");
+                }
+                textBuilder.append(text.getText());
+
+                if (!color.equals("BLACK")) {
+                    textBuilder.append("</").append(color).append(">");
+                }
+            }
+        }
+        return Objects.equals(string, textBuilder.toString());
+    }
+
+}
