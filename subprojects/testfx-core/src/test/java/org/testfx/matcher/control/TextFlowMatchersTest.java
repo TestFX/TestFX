@@ -39,9 +39,8 @@ public class TextFlowMatchersTest extends FxRobot
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    public Text foobarText;
-    public Text quuxText;
     public TextFlow textFlow;
+    public TextFlow exactTextFlow;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -55,10 +54,15 @@ public class TextFlowMatchersTest extends FxRobot
     @Before
     public void setup() throws Exception {
         FxToolkit.setupFixture(() -> {
-            foobarText = new Text("foobar ");
-            quuxText = new Text("quux");
+            Text foobarText = new Text("foobar ");
+            Text quuxText = new Text("quux");
             quuxText.setFill(Color.RED);
             textFlow = new TextFlow(foobarText, quuxText);
+
+            Text exactText = new Text("exact");
+            // set the fill to the closest color to, but not exactly, LimeGreen (50, 205, 50)
+            exactText.setFill(Color.rgb(51, 205, 50));
+            exactTextFlow = new TextFlow(exactText);
         });
     }
 
@@ -87,11 +91,23 @@ public class TextFlowMatchersTest extends FxRobot
     }
 
     @Test
-    public void hasColorText_fails() {
+    public void hasColoredText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextFlow has colored text \"foobar <BLUE>quux</BLUE>\"\n");
+        exception.expectMessage("Expected: TextFlow has colored text " +
+                "\"foobar <BLUE>quux</BLUE>\"\n");
 
         assertThat(textFlow, TextFlowMatchers.hasColoredText("foobar <BLUE>quux</BLUE>"));
     }
+
+    @Test
+    public void hasExactlyColoredText_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TextFlow has exactly colored " +
+                "text \"<LIMEGREEN>exact</LIMEGREEN>\"\n");
+
+        assertThat(exactTextFlow, TextFlowMatchers.hasExactlyColoredText("<LIMEGREEN>exact</LIMEGREEN>"));
+    }
+
 }

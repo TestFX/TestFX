@@ -20,6 +20,7 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
 import javafx.scene.Node;
 import javafx.scene.text.Text;
@@ -48,7 +49,14 @@ public class TextFlowMatchers {
     @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasColoredText(String string) {
         String descriptionText = "has colored text \"" + string + "\"";
-        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string));
+        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, false));
+    }
+
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> hasExactlyColoredText(String string) {
+        String descriptionText = "has exactly colored text \"" + string + "\"";
+        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, true));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -66,14 +74,25 @@ public class TextFlowMatchers {
         return Objects.equals(string, textBuilder.toString());
     }
 
-    private static boolean hasColoredText(TextFlow textFlow, String string) {
+    private static boolean hasColoredText(TextFlow textFlow, String string, boolean exact) {
         StringBuilder textBuilder = new StringBuilder();
 
         for (Node child : textFlow.getChildren()) {
             if (Text.class.isAssignableFrom(child.getClass())) {
                 Text text = ((Text) child);
-                String color = ColorUtils.getColorNameFromHex(text.getFill().toString()
-                        .substring(2, 8)).toUpperCase(Locale.US);
+                final String color;
+                if (exact) {
+                    Optional<String> colorOptional = ColorUtils.getNamedColor(text.getFill().toString()
+                            .substring(2, 8));
+                    if (colorOptional.isPresent()) {
+                        color = colorOptional.get().toUpperCase(Locale.US);
+                    } else {
+                        return false;
+                    }
+                } else {
+                    color = ColorUtils.getClosestNamedColor(text.getFill().toString()
+                            .substring(2, 8)).toUpperCase(Locale.US);
+                }
 
                 if (!color.equals("BLACK")) {
                     textBuilder.append("<").append(color).append(">");
