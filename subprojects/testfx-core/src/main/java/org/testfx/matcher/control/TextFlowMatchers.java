@@ -45,6 +45,34 @@ public class TextFlowMatchers {
         return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasText(node, string));
     }
 
+    /**
+     * Allows one to verify both the content and color of the text that makes
+     * up a TextFlow. The color is matched by using the closest named color,
+     * as described further on.
+     * <p>
+     * Colors are specified using the following markup:
+     *
+     * <pre><code><COLOR>text</COLOR></code></pre>
+     * <p>
+     * Where {@literal COLOR} is one of JavaFX's named colors.
+     * <p>
+     * Here is an example for verifying that a TextFlow contains the text
+     * "hello" and that the named color that has the closest value to the
+     * color of the text is {@literal Colors.RED}:
+     * <p>
+     * <pre><code>
+     *   Text text = new Text("hello");
+     *   text.setFill(Colors.RED);
+     *   TextFlow textFlow = new TextFlow(text);
+     *   assertThat(textFlow, TextFlowMatchers.hasColoredText("<RED>hello</RED>"));
+     * </code></pre>
+     *
+     * @param string the text contained in the TextFlow with color markup that
+     * specifies the expected color of the text
+     * @return a match if the text contained in the TextFlow has the same content
+     * and colors that match by the "closest named color" criteria
+     * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
+     */
     @Factory
     @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasColoredText(String string) {
@@ -52,6 +80,34 @@ public class TextFlowMatchers {
         return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, false));
     }
 
+    /**
+     * Allows one to verify both the content and color of the text that makes
+     * up a TextFlow. The color is matched in an exact way, as described fruther
+     * on.
+     * <p>
+     * Colors are specified using the following markup:
+     * <p>
+     * <pre><code><COLOR>text</COLOR></code></pre>
+     * <p>
+     * Where {@literal COLOR} is one of JavaFX's named colors.
+     * <p>
+     * Here is an example for verifying that a TextFlow contains the text
+     * "hello" and that the color of the text is *exactly* {@literal Colors.BLUE}
+     * (that is, it has an RGB value of (0, 0, 255)).
+     *
+     * <pre><code>
+     *   Text text = new Text("hello");
+     *   text.setFill(Colors.BLUE); // or: text.setFill(Colors.rgb(0, 0, 255));
+     *   TextFlow textFlow = new TextFlow(text);
+     *   assertThat(textFlow, TextFlowMatchers.hasExactlyColoredText("<BLUE>hello</BLUE>"));
+     * </code></pre>
+     *
+     * @param string the text contained in the TextFlow with color markup that
+     * specifies the expected color of the text
+     * @return a match if the text contained in the TextFlow has the same content
+     * and the exactly matching colors
+     * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
+     */
     @Factory
     @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasExactlyColoredText(String string) {
@@ -82,8 +138,8 @@ public class TextFlowMatchers {
                 Text text = ((Text) child);
                 final String color;
                 if (exact) {
-                    Optional<String> colorOptional = ColorUtils.getNamedColor(text.getFill().toString()
-                            .substring(2, 8));
+                    Optional<String> colorOptional = ColorUtils.getNamedColor(
+                            text.getFill().toString().substring(2, 8));
                     if (colorOptional.isPresent()) {
                         color = colorOptional.get().toUpperCase(Locale.US);
                     } else {
