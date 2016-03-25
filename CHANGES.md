@@ -1,3 +1,18 @@
+<!-- tag: v4.0.3-alpha -->
+## TestFX 4.0.3-alpha &mdash; March 25, 2016
+
+23 commits by 2 authors:
+- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 16 commits
+- **Michael Ennen** ([@brcolow](https://github.com/brcolow)) &mdash; 7 commits
+
+6 merged pull requests:
+- **(feat)** Add PixelMatcher to CaptureSupport. ([#248](https://github.com/testfx/testfx/pull/248)) &mdash; 15 commits
+- **(feat)** ListViewMatchers: Add hasPlaceholder(Node placeholder). ([#252](https://github.com/testfx/testfx/pull/252)) &mdash; 1 commit
+- **(feat)** ListViewMatchers: Add isEmpty(). ([#251](https://github.com/testfx/testfx/pull/251)) &mdash; 2 commits
+- **(feat)** TableViewMatchers: Add containsRow(). ([#255](https://github.com/testfx/testfx/pull/255)) &mdash; 1 commit
+- **(feat)** TextFlowMatchers: Add matchers for the text of a TextFlow. ([#259](https://github.com/testfx/testfx/pull/259)) &mdash; 3 commits
+- **(refactor)** `NodeQuery`: Rename methods to `match()`, `nth()` and `query()`. ([#250](https://github.com/testfx/testfx/pull/250)) &mdash; 1 commit
+
 <!-- tag: v4.0.2-alpha -->
 ## TestFX 4.0.2-alpha &mdash; February 22, 2016
 
