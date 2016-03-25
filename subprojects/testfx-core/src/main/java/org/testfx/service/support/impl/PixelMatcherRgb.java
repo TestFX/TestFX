@@ -21,6 +21,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import org.testfx.service.support.PixelMatcher;
+import org.testfx.util.ColorUtils;
 
 public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
 
@@ -56,11 +57,11 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
     @Override
     public boolean matchColors(Color color0, Color color1) {
         if (minColorDistSq == Double.MIN_VALUE) {
-            double maxColorDistSq = calculateColorDistSq(Color.BLACK, Color.WHITE);
+            double maxColorDistSq = ColorUtils.calculateColorDistSq(Color.BLACK, Color.WHITE);
             minColorDistSq = maxColorDistSq * (minColorDistFactor * minColorDistFactor);
         }
 
-        double colorDistSq = calculateColorDistSq(color0, color1);
+        double colorDistSq = ColorUtils.calculateColorDistSq(color0, color1);
         return colorDistSq < minColorDistSq;
     }
 
@@ -86,14 +87,6 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
-
-    private double calculateColorDistSq(Color color0,
-                                        Color color1) {
-        double diffRed = color0.getRed() - color1.getRed();
-        double diffGreen = color0.getGreen() - color1.getGreen();
-        double diffBlue = color0.getBlue() - color1.getBlue();
-        return (diffRed * diffRed) + (diffGreen * diffGreen) + (diffBlue * diffBlue);
-    }
 
     private double blendToWhite(double gray,
                                 double factor) {
