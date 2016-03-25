@@ -19,6 +19,7 @@ package org.testfx.matcher.control;
 import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.control.Cell;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 
 import org.hamcrest.Factory;
@@ -64,6 +65,36 @@ public class ListViewMatchers {
         return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::isListEmpty);
     }
 
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> hasPlaceholder(Node placeHolder) {
+        String descriptionText = "has ";
+        // better description messages for Labeled nodes
+        if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
+            descriptionText += "labeled placeholder containing text: \""
+                    + ((Labeled) placeHolder).getText() + "\"";
+        } else {
+            descriptionText += "placeholder " + placeHolder;
+        }
+        return typeSafeMatcher(ListView.class, descriptionText,
+                node -> hasPlaceholder(node, placeHolder));
+    }
+
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Node> hasVisiblePlaceholder(Node placeHolder) {
+        String descriptionText = "has visible";
+        // better description messages for Labeled nodes
+        if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
+            descriptionText += "labeled placeholder containing text: \""
+                    + ((Labeled) placeHolder).getText() + "\"";
+        } else {
+            descriptionText += "placeholder " + placeHolder;
+        }
+        return typeSafeMatcher(ListView.class, descriptionText,
+                node -> hasVisiblePlaceholder(node, placeHolder));
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -91,4 +122,20 @@ public class ListViewMatchers {
         return listView.getItems().isEmpty();
     }
 
+    private static boolean hasPlaceholder(ListView listView,
+                                          Node placeHolder) {
+        if (Labeled.class.isAssignableFrom(placeHolder.getClass())
+                && Labeled.class.isAssignableFrom(listView.getPlaceholder().getClass())) {
+            return ((Labeled) listView.getPlaceholder()).getText()
+                    .equals(((Labeled) placeHolder).getText());
+        } else {
+            return Objects.equals(listView.getPlaceholder(), placeHolder);
+        }
+    }
+
+    private static boolean hasVisiblePlaceholder(ListView listView,
+                                                 Node placeHolder) {
+        return listView.getPlaceholder().isVisible()
+                && hasPlaceholder(listView, placeHolder);
+    }
 }
