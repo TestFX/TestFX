@@ -72,7 +72,7 @@ public class PointLocatorImplTest {
     @Test
     public void pointFor_Bounds_atOffset() {
         // given:
-        PointQuery pointQuery = pointLocator.pointFor(new BoundingBox(100, 100, 50, 50));
+        PointQuery pointQuery = pointLocator.point(new BoundingBox(100, 100, 50, 50));
 
         // when:
         Point2D point = pointQuery.atOffset(0, 0).query();
@@ -85,7 +85,7 @@ public class PointLocatorImplTest {
     public void pointFor_Point2D_atOffset() {
         // given:
         boundsLocatorStub.bounds = nodeBounds;
-        PointQuery pointQuery = pointLocator.pointFor(new Point2D(100, 100));
+        PointQuery pointQuery = pointLocator.point(new Point2D(100, 100));
 
         // when:
         Point2D point = pointQuery.atOffset(0, 0).query();
@@ -98,7 +98,7 @@ public class PointLocatorImplTest {
     public void pointFor_Node_atOffset() {
         // given:
         boundsLocatorStub.bounds = nodeBounds;
-        PointQuery pointQuery = pointLocator.pointFor((Node) null);
+        PointQuery pointQuery = pointLocator.point((Node) null);
 
         // when:
         Point2D point = pointQuery.atOffset(0, 0).query();
@@ -111,7 +111,7 @@ public class PointLocatorImplTest {
     public void pointFor_Node_atOffset_afterChange() {
         // given:
         boundsLocatorStub.bounds = nodeBounds;
-        PointQuery pointQuery = pointLocator.pointFor((Node) null);
+        PointQuery pointQuery = pointLocator.point((Node) null);
 
         // when:
         boundsLocatorStub.bounds = nodeBoundsAfterChange;
@@ -125,7 +125,7 @@ public class PointLocatorImplTest {
     public void pointFor_Scene_atOffset() {
         // given:
         boundsLocatorStub.bounds = sceneBounds;
-        PointQuery pointQuery = pointLocator.pointFor((Scene) null);
+        PointQuery pointQuery = pointLocator.point((Scene) null);
 
         // when:
         Point2D point = pointQuery.atOffset(0, 0).query();
@@ -138,7 +138,7 @@ public class PointLocatorImplTest {
     public void pointFor_Scene_atOffset_afterChange() {
         // given:
         boundsLocatorStub.bounds = sceneBounds;
-        PointQuery pointQuery = pointLocator.pointFor((Scene) null);
+        PointQuery pointQuery = pointLocator.point((Scene) null);
 
         // when:
         boundsLocatorStub.bounds = sceneBoundsAfterChange;
@@ -152,7 +152,7 @@ public class PointLocatorImplTest {
     public void pointFor_Window_atOffset() {
         // given:
         boundsLocatorStub.bounds = windowBounds;
-        PointQuery pointQuery = pointLocator.pointFor((Window) null);
+        PointQuery pointQuery = pointLocator.point((Window) null);
 
         // when:
         Point2D point = pointQuery.atOffset(0, 0).query();
@@ -165,7 +165,7 @@ public class PointLocatorImplTest {
     public void pointFor_Window_atOffset_afterChange() {
         // given:
         boundsLocatorStub.bounds = windowBounds;
-        PointQuery pointQuery = pointLocator.pointFor((Window) null);
+        PointQuery pointQuery = pointLocator.point((Window) null);
 
         // when:
         boundsLocatorStub.bounds = windowBoundsAfterChange;

@@ -14,24 +14,12 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.service.locator;
+package org.testfx.service.query;
 
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Window;
 
-import org.testfx.service.query.PointQuery;
+public interface BoundsQuery {
 
-public interface PointLocator {
-    PointQuery point(Bounds bounds);
+    public Bounds query();
 
-    PointQuery point(Point2D point);
-
-    PointQuery point(Node node);
-
-    PointQuery point(Scene scene);
-
-    PointQuery point(Window window);
 }

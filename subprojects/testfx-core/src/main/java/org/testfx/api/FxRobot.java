@@ -41,8 +41,10 @@ import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.PointLocator;
+import org.testfx.service.query.BoundsQuery;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
+import org.testfx.util.BoundsQueryUtils;
 
 import static org.testfx.util.NodeQueryUtils.isVisible;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
@@ -261,47 +263,47 @@ public class FxRobot implements FxRobotInterface {
                               double minY,
                               double width,
                               double height) {
-        return null;
+        return () -> BoundsQueryUtils.bounds(minX, minY, width, height);
     }
 
     @Override
     public BoundsQuery bounds(Point2D point) {
-        return null;
+        return () -> BoundsQueryUtils.bounds(point);
     }
 
     @Override
     public BoundsQuery bounds(Bounds bounds) {
-        return null;
+        return () -> bounds;
     }
 
     @Override
     public BoundsQuery bounds(Node node) {
-        return null;
+        return () -> BoundsQueryUtils.boundsOnScreen(node);
     }
 
     @Override
     public BoundsQuery bounds(Scene scene) {
-        return null;
+        return () -> BoundsQueryUtils.boundsOnScreen(BoundsQueryUtils.bounds(scene), scene);
     }
 
     @Override
     public BoundsQuery bounds(Window window) {
-        return null;
+        return () -> BoundsQueryUtils.boundsOnScreen(BoundsQueryUtils.bounds(window), window);
     }
 
     @Override
     public BoundsQuery bounds(String query) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T extends Node> BoundsQuery bounds(Matcher<T> matcher) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T extends Node> BoundsQuery bounds(Predicate<T> predicate) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     //---------------------------------------------------------------------------------------------
@@ -325,7 +327,7 @@ public class FxRobot implements FxRobotInterface {
                             double y) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
-        return pointLocator.pointFor(new Point2D(x, y)).atPosition(pointPosition);
+        return pointLocator.point(new Point2D(x, y)).atPosition(pointPosition);
     }
 
     @Override
@@ -333,7 +335,7 @@ public class FxRobot implements FxRobotInterface {
     public PointQuery point(Point2D point) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
-        return pointLocator.pointFor(point).atPosition(pointPosition);
+        return pointLocator.point(point).atPosition(pointPosition);
     }
 
     @Override
@@ -341,7 +343,7 @@ public class FxRobot implements FxRobotInterface {
     public PointQuery point(Bounds bounds) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
-        return pointLocator.pointFor(bounds).atPosition(pointPosition);
+        return pointLocator.point(bounds).atPosition(pointPosition);
     }
 
     @Override
@@ -350,7 +352,7 @@ public class FxRobot implements FxRobotInterface {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         targetWindow(node.getScene().getWindow());
-        return pointLocator.pointFor(node).atPosition(pointPosition);
+        return pointLocator.point(node).atPosition(pointPosition);
     }
 
     @Override
@@ -359,7 +361,7 @@ public class FxRobot implements FxRobotInterface {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         targetWindow(scene.getWindow());
-        return pointLocator.pointFor(scene).atPosition(pointPosition);
+        return pointLocator.point(scene).atPosition(pointPosition);
     }
 
     @Override
@@ -368,7 +370,7 @@ public class FxRobot implements FxRobotInterface {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         targetWindow(window);
-        return pointLocator.pointFor(window).atPosition(pointPosition);
+        return pointLocator.point(window).atPosition(pointPosition);
     }
 
     @Override

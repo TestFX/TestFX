@@ -37,6 +37,7 @@ import javafx.stage.Window;
 import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.service.query.BoundsQuery;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
@@ -109,8 +110,6 @@ public interface FxRobotInterface {
     public BoundsQuery bounds(String query);
     public <T extends Node> BoundsQuery bounds(Matcher<T> matcher);
     public <T extends Node> BoundsQuery bounds(Predicate<T> predicate);
-
-    static interface BoundsQuery {}
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR POINT POSITION.
