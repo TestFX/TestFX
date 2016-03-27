@@ -22,7 +22,6 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.toolkit.ApplicationFixture;
 
 import java.util.function.Consumer;
 
@@ -52,11 +51,11 @@ public class ApplicationRule extends FxRobot
 
     private void before() throws Exception {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(this);
+        FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     private void after() throws Exception {
-        FxToolkit.cleanupApplication(this);
+        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
 
     private Statement externalResource(final Statement base) {

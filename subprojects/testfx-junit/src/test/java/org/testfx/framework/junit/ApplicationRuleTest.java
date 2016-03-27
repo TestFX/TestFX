@@ -19,6 +19,7 @@ package org.testfx.framework.junit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+
 import org.junit.Rule;
 import org.junit.Test;
 
