@@ -20,17 +20,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
-public interface PixelMatcher {
+public interface PixelMatcher extends ColorMatcher {
 
     /**
      * Returns a {@link PixelMatcherResult} that indicates how similar/dissimilar the two images were.
      */
     PixelMatcherResult match(Image image0, Image image1);
-
-    /**
-     * Returns true if {@code color0} is close enough to {@code color1} as determined by a color distance/factor.
-     */
-    boolean matchColors(Color color0, Color color1);
 
     /**
      * Creates a new {@link WritableImage} using {@code image0}'s width and {@code image1}'s height.
