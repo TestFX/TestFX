@@ -24,11 +24,11 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.testfx.util.BoundsUtils.atPosition;
-import static org.testfx.util.BoundsUtils.atPositionFactors;
-import static org.testfx.util.BoundsUtils.computePositionFactors;
+import static org.testfx.util.PointQueryUtils.atPosition;
+import static org.testfx.util.PointQueryUtils.atPositionFactors;
+import static org.testfx.util.PointQueryUtils.computePositionFactors;
 
-public class BoundsUtilsTest {
+public class PointQueryUtilsTest {
 
     //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.

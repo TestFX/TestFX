@@ -25,13 +25,13 @@ import javafx.geometry.VPos;
 import org.testfx.api.annotation.Unstable;
 
 @Unstable
-public final class BoundsUtils {
+public final class PointQueryUtils {
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    private BoundsUtils() {
+    private PointQueryUtils() {
         throw new UnsupportedOperationException();
     }
 

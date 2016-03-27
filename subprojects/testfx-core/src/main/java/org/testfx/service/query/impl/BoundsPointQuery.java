@@ -20,7 +20,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
 import org.testfx.api.annotation.Unstable;
-import org.testfx.util.BoundsUtils;
+import org.testfx.util.PointQueryUtils;
 
 @Unstable
 public class BoundsPointQuery extends PointQueryBase {
@@ -55,6 +55,7 @@ public class BoundsPointQuery extends PointQueryBase {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     public Point2D query() {
         Point2D point = pointAtPosition(this.bounds, this.getPosition());
         Point2D offset = getOffset();
@@ -65,8 +66,9 @@ public class BoundsPointQuery extends PointQueryBase {
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private Point2D pointAtPosition(Bounds bounds, Point2D position) {
-        return BoundsUtils.atPositionFactors(bounds, position);
+    private Point2D pointAtPosition(Bounds bounds,
+                                    Point2D position) {
+        return PointQueryUtils.atPositionFactors(bounds, position);
     }
 
 }
