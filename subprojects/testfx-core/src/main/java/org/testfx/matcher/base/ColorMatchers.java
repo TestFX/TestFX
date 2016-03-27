@@ -21,8 +21,9 @@ import javafx.scene.paint.Color;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.service.support.ColorMatcher;
+
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
-import org.testfx.service.support.PixelMatcher;
 
 public class ColorMatchers {
 
@@ -32,34 +33,34 @@ public class ColorMatchers {
 
     @Factory
     @Unstable(reason = "is missing apidocs")
-    public static Matcher<Color> hasColor(Color color) {
+    public static Matcher<Color> isColor(Color color) {
         String descriptionText = "has color (" + color.toString() + ")";
         return typeSafeMatcher(Color.class, descriptionText,
-                actualColor -> hasColor(actualColor, color));
+                actualColor -> isColor(actualColor, color));
     }
 
     @Factory
     @Unstable(reason = "is missing apidocs")
-    public static Matcher<Color> hasColor(Color color,
-                                          PixelMatcher pixelMatcher) {
+    public static Matcher<Color> isColor(Color color,
+                                         ColorMatcher colorMatcher) {
         String descriptionText = "has color (" + color.toString() + ")";
         return typeSafeMatcher(Color.class, descriptionText,
-                actualColor -> hasColor(actualColor, color, pixelMatcher));
+                actualColor -> isColor(actualColor, color, colorMatcher));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static boolean hasColor(Color actualColor,
-                                    Color color) {
+    private static boolean isColor(Color actualColor,
+                                   Color color) {
         return actualColor.equals(color);
     }
 
-    private static boolean hasColor(Color actualColor,
-                                    Color color,
-                                    PixelMatcher pixelMatcher) {
-        return pixelMatcher.matchColors(actualColor, color);
+    private static boolean isColor(Color actualColor,
+                                   Color color,
+                                   ColorMatcher colorMatcher) {
+        return colorMatcher.matchColors(actualColor, color);
     }
 
 }
