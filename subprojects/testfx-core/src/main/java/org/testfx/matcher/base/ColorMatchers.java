@@ -22,6 +22,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
+import org.testfx.service.support.PixelMatcher;
 
 public class ColorMatchers {
 
@@ -37,6 +38,15 @@ public class ColorMatchers {
                 actualColor -> hasColor(actualColor, color));
     }
 
+    @Factory
+    @Unstable(reason = "is missing apidocs")
+    public static Matcher<Color> hasColor(Color color,
+                                          PixelMatcher pixelMatcher) {
+        String descriptionText = "has color (" + color.toString() + ")";
+        return typeSafeMatcher(Color.class, descriptionText,
+                actualColor -> hasColor(actualColor, color, pixelMatcher));
+    }
+
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -44,6 +54,12 @@ public class ColorMatchers {
     private static boolean hasColor(Color actualColor,
                                     Color color) {
         return actualColor.equals(color);
+    }
+
+    private static boolean hasColor(Color actualColor,
+                                    Color color,
+                                    PixelMatcher pixelMatcher) {
+        return pixelMatcher.matchColors(actualColor, color);
     }
 
 }
