@@ -21,7 +21,7 @@ import javafx.geometry.Pos;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.PointQuery;
-import org.testfx.util.BoundsUtils;
+import org.testfx.util.PointQueryUtils;
 
 @Unstable
 abstract public class PointQueryBase implements PointQuery {
@@ -38,27 +38,34 @@ abstract public class PointQueryBase implements PointQuery {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     public Point2D getPosition() {
         return position;
     }
 
+    @Override
     public Point2D getOffset() {
         return offset;
     }
 
+    @Override
     public PointQuery atPosition(Point2D position) {
         this.position = position;
         return this;
     }
 
-    public PointQuery atPosition(double positionX, double positionY) {
+    @Override
+    public PointQuery atPosition(double positionX,
+                                 double positionY) {
         return atPosition(new Point2D(positionX, positionY));
     }
 
+    @Override
     public PointQuery atPosition(Pos position) {
-        return atPosition(BoundsUtils.computePositionFactors(position));
+        return atPosition(PointQueryUtils.computePositionFactors(position));
     }
 
+    @Override
     public PointQuery atOffset(Point2D offset) {
         this.offset = new Point2D(
             this.offset.getX() + offset.getX(),
@@ -67,7 +74,9 @@ abstract public class PointQueryBase implements PointQuery {
         return this;
     }
 
-    public PointQuery atOffset(double offsetX, double offsetY) {
+    @Override
+    public PointQuery atOffset(double offsetX,
+                               double offsetY) {
         return atOffset(new Point2D(offsetX, offsetY));
     }
 

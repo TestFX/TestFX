@@ -53,30 +53,30 @@ public class PointLocatorImpl implements PointLocator {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public PointQuery pointFor(Bounds bounds) {
+    public PointQuery point(Bounds bounds) {
         return new BoundsPointQuery(bounds);
     }
 
     @Override
-    public PointQuery pointFor(Point2D point) {
+    public PointQuery point(Point2D point) {
         Bounds bounds = new BoundingBox(point.getX(), point.getY(), 0, 0);
         return new BoundsPointQuery(bounds);
     }
 
     @Override
-    public PointQuery pointFor(Node node) {
+    public PointQuery point(Node node) {
         Callable<Bounds> callable = callableBoundsFor(node);
         return new CallableBoundsPointQuery(callable);
     }
 
     @Override
-    public PointQuery pointFor(Scene scene) {
+    public PointQuery point(Scene scene) {
         Callable<Bounds> callable = callableBoundsFor(scene);
         return new CallableBoundsPointQuery(callable);
     }
 
     @Override
-    public PointQuery pointFor(Window window) {
+    public PointQuery point(Window window) {
         Callable<Bounds> callable = callableBoundsFor(window);
         return new CallableBoundsPointQuery(callable);
     }

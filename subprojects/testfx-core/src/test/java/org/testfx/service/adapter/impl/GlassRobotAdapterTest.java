@@ -103,7 +103,7 @@ public class GlassRobotAdapterTest {
         });
 
         PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
-        regionPoint = pointLocator.pointFor(region).atPosition(Pos.CENTER).query();
+        regionPoint = pointLocator.point(region).atPosition(Pos.CENTER).query();
     }
 
     @After
