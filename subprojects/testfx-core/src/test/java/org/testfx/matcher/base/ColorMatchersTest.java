@@ -39,32 +39,32 @@ public class ColorMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     @Test
-    public void hasColor() {
+    public void isColor() {
         // expect:
-        assertThat(Color.color(1, 0, 0), ColorMatchers.hasColor(Color.RED));
+        assertThat(Color.color(1, 0, 0), ColorMatchers.isColor(Color.RED));
     }
 
     @Test
-    public void hasColor_fails() {
+    public void isColor_fails() {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Color has color (0x000000ff)\n");
 
-        assertThat(Color.color(1, 0, 0), ColorMatchers.hasColor(Color.BLACK));
+        assertThat(Color.color(1, 0, 0), ColorMatchers.isColor(Color.BLACK));
     }
 
     @Test
-    public void hasColor_pixelMatcher() {
+    public void isColor_colorMatcher() {
         // expect:
         assertThat(Color.color(0.9, 0, 0),
-                ColorMatchers.hasColor(Color.RED, new PixelMatcherRgb()));
+                ColorMatchers.isColor(Color.RED, new PixelMatcherRgb()));
     }
 
     @Test
-    public void hasColor_pixelMatcher_fails() {
+    public void isColor_colorMatcher_fails() {
         // expect:
         assertThat(Color.color(0.5, 0, 0),
-                ColorMatchers.hasColor(Color.RED, new PixelMatcherRgb(0.5, 0)));
+                ColorMatchers.isColor(Color.RED, new PixelMatcherRgb(0.5, 0)));
     }
 
 }
