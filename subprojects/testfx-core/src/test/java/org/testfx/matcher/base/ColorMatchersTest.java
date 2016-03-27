@@ -21,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.testfx.api.FxRobot;
+import org.testfx.service.support.impl.PixelMatcherRgb;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -50,6 +51,20 @@ public class ColorMatchersTest extends FxRobot {
         exception.expectMessage("Expected: Color has color (0x000000ff)\n");
 
         assertThat(Color.color(1, 0, 0), ColorMatchers.hasColor(Color.BLACK));
+    }
+
+    @Test
+    public void hasColor_pixelMatcher() {
+        // expect:
+        assertThat(Color.color(0.9, 0, 0),
+                ColorMatchers.hasColor(Color.RED, new PixelMatcherRgb()));
+    }
+
+    @Test
+    public void hasColor_pixelMatcher_fails() {
+        // expect:
+        assertThat(Color.color(0.5, 0, 0),
+                ColorMatchers.hasColor(Color.RED, new PixelMatcherRgb(0.5, 0)));
     }
 
 }
