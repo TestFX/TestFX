@@ -16,6 +16,10 @@
  */
 package org.testfx.api;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +48,7 @@ import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.BoundsQuery;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
+import org.testfx.service.support.Capture;
 import org.testfx.util.BoundsQueryUtils;
 
 import static org.testfx.util.NodeQueryUtils.isVisible;
@@ -470,23 +475,52 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "likely to be refactored with builder pattern")
-    public Image capture(Screen screen) {
-        return context.getCaptureSupport().captureRegion(screen.getBounds());
+    @Unstable(reason = "is missing apidocs")
+    public Capture capture(Rectangle2D screenRegion) {
+        Image image = context.getCaptureSupport().captureRegion(screenRegion);
+        return () -> image;
     }
 
     @Override
-    @Unstable(reason = "likely to be refactored with builder pattern")
-    public Image capture(Bounds bounds) {
+    @Unstable(reason = "is missing apidocs")
+    public Capture capture(Bounds bounds) {
         Rectangle2D region = new Rectangle2D(bounds.getMinX(), bounds.getMinX(),
                                              bounds.getWidth(), bounds.getHeight());
-        return context.getCaptureSupport().captureRegion(region);
+        Image image = context.getCaptureSupport().captureRegion(region);
+        return () -> image;
     }
 
     @Override
-    @Unstable(reason = "likely to be refactored with builder pattern")
-    public Image capture(Node node) {
-        return context.getCaptureSupport().captureNode(node);
+    @Unstable(reason = "is missing apidocs")
+    public Capture capture(Node node) {
+        Image image = context.getCaptureSupport().captureNode(node);
+        return () -> image;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Capture capture(Image image) {
+        return () -> image;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Capture capture(Path path) {
+        Image image = context.getCaptureSupport().loadImage(path);
+        return () -> image;
+    }
+
+    @Override
+    @Unstable(reason = "is missing apidocs")
+    public Capture capture(URL url) {
+        try {
+            Path path = Paths.get(url.toURI());
+            Image image = context.getCaptureSupport().loadImage(path);
+            return () -> image;
+        }
+        catch (URISyntaxException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     //---------------------------------------------------------------------------------------------

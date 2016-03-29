@@ -16,6 +16,8 @@
  */
 package org.testfx.api;
 
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -24,6 +26,7 @@ import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -40,6 +43,7 @@ import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.BoundsQuery;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
+import org.testfx.service.support.Capture;
 
 @Unstable(reason = "interface was recently added")
 public interface FxRobotInterface {
@@ -170,9 +174,14 @@ public interface FxRobotInterface {
     // METHODS FOR SCREEN CAPTURING.
     //---------------------------------------------------------------------------------------------
 
-    public Image capture(Screen screen);
-    public Image capture(Bounds bounds);
-    public Image capture(Node node);
+    public Capture capture(Rectangle2D screenRegion);
+    public Capture capture(Bounds bounds);
+    public Capture capture(Node node);
+
+    // Convenience methods:
+    public Capture capture(Image image);
+    public Capture capture(Path path);
+    public Capture capture(URL url);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR INTERACTION AND INTERRUPTION.
