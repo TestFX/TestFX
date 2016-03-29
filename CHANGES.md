@@ -1,3 +1,13 @@
+<!-- tag: v4.0.4-alpha -->
+## TestFX 4.0.4-alpha &mdash; March 29, 2016
+
+6 commits by 1 author:
+- **Benjamin Gudehus** ([@hastebrot](https://github.com/hastebrot)) &mdash; 6 commits
+
+2 merged pull requests:
+- **(feat)** Introduce `FxRobot::bounds()` and `BoundsQuery`. ([#258](https://github.com/testfx/testfx/pull/258)) &mdash; 3 commits
+- **(refactor)** ApplicationService: Use Application instead of ApplicationFixture. ([#257](https://github.com/testfx/testfx/pull/257)) &mdash; 3 commits
+
 <!-- tag: v4.0.3-alpha -->
 ## TestFX 4.0.3-alpha &mdash; March 25, 2016
 
