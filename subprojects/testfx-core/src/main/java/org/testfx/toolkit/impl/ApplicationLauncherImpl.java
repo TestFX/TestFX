@@ -38,11 +38,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
     private static final String PLATFORM_FACTORY_MONOCLE_IMPL =
         "com.sun.glass.ui.monocle.MonoclePlatformFactory";
 
-    private static final String NATIVE_PLATFORM_FACTORY_CLASS =
-        "com.sun.glass.ui.monocle.NativePlatformFactory";
-    private static final String NATIVE_PLATFORM_HEADLESS_IMPL =
-        "com.sun.glass.ui.monocle.headless.HeadlessPlatform";
-
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
@@ -69,7 +64,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
         if (checkSystemPropertyEquals(PROPERTY_TESTFX_HEADLESS, "true")) {
             try {
                 assignMonoclePlatform();
-                assignHeadlessPlatform();
             }
             catch (ClassNotFoundException exception) {
                 throw new IllegalStateException("Monocle headless platform not found", exception);
@@ -90,13 +84,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
         Class<?> platformFactoryClass = Class.forName(PLATFORM_FACTORY_CLASS);
         Object platformFactoryImpl = Class.forName(PLATFORM_FACTORY_MONOCLE_IMPL).newInstance();
         assignPrivateStaticField(platformFactoryClass, "instance", platformFactoryImpl);
-    }
-
-    private void assignHeadlessPlatform()
-                                 throws Exception {
-        Class<?> nativePlatformFactoryClass = Class.forName(NATIVE_PLATFORM_FACTORY_CLASS);
-        Object nativePlatformImpl = Class.forName(NATIVE_PLATFORM_HEADLESS_IMPL).newInstance();
-        assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformImpl);
     }
 
     private void assignPrivateStaticField(Class<?> cls,
