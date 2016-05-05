@@ -349,20 +349,44 @@ public interface FxRobotInterface {
     // METHODS FOR MOVING.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Moves the cursor to the given point query.
+     * @param pointQuery the point query
+     * @return this robot
+     */
     public FxRobotInterface moveTo(PointQuery pointQuery);
+    /**
+     * Moves the cursor from its current position by the given amount of pixels.
+     * @param x the pixels in x direction to add
+     * @param y the pixels in y direction to add
+     * @return this robot
+     */
     public FxRobotInterface moveBy(double x,
                                    double y);
 
     // Convenience methods (default implementation as only interface methods are used):
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Moves the cursor to a point in screen coordinates.
+     * @param x the x value of the point
+     * @param y the y value of the point
+     * @return this robot
+     */
     public default FxRobotInterface moveTo(double x, double y){
         return moveTo(point(new Point2D(x, y)));
     }
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Moves the cursor to a point in screen coordinates.
+     * @param point the point
+     * @return this robot
+     */
     public default FxRobotInterface moveTo(Point2D point){
         return moveTo(point(point));
     }
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Moves the cursor to the center of the given bounds.
+     * @param bounds the bounds
+     * @return this robot
+     */
     public default FxRobotInterface moveTo(Bounds bounds){
         return moveTo(point(bounds));
     }
@@ -383,11 +407,19 @@ public interface FxRobotInterface {
     public default FxRobotInterface moveTo(Node node, Point2D offset){
         return moveTo(point(node,Pos.TOP_LEFT).atOffset(offset));
     }
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Moves the cursor to the center of the given scene.
+     * @param scene the scene
+     * @return this robot
+     */
     public default FxRobotInterface moveTo(Scene scene){
         return moveTo(point(scene));
     }
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Moves the cursor to the center of the given window.
+     * @param window the window
+     * @return this robot
+     */
     public default FxRobotInterface moveTo(Window window){
         return moveTo(point(window));
     }
