@@ -187,8 +187,51 @@ public interface FxRobotInterface {
     // METHODS FOR INTERACTION AND INTERRUPTION.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Calls a runnable on the FX application thread and waits for it and
+     * consecutive events to execute. So changes to the gui triggered by the
+     * runnable will be performed when returned from this method.
+     * 
+     * @param runnable
+     *            the runnable
+     * @return this robot
+     */
     public FxRobotInterface interact(Runnable runnable);
+
+    /**
+     * Calls a callable on the FX application thread and waits for it and
+     * consecutive events to execute. So changes to the gui triggered by the
+     * callable will be performed when returned from this method.
+     * 
+     * @param callable
+     *            the callable
+     * @return this robot
+     */
     public <T> FxRobotInterface interact(Callable<T> callable);
+    
+    /**
+     * Calls a runnable on the FX application thread and waits for it to
+     * execute. It does not wait for other events on the fx application thread.
+     * So changes to the gui triggered by the runnable may not be performed when
+     * returned from this method.
+     * 
+     * @param runnable
+     *            the runnable
+     * @return this robot
+     */
+    public FxRobotInterface interactNoWait(Runnable runnable);
+
+    /**
+     * Calls a callable on the FX application thread and waits for it to
+     * execute. It does not wait for other events on the fx application thread.
+     * So changes to the gui triggered by the callable may not be performed when
+     * returned from this method.
+     * 
+     * @param callable
+     *            the callable
+     * @return this robot
+     */
+    public <T> FxRobotInterface interactNoWait(Callable<T> callable);
 
     public FxRobotInterface interrupt();
     public FxRobotInterface interrupt(int attemptsCount);
