@@ -353,26 +353,44 @@ public interface FxRobotInterface {
     public FxRobotInterface moveBy(double x,
                                    double y);
 
-    // Convenience methods:
-    public FxRobotInterface moveTo(double x,
-                                   double y);
-    public FxRobotInterface moveTo(Point2D point);
-    public FxRobotInterface moveTo(Bounds bounds);
+    // Convenience methods (default implementation as only interface methods are used):
+    @Unstable(reason = "is missing apidocs")
+    public default FxRobotInterface moveTo(double x, double y){
+        return moveTo(point(new Point2D(x, y)));
+    }
+    @Unstable(reason = "is missing apidocs")
+    public default FxRobotInterface moveTo(Point2D point){
+        return moveTo(point(point));
+    }
+    @Unstable(reason = "is missing apidocs")
+    public default FxRobotInterface moveTo(Bounds bounds){
+        return moveTo(point(bounds));
+    }
     /**
      * Moves the cursor to the center of the given node.
      * @param node the node
      * @return this robot
      */
-    public FxRobotInterface moveTo(Node node);
+    public default FxRobotInterface moveTo(Node node){
+        return moveTo(point(node));
+    }
     /**
      * Moves the cursor to a node with the given offset within the node.
      * @param node the node
      * @param offset the offset to the upper left corner of the node
      * @return the FXRobotInterface
      */
-    public FxRobotInterface moveTo(Node node, Point2D offset);
-    public FxRobotInterface moveTo(Scene scene);
-    public FxRobotInterface moveTo(Window window);
+    public default FxRobotInterface moveTo(Node node, Point2D offset){
+        return moveTo(point(node,Pos.TOP_LEFT).atOffset(offset));
+    }
+    @Unstable(reason = "is missing apidocs")
+    public default FxRobotInterface moveTo(Scene scene){
+        return moveTo(point(scene));
+    }
+    @Unstable(reason = "is missing apidocs")
+    public default FxRobotInterface moveTo(Window window){
+        return moveTo(point(window));
+    }
     public FxRobotInterface moveTo(String query);
     public <T extends Node> FxRobotInterface moveTo(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate);

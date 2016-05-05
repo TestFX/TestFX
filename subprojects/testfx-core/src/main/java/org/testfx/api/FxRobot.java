@@ -1113,47 +1113,6 @@ public class FxRobot implements FxRobotInterface {
         return this;
     }
 
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(double x,
-                          double y) {
-        return moveTo(point(new Point2D(x, y)));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Point2D point) {
-        return moveTo(point(point));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Bounds bounds) {
-        return moveTo(point(bounds));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Node node) {
-        return moveTo(point(node));
-    }
-    @Override
-    @Unstable(reason = "not tested yet")
-    public FxRobot moveTo(Node node, Point2D offset) {
-        return moveTo(point(node,Pos.TOP_LEFT).atOffset(offset));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Scene scene) {
-        return moveTo(point(scene));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Window window) {
-        return moveTo(point(window));
-    }
 
     @Override
     @Unstable(reason = "is missing apidocs")
