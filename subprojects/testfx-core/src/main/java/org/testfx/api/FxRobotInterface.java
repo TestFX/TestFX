@@ -129,7 +129,19 @@ public interface FxRobotInterface {
                             double y);
     public PointQuery point(Point2D point);
     public PointQuery point(Bounds bounds);
+    /**
+     * Returns the center of the node in screen coordinates.
+     * @param node the node
+     * @return the point
+     */
     public PointQuery point(Node node);
+    /**
+     * Returns a point (screen coordinates) within the node, the exact 
+     * Position within the node is defined by the given Position.
+     * @param node the node
+     * @param pos the position within the node
+     * @return the point
+     */
     public PointQuery point(Node node, Pos pos);
     public PointQuery point(Scene scene);
     public PointQuery point(Window window);
