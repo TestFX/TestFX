@@ -346,6 +346,13 @@ public interface FxRobotInterface {
     public FxRobotInterface moveTo(Point2D point);
     public FxRobotInterface moveTo(Bounds bounds);
     public FxRobotInterface moveTo(Node node);
+    /**
+     * Moves the cursor to a node with the given offset within the node.
+     * @param node the node
+     * @param offset the offset to the upper left corner of the node
+     * @return the FXRobotInterface
+     */
+    public FxRobotInterface moveTo(Node node, Point2D offset);
     public FxRobotInterface moveTo(Scene scene);
     public FxRobotInterface moveTo(Window window);
     public FxRobotInterface moveTo(String query);

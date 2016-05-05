@@ -1132,6 +1132,11 @@ public class FxRobot implements FxRobotInterface {
     public FxRobot moveTo(Node node) {
         return moveTo(point(node));
     }
+    @Override
+    @Unstable(reason = "not tested yet")
+    public FxRobot moveTo(Node node, Point2D offset) {
+        return moveTo(point(node).atOffset(offset));
+    }
 
     @Override
     @Unstable(reason = "is missing apidocs")
