@@ -58,8 +58,8 @@ public interface PointQuery {
      */
     public PointQuery atPosition(double positionX, double positionY);
     /**
-     * Sets the position to the given value. The value refers to a certain 
-     * position within the bounds of a object.
+     * Sets the position to the given Position within a area. 
+     * The value refers to a certain position within the bounds of a object (Top left, top right...).
      * @see BoundsPointQuery
      * @param position the position
      * @return the query with the position set

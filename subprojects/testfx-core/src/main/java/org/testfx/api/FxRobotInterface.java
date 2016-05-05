@@ -130,6 +130,7 @@ public interface FxRobotInterface {
     public PointQuery point(Point2D point);
     public PointQuery point(Bounds bounds);
     public PointQuery point(Node node);
+    public PointQuery point(Node node, Pos pos);
     public PointQuery point(Scene scene);
     public PointQuery point(Window window);
 
@@ -345,6 +346,11 @@ public interface FxRobotInterface {
                                    double y);
     public FxRobotInterface moveTo(Point2D point);
     public FxRobotInterface moveTo(Bounds bounds);
+    /**
+     * Moves the cursor to the center of the given node.
+     * @param node the node
+     * @return this robot
+     */
     public FxRobotInterface moveTo(Node node);
     /**
      * Moves the cursor to a node with the given offset within the node.

@@ -354,10 +354,15 @@ public class FxRobot implements FxRobotInterface {
     @Override
     @Unstable(reason = "is missing apidocs")
     public PointQuery point(Node node) {
+        return point(node,context.getPointPosition());
+    }
+
+    @Override
+    @Unstable(reason = "is missing tests")
+    public PointQuery point(Node node, Pos pos) {
         PointLocator pointLocator = context.getPointLocator();
-        Pos pointPosition = context.getPointPosition();
         targetWindow(node.getScene().getWindow());
-        return pointLocator.point(node).atPosition(pointPosition);
+        return pointLocator.point(node).atPosition(pos);
     }
 
     @Override
@@ -1135,7 +1140,7 @@ public class FxRobot implements FxRobotInterface {
     @Override
     @Unstable(reason = "not tested yet")
     public FxRobot moveTo(Node node, Point2D offset) {
-        return moveTo(point(node).atOffset(offset));
+        return moveTo(point(node,Pos.TOP_LEFT).atOffset(offset));
     }
 
     @Override
