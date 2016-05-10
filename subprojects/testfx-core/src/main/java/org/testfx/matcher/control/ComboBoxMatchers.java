@@ -17,11 +17,8 @@
 package org.testfx.matcher.control;
 
 import java.util.Arrays;
-import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TableView;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -45,9 +42,9 @@ public class ComboBoxMatchers {
 
     @Factory
     @Unstable(reason = "is missing apidocs")
-    public static <T> Matcher<Node> hasSelection(T selection) {
+    public static <T> Matcher<Node> hasSelectedItem(T selection) {
         String descriptionText = "has selection " + selection;
-        return typeSafeMatcher(ComboBox.class, descriptionText, node -> hasSelection(node, selection));
+        return typeSafeMatcher(ComboBox.class, descriptionText, node -> hasSelectedItem(node, selection));
     }
 
     @Factory
@@ -87,8 +84,8 @@ public class ComboBoxMatchers {
         return comboBox.getItems().size() == amount;
     }
 
-    private static <T> boolean hasSelection(ComboBox<?> comboBox,
-                                            T selection) {
+    private static <T> boolean hasSelectedItem(ComboBox<?> comboBox,
+                                               T selection) {
         return selection.equals(comboBox.getSelectionModel().getSelectedItem());
     }
 
@@ -108,26 +105,33 @@ public class ComboBoxMatchers {
         int index = 0;
 
         // find start of matching sub-sequence
-        while (!comboBox.getItems().get(index).equals(items[0]))
-        {
-            index++;
-        }
-
-        // make sure sub-sequence matches
-        for (Object item : items) {
-            if (!comboBox.getItems().get(index).equals(item)) {
+        while (!comboBox.getItems().get(index).equals(items[0])) {
+            if (items.length >= comboBox.getItems().size() - index) {
                 return false;
             }
             index++;
         }
-        return true;
+
+        // make sure sub-sequence matches
+        return matchSubSequenceInOrder(comboBox, index, items);
     }
 
     private static boolean containsExactlyItemsInOrder(ComboBox<?> comboBox,
                                                        Object... items) {
-        int index = 0;
+        return matchSubSequenceInOrder(comboBox, 0, items);
+    }
+
+    /**
+     * If startIndex = 0, this method effectively matches the entire sequence.
+     */
+    private static boolean matchSubSequenceInOrder(ComboBox<?> comboBox,
+                                                   int startIndex,
+                                                   Object... items)
+    {
+        int index = startIndex;
         for (Object item : items) {
-            if (!comboBox.getItems().get(index).equals(item)) {
+            if (index >= comboBox.getItems().size() ||
+                    !comboBox.getItems().get(index).equals(item)) {
                 return false;
             }
             index++;
