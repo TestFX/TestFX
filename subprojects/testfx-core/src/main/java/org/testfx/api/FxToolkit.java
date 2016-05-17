@@ -40,6 +40,7 @@ import org.testfx.toolkit.impl.ToolkitServiceImpl;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
+import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
 /**
  * Responsible for setup and cleanup of JavaFX fixtures that need the JavaFX thread.
@@ -266,7 +267,9 @@ public final class FxToolkit {
 
     private static <T> T waitForSetup(Future<T> future)
                                throws TimeoutException {
-        return waitFor(context.getSetupTimeoutInMillis(), MILLISECONDS, future);
+    	T ret=waitFor(context.getSetupTimeoutInMillis(), MILLISECONDS, future);
+    	waitForFxEvents();
+        return ret;
     }
 
     private static void showStage(Stage stage) {
