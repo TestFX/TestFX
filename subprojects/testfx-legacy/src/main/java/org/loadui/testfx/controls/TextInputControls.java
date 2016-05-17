@@ -44,16 +44,7 @@ public class TextInputControls {
         TextInputControl textControl = (TextInputControl) node;
         if (textControl.getLength() == 0)
             return;
-
-        GuiTest fx = new GuiTest() {
-            @Override
-            protected Parent getRootNode() {
-                return null;
-            }
-        };
-
-        fx.clickOn(textControl);
-        fx.push(CONTROL, A).push(BACK_SPACE);
+        clearTextIn(textControl);
     }
 
 }

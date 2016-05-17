@@ -57,6 +57,7 @@ buildscript {
 
 apply plugin: "base"
 apply plugin: "idea"
+apply plugin: "eclipse"
 
 subprojects { subproject ->
     // provide java configurations and tasks.
