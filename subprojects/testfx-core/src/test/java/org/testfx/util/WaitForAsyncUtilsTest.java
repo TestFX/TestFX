@@ -31,6 +31,7 @@ import org.junit.rules.ExpectedException;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertTrue;
 
 public class WaitForAsyncUtilsTest {
 
@@ -79,8 +80,9 @@ public class WaitForAsyncUtilsTest {
 
         // expect:
         thrown.expectCause(instanceOf(UnsupportedOperationException.class));
-        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+        waitForException(future);
     }
+    
 
     @Test(timeout=1000)
     public void waitFor_with_future() throws Exception {
@@ -178,4 +180,10 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
+    protected void waitForException(Future<?> f) throws InterruptedException{
+    	Thread.sleep(50);
+        assertTrue(f.isDone());
+    }
+    
+    
 }
