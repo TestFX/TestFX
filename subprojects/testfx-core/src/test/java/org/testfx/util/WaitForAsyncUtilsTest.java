@@ -83,7 +83,8 @@ public class WaitForAsyncUtilsTest {
     @Test
     public void async_callable_with_exception() throws Throwable {
     	WaitForAsyncUtils.printException=false;
-        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        //thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        thrown.expect(UnsupportedOperationException.class);
         // given:
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
@@ -140,7 +141,7 @@ public class WaitForAsyncUtilsTest {
         	future = WaitForAsyncUtils.async(callable);
         	assertTrue("No exception thrown by autoCheck",false);
         }catch(Throwable e){
-        	if(!(e.getCause() instanceof UnsupportedOperationException)){ // should be!
+        	if(!(e instanceof UnsupportedOperationException)){ // should be!
         		throw e;
         	}
         }
@@ -217,7 +218,7 @@ public class WaitForAsyncUtilsTest {
         try{WaitForAsyncUtils.checkException();assertTrue("checkException didn't detect Exception",false);}
         catch(Throwable e){
         	//e.printStackTrace();
-        	if(!(e.getCause() instanceof CancellationException)){
+        	if(!(e instanceof CancellationException)){
         		throw e;
         	}
         }

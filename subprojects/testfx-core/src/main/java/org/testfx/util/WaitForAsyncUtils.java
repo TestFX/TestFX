@@ -580,7 +580,7 @@ public class WaitForAsyncUtils {
     				exceptions.add(exception); //push on list of occured exceptions
     			}
 				running=false;
-    			if(!Thread.currentThread().getName().equals("JavaFX Application Thread")){ //TODO to throw or not to throw...
+    			if(!Thread.currentThread().getName().equals("JavaFX Application Thread")){
     				Throwable ex=transformException(e);
     				throwException(ex);
     			}
@@ -598,7 +598,8 @@ public class WaitForAsyncUtils {
             	throw((Error)exception);
     	}
     	/**
-    	 * Transforms a exception to be throwable. Basically wraps the exception in a RuntimeException
+    	 * Transforms a exception to be throwable. Basically wraps the exception in a RuntimeException,
+    	 * if it is not already one.
     	 * @param exception the exception
     	 * @return the throwable exception
     	 */
@@ -606,8 +607,8 @@ public class WaitForAsyncUtils {
         	if(exception instanceof ExecutionException){ //remove ExecutionException
         		exception=exception.getCause();
         	}
-            /*if(exception instanceof RuntimeException) //TODO #280
-            	return ((RuntimeException)exception);*/
+            if(exception instanceof RuntimeException) 
+            	return ((RuntimeException)exception);
             if(exception instanceof Error)
             	return ((Error)exception);
             else
