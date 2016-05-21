@@ -50,7 +50,7 @@ public class WaitForAsyncUtilsFxTest {
         //verify checkException
         try{WaitForAsyncUtils.checkException();assertTrue("checkException didn't detect Exception",false);}
         catch(Throwable e){
-        	if(!(e.getCause() instanceof UnsupportedOperationException)){ // should be!
+        	if(!(e instanceof UnsupportedOperationException)){ // should be!
         		throw e;
         	}
         }

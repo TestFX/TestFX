@@ -107,7 +107,7 @@ public class WaitForAsyncUtils {
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
      * You need to evaluate the returned Future ({@link Future.get()}) 
-     * for exceptions or call the {@link checkException()} method to handle Exceptions, after the
+     * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
      * @param runnable the runnable
@@ -122,7 +122,7 @@ public class WaitForAsyncUtils {
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
      * You need to evaluate the returned Future ({@link Future.get()}) 
-     * for exceptions or call the {@link checkException()} method to handle Exceptions, after the
+     * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
      * @param runnable the runnable
@@ -139,7 +139,7 @@ public class WaitForAsyncUtils {
      * Calls the given {@link Callable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
      * You need to evaluate the returned Future ({@link Future.get()}) 
-     * for exceptions or call the {@link checkException()} method to handle Exceptions, after the
+     * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      * 
      * @param callable the callable
@@ -156,7 +156,7 @@ public class WaitForAsyncUtils {
      * Calls the given {@link Callable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
      * You need to evaluate the returned Future ({@link Future.get()}) 
-     * for exceptions or call the {@link checkException()} method to handle Exceptions, after the
+     * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
      * @param callable the callable
@@ -174,7 +174,7 @@ public class WaitForAsyncUtils {
      * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
      * in the future and returns a {@link Future} that is set on finish or error. <br>
      * You need to evaluate the returned Future ({@link Future.get()}) 
-     * for exceptions or call the {@link checkException()} method to handle Exceptions, after the
+     * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
      * @param runnable the runnable
@@ -192,7 +192,7 @@ public class WaitForAsyncUtils {
      * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
      * in the future and returns a {@link Future} that is set on finish or error. <br>
      * You need to evaluate the returned Future ({@link Future.get()}) 
-     * for exceptions or call the {@link checkException()} method to handle Exceptions, after the
+     * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
      * @param callable the callable
