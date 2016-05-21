@@ -55,10 +55,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * is usually not aware of those exceptions. Exceptions returned directly from this Framework
  * are wrapped in {@code RuntimeExceptions}.<br>
  * There are two way this class notifies the user of exceptions:
- * <ul>
- * <li> the returned future
+ * <ul><li> the returned future
  * <li> the internal exception stack
- * </ul>
+ * </ul><p>
  * Usually exceptions are forwarded in the returned <b>Future</b> of the Methods in this class.
  * When the calling Thread calls the getter of the Future, the exceptions will be thrown.
  * All {@code waitFor} methods acquire the value of the future and will throw those
@@ -106,7 +105,7 @@ public class WaitForAsyncUtils {
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
-     * You need to evaluate the returned Future ({@link Future.get()}) 
+     * You need to evaluate the returned Future ({@link Future#get()}) 
      * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
@@ -121,7 +120,7 @@ public class WaitForAsyncUtils {
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
-     * You need to evaluate the returned Future ({@link Future.get()}) 
+     * You need to evaluate the returned Future ({@link Future#get()}) 
      * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
@@ -138,7 +137,7 @@ public class WaitForAsyncUtils {
     /**
      * Calls the given {@link Callable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
-     * You need to evaluate the returned Future ({@link Future.get()}) 
+     * You need to evaluate the returned Future ({@link Future#get()}) 
      * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      * 
@@ -155,7 +154,7 @@ public class WaitForAsyncUtils {
     /**
      * Calls the given {@link Callable} on a new {@link Thread} and returns a {@link Future} that
      * is set on finish or error. <br>
-     * You need to evaluate the returned Future ({@link Future.get()}) 
+     * You need to evaluate the returned Future ({@link Future#get()}) 
      * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
@@ -173,7 +172,7 @@ public class WaitForAsyncUtils {
     /**
      * Runs the given {@link Runnable} on the JavaFX Application Thread at some unspecified time
      * in the future and returns a {@link Future} that is set on finish or error. <br>
-     * You need to evaluate the returned Future ({@link Future.get()}) 
+     * You need to evaluate the returned Future ({@link Future#get()}) 
      * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
@@ -191,7 +190,7 @@ public class WaitForAsyncUtils {
     /**
      * Calls the given {@link Callable} on the JavaFX Application Thread at some unspecified time
      * in the future and returns a {@link Future} that is set on finish or error. <br>
-     * You need to evaluate the returned Future ({@link Future.get()}) 
+     * You need to evaluate the returned Future ({@link Future#get()}) 
      * for exceptions or call the {@link #checkException()} method to handle Exceptions, after the
      * task has finished.
      *
