@@ -24,7 +24,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import org.hamcrest.Matchers;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -50,9 +49,6 @@ public class WaitForAsyncUtilsTest {
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @After public void tearDown(){
-    	if(Thread.interrupted())assertTrue(false);
-    }
     
     @Test
     public void async_callable() throws Exception {
@@ -207,7 +203,6 @@ public class WaitForAsyncUtilsTest {
             WaitForAsyncUtils.sleepWithException(100, MILLISECONDS);
             return null;
         });
-        //needs to ensure that it is running?
         future.cancel(true);
         waitForThreads(future);
         try{Thread.sleep(50);}
@@ -264,7 +259,7 @@ public class WaitForAsyncUtilsTest {
     public void waitFor_with_booleanValue() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
-        WaitForAsyncUtils.async(() -> { //TODO: not safe for GUI-Interaction 
+        WaitForAsyncUtils.async(() -> { 
             WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
             property.set(true);
             return null;
