@@ -24,6 +24,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
+import javafx.geometry.HorizontalDirection;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -361,6 +362,12 @@ public interface FxRobotInterface {
 
     // Convenience methods:
     public FxRobotInterface scroll(VerticalDirection direction);
+
+    public FxRobotInterface scroll(int amount,
+                                   HorizontalDirection direction);
+
+    // Convenience methods:
+    public FxRobotInterface scroll(HorizontalDirection direction);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR TYPING.
