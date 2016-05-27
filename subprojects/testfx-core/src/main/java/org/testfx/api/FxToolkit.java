@@ -182,16 +182,19 @@ public final class FxToolkit {
 
     /**
      * Performs the clean up of the application. This is done by calling {@link ToolkitService#cleanupApplication(Application)}
-     * (which usually calls the {@code stop} method of the application.
+     * (which usually calls the {@code stop} method of the application).
      * @param application the application to clean up
-     * @throws TimeoutException if cleanup is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     * @throws TimeoutException if cleanup is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()} 
+     * 		or the FX Application Thread is not running
      */
     @Unstable(reason = "is missing apidocs")
     public static void cleanupApplication(Application application)
                                    throws TimeoutException {
-        waitForCleanup(
-            service.cleanupApplication(application)
-        );
+    	if(isFXApplicationThreadRunning()){
+    		waitForSetup(service.cleanupApplication(application));
+    	}else{
+    		throw new TimeoutException("FX Application Thread not running");
+    	}
     }
 
     @Unstable(reason = "is missing apidocs")
@@ -275,17 +278,6 @@ public final class FxToolkit {
         return waitFor(context.getSetupTimeoutInMillis(), MILLISECONDS, future);
     }
 
-    private static <T> T waitForCleanup(Future<T> future)
-                               throws TimeoutException {
-    	//Clean up can only be performed, if the FX Application Thread is running
-    	if(isFXApplicationThreadRunning()){
-    		return waitFor(context.getSetupTimeoutInMillis(), MILLISECONDS, future);
-    	}else{
-    		future.cancel(false);
-    		return null;
-    	}
-    }
-    
     private static void showStage(Stage stage) {
         stage.show();
         stage.toBack();
