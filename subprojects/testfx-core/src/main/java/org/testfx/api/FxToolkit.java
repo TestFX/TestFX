@@ -180,12 +180,21 @@ public final class FxToolkit {
         );
     }
 
+    /**
+     * Performs the clean up of the application. This is done by calling {@link ToolkitService#cleanupApplication(Application)}
+     * (which usually calls the {@code stop} method of the application).
+     * @param application the application to clean up
+     * @throws TimeoutException if cleanup is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()} 
+     * 		or the FX Application Thread is not running
+     */
     @Unstable(reason = "is missing apidocs")
     public static void cleanupApplication(Application application)
                                    throws TimeoutException {
-        waitForSetup(
-            service.cleanupApplication(application)
-        );
+    	if(isFXApplicationThreadRunning()){
+    		waitForSetup(service.cleanupApplication(application));
+    	}else{
+    		throw new TimeoutException("FX Application Thread not running");
+    	}
     }
 
     @Unstable(reason = "is missing apidocs")
@@ -290,6 +299,18 @@ public final class FxToolkit {
 
     private static void preventShutdownWhenLastWindowIsClosed() {
         Platform.setImplicitExit(false);
+    }
+
+    /**
+     * Detects if the JavaFx Application Thread is currently running.
+     * @return true, if the FX Application Thread is running
+     */
+    private static boolean isFXApplicationThreadRunning(){
+    	Set<Thread> threads=Thread.getAllStackTraces().keySet();
+    	for(Thread thread:threads){
+    		if(thread.getName().equals("JavaFX Application Thread"))return true;
+    	}
+    	return false;
     }
 
 }
