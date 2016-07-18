@@ -32,6 +32,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 
+import com.google.common.io.ByteSink;
+import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
@@ -82,8 +84,8 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public Image loadImage(Path path) {
         checkFileExists(path);
-        try {
-            InputStream inputStream = Files.asByteSource(path.toFile()).openBufferedStream();
+        ByteSource byteSource = Files.asByteSource(path.toFile());
+        try (InputStream inputStream = byteSource.openBufferedStream()) {
             return readImageFromStream(inputStream);
         }
         catch (IOException exception) {
@@ -95,8 +97,8 @@ public class CaptureSupportImpl implements CaptureSupport {
     public void saveImage(Image image,
                           Path path) {
         checkParentDirectoryExists(path);
-        try {
-            OutputStream outputStream = Files.asByteSink(path.toFile()).openBufferedStream();
+        ByteSink byteSink = Files.asByteSink(path.toFile());
+        try (OutputStream outputStream = byteSink.openBufferedStream()) {
             writeImageToStream(image, outputStream);
         }
         catch (IOException exception) {
