@@ -16,9 +16,6 @@
  */
 package org.testfx.service.query.impl;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicates;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import javafx.scene.Node;
@@ -29,8 +26,10 @@ import org.testfx.util.NodeQueryUtils;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -91,10 +90,20 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     public NodeQuery lookup(Function<Node, Set<Node>> function) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter(Predicates.notNull());
-        query = query.transformAndConcat(function);
-        parentNodes = query.toSet();
+        //FluentIterable<Node> query = FluentIterable.from(parentNodes);
+        //query = query.filter(Predicates.notNull());
+        //query = query.transformAndConcat(function);
+        //parentNodes = query.toSet();
+
+        // surely there's a better way to do the following
+        parentNodes = parentNodes.stream()
+            .filter(Objects::nonNull)
+            .map(function)
+            .reduce((nodes, nodes2) -> {
+                Set<Node> set = new LinkedHashSet<>(nodes);
+                set.addAll(nodes2);
+                return set;
+            }).orElseGet(LinkedHashSet::new);
         return this;
     }
 

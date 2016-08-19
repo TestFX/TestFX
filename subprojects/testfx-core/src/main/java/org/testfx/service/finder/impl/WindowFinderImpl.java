@@ -16,10 +16,8 @@
  */
 package org.testfx.service.finder.impl;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.PopupWindow;
@@ -27,6 +25,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.testfx.service.finder.WindowFinder;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -148,13 +148,9 @@ public class WindowFinderImpl implements WindowFinder {
 
     private List<Window> orderWindowsByProximityTo(Window targetWindow,
                                                    List<Window> windows) {
-        return Ordering.natural()
-            .onResultOf(calculateWindowProximityFunction(targetWindow))
-            .immutableSortedCopy(windows);
-    }
-
-    private Function<Window, Integer> calculateWindowProximityFunction(Window targetWindow) {
-        return window -> calculateWindowProximityTo(targetWindow, window);
+        List<Window> copy = new ArrayList<>(windows);
+        copy.sort((w1, w2) -> Integer.compare(calculateWindowProximityTo(targetWindow, w1),calculateWindowProximityTo(targetWindow, w2)));
+        return Collections.unmodifiableList(copy);
     }
 
     private int calculateWindowProximityTo(Window targetWindow,
