@@ -16,20 +16,19 @@
  */
 package org.testfx.matcher.control;
 
-import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
+import javafx.scene.Node;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import org.hamcrest.Factory;
+import org.hamcrest.Matcher;
+import org.testfx.api.annotation.Unstable;
+import org.testfx.util.ColorUtils;
 
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
-import javafx.scene.Node;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
-import org.testfx.util.ColorUtils;
+import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 @Unstable(reason = "needs more tests")
 public class TextFlowMatchers {

@@ -24,7 +24,6 @@ import javafx.scene.control.ButtonBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBoxBuilder;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.loadui.testfx.exceptions.NoNodesFoundException;

@@ -16,14 +16,14 @@
  */
 package org.testfx.service.query;
 
-import java.util.Collection;
-import java.util.Set;
-import javafx.scene.Node;
-
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
+import javafx.scene.Node;
 import org.hamcrest.Matcher;
+
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public interface NodeQuery {
 

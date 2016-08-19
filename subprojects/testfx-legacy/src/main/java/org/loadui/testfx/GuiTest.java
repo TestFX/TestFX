@@ -16,22 +16,12 @@
  */
 package org.loadui.testfx;
 
-import java.awt.GraphicsEnvironment;
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -46,6 +36,16 @@ import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.WaitUntilSupport;
 import org.testfx.util.WaitForAsyncUtils;
+
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.function.Predicate;
 
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxService.serviceContext;

@@ -16,12 +16,12 @@
  */
 package org.testfx.util;
 
+import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-
-import javafx.scene.paint.Color;
 
 /**
  * Provides utilities for working with JavaFX Colors.

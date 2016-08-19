@@ -18,7 +18,6 @@ package org.testfx.api;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.PrimaryStageApplication;
 import org.testfx.toolkit.PrimaryStageFuture;

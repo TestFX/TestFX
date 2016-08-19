@@ -23,8 +23,6 @@ import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 
-import static org.loadui.testfx.Assertions.verifyThat;
-
 // verifyThat supports lambda expressions, but to keep Java 7 compatibility, we don't use them here.
 public class AssertionsTest extends GuiTest {
 

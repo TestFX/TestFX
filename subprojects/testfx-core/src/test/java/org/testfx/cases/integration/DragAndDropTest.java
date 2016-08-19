@@ -16,13 +16,12 @@
  */
 package org.testfx.cases.integration;
 
+import com.google.common.collect.ImmutableList;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
-
-import com.google.common.collect.ImmutableList;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;

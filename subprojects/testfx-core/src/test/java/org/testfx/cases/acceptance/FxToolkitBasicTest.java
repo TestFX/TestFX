@@ -17,7 +17,6 @@
 package org.testfx.cases.acceptance;
 
 import javafx.stage.Stage;
-
 import org.junit.AfterClass;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -16,8 +16,6 @@
  */
 package org.testfx.cases.integration;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,9 +24,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 public class SimpleLabelDemo {
 

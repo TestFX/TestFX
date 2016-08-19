@@ -19,7 +19,6 @@ package org.testfx.cases.acceptance;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-
 import org.testfx.api.FxToolkit;
 
 public class PrimaryStageFixtureDemo {

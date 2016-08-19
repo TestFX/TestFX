@@ -16,21 +16,21 @@
  */
 package org.testfx.service.finder.impl;
 
-import java.util.List;
-import java.util.regex.Pattern;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import org.testfx.service.finder.WindowFinder;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class WindowFinderImpl implements WindowFinder {
 
@@ -71,8 +71,10 @@ public class WindowFinderImpl implements WindowFinder {
 
     @Override
     public Window window(Predicate<Window> predicate) {
-        List<Window> windows = fetchWindowsByProximityTo(lastTargetWindow);
-        return Iterables.find(windows, predicate);
+        return fetchWindowsByProximityTo(lastTargetWindow).stream()
+            .filter(predicate)
+            .findFirst()
+            .orElseThrow(NoSuchElementException::new);
     }
 
     // Convenience methods:

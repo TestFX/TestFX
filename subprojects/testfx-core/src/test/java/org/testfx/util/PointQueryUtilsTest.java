@@ -19,7 +19,6 @@ package org.testfx.util;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

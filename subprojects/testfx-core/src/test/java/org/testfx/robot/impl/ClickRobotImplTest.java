@@ -17,7 +17,6 @@
 package org.testfx.robot.impl;
 
 import javafx.scene.input.MouseButton;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.robot.ClickRobot;

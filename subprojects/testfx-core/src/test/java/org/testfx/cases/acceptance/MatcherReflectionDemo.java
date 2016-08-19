@@ -16,12 +16,12 @@
  */
 package org.testfx.cases.acceptance;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
-
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 
 public class MatcherReflectionDemo {
 

@@ -16,11 +16,12 @@
  */
 package org.testfx.service.support;
 
-import java.nio.file.Path;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Shape;
+
+import java.nio.file.Path;
 
 public interface CaptureSupport {
 

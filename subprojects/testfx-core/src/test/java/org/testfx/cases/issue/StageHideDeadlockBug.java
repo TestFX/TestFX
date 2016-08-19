@@ -19,7 +19,6 @@ package org.testfx.cases.issue;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

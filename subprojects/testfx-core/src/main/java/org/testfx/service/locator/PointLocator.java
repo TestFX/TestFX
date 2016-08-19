@@ -21,7 +21,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
-
 import org.testfx.service.query.PointQuery;
 
 public interface PointLocator {

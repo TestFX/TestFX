@@ -21,9 +21,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
-
-import com.google.common.base.Predicate;
 import org.junit.Test;
+
+import java.util.function.Predicate;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.Matchers.is;
@@ -43,15 +43,9 @@ public class TableViewsTest extends GuiTest {
         verifyThat(tableView, containsCell(9));
     }
 
-    // If you're on Java 8, use lambda instead of an anonymous class.
     @Test
     public void shouldFindCellValues_usingPredicate() {
-        verifyThat(".table-view", containsCell(new Predicate<String>() {
-            @Override
-            public boolean apply(String s) {
-                return Integer.parseInt(s) == 9;
-            }
-        }));
+        verifyThat(".table-view", containsCell((Predicate<String>) s -> Integer.parseInt(s) == 9));
     }
 
     @Test

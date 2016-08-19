@@ -16,12 +16,12 @@
  */
 package org.testfx.toolkit.impl;
 
-import java.lang.reflect.Field;
-import java.util.Objects;
 import javafx.application.Application;
-
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
+
+import java.lang.reflect.Field;
+import java.util.Objects;
 
 @Unstable(reason = "needs more tests")
 public class ApplicationLauncherImpl implements ApplicationLauncher {

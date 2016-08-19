@@ -16,15 +16,15 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.List;
-import java.util.Set;
-import javafx.scene.input.KeyCode;
-
-import com.google.common.collect.Sets;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import javafx.scene.input.KeyCode;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
+
+import java.util.List;
+import java.util.Set;
 
 @Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {

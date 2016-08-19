@@ -16,10 +16,11 @@
  */
 package org.testfx.toolkit;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 public interface ApplicationService {
 

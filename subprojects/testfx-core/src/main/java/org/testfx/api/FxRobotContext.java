@@ -17,7 +17,6 @@
 package org.testfx.api;
 
 import javafx.geometry.Pos;
-
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.ClickRobot;

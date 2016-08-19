@@ -16,18 +16,18 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.List;
-import javafx.geometry.Point2D;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import javafx.geometry.Point2D;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
+
+import java.util.List;
 
 @Unstable
 public class MoveRobotImpl implements MoveRobot {
