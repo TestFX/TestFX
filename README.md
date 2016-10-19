@@ -121,12 +121,12 @@ Maven `pom.xml` with `testfx-core` from Maven Central repository (at https://rep
         <version>4.0.1-alpha</version>
         <scope>test</scope>
     </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit</artifactId>
-            <version>4.0.1-alpha</version>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-junit</artifactId>
+        <version>4.0.1-alpha</version>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 ~~~
 
