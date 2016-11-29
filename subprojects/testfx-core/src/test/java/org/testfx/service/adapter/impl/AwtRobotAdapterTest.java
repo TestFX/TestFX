@@ -48,11 +48,14 @@ import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -255,6 +258,9 @@ public class AwtRobotAdapterTest {
 
     @Test
     public void getCapturePixelColor() {
+        // given:
+        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+
         // when:
         Color pixelColor = robotAdapter.getCapturePixelColor(regionPoint);
 
@@ -264,6 +270,9 @@ public class AwtRobotAdapterTest {
 
     @Test
     public void getCaptureRegion() {
+        // given:
+        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+
         // when:
         Rectangle2D region = new Rectangle2D(regionPoint.getX(), regionPoint.getY(), 10, 20);
         Image regionImage = robotAdapter.getCaptureRegion(region);
