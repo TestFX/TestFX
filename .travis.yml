@@ -1,41 +1,68 @@
-# use java support.
 language: java
-jdk:
-  - oraclejdk8
+sudo: false
 
 # install the newest java.
 addons:
   apt:
     packages:
+      - gdb
       - oracle-java8-installer
 
-# use operating systems.
-os:
-  - linux
-
-# run in container und keep gradle cache.
-sudo: false
+# keep gradle cache.
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 
-# setup jobs.
-env:
-  - USE_FRAMEBUFFER=true
-  - USE_FRAMEBUFFER=false _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
-
-# allow job to fail without framebuffer
 matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      jdk: oraclejdk8
+      env: USE_FRAMEBUFFER=true
+    - os: linux
+      jdk: oraclejdk8
+      env:
+        - USE_FRAMEBUFFER=false
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+    - os: osx
+      osx_image: xcode8
+      env:
+        - OSX_HEADLESS=false
+        - _JAVA_OPTIONS="-Dprism.order=sw"
+    - os: osx
+      osx_image: xcode8
+      env: _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
   allow_failures:
-  - env: USE_FRAMEBUFFER=false _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+    - env:
+      - USE_FRAMEBUFFER=false
+      - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+    - env:
+      - OSX_HEADLESS=false
+      - _JAVA_OPTIONS="-Dprism.order=sw"
 
-# run on xvfb screen.
-before_install:
+before_script:
+  - echo $HOME
+  - echo $JAVA_OPTS
+  - echo $GRADLE_OPTS
+  # run on xvfb screen (for linux).
   - if [ $USE_FRAMEBUFFER = "true" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
+
+before_install: .ci/before_install.sh
 
 # skip install stage.
 install: true
 
 # run gradle build.
-script:
-  - ./gradlew build --info
+script: .ci/script.sh
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/2532276e31bee9ba82b7
+    on_success: change
+    on_failure: always
+
