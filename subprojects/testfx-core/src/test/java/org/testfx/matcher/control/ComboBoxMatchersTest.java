@@ -31,7 +31,7 @@ import org.testfx.api.FxToolkit;
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ComboBoxMatchersTest extends FxRobot {
+public class  ComboBoxMatchersTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -83,13 +83,13 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void hasSelection() {
-        assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("alice"));
+        assertThat(comboBox, ComboBoxMatchers.hasSelection("alice"));
 
         clickOn(".combo-box-base");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
-        assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob"));
+        assertThat(comboBox, ComboBoxMatchers.hasSelection("bob"));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class ComboBoxMatchersTest extends FxRobot {
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox has selection bob\n");
 
-        assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob"));
+        assertThat(comboBox, ComboBoxMatchers.hasSelection("bob"));
     }
 
     @Test
