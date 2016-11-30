@@ -1,0 +1,19 @@
+version: "{branch} {build}"
+
+environment:
+  JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+
+shallow_clone: true
+
+build:
+  verbosity: detailed
+
+build_script:
+  - gradlew build --info --no-daemon
+
+test_script:
+  - gradlew check --info --no-daemon
+
+cache:
+  - C:\Users\appveyor\.gradle
+
