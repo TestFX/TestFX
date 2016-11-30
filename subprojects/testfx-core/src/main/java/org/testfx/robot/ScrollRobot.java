@@ -24,14 +24,14 @@ public interface ScrollRobot {
     void scroll(int amount);
 
     void scroll(int positiveAmount,
-                       VerticalDirection direction);
+                VerticalDirection direction);
 
     void scrollUp(int positiveAmount);
 
     void scrollDown(int positiveAmount);
 
     void scroll(int positiveAmount,
-                       HorizontalDirection direction);
+                HorizontalDirection direction);
 
     void scrollLeft(int positiveAmount);
 
