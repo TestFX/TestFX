@@ -16,7 +16,6 @@
  */
 package org.loadui.testfx;
 
-import com.google.common.base.Predicate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -55,12 +54,7 @@ public class ControllerApiTest extends GuiTest {
     @Test
     public void shouldClickButton() {
         final Button button = find("#button1");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                button.setText("Was clicked");
-            }
-        });
+        button.setOnAction(actionEvent -> button.setText("Was clicked"));
 
         clickOn("Button A");
 
@@ -77,14 +71,7 @@ public class ControllerApiTest extends GuiTest {
             }
         });
 
-        // In Java 8, this can be written as click( (Button b) -> b.isDefaultButton() )
-        // To stay compatible with both Java 7 and 8, this test uses Java 7 code.
-        clickOn(new Predicate<Button>() {
-            @Override
-            public boolean apply(Button b) {
-                return b.isDefaultButton();
-            }
-        });
+        clickOn(Button::isDefaultButton);
 
         verifyThat("#button1", hasText("Was clicked"));
     }

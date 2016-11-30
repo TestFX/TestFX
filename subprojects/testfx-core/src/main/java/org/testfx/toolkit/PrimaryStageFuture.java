@@ -16,9 +16,8 @@
  */
 package org.testfx.toolkit;
 
-import javafx.stage.Stage;
-
 import com.google.common.util.concurrent.AbstractFuture;
+import javafx.stage.Stage;
 import org.testfx.api.annotation.Unstable;
 
 @Unstable(reason = "needs more tests")

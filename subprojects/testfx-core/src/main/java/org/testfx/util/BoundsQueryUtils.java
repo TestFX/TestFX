@@ -24,7 +24,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
-
 import org.testfx.api.annotation.Unstable;
 
 @Unstable

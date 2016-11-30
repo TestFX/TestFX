@@ -16,7 +16,6 @@
  */
 package org.loadui.testfx;
 
-import com.google.common.base.Predicate;
 import javafx.scene.Node;
 import org.hamcrest.Matcher;
 

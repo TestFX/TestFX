@@ -16,16 +16,16 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.List;
-import java.util.Set;
-import javafx.geometry.Point2D;
-import javafx.scene.input.MouseButton;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import javafx.geometry.Point2D;
+import javafx.scene.input.MouseButton;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
+
+import java.util.List;
+import java.util.Set;
 
 @Unstable
 public class MouseRobotImpl implements MouseRobot {

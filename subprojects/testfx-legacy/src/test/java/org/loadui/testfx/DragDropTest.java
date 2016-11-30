@@ -26,13 +26,12 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBoxBuilder;
-
 import org.junit.Test;
 import org.loadui.testfx.utils.FXTestUtils;
 
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.hasItems;
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.ListViews.containsRow;
 import static org.loadui.testfx.controls.ListViews.numberOfRowsIn;

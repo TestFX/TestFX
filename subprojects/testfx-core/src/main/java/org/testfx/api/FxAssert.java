@@ -16,22 +16,22 @@
  */
 package org.testfx.api;
 
-import java.nio.file.Paths;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Set;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
-
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.matcher.base.GeneralMatchers;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
+
+import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Set;
+import java.util.function.Predicate;
 
 @Unstable(reason = "method signatures need fine-tuning")
 public final class FxAssert {

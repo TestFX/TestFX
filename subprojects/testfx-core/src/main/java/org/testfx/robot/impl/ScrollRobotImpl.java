@@ -18,7 +18,6 @@ package org.testfx.robot.impl;
 
 import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
-
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;

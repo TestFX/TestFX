@@ -16,20 +16,20 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.List;
-import java.util.Map;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
+
+import java.util.List;
+import java.util.Map;
 
 @Unstable
 public class TypeRobotImpl implements TypeRobot {

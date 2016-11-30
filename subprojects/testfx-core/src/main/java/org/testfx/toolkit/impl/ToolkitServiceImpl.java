@@ -16,21 +16,21 @@
  */
 package org.testfx.toolkit.impl;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import com.sun.javafx.application.ParametersImpl;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import com.sun.javafx.application.ParametersImpl;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
-import org.testfx.toolkit.ToolkitService;
 import org.testfx.toolkit.PrimaryStageFuture;
+import org.testfx.toolkit.ToolkitService;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static org.testfx.util.WaitForAsyncUtils.async;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;

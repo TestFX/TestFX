@@ -16,24 +16,22 @@
  */
 package org.testfx.matcher.control;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
@@ -67,18 +65,10 @@ public class TableViewMatchers {
 
     @Factory
     @Unstable(reason = "is missing apidocs")
-    public static Matcher<Node> containsRowAtIndex(int rowIndex, Object...cells) {
+    public static Matcher<Node> containsRow(int rowIndex, Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
         return typeSafeMatcher(TableView.class, descriptionText,
-             node -> containsRowAtIndex(node, rowIndex, cells));
-    }
-
-    @Factory
-    @Unstable(reason = "is missing apidocs")
-    public static Matcher<Node> containsRow(Object...cells) {
-        String descriptionText = "has row: " + Arrays.toString(cells);
-        return typeSafeMatcher(TableView.class, descriptionText,
-                node -> containsRow(node, cells));
+             node -> containsRow(node, rowIndex, cells));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -99,8 +89,8 @@ public class TableViewMatchers {
         return tableView.getItems().size() == amount;
     }
 
-    private static <T> boolean containsRowAtIndex(TableView<T> tableView, int rowIndex,
-                                                  Object...cells) {
+    private static <T> boolean containsRow(TableView<T> tableView, int rowIndex,
+                                       Object...cells) {
         if (rowIndex >= tableView.getItems().size()) {
             return false;
         }
@@ -109,8 +99,7 @@ public class TableViewMatchers {
         List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
         for (int i = 0; i < tableView.getColumns().size(); i++) {
             TableColumn<T, ?> column = tableView.getColumns().get(i);
-            TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures<>(
-                    tableView, column, rowObject);
+            TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures<>(tableView, column, rowObject);
             rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
         }
         for (int i = 0; i < cells.length; i++) {
@@ -125,50 +114,6 @@ public class TableViewMatchers {
             }
         }
         return true;
-    }
-
-    private static <T> boolean containsRow(TableView<T> tableView, Object...cells) {
-        if (tableView.getItems().isEmpty()) {
-            return false;
-        }
-
-        Map<Integer, List<ObservableValue<?>>> rowValuesMap = new HashMap<>(tableView.getColumns().size());
-        for (int j = 0; j < tableView.getItems().size(); j++) {
-            T rowObject = tableView.getItems().get(j);
-            List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
-
-            for (int i = 0; i < tableView.getColumns().size(); i++) {
-                TableColumn<T, ?> column = tableView.getColumns().get(i);
-                TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures<>(
-                        tableView, column, rowObject);
-                rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
-            }
-            rowValuesMap.put(j, rowValues);
-        }
-
-        for (List<ObservableValue<?>> rowValues : rowValuesMap.values()) {
-            for (int i = 0; i < cells.length; i++) {
-                if (rowValues.get(i).getValue() == null && cells[i] != null) {
-                    break;
-                } else if (cells[i] == null && rowValues.get(i).getValue() != null) {
-                    break;
-                } else if (rowValues.get(i).getValue() != null && !rowValues.get(i).getValue().equals(cells[i])) {
-                    break;
-                } else {
-                    if (i == cells.length - 1) {
-                        if (rowValues.get(i).getValue() == null && cells[i] != null) {
-                            break;
-                        } else if (cells[i] == null && rowValues.get(i).getValue() != null) {
-                            break;
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 
     private static boolean hasCellValue(Cell cell,

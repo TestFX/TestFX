@@ -16,8 +16,6 @@
  */
 package org.loadui.testfx.controls;
 
-import com.google.common.base.Predicate;
-
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TableCell;

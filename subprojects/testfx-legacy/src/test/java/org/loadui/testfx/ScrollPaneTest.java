@@ -22,7 +22,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.Ignore;

@@ -16,18 +16,18 @@
  */
 package org.loadui.testfx;
 
+import javafx.application.Platform;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.loadui.testfx.categories.TestFX;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import javafx.application.Platform;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.loadui.testfx.categories.TestFX;
 
 import static org.loadui.testfx.controls.Commons.hasText;
 

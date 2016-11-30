@@ -16,20 +16,20 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.Objects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.adapter.RobotAdapter;
 import org.testfx.service.adapter.impl.AwtRobotAdapter;
 import org.testfx.service.adapter.impl.GlassRobotAdapter;
 import org.testfx.service.adapter.impl.JavafxRobotAdapter;
+
+import java.util.Objects;
 
 @Unstable(reason = "needs more tests")
 public class BaseRobotImpl implements BaseRobot {

@@ -21,7 +21,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;

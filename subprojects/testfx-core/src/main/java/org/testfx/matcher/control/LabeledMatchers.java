@@ -16,13 +16,13 @@
  */
 package org.testfx.matcher.control;
 
-import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
-
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
+
+import java.util.Objects;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 

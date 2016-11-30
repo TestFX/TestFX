@@ -16,14 +16,14 @@
  */
 package org.testfx.toolkit.impl;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
+import com.google.common.util.concurrent.SettableFuture;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import com.google.common.util.concurrent.SettableFuture;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationService;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 

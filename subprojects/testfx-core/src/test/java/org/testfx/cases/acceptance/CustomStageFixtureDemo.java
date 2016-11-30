@@ -20,7 +20,6 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
 import org.testfx.api.FxToolkit;
 
 public class CustomStageFixtureDemo {

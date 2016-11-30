@@ -16,14 +16,14 @@
  */
 package org.testfx.service.support;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 import javafx.scene.Node;
-
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.util.WaitForAsyncUtils;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 @Unstable(reason = "needs more tests")
 public class WaitUntilSupport {
@@ -35,7 +35,7 @@ public class WaitUntilSupport {
     public <T extends Node> void waitUntil(final T node,
                                            final Predicate<T> condition,
                                            int timeoutInSeconds) {
-        awaitCondition(() -> condition.apply(node), timeoutInSeconds);
+        awaitCondition(() -> condition.test(node), timeoutInSeconds);
     }
 
     /**

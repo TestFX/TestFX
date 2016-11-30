@@ -20,7 +20,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.cases.TestCaseBase;

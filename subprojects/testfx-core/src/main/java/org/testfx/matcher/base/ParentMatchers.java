@@ -18,7 +18,6 @@ package org.testfx.matcher.base;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
-
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;

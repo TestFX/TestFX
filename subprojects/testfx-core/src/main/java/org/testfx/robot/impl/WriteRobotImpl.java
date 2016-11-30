@@ -16,11 +16,10 @@
  */
 package org.testfx.robot.impl;
 
+import com.google.common.collect.Lists;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
-
-import com.google.common.collect.Lists;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
