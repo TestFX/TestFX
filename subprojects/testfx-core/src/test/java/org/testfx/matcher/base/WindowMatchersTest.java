@@ -80,7 +80,7 @@ public class WindowMatchersTest extends FxRobot {
     }
 
     private void assertWithCleanup(Runnable runnable) throws TimeoutException {
-        try{
+        try {
             runnable.run();
         }
         finally {
