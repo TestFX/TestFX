@@ -15,11 +15,6 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// task to add gradle wrapper files.
-task wrapper(type: Wrapper) {
-    gradleVersion = "2.3"
-}
-
 // task to print gradle and groovy versions.
 task printVersions << {
     println "Gradle version: " + project.gradle.gradleVersion
@@ -27,6 +22,7 @@ task printVersions << {
 }
 
 allprojects { project ->
+    apply plugin: 'idea'
     // task to create main and test source directories.
     task createSourceDirs << {
         if (project != rootProject) {
@@ -50,13 +46,12 @@ buildscript {
     }
 
     dependencies {
-        classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1"
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
-apply plugin: "base"
-apply plugin: "idea"
+apply plugin: 'base'
 
 subprojects { subproject ->
     // provide java configurations and tasks.
@@ -70,6 +65,10 @@ subprojects { subproject ->
     apply from: rootProject.file("gradle/publish-jar.gradle")
     apply from: rootProject.file("gradle/publish-maven.gradle")
     apply from: rootProject.file("gradle/publish-bintray.gradle")
+
+    repositories {
+        jcenter()
+    }
 
     task sourceJar(type: Jar) {
         group "Build"
