@@ -88,16 +88,16 @@ public class WindowMatchersTest extends FxRobot {
         }
     }
 
-//    @Test
-//    public void windowIsFocused() throws Exception {
-//        Window window = FxToolkit.setupFixture( () -> {
-//            Stage stage = new Stage();
-//            stage.show();
-//            stage.requestFocus();
-//            return stage;
-//        });
-//
-//        // expect:
-//        assertThat(window, WindowMatchers.isFocused());
-//    }
+    @Test
+    public void windowIsFocused() throws Exception {
+        Window window = FxToolkit.setupFixture( () -> {
+            Stage stage = new Stage();
+            stage.show();
+            stage.requestFocus();
+            return stage;
+        });
+
+        // expect:
+        assertThat(window, WindowMatchers.isFocused());
+    }
 }
