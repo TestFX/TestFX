@@ -19,6 +19,8 @@ package org.loadui.testfx.controls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TableCell;
@@ -26,7 +28,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -99,7 +100,7 @@ public class TableViews {
       for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
           for (int i = 0; i < table.getItems().size(); i++) {
               Object cellData = column.getCellData(i);
-              if (cellPredicate.apply(cellData.toString())) {
+              if (cellPredicate.test(cellData.toString())) {
                   return true;
               }
           }

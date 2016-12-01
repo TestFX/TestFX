@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.function.Predicate;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
@@ -31,7 +33,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;

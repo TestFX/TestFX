@@ -16,12 +16,12 @@
  */
 package org.testfx.cases.acceptance;
 
+import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-import com.google.common.base.Predicate;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -55,9 +55,7 @@ public class SceneRootAssertionTest {
 
     // HELPER METHODS.
     private Predicate<Parent> hasChild(Node node) {
-        return (Parent parent) -> {
-            return parent.getChildrenUnmodifiable().contains(node);
-        };
+        return (Parent parent) -> parent.getChildrenUnmodifiable().contains(node);
     }
 
 }
