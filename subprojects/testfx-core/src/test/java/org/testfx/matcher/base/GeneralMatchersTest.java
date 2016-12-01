@@ -16,6 +16,7 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -28,8 +29,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.testfx.api.FxToolkit;
-
-import java.util.function.Predicate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

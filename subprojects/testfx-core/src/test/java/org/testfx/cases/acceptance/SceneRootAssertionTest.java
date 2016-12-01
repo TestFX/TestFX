@@ -16,6 +16,7 @@
  */
 package org.testfx.cases.acceptance;
 
+import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -26,8 +27,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
-
-import java.util.function.Predicate;
 
 @Ignore
 public class SceneRootAssertionTest {

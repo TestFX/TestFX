@@ -16,14 +16,6 @@
  */
 package org.testfx.service.query.impl;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
-import javafx.scene.Node;
-import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
-import org.testfx.service.query.NodeQuery;
-import org.testfx.util.NodeQueryUtils;
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -32,6 +24,15 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.scene.Node;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
+import org.hamcrest.Matcher;
+
+import org.testfx.api.annotation.Unstable;
+import org.testfx.service.query.NodeQuery;
+import org.testfx.util.NodeQueryUtils;
 
 @Unstable
 public class NodeQueryImpl implements NodeQuery {

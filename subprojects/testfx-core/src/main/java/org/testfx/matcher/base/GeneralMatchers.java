@@ -17,6 +17,7 @@
 package org.testfx.matcher.base;
 
 import java.util.function.Predicate;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
