@@ -16,11 +16,10 @@
  */
 package org.loadui.testfx;
 
+import java.util.function.Predicate;
 import javafx.scene.Node;
 
 import org.hamcrest.Matcher;
-
-import java.util.function.Predicate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.loadui.testfx.GuiTest.find;
