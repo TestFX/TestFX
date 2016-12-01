@@ -16,6 +16,7 @@
  */
 package org.loadui.testfx;
 
+import java.util.function.Predicate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -27,8 +28,6 @@ import javafx.scene.layout.VBoxBuilder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
-
-import java.util.function.Predicate;
 
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;

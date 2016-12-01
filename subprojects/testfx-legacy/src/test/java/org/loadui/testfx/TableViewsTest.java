@@ -16,6 +16,7 @@
  */
 package org.loadui.testfx;
 
+import java.util.function.Predicate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
@@ -23,8 +24,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
 
 import org.junit.Test;
-
-import java.util.function.Predicate;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.Matchers.is;
