@@ -16,18 +16,22 @@
  */
 
 // task to print gradle and groovy versions.
-task printVersions << {
-    println "Gradle version: " + project.gradle.gradleVersion
-    println "Groovy version: " + GroovySystem.version
+task printVersions {
+    doLast {
+        println "Gradle version: " + project.gradle.gradleVersion
+        println "Groovy version: " + GroovySystem.version
+    }
 }
 
 allprojects { project ->
     apply plugin: 'idea'
     // task to create main and test source directories.
-    task createSourceDirs << {
-        if (project != rootProject) {
-            sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
-            sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    task createSourceDirs {
+        doLast {
+            if (project != rootProject) {
+                sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
+                sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+            }
         }
     }
 }
