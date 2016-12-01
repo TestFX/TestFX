@@ -38,7 +38,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Screen;
 import javafx.stage.Window;
 
 import com.google.common.base.Optional;

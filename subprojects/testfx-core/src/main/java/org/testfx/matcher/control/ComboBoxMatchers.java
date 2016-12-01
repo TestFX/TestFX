@@ -126,8 +126,7 @@ public class ComboBoxMatchers {
      */
     private static boolean matchSubSequenceInOrder(ComboBox<?> comboBox,
                                                    int startIndex,
-                                                   Object... items)
-    {
+                                                   Object... items) {
         int index = startIndex;
         for (Object item : items) {
             if (index >= comboBox.getItems().size() ||

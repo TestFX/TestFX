@@ -29,7 +29,7 @@ public class PrimaryStageApplication extends Application {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public static final PrimaryStageFuture primaryStageFuture = PrimaryStageFuture.create();
+    public static final PrimaryStageFuture PRIMARY_STAGE_FUTURE = PrimaryStageFuture.create();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -39,7 +39,7 @@ public class PrimaryStageApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle(getClass().getSimpleName());
-        primaryStageFuture.set(primaryStage);
+        PRIMARY_STAGE_FUTURE.set(primaryStage);
     }
 
 }
