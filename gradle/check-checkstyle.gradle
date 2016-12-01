@@ -25,5 +25,5 @@ checkstyle {
     configFile = rootProject.file("gradle/check/checkstyle.xml")
     showViolations = true
     ignoreFailures = false
-    toolVersion = "5.9"
+    toolVersion = "7.3"
 }

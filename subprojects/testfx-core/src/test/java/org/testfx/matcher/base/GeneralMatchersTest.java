@@ -38,7 +38,7 @@ public class GeneralMatchersTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public Node nullNode = null;
+    public Node nullNode;
 
     public Pane notMatchingNode;
 

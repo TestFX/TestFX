@@ -45,7 +45,7 @@ public class WaitForAsyncUtilsTest {
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void async_callable() throws Exception {
         // when:
         Future<String> future = WaitForAsyncUtils.async(() -> "foo");
@@ -55,7 +55,7 @@ public class WaitForAsyncUtilsTest {
         assertThat(future.get(), Matchers.is("foo"));
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void async_callable_with_sleep() throws Exception {
         // when:
         Future<String> future = WaitForAsyncUtils.async(() -> {
@@ -69,7 +69,7 @@ public class WaitForAsyncUtilsTest {
         assertThat(future.get(), Matchers.is("foo"));
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void async_callable_with_exception() throws Exception {
         // given:
         Callable<Void> callable = () -> {
@@ -82,7 +82,7 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_future() throws Exception {
         // given:
         Future<Void> future = WaitForAsyncUtils.async(() -> null);
@@ -91,7 +91,7 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_future_with_sleep() throws Exception {
         // given:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
@@ -104,7 +104,7 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_future_cancelled() throws Exception {
         // given:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
@@ -118,13 +118,13 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_booleanCallable() throws Exception {
         // expect:
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> true);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_booleanCallable_with_sleep() throws Exception {
         // expect:
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
@@ -133,14 +133,14 @@ public class WaitForAsyncUtilsTest {
         });
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_booleanCallable_with_false() throws Exception {
         // expect:
         thrown.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> false);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_booleanCallable_with_exception() throws Exception {
         // expect:
         thrown.expectCause(instanceOf(UnsupportedOperationException.class));
@@ -149,7 +149,7 @@ public class WaitForAsyncUtilsTest {
         });
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_booleanValue() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
@@ -163,7 +163,7 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void waitFor_with_booleanValue_with_false() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);

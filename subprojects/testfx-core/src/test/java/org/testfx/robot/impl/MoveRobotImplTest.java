@@ -20,9 +20,9 @@ import javafx.geometry.Point2D;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
-import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 

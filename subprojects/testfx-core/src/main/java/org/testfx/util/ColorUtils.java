@@ -28,9 +28,9 @@ import javafx.scene.paint.Color;
  *
  * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
  */
-public class ColorUtils
-{
+public class ColorUtils {
     private static Map<RGB, String> namedColors = new HashMap<>();
+
     static {
         namedColors.put(new RGB(0xF0, 0xF8, 0xFF), "AliceBlue");
         namedColors.put(new RGB(0xFA, 0xEB, 0xD7), "AntiqueWhite");
@@ -211,7 +211,7 @@ public class ColorUtils
         int hexColor = Integer.parseInt(hexString, 16);
         int r = (hexColor & 0xFF0000) >> 16;
         int g = (hexColor & 0xFF00) >> 8;
-        int b = (hexColor & 0xFF);
+        int b = hexColor & 0xFF;
         return getClosestNamedColor(r, g, b);
     }
 
@@ -242,7 +242,7 @@ public class ColorUtils
         int hexColor = Integer.parseInt(hexString, 16);
         int r = (hexColor & 0xFF0000) >> 16;
         int g = (hexColor & 0xFF00) >> 8;
-        int b = (hexColor & 0xFF);
+        int b = hexColor & 0xFF;
         return getNamedColor(r, g, b);
     }
 
@@ -277,15 +277,12 @@ public class ColorUtils
         }
 
         @Override
-        public boolean equals(Object object)
-        {
-            if (object == this)
-            {
+        public boolean equals(Object object) {
+            if (object == this) {
                 return true;
             }
 
-            if (object == null || object.getClass() != getClass())
-            {
+            if (object == null || object.getClass() != getClass()) {
                 return false;
             }
 
@@ -294,10 +291,8 @@ public class ColorUtils
             return r == other.r && g == other.g && b == other.b;
         }
 
-
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return Objects.hash(r, g, b);
         }
     }
