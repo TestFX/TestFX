@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.api.annotation.Unstable;
@@ -31,6 +32,11 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "might be renamed to ApplicationTestBase")
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
 
+	/**
+	 * This flag enables/disables the UI test. All tests will be skipped if set to false. 
+	 */
+	public static boolean doUITest=true;
+	
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
@@ -42,6 +48,18 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
         FxToolkit.setupApplication(appClass, appArgs);
     }
 
+    /**
+     * Evaluates the environment variable {@code UI_TEST} and sets {@code doUITest} to false, 
+     * if the variable exists and is set to anything else than true.
+     */
+	@BeforeClass public final static void internalBeforeClass(){
+		String doUI=System.getenv("UI_TEST");
+		if(doUI!=null){
+			doUITest=doUI.equals("true");
+			if(!doUITest)
+				System.out.println("Executing UI-Tests="+doUITest);
+		}
+	}
     //---------------------------------------------------------------------------------------------
     // METHODS.
     //---------------------------------------------------------------------------------------------
@@ -50,15 +68,21 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     @Unstable(reason = "is missing apidocs")
     public final void internalBefore()
                               throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
+		//skipping tests if not doing ui tests
+		org.junit.Assume.assumeTrue(doUITest);
+		if(doUITest){
+			FxToolkit.registerPrimaryStage();
+			FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
+		}
     }
 
     @After
     @Unstable(reason = "is missing apidocs")
     public final void internalAfter()
                              throws Exception {
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+		if(doUITest){
+			FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+		}
     }
 
     @Override
