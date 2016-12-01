@@ -26,6 +26,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -335,6 +336,8 @@ public final class FxToolkit {
     }
 
     private static void showStage(Stage stage) {
+        stage.setX(Screen.getPrimary().getBounds().getWidth() / 2 - stage.getWidth() / 2);
+        stage.setY(Screen.getPrimary().getBounds().getHeight() / 2 - stage.getHeight() / 2);
         stage.show();
         stage.toBack();
         stage.toFront();

@@ -17,6 +17,8 @@
 package org.testfx.framework.junit;
 
 import java.util.function.Consumer;
+
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import org.junit.rules.TestRule;
@@ -42,6 +44,8 @@ public class ApplicationRule extends FxRobot
     @Override
     public void start(Stage stage) throws Exception {
         start.accept(stage);
+        stage.setX(Screen.getPrimary().getBounds().getWidth() / 2 - stage.getWidth() / 2);
+        stage.setY(Screen.getPrimary().getBounds().getHeight() / 2 - stage.getHeight() / 2);
     }
 
     @Override
