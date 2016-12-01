@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -89,6 +90,7 @@ public class WindowMatchersTest extends FxRobot {
     }
 
     @Test
+    @Ignore("See https://github.com/TestFX/TestFX/pull/284 for details")
     public void windowIsFocused() throws Exception {
         Window window = FxToolkit.setupFixture(() -> {
             Stage stage = new Stage();
