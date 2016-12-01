@@ -251,7 +251,8 @@ public class WaitForAsyncUtils {
         try {
             sleepWithException(duration, timeUnit);
         }
-        catch (InterruptedException ignore) {}
+        catch (InterruptedException ignore) {
+        }
     }
 
     /**
@@ -382,7 +383,8 @@ public class WaitForAsyncUtils {
         try {
             semaphore.acquire();
         }
-        catch (InterruptedException ignore) {}
+        catch (InterruptedException ignore) {
+        }
     }
 
 }
