@@ -24,10 +24,11 @@ import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
 
-import com.google.common.base.Predicate;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
+
+import java.util.function.Predicate;
 
 import static org.loadui.testfx.Assertions.verifyThat;
 import static org.loadui.testfx.controls.Commons.hasText;
@@ -82,7 +83,7 @@ public class ControllerApiTest extends GuiTest {
         // To stay compatible with both Java 7 and 8, this test uses Java 7 code.
         clickOn(new Predicate<Button>() {
             @Override
-            public boolean apply(Button b) {
+            public boolean test(Button b) {
                 return b.isDefaultButton();
             }
         });

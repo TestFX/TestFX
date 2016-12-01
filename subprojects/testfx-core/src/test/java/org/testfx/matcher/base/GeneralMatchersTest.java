@@ -21,7 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,6 +28,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.testfx.api.FxToolkit;
+
+import java.util.function.Predicate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

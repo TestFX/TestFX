@@ -21,12 +21,13 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-import com.google.common.base.Predicate;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
+
+import java.util.function.Predicate;
 
 @Ignore
 public class SceneRootAssertionTest {
@@ -55,9 +56,7 @@ public class SceneRootAssertionTest {
 
     // HELPER METHODS.
     private Predicate<Parent> hasChild(Node node) {
-        return (Parent parent) -> {
-            return parent.getChildrenUnmodifiable().contains(node);
-        };
+        return (Parent parent) -> parent.getChildrenUnmodifiable().contains(node);
     }
 
 }

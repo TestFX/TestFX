@@ -17,11 +17,11 @@
 package org.testfx.service.finder;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.service.query.NodeQuery;
 

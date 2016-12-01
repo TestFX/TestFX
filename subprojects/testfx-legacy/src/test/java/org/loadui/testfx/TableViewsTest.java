@@ -22,8 +22,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
 
-import com.google.common.base.Predicate;
 import org.junit.Test;
+
+import java.util.function.Predicate;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.Matchers.is;
@@ -48,7 +49,7 @@ public class TableViewsTest extends GuiTest {
     public void shouldFindCellValues_usingPredicate() {
         verifyThat(".table-view", containsCell(new Predicate<String>() {
             @Override
-            public boolean apply(String s) {
+            public boolean test(String s) {
                 return Integer.parseInt(s) == 9;
             }
         }));
