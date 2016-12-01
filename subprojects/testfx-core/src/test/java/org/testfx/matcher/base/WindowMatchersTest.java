@@ -16,16 +16,17 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeoutException;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-
-import java.util.concurrent.Callable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -56,7 +57,7 @@ public class WindowMatchersTest extends FxRobot {
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
 
         // expect:
-        assertThat(window, WindowMatchers.isNotShowing());
+        assertWithCleanup(() -> assertThat(window, WindowMatchers.isNotShowing()));
     }
 
     @Test
@@ -64,19 +65,27 @@ public class WindowMatchersTest extends FxRobot {
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
 
         // expect:
-        assertThat(window, WindowMatchers.isNotFocused());
+        assertWithCleanup(() -> assertThat(window, WindowMatchers.isNotFocused()));
     }
 
     @Test
     public void windowIsShowing() throws Exception {
-        Window window = FxToolkit.setupFixture( () -> {
+        Window window = FxToolkit.setupFixture(() -> {
             Stage stage = new Stage();
             stage.show();
             return stage;
         });
-
         // expect:
-        assertThat(window, WindowMatchers.isShowing());
+        assertWithCleanup(() -> assertThat(window, WindowMatchers.isShowing()));
+    }
+
+    private void assertWithCleanup(Runnable runnable) throws TimeoutException {
+        try{
+            runnable.run();
+        }
+        finally {
+            FxToolkit.cleanupStages();
+        }
     }
 
 //    @Test

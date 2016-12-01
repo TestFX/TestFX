@@ -14,10 +14,10 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-
 package org.testfx.matcher.base;
 
 import javafx.stage.Window;
+
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
@@ -26,8 +26,6 @@ import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 /**
  * TestFX matchers for {@code javafx.stage.Window}.
- *
- * @author Andres Almiray
  */
 @Unstable(reason = "needs more tests")
 public class WindowMatchers {
