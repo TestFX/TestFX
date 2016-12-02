@@ -29,25 +29,28 @@ import static org.loadui.testfx.GuiTest.find;
  */
 public class TextInputControls {
 
-	/**
-	 * Clears all text in the given TextInputControl.
-	 * @param textInputControl the textInputControl to clear
-	 */
+    /**
+     * Clears all text in the given TextInputControl.
+     * 
+     * @param textInputControl
+     *            the textInputControl to clear
+     */
     public static void clearTextIn(TextInputControl textInputControl) {
         textInputControl.clear();
     }
-    
+
     /**
-     * Clears all text in the TextInputControl defined by the given query.
-     * The query is resolved by {@link org.loadui.testfx.GuiTest#find(String)}.
-     * If the control is already empty, nothing will be done.
-     * @param textInputQuery the query to lookup the TextInputControl.
+     * Clears all text in the TextInputControl defined by the given query. The
+     * query is resolved by {@link org.loadui.testfx.GuiTest#find(String)}. If
+     * the control is already empty, nothing will be done.
+     * 
+     * @param textInputQuery
+     *            the query to lookup the TextInputControl.
      */
     public static void clearTextIn(String textInputQuery) {
         Node node = find(textInputQuery);
         if (!(node instanceof TextInputControl)) {
-            throw new NoNodesFoundException(textInputQuery + " selected " + node +
-                " which is not a TextInputControl!");
+            throw new NoNodesFoundException(textInputQuery + " selected " + node + " which is not a TextInputControl!");
         }
 
         TextInputControl textControl = (TextInputControl) node;
