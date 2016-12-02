@@ -99,7 +99,7 @@ public class TableViews {
         for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
             for (int i = 0; i < table.getItems().size(); i++) {
                 Object cellData = column.getCellData(i);
-                if (cellPredicate.apply(cellData.toString())) {
+                if (cellPredicate.test(cellData.toString())) {
                     return true;
                 }
             }

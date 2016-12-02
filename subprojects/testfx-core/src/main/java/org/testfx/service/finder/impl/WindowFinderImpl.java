@@ -18,6 +18,7 @@ package org.testfx.service.finder.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -143,14 +144,13 @@ public class WindowFinderImpl implements WindowFinder {
 
     private List<Window> fetchWindowsByProximityTo(Window targetWindow) {
         List<Window> windows = fetchWindowsInQueue();
-        List<Window> windowsByProximity = orderWindowsByProximityTo(targetWindow, windows);
-        return windowsByProximity;
+        return orderWindowsByProximityTo(targetWindow, windows);
     }
 
     private List<Window> orderWindowsByProximityTo(Window targetWindow,
                                                    List<Window> windows) {
         List<Window> copy = new ArrayList<>(windows);
-        copy.sort((w1, w2) -> Integer.compare(calculateWindowProximityTo(targetWindow, w1), calculateWindowProximityTo(targetWindow, w2)));
+        copy.sort(Comparator.comparingInt(w -> calculateWindowProximityTo(targetWindow, w)));
         return Collections.unmodifiableList(copy);
     }
 
