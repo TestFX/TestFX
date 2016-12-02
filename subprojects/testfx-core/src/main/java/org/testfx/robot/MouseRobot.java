@@ -16,8 +16,10 @@
  */
 package org.testfx.robot;
 
+import java.util.Set;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
+
 
 public interface MouseRobot {
 
@@ -28,6 +30,12 @@ public interface MouseRobot {
      */
     public void press(MouseButton... buttons);
     public void pressNoWait(MouseButton... buttons);
+
+    /**
+     * Gets the buttons that have been pressed but not yet released.
+     * @return an unmodifiable set of the pressed buttons
+     */
+    public Set<MouseButton> getPressedButtons();
 
     /**
      * Releases given buttons.
