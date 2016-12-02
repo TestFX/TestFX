@@ -29,7 +29,9 @@ buildscript {
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
     }
 }
-
+plugins {
+    id 'com.github.ben-manes.versions' version '0.13.0'
+}
 //-------------------------------------------------------------------------------------------------
 // ROOT PROJECT.
 //-------------------------------------------------------------------------------------------------
@@ -40,7 +42,7 @@ rootProject.with { project ->
 
     // task to add gradle wrapper files.
     task("wrapper", type: Wrapper) {
-        gradleVersion = "2.9"
+        gradleVersion = "3.2.1"
         distributionUrl = "https://services.gradle.org/distributions/" +
             "gradle-${gradleVersion}-all.zip"
     }
