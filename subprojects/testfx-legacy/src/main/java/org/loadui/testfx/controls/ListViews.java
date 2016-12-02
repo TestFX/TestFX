@@ -18,6 +18,7 @@ package org.loadui.testfx.controls;
 
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -58,8 +59,8 @@ public class ListViews {
       return list.getItems()
           .stream()
           .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
-    }    
-    
+    }
+
     @SuppressWarnings("unchecked")
     @Factory
     public static <S> org.hamcrest.Matcher<S> hasSelectedRow(Object rowValue) {
@@ -108,7 +109,7 @@ public class ListViews {
                 valueToMatch + "'");
         }
     }
-    
+
     @SuppressWarnings("rawtypes")
     private static class ListSelectedMatcher extends BaseMatcher {
         private Object valueToMatch;

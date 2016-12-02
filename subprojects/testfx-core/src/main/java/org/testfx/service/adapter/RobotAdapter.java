@@ -27,7 +27,7 @@ public interface RobotAdapter<T> {
 
     // ROBOT.
 
-    public void robotCreate() ;
+    public void robotCreate();
 
     public void robotDestroy();
 

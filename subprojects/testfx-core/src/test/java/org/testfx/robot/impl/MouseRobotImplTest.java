@@ -20,8 +20,8 @@ import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.testfx.robot.MouseRobot;
 import org.testfx.robot.BaseRobot;
+import org.testfx.robot.MouseRobot;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;

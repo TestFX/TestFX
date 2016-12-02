@@ -51,8 +51,9 @@ public class TextInputControls {
         }
 
         TextInputControl textControl = (TextInputControl) node;
-        if (textControl.getLength() == 0)
+        if (textControl.getLength() == 0) {
             return;
+        }
         clearTextIn(textControl);
     }
 

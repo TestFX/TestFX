@@ -23,9 +23,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.hamcrest.Matchers;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.PointQuery;

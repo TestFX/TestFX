@@ -197,12 +197,12 @@ public class JavafxRobotAdapterTest {
     @Test
     public void keyPressTypeRelease_english_text() {
         // Source: http://en.wikisource.org/wiki/All_in_the_Golden_Afternoon
-        String text = "All in the golden afternoon\n"
-            + "\tFull leisurely we glide;\n"
-            + "For both our oars, with little skill,\n"
-            + "\tBy little arms are plied;\n"
-            + "While little hands make vain pretence\n"
-            + "\tOur wanderings to guide.";
+        String text = "All in the golden afternoon\n" +
+                "\tFull leisurely we glide;\n" +
+                "For both our oars, with little skill,\n" +
+                "\tBy little arms are plied;\n" +
+                "While little hands make vain pretence\n" +
+                "\tOur wanderings to guide.";
 
         // given:
         robotAdapter.mouseMove(textAreaPoint);
@@ -225,12 +225,12 @@ public class JavafxRobotAdapterTest {
     @Test
     public void keyPressTypeRelease_korean_text() {
         // Source: http://ko.wikisource.org/wiki/이상한_나라의_앨리스
-        String text = "화창한 오후마다\n"
-            + "\t우린 느긋이 배를 타지;\n"
-            + "노는 둘 다 젓는 듯 마는 듯,\n"
-            + "\t노를 젓는다고 해도,\n"
-            + "작은 손으로 시늉만 내는 동안\n"
-            + "\t우리는 정처없이 흘러간다네.";
+        String text = "화창한 오후마다\n" +
+                "\t우린 느긋이 배를 타지;\n" +
+                "노는 둘 다 젓는 듯 마는 듯,\n" +
+                "\t노를 젓는다고 해도,\n" +
+                "작은 손으로 시늉만 내는 동안\n" +
+                "\t우리는 정처없이 흘러간다네.";
 
         // given:
         robotAdapter.mouseMove(textAreaPoint);

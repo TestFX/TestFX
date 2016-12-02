@@ -16,14 +16,14 @@
  */
 package org.testfx.framework.junit;
 
+import java.util.function.Consumer;
 import javafx.stage.Stage;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-
-import java.util.function.Consumer;
 
 public class ApplicationRule extends FxRobot
         implements ApplicationFixture, TestRule {

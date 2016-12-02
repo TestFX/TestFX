@@ -17,6 +17,7 @@
 package org.testfx.robot;
 
 import javafx.scene.input.MouseButton;
+
 import org.testfx.service.query.PointQuery;
 
 public interface ClickRobot {

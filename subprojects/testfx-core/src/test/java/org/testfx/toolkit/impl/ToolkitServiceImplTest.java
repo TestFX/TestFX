@@ -55,7 +55,7 @@ public class ToolkitServiceImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.primaryStageFuture;
+        PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
         Class<? extends Application> toolkitApplication = PrimaryStageApplication.class;
         toolkitService = new ToolkitServiceImpl(
             new ApplicationLauncherImpl(), new ApplicationServiceImpl()

@@ -17,12 +17,11 @@
 package org.testfx.service.finder;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
-
-import com.google.common.base.Predicate;
 
 public interface WindowFinder {
 

@@ -68,4 +68,21 @@ public class ScrollRobotImplTest {
         verify(mouseRobot, times(5)).scroll(eq(1));
     }
 
+    @Test
+    public void scrollLeft() {
+        // when:
+        scrollRobot.scrollLeft(5);
+
+        // then:
+        verify(mouseRobot, times(5)).scroll(eq(-1));
+    }
+
+    @Test
+    public void scrollRight() {
+        // when:
+        scrollRobot.scrollRight(5);
+
+        // then:
+        verify(mouseRobot, times(5)).scroll(eq(1));
+    }
 }

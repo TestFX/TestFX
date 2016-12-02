@@ -61,14 +61,13 @@ public class BoundsQueryUtilsTest {
     private static Scene scene;
     private static Stage stage;
 
-    private static final double shapeWidth = 200;
-    private static final double clipWidth = 100;
-    private static final double translateX = 50;
-    private static final double layoutX = 25;
-
-    private static final double paddingLeft = 200;
-    private static final double borderLeft = 100;
-    private static final double marginLeft = 50;
+    private static final double SHAPE_WIDTH = 200;
+    private static final double CLIP_WIDTH = 100;
+    private static final double TRANSLATE_X = 50;
+    private static final double LAYOUT_X = 25;
+    private static final double PADDING_LEFT = 200;
+    private static final double BORDER_LEFT = 100;
+    private static final double MARGIN_LEFT = 50;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -86,11 +85,11 @@ public class BoundsQueryUtilsTest {
     }
 
     private static void setupShape() {
-        shape = new Rectangle(0, 0, shapeWidth, 0); // nodeBounds()
-        shape.setClip(new Rectangle(0, 0, clipWidth, 0)); // nodeBoundsInLocal()
-        shape.getTransforms().add(new Translate(translateX, 0)); // nodeBoundsInParent()
+        shape = new Rectangle(0, 0, SHAPE_WIDTH, 0); // nodeBounds()
+        shape.setClip(new Rectangle(0, 0, CLIP_WIDTH, 0)); // nodeBoundsInLocal()
+        shape.getTransforms().add(new Translate(TRANSLATE_X, 0)); // nodeBoundsInParent()
 
-        Shape altShape = new Rectangle(0, 0, shapeWidth, 0); // nodeBounds()
+        Shape altShape = new Rectangle(0, 0, SHAPE_WIDTH, 0); // nodeBounds()
         altShape.setFill(Color.GREEN);
         altShape.setStroke(Color.BLACK);
         altShape.setStrokeType(StrokeType.OUTSIDE);
@@ -102,16 +101,16 @@ public class BoundsQueryUtilsTest {
         region = new Region();
         region.setMaxSize(0, 0);
         region.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
-        region.setPadding(new Insets(0, 0, 0, paddingLeft)); // nodeBounds(), nodeBoundsInLocal()
+        region.setPadding(new Insets(0, 0, 0, PADDING_LEFT)); // nodeBounds(), nodeBoundsInLocal()
         region.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, null,
-                new BorderWidths(0, 0, 0, borderLeft)))); // nodeBounds(), nodeBoundsInLocal()
-        StackPane.setMargin(region, new Insets(0, 0, 0, marginLeft)); // nodeBoundsInParent()
+                new BorderWidths(0, 0, 0, BORDER_LEFT)))); // nodeBounds(), nodeBoundsInLocal()
+        StackPane.setMargin(region, new Insets(0, 0, 0, MARGIN_LEFT)); // nodeBoundsInParent()
     }
 
     private static void setupScene() {
         StackPane sceneRoot = new StackPane(shape, region);
         sceneRoot.setAlignment(Pos.TOP_LEFT);
-        sceneRoot.setLayoutX(layoutX); // bounds(Scene)
+        sceneRoot.setLayoutX(LAYOUT_X); // bounds(Scene)
         sceneRoot.setLayoutY(0);
         scene = new Scene(sceneRoot, 1, 1);
     }
@@ -177,7 +176,7 @@ public class BoundsQueryUtilsTest {
         Bounds bounds = BoundsQueryUtils.nodeBounds(shape);
         verifyThat(bounds, hasBounds(
             0, 0,
-            shapeWidth, 0
+                SHAPE_WIDTH, 0
         ));
     }
 
@@ -187,7 +186,7 @@ public class BoundsQueryUtilsTest {
         Bounds bounds = BoundsQueryUtils.nodeBoundsInLocal(shape);
         verifyThat(bounds, hasBounds(
             0, 0,
-            clipWidth, 0
+                CLIP_WIDTH, 0
         ));
     }
 
@@ -196,18 +195,18 @@ public class BoundsQueryUtilsTest {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInParent(shape);
         verifyThat(bounds, hasBounds(
-            translateX, 0,
-            clipWidth, 0
+                TRANSLATE_X, 0,
+                CLIP_WIDTH, 0
         ));
     }
 
     @Test
     public void nodeBoundsInScene_shape() {
         // expect:
-        Bounds Bounds = BoundsQueryUtils.nodeBoundsInScene(shape);
-        verifyThat(Bounds, hasBounds(
-            layoutX + translateX, 0,
-            clipWidth, 0
+        Bounds bounds = BoundsQueryUtils.nodeBoundsInScene(shape);
+        verifyThat(bounds, hasBounds(
+            LAYOUT_X + TRANSLATE_X, 0,
+                CLIP_WIDTH, 0
         ));
     }
 
@@ -217,7 +216,7 @@ public class BoundsQueryUtilsTest {
         Bounds bounds = BoundsQueryUtils.nodeBounds(region);
         verifyThat(bounds, hasBounds(
             0, 0,
-            borderLeft + paddingLeft, 0
+            BORDER_LEFT + PADDING_LEFT, 0
         ));
     }
 
@@ -227,7 +226,7 @@ public class BoundsQueryUtilsTest {
         Bounds bounds = BoundsQueryUtils.nodeBoundsInLocal(region);
         verifyThat(bounds, hasBounds(
             0, 0,
-            borderLeft + paddingLeft, 0
+            BORDER_LEFT + PADDING_LEFT, 0
         ));
     }
 
@@ -236,8 +235,8 @@ public class BoundsQueryUtilsTest {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInParent(region);
         verifyThat(bounds, hasBounds(
-            marginLeft, 0,
-            borderLeft + paddingLeft, 0
+                MARGIN_LEFT, 0,
+            BORDER_LEFT + PADDING_LEFT, 0
         ));
     }
 
@@ -246,8 +245,8 @@ public class BoundsQueryUtilsTest {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInScene(region);
         verifyThat(bounds, hasBounds(
-            layoutX + marginLeft, 0,
-            borderLeft + paddingLeft, 0
+            LAYOUT_X + MARGIN_LEFT, 0,
+            BORDER_LEFT + PADDING_LEFT, 0
         ));
     }
 
@@ -295,8 +294,8 @@ public class BoundsQueryUtilsTest {
         // expect:
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(shape);
         verifyThat(bounds, hasBounds(
-            stage.getX() + layoutX + translateX, stage.getY(),
-            clipWidth, 0
+            stage.getX() + LAYOUT_X + TRANSLATE_X, stage.getY(),
+                CLIP_WIDTH, 0
         ));
     }
 
@@ -305,8 +304,8 @@ public class BoundsQueryUtilsTest {
         // expect:
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(region);
         verifyThat(bounds, hasBounds(
-            stage.getX() + layoutX + marginLeft, stage.getY(),
-            borderLeft + paddingLeft, 0
+            stage.getX() + LAYOUT_X + MARGIN_LEFT, stage.getY(),
+            BORDER_LEFT + PADDING_LEFT, 0
         ));
     }
 

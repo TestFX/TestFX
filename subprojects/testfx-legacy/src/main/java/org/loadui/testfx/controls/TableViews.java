@@ -16,7 +16,10 @@
  */
 package org.loadui.testfx.controls;
 
-import com.google.common.base.Predicate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -31,10 +34,6 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.loadui.testfx.GuiTest.find;
 
 /**
@@ -43,8 +42,6 @@ import static org.loadui.testfx.GuiTest.find;
  * Clicking a row/cell and asserting its value would be great. My feature wish list:
  * double/right-click row, select 1+ rows, edit a cell.
  *
- * @author Philipp91
- * @author minisu
  */
 public class TableViews {
 
@@ -87,7 +84,8 @@ public class TableViews {
         }
     }
 
-    static List<TableColumn> getFlattenedColumns(TableView<?> table) {List<TableColumn> l = new ArrayList<>();
+    static List<TableColumn> getFlattenedColumns(TableView<?> table) {
+      List<TableColumn> l = new ArrayList<>();
       table.getColumns()
           .forEach(c -> l.addAll(flatten(c)));
         return l;
@@ -99,13 +97,15 @@ public class TableViews {
 //          .map(col -> {col.})
 //          .anyMatch(cellData -> cellPredicate.apply(cellData.toString()));
 
-      for (TableColumn<?, ?> column : getFlattenedColumns(table))
+      for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
           for (int i = 0; i < table.getItems().size(); i++) {
-            Object cellData = column.getCellData(i);
-            if (cellPredicate.apply(cellData.toString()))
-              return true;
+              Object cellData = column.getCellData(i);
+              if (cellPredicate.test(cellData.toString())) {
+                  return true;
+              }
           }
-        return false;
+      }
+      return false;
     }
 
     static boolean containsCell(TableView<?> table, Object cellValue) {
@@ -117,15 +117,16 @@ public class TableViews {
       for (TableColumn<?, ?> column : getFlattenedColumns(table)) {
             for (int i = 0; i < table.getItems().size(); i++) {
                 Object cellData = column.getCellData(i);
-                if (cellValue.equals(cellData) || cellValue.equals(cellData.toString()))
+                if (cellValue.equals(cellData) || cellValue.equals(cellData.toString())) {
                     return true;
+                }
             }
         }
         return false;
     }
 
     /**
-     * @param tableSelector Ein CSS-Selektor oder Label.     //TODO translate to englisch
+     * @param tableSelector Ein CSS-Selektor oder Label.     //TODO translate to english
      * @return Die TableView, sofern sie anhand des Selektors gefunden wurde.
      */
     static TableView<?> getTableView(String tableSelector) {
@@ -150,7 +151,7 @@ public class TableViews {
     }
 
     /**
-     * @param tableSelector Selektor zur Identifikation der Tabelle. //TODO translate to englisch
+     * @param tableSelector Selektor zur Identifikation der Tabelle. //TODO translate to english
      * @param row           Zeilennummer
      * @return Die entsprechende Zeile.
      */
@@ -178,7 +179,7 @@ public class TableViews {
     }
 
     /**
-     * @param tableSelector Selektor zur Identifikation der Tabelle. //TODO translate to englisch
+     * @param tableSelector Selektor zur Identifikation der Tabelle. //TODO translate to english
      * @param row           Zeilennummer
      * @param column        Spaltennummer
      * @return Die entsprechende Zelle.
@@ -211,14 +212,16 @@ public class TableViews {
         public boolean matches(Object o) {
             if (o instanceof String) {
                 String query = (String) o;
-                if (valueToMatch instanceof Predicate)
+                if (valueToMatch instanceof Predicate) {
                     return TableViews.containsCell(getTableView(query), (Predicate) valueToMatch);
+                }
                 return TableViews.containsCell(getTableView(query), valueToMatch);
             }
             else if (o instanceof TableView) {
                 TableView tableView = (TableView) o;
-                if (valueToMatch instanceof Predicate)
+                if (valueToMatch instanceof Predicate) {
                     return TableViews.containsCell(tableView, (Predicate) valueToMatch);
+                }
                 return TableViews.containsCell(tableView, valueToMatch);
             }
             return false;

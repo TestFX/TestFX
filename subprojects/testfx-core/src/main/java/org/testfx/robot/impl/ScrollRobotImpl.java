@@ -16,6 +16,7 @@
  */
 package org.testfx.robot.impl;
 
+import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
 
 import org.testfx.api.annotation.Unstable;
@@ -29,8 +30,8 @@ public class ScrollRobotImpl implements ScrollRobot {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private static final int SCROLL_ONE_UP = -1;
-    private static final int SCROLL_ONE_DOWN = 1;
+    private static final int SCROLL_ONE_UP_OR_LEFT = -1;
+    private static final int SCROLL_ONE_DOWN_OR_RIGHT = 1;
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -74,15 +75,39 @@ public class ScrollRobotImpl implements ScrollRobot {
     @Override
     public void scrollUp(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            mouseRobot.scroll(SCROLL_ONE_UP);
+            mouseRobot.scroll(SCROLL_ONE_UP_OR_LEFT);
         }
     }
 
     @Override
     public void scrollDown(int positiveAmount) {
         for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
-            mouseRobot.scroll(SCROLL_ONE_DOWN);
+            mouseRobot.scroll(SCROLL_ONE_DOWN_OR_RIGHT);
         }
     }
 
+    @Override
+    public void scroll(int positiveAmount,
+                       HorizontalDirection direction) {
+        if (direction == HorizontalDirection.RIGHT) {
+            scrollRight(positiveAmount);
+        }
+        else if (direction == HorizontalDirection.LEFT) {
+            scrollLeft(positiveAmount);
+        }
+    }
+
+    @Override
+    public void scrollRight(int positiveAmount) {
+        for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
+            mouseRobot.scroll(SCROLL_ONE_DOWN_OR_RIGHT);
+        }
+    }
+
+    @Override
+    public void scrollLeft(int positiveAmount) {
+        for (int scrollTick = 0; scrollTick < positiveAmount; scrollTick++) {
+            mouseRobot.scroll(SCROLL_ONE_UP_OR_LEFT);
+        }
+    }
 }

@@ -133,7 +133,7 @@ public class BoundsLocatorImplTest {
         assertThat(bounds, equalTo(bounds(550, 350, 50, 50)));
     }
 
-    @Test(expected=BoundsLocatorException.class)
+    @Test(expected = BoundsLocatorException.class)
     public void boundsInSceneFor_nodeOutsideOfScene() {
         // when:
         Bounds bounds = boundsLocator.boundsInSceneFor(nodeOutsideOfScene);
@@ -170,7 +170,7 @@ public class BoundsLocatorImplTest {
         assertThat(bounds, equalTo(boundsWithOffset(550, 350, 50, 50, windowInsets)));
     }
 
-    @Test(expected=BoundsLocatorException.class)
+    @Test(expected = BoundsLocatorException.class)
     public void boundsInWindowFor_boundsOutsideOfScene() {
         // when:
         Bounds bounds = boundsLocator.boundsInWindowFor(boundsOutsideOfScene, primaryScene);
@@ -217,7 +217,7 @@ public class BoundsLocatorImplTest {
         assertThat(bounds, equalTo(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets)));
     }
 
-    @Test(expected=BoundsLocatorException.class)
+    @Test(expected = BoundsLocatorException.class)
     public void boundsOnScreenFor_boundsOutsideOfScene() {
         // when:
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsOutsideOfScene, primaryScene);

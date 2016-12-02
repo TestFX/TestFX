@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
+
 import org.junit.Test;
 
 import static org.loadui.testfx.Assertions.verifyThat;
@@ -37,7 +38,8 @@ public class AssertionsTest extends GuiTest {
   public void shouldSupportPredicatesForQueries2() {
     try {
       verifyThat("Button A", Button::isCancelButton);
-    } catch (AssertionError e) {
+    }
+    catch (AssertionError e) {
       return;
     }
     throw new AssertionError("verifyThat should have failed.");

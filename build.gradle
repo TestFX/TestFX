@@ -15,34 +15,9 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// task to add gradle wrapper files.
-task wrapper(type: Wrapper) {
-    gradleVersion = "2.3"
-}
-
-// task to print gradle and groovy versions.
-task printVersions << {
-    println "Gradle version: " + project.gradle.gradleVersion
-    println "Groovy version: " + GroovySystem.version
-}
-
-allprojects { project ->
-    // task to create main and test source directories.
-    task createSourceDirs << {
-        if (project != rootProject) {
-            sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
-            sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-        }
-    }
-}
-
-// create build date and time.
-import java.text.SimpleDateFormat
-Date buildTimeAndDate = new Date()
-ext {
-    buildDate = new SimpleDateFormat("yyyy-MM-dd").format(buildTimeAndDate)
-    buildTime = new SimpleDateFormat("HH:mm:ss.SSSZ").format(buildTimeAndDate)
-}
+//-------------------------------------------------------------------------------------------------
+// GRADLE PLUGINS.
+//-------------------------------------------------------------------------------------------------
 
 buildscript {
     repositories {
@@ -51,35 +26,93 @@ buildscript {
 
     dependencies {
         classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
     }
 }
 
-apply plugin: "base"
-apply plugin: "idea"
-apply plugin: "eclipse"
+//-------------------------------------------------------------------------------------------------
+// ROOT PROJECT.
+//-------------------------------------------------------------------------------------------------
+
+rootProject.with { project ->
+    // provide assemble and clean tasks.
+    apply(plugin: "base")
+
+    // task to add gradle wrapper files.
+    task("wrapper", type: Wrapper) {
+        gradleVersion = "2.9"
+        distributionUrl = "https://services.gradle.org/distributions/" +
+            "gradle-${gradleVersion}-all.zip"
+    }
+
+    // task to print gradle and groovy versions.
+    task("versions", group: "help").doLast {
+        println "Java version: ${System.properties["java.version"]}"
+        println "Gradle version: ${gradle.gradleVersion}"
+        println "Groovy version: ${GroovySystem.version}"
+    }
+
+    ext {
+        // add build time and date to project attributes.
+        def buildTimeAndDate = new Date()
+        buildDate = buildTimeAndDate.format("yyyy-MM-dd")
+        buildTime = buildTimeAndDate.format("HH:mm:ss.SSSZ")
+
+        // add java version and vendor to project attributes.
+        javaVersion = System.properties["java.version"]
+        javaVendor = System.properties["java.vendor"]
+        javaVmVersion = System.properties["java.vm.version"]
+    }
+}
+
+//-------------------------------------------------------------------------------------------------
+// EACH PROJECT.
+//-------------------------------------------------------------------------------------------------
+
+allprojects { project ->
+    // task to create main and test source directories.
+    task("initSourceDirs", group: "build setup").doLast {
+        // ignore source directories for projects without source sets.
+        if (!project.hasProperty("sourceSets")) { return }
+
+        // list all source directories.
+        def sourceSets = project.sourceSets as SourceSetContainer
+        def sourceDirs = sourceSets*.allSource.srcDirs.flatten() as List<File>
+
+        // create source directories, for those who not exists.
+        for (sourceDir in sourceDirs) {
+            if (sourceDir.mkdirs()) {
+                println "Created source dir: \"${sourceDir}\"."
+            }
+        }
+    }
+}
+
+//-------------------------------------------------------------------------------------------------
+// EACH SUBPROJECT.
+//-------------------------------------------------------------------------------------------------
 
 subprojects { subproject ->
     // provide java configurations and tasks.
-    apply plugin: "java"
+    apply(plugin: "java")
 
-    //apply from: rootProject.file("gradle/check-checkstyle.gradle")
-    //apply from: rootProject.file("gradle/check-findbugs.gradle")
-    //apply from: rootProject.file("gradle/check-jdepend.gradle")
-    apply from: rootProject.file("gradle/check-license.gradle")
+    apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
+    //apply(from: rootProject.file("gradle/check-findbugs.gradle"))
+    //apply(from: rootProject.file("gradle/check-jdepend.gradle"))
+    apply(from: rootProject.file("gradle/check-license.gradle"))
 
-    apply from: rootProject.file("gradle/publish-jar.gradle")
-    apply from: rootProject.file("gradle/publish-maven.gradle")
-    apply from: rootProject.file("gradle/publish-bintray.gradle")
+    apply(from: rootProject.file("gradle/publish-jar.gradle"))
+    apply(from: rootProject.file("gradle/publish-maven.gradle"))
+    apply(from: rootProject.file("gradle/publish-bintray.gradle"))
 
-    task sourceJar(type: Jar) {
+    task("sourceJar", type: Jar) {
         group "Build"
         description "An archive of the source code"
         classifier "sources"
         from sourceSets.main.allJava
     }
 
-    task javadocJar(type: Jar) {
+    task("javadocJar", type: Jar) {
         group "Build"
         description "An archive of the javadoc"
         classifier "javadoc"
@@ -150,7 +183,7 @@ subprojects { subproject ->
     }
 }
 
-task aggregateJavadoc(type: Javadoc) {
+task("aggregateJavadoc", type: Javadoc) {
     group "Documentation"
     description "Generates aggregated Javadoc API documentation."
 
@@ -187,13 +220,5 @@ task aggregateJavadoc(type: Javadoc) {
         project.delete(destinationDir)
         logger.info "Title    : ${options.windowTitle}"
         logger.info "Destdir  : ${destinationDir}"
-    }
-}
-
-// configure java jdk and language level in idea.
-idea {
-    project {
-        jdkName "1.8"
-        languageLevel "1.8"
     }
 }

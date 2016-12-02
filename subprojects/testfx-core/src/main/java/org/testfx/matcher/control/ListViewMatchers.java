@@ -71,8 +71,8 @@ public class ListViewMatchers {
         String descriptionText = "has ";
         // better description messages for Labeled nodes
         if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
-            descriptionText += "labeled placeholder containing text: \""
-                    + ((Labeled) placeHolder).getText() + "\"";
+            descriptionText += "labeled placeholder containing text: \"" +
+                    ((Labeled) placeHolder).getText() + "\"";
         } else {
             descriptionText += "placeholder " + placeHolder;
         }
@@ -86,8 +86,8 @@ public class ListViewMatchers {
         String descriptionText = "has visible";
         // better description messages for Labeled nodes
         if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
-            descriptionText += "labeled placeholder containing text: \""
-                    + ((Labeled) placeHolder).getText() + "\"";
+            descriptionText += "labeled placeholder containing text: \"" +
+                    ((Labeled) placeHolder).getText() + "\"";
         } else {
             descriptionText += "placeholder " + placeHolder;
         }
@@ -124,8 +124,8 @@ public class ListViewMatchers {
 
     private static boolean hasPlaceholder(ListView listView,
                                           Node placeHolder) {
-        if (Labeled.class.isAssignableFrom(placeHolder.getClass())
-                && Labeled.class.isAssignableFrom(listView.getPlaceholder().getClass())) {
+        if (Labeled.class.isAssignableFrom(placeHolder.getClass()) &&
+                Labeled.class.isAssignableFrom(listView.getPlaceholder().getClass())) {
             return ((Labeled) listView.getPlaceholder()).getText()
                     .equals(((Labeled) placeHolder).getText());
         } else {
@@ -135,7 +135,7 @@ public class ListViewMatchers {
 
     private static boolean hasVisiblePlaceholder(ListView listView,
                                                  Node placeHolder) {
-        return listView.getPlaceholder().isVisible()
-                && hasPlaceholder(listView, placeHolder);
+        return listView.getPlaceholder().isVisible() &&
+                hasPlaceholder(listView, placeHolder);
     }
 }
