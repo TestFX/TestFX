@@ -97,7 +97,7 @@ subprojects { subproject ->
     apply(plugin: "java")
 
     apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
-    //apply(from: rootProject.file("gradle/check-findbugs.gradle"))
+    apply(from: rootProject.file("gradle/check-findbugs.gradle"))
     //apply(from: rootProject.file("gradle/check-jdepend.gradle"))
     apply(from: rootProject.file("gradle/check-license.gradle"))
 

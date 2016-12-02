@@ -23,6 +23,8 @@ import javafx.scene.paint.Color;
 import org.testfx.service.support.PixelMatcher;
 import org.testfx.util.ColorUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
 
     //---------------------------------------------------------------------------------------------
@@ -55,6 +57,8 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
     //---------------------------------------------------------------------------------------------
 
     @Override
+    @SuppressFBWarnings(value = "FE_FLOATING_POINT_EQUALITY", justification = "checking for initialized value " +
+            "(not result of computation)")
     public boolean matchColors(Color color0, Color color1) {
         if (minColorDistSq == Double.MIN_VALUE) {
             double maxColorDistSq = ColorUtils.calculateColorDistSq(Color.BLACK, Color.WHITE);
