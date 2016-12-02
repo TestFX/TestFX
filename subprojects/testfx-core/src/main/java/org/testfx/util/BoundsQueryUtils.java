@@ -109,7 +109,7 @@ public final class BoundsQueryUtils {
 
     public static Bounds boundsOnScreen(Node node) {
         Bounds boundsInScene = nodeBoundsInScene(node);
-//        Bounds visibleBoundsInScene = limitToVisibleBounds(boundsInScene, node.getScene());
+        // Bounds visibleBoundsInScene = limitToVisibleBounds(boundsInScene, node.getScene());
         return boundsOnScreen(boundsInScene, node.getScene());
     }
 

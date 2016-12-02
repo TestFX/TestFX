@@ -24,7 +24,7 @@ import org.testfx.service.query.PointQuery;
 import org.testfx.util.PointQueryUtils;
 
 @Unstable
-abstract public class PointQueryBase implements PointQuery {
+public abstract class PointQueryBase implements PointQuery {
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.

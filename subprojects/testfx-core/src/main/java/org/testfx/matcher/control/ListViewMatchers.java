@@ -76,8 +76,7 @@ public class ListViewMatchers {
         } else {
             descriptionText += "placeholder " + placeHolder;
         }
-        return typeSafeMatcher(ListView.class, descriptionText,
-                node -> hasPlaceholder(node, placeHolder));
+        return typeSafeMatcher(ListView.class, descriptionText, node -> hasPlaceholder(node, placeHolder));
     }
 
     @Factory
@@ -91,8 +90,7 @@ public class ListViewMatchers {
         } else {
             descriptionText += "placeholder " + placeHolder;
         }
-        return typeSafeMatcher(ListView.class, descriptionText,
-                node -> hasVisiblePlaceholder(node, placeHolder));
+        return typeSafeMatcher(ListView.class, descriptionText, node -> hasVisiblePlaceholder(node, placeHolder));
     }
 
     //---------------------------------------------------------------------------------------------

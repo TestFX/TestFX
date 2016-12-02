@@ -41,11 +41,11 @@ public class WaitForAsyncUtils {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    private final static long CONDITION_SLEEP_IN_MILLIS = 10;
+    private static final long CONDITION_SLEEP_IN_MILLIS = 10;
 
-    private final static long SEMAPHORE_SLEEP_IN_MILLIS = 10;
+    private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
 
-    private final static int SEMAPHORE_LOOPS_COUNT = 5;
+    private static final int SEMAPHORE_LOOPS_COUNT = 5;
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.

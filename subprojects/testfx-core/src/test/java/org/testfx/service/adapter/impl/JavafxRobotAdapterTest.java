@@ -115,12 +115,11 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void keyType_with_punctuation_and_numbers() {
-        String glyphs = ".:12";
-
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+        String glyphs = ".:12";
 
         // when:
         for (char character : Lists.charactersOf(glyphs)) {
@@ -134,12 +133,11 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void keyType_with_lowercase_and_uppercase() {
-        String glyphs = "eEuU";
-
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+        String glyphs = "eEuU";
 
         // when:
         for (char character : Lists.charactersOf(glyphs)) {
@@ -153,12 +151,11 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void keyType_with_latin_and_ext_latin_accents() {
-        String glyphs = "éüāč";
-
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+        String glyphs = "éüāč";
 
         // when:
         for (char character : Lists.charactersOf(glyphs)) {
@@ -172,12 +169,11 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void keyType_with_cjk_symbols() {
-        String glyphs = "树木한";
-
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+        String glyphs = "树木한";
 
         // when:
         for (char character : Lists.charactersOf(glyphs)) {
@@ -196,6 +192,10 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void keyPressTypeRelease_english_text() {
+        // given:
+        robotAdapter.mouseMove(textAreaPoint);
+        mousePressReleaseClick(MouseButton.PRIMARY);
+        robotAdapter.timerWaitForIdle();
         // Source: http://en.wikisource.org/wiki/All_in_the_Golden_Afternoon
         String text = "All in the golden afternoon\n" +
                 "\tFull leisurely we glide;\n" +
@@ -203,11 +203,6 @@ public class JavafxRobotAdapterTest {
                 "\tBy little arms are plied;\n" +
                 "While little hands make vain pretence\n" +
                 "\tOur wanderings to guide.";
-
-        // given:
-        robotAdapter.mouseMove(textAreaPoint);
-        mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
 
         // when:
         for (char character : Lists.charactersOf(text)) {
@@ -224,6 +219,10 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void keyPressTypeRelease_korean_text() {
+        // given:
+        robotAdapter.mouseMove(textAreaPoint);
+        mousePressReleaseClick(MouseButton.PRIMARY);
+        robotAdapter.timerWaitForIdle();
         // Source: http://ko.wikisource.org/wiki/이상한_나라의_앨리스
         String text = "화창한 오후마다\n" +
                 "\t우린 느긋이 배를 타지;\n" +
@@ -231,11 +230,6 @@ public class JavafxRobotAdapterTest {
                 "\t노를 젓는다고 해도,\n" +
                 "작은 손으로 시늉만 내는 동안\n" +
                 "\t우리는 정처없이 흘러간다네.";
-
-        // given:
-        robotAdapter.mouseMove(textAreaPoint);
-        mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
 
         // when:
         for (char character : Lists.charactersOf(text)) {

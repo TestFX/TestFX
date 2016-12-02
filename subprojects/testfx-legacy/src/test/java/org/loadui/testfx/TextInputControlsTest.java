@@ -29,12 +29,12 @@ import static org.loadui.testfx.controls.TextInputControls.clearTextIn;
 
 public class TextInputControlsTest extends GuiTest {
 
-    public static final String TEXT_FIELD = ".text-field";
+    private static final String TEXT_FIELD = ".text-field";
 
-  @Override
-  protected Parent getRootNode() {
-    return  new VBox(new TextField());
-  }
+    @Override
+    protected Parent getRootNode() {
+        return new VBox(new TextField());
+    }
 
     @Test
     public void shouldClearText() {

@@ -80,11 +80,15 @@ public class VisibilityTest extends GuiTest {
 
     @Override
     protected Parent getRootNode() {
-        Button nodeNotInScene = ButtonBuilder.create().text("Node not in scene").id("node-not-in-scene").translateX(1500).build();
+        Button nodeNotInScene = ButtonBuilder.create().text("Node not in scene").id("node-not-in-scene")
+                .translateX(1500).build();
         Button invisibleNode = ButtonBuilder.create().id("invisible-node").visible(false).build();
-        Button nodeInInvisibleContainer = ButtonBuilder.create().id("node-in-invisible-container").text("In invisible container").build();
-        StackPane invisibleContainer = StackPaneBuilder.create().children(nodeInInvisibleContainer).visible(false).build();
-        final Button nodeMostlyOutside = ButtonBuilder.create().id("node-mostly-outside-of-scene").text("Mostly outside").translateX(570).build();
+        Button nodeInInvisibleContainer = ButtonBuilder.create().id("node-in-invisible-container")
+                .text("In invisible container").build();
+        StackPane invisibleContainer = StackPaneBuilder.create().children(nodeInInvisibleContainer)
+                .visible(false).build();
+        final Button nodeMostlyOutside = ButtonBuilder.create().id("node-mostly-outside-of-scene")
+                .text("Mostly outside").translateX(570).build();
         nodeMostlyOutside.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -94,7 +98,8 @@ public class VisibilityTest extends GuiTest {
         Button visibleTwin = ButtonBuilder.create().text("Twin").id("twin").build();
         Button invisibleTwin = ButtonBuilder.create().text("Twin").id("twin").visible(false).build();
         return VBoxBuilder.create().minWidth(600)
-            .minHeight(400).children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode, nodeMostlyOutside, invisibleContainer).build();
+            .minHeight(400).children(invisibleTwin, visibleTwin, nodeNotInScene, invisibleNode,
+                        nodeMostlyOutside, invisibleContainer).build();
     }
 
 }

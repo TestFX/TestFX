@@ -38,8 +38,8 @@ public class SimpleLabelDemo {
 
     public static void main(String[] args) throws Exception {
         // Register Stages.
-        Stage primaryStage = FxToolkit.registerPrimaryStage();
-        Stage otherStage = FxToolkit.registerStage(() -> new Stage());
+        final Stage primaryStage = FxToolkit.registerPrimaryStage();
+        final Stage otherStage = FxToolkit.registerStage(Stage::new);
 
         // Setup, show and cleanup Application.
         Application demoApplication = FxToolkit.setupApplication(SimpleLabelApplication.class);
@@ -62,13 +62,13 @@ public class SimpleLabelDemo {
         Parent fxmlSceneRoot = FxToolkit.setupSceneRoot(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(SimpleLabelDemo.class.getResource("res/simpleLabel.fxml"));
-            return uncheckException(() -> fxmlLoader.load());
+            return uncheckException(fxmlLoader::load);
         });
         WaitForAsyncUtils.sleep(3, TimeUnit.SECONDS);
 
         // Cleanup Stages.
-        WaitForAsyncUtils.asyncFx(() -> otherStage.close());
-        WaitForAsyncUtils.asyncFx(() -> primaryStage.close());
+        WaitForAsyncUtils.asyncFx(otherStage::close);
+        WaitForAsyncUtils.asyncFx(primaryStage::close);
     }
 
     //---------------------------------------------------------------------------------------------

@@ -26,9 +26,19 @@ public class PrimaryStageFixtureDemo {
 
     public static void main(String[] args) throws Exception {
         beforeClass();
-        before(); test(); after();
-        before(); test(); after();
-        before(); test(); after();
+
+        before();
+        test();
+        after();
+
+        before();
+        test();
+        after();
+
+        before();
+        test();
+        after();
+
         afterClass();
         cleanup();
     }

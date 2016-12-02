@@ -69,16 +69,14 @@ public class TableViewMatchers {
     @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> containsRowAtIndex(int rowIndex, Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
-        return typeSafeMatcher(TableView.class, descriptionText,
-             node -> containsRowAtIndex(node, rowIndex, cells));
+        return typeSafeMatcher(TableView.class, descriptionText, node -> containsRowAtIndex(node, rowIndex, cells));
     }
 
     @Factory
     @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> containsRow(Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
-        return typeSafeMatcher(TableView.class, descriptionText,
-                node -> containsRow(node, cells));
+        return typeSafeMatcher(TableView.class, descriptionText, node -> containsRow(node, cells));
     }
 
     //---------------------------------------------------------------------------------------------
