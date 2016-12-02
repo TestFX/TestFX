@@ -117,9 +117,9 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void save_image() {
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-//        Files.createTempDir();
-//        capturer.saveImage(image, Paths.get("acme-login-actual.png"));
-//        waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
+        // Files.createTempDir();
+        // capturer.saveImage(image, Paths.get("acme-login-actual.png"));
+        // waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class CaptureSupportImplTest extends FxRobot {
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
-//        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
+        // capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
 
         // then:
         verifyThat(result.getNonMatchPixels(), equalTo(2191L));
@@ -152,7 +152,7 @@ public class CaptureSupportImplTest extends FxRobot {
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
-//        capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
+        // capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
 
         // then:
         verifyThat(result.getNonMatchPixels(), equalTo(2191L));

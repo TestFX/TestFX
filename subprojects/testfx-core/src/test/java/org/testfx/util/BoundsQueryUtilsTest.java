@@ -118,8 +118,8 @@ public class BoundsQueryUtilsTest {
     private static void setupStage() {
         // XXX: the real x and y are not set immediately. they are managed by the operating system.
         stage = new Stage(StageStyle.UNDECORATED);
-//        stage.setX(0); // bounds(Window)
-//        stage.setY(0);
+        // stage.setX(0); // bounds(Window)
+        // stage.setY(0);
         stage.setScene(scene);
         stage.show();
     }

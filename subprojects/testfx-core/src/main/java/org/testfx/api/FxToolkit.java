@@ -76,7 +76,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
  * supplying {@link Scene}s, {@link Parent}s, or by consuming a {@link Stage}.</p>
  *
  * <p>Use: {@link #setupStage setupStage(Consumer&lt;Stage&gt;)},
- * {@link #setupApplication setupApplication(Class&lt;? extends Application&gt;)</?>},
+ * {@link #setupApplication setupApplication(Class&lt;? extends Application&gt;)},
  * {@link #setupScene setupScene(Supplier&lt;Scene&gt;)} or
  * {@link #setupSceneRoot setupSceneRoot(Supplier&lt;Parent&gt;)}</p>
  *
@@ -138,7 +138,7 @@ public final class FxToolkit {
     @Unstable(reason = "is missing apidocs")
     public static Stage registerStage(Supplier<Stage> stageSupplier)
             throws TimeoutException {
-        Stage stage = setupFixture(() -> stageSupplier.get());
+        Stage stage = setupFixture(stageSupplier::get);
         CONTEXT.setRegisteredStage(stage);
         return stage;
     }
@@ -162,7 +162,7 @@ public final class FxToolkit {
             throws TimeoutException {
         return waitForSetup(
                 SERVICE.setupApplication(
-                        () -> CONTEXT.getRegisteredStage(),
+                        CONTEXT::getRegisteredStage,
                         applicationClass,
                         applicationArgs
                 )
@@ -174,15 +174,16 @@ public final class FxToolkit {
             throws TimeoutException {
         return waitForSetup(
                 SERVICE.setupApplication(
-                        () -> CONTEXT.getRegisteredStage(),
+                        CONTEXT::getRegisteredStage,
                         applicationSupplier
                 )
         );
     }
 
     /**
-     * Performs the clean up of the application. This is done by calling {@link ToolkitService#cleanupApplication(Application)}
-     * (which usually calls the {@code stop} method of the application).
+     * Performs the clean up of the application. This is done by calling
+     * {@link ToolkitService#cleanupApplication(Application)} (which usually
+     * calls the {@code stop} method of the application).
      * @param application the application to clean up
      * @throws TimeoutException if cleanup is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
      *      or the FX Application Thread is not running
@@ -240,21 +241,19 @@ public final class FxToolkit {
     @Unstable(reason = "is missing apidocs; could change to accept stages")
     public static void showStage()
             throws TimeoutException {
-        setupStage((stage) -> showStage(stage));
+        setupStage(FxToolkit::showStage);
     }
 
     @Unstable(reason = "is missing apidocs")
     public static void hideStage()
             throws TimeoutException {
-        setupStage((stage) -> hideStage(stage));
+        setupStage(FxToolkit::hideStage);
     }
 
     @Unstable(reason = "is missing apidocs")
     public static void cleanupStages()
             throws TimeoutException {
-        setupFixture(() -> {
-            fetchAllWindows().forEach((window) -> hideWindow(window));
-        });
+        setupFixture(() -> fetchAllWindows().forEach(FxToolkit::hideWindow));
     }
 
     // INTERNAL CONTEXT.

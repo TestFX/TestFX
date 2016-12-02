@@ -146,7 +146,7 @@ public final class FxAssert {
         }
         catch (AssertionError error) {
             // TODO: make error capture and assertion throw more reliable.
-//            captureErrorScreenshot();
+            // captureErrorScreenshot();
             throw new AssertionError(error.getMessage());
         }
     }
@@ -195,8 +195,8 @@ public final class FxAssert {
         return dateTime.format(formatter);
     }
 
-//    private static ZonedDateTime toZuluTime(ZonedDateTime dateTime) {
-//        return dateTime.withZoneSameInstant(ZoneId.of(/* UTC */ "Z"));
-//    }
+    // private static ZonedDateTime toZuluTime(ZonedDateTime dateTime) {
+    //      return dateTime.withZoneSameInstant(ZoneId.of(/* UTC */ "Z"));
+    // }
 
 }

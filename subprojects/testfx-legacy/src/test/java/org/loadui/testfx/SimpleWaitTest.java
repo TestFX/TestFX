@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -37,43 +38,42 @@ import static org.loadui.testfx.controls.Commons.hasText;
 @Category(TestFX.class)
 public class SimpleWaitTest extends GuiTest {
 
-  public static final int THREE_SECONDS = 3;
-  private final ScheduledThreadPoolExecutor sch
-      = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(5);
+    public static final int THREE_SECONDS = 3;
+    private final ScheduledThreadPoolExecutor sch
+            = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(5);
 
 
-  private final Runnable oneShotTask = () -> {
-    System.out.println("\t oneShotTask Execution Time: " + LocalDateTime.now());
-    final Button button = find("#btn");
-    Platform.runLater(() -> button.setText("was clicked"));
-  };
+    private final Runnable oneShotTask = () -> {
+        System.out.println("\t oneShotTask Execution Time: " + LocalDateTime.now());
+        final Button button = find("#btn");
+        Platform.runLater(() -> button.setText("was clicked"));
+    };
 
-  @Override
-  protected Parent getRootNode() {
-    final Button btn = new Button();
-    btn.setId("btn");
-    btn.setText("Hello World");
-    btn.setOnAction((actionEvent) -> {
-      System.out.println("Submission Time: " + LocalDateTime.now());
-      ScheduledFuture<?> oneShotFuture = sch.schedule(oneShotTask, THREE_SECONDS, TimeUnit.SECONDS);
-    });
-    return btn;
-  }
+    @Override
+    protected Parent getRootNode() {
+        final Button btn = new Button();
+        btn.setId("btn");
+        btn.setText("Hello World");
+        btn.setOnAction((actionEvent) -> {
+            System.out.println("Submission Time: " + LocalDateTime.now());
+            ScheduledFuture<?> oneShotFuture = sch.schedule(oneShotTask, THREE_SECONDS, TimeUnit.SECONDS);
+        });
+        return btn;
+    }
 
 
-  @Test(expected = java.lang.RuntimeException.class)
-  public void shouldClickButton01() {
-    final Button button = find("#btn");
-    clickOn(button);
-    waitUntil(button, hasText("was clicked"), 1);
-  }
+    @Test(expected = java.lang.RuntimeException.class)
+    public void shouldClickButton01() {
+        final Button button = find("#btn");
+        clickOn(button);
+        waitUntil(button, hasText("was clicked"), 1);
+    }
 
-  @Test
-  public void shouldClickButton02() {
-    final Button button = find("#btn");
-    clickOn(button);
-    waitUntil(button, hasText("was clicked"), 10);
-  }
-
+    @Test
+    public void shouldClickButton02() {
+        final Button button = find("#btn");
+        clickOn(button);
+        waitUntil(button, hasText("was clicked"), 10);
+    }
 
 }

@@ -222,7 +222,7 @@ public class ColorUtils {
      * @param r the red component of the color (0 - 255)
      * @param g the green component of the color (0 - 255)
      * @param b the blue component of the color (0 - 255)
-     * @return an Optional<String> that either contains the name of the color
+     * @return an {@code Optional<String>} that either contains the name of the color
      * with the exact same color value or nothing if no such named color exists
      */
     public static Optional<String> getNamedColor(int r, int g, int b) {
@@ -235,7 +235,7 @@ public class ColorUtils {
      *
      * @param hexString the String containing 6 hex-digits representing a
      * color value ("000000" to "FFFFFF")
-     * @return an Optional<String> that either contains the name of the color
+     * @return an {@code Optional<String>} that either contains the name of the color
      * with the exact same color value or nothing if no such named color exists
      */
     public static Optional<String> getNamedColor(String hexString) {

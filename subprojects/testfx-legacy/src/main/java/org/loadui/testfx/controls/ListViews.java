@@ -56,9 +56,9 @@ public class ListViews {
     }
 
     static boolean containsRow(ListView<?> list, Object rowValue) {
-      return list.getItems()
-          .stream()
-          .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
+        return list.getItems()
+                .stream()
+                .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
     }
 
     @SuppressWarnings("unchecked")
@@ -68,9 +68,9 @@ public class ListViews {
     }
 
     static boolean hasSelectedRow(ListView<?> list, Object rowValue) {
-      return list.getSelectionModel().getSelectedItems()
-          .stream()
-          .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
+        return list.getSelectionModel().getSelectedItems()
+                .stream()
+                .anyMatch(rowData -> rowValue.equals(rowData) || rowValue.equals(rowData.toString()));
     }
 
     static ListView<?> getListView(String listSelector) {
