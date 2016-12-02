@@ -20,6 +20,8 @@ import javafx.application.Application;
 import javafx.application.Application.Parameters;
 import javafx.application.HostServices;
 import javafx.application.Preloader.PreloaderNotification;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.After;
@@ -58,6 +60,10 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     @Unstable(reason = "is missing apidocs")
     public final void internalAfter()
                              throws Exception {
+        // release all keys
+        release(new KeyCode[0]);
+        // release all mouse buttons
+        release(new MouseButton[0]);
         FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
 
