@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -30,8 +33,6 @@ import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -169,7 +170,7 @@ public final class NodeQueryUtils {
                                                     T input) {
         // TODO: Test cases with ClassCastException.
         try {
-            return predicate.apply(input);
+            return predicate.test(input);
         }
         catch (ClassCastException ignore) {
             return false;

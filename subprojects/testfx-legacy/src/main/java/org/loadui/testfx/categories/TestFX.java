@@ -19,9 +19,6 @@ package org.loadui.testfx.categories;
 /**
  * GUI JUnit test category for tests which require creating and operating on
  * graphical objects such as windows.
- * 
- * @author dain.nilsson
  */
-public interface TestFX
-{
+public interface TestFX {
 }

@@ -32,21 +32,18 @@ import org.loadui.testfx.categories.TestFX;
 import static org.loadui.testfx.controls.Commons.hasText;
 
 /**
- *
- * A Simple example to test the wait methods..
- *
- * Created by Sven Ruppert on 22.08.2014.
+ * A Simple example to test the wait methods.
  */
 @Category(TestFX.class)
 public class SimpleWaitTest extends GuiTest {
 
-  public static final int ThreeSeconds = 3;
+  public static final int THREE_SECONDS = 3;
   private final ScheduledThreadPoolExecutor sch
       = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(5);
 
 
   private final Runnable oneShotTask = () -> {
-    System.out.println("\t oneShotTask Execution Time: "+ LocalDateTime.now());
+    System.out.println("\t oneShotTask Execution Time: " + LocalDateTime.now());
     final Button button = find("#btn");
     Platform.runLater(() -> button.setText("was clicked"));
   };
@@ -58,7 +55,7 @@ public class SimpleWaitTest extends GuiTest {
     btn.setText("Hello World");
     btn.setOnAction((actionEvent) -> {
       System.out.println("Submission Time: " + LocalDateTime.now());
-      ScheduledFuture<?> oneShotFuture = sch.schedule(oneShotTask, ThreeSeconds, TimeUnit.SECONDS);
+      ScheduledFuture<?> oneShotFuture = sch.schedule(oneShotTask, THREE_SECONDS, TimeUnit.SECONDS);
     });
     return btn;
   }

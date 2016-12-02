@@ -24,8 +24,8 @@ import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.finder.impl.NodeFinderImpl;
 import org.testfx.service.finder.impl.WindowFinderImpl;
 import org.testfx.service.support.CaptureSupport;
-import org.testfx.service.support.impl.CaptureSupportImpl;
 import org.testfx.service.support.WaitUntilSupport;
+import org.testfx.service.support.impl.CaptureSupportImpl;
 
 @Unstable(reason = "class was recently added")
 public class FxServiceContext {

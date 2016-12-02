@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.function.Predicate;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
@@ -31,7 +33,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -57,25 +58,25 @@ public abstract class GuiTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
 
     public static <T extends Window> T _targetWindow(T window) {
-        windowFinder.targetWindow(window);
+        WINDOW_FINDER.targetWindow(window);
         return window;
     }
 
     public static List<Window> getWindows() {
-        return windowFinder.listTargetWindows();
+        return WINDOW_FINDER.listTargetWindows();
     }
 
     public static Window getWindowByIndex(int windowIndex) {
-        return windowFinder.window(windowIndex);
+        return WINDOW_FINDER.window(windowIndex);
     }
 
     public static Stage findStageByTitle(String stageTitleRegex) {
-        return (Stage) windowFinder.window(stageTitleRegex);
+        return (Stage) WINDOW_FINDER.window(stageTitleRegex);
     }
 
     public static <T extends Node> T find(String query) {
         try {
-            return nodeFinder.lookup(query).query();
+            return NODE_FINDER.lookup(query).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -84,7 +85,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> Set<T> findAll(String query) {
         try {
-            return nodeFinder.lookup(query).queryAll();
+            return NODE_FINDER.lookup(query).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -93,7 +94,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(Predicate<T> predicate) {
         try {
-            return nodeFinder.lookup(predicate).query();
+            return NODE_FINDER.lookup(predicate).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -102,7 +103,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(Matcher<Object> matcher) {
         try {
-            return nodeFinder.lookup(matcher).query();
+            return NODE_FINDER.lookup(matcher).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -111,7 +112,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> T find(String query, Node parent) {
         try {
-            return nodeFinder.from(parent).lookup(query).query();
+            return NODE_FINDER.from(parent).lookup(query).query();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -120,7 +121,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> Set<T> findAll(Predicate<T> predicate, Node parent) {
         try {
-            return nodeFinder.from(parent).lookup(predicate).queryAll();
+            return NODE_FINDER.from(parent).lookup(predicate).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -129,7 +130,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> Set<T> findAll(Matcher<Object> matcher, Node parent) {
         try {
-            return nodeFinder.from(parent).lookup(matcher).queryAll();
+            return NODE_FINDER.from(parent).lookup(matcher).queryAll();
         }
         catch (NodeFinderException exception) {
             throw buildNodeQueryException(exception);
@@ -160,7 +161,7 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T extends Node> void waitUntil(T node, Predicate<T> condition,
                                                   int timeoutInSeconds) {
-        waitUntilSupport.waitUntil(node, condition, timeoutInSeconds);
+        WAIT_UNTIL_SUPPORT.waitUntil(node, condition, timeoutInSeconds);
     }
 
     public static void waitUntil(Node node, Matcher<Object> condition) {
@@ -168,7 +169,7 @@ public abstract class GuiTest extends FxRobot {
     }
 
     public static void waitUntil(Node node, Matcher<Object> condition, int timeoutInSeconds) {
-        waitUntilSupport.waitUntil(node, condition, timeoutInSeconds);
+        WAIT_UNTIL_SUPPORT.waitUntil(node, condition, timeoutInSeconds);
     }
 
     public static <T> void waitUntil(T value, Matcher<? super T> condition) {
@@ -176,7 +177,7 @@ public abstract class GuiTest extends FxRobot {
     }
 
     public static <T> void waitUntil(T value, Matcher<? super T> condition, int timeoutInSeconds) {
-        waitUntilSupport.waitUntil(value, condition, timeoutInSeconds);
+        WAIT_UNTIL_SUPPORT.waitUntil(value, condition, timeoutInSeconds);
     }
 
     public static <T> void waitUntil(Callable<T> callable, Matcher<? super T> condition) {
@@ -185,13 +186,13 @@ public abstract class GuiTest extends FxRobot {
 
     public static <T> void waitUntil(Callable<T> callable, Matcher<? super T> condition,
                                      int timeoutInSeconds) {
-        waitUntilSupport.waitUntil(callable, condition, timeoutInSeconds);
+        WAIT_UNTIL_SUPPORT.waitUntil(callable, condition, timeoutInSeconds);
     }
 
     public static File captureScreenshot() {
         Path captureFile = Paths.get("screenshot" + new Date().getTime() + ".png");
-        Image captureImage = captureSupport.captureRegion(Screen.getPrimary().getBounds());
-        captureSupport.saveImage(captureImage, captureFile);
+        Image captureImage = CAPTURE_SUPPORT.captureRegion(Screen.getPrimary().getBounds());
+        CAPTURE_SUPPORT.saveImage(captureImage, captureFile);
         return captureFile.toFile();
     }
 
@@ -214,12 +215,10 @@ public abstract class GuiTest extends FxRobot {
     // PRIVATE STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final WindowFinder windowFinder = serviceContext().getWindowFinder();
-    private static final NodeFinder nodeFinder = serviceContext().getNodeFinder();
-
-    private static final WaitUntilSupport waitUntilSupport =
-        serviceContext().getWaitUntilSupport();
-    private static final CaptureSupport captureSupport = serviceContext().getCaptureSupport();
+    private static final WindowFinder WINDOW_FINDER = serviceContext().getWindowFinder();
+    private static final NodeFinder NODE_FINDER = serviceContext().getNodeFinder();
+    private static final WaitUntilSupport WAIT_UNTIL_SUPPORT = serviceContext().getWaitUntilSupport();
+    private static final CaptureSupport CAPTURE_SUPPORT = serviceContext().getCaptureSupport();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -236,7 +235,7 @@ public abstract class GuiTest extends FxRobot {
     @Before
     public void internalSetup() throws Exception {
         targetWindow(FxToolkit.registerPrimaryStage());
-        FxToolkit.setupSceneRoot(() -> getRootNode());
+        FxToolkit.setupSceneRoot(this::getRootNode);
         WaitForAsyncUtils.waitForFxEvents();
         FxToolkit.setupStage((stage) -> {
             stage.show();

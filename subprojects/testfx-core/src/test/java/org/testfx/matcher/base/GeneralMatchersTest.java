@@ -16,12 +16,12 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,7 +38,7 @@ public class GeneralMatchersTest {
     // FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    public Node nullNode = null;
+    public Node nullNode;
 
     public Pane notMatchingNode;
 

@@ -16,14 +16,14 @@
  */
 
 // name of root project.
-rootProject.name = "testfx"
+rootProject.name = "TestFX"
 
-// list of subprojects.
+// list of projects.
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-legacy"
 
-// build files of subprojects.
+// location of the build files.
 rootProject.children.each { project ->
     def projectDir = new File(project.name)
     project.name = projectDir.name

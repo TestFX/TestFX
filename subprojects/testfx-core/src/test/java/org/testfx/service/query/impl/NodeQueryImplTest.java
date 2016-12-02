@@ -16,6 +16,7 @@
  */
 package org.testfx.service.query.impl;
 
+import java.util.Optional;
 import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-import com.google.common.base.Optional;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -138,7 +138,7 @@ public class NodeQueryImplTest {
             .tryQuery();
 
         // then:
-        assertThat(result, is(Optional.absent()));
+        assertThat(result, is(Optional.empty()));
     }
 
     @Test

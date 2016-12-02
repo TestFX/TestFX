@@ -16,13 +16,13 @@
  */
 package org.loadui.testfx;
 
+import java.util.function.Predicate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBoxBuilder;
 
-import com.google.common.base.Predicate;
 import org.junit.Test;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -48,7 +48,7 @@ public class TableViewsTest extends GuiTest {
     public void shouldFindCellValues_usingPredicate() {
         verifyThat(".table-view", containsCell(new Predicate<String>() {
             @Override
-            public boolean apply(String s) {
+            public boolean test(String s) {
                 return Integer.parseInt(s) == 9;
             }
         }));

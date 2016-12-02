@@ -17,12 +17,12 @@
 package org.testfx.service.query;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import javafx.scene.Node;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 
 public interface NodeQuery {

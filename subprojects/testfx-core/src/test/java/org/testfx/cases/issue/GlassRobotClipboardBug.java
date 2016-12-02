@@ -21,6 +21,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -42,11 +43,13 @@ public class GlassRobotClipboardBug {
     // FIXTURE METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /*
     static {
-        //System.setProperty("testfx.robot", "glass");
-        //System.setProperty("testfx.headless", "true");
-        //System.setProperty("prism.order", "sw");
+        System.setProperty("testfx.robot", "glass");
+        System.setProperty("testfx.headless", "true");
+        System.setProperty("prism.order", "sw");
     }
+    */
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -68,28 +71,28 @@ public class GlassRobotClipboardBug {
             });
             return new HBox(listView);
         });
-        FxToolkit.setupStage(stage -> stage.show());
+        FxToolkit.setupStage(Stage::show);
     }
 
     //---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    @Test(timeout=2000)
+    @Test(timeout = 2000)
     public void should_first_try() {
         // when:
         fx.drag("item.1");
         fx.dropTo("item.3");
     }
 
-    @Test(timeout=2000)
+    @Test(timeout = 2000)
     public void should_second_try() {
         // when:
         fx.drag("item.1");
         fx.dropTo("item.3");
     }
 
-    @Test(timeout=2000)
+    @Test(timeout = 2000)
     public void should_third_try() {
         // when:
         fx.drag("item.1");

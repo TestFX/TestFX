@@ -17,17 +17,19 @@
 package org.testfx.service.query.impl;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javafx.scene.Node;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
+
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.NodeQueryUtils;
@@ -89,58 +91,61 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     public NodeQuery lookup(Function<Node, Set<Node>> function) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter(Predicates.notNull());
-        query = query.transformAndConcat(function);
-        parentNodes = query.toSet();
+        // surely there's a better way to do the following
+        parentNodes = parentNodes.stream()
+            .filter(Objects::nonNull)
+            .map(function)
+            .reduce((nodes, nodes2) -> {
+                Set<Node> set = new LinkedHashSet<>(nodes);
+                set.addAll(nodes2);
+                return set;
+            }).orElseGet(LinkedHashSet::new);
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> NodeQuery match(Matcher<T> matcher) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher));
-        parentNodes = query.toSet();
+        parentNodes = parentNodes.stream()
+            .filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher))
+            .collect(Collectors.toSet());
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> NodeQuery match(Predicate<T> predicate) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.filter((Predicate<Node>) predicate);
-        parentNodes = query.toSet();
+        parentNodes = parentNodes.stream()
+            .filter((Predicate<Node>) predicate)
+            .collect(Collectors.toSet());
         return this;
     }
 
     @Override
     public NodeQuery nth(int index) {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        query = query.skip(index).limit(1);
-        parentNodes = query.toSet();
+        parentNodes = parentNodes.stream()
+            .skip(index)
+            .limit(1)
+            .collect(Collectors.toSet());
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> T query() {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        return (T) query.first().orNull();
+        return (T) parentNodes.stream().findFirst().orElse(null);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> Optional<T> tryQuery() {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        return (Optional<T>) query.first();
+        return (Optional<T>) parentNodes.stream().findFirst();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> Set<T> queryAll() {
-        FluentIterable<Node> query = FluentIterable.from(parentNodes);
-        return (Set<T>) query.toSet();
+        return (Set<T>) new LinkedHashSet<>(parentNodes);
     }
 
     //---------------------------------------------------------------------------------------------
