@@ -33,6 +33,7 @@ import org.testfx.api.FxToolkit;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 
 public class TableViewMatchersTest extends FxRobot {
 
@@ -128,6 +129,69 @@ public class TableViewMatchersTest extends FxRobot {
     }
 
     @Test
+    public void containsRowAtIndex() {
+        tableView.setItems(observableArrayList(
+                ImmutableMap.of("name", "alice", "age", 30),
+                ImmutableMap.of("name", "bob", "age", 31),
+                ImmutableMap.of("name", "carol", "age", 42),
+                ImmutableMap.of("name", "dave", "age", 55)
+        ));
+
+        // expect:
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, "bob", 31));
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(2, "carol", 42));
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(3, "dave", 55));
+        assertThat(tableView, not(TableViewMatchers.containsRowAtIndex(0, "ebert", 49)));
+        assertThat(tableView, not(TableViewMatchers.containsRowAtIndex(1, "alice", 30)));
+        assertThat(tableView, not(TableViewMatchers.containsRowAtIndex(4, "ebert", 49)));
+    }
+
+    @Test
+    public void containsRowAtIndex_with_empty_cells() {
+        tableView.setItems(observableArrayList(
+                ImmutableMap.of("name", "alice", "age", 30),
+                ImmutableMap.of("name", "bob", "age", 31),
+                ImmutableMap.of("name", "carol"),
+                ImmutableMap.of("name", "dave")
+        ));
+        // expect:
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, "bob", 31));
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(2, "carol", null));
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(3, "dave", null));
+        assertThat(tableView, not(TableViewMatchers.containsRowAtIndex(0, "ebert", null)));
+        assertThat(tableView, not(TableViewMatchers.containsRowAtIndex(3, "carol", null)));
+    }
+
+    @Test
+    public void containsRowAtIndex_no_such_row_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [jerry, 29]\n");
+
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "jerry", 29));
+    }
+
+    @Test
+    public void containsRowAtIndex_out_of_bounds_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [tom, 54]\n");
+
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(4, "tom", 54));
+    }
+
+    @Test
+    public void containsRowAtIndex_wrong_types_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
+
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee"));
+    }
+
+    @Test
     public void containsRow() {
         tableView.setItems(observableArrayList(
                 ImmutableMap.of("name", "alice", "age", 30),
@@ -137,10 +201,11 @@ public class TableViewMatchersTest extends FxRobot {
         ));
 
         // expect:
-        assertThat(tableView, TableViewMatchers.containsRow(0, "alice", 30));
-        assertThat(tableView, TableViewMatchers.containsRow(1, "bob", 31));
-        assertThat(tableView, TableViewMatchers.containsRow(2, "carol", 42));
-        assertThat(tableView, TableViewMatchers.containsRow(3, "dave", 55));
+        assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
+        assertThat(tableView, TableViewMatchers.containsRow("bob", 31));
+        assertThat(tableView, TableViewMatchers.containsRow("carol", 42));
+        assertThat(tableView, TableViewMatchers.containsRow("dave", 55));
+        assertThat(tableView, not(TableViewMatchers.containsRow("ebert", 49)));
     }
 
     @Test
@@ -152,10 +217,11 @@ public class TableViewMatchersTest extends FxRobot {
                 ImmutableMap.of("name", "dave")
         ));
         // expect:
-        assertThat(tableView, TableViewMatchers.containsRow(0, "alice", 30));
-        assertThat(tableView, TableViewMatchers.containsRow(1, "bob", 31));
-        assertThat(tableView, TableViewMatchers.containsRow(2, "carol", null));
-        assertThat(tableView, TableViewMatchers.containsRow(3, "dave", null));
+        assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
+        assertThat(tableView, TableViewMatchers.containsRow("bob", 31));
+        assertThat(tableView, TableViewMatchers.containsRow("carol", null));
+        assertThat(tableView, TableViewMatchers.containsRow("dave", null));
+        assertThat(tableView, not(TableViewMatchers.containsRow("ebert", null)));
     }
 
     @Test
@@ -164,16 +230,7 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [jerry, 29]\n");
 
-        assertThat(tableView, TableViewMatchers.containsRow(0, "jerry", 29));
-    }
-
-    @Test
-    public void containsRow_out_of_bounds_fails() {
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has row: [tom, 54]\n");
-
-        assertThat(tableView, TableViewMatchers.containsRow(4, "tom", 54));
+        assertThat(tableView, TableViewMatchers.containsRow("jerry", 29));
     }
 
     @Test
@@ -182,6 +239,6 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
 
-        assertThat(tableView, TableViewMatchers.containsRow(1, 63, "deedee"));
+        assertThat(tableView, TableViewMatchers.containsRow(63, "deedee"));
     }
 }

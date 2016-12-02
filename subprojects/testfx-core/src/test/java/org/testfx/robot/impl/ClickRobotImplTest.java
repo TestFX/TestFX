@@ -26,7 +26,7 @@ import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -114,7 +114,7 @@ public final class ClickRobotImplTest {
         // then:
         verify(mouseRobot, times(2)).pressNoWait(eq(MouseButton.PRIMARY));
         verify(mouseRobot, times(2)).release(eq(MouseButton.PRIMARY));
-        verify(sleepRobot, times(1)).sleep(anyInt());
+        verify(sleepRobot, times(1)).sleep(anyLong());
         verifyNoMoreInteractions(mouseRobot, sleepRobot);
         verifyZeroInteractions(moveRobot);
     }
@@ -131,7 +131,7 @@ public final class ClickRobotImplTest {
         verify(mouseRobot, times(2)).release(
             eq(MouseButton.PRIMARY), eq(MouseButton.SECONDARY)
         );
-        verify(sleepRobot, times(1)).sleep(anyInt());
+        verify(sleepRobot, times(1)).sleep(anyLong());
         verifyNoMoreInteractions(mouseRobot, sleepRobot);
         verifyZeroInteractions(moveRobot);
     }
@@ -148,7 +148,7 @@ public final class ClickRobotImplTest {
         verify(moveRobot, times(1)).moveTo(eq(pointQuery));
         verify(mouseRobot, times(2)).pressNoWait(eq(MouseButton.PRIMARY));
         verify(mouseRobot, times(2)).release(eq(MouseButton.PRIMARY));
-        verify(sleepRobot, times(1)).sleep(anyInt());
+        verify(sleepRobot, times(1)).sleep(anyLong());
         verifyNoMoreInteractions(moveRobot, mouseRobot, sleepRobot);
     }
 

@@ -26,9 +26,6 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import static org.loadui.testfx.GuiTest.find;
 
-/**
- * @author renato
- */
 public class EnabledMatcher extends TypeSafeMatcher<Object> {
 
     private boolean shouldBeDisabled;

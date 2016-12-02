@@ -16,8 +16,6 @@
  */
 package org.testfx.matcher.control;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -30,8 +28,9 @@ import org.junit.rules.ExpectedException;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-public class TextFlowMatchersTest extends FxRobot
-{
+import static org.hamcrest.MatcherAssert.assertThat;
+
+public class TextFlowMatchersTest extends FxRobot {
     //---------------------------------------------------------------------------------------------
     // FIELDS.
     //---------------------------------------------------------------------------------------------

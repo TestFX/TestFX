@@ -24,10 +24,10 @@ import com.google.common.collect.ImmutableMap;
 public class KeyCodeUtils {
 
     private static final Map<Character, KeyCode> KEY_CODES = ImmutableMap.<Character, KeyCode>builder()
-            .put( ',', KeyCode.COMMA ).put( ';', KeyCode.SEMICOLON ).put( '.', KeyCode.PERIOD ).put( ':', KeyCode.COLON )
-            .put( '_', KeyCode.UNDERSCORE ).put( '!', KeyCode.EXCLAMATION_MARK ).put( '"', KeyCode.QUOTEDBL )
-            .put( '#', KeyCode.POUND ).put( '&', KeyCode.AMPERSAND ).put( '/', KeyCode.SLASH )
-            .put( '(', KeyCode.LEFT_PARENTHESIS ).put( ')', KeyCode.RIGHT_PARENTHESIS ).put( '=', KeyCode.EQUALS ).build();
+            .put(',', KeyCode.COMMA).put(';', KeyCode.SEMICOLON).put('.', KeyCode.PERIOD).put(':', KeyCode.COLON)
+            .put('_', KeyCode.UNDERSCORE).put('!', KeyCode.EXCLAMATION_MARK).put('"', KeyCode.QUOTEDBL)
+            .put('#', KeyCode.POUND).put('&', KeyCode.AMPERSAND).put('/', KeyCode.SLASH)
+            .put('(', KeyCode.LEFT_PARENTHESIS).put(')', KeyCode.RIGHT_PARENTHESIS).put('=', KeyCode.EQUALS).build();
 
     @SuppressWarnings("deprecation")
     public static KeyCode findKeyCode(char character) {

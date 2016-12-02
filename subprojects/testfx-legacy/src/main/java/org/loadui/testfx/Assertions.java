@@ -16,8 +16,9 @@
  */
 package org.loadui.testfx;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import javafx.scene.Node;
+
 import org.hamcrest.Matcher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -49,14 +50,16 @@ public class Assertions {
 
     public static <T extends Node> void verifyThat(String query, Predicate<T> predicate) {
         T node = find(query);
-        if (!predicate.apply(node))
+        if (!predicate.test(node)) {
             throw new AssertionError("Predicate failed for query '" + query +
                 "'. Screenshot saved as " + GuiTest.captureScreenshot().getAbsolutePath());
+        }
     }
 
     public static <T extends Node> void verifyThat(T node, Predicate<T> predicate) {
-        if (!predicate.apply(node))
+        if (!predicate.test(node)) {
             throw new AssertionError("Predicate failed for '" + node + "'. Screenshot saved as " +
                 GuiTest.captureScreenshot().getAbsolutePath());
+        }
     }
 }

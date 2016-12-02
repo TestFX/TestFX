@@ -16,7 +16,8 @@
  */
 package org.testfx.matcher.base;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
@@ -44,7 +45,7 @@ public class GeneralMatchers {
             @Override
             @SuppressWarnings("unchecked")
             public boolean matches(Object object) {
-                return predicate.apply((T) object);
+                return predicate.test((T) object);
             }
 
             @Override
@@ -71,7 +72,7 @@ public class GeneralMatchers {
             @Override
             @SuppressWarnings("unchecked")
             protected boolean matchesSafely(S object) {
-                return predicate.apply((T) object);
+                return predicate.test((T) object);
             }
 
             @Override

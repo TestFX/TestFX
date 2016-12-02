@@ -99,13 +99,13 @@ public final class FxToolkit {
     // STATIC FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private static final ApplicationLauncher appLauncher = new ApplicationLauncherImpl();
+    private static final ApplicationLauncher APP_LAUNCHER = new ApplicationLauncherImpl();
 
-    private static final ApplicationService appService = new ApplicationServiceImpl();
+    private static final ApplicationService APP_SERVICE = new ApplicationServiceImpl();
 
-    private static final FxToolkitContext context = new FxToolkitContext();
+    private static final FxToolkitContext CONTEXT = new FxToolkitContext();
 
-    private static final ToolkitService service = new ToolkitServiceImpl(appLauncher, appService);
+    private static final ToolkitService SERVICE = new ToolkitServiceImpl(APP_LAUNCHER, APP_SERVICE);
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE CONSTRUCTORS.
@@ -123,24 +123,24 @@ public final class FxToolkit {
 
     @Unstable(reason = "is missing apidocs")
     public static Stage registerPrimaryStage()
-                                      throws TimeoutException {
+            throws TimeoutException {
         Stage primaryStage = waitForLaunch(
-            service.setupPrimaryStage(
-                context.getPrimaryStageFuture(),
-                context.getApplicationClass(),
-                context.getApplicationArgs()
-            )
+                SERVICE.setupPrimaryStage(
+                        CONTEXT.getPrimaryStageFuture(),
+                        CONTEXT.getApplicationClass(),
+                        CONTEXT.getApplicationArgs()
+                )
         );
-        context.setRegisteredStage(primaryStage);
+        CONTEXT.setRegisteredStage(primaryStage);
         preventShutdownWhenLastWindowIsClosed();
         return primaryStage;
     }
 
     @Unstable(reason = "is missing apidocs")
     public static Stage registerStage(Supplier<Stage> stageSupplier)
-                               throws TimeoutException {
+            throws TimeoutException {
         Stage stage = setupFixture(() -> stageSupplier.get());
-        context.setRegisteredStage(stage);
+        CONTEXT.setRegisteredStage(stage);
         return stage;
     }
 
@@ -148,66 +148,75 @@ public final class FxToolkit {
 
     @Unstable(reason = "is missing apidocs")
     public static Stage setupStage(Consumer<Stage> stageConsumer)
-                            throws TimeoutException {
+            throws TimeoutException {
         return waitForSetup(
-            service.setupStage(
-                context.getRegisteredStage(),
-                stageConsumer
-            )
+                SERVICE.setupStage(
+                        CONTEXT.getRegisteredStage(),
+                        stageConsumer
+                )
         );
     }
 
     @Unstable(reason = "is missing apidocs")
     public static Application setupApplication(Class<? extends Application> applicationClass,
                                                String... applicationArgs)
-                                        throws TimeoutException {
+            throws TimeoutException {
         return waitForSetup(
-            service.setupApplication(
-                () -> context.getRegisteredStage(),
-                applicationClass,
-                applicationArgs
-            )
+                SERVICE.setupApplication(
+                        () -> CONTEXT.getRegisteredStage(),
+                        applicationClass,
+                        applicationArgs
+                )
         );
     }
 
     @Unstable(reason = "is missing apidocs")
     public static Application setupApplication(Supplier<Application> applicationSupplier)
-                                        throws TimeoutException {
+            throws TimeoutException {
         return waitForSetup(
-            service.setupApplication(
-                () -> context.getRegisteredStage(),
-                applicationSupplier
-            )
+                SERVICE.setupApplication(
+                        () -> CONTEXT.getRegisteredStage(),
+                        applicationSupplier
+                )
         );
     }
 
+    /**
+     * Performs the clean up of the application. This is done by calling {@link ToolkitService#cleanupApplication(Application)}
+     * (which usually calls the {@code stop} method of the application).
+     * @param application the application to clean up
+     * @throws TimeoutException if cleanup is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     *      or the FX Application Thread is not running
+     */
     @Unstable(reason = "is missing apidocs")
     public static void cleanupApplication(Application application)
-                                   throws TimeoutException {
-        waitForSetup(
-            service.cleanupApplication(application)
-        );
+            throws TimeoutException {
+        if (isFXApplicationThreadRunning()) {
+            waitForSetup(SERVICE.cleanupApplication(application));
+        } else {
+            throw new TimeoutException("FX Application Thread not running");
+        }
     }
 
     @Unstable(reason = "is missing apidocs")
     public static Scene setupScene(Supplier<Scene> sceneSupplier)
-                            throws TimeoutException {
+            throws TimeoutException {
         return waitForSetup(
-            service.setupScene(
-                context.getRegisteredStage(),
-                sceneSupplier
-            )
+                SERVICE.setupScene(
+                        CONTEXT.getRegisteredStage(),
+                        sceneSupplier
+                )
         );
     }
 
     @Unstable(reason = "is missing apidocs")
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
-                                 throws TimeoutException {
+            throws TimeoutException {
         return waitForSetup(
-            service.setupSceneRoot(
-                context.getRegisteredStage(),
-                sceneRootSupplier
-            )
+                SERVICE.setupSceneRoot(
+                        CONTEXT.getRegisteredStage(),
+                        sceneRootSupplier
+                )
         );
     }
 
@@ -215,35 +224,35 @@ public final class FxToolkit {
 
     @Unstable(reason = "is missing apidocs")
     public static void setupFixture(Runnable runnable)
-                             throws TimeoutException {
+            throws TimeoutException {
         waitForSetup(
-            service.setupFixture(runnable)
+                SERVICE.setupFixture(runnable)
         );
     }
 
     @Unstable(reason = "is missing apidocs")
     public static <T> T setupFixture(Callable<T> callable)
-                              throws TimeoutException {
+            throws TimeoutException {
         return waitForSetup(
-            service.setupFixture(callable)
+                SERVICE.setupFixture(callable)
         );
     }
 
     @Unstable(reason = "is missing apidocs; could change to accept stages")
     public static void showStage()
-                          throws TimeoutException {
+            throws TimeoutException {
         setupStage((stage) -> showStage(stage));
     }
 
     @Unstable(reason = "is missing apidocs")
     public static void hideStage()
-                          throws TimeoutException {
+            throws TimeoutException {
         setupStage((stage) -> hideStage(stage));
     }
 
     @Unstable(reason = "is missing apidocs")
     public static void cleanupStages()
-                              throws TimeoutException {
+            throws TimeoutException {
         setupFixture(() -> {
             fetchAllWindows().forEach((window) -> hideWindow(window));
         });
@@ -253,7 +262,7 @@ public final class FxToolkit {
 
     @Unstable(reason = "is missing apidocs")
     public static FxToolkitContext toolkitContext() {
-        return context;
+        return CONTEXT;
     }
 
     //---------------------------------------------------------------------------------------------
@@ -261,14 +270,13 @@ public final class FxToolkit {
     //---------------------------------------------------------------------------------------------
 
     private static <T> T waitForLaunch(Future<T> future)
-                                throws TimeoutException {
-        return waitFor(context.getLaunchTimeoutInMillis(), MILLISECONDS, future);
+            throws TimeoutException {
+        return waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS, future);
     }
 
-    private static <T> T waitForSetup(Future<T> future)
-                               throws TimeoutException {
-    	T ret=waitFor(context.getSetupTimeoutInMillis(), MILLISECONDS, future);
-    	waitForFxEvents();
+    private static <T> T waitForSetup(Future<T> future) throws TimeoutException {
+        T ret = waitFor(CONTEXT.getSetupTimeoutInMillis(), MILLISECONDS, future);
+        waitForFxEvents();
         return ret;
     }
 
@@ -293,6 +301,20 @@ public final class FxToolkit {
 
     private static void preventShutdownWhenLastWindowIsClosed() {
         Platform.setImplicitExit(false);
+    }
+
+    /**
+     * Detects if the JavaFx Application Thread is currently running.
+     * @return true, if the FX Application Thread is running
+     */
+    private static boolean isFXApplicationThreadRunning() {
+        Set<Thread> threads = Thread.getAllStackTraces().keySet();
+        for (Thread thread:threads) {
+            if (thread.getName().equals("JavaFX Application Thread")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

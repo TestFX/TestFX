@@ -33,13 +33,13 @@ public class FxToolkitContext {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.primaryStageFuture;
+    private PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
 
     private Class<? extends Application> applicationClass = PrimaryStageApplication.class;
 
     private String[] applicationArgs = new String[] {};
 
-    private Stage registeredStage = null;
+    private Stage registeredStage;
 
     private long launchTimeoutInMillis = parseLong(getProperty("testfx.launch.timeout", "60000"));
 

@@ -16,17 +16,24 @@
  */
 package org.testfx.robot;
 
+import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
 
 public interface ScrollRobot {
 
-    public void scroll(int amount);
+    void scroll(int amount);
 
-    public void scroll(int positiveAmount,
-                       VerticalDirection direction);
+    void scroll(int positiveAmount,
+                VerticalDirection direction);
 
-    public void scrollUp(int positiveAmount);
+    void scrollUp(int positiveAmount);
 
-    public void scrollDown(int positiveAmount);
+    void scrollDown(int positiveAmount);
 
+    void scroll(int positiveAmount,
+                HorizontalDirection direction);
+
+    void scrollLeft(int positiveAmount);
+
+    void scrollRight(int positiveAmount);
 }

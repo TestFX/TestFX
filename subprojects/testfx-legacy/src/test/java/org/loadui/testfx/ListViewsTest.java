@@ -19,6 +19,7 @@ package org.loadui.testfx;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBoxBuilder;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
@@ -60,16 +61,16 @@ public class ListViewsTest extends GuiTest {
         ListView<?> listView = find(".list-view");
         verifyThat(numberOfRowsIn(listView), is(3));
     }
-                  
+
     @Test
     public void shouldHaveSelectedTheRow() {
         ListView<?> listView = find(".list-view");
-        
+
         verifyThat(listView, hasSelectedRow(2));
         verifyThat(listView, not(hasSelectedRow(1)));
         verifyThat(listView, not(hasSelectedRow(3)));
     }
-        
+
     @Test
     public void shouldHaveSelectedTheRowByString() {
         verifyThat(".list-view", hasSelectedRow("2"));

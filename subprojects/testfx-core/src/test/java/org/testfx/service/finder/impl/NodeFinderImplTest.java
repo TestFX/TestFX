@@ -17,6 +17,7 @@
 package org.testfx.service.finder.impl;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -28,7 +29,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -285,7 +285,7 @@ public class NodeFinderImplTest {
     public Predicate<? extends Node> createLabelTextPredicate(final String labelText) {
         return new Predicate<Label>() {
             @Override
-            public boolean apply(Label label) {
+            public boolean test(Label label) {
                 return labelText.equals(label.getText());
             }
         };

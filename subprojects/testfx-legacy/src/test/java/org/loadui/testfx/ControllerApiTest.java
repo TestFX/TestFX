@@ -16,7 +16,7 @@
  */
 package org.loadui.testfx;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.VBoxBuilder;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadui.testfx.categories.TestFX;
@@ -81,7 +82,7 @@ public class ControllerApiTest extends GuiTest {
         // To stay compatible with both Java 7 and 8, this test uses Java 7 code.
         clickOn(new Predicate<Button>() {
             @Override
-            public boolean apply(Button b) {
+            public boolean test(Button b) {
                 return b.isDefaultButton();
             }
         });

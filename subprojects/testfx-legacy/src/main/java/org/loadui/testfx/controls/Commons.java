@@ -28,8 +28,7 @@ import org.loadui.testfx.controls.impl.HasLabelStringMatcher;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class Commons
-{
+public class Commons {
     /**
      * Matches any Labeled Node that has the given label.
      *
@@ -37,9 +36,8 @@ public class Commons
      */
     @Deprecated
     @Factory
-    public static Matcher<Object> hasLabel( String label )
-    {
-        return new HasLabelStringMatcher( label );
+    public static Matcher<Object> hasLabel(String label) {
+        return new HasLabelStringMatcher(label);
     }
 
     /**
@@ -49,9 +47,8 @@ public class Commons
      */
     @Deprecated
     @Factory
-    public static Matcher<Object> hasLabel( Matcher<String> stringMatcher )
-    {
-        return new HasLabelMatcher( stringMatcher );
+    public static Matcher<Object> hasLabel(Matcher<String> stringMatcher) {
+        return new HasLabelMatcher(stringMatcher);
     }
 
     /**
@@ -60,9 +57,8 @@ public class Commons
      * @param text
      */
     @Factory
-    public static Matcher<Object> hasText( String text )
-    {
-        return new HasLabelStringMatcher( text );
+    public static Matcher<Object> hasText(String text) {
+        return new HasLabelStringMatcher(text);
     }
 
     /**
@@ -71,24 +67,21 @@ public class Commons
      * @param stringMatcher
      */
     @Factory
-    public static Matcher<Object> hasText( Matcher<String> stringMatcher )
-    {
-        return new HasLabelMatcher( stringMatcher );
+    public static Matcher<Object> hasText(Matcher<String> stringMatcher) {
+        return new HasLabelMatcher(stringMatcher);
     }
 
-    public static Node nodeLabeledBy(String labelQuery)
-    {
+    public static Node nodeLabeledBy(String labelQuery) {
         Node foundNode = GuiTest.find(labelQuery);
 
         checkArgument(foundNode instanceof Label);
-        Label label = ( Label )foundNode;
+        Label label = (Label) foundNode;
         Node labelFor = label.getLabelFor();
         checkNotNull(labelFor);
         return labelFor;
     }
 
-    public static Node  nodeLabeledBy(Label label)
-    {
+    public static Node  nodeLabeledBy(Label label) {
         Node labelFor = label.getLabelFor();
         checkNotNull(labelFor);
         return labelFor;

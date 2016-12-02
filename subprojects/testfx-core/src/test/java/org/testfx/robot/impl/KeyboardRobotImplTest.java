@@ -18,8 +18,8 @@ package org.testfx.robot.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.BaseRobot;
+import org.testfx.robot.KeyboardRobot;
 
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.B;

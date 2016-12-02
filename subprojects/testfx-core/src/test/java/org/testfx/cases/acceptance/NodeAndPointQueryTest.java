@@ -27,6 +27,7 @@ import javafx.scene.layout.VBox;
 import com.google.common.collect.ImmutableSet;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -143,6 +144,7 @@ public class NodeAndPointQueryTest {
     }
 
     @Test
+    @Ignore("flaky")
     public void moveTo() {
         // when:
         fx.moveTo(".button").clickOn();

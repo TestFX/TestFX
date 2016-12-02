@@ -24,11 +24,11 @@ import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testfx.api.FxToolkit;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
-import org.testfx.api.FxToolkit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;

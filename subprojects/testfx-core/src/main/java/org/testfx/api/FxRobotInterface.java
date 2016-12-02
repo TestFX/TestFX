@@ -22,8 +22,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
+import javafx.geometry.HorizontalDirection;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -34,10 +36,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Screen;
 import javafx.stage.Window;
 
-import com.google.common.base.Predicate;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.BoundsQuery;
@@ -361,6 +361,12 @@ public interface FxRobotInterface {
 
     // Convenience methods:
     public FxRobotInterface scroll(VerticalDirection direction);
+
+    public FxRobotInterface scroll(int amount,
+                                   HorizontalDirection direction);
+
+    // Convenience methods:
+    public FxRobotInterface scroll(HorizontalDirection direction);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR TYPING.
