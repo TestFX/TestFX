@@ -16,6 +16,7 @@
  */
 package org.testfx.robot;
 
+import java.util.Set;
 import javafx.scene.input.KeyCode;
 
 public interface KeyboardRobot {
@@ -27,6 +28,12 @@ public interface KeyboardRobot {
      */
     public void press(KeyCode... keys);
     public void pressNoWait(KeyCode... keys);
+
+    /**
+     * Gets the keys that have been pressed and not released.
+     * @return an unmodifiable set of the keys that have been pressed but not released.
+     */
+    public Set<KeyCode> getPressedKeys();
 
     /**
      * Releases given keys.

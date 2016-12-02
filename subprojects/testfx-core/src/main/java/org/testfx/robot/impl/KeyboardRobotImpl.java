@@ -16,6 +16,7 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import javafx.scene.input.KeyCode;
@@ -40,6 +41,9 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     //---------------------------------------------------------------------------------------------
 
     private final Set<KeyCode> pressedKeys = Sets.newHashSet();
+    public final Set<KeyCode> getPressedKeys() {
+        return Collections.unmodifiableSet(pressedKeys);
+    }
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.

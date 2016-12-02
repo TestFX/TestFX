@@ -16,6 +16,7 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import javafx.geometry.Point2D;
@@ -41,6 +42,9 @@ public class MouseRobotImpl implements MouseRobot {
     //---------------------------------------------------------------------------------------------
 
     private final Set<MouseButton> pressedButtons = Sets.newHashSet();
+    public final Set<MouseButton> getPressedButtons() {
+        return Collections.unmodifiableSet(pressedButtons);
+    }
 
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
