@@ -42,6 +42,9 @@ public final class BoundsQueryUtils {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a new {@link Bounds} object with the given parameters
+     */
     public static Bounds bounds(double minX,
                                 double minY,
                                 double width,
@@ -49,17 +52,27 @@ public final class BoundsQueryUtils {
         return new BoundingBox(minX, minY, width, height);
     }
 
+    /**
+     * Creates a Bounds object whose top-left corner is the given point and whose width/height = 0
+     */
     public static Bounds bounds(Point2D point) {
         return bounds(point.getX(), point.getY(), 0, 0);
     }
 
+    /**
+     * Creates a {@link Bounds} object whose top-left corner = 0 and whose width & height = {code dimension.getWidth()}
+     * and {@code dimension.getHeight()}, respectively.
+     */
     public static Bounds bounds(Dimension2D dimension) {
         return bounds(0, 0, dimension.getWidth(), dimension.getHeight());
     }
 
+    /**
+     * Converts the given region into a {@link Bounds} object.
+     */
     public static Bounds bounds(Rectangle2D region) {
         return bounds(region.getMinX(), region.getMinY(),
-                      region.getWidth(), region.getHeight());
+                region.getWidth(), region.getHeight());
     }
 
     /**
@@ -67,7 +80,7 @@ public final class BoundsQueryUtils {
      */
     public static Bounds bounds(Scene scene) {
         return bounds(scene.getX(), scene.getY(),
-                      scene.getWidth(), scene.getHeight());
+                scene.getWidth(), scene.getHeight());
     }
 
     /**
@@ -75,7 +88,7 @@ public final class BoundsQueryUtils {
      */
     public static Bounds bounds(Window window) {
         return bounds(window.getX(), window.getY(),
-                      window.getWidth(), window.getHeight());
+                window.getWidth(), window.getHeight());
     }
 
     // BOUNDS FOR NODE.
@@ -101,42 +114,60 @@ public final class BoundsQueryUtils {
         return node.getBoundsInParent();
     }
 
+    /**
+     * Retrieves the physical untransformed bounds (geom + effect + clip) of a Node before transforming
+     * that to the node's Scene's coordinate system.
+     */
     public static Bounds nodeBoundsInScene(Node node) {
         return node.localToScene(node.getBoundsInLocal());
     }
 
     // BOUNDS ON SCREEN.
 
+    /**
+     * Retrieves the physical untransformed bounds (geom + effect + clip) of a Node before transforming that
+     * to the screen's coordinate system.
+     */
     public static Bounds boundsOnScreen(Node node) {
         Bounds boundsInScene = nodeBoundsInScene(node);
         // Bounds visibleBoundsInScene = limitToVisibleBounds(boundsInScene, node.getScene());
         return boundsOnScreen(boundsInScene, node.getScene());
     }
 
+    /**
+     * Transforms the given bounds in the given scene to the screen's coordinate system.
+     */
     public static Bounds boundsOnScreen(Bounds boundsInScene,
                                         Scene scene) {
         Bounds sceneBoundsInWindow = bounds(scene);
         Bounds windowBoundsOnScreen = bounds(scene.getWindow());
         return translateBounds(boundsInScene, byOffset(
-            sceneBoundsInWindow.getMinX() + windowBoundsOnScreen.getMinX(),
-            sceneBoundsInWindow.getMinY() + windowBoundsOnScreen.getMinY()
+                sceneBoundsInWindow.getMinX() + windowBoundsOnScreen.getMinX(),
+                sceneBoundsInWindow.getMinY() + windowBoundsOnScreen.getMinY()
         ));
     }
 
+    /**
+     * Translates the given bounds in the given window to the screen's coordinate system
+     */
     public static Bounds boundsOnScreen(Bounds boundsInWindow,
                                         Window window) {
         Bounds windowBoundsOnScreen = bounds(window);
         return translateBounds(boundsInWindow, byOffset(
-            windowBoundsOnScreen.getMinX(),
-            windowBoundsOnScreen.getMinY()
+                windowBoundsOnScreen.getMinX(),
+                windowBoundsOnScreen.getMinY()
         ));
     }
 
+    /**
+     * Translates the given bounds in the screen to a relative coordinate system where the given screenRegion's
+     * top-left corner represents coordinate (0, 0).
+     */
     public static Bounds boundsOnScreen(Bounds boundsOnScreen,
                                         Rectangle2D screenRegion) {
         return translateBounds(boundsOnScreen, byOffset(
-            screenRegion.getMinX(),
-            screenRegion.getMinY()
+                screenRegion.getMinX(),
+                screenRegion.getMinY()
         ));
     }
 
@@ -176,10 +207,10 @@ public final class BoundsQueryUtils {
     private static Bounds translateBounds(Bounds bounds,
                                           Point2D offset) {
         return new BoundingBox(
-            bounds.getMinX() + offset.getX(),
-            bounds.getMinY() + offset.getY(),
-            bounds.getWidth(),
-            bounds.getHeight()
+                bounds.getMinX() + offset.getX(),
+                bounds.getMinY() + offset.getY(),
+                bounds.getWidth(),
+                bounds.getHeight()
         );
     }
 
