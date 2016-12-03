@@ -18,6 +18,9 @@ package org.testfx.service.query;
 
 import javafx.geometry.Bounds;
 
+/**
+ * Essentially, a {@link java.util.function.Supplier} that returns a {@link Bounds} object via {@link #query()}.
+ */
 public interface BoundsQuery {
 
     public Bounds query();
