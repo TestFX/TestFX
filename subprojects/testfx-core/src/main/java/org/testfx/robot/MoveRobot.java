@@ -20,8 +20,20 @@ import org.testfx.service.query.PointQuery;
 
 public interface MoveRobot {
 
+    /**
+     * Moves mouse to {@link PointQuery#query()}.
+     *
+     * @param pointQuery the pointQuery
+     */
     public void moveTo(PointQuery pointQuery);
 
+    /**
+     * Moves mouse from current location to new location by {@code x} on the horizontal axis and by {@code y} on
+     * the vertical axis.
+     *
+     * @param x the amount by which to move the mouse horizontally
+     * @param y the amount by which to move the mouse vertically
+     */
     public void moveBy(double x,
                        double y);
 
