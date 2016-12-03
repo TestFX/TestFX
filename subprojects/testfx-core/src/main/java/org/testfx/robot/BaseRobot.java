@@ -33,6 +33,10 @@ public interface BaseRobot {
                              KeyCode key,
                              String character);
 
+    /**
+     *
+     * @return the current mouse location
+     */
     public Point2D retrieveMouse();
 
     public void moveMouse(Point2D point);
@@ -43,8 +47,16 @@ public interface BaseRobot {
 
     public void releaseMouse(MouseButton button);
 
+    /**
+     *
+     * @param region the given bounds for the image
+     * @return a screen shot of the given region
+     */
     public Image captureRegion(Rectangle2D region);
 
+    /**
+     * Calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}
+     */
     public void awaitEvents();
 
 }
