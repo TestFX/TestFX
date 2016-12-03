@@ -31,20 +31,102 @@ public interface NodeQuery {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Stores all given {@code parentNodes} within this NodeQuery
+     *
+     * @param parentNodes the parentNodes to store
+     * @return itself
+     */
     NodeQuery from(Node... parentNodes);
+
+    /**
+     * Stores all given {@code parentNodes} within this NodeQuery
+     *
+     * @param parentNodes the parentNodes to store
+     * @return itself
+     */
     NodeQuery from(Collection<Node> parentNodes);
 
+    /**
+     * Sifts through stored nodes by their id ("#id"), their class (".class"), or the text it has ("text"),
+     * depending on the query used, and keeps only those {@code Node}s that meet the query.
+     *
+     * @param query the query to use
+     * @return itself
+     */
     NodeQuery lookup(String query);
+
+    /**
+     * Sifts through stored nodes and keeps only those {@code Node}s that match the given matcher.
+     *
+     * @param matcher the matcher used to determine which {@code Node}s to keep and which to remove
+     * @param <T> matcher type
+     * @return itself
+     */
     <T> NodeQuery lookup(Matcher<T> matcher);
+
+    /**
+     * Sifts through stored nodes and keeps only those {@code Node}s that pass the given {@code predicate}.
+     *
+     * @param predicate the predicate used to determine which {@code Node}s to keep and which to remove.
+     * @param <T> type that extends {@code Node}
+     * @return itself
+     */
     <T extends Node> NodeQuery lookup(Predicate<T> predicate);
+
+    /**
+     * Sifts through stored nodes and uses {@code function} to determine which nodes to keep and which to remove.
+     *
+     * @param function that returns the {@code Node}s to keep
+     * @return itself
+     */
     NodeQuery lookup(Function<Node, Set<Node>> function);
 
+    /**
+     * Sifts through stored nodes and removes all {@code Node}s that match the given matcher.
+     *
+     * @param matcher that determines which {@code Node}s to remove
+     * @param <T> matcher type
+     * @return itself
+     */
     <T> NodeQuery match(Matcher<T> matcher);
+
+    /**
+     * Sifts through stored nodes and removes all {@code Node}s that pass the given predicate.
+     *
+     * @param predicate that indicates which {@code Node}s to remove
+     * @param <T> predicate type
+     * @return itself
+     */
     <T extends Node> NodeQuery match(Predicate<T> predicate);
+
+    /**
+     * Keeps the nth {@code Node} in stored nodes and removes all others.
+     *
+     * @param index within the collection of {@code Node}s
+     * @return itself
+     */
     NodeQuery nth(int index);
 
+    /**
+     *
+     * @param <T> type that extends {@code Node}
+     * @return the first node found or null.
+     */
     <T extends Node> T query();
+
+    /**
+     *
+     * @param <T> type that extends {@code Node}
+     * @return the first node found or null
+     */
     <T extends Node> Optional<T> tryQuery();
+
+    /**
+     *
+     * @param <T> type that extends {@code Node}
+     * @return all nodes found
+     */
     <T extends Node> Set<T> queryAll();
 
 }
