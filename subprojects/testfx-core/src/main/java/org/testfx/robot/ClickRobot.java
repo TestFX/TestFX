@@ -22,13 +22,35 @@ import org.testfx.service.query.PointQuery;
 
 public interface ClickRobot {
 
+    /**
+     * Clicks whatever is under the mouse.
+     *
+     * @param buttons the mouse buttons to click
+     */
     public void clickOn(MouseButton... buttons);
 
+    /**
+     * Moves mouse to {@link PointQuery#query()} and clicks whatever is under it.
+     *
+     * @param pointQuery the pointQuery
+     * @param buttons the mouse buttons to click
+     */
     public void clickOn(PointQuery pointQuery,
                         MouseButton... buttons);
 
+    /**
+     * Double-clicks whatever is under the mouse.
+     *
+     * @param buttons the mouse buttons to click
+     */
     public void doubleClickOn(MouseButton... buttons);
 
+    /**
+     * Moves mouse to {@link PointQuery#query()} and double-clicks whatever is under it.
+     *
+     * @param pointQuery the pointQuery
+     * @param buttons the mouse buttons to click
+     */
     public void doubleClickOn(PointQuery pointQuery,
                               MouseButton... buttons);
 
