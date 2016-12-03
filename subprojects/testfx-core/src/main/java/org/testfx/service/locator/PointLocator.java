@@ -24,14 +24,43 @@ import javafx.stage.Window;
 
 import org.testfx.service.query.PointQuery;
 
+/**
+ * Interface for constructing {@link PointQuery} objects that can be used to return a specific
+ * point (in terms of the screen) somewhere in the bounds of the provided object.
+ */
 public interface PointLocator {
+    /**
+     *
+     * @param bounds the initial bounds with which to construct a {@link PointQuery}
+     * @return a {@link PointQuery} with the given bounds as the initial bounds
+     */
     PointQuery point(Bounds bounds);
 
+    /**
+     *
+     * @param point to convert into a {@link Bounds} object.
+     * @return a {@link PointQuery} whose bounds x and y values are the given point and whose width/height = 0
+     */
     PointQuery point(Point2D point);
 
+    /**
+     *
+     * @param node the node
+     * @return a {@link PointQuery} with the node's bounds (in terms of the screen) as the initial bounds
+     */
     PointQuery point(Node node);
 
+    /**
+     *
+     * @param scene the scene
+     * @return a {@link PointQuery} with the scene's bounds (in terms of the screen) as the initial bounds
+     */
     PointQuery point(Scene scene);
 
+    /**
+     *
+     * @param window the window
+     * @return a {@link PointQuery} with the window's bounds (in terms of the screen) as the initial bounds
+     */
     PointQuery point(Window window);
 }
