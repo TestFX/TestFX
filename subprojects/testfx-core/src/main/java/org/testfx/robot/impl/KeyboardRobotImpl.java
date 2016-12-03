@@ -18,6 +18,7 @@ package org.testfx.robot.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import javafx.scene.input.KeyCode;
 
@@ -29,6 +30,17 @@ import org.testfx.robot.KeyboardRobot;
 
 @Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
+
+    //---------------------------------------------------------------------------------------------
+    // CONSTANTS.
+    //---------------------------------------------------------------------------------------------
+
+    private static final KeyCode OS_SPECIFIC_SHORTCUT;
+
+    static {
+        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
+        OS_SPECIFIC_SHORTCUT = osName.startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
+    }
 
     //---------------------------------------------------------------------------------------------
     // FIELDS.
@@ -105,14 +117,16 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     }
 
     private void pressKey(KeyCode keyCode) {
-        if (pressedKeys.add(keyCode)) {
-            baseRobot.pressKeyboard(keyCode);
+        KeyCode realKeyCode = keyCode == KeyCode.SHORTCUT ? OS_SPECIFIC_SHORTCUT : keyCode;
+        if (pressedKeys.add(realKeyCode)) {
+            baseRobot.pressKeyboard(realKeyCode);
         }
     }
 
     private void releaseKey(KeyCode keyCode) {
-        if (pressedKeys.remove(keyCode)) {
-            baseRobot.releaseKeyboard(keyCode);
+        KeyCode realKeyCode = keyCode == KeyCode.SHORTCUT ? OS_SPECIFIC_SHORTCUT : keyCode;
+        if (pressedKeys.remove(realKeyCode)) {
+            baseRobot.releaseKeyboard(realKeyCode);
         }
     }
 
