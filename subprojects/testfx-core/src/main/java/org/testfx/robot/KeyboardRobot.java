@@ -22,25 +22,42 @@ import javafx.scene.input.KeyCode;
 public interface KeyboardRobot {
 
     /**
-     * Presses given keys, until explicitly released.
+     * Presses given keys, until explicitly released via {@link #release(KeyCode...)}. Once pressed,
+     * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is called.
      *
      * @param keys the key codes
      */
     public void press(KeyCode... keys);
+
+    /**
+     * Presses given keys, until explicitly released via {@link #release(KeyCode...)}.
+     * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     *
+     * @param keys the key codes
+     */
     public void pressNoWait(KeyCode... keys);
 
     /**
      * Gets the keys that have been pressed and not released.
+     *
      * @return an unmodifiable set of the keys that have been pressed but not released.
      */
     public Set<KeyCode> getPressedKeys();
 
     /**
-     * Releases given keys.
+     * Releases given keys. Once released, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is called.
+     * <em>Note:</em> passing in an empty {@code KeyCode[]} will release all pressed keys.
      *
      * @param keys the key codes
      */
     public void release(KeyCode... keys);
+
+    /**
+     * Releases given keys. {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     * <em>Note:</em> passing in an empty {@code KeyCode[]} will release all pressed keys.
+     *
+     * @param keys the key codes
+     */
     public void releaseNoWait(KeyCode... keys);
 
 }
