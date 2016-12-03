@@ -55,7 +55,8 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public boolean matchColors(Color color0, Color color1) {
+    public boolean matchColors(Color color0,
+                               Color color1) {
         if (minColorDistSq == Double.MIN_VALUE) {
             double maxColorDistSq = ColorUtils.calculateColorDistSq(Color.BLACK, Color.WHITE);
             minColorDistSq = maxColorDistSq * (minColorDistFactor * minColorDistFactor);
@@ -72,7 +73,8 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
     }
 
     @Override
-    public Color createMatchColor(Color color0, Color color1) {
+    public Color createMatchColor(Color color0,
+                                  Color color1) {
         double gray = color0.grayscale().getRed();
         double opacity = color0.getOpacity();
         return Color.gray(blendToWhite(gray, colorBlendFactor), opacity);
@@ -80,7 +82,8 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
     }
 
     @Override
-    public Color createNonMatchColor(Color color0, Color color1) {
+    public Color createNonMatchColor(Color color0,
+                                     Color color1) {
         return Color.RED;
     }
 
