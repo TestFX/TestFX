@@ -43,7 +43,14 @@ public final class PointQueryUtils {
                                      Pos position) {
         return atPositionFactors(bounds, computePositionFactors(position));
     }
-
+    /**
+     * Returns a point within the given bounds.
+     * The horizontal/vertical position is calculated by:<br>
+     * {@code x/y = bounds.x/y + positionFactors.x/y * bounds.width/height} 
+     * @param bounds the bounds
+     * @param positionFactors the factors
+     * @return the point within the bounds
+     */
     public static Point2D atPositionFactors(Bounds bounds,
                                             Point2D positionFactors) {
         double pointX = lerp(bounds.getMinX(), bounds.getMaxX(), positionFactors.getX());
@@ -51,6 +58,13 @@ public final class PointQueryUtils {
         return new Point2D(pointX, pointY);
     }
 
+    /**
+     * Computes the width/height factors for the point defined by the pos object.<br>
+     * The width factor is returned in the x component, the height factor in the y component of the point.
+     * E.g. {@link Pos#TOP_LEFT} has the width and height factor 0.0, {@link Pos#BOTTOM_RIGHT} 1.0.
+     * @param position the position
+     * @return the factors
+     */
     public static Point2D computePositionFactors(Pos position) {
         double positionX = computePositionX(position.getHpos());
         double positionY = computePositionY(position.getVpos());

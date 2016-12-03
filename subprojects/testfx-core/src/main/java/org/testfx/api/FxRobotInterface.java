@@ -129,7 +129,20 @@ public interface FxRobotInterface {
                             double y);
     public PointQuery point(Point2D point);
     public PointQuery point(Bounds bounds);
+    /**
+     * Returns the center of the node in screen coordinates.
+     * @param node the node
+     * @return the point
+     */
     public PointQuery point(Node node);
+    /**
+     * Returns a point (screen coordinates) within the node, the exact 
+     * Position within the node is defined by the given Position.
+     * @param node the node
+     * @param pos the position within the node
+     * @return the point
+     */
+    public PointQuery point(Node node, Pos pos);
     public PointQuery point(Scene scene);
     public PointQuery point(Window window);
 
@@ -379,18 +392,80 @@ public interface FxRobotInterface {
     // METHODS FOR MOVING.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Moves the cursor to the given point query.
+     * @param pointQuery the point query
+     * @return this robot
+     */
     public FxRobotInterface moveTo(PointQuery pointQuery);
+    /**
+     * Moves the cursor from its current position by the given amount of pixels.
+     * @param x the pixels in x direction to add
+     * @param y the pixels in y direction to add
+     * @return this robot
+     */
     public FxRobotInterface moveBy(double x,
                                    double y);
 
-    // Convenience methods:
-    public FxRobotInterface moveTo(double x,
-                                   double y);
-    public FxRobotInterface moveTo(Point2D point);
-    public FxRobotInterface moveTo(Bounds bounds);
-    public FxRobotInterface moveTo(Node node);
-    public FxRobotInterface moveTo(Scene scene);
-    public FxRobotInterface moveTo(Window window);
+    // Convenience methods (default implementation as only interface methods are used):
+    /**
+     * Moves the cursor to a point in screen coordinates.
+     * @param x the x value of the point
+     * @param y the y value of the point
+     * @return this robot
+     */
+    public default FxRobotInterface moveTo(double x, double y){
+        return moveTo(point(new Point2D(x, y)));
+    }
+    /**
+     * Moves the cursor to a point in screen coordinates.
+     * @param point the point
+     * @return this robot
+     */
+    public default FxRobotInterface moveTo(Point2D point){
+        return moveTo(point(point));
+    }
+    /**
+     * Moves the cursor to the center of the given bounds.
+     * @param bounds the bounds
+     * @return this robot
+     */
+    public default FxRobotInterface moveTo(Bounds bounds){
+        return moveTo(point(bounds));
+    }
+    /**
+     * Moves the cursor to the center of the given node.
+     * @param node the node
+     * @return this robot
+     */
+    public default FxRobotInterface moveTo(Node node){
+        return moveTo(point(node));
+    }
+    /**
+     * Moves the cursor to a node with the given offset within the node.
+     * @param node the node
+     * @param offset the offset to the upper left corner of the node
+     * @return the FXRobotInterface
+     */
+    public default FxRobotInterface moveTo(Node node, Point2D offset){
+        return moveTo(point(node,Pos.TOP_LEFT).atOffset(offset));
+    }
+    /**
+     * Moves the cursor to the center of the given scene.
+     * @param scene the scene
+     * @return this robot
+     */
+    public default FxRobotInterface moveTo(Scene scene){
+        return moveTo(point(scene));
+    }
+    /**
+     * Moves the cursor to the center of the given window.
+     * @param window the window
+     * @return this robot
+     */
+    public default FxRobotInterface moveTo(Window window){
+        return moveTo(point(window));
+    }
     public FxRobotInterface moveTo(String query);
     public <T extends Node> FxRobotInterface moveTo(Matcher<T> matcher);
     public <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate);

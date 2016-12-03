@@ -354,10 +354,15 @@ public class FxRobot implements FxRobotInterface {
     @Override
     @Unstable(reason = "is missing apidocs")
     public PointQuery point(Node node) {
+        return point(node,context.getPointPosition());
+    }
+
+    @Override
+    @Unstable(reason = "is missing tests")
+    public PointQuery point(Node node, Pos pos) {
         PointLocator pointLocator = context.getPointLocator();
-        Pos pointPosition = context.getPointPosition();
         targetWindow(node.getScene().getWindow());
-        return pointLocator.point(node).atPosition(pointPosition);
+        return pointLocator.point(node).atPosition(pos);
     }
 
     @Override
@@ -1137,42 +1142,6 @@ public class FxRobot implements FxRobotInterface {
         return this;
     }
 
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(double x,
-                          double y) {
-        return moveTo(point(new Point2D(x, y)));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Point2D point) {
-        return moveTo(point(point));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Bounds bounds) {
-        return moveTo(point(bounds));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Node node) {
-        return moveTo(point(node));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Scene scene) {
-        return moveTo(point(scene));
-    }
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public FxRobot moveTo(Window window) {
-        return moveTo(point(window));
-    }
 
     @Override
     @Unstable(reason = "is missing apidocs")

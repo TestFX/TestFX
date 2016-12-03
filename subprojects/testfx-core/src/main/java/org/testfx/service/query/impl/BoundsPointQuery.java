@@ -18,10 +18,18 @@ package org.testfx.service.query.impl;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.util.PointQueryUtils;
 
+/**
+ * This point query implements a PointQuery within the bounds of an object.
+ * The Position ({@link Pos}) can be set to a value within the bounds.
+ * 
+ * @author Jan Ortner
+ *
+ */
 @Unstable
 public class BoundsPointQuery extends PointQueryBase {
 
@@ -34,7 +42,10 @@ public class BoundsPointQuery extends PointQueryBase {
     //---------------------------------------------------------------------------------------------
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
-
+    /**
+     * Constructor defining the bounds to position the point in.
+     * @param bounds the bounds
+     */
     public BoundsPointQuery(Bounds bounds) {
         this.bounds = bounds;
     }
