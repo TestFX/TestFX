@@ -277,6 +277,9 @@ public final class FxToolkit {
     private static <T> T waitForSetup(Future<T> future) throws TimeoutException {
         T ret = waitFor(CONTEXT.getSetupTimeoutInMillis(), MILLISECONDS, future);
         waitForFxEvents();
+        //TODO just checking if increase of loop count is not sucessfull
+        /* try{Thread.sleep(1000);}
+        catch(Exception ignore) { } */
         return ret;
     }
 

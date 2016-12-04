@@ -45,7 +45,7 @@ public class WaitForAsyncUtils {
 
     private final static long SEMAPHORE_SLEEP_IN_MILLIS = 10;
 
-    private final static int SEMAPHORE_LOOPS_COUNT = 5;
+    private final static int SEMAPHORE_LOOPS_COUNT = 100; //TODO just checking may be too high
 
     //---------------------------------------------------------------------------------------------
     // STATIC FIELDS.

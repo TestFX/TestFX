@@ -104,6 +104,10 @@ public class GlassRobotAdapterTest {
 
         PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
         regionPoint = pointLocator.point(region).atPosition(Pos.CENTER).query();
+
+        //TODO just checking if increase of loop count is not sucessfull
+        /* try{Thread.sleep(1000);}
+        catch(Exception ignore) { } */
     }
 
     @After
