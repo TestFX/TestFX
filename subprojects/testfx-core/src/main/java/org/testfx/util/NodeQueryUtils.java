@@ -16,12 +16,15 @@
  */
 package org.testfx.util;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -33,7 +36,6 @@ import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -68,36 +70,36 @@ public final class NodeQueryUtils {
      */
     public static Set<Node> rootOfWindow(Window... windows) {
         // TODO: is this set (toSet()) in order?
-        return FluentIterable.from(ImmutableList.copyOf(windows))
-            .<Node>transform((window) -> fromWindow(window))
-            .toSet();
+        return Arrays.stream(windows)
+                .map(NodeQueryUtils::fromWindow)
+                .collect(Collectors.toSet());
     }
 
     /**
      * Returns a set of the given stages' scenes' root nodes
      */
     public static Set<Node> rootOfStage(Stage... stages) {
-        return FluentIterable.from(ImmutableList.copyOf(stages))
-            .<Node>transform((stage) -> fromStage(stage))
-            .toSet();
+        return Arrays.stream(stages)
+                .map(NodeQueryUtils::fromStage)
+                .collect(Collectors.toSet());
     }
 
     /**
      * Returns a set of the given scenes' root nodes
      */
     public static Set<Node> rootOfScene(Scene... scenes) {
-        return FluentIterable.from(ImmutableList.copyOf(scenes))
-            .<Node>transform((scene) -> fromScene(scene))
-            .toSet();
+        return Arrays.stream(scenes)
+                .map(NodeQueryUtils::fromScene)
+                .collect(Collectors.toSet());
     }
 
     /**
      * Returns a set of the given popup controls' scenes' root nodes
      */
     public static Set<Node> rootOfPopupControl(PopupControl... popupControls) {
-        return FluentIterable.from(ImmutableList.copyOf(popupControls))
-            .<Node>transform((popupControl) -> fromPopupControl(popupControl))
-            .toSet();
+        return Arrays.stream(popupControls)
+                .map(NodeQueryUtils::fromPopupControl)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -265,9 +267,10 @@ public final class NodeQueryUtils {
 
     private static <T> Set<T> combine(T input,
                                       Collection<Function<T, Set<T>>> functions) {
-        return FluentIterable.from(functions)
-            .transformAndConcat((f) -> f.apply(input))
-            .toSet();
+        return functions.stream()
+                .map(f -> f.apply(input))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
 }
