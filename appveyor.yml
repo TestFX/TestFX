@@ -2,6 +2,9 @@ version: "{branch} {build}"
 
 environment:
   JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+  matrix:
+    - JAVA_OPTS: ""
+    - JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
 
 shallow_clone: true
 
@@ -9,11 +12,20 @@ build:
   verbosity: detailed
 
 build_script:
-  - gradlew build --info --no-daemon
+  - cmd: java -version
+  - cmd: gradlew --version --no-daemon
+  - gradlew versions build --info --no-daemon
 
 test_script:
   - gradlew check --info --no-daemon
 
 cache:
   - C:\Users\appveyor\.gradle
+
+notifications:
+  - provider: Webhook
+    url: https://webhooks.gitter.im/e/2532276e31bee9ba82b7 
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
 
