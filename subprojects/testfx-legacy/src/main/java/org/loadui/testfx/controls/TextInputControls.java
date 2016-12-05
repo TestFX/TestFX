@@ -17,44 +17,47 @@
 package org.loadui.testfx.controls;
 
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.TextInputControl;
 
-import org.loadui.testfx.GuiTest;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
 
-import static javafx.scene.input.KeyCode.A;
-import static javafx.scene.input.KeyCode.BACK_SPACE;
-import static javafx.scene.input.KeyCode.CONTROL;
 import static org.loadui.testfx.GuiTest.find;
 
+/**
+ * Provides methods for interacting with TextInputControls.
+ *
+ */
 public class TextInputControls {
 
+    /**
+     * Clears all text in the given TextInputControl.
+     * 
+     * @param textInputControl
+     *            the textInputControl to clear
+     */
     public static void clearTextIn(TextInputControl textInputControl) {
         textInputControl.clear();
     }
 
+    /**
+     * Clears all text in the TextInputControl defined by the given query. The
+     * query is resolved by {@link org.loadui.testfx.GuiTest#find(String)}. If
+     * the control is already empty, nothing will be done.
+     * 
+     * @param textInputQuery
+     *            the query to lookup the TextInputControl.
+     */
     public static void clearTextIn(String textInputQuery) {
         Node node = find(textInputQuery);
         if (!(node instanceof TextInputControl)) {
-            throw new NoNodesFoundException(textInputQuery + " selected " + node +
-                " which is not a TextInputControl!");
+            throw new NoNodesFoundException(textInputQuery + " selected " + node + " which is not a TextInputControl!");
         }
 
         TextInputControl textControl = (TextInputControl) node;
         if (textControl.getLength() == 0) {
             return;
         }
-
-        GuiTest fx = new GuiTest() {
-            @Override
-            protected Parent getRootNode() {
-                return null;
-            }
-        };
-
-        fx.clickOn(textControl);
-        fx.push(CONTROL, A).push(BACK_SPACE);
+        clearTextIn(textControl);
     }
 
 }
