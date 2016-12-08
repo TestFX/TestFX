@@ -25,7 +25,7 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.BACK_SPACE;
-import static javafx.scene.input.KeyCode.CONTROL;
+import static javafx.scene.input.KeyCode.SHORTCUT;
 import static org.loadui.testfx.GuiTest.find;
 
 public class TextInputControls {
@@ -54,7 +54,7 @@ public class TextInputControls {
         };
 
         fx.clickOn(textControl);
-        fx.push(CONTROL, A).push(BACK_SPACE);
+        fx.push(SHORTCUT, A).push(BACK_SPACE);
     }
 
 }
