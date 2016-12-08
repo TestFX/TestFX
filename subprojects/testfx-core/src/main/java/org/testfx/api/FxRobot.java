@@ -89,55 +89,47 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window targetWindow() {
         return context.getWindowFinder().targetWindow();
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(Window window) {
         context.getWindowFinder().targetWindow(window);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(Predicate<Window> predicate) {
         context.getWindowFinder().targetWindow(predicate);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(int windowNumber) {
         context.getWindowFinder().targetWindow(windowNumber);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(String stageTitleRegex) {
         context.getWindowFinder().targetWindow(stageTitleRegex);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(Pattern stageTitlePattern) {
         context.getWindowFinder().targetWindow(stageTitlePattern);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(Scene scene) {
         context.getWindowFinder().targetWindow(scene);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetWindow(Node node) {
         context.getWindowFinder().targetWindow(node);
         return this;
@@ -148,49 +140,41 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public List<Window> listWindows() {
         return context.getWindowFinder().listWindows();
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public List<Window> listTargetWindows() {
         return context.getWindowFinder().listTargetWindows();
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window window(Predicate<Window> predicate) {
         return context.getWindowFinder().window(predicate);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window window(int windowIndex) {
         return context.getWindowFinder().window(windowIndex);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window window(String stageTitleRegex) {
         return context.getWindowFinder().window(stageTitleRegex);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window window(Pattern stageTitlePattern) {
         return context.getWindowFinder().window(stageTitlePattern);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window window(Scene scene) {
         return context.getWindowFinder().window(scene);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Window window(Node node) {
         return context.getWindowFinder().window(node);
     }
@@ -200,61 +184,51 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public NodeQuery fromAll() {
         return context.getNodeFinder().fromAll();
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public NodeQuery from(Node... parentNodes) {
         return context.getNodeFinder().from(parentNodes);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public NodeQuery from(Collection<Node> parentNodes) {
         return context.getNodeFinder().from(parentNodes);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public NodeQuery from(NodeQuery nodeQuery) {
         return context.getNodeFinder().from(nodeQuery);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public NodeQuery lookup(String query) {
         return context.getNodeFinder().lookup(query);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> NodeQuery lookup(Matcher<T> matcher) {
         return context.getNodeFinder().lookup(matcher);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> NodeQuery lookup(Predicate<T> predicate) {
         return context.getNodeFinder().lookup(predicate);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Node rootNode(Window window) {
         return context.getNodeFinder().rootNode(window);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Node rootNode(Scene scene) {
         return context.getNodeFinder().rootNode(scene);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Node rootNode(Node node) {
         return context.getNodeFinder().rootNode(node);
     }
@@ -297,16 +271,19 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
+    @Unstable(reason = "not yet implemented")
     public BoundsQuery bounds(String query) {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    @Unstable(reason = "not yet implemented")
     public <T extends Node> BoundsQuery bounds(Matcher<T> matcher) {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    @Unstable(reason = "not yet implemented")
     public <T extends Node> BoundsQuery bounds(Predicate<T> predicate) {
         throw new UnsupportedOperationException();
     }
@@ -316,7 +293,6 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot targetPos(Pos pointPosition) {
         context.setPointPosition(pointPosition);
         return this;
@@ -327,7 +303,6 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(double x,
                             double y) {
         PointLocator pointLocator = context.getPointLocator();
@@ -336,7 +311,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(Point2D point) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
@@ -344,7 +318,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(Bounds bounds) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
@@ -352,7 +325,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(Node node) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
@@ -361,7 +333,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(Scene scene) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
@@ -370,7 +341,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(Window window) {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
@@ -379,7 +349,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery point(String query) {
         NodeQuery nodeQuery = lookup(query);
         Node node = queryNode(nodeQuery, "the query \"" + query + "\"");
@@ -387,7 +356,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> PointQuery point(Matcher<T> matcher) {
         NodeQuery nodeQuery = lookup(matcher);
         Node node = queryNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
@@ -395,7 +364,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> PointQuery point(Predicate<T> predicate) {
         NodeQuery nodeQuery = lookup(predicate);
         Node node = queryNode(nodeQuery, "the predicate");
@@ -407,7 +375,6 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery offset(Point2D point,
                              double offsetX,
                              double offsetY) {
@@ -415,7 +382,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery offset(Bounds bounds,
                              double offsetX,
                              double offsetY) {
@@ -423,7 +389,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery offset(Node node,
                              double offsetX,
                              double offsetY) {
@@ -431,7 +396,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery offset(Scene scene,
                              double offsetX,
                              double offsetY) {
@@ -439,7 +403,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery offset(Window window,
                              double offsetX,
                              double offsetY) {
@@ -447,7 +410,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public PointQuery offset(String query,
                              double offsetX,
                              double offsetY) {
@@ -455,7 +417,7 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> PointQuery offset(Matcher<T> matcher,
                                               double offsetX,
                                               double offsetY) {
@@ -463,7 +425,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> PointQuery offset(Predicate<T> predicate,
                                               double offsetX,
                                               double offsetY) {
@@ -475,14 +436,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Capture capture(Rectangle2D screenRegion) {
         Image image = context.getCaptureSupport().captureRegion(screenRegion);
         return () -> image;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Capture capture(Bounds bounds) {
         Rectangle2D region = new Rectangle2D(bounds.getMinX(), bounds.getMinX(),
                                              bounds.getWidth(), bounds.getHeight());
@@ -491,27 +450,23 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Capture capture(Node node) {
         Image image = context.getCaptureSupport().captureNode(node);
         return () -> image;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Capture capture(Image image) {
         return () -> image;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Capture capture(Path path) {
         Image image = context.getCaptureSupport().loadImage(path);
         return () -> image;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public Capture capture(URL url) {
         try {
             Path path = Paths.get(url.toURI());
@@ -528,7 +483,6 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot interact(Runnable runnable) {
         waitFor(asyncFx(runnable));
         waitForFxEvents();
@@ -536,7 +490,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T> FxRobot interact(Callable<T> callable) {
         waitFor(asyncFx(callable));
         waitForFxEvents();
@@ -544,28 +497,23 @@ public class FxRobot implements FxRobotInterface {
     }
     
     @Override
-    @Unstable(reason = "is missing tests")
     public FxRobot interactNoWait(Runnable runnable) {
         waitFor(asyncFx(runnable));
         return this;
     }
     @Override
-    @Unstable(reason = "is missing tests")
     public <T> FxRobot interactNoWait(Callable<T> callable) {
         waitFor(asyncFx(callable));
         return this;
     }
     
-
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot interrupt() {
         waitForFxEvents();
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot interrupt(int attemptsCount) {
         waitForFxEvents(attemptsCount);
         return this;
@@ -576,28 +524,24 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot push(KeyCode... combination) {
         context.getTypeRobot().push(combination);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot push(KeyCodeCombination combination) {
         context.getTypeRobot().push(combination);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot type(KeyCode... keyCodes) {
         context.getTypeRobot().type(keyCodes);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot type(KeyCode keyCode,
                         int times) {
         context.getTypeRobot().type(keyCode, times);
@@ -605,7 +549,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot eraseText(int amount) {
         return type(KeyCode.BACK_SPACE, amount);
     }
@@ -620,14 +563,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot write(char character) {
         context.getWriteRobot().write(character);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot write(String text) {
         context.getWriteRobot().write(text);
         return this;
@@ -638,14 +579,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot sleep(long milliseconds) {
         context.getSleepRobot().sleep(milliseconds);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot sleep(long duration,
                          TimeUnit timeUnit) {
         context.getSleepRobot().sleep(duration, timeUnit);
@@ -657,14 +596,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Deprecated
-    @Unstable(reason = "is missing apidocs")
     public FxRobot scroll(int amount) {
         context.getScrollRobot().scroll(amount);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot scroll(int amount,
                           VerticalDirection direction) {
         context.getScrollRobot().scroll(amount, direction);
@@ -672,14 +609,12 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot scroll(VerticalDirection direction) {
         scroll(1, direction);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot scroll(int amount,
                           HorizontalDirection direction) {
         context.getScrollRobot().scroll(amount, direction);
@@ -687,7 +622,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot scroll(HorizontalDirection direction) {
         scroll(1, direction);
         return this;
@@ -734,14 +668,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(MouseButton... buttons) {
         context.getClickRobot().clickOn(buttons);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(PointQuery pointQuery,
                            MouseButton... buttons) {
         context.getClickRobot().clickOn(pointQuery, buttons);
@@ -749,14 +681,12 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(MouseButton... buttons) {
         context.getClickRobot().doubleClickOn(buttons);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(PointQuery pointQuery,
                                  MouseButton... buttons) {
         context.getClickRobot().doubleClickOn(pointQuery, buttons);
@@ -764,7 +694,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(double x,
                            double y,
                            MouseButton... buttons) {
@@ -772,130 +701,112 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(Point2D point,
                            MouseButton... buttons) {
         return clickOn(point(point), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(Bounds bounds,
                            MouseButton... buttons) {
         return clickOn(point(bounds), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(Node node,
                            MouseButton... buttons) {
         return clickOn(point(node), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(Scene scene,
                            MouseButton... buttons) {
         return clickOn(point(scene), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(Window window,
                            MouseButton... buttons) {
         return clickOn(point(window), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(String query,
                            MouseButton... buttons) {
         return clickOn(pointOfVisibleNode(query), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot clickOn(Matcher<T> matcher,
                                             MouseButton... buttons) {
         return clickOn(pointOfVisibleNode(matcher), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
                                             MouseButton... buttons) {
         return clickOn(pointOfVisibleNode(predicate), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn() {
         return clickOn(MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(PointQuery pointQuery) {
         return clickOn(pointQuery, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(double x,
                                 double y) {
         return clickOn(x, y, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(Point2D point) {
         return clickOn(point, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(Bounds bounds) {
         return clickOn(bounds, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(Node node) {
         return clickOn(node, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(Scene scene) {
         return clickOn(scene, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(Window window) {
         return clickOn(window, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot rightClickOn(String query) {
         return clickOn(query, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot rightClickOn(Matcher<T> matcher) {
         return clickOn(matcher, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate) {
         return clickOn(predicate, MouseButton.SECONDARY);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(double x,
                                  double y,
                                  MouseButton... buttons) {
@@ -903,56 +814,48 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(Point2D point,
                                  MouseButton... buttons) {
         return doubleClickOn(point(point), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(Bounds bounds,
                                  MouseButton... buttons) {
         return doubleClickOn(point(bounds), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(Node node,
                                  MouseButton... buttons) {
         return doubleClickOn(point(node), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(Scene scene,
                                  MouseButton... buttons) {
         return doubleClickOn(point(scene), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(Window window,
                                  MouseButton... buttons) {
         return doubleClickOn(point(window), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot doubleClickOn(String query,
                                  MouseButton... buttons) {
         return doubleClickOn(pointOfVisibleNode(query), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
     public <T extends Node> FxRobot doubleClickOn(Matcher<T> matcher,
                                                   MouseButton... buttons) {
         return doubleClickOn(pointOfVisibleNode(matcher), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
                                                   MouseButton... buttons) {
         return doubleClickOn(pointOfVisibleNode(predicate), buttons);
@@ -963,14 +866,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(MouseButton... buttons) {
         context.getDragRobot().drag(buttons);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(PointQuery pointQuery,
                         MouseButton... buttons) {
         context.getDragRobot().drag(pointQuery, buttons);
@@ -978,21 +879,18 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drop() {
         context.getDragRobot().drop();
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(PointQuery pointQuery) {
         context.getDragRobot().dropTo(pointQuery);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropBy(double x,
                           double y) {
         context.getDragRobot().dropBy(x, y);
@@ -1000,7 +898,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(double x,
                         double y,
                         MouseButton... buttons) {
@@ -1008,112 +905,97 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(Point2D point,
                         MouseButton... buttons) {
         return drag(point(point), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(Bounds bounds,
                         MouseButton... buttons) {
         return drag(point(bounds), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(Node node,
                         MouseButton... buttons) {
         return drag(point(node), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(Scene scene,
                         MouseButton... buttons) {
         return drag(point(scene), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(Window window,
                         MouseButton... buttons) {
         return drag(point(window), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot drag(String query,
                         MouseButton... buttons) {
         return drag(pointOfVisibleNode(query), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot drag(Matcher<T> matcher,
                                          MouseButton... buttons) {
         return drag(pointOfVisibleNode(matcher), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> FxRobot drag(Predicate<T> predicate,
                                          MouseButton... buttons) {
         return drag(pointOfVisibleNode(predicate), buttons);
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(double x,
                           double y) {
         return dropTo(point(x, y));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(Point2D point) {
         return dropTo(point(point));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(Bounds bounds) {
         return dropTo(point(bounds));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(Node node) {
         return dropTo(point(node));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(Scene scene) {
         return dropTo(point(scene));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(Window window) {
         return dropTo(point(window));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot dropTo(String query) {
         return dropTo(pointOfVisibleNode(query));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot dropTo(Matcher<T> matcher) {
         return dropTo(pointOfVisibleNode(matcher));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> FxRobot dropTo(Predicate<T> predicate) {
         return dropTo(pointOfVisibleNode(predicate));
     }
@@ -1123,14 +1005,12 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(PointQuery pointQuery) {
         context.getMoveRobot().moveTo(pointQuery);
         return this;
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveBy(double x,
                           double y) {
         context.getMoveRobot().moveBy(x, y);
@@ -1138,56 +1018,48 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(double x,
                           double y) {
         return moveTo(point(new Point2D(x, y)));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(Point2D point) {
         return moveTo(point(point));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(Bounds bounds) {
         return moveTo(point(bounds));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(Node node) {
         return moveTo(point(node));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(Scene scene) {
         return moveTo(point(scene));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(Window window) {
         return moveTo(point(window));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public FxRobot moveTo(String query) {
         return moveTo(pointOfVisibleNode(query));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs; might change to accept all objects")
+    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot moveTo(Matcher<T> matcher) {
         return moveTo(pointOfVisibleNode(matcher));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
         return moveTo(pointOfVisibleNode(predicate));
     }
