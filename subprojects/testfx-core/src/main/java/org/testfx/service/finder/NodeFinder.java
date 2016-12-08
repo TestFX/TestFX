@@ -31,17 +31,62 @@ public interface NodeFinder {
     // METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Returns a {@link NodeQuery} that stores all the root nodes that meet the given query
+     *
+     * @see NodeQuery#lookup(String)
+     */
     NodeQuery lookup(String query);
+
+    /**
+     * Returns a {@link NodeQuery} that stores all the root nodes that match the given matcher.
+     *
+     * @see NodeQuery#lookup(Matcher)
+     */
     <T> NodeQuery lookup(Matcher<T> matcher);
+
+    /**
+     * Returns a {@link NodeQuery} that stores all the root nodes that pass the given predicate
+     *
+     * @see NodeQuery#lookup(Predicate)
+     */
     <T extends Node> NodeQuery lookup(Predicate<T> predicate);
 
+    /**
+     * Returns a {@link NodeQuery} that stores all the root nodes of all windows via
+     * {@link WindowFinder#listTargetWindows()}
+     */
     NodeQuery fromAll();
+
+    /**
+     * Returns a {@link NodeQuery} that stores the given parentNodes
+     */
     NodeQuery from(Node... parentNodes);
+
+    /**
+     * Returns a {@link NodeQuery} that stores the given parentNodes collection.
+     */
     NodeQuery from(Collection<Node> parentNodes);
+
+    /**
+     * Returns a new {@link NodeQuery} that stores all the parentNodes from the given nodeQuery (essentially,
+     * it creates a copy/clone).
+     */
     NodeQuery from(NodeQuery nodeQuery);
 
+    /**
+     * Returns the window's scene's root node.
+     */
     Node rootNode(Window window);
+
+    /**
+     * Returns the scene's root node
+     */
     Node rootNode(Scene scene);
+
+    /**
+     * Returns the node's scene's root node
+     */
     Node rootNode(Node node);
 
     //Node rootNode(Predicate<Window> predicate);
