@@ -39,26 +39,22 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
-        if (testInstance instanceof ApplicationFixture) {
-            applicationFixture = (ApplicationFixture) testInstance;
-        } else {
-            List<Method> init = new ArrayList<>();
-            List<Method> start = new ArrayList<>();
-            List<Method> stop = new ArrayList<>();
-            Method[] methods = testInstance.getClass().getDeclaredMethods();
-            for (Method method : methods) {
-                if (method.isAnnotationPresent(Init.class)) {
-                    init.add(method);
-                }
-                if (method.isAnnotationPresent(Start.class)) {
-                    start.add(method);
-                }
-                if (method.isAnnotationPresent(Stop.class)) {
-                    stop.add(method);
-                }
+        List<Method> init = new ArrayList<>();
+        List<Method> start = new ArrayList<>();
+        List<Method> stop = new ArrayList<>();
+        Method[] methods = testInstance.getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(Init.class)) {
+                init.add(method);
             }
-            applicationFixture = new AnnotationBasedApplicationFixture(testInstance, init, start, stop);
+            if (method.isAnnotationPresent(Start.class)) {
+                start.add(method);
+            }
+            if (method.isAnnotationPresent(Stop.class)) {
+                stop.add(method);
+            }
         }
+        applicationFixture = new AnnotationBasedApplicationFixture(testInstance, init, start, stop);
     }
 
     @Override
