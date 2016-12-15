@@ -16,6 +16,7 @@
  */
 package org.testfx.framework.junit5;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -42,16 +43,23 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
         List<Method> init = new ArrayList<>();
         List<Method> start = new ArrayList<>();
         List<Method> stop = new ArrayList<>();
-        Method[] methods = testInstance.getClass().getDeclaredMethods();
+        Class<?> testClass = testInstance.getClass();
+        Method[] methods = testClass.getDeclaredMethods();
         for (Method method : methods) {
             if (method.isAnnotationPresent(Init.class)) {
-                init.add(method);
+                init.add(validateInitMethod(method));
             }
             if (method.isAnnotationPresent(Start.class)) {
-                start.add(method);
+                start.add(validateStartMethod(method));
             }
             if (method.isAnnotationPresent(Stop.class)) {
-                stop.add(method);
+                stop.add(validateStopMethod(method));
+            }
+        }
+        Field[] fields = testClass.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType().isAssignableFrom(FxRobot.class)) {
+                setField(testInstance, field, this);
             }
         }
         applicationFixture = new AnnotationBasedApplicationFixture(testInstance, init, start, stop);
@@ -76,6 +84,40 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
     @Override
     public void afterEach(TestExtensionContext context) throws Exception {
         FxToolkit.cleanupApplication(new ApplicationAdapter(applicationFixture));
+    }
+
+    private Method validateInitMethod(Method initMethod) {
+        if (initMethod.getParameterCount() != 0) {
+            throw new IllegalStateException("Method annotated with @Init should have no arguments");
+        }
+        return initMethod;
+    }
+
+    private Method validateStartMethod(Method startMethod) {
+        Class<?>[] parameterTypes = startMethod.getParameterTypes();
+        if (parameterTypes.length != 1 || !parameterTypes[0].isAssignableFrom(javafx.stage.Stage.class)) {
+            throw new IllegalStateException("Method annotated with @Start should have one argument of type " +
+                    "javafx.stage.Stage");
+        }
+        return startMethod;
+    }
+
+    private Method validateStopMethod(Method stopMethod) {
+        if (stopMethod.getParameterCount() != 0) {
+            throw new IllegalStateException("Method annotated with @Stop should have no arguments");
+        }
+        return stopMethod;
+    }
+
+    private void setField(Object instance, Field field, Object val) throws IllegalAccessException {
+        boolean wasAccessible = field.isAccessible();
+        try {
+            field.setAccessible(true);
+            field.set(instance, val);
+        }
+        finally {
+            field.setAccessible(wasAccessible);
+        }
     }
 
     private static class AnnotationBasedApplicationFixture implements ApplicationFixture {
