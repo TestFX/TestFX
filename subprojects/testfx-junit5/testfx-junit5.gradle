@@ -15,21 +15,14 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// name of root project.
-rootProject.name = "TestFX"
+ext.pomDescription = "TestFX JUnit5"
 
-// list of projects.
-include "subprojects/testfx-core"
-include "subprojects/testfx-junit"
-include "subprojects/testfx-junit5"
-include "subprojects/testfx-legacy"
+dependencies {
+    compile project(":testfx-core")
 
-// location of the build files.
-rootProject.children.each { project ->
-    def projectDir = new File(project.name)
-    project.name = projectDir.name
-    project.projectDir = projectDir
-    project.buildFileName = "${projectDir.name}.gradle"
-    assert project.projectDir.isDirectory()
-    assert project.buildFile.isFile()
+    providedCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M3'
+
+    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M3'
+    testCompile "org.hamcrest:hamcrest-library:1.3"
+    testCompile "org.testfx:openjfx-monocle:1.8.0_20"
 }

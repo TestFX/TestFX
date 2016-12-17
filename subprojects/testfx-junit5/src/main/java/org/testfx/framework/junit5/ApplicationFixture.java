@@ -14,22 +14,16 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
+package org.testfx.framework.junit5;
 
-// name of root project.
-rootProject.name = "TestFX"
+import javafx.stage.Stage;
 
-// list of projects.
-include "subprojects/testfx-core"
-include "subprojects/testfx-junit"
-include "subprojects/testfx-junit5"
-include "subprojects/testfx-legacy"
+public interface ApplicationFixture {
 
-// location of the build files.
-rootProject.children.each { project ->
-    def projectDir = new File(project.name)
-    project.name = projectDir.name
-    project.projectDir = projectDir
-    project.buildFileName = "${projectDir.name}.gradle"
-    assert project.projectDir.isDirectory()
-    assert project.buildFile.isFile()
+    void init() throws Exception;
+
+    void start(Stage stage) throws Exception;
+
+    void stop() throws Exception;
+
 }
