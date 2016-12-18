@@ -22,6 +22,10 @@ import javafx.stage.StageStyle;
 
 import org.testfx.api.annotation.Unstable;
 
+/**
+ * The main application used during tests when a developer is not testing his/her own subclass of {@link Application}.
+ * The {@code primaryStage} from {@link Application#start(Stage)} can be accessed via {@link #PRIMARY_STAGE_FUTURE}.
+ */
 @Unstable(reason = "needs more tests")
 public class PrimaryStageApplication extends Application {
 
