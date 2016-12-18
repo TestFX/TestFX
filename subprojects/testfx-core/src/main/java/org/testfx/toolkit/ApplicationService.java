@@ -21,15 +21,36 @@ import java.util.concurrent.Future;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * Helper interface whose methods' returned {@link Future} objects' {@link Future#get()} method either indicates
+ * when an {@link Application}'s init, start, or stop methods are finished or returns the created application
+ */
 public interface ApplicationService {
 
+    /**
+     * Calls the {@link Callable} that creates the application on the {@code JavaFX Application Thread}.
+     *
+     * @return a {@link Future} whose {@link Future#get()} will return the created {@link Application}.
+     */
     Future<Application> create(Callable<Application> applicationCallable);
 
+    /**
+     * @return a {@link Future} whose {@link Future#get()} will return when the
+     * given application has finished its {@link Application#init()} method.
+     */
     Future<Void> init(Application application);
 
+    /**
+     * @return a {@link Future} whose {@link Future#get()} will return when the
+     * given application has finished its {@link Application#start(Stage)} method.
+     */
     Future<Void> start(Application application,
                        Stage targetStage);
 
+    /**
+     * @return a {@link Future} whose {@link Future#get()} will return when the
+     * given application has finished its {@link Application#stop()} method.
+     */
     Future<Void> stop(Application application);
 
 }
