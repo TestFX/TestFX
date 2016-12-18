@@ -20,6 +20,9 @@ import javafx.application.Application;
 
 public interface ApplicationLauncher {
 
+    /**
+     * Configures a few necessary System properties before launching the application with the given arguments.
+     */
     void launch(Class<? extends Application> appClass,
                 String... appArgs);
 
