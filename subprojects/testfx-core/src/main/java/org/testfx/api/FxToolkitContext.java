@@ -26,6 +26,17 @@ import org.testfx.toolkit.PrimaryStageFuture;
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
 
+/**
+ * Stores the contextual information for {@link FxToolkit}:
+ * <ul>
+ *     <li>the {@link PrimaryStageFuture}</li>
+ *     <li>the {@link Application} as a {@link Class} object</li>
+ *     <li>the application's arguments</li>
+ *     <li>the registered {@link Stage}</li>
+ *     <li>the timeout limit for launching an application</li>
+ *     <li>the timeout limit for setting up a component</li>
+ * </ul>
+ */
 @Unstable(reason = "class was recently added")
 public class FxToolkitContext {
 
@@ -33,16 +44,33 @@ public class FxToolkitContext {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * The {@link java.util.concurrent.Future Future&lt;Stage&gt;} that can run listeners when completed.
+     * Default value: {@link PrimaryStageApplication#PRIMARY_STAGE_FUTURE}.
+     */
     private PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
 
+    /**
+     * The {@link Application} as a {@link Class} object to use in {@link Application#launch(Class, String...)}.
+     * Default value: {@link PrimaryStageApplication}.
+     */
     private Class<? extends Application> applicationClass = PrimaryStageApplication.class;
 
+    /**
+     * The application arguments. Default value: an empty {@code String[]}
+     */
     private String[] applicationArgs = new String[] {};
 
     private Stage registeredStage;
 
+    /**
+     * The number of milliseconds before timing out launch-related components. Default value: 60,000 (1 minute)
+     */
     private long launchTimeoutInMillis = parseLong(getProperty("testfx.launch.timeout", "60000"));
 
+    /**
+     * The number of milliseconds before timing out setup-related components. Default value: 30,000 (30 seconds)
+     */
     private long setupTimeoutInMillis = parseLong(getProperty("testfx.setup.timeout", "30000"));
 
     //---------------------------------------------------------------------------------------------
