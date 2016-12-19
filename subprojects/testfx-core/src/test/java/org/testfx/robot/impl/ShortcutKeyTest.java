@@ -14,17 +14,20 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.framework.junit;
+package org.testfx.robot.impl;
 
 import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
 
-import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.testfx.api.FxRobot;
+import org.testfx.api.FxToolkit;
 
 import static javafx.scene.input.KeyCode.COMMAND;
 import static javafx.scene.input.KeyCode.CONTROL;
@@ -37,9 +40,10 @@ import static org.hamcrest.Matchers.equalTo;
  * Tests whether pressing {@code KeyCode.SHORTCUT} will convert into the OS-specific KeyCode (i.e.
  * {@code KeyCode.COMMAND} for Macs and {@code KeyCode.CONTROL} for everything else).
  */
-class ShortcutKeyTest extends ApplicationTest {
+public class ShortcutKeyTest extends FxRobot {
 
     private final KeyCode osSpecificShortcutKey;
+
     {
         String osName = System.getProperty("os.name").toLowerCase(Locale.US);
         osSpecificShortcutKey = osName.startsWith("mac") ? COMMAND : CONTROL;
@@ -49,28 +53,37 @@ class ShortcutKeyTest extends ApplicationTest {
     private final String pressedText = "pressed";
     private final String releasedText = "released";
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        field = new TextField();
-        field.setOnKeyPressed(e -> {
-            if (e.getCode().equals(osSpecificShortcutKey)) {
-                field.setText(pressedText);
-            }
-            e.consume();
+    @Before
+    public void setup() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupStage(stage -> {
+            field = new TextField();
+            field.setOnKeyPressed(e -> {
+                if (e.getCode().equals(osSpecificShortcutKey)) {
+                    field.setText(pressedText);
+                }
+                e.consume();
+            });
+            field.setOnKeyReleased(e -> {
+                if (e.getCode().equals(osSpecificShortcutKey)) {
+                    field.setText(releasedText);
+                }
+                e.consume();
+            });
+            stage.setScene(new Scene(field));
+            stage.show();
+            field.requestFocus();
         });
-        field.setOnKeyReleased(e -> {
-            if (e.getCode().equals(osSpecificShortcutKey)) {
-                field.setText(releasedText);
-            }
-            e.consume();
-        });
-        stage.setScene(new Scene(field, 400, 400));
-        stage.show();
-        field.requestFocus();
+    }
+
+    @After
+    public void cleanup() throws TimeoutException {
+        // prevent hanging if test fails
+        release(SHORTCUT, osSpecificShortcutKey);
     }
 
     @Test
-    void shortcut_keyCode_converts_to_OS_specific_keyCode_when_pressed() {
+    public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_pressed() {
         // when:
         press(SHORTCUT);
 
@@ -79,7 +92,7 @@ class ShortcutKeyTest extends ApplicationTest {
     }
 
     @Test
-    void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() {
+    public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() {
         // given:
         press(osSpecificShortcutKey);
 
@@ -92,5 +105,4 @@ class ShortcutKeyTest extends ApplicationTest {
         // then:
         assertThat(field.getText(), equalTo(releasedText));
     }
-
 }
