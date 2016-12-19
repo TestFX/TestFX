@@ -48,6 +48,10 @@ import org.testfx.service.locator.impl.PointLocatorImpl;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.impl.CaptureSupportImpl;
 
+/**
+ * Stores the robot implementations, the window and node finders, position calculators, and capture support for
+ * {@link FxRobot}.
+ */
 @Unstable(reason = "class was recently added")
 public class FxRobotContext {
 
