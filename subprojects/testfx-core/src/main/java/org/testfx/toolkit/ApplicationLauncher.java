@@ -18,6 +18,10 @@ package org.testfx.toolkit;
 
 import javafx.application.Application;
 
+/**
+ * Interface that configures a few necessary System properties before launching an application with
+ * its given parameters
+ */
 public interface ApplicationLauncher {
 
     /**
