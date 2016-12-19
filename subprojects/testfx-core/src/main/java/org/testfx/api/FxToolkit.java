@@ -120,7 +120,12 @@ public final class FxToolkit {
 
     // REGISTER STAGES (CONTAINERS).
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Sets up the {@link org.testfx.toolkit.PrimaryStageApplication} to use in tests, prevents it from shutting
+     * down when the last window is closed, and returns the {@link Stage} from {@link Application#start(Stage)}.
+     *
+     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getLaunchTimeoutInMillis()}
+     */
     public static Stage registerPrimaryStage()
             throws TimeoutException {
         Stage primaryStage = waitForLaunch(
@@ -135,7 +140,12 @@ public final class FxToolkit {
         return primaryStage;
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs the stageSupplier on the {@code JavaFX Application Thread}, registers the supplied stage,
+     * and returns that stage.
+     *
+     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     */
     public static Stage registerStage(Supplier<Stage> stageSupplier)
             throws TimeoutException {
         Stage stage = setupFixture(stageSupplier::get);
@@ -145,7 +155,12 @@ public final class FxToolkit {
 
     // SETUP REGISTERED STAGES (CONTENTS).
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Sets up the registered stage by passing it into the given {@code stageConsumer} on the
+     * {@code JavaFX Application Thread} and returns the stage once finished.
+     *
+     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     */
     public static Stage setupStage(Consumer<Stage> stageConsumer)
             throws TimeoutException {
         return waitForSetup(
@@ -156,7 +171,11 @@ public final class FxToolkit {
         );
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Sets up the given application with its given arguments and returns that application once finished.
+     *
+     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     */
     public static Application setupApplication(Class<? extends Application> applicationClass,
                                                String... applicationArgs)
             throws TimeoutException {
@@ -169,7 +188,11 @@ public final class FxToolkit {
         );
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Sets up the supplied application and returns that application once finished.
+     *
+     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     */
     public static Application setupApplication(Supplier<Application> applicationSupplier)
             throws TimeoutException {
         return waitForSetup(
@@ -198,7 +221,12 @@ public final class FxToolkit {
         }
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs the {@code sceneSupplier} on the {@code JavaFX Application Thread}, sets the registered stage's scene to the
+     * supplied scene, and returns the supplied scene once finished.
+     *
+     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     */
     public static Scene setupScene(Supplier<Scene> sceneSupplier)
             throws TimeoutException {
         return waitForSetup(
@@ -209,7 +237,10 @@ public final class FxToolkit {
         );
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs the {@code sceneRootSupplier} on the {@code JavaFX Application Thread}, sets the registered stage's scene's
+     * root node to the supplied root node, and returns the supplied root node once finished.
+     */
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier)
             throws TimeoutException {
         return waitForSetup(
@@ -221,8 +252,9 @@ public final class FxToolkit {
     }
 
     // UTILITY METHODS.
-
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs the given {@code runnable} on the {@code JavaFX Application Thread} and returns once finished.
+     */
     public static void setupFixture(Runnable runnable)
             throws TimeoutException {
         waitForSetup(
@@ -230,7 +262,10 @@ public final class FxToolkit {
         );
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs the given {@code callable} on the {@code JavaFX Application Thread} and returns once finished.
+     * before returning.
+     */
     public static <T> T setupFixture(Callable<T> callable)
             throws TimeoutException {
         return waitForSetup(
@@ -238,19 +273,28 @@ public final class FxToolkit {
         );
     }
 
-    @Unstable(reason = "is missing apidocs; could change to accept stages")
+    /**
+     * Runs on the {@code JavaFX Application Thread}: Shows the registered stage via {@link Stage#show()},
+     * moves it to the front via {@link Stage#toFront()}, and returns once finished.
+     */
     public static void showStage()
             throws TimeoutException {
         setupStage(FxToolkit::showStage);
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs on the {@code JavaFX Application Thread}: Hides the registered stage via {@link Stage#hide()}
+     * and returns once finished.
+     */
     public static void hideStage()
             throws TimeoutException {
         setupStage(FxToolkit::hideStage);
     }
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Runs on the {@code JavaFX Application Thread}: Hides all windows returned from
+     * {@link Window#impl_getWindows()} and returns once finished.
+     */
     public static void cleanupStages()
             throws TimeoutException {
         setupFixture(() -> fetchAllWindows().forEach(FxToolkit::hideWindow));
@@ -258,7 +302,9 @@ public final class FxToolkit {
 
     // INTERNAL CONTEXT.
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Returns the internal context
+     */
     public static FxToolkitContext toolkitContext() {
         return CONTEXT;
     }
@@ -267,11 +313,19 @@ public final class FxToolkit {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Waits for the given future to be set before returning or times out after
+     * {@link FxToolkitContext#getLaunchTimeoutInMillis() launch timeout limit} is reached.
+     */
     private static <T> T waitForLaunch(Future<T> future)
             throws TimeoutException {
         return waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS, future);
     }
 
+    /**
+     * Waits for the given future to be set before returning or times out after
+     * {@link FxToolkitContext#getSetupTimeoutInMillis()} setup timeout limit} is reached.
+     */
     private static <T> T waitForSetup(Future<T> future)
             throws TimeoutException {
         return waitFor(CONTEXT.getSetupTimeoutInMillis(), MILLISECONDS, future);
