@@ -69,7 +69,9 @@ public class FxRobot implements FxRobotInterface {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Constructs all robot-related implementations and sets {@link #targetPos(Pos)} to {@link Pos#CENTER}.
+     */
     public FxRobot() {
         context = new FxRobotContext();
         context.setPointPosition(Pos.CENTER);
@@ -79,7 +81,9 @@ public class FxRobot implements FxRobotInterface {
     // METHODS FOR ROBOT CONTEXT.
     //---------------------------------------------------------------------------------------------
 
-    @Unstable(reason = "is missing apidocs")
+    /**
+     * Returns the internal context.
+     */
     public FxRobotContext robotContext() {
         return context;
     }
