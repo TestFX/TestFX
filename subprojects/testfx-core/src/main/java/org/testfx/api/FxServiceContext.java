@@ -27,6 +27,17 @@ import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.WaitUntilSupport;
 import org.testfx.service.support.impl.CaptureSupportImpl;
 
+
+/**
+ * Stores the following objects:
+ * <ul>
+ *     <li>a {@link WindowFinder}</li>
+ *     <li>a {@link NodeFinder}</li>
+ *     <li>a {@link BaseRobot}</li>
+ *     <li>{@link CaptureSupport}</li>
+ *     <li>and {@link WaitUntilSupport}</li>
+ * </ul>
+ */
 @Unstable(reason = "class was recently added")
 public class FxServiceContext {
 
