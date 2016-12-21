@@ -26,6 +26,9 @@ import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link Labeled}
+ */
 @Unstable(reason = "needs more tests")
 public class LabeledMatchers {
 
@@ -33,15 +36,20 @@ public class LabeledMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all {@link Labeled} objects that have the given {@code string} as
+     * their text.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
         return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, string));
     }
 
+    /**
+     * Creates a matcher that matches all {@link Labeled} objects whose text matches the given matcher.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, matcher));

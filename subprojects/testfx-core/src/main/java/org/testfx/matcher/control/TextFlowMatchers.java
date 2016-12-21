@@ -30,6 +30,9 @@ import org.testfx.util.ColorUtils;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link TextFlow}
+ */
 @Unstable(reason = "needs more tests")
 public class TextFlowMatchers {
 
@@ -37,8 +40,11 @@ public class TextFlowMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all ({@link TextFlow}s whose "text" (the result of combining all of
+     * its {@link Text} children's {@link Text#getText() text} together) equals the given {@code string}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
         return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasText(node, string));
@@ -73,7 +79,6 @@ public class TextFlowMatchers {
      * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
      */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasColoredText(String string) {
         String descriptionText = "has colored text \"" + string + "\"";
         return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, false));
@@ -108,7 +113,6 @@ public class TextFlowMatchers {
      * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
      */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasExactlyColoredText(String string) {
         String descriptionText = "has exactly colored text \"" + string + "\"";
         return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, true));

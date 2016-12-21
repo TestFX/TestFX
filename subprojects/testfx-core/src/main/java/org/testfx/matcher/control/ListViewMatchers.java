@@ -31,6 +31,9 @@ import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link ListView}
+ */
 @Unstable(reason = "needs more tests")
 public class ListViewMatchers {
 
@@ -44,29 +47,42 @@ public class ListViewMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all {@link ListView}s that has one cell that equals the given {@code value}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasListCell(Object value) {
         String descriptionText = "has list cell \"" + value + "\"";
         return typeSafeMatcher(ListView.class, descriptionText, node -> hasListCell(node, value));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ListView}s that has exactly {@code amount} items.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(ListView.class, descriptionText, node -> hasItems(node, amount));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ListView}s whose {@link ListView#getItems() list of items}
+     * is empty.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isEmpty() {
         String descriptionText = "is empty (has no items)";
         return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::isListEmpty);
     }
 
+    /**
+     * Creates a matcher that matches all {@link ListView}s in two situations: if both the
+     * {@link ListView#getPlaceholder() ListView's placeholder} and the given {@code placeHolder} are
+     * {@link Labeled} objects or subclasses thereof, it matches if the two placeholder's texts equal,
+     * and it matches if the two placeholders, when they are not {@link Labeled} objects or subclasses,
+     * are equal.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasPlaceholder(Node placeHolder) {
         String descriptionText = "has ";
         // better description messages for Labeled nodes
@@ -79,8 +95,13 @@ public class ListViewMatchers {
         return typeSafeMatcher(ListView.class, descriptionText, node -> hasPlaceholder(node, placeHolder));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ListView}s whose {@link ListView#getPlaceholder() placeholder}
+     * is visible in two situations: if both the {@link ListView#getPlaceholder() ListView's placeholder}
+     * and the given {@code placeHolder} are {@link Labeled} objects or subclasses thereof, it matches if the
+     * two placeholder's texts equal; otherwise, it matches if the two placeholders are equal.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasVisiblePlaceholder(Node placeHolder) {
         String descriptionText = "has visible";
         // better description messages for Labeled nodes

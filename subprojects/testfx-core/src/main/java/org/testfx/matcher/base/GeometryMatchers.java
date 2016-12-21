@@ -24,6 +24,9 @@ import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link Dimension2D}
+ */
 @Unstable(reason = "needs more tests")
 public class GeometryMatchers {
 
@@ -31,8 +34,11 @@ public class GeometryMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a {@link org.hamcrest.TypeSafeMatcher} that matches when a given {@link Dimension2D}'s width and height
+     * equal the given width and height.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Object> hasDimension(double width,
                                                double height) {
         String descriptionText = "has dimension (" + width + ", " + height + ")";

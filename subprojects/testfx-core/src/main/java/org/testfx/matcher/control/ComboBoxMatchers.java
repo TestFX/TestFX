@@ -26,6 +26,9 @@ import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link ComboBox}
+ */
 @Unstable(reason = "needs more tests")
 public class ComboBoxMatchers {
 
@@ -33,43 +36,61 @@ public class ComboBoxMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all {@link ComboBox}es that have exactly {@code amount} items.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(ComboBox.class, descriptionText, node -> hasItems(node, amount));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ComboBox}es that have given {@code selection} as
+     * its selected item.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<Node> hasSelectedItem(T selection) {
         String descriptionText = "has selection " + selection;
         return typeSafeMatcher(ComboBox.class, descriptionText, node -> hasSelectedItem(node, selection));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ComboBox}es that have all of the given {@code items}, regardless
+     * of whether it also contains other items and regardless of their order of appearance.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<Node> containsItems(T... items) {
         String descriptionText = "contains items " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, node -> containsItems(node, items));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ComboBox}es that only has all of the given {@code items},
+     * regardless of the order of their appearance.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<Node> containsExactlyItems(T... items) {
         String descriptionText = "contains exactly items " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, node -> containsExactlyItems(node, items));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ComboBox}es that have all of the given {@code items} in
+     * the exact order they appear, regardless of whether it also contains other items before or after this
+     * exact sequence.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<Node> containsItemsInOrder(T... items) {
         String descriptionText = "contains items in order " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, node -> containsItemsInOrder(node, items));
     }
 
+    /**
+     * Creates a matcher that matches all {@link ComboBox}es that only has all of the given {@code items} in
+     * the exact order they are given.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<Node> containsExactlyItemsInOrder(T... items) {
         String descriptionText = "contains exactly items in order " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, node -> containsExactlyItemsInOrder(node, items));

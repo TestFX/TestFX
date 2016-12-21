@@ -32,8 +32,12 @@ public class GeneralMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches when the given {@code predicate} returns true.
+     *
+     * @param descriptionText describes what the matcher tries to match. Only appears when a match fails.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <T> Matcher<T> baseMatcher(final String descriptionText,
                                              final Predicate<T> predicate) {
         return new BaseMatcher<T>() {
@@ -56,8 +60,13 @@ public class GeneralMatchers {
         };
     }
 
+    /**
+     * Creates a matcher that matches when the passed-in object is not null, is an instance of the given type,
+     * and the given {@code predicate} returns true when that object is passed into it.
+     *
+     * @param descriptionText describes what the matcher tries to match. Only appears when a match fails.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static <S, T extends S> Matcher<S> typeSafeMatcher(final Class<T> expectedType,
                                                               final String descriptionText,
                                                               final Predicate<T> predicate) {

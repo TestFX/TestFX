@@ -37,6 +37,9 @@ import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link TableView}
+ */
 @Unstable(reason = "needs more tests")
 public class TableViewMatchers {
 
@@ -50,30 +53,39 @@ public class TableViewMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all {@link TableView}s that has a {@link javafx.scene.control.TableCell}
+     * whose value or {@code value.toString()} equals the given value.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasTableCell(Object value) {
         String descriptionText = "has table cell \"" + value + "\"";
         return typeSafeMatcher(TableView.class, descriptionText,
             node -> hasTableCell(node, value));
     }
 
+    /**
+     * Creates a matcher that matches all {@link TableView}s that has exactly {@code amount} items.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(TableView.class, descriptionText, node -> hasItems(node, amount));
     }
 
+    /**
+     * Creates a matcher that matches all {@link TableView}s whose row at the given index has all of the given cells.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> containsRowAtIndex(int rowIndex, Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
         return typeSafeMatcher(TableView.class, descriptionText, node -> containsRowAtIndex(node, rowIndex, cells));
     }
 
+    /**
+     * Creates a matcher that matches all {@link TableView}s that has a row containing all the given cells.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> containsRow(Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
         return typeSafeMatcher(TableView.class, descriptionText, node -> containsRow(node, cells));

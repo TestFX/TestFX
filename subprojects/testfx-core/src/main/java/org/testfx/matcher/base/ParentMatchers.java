@@ -25,6 +25,9 @@ import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link Parent}.
+ */
 @Unstable(reason = "needs more tests")
 public class ParentMatchers {
 
@@ -32,15 +35,19 @@ public class ParentMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all {@link Parent}s that have at least one child.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChild() {
         String descriptionText = "has child";
         return typeSafeMatcher(Parent.class, descriptionText, node -> hasChild(node));
     }
 
+    /**
+     * Creates a matcher that matches all {@link Parent}s that have exactly {@code amount} children.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChildren(int amount) {
         String descriptionText = "has " + amount + " children";
         return typeSafeMatcher(Parent.class, descriptionText, node -> hasChildren(amount, node));
