@@ -33,6 +33,9 @@ import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
+/**
+ * TestFX matchers for {@link Node}.
+ */
 @Unstable(reason = "needs more tests")
 public class NodeMatchers {
 
@@ -40,71 +43,99 @@ public class NodeMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches everything ({@link Matcher#matches(Object) matches(Object)} always
+     * returns true.
+     */
     @Factory
     @Unstable(reason = "maybe find a better method name")
     public static Matcher<Node> anything() {
         return baseMatcher("anything", node -> true);
     }
 
+    /**
+     * Creates a matcher that matches all null {@link Node}s.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isNull() {
         return baseMatcher("Node is null", node -> isNull(node));
     }
 
+    /**
+     * Creates a matcher that matches all non-null {@link Node}s.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isNotNull() {
         return baseMatcher("Node is not null", node -> !isNull(node));
     }
 
+    /**
+     * Creates a matcher that matches all visible {@link Node}s.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isVisible() {
         return baseMatcher("Node is visible", node -> isVisible(node));
     }
 
+    /**
+     * Creates a matcher that matches all invisible {@link Node}s.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isInvisible() {
         return baseMatcher("Node is invisible", node -> !isVisible(node));
     }
 
+    /**
+     * Creates a matcher that matches all enabled {@link Node}s (i.e. {@link Node#isDisabled()} returns false).
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isEnabled() {
         return baseMatcher("Node is enabled", node -> isEnabled(node));
     }
 
+    /**
+     * Creates a matcher that matches all disabled {@link Node}s (i.e. {@link Node#isDisabled()} returns true).
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> isDisabled() {
         return baseMatcher("Node is disabled", node -> !isEnabled(node));
     }
 
+    /**
+     * Creates a matcher that matches all {@link javafx.scene.control.Labeled}, {@link TextInputControl},
+     * and {@link Text} objects that have the given {@code string}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "Node has text \"" + string + "\"";
         return baseMatcher(descriptionText, node -> hasText(node, string));
     }
 
+    /**
+     * Creates a matcher that matches all {@link javafx.scene.control.Labeled}, {@link TextInputControl},
+     * and {@link Text} objects whose {@code text} matches the given {@code matcher}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "Node has " + matcher.toString();
         return baseMatcher(descriptionText, node -> hasText(node, matcher));
     }
 
+    /**
+     * Creates a matcher that matches all {@link Node}s that have at least one node that is found via
+     * {@link org.testfx.service.query.NodeQuery#lookup(String)}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChild(String query) {
         String descriptionText = "Node has child \"" + query + "\"";
         return baseMatcher(descriptionText, node -> hasChild(node, query));
     }
 
+    /**
+     * Creates a matcher that matches all {@link Node}s that have exactly {@code amount} nodes that are found via
+     * {@link org.testfx.service.query.NodeQuery#lookup(String)}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasChildren(int amount,
                                             String query) {
         String descriptionText = "Node has " + amount + " children \"" + query + "\"";

@@ -25,7 +25,7 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 /**
- * TestFX matchers for {@code javafx.stage.Window}.
+ * TestFX matchers for {@link Window}
  */
 @Unstable(reason = "needs more tests")
 public class WindowMatchers {

@@ -26,6 +26,9 @@ import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
+/**
+ * TestFX matchers for {@link TextInputControl}
+ */
 @Unstable(reason = "needs more tests")
 public class TextInputControlMatchers {
 
@@ -33,16 +36,20 @@ public class TextInputControlMatchers {
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a matcher that matches all {@link TextInputControl}s whose text equals the given {@code string}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
         return typeSafeMatcher(TextInputControl.class, descriptionText,
             node -> hasText(node, string));
     }
 
+    /**
+     * Creates a matcher that matches all {@link TextInputControl}s whose text matches the given {@code matcher}.
+     */
     @Factory
-    @Unstable(reason = "is missing apidocs")
     public static Matcher<Node> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(TextInputControl.class, descriptionText,
