@@ -32,13 +32,13 @@ import org.testfx.framework.junit5.ApplicationTest;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasText;
 
-class ApplicationLaunchTest extends FxRobot {
+public class ApplicationLaunchTest extends FxRobot {
 
     //---------------------------------------------------------------------------------------------
     // FIXTURES.
     //---------------------------------------------------------------------------------------------
 
-    static class DemoApplication extends Application {
+    public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
             Button button = new Button("click me!");
