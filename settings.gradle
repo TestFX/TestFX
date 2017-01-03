@@ -22,7 +22,7 @@ rootProject.name = "TestFX"
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-junit5"
-include "subprojects/testfx-legacy"
+// include "subprojects/testfx-legacy"
 
 // location of the build files.
 rootProject.children.each { project ->
