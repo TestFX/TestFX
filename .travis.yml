@@ -22,7 +22,9 @@ matrix:
   include:
     - os: linux
       jdk: oraclejdk8
-      env: USE_FRAMEBUFFER=true
+      env: 
+        - USE_FRAMEBUFFER=true
+        - _JAVA_OPTIONS="-Djava.awt.headless=true"
     - os: linux
       jdk: oraclejdk8
       env:
@@ -32,7 +34,7 @@ matrix:
       osx_image: xcode8.2
       env:
         - OSX_HEADLESS=false
-        - _JAVA_OPTIONS="-Dprism.order=sw"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dprism.order=sw"
     - os: osx
       osx_image: xcode8.2
       env: _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
@@ -42,7 +44,7 @@ matrix:
       - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
     - env:
       - OSX_HEADLESS=false
-      - _JAVA_OPTIONS="-Dprism.order=sw"
+      - _JAVA_OPTIONS="-Djava.awt.headless=true -Dprism.order=sw"
 
 before_script:
   - echo $HOME
