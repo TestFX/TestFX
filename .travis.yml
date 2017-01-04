@@ -21,9 +21,11 @@ matrix:
   fast_finish: true
   include:
     - os: linux
+      dist: trusty
       jdk: oraclejdk8
       env: USE_FRAMEBUFFER=true
     - os: linux
+      dist: trusty
       jdk: oraclejdk8
       env:
         - USE_FRAMEBUFFER=false
