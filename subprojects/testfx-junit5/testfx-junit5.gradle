@@ -33,7 +33,8 @@ dependencies {
 
     providedCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M3'
 
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M3'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M3'
+
     testCompile "org.hamcrest:hamcrest-library:1.3"
     testCompile "org.testfx:openjfx-monocle:1.8.0_20"
 }
