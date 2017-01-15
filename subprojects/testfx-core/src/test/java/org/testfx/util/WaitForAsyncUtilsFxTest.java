@@ -16,13 +16,9 @@
  */
 package org.testfx.util;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertTrue;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -31,6 +27,11 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.Timeout;
 import org.testfx.api.FxToolkit;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 public class WaitForAsyncUtilsFxTest {
 
     @Rule
@@ -38,52 +39,64 @@ public class WaitForAsyncUtilsFxTest {
 
     @Rule
     public Timeout globalTimeout = Timeout.millis(1000);
-    
+
     @BeforeClass
-    public static void setUpClass(){
-    	try {
-			FxToolkit.registerPrimaryStage();
-		} catch (TimeoutException e) {
-			e.printStackTrace();
-		}
+    public static void setUpClass() {
+        try {
+            FxToolkit.registerPrimaryStage();
+        }
+        catch (TimeoutException e) {
+            e.printStackTrace();
+        }
     }
-	
 
     @Test
     public void asyncFx_callable_with_exception() throws Throwable {
-        
-
-    	WaitForAsyncUtils.printException=false;
-        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
         // given:
+        WaitForAsyncUtils.printException = false;
+        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
         Callable<Void> callable = () -> {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException(); 
         };
         WaitForAsyncUtils.clearExceptions();
+
+        // when:
         Future<Void> future = WaitForAsyncUtils.asyncFx(callable);
-        // expect:
         waitForException(future);
-        //verify checkException
-        try{WaitForAsyncUtils.checkException();assertTrue("checkException didn't detect Exception",false);}
-        catch(Throwable e){
-        	if(!(e instanceof UnsupportedOperationException)){ // should be!
-        		throw e;
-        	}
+
+        // then:
+        try {
+            WaitForAsyncUtils.checkException();
+            fail("checkException didn't detect Exception");
         }
-        //verify exception in Future
-    	WaitForAsyncUtils.printException=true;
+        catch (Throwable e) {
+            if (!(e instanceof UnsupportedOperationException)) {
+                throw e;
+            }
+        }
+        WaitForAsyncUtils.printException = true;
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
         waitForThreads(future);
     }
-	
-    protected void waitForException(Future<?> f) throws InterruptedException{
-    	Thread.sleep(50);
+
+    protected void waitForException(Future<?> f) throws InterruptedException {
+        Thread.sleep(50);
         assertTrue(f.isDone());
     }
-    protected void waitForThreads(Future<?> f){
-    	while(!f.isDone());
-    	try{Thread.sleep(50);}
-    	catch(Exception e){}
+
+    protected void waitForThreads(Future<?> f) {
+        while (!f.isDone()) {
+            try {
+                Thread.sleep(1);
+            }
+            catch (Exception ignore) {
+            }
+        }
+        try {
+            Thread.sleep(50);
+        }
+        catch (Exception ignore) {
+        }
     }
-    
+
 }
