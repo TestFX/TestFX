@@ -33,12 +33,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class WaitForAsyncUtilsTest {
 
-    //---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -47,11 +48,11 @@ public class WaitForAsyncUtilsTest {
     @Rule
     public Timeout globalTimeout = Timeout.millis(1000);
 
-    //---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
-    @Test(timeout = 1000)
+    @Test
     public void async_callable() throws Exception {
         // when:
         Future<String> future = WaitForAsyncUtils.async(() -> "foo");
@@ -79,156 +80,104 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void async_callable_with_exception() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
-        //thrown.expectCause(instanceOf(UnsupportedOperationException.class));
-        thrown.expect(UnsupportedOperationException.class);
         // given:
+        WaitForAsyncUtils.printException = false;
+        thrown.expect(UnsupportedOperationException.class);
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
         };
         WaitForAsyncUtils.clearExceptions();
+
+        // when:
         Future<Void> future = WaitForAsyncUtils.async(callable);
-        // expect:
+
+        // then:
         waitForException(future);
-        //verify checkException
-        try{WaitForAsyncUtils.checkException();assertTrue("checkException didn't detect Exception",false);}
-        catch(Throwable e){
-        	if(!(e.getCause() instanceof UnsupportedOperationException)){ // should be!
-        		throw e;
-        	}
+        try {
+            WaitForAsyncUtils.checkException();
+            fail("checkException didn't detect Exception");
         }
-        //verify exception in Future
-    	WaitForAsyncUtils.printException=true;
+        catch (Throwable e) {
+            if (!(e.getCause() instanceof UnsupportedOperationException)) {
+                throw e;
+            }
+        }
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
         waitForThreads(future);
     }
 
     @Test
     public void clearExceptionsTest() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
         // given:
+        WaitForAsyncUtils.printException = false;
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
         };
         WaitForAsyncUtils.clearExceptions();
-        Future<Void> future = WaitForAsyncUtils.async(callable);
-        // expect:
-        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
-        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
 
+        // when:
+        Future<Void> future = WaitForAsyncUtils.async(callable);
+
+        // then:
         waitForException(future);
-        //verify checkException
         WaitForAsyncUtils.clearExceptions();
         WaitForAsyncUtils.checkException();
-        //verify exception in Future
-    	WaitForAsyncUtils.printException=true;
         waitForThreads(future);
     }
 
     @Test
     public void autoCheckExceptionTest() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
-    	WaitForAsyncUtils.autoCheckException=true;
         // given:
+        WaitForAsyncUtils.printException = false;
+        WaitForAsyncUtils.autoCheckException = true;
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
         };
         WaitForAsyncUtils.clearExceptions();
+
+        // when:
         Future<Void> future = WaitForAsyncUtils.async(callable);
         waitForThreads(future);
 
-        // expect:
-        try{
-        	future = WaitForAsyncUtils.async(callable);
-        	assertTrue("No exception thrown by autoCheck",false);
-        }catch(Throwable e){
-        	if(!(e instanceof UnsupportedOperationException)){ // should be!
-        		throw e;
-        	}
+        // then:
+        try {
+            future = WaitForAsyncUtils.async(callable);
+            fail("No exception thrown by autoCheck");
+        }
+        catch (Throwable e) {
+            if (!(e instanceof UnsupportedOperationException)) {
+                throw e;
+            }
         }
 
         WaitForAsyncUtils.clearExceptions();
-    	WaitForAsyncUtils.printException=true;
         waitForThreads(future);
     }
 
     @Test
     public void unhandledExceptionTest() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
         // given:
+        WaitForAsyncUtils.printException = false;
         Callable<Void> callable = () -> {
             throw new NullPointerException();
         };
         WaitForAsyncUtils.clearExceptions();
-        Future<Void> future = WaitForAsyncUtils.async(callable); //First
-        try{ //processing first --> not unhandled
-        	WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
-        }catch(Throwable t){}
 
-
-        // expect:
-    	WaitForAsyncUtils.printException=true;
-        try{
-        	WaitForAsyncUtils.checkException();
-        }catch(Throwable e){
-        	assertTrue("Handled exception not removed from stack",false);
-        }
-        WaitForAsyncUtils.clearExceptions();
-        waitForException(future);
-        //verify checkException
-        WaitForAsyncUtils.clearExceptions();
-        WaitForAsyncUtils.checkException();
-        //verify exception in Future
-    	WaitForAsyncUtils.printException=true;
-        waitForThreads(future);
-    }
-
-    @Test
-    public void autoCheckExceptionTest() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
-    	WaitForAsyncUtils.autoCheckException=true;
-        // given:
-        Callable<Void> callable = () -> {
-            throw new UnsupportedOperationException();
-        };
-        WaitForAsyncUtils.clearExceptions();
+        // when:
         Future<Void> future = WaitForAsyncUtils.async(callable);
-        waitForThreads(future);
-        
-        // expect:
-        try{
-        	future = WaitForAsyncUtils.async(callable);
-        	assertTrue("No exception thrown by autoCheck",false);
-        }catch(Throwable e){
-        	if(!(e instanceof UnsupportedOperationException)){ // should be!
-        		throw e;
-        	}
+        try {
+            WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+        }
+        catch (Throwable ignore) {
         }
 
-        WaitForAsyncUtils.clearExceptions();
-    	WaitForAsyncUtils.printException=true;
-        waitForThreads(future);
-    }
-    @Test
-    public void unhandledExceptionTest() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
-        // given:
-        Callable<Void> callable = () -> {
-            throw new NullPointerException();
-        };
-        WaitForAsyncUtils.clearExceptions();
-        Future<Void> future = WaitForAsyncUtils.async(callable); //First
-        try{ //processing first --> not unhandled
-        	WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
-        }catch(Throwable t){}
-
-        
-        // expect:
-    	WaitForAsyncUtils.printException=true;
-        try{
-        	WaitForAsyncUtils.checkException();
-        }catch(Throwable e){
-        	assertTrue("Handled exception not removed from stack",false);
+        // then:
+        WaitForAsyncUtils.printException = true;
+        try {
+            WaitForAsyncUtils.checkException();
+        }
+        catch (Throwable e) {
+            fail("Handled exception not removed from stack");
         }
         WaitForAsyncUtils.clearExceptions();
         waitForThreads(future);
@@ -236,23 +185,23 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void waitFor_with_future() throws Exception {
-        // given:
+        // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> null);
 
-        // expect:
+        // then:
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
         waitForThreads(future);
     }
 
     @Test
     public void waitFor_with_future_with_sleep() throws Exception {
-        // given:
+        // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
             WaitForAsyncUtils.sleepWithException(100, MILLISECONDS);
             return null;
         });
 
-        // expect:
+        // then:
         thrown.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
         waitForThreads(future);
@@ -260,31 +209,34 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void waitFor_with_future_cancelled() throws Throwable {
-    	WaitForAsyncUtils.printException=false;
         // given:
+        WaitForAsyncUtils.printException = false;
+
+        // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
             WaitForAsyncUtils.sleepWithException(100, MILLISECONDS);
             return null;
         });
         future.cancel(true);
         waitForThreads(future);
-        try{Thread.sleep(50);}
-        catch(Exception e){}
-
-        //verify checkException
-        //WaitForAsyncUtils.printExceptions();
-        try{WaitForAsyncUtils.checkException();assertTrue("checkException didn't detect Exception",false);}
-        catch(Throwable e){
-        	//e.printStackTrace();
-        	if(!(e instanceof CancellationException)){
-        		throw e;
-        	}
+        try {
+            Thread.sleep(50);
         }
-        // expect:
-    	WaitForAsyncUtils.printException=true;
+        catch (Exception ignore) {
+        }
+
+        // then:
+        try {
+            WaitForAsyncUtils.checkException();
+            fail("checkException didn't detect Exception");
+        }
+        catch (Throwable e) {
+            if (!(e instanceof CancellationException)) {
+                throw e;
+            }
+        }
         thrown.expect(CancellationException.class);
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
-        
     }
 
     @Test
@@ -322,13 +274,15 @@ public class WaitForAsyncUtilsTest {
     public void waitFor_with_booleanValue() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
-        WaitForAsyncUtils.async(() -> { 
+
+        // when:
+        WaitForAsyncUtils.async(() -> {
             WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
             property.set(true);
             return null;
         });
 
-        // expect:
+        // then:
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
@@ -336,27 +290,37 @@ public class WaitForAsyncUtilsTest {
     public void waitFor_with_booleanValue_with_false() throws Exception {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
+
+        // when:
         WaitForAsyncUtils.async(() -> {
             WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
             property.set(false);
             return null;
         });
 
-        // expect:
+        // then:
         thrown.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
-    protected void waitForException(Future<?> f) throws InterruptedException{
-    	Thread.sleep(50);
+    protected void waitForException(Future<?> f) throws InterruptedException {
+        Thread.sleep(50);
         assertTrue(f.isDone());
     }
 
-    protected void waitForThreads(Future<?> f){
-    	while(!f.isDone());
-    	try{Thread.sleep(50);}
-    	catch(Exception e){}
+    protected void waitForThreads(Future<?> f) {
+        while (!f.isDone()) {
+            try {
+                Thread.sleep(1);
+            }
+            catch (Exception ignore) {
+            }
+        }
+        try {
+            Thread.sleep(50);
+        }
+        catch (Exception ignore) {
+        }
     }
-
 
 }
