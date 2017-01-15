@@ -19,7 +19,7 @@ ext.pomDescription = "TestFX Legacy"
 
 dependencies {
     compile project(":testfx-core")
-    compile "com.google.guava:guava:20.0"
+    compile "com.google.guava:guava:21.0"
 
     providedCompile "junit:junit:4.12"
 

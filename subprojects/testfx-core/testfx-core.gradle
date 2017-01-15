@@ -18,7 +18,7 @@
 ext.pomDescription = "TestFX Core"
 
 dependencies {
-    compile "com.google.guava:guava:20.0"
+    compile "com.google.guava:guava:21.0"
     compile "org.hamcrest:hamcrest-core:1.3"
     compile 'com.google.code.findbugs:annotations:3.0.1u2'
 
