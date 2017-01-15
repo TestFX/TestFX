@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.scene.input.KeyCode.COMMAND;
 import static javafx.scene.input.KeyCode.CONTROL;
@@ -48,11 +49,12 @@ public class ShortcutKeyTest extends FxRobot {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    private final KeyCode osSpecificShortcutKey;
 
-    {
+    private static final KeyCode OS_SPECIFIC_KEY;
+
+    static {
         String osName = System.getProperty("os.name").toLowerCase(Locale.US);
-        osSpecificShortcutKey = osName.startsWith("mac") ? COMMAND : CONTROL;
+        OS_SPECIFIC_KEY = osName.startsWith("mac") ? COMMAND : CONTROL;
     }
 
     private TextField field;
@@ -63,16 +65,22 @@ public class ShortcutKeyTest extends FxRobot {
     public void setup() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupStage(stage -> {
-            field = new TextField();
+            field = new TextField("not pressed");
             field.setOnKeyPressed(e -> {
-                if (e.getCode().equals(osSpecificShortcutKey)) {
+                if (e.getCode().equals(OS_SPECIFIC_KEY)) {
                     field.setText(pressedText);
+                }
+                else {
+                    field.setText(e.getCode().toString());
                 }
                 e.consume();
             });
             field.setOnKeyReleased(e -> {
-                if (e.getCode().equals(osSpecificShortcutKey)) {
+                if (e.getCode().equals(OS_SPECIFIC_KEY)) {
                     field.setText(releasedText);
+                }
+                else {
+                    field.setText(e.getCode().toString());
                 }
                 e.consume();
             });
@@ -80,12 +88,14 @@ public class ShortcutKeyTest extends FxRobot {
             stage.show();
             field.requestFocus();
         });
+
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @After
     public void cleanup() throws TimeoutException {
         // prevent hanging if test fails
-        release(SHORTCUT, osSpecificShortcutKey);
+        release(SHORTCUT, OS_SPECIFIC_KEY);
     }
 
     @Test
@@ -100,7 +110,7 @@ public class ShortcutKeyTest extends FxRobot {
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() {
         // given:
-        press(osSpecificShortcutKey);
+        press(OS_SPECIFIC_KEY);
 
         // and:
         verifyThat(field.getText(), equalTo(pressedText), informedErrorMessage(this));
