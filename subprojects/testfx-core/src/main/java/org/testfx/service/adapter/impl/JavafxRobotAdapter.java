@@ -16,18 +16,26 @@
  */
 package org.testfx.service.adapter.impl;
 
+import java.util.concurrent.CountDownLatch;
+
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 
-import com.sun.javafx.robot.FXRobot;
-import com.sun.javafx.robot.FXRobotFactory;
-import com.sun.javafx.robot.FXRobotImage;
 import org.testfx.api.annotation.Unstable;
+
+import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
 @Unstable
 public class JavafxRobotAdapter {
@@ -35,8 +43,21 @@ public class JavafxRobotAdapter {
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
+    private Scene scene;
 
-    private FXRobot fxRobot;
+    private boolean isShiftDown;
+    private boolean isControlDown;
+    private boolean isAltDown;
+    private boolean isMetaDown;
+
+    private MouseButton lastButtonPressed;
+    private boolean isButton1Pressed;
+    private boolean isButton2Pressed;
+    private boolean isButton3Pressed;
+    private double sceneMouseX;
+    private double sceneMouseY;
+    private double screenMouseX;
+    private double screenMouseY;
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -45,30 +66,25 @@ public class JavafxRobotAdapter {
     // ROBOT.
 
     public void robotCreate(Scene scene) {
-        fxRobot = createFxRobot(scene);
-    }
-
-    public void robotDestroy() {
-        throw new UnsupportedOperationException();
-    }
-
-    public FXRobot getRobotInstance() {
-        return fxRobot;
+        this.scene = scene;
     }
 
     // KEY.
 
     public void keyPress(KeyCode key) {
-        fxRobot.keyPress(key);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
+                KeyEvent.KEY_PRESSED, key, "")));
     }
 
     public void keyRelease(KeyCode key) {
-        fxRobot.keyRelease(key);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
+                KeyEvent.KEY_RELEASED, key, "")));
     }
 
     public void keyType(KeyCode key,
                         String character) {
-        fxRobot.keyType(key, character);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
+                KeyEvent.KEY_TYPED, key, character)));
     }
 
     // MOUSE.
@@ -78,57 +94,56 @@ public class JavafxRobotAdapter {
     }
 
     public void mouseMove(Point2D location) {
-        fxRobot.mouseMove((int) location.getX(), (int) location.getY());
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createMouseEvent(MouseEvent.MOUSE_MOVED,
+                (int) location.getX(), (int) location.getY(), lastButtonPressed, 0)));
     }
 
     public void mousePress(MouseButton button,
                            int clickCount) {
-        fxRobot.mousePress(button, clickCount);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createMouseEvent(MouseEvent.MOUSE_PRESSED,
+                sceneMouseX, sceneMouseY, button, clickCount)));
     }
 
     public void mouseRelease(MouseButton button,
                              int clickCount) {
-        fxRobot.mouseRelease(button, clickCount);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createMouseEvent(MouseEvent.MOUSE_RELEASED,
+                sceneMouseX, sceneMouseY, button, clickCount)));
     }
 
     public void mouseClick(MouseButton button,
                            int clickCount) {
-        fxRobot.mouseClick(button, clickCount);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createMouseEvent(MouseEvent.MOUSE_CLICKED,
+                sceneMouseX, sceneMouseY, button, clickCount)));
     }
 
     public void mousePress(MouseButton button) {
-        fxRobot.mousePress(button);
+        mousePress(button, 1);
     }
 
     public void mouseRelease(MouseButton button) {
-        fxRobot.mouseRelease(button);
+        mouseRelease(button, 1);
     }
 
     public void mouseClick(MouseButton button) {
-        fxRobot.mouseClick(button);
+        mouseClick(button, 1);
     }
 
     public void mouseDrag(MouseButton button) {
-        fxRobot.mouseDrag(button);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createMouseEvent(MouseEvent.MOUSE_DRAGGED,
+                sceneMouseX, sceneMouseY, button, 0)));
     }
 
     public void mouseWheel(int wheelAmount) {
-        fxRobot.mouseWheel(wheelAmount);
+        asyncFx(() -> Event.fireEvent(getEventTarget(scene), createScrollEvent(wheelAmount)));
     }
 
     // CAPTURE.
-
     public Color getCapturePixelColor(Point2D location) {
-        int fxRobotColor = fxRobot.getPixelColor((int) location.getX(), (int) location.getY());
-        return convertFromFxRobotColor(fxRobotColor);
+        throw new UnsupportedOperationException();
     }
 
     public Image getCaptureRegion(Rectangle2D region) {
-        FXRobotImage fxRobotImage = fxRobot.getSceneCapture(
-            (int) region.getMinX(), (int) region.getMinY(),
-            (int) region.getWidth(), (int) region.getHeight()
-        );
-        return convertFromFxRobotImage(fxRobotImage);
+        throw new UnsupportedOperationException();
     }
 
     // TIMER.
@@ -137,24 +152,100 @@ public class JavafxRobotAdapter {
      * Block until events in the queue are processed.
      */
     public void timerWaitForIdle() {
-        fxRobot.waitForIdle();
+        final CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> latch.countDown());
+        while (true) {
+            try {
+                latch.await();
+                break;
+            }
+            catch (InterruptedException ignore) {
+            }
+        }
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private FXRobot createFxRobot(Scene scene) {
-        FXRobot fxRobot = FXRobotFactory.createRobot(scene);
-        fxRobot.setAutoWaitForIdle(false);
-        return fxRobot;
+    private EventTarget getEventTarget(Scene scene) {
+        return scene.getFocusOwner() != null ? scene.getFocusOwner() : scene;
+    }
+
+    private KeyEvent createKeyEvent(EventType<KeyEvent> eventType, KeyCode keyCode, String character) {
+        boolean pressed = eventType == KeyEvent.KEY_PRESSED;
+        if (keyCode == KeyCode.SHIFT) {
+            isShiftDown = pressed;
+        }
+        if (keyCode == KeyCode.CONTROL) {
+            isControlDown = pressed;
+        }
+        if (keyCode == KeyCode.ALT) {
+            isAltDown = pressed;
+        }
+        if (keyCode == KeyCode.META) {
+            isMetaDown = pressed;
+        }
+
+        boolean typed = eventType == KeyEvent.KEY_TYPED;
+        String keyChar = typed ? character : KeyEvent.CHAR_UNDEFINED;
+        String keyText = typed ? "" : keyCode.getName();
+        return new KeyEvent(eventType, keyChar, keyText, keyCode, isShiftDown, isControlDown, isAltDown, isMetaDown);
+    }
+
+    private MouseEvent createMouseEvent(EventType<MouseEvent> eventType, double x, double y, MouseButton mouseButton,
+                                        int clickCount) {
+        screenMouseX = scene.getWindow().getX() + scene.getX() + x;
+        screenMouseY = scene.getWindow().getY() + scene.getY() + y;
+        sceneMouseX = x;
+        sceneMouseY = y;
+
+        MouseButton button = mouseButton;
+        EventType<MouseEvent> type = eventType;
+        if (type == MouseEvent.MOUSE_PRESSED || type == MouseEvent.MOUSE_RELEASED) {
+            boolean pressed = type == MouseEvent.MOUSE_PRESSED;
+            if (button == MouseButton.PRIMARY) {
+                isButton1Pressed = pressed;
+            }
+            else if (button == MouseButton.MIDDLE) {
+                isButton2Pressed = pressed;
+            }
+            else if (button == MouseButton.SECONDARY) {
+                isButton3Pressed = pressed;
+            }
+            if (pressed) {
+                lastButtonPressed = button;
+            }
+            else {
+                if (!(isButton1Pressed || isButton2Pressed || isButton3Pressed)) {
+                    lastButtonPressed = MouseButton.NONE;
+                }
+            }
+        }
+        else if (type == MouseEvent.MOUSE_MOVED) {
+            boolean someButtonPressed = isButton1Pressed || isButton2Pressed || isButton3Pressed;
+            if (someButtonPressed) {
+                type = MouseEvent.MOUSE_DRAGGED;
+                button = MouseButton.NONE;
+            }
+        }
+
+        return new MouseEvent(type, (int) sceneMouseX, (int) sceneMouseY, (int) screenMouseX, (int) screenMouseY,
+                button, clickCount, isShiftDown, isControlDown, isAltDown, isMetaDown, isButton1Pressed,
+                isButton2Pressed, isButton3Pressed, false, button == MouseButton.SECONDARY, false, null);
+    }
+
+    private ScrollEvent createScrollEvent(int wheelAmount) {
+        screenMouseX = scene.getWindow().getX() + scene.getX() + sceneMouseX;
+        screenMouseY = scene.getWindow().getY() + scene.getY() + sceneMouseY;
+
+        return new ScrollEvent(ScrollEvent.SCROLL, (int) sceneMouseX, (int) sceneMouseY, (int) screenMouseX,
+                (int)screenMouseY, isShiftDown, isControlDown, isAltDown, isMetaDown, false, false, 0,
+                (int) wheelAmount * 40, 0, 0, ScrollEvent.HorizontalTextScrollUnits.NONE, 0,
+                ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, null);
     }
 
     private Color convertFromFxRobotColor(int fxRobotColor) {
-        throw new UnsupportedOperationException();
-    }
-
-    private Image convertFromFxRobotImage(FXRobotImage fxRobotImage) {
         throw new UnsupportedOperationException();
     }
 
