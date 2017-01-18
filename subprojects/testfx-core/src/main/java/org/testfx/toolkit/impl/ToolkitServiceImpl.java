@@ -25,7 +25,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.sun.javafx.application.ParametersImpl;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
@@ -124,7 +123,6 @@ public class ToolkitServiceImpl implements ToolkitService {
             Application application = applicationService.create(() ->
                 createApplication(applicationClass)
             ).get();
-            registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
             return application;
@@ -139,7 +137,6 @@ public class ToolkitServiceImpl implements ToolkitService {
             Application application = applicationService.create(() ->
                 applicationSupplier.get()
             ).get();
-            registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
             return application;
@@ -158,12 +155,6 @@ public class ToolkitServiceImpl implements ToolkitService {
     private Application createApplication(Class<? extends Application> applicationClass)
                                    throws Exception {
         return applicationClass.newInstance();
-    }
-
-    private void registerApplicationParameters(Application application,
-                                               String... applicationArgs) {
-        ParametersImpl parameters = new ParametersImpl(applicationArgs);
-        ParametersImpl.registerParameters(application, parameters);
     }
 
 }

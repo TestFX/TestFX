@@ -196,6 +196,7 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textAreaPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+
         // Source: http://en.wikisource.org/wiki/All_in_the_Golden_Afternoon
         String text = "All in the golden afternoon\n" +
                 "\tFull leisurely we glide;\n" +
@@ -205,13 +206,7 @@ public class JavafxRobotAdapterTest {
                 "\tOur wanderings to guide.";
 
         // when:
-        for (char character : Lists.charactersOf(text)) {
-            KeyCode key = KeyCode.UNDEFINED;
-            key = (character == '\n') ? KeyCode.ENTER : key;
-            key = (character == '\t') ? KeyCode.TAB : key;
-            keyPressTypeRelease(key, String.valueOf(character));
-        }
-        robotAdapter.timerWaitForIdle();
+        typeText(text);
 
         // then:
         verifyThat(textArea, hasText(text));
@@ -232,13 +227,7 @@ public class JavafxRobotAdapterTest {
                 "\t우리는 정처없이 흘러간다네.";
 
         // when:
-        for (char character : Lists.charactersOf(text)) {
-            KeyCode key = KeyCode.UNDEFINED;
-            key = (character == '\n') ? KeyCode.ENTER : key;
-            key = (character == '\t') ? KeyCode.TAB : key;
-            keyPressTypeRelease(key, String.valueOf(character));
-        }
-        robotAdapter.timerWaitForIdle();
+        typeText(text);
 
         // then:
         verifyThat(textArea, hasText(text));
@@ -296,6 +285,19 @@ public class JavafxRobotAdapterTest {
     private List<Integer> rangeToInts(int lower, int upper) {
         Range<Integer> range = Range.closed(lower, upper);
         return ContiguousSet.create(range, DiscreteDomain.integers()).asList();
+    }
+
+    private void typeText(String text) {
+        // TODO(mike): This extra tab should not be needed but currently {@code textField} has focus
+        // instead of {@code textArea} when this method is called.
+        keyPressTypeRelease(KeyCode.TAB, String.valueOf('\t'));
+        for (char character : Lists.charactersOf(text)) {
+            KeyCode key = KeyCode.UNDEFINED;
+            key = (character == '\n') ? KeyCode.ENTER : key;
+            key = (character == '\t') ? KeyCode.TAB : key;
+            keyPressTypeRelease(key, String.valueOf(character));
+        }
+        robotAdapter.timerWaitForIdle();
     }
 
     private void keyPressTypeRelease(KeyCode key, String string) {
