@@ -363,7 +363,7 @@ public final class FxToolkit {
      */
     private static boolean isFXApplicationThreadRunning() {
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
-        for (Thread thread:threads) {
+        for (Thread thread : threads) {
             if (thread.getName().equals("JavaFX Application Thread")) {
                 return true;
             }
