@@ -55,6 +55,7 @@ public class JavafxRobotAdapterTest {
     public JavafxRobotAdapter robotAdapter;
 
     public Stage targetStage;
+    public Scene scene;
     public Parent sceneRoot;
 
     public Region region;
@@ -88,7 +89,7 @@ public class JavafxRobotAdapterTest {
             VBox.setVgrow(region, Priority.ALWAYS);
 
             sceneRoot = new StackPane(box);
-            Scene scene = new Scene(sceneRoot, 300, 300);
+            scene = new Scene(sceneRoot, 300, 300);
             stage.setScene(scene);
             stage.show();
         });
@@ -99,6 +100,9 @@ public class JavafxRobotAdapterTest {
         regionPoint = pointInCenterFor(boundsInSceneFor(region));
         textFieldPoint = pointInCenterFor(boundsInSceneFor(textField));
         textAreaPoint = pointInCenterFor(boundsInSceneFor(textArea));
+        System.out.println("regionPoint: " + regionPoint);
+        System.out.println("textFieldPoint: " + textFieldPoint);
+        System.out.println("textAreaPoint: " + textAreaPoint);
     }
 
     @After
@@ -196,6 +200,8 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textAreaPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+        System.out.println("Focus owner before type text: " + scene.getFocusOwner());
+
         // Source: http://en.wikisource.org/wiki/All_in_the_Golden_Afternoon
         String text = "All in the golden afternoon\n" +
                 "\tFull leisurely we glide;\n" +
@@ -223,6 +229,8 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textAreaPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
+        System.out.println("Focus owner before type text: " + scene.getFocusOwner());
+
         // Source: http://ko.wikisource.org/wiki/이상한_나라의_앨리스
         String text = "화창한 오후마다\n" +
                 "\t우린 느긋이 배를 타지;\n" +
