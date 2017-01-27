@@ -17,20 +17,27 @@
 package org.testfx.service.adapter.impl;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.google.common.collect.ContiguousSet;
@@ -43,6 +50,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeThat;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasText;
 
@@ -251,6 +264,55 @@ public class JavafxRobotAdapterTest {
 
         // then:
         verifyThat(textField, hasText(LATIN_EXTENDED_A_GLYPHS + LATIN_EXTENDED_A_GLYPHS));
+    }
+
+    // CAPTURE.
+
+    @Test
+    public void getCapturePixelColor() throws InterruptedException {
+        // given:
+        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+
+        // when:
+        CountDownLatch captureColorLatch = new CountDownLatch(1);
+        CompletableFuture<Color> captureColorFutureResult = robotAdapter.getCapturePixelColor(regionPoint);
+        captureColorFutureResult.whenComplete((pixelColor, throwable) -> {
+            if (throwable != null) {
+                fail("JavafxRobotAdapter.getCapturePixelColor(..) should not have completed exceptionally");
+            }
+            else {
+                assertThat(pixelColor, is(Color.web("magenta")));
+                captureColorLatch.countDown();
+            }
+        });
+
+        // then:
+        assertThat(captureColorLatch.await(3, TimeUnit.SECONDS), is(true));
+    }
+
+    @Test
+    public void getCaptureRegion() throws InterruptedException {
+        // given:
+        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+
+        // when:
+        CountDownLatch captureRegionLatch = new CountDownLatch(1);
+        Rectangle2D region = new Rectangle2D(regionPoint.getX(), regionPoint.getY(), 10, 20);
+        CompletableFuture<Image> captureRegionFutureResult = robotAdapter.getCaptureRegion(region);
+        captureRegionFutureResult.whenComplete((regionImage, throwable) -> {
+            if (throwable != null) {
+                fail("JavafxRobotAdapter.getCaptureRegion(..) should not have completed exceptionally");
+            }
+            else {
+                assertThat(regionImage.getWidth(), is(10.0));
+                assertThat(regionImage.getHeight(), is(20.0));
+                assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.web("magenta")));
+                captureRegionLatch.countDown();
+            }
+        });
+
+        // then:
+        assertThat(captureRegionLatch.await(3, TimeUnit.SECONDS), is(true));
     }
 
     //---------------------------------------------------------------------------------------------
