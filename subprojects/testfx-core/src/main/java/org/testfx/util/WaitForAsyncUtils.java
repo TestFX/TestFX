@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,12 +29,12 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.util.concurrent.SettableFuture;
 import org.testfx.api.annotation.Unstable;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -321,10 +322,10 @@ public class WaitForAsyncUtils {
      */
     public static void waitFor(long timeout, TimeUnit timeUnit, ObservableBooleanValue booleanValue)
             throws TimeoutException {
-        SettableFuture<Void> future = SettableFuture.create();
+        CompletableFuture<Void> future = new CompletableFuture<>();
         ChangeListener<Boolean> changeListener = (observable, oldValue, newValue) -> {
             if (newValue) {
-                future.set(null);
+                future.complete(null);
             }
         };
         booleanValue.addListener(changeListener);
