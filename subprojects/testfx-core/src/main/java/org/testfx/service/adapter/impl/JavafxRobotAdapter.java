@@ -16,6 +16,7 @@
  */
 package org.testfx.service.adapter.impl;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
 import javafx.application.Platform;
@@ -25,13 +26,18 @@ import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotResult;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 import org.testfx.api.annotation.Unstable;
 
@@ -138,12 +144,33 @@ public class JavafxRobotAdapter {
     }
 
     // CAPTURE.
-    public Color getCapturePixelColor(Point2D location) {
-        throw new UnsupportedOperationException();
+    public CompletableFuture<Color> getCapturePixelColor(Point2D location) {
+        CompletableFuture<Color> captureColorFutureResult = new CompletableFuture<>();
+        Platform.runLater(() -> {
+            WritableImage snapshot = scene.snapshot(null);
+            captureColorFutureResult.complete(snapshot.getPixelReader().getColor(
+                    (int) location.getX(), (int) location.getY()));
+        });
+        return captureColorFutureResult;
     }
 
-    public Image getCaptureRegion(Rectangle2D region) {
-        throw new UnsupportedOperationException();
+    public CompletableFuture<Image> getCaptureRegion(Rectangle2D region) {
+        CompletableFuture<Image> captureRegionFutureResult = new CompletableFuture<>();
+        Platform.runLater(() -> {
+            scene.snapshot(new Callback<SnapshotResult, Void>() {
+                @Override
+                public Void call(SnapshotResult result) {
+                    ImageView imageView = new ImageView(result.getImage());
+                    imageView.setViewport(region);
+                    Pane pane = new Pane(imageView);
+                    Scene offScreenScene = new Scene(pane);
+                    WritableImage croppedImage = imageView.snapshot(null, null);
+                    captureRegionFutureResult.complete(croppedImage);
+                    return null;
+                }
+            }, null);
+        });
+        return captureRegionFutureResult;
     }
 
     // TIMER.
@@ -243,10 +270,6 @@ public class JavafxRobotAdapter {
                 (int)screenMouseY, isShiftDown, isControlDown, isAltDown, isMetaDown, false, false, 0,
                 (int) wheelAmount * 40, 0, 0, ScrollEvent.HorizontalTextScrollUnits.NONE, 0,
                 ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, null);
-    }
-
-    private Color convertFromFxRobotColor(int fxRobotColor) {
-        throw new UnsupportedOperationException();
     }
 
 }
