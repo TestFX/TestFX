@@ -20,6 +20,7 @@ import javafx.scene.input.MouseButton;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.ClickRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
@@ -46,9 +47,7 @@ public class ClickRobotImpl implements ClickRobot {
     // CONSTRUCTORS.
     //---------------------------------------------------------------------------------------------
 
-    public ClickRobotImpl(MouseRobot mouseRobot,
-                          MoveRobot moveRobot,
-                          SleepRobot sleepRobot) {
+    public ClickRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot, SleepRobot sleepRobot) {
         this.mouseRobot = mouseRobot;
         this.moveRobot = moveRobot;
         this.sleepRobot = sleepRobot;
@@ -65,9 +64,8 @@ public class ClickRobotImpl implements ClickRobot {
     }
 
     @Override
-    public void clickOn(PointQuery pointQuery,
-                        MouseButton... buttons) {
-        moveRobot.moveTo(pointQuery);
+    public void clickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons) {
+        moveRobot.moveTo(pointQuery, motion);
         clickOn(buttons);
     }
 
@@ -79,9 +77,9 @@ public class ClickRobotImpl implements ClickRobot {
     }
 
     @Override
-    public void doubleClickOn(PointQuery pointQuery,
-                              MouseButton... buttons) {
-        clickOn(pointQuery, buttons);
+    public void doubleClickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons) {
+        moveRobot.moveTo(pointQuery, motion);
+        clickOn(buttons);
         clickOn(buttons);
         sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }

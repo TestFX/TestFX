@@ -21,20 +21,43 @@ import org.testfx.service.query.PointQuery;
 public interface MoveRobot {
 
     /**
-     * Moves mouse to {@link PointQuery#query()}.
+     * Moves mouse directly to {@link PointQuery#query()}.
      *
      * @param pointQuery the pointQuery
      */
-    public void moveTo(PointQuery pointQuery);
+    default void moveTo(PointQuery pointQuery) {
+        moveTo(pointQuery, Motion.DEFAULT);
+    }
 
     /**
-     * Moves mouse from current location to new location by {@code x} on the horizontal axis and by {@code y} on
-     * the vertical axis.
+     * Moves mouse to {@link PointQuery#query()} using the specified {@code motion}
+     * (see: {@link Motion}) and clicks whatever is under it.
+     *
+     * @param pointQuery the pointQuery
+     * @param motion the type of motion to use for movement
+     */
+    void moveTo(PointQuery pointQuery, Motion motion);
+
+    /**
+     * Moves mouse directly from current location to new location by {@code x} on the
+     * horizontal axis and by {@code y} on the vertical axis.
      *
      * @param x the amount by which to move the mouse horizontally
      * @param y the amount by which to move the mouse vertically
      */
-    public void moveBy(double x,
-                       double y);
+    default void moveBy(double x, double y) {
+        moveBy(x, y, Motion.DEFAULT);
+    }
+
+    /**
+     * Moves mouse from current location to new location by {@code x} using the given
+     * {@code motion} (see: {@link Motion} on the horizontal axis and by {@code y} on
+     * the vertical axis.
+     *
+     * @param x the amount by which to move the mouse horizontally
+     * @param y the amount by which to move the mouse vertically
+     * @param motion the type of motion to use for movement
+     */
+    void moveBy(double x, double y, Motion motion);
 
 }

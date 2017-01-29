@@ -19,6 +19,7 @@ package org.testfx.service.query.impl;
 import java.util.concurrent.Callable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.PointQuery;
@@ -37,7 +38,12 @@ public class CallableBoundsPointQuery extends PointQueryBase {
     //---------------------------------------------------------------------------------------------
 
     public CallableBoundsPointQuery(Callable<Bounds> callableBounds) {
+        this(callableBounds, null);
+    }
+
+    public CallableBoundsPointQuery(Callable<Bounds> callableBounds, Node node) {
         this.callableBounds = callableBounds;
+        this.node = node;
     }
 
     //---------------------------------------------------------------------------------------------
