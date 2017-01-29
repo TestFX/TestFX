@@ -44,6 +44,7 @@ import javafx.stage.Window;
 
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.robot.Motion;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.BoundsQuery;
 import org.testfx.service.query.NodeQuery;
@@ -333,7 +334,7 @@ public class FxRobot implements FxRobotInterface {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         targetWindow(node.getScene().getWindow());
-        return pointLocator.point(node).atPosition(pointPosition);
+        return pointLocator.point(node).onNode(node).atPosition(pointPosition);
     }
 
     @Override
@@ -499,7 +500,7 @@ public class FxRobot implements FxRobotInterface {
         waitForFxEvents();
         return this;
     }
-    
+
     @Override
     public FxRobot interactNoWait(Runnable runnable) {
         waitFor(asyncFx(runnable));
@@ -510,7 +511,7 @@ public class FxRobot implements FxRobotInterface {
         waitFor(asyncFx(callable));
         return this;
     }
-    
+
     @Override
     public FxRobot interrupt() {
         waitForFxEvents();
@@ -679,8 +680,9 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot clickOn(PointQuery pointQuery,
+                           Motion motion,
                            MouseButton... buttons) {
-        context.getClickRobot().clickOn(pointQuery, buttons);
+        context.getClickRobot().clickOn(pointQuery, motion, buttons);
         return this;
     }
 
@@ -692,65 +694,75 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot doubleClickOn(PointQuery pointQuery,
+                                 Motion motion,
                                  MouseButton... buttons) {
-        context.getClickRobot().doubleClickOn(pointQuery, buttons);
+        context.getClickRobot().doubleClickOn(pointQuery, motion, buttons);
         return this;
     }
 
     @Override
     public FxRobot clickOn(double x,
                            double y,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(point(x, y), buttons);
+        return clickOn(point(x, y), motion, buttons);
     }
 
     @Override
     public FxRobot clickOn(Point2D point,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(point(point), buttons);
+        return clickOn(point(point), motion, buttons);
     }
 
     @Override
     public FxRobot clickOn(Bounds bounds,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(point(bounds), buttons);
+        return clickOn(point(bounds), motion, buttons);
     }
 
     @Override
     public FxRobot clickOn(Node node,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(point(node), buttons);
+        return clickOn(point(node), motion, buttons);
     }
 
     @Override
     public FxRobot clickOn(Scene scene,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(point(scene), buttons);
+        return clickOn(point(scene), motion, buttons);
     }
 
     @Override
     public FxRobot clickOn(Window window,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(point(window), buttons);
+        return clickOn(point(window), motion, buttons);
     }
 
     @Override
     public FxRobot clickOn(String query,
+                           Motion motion,
                            MouseButton... buttons) {
-        return clickOn(pointOfVisibleNode(query), buttons);
+        return clickOn(pointOfVisibleNode(query), motion, buttons);
     }
 
     @Override
     @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot clickOn(Matcher<T> matcher,
+                                            Motion motion,
                                             MouseButton... buttons) {
-        return clickOn(pointOfVisibleNode(matcher), buttons);
+        return clickOn(pointOfVisibleNode(matcher), motion, buttons);
     }
 
     @Override
     public <T extends Node> FxRobot clickOn(Predicate<T> predicate,
+                                            Motion motion,
                                             MouseButton... buttons) {
-        return clickOn(pointOfVisibleNode(predicate), buttons);
+        return clickOn(pointOfVisibleNode(predicate), motion, buttons);
     }
 
     @Override
@@ -759,110 +771,99 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public FxRobot rightClickOn(PointQuery pointQuery) {
-        return clickOn(pointQuery, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(PointQuery pointQuery, Motion motion) {
+        return clickOn(pointQuery, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(double x,
-                                double y) {
-        return clickOn(x, y, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(double x, double y, Motion motion) {
+        return clickOn(x, y, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(Point2D point) {
-        return clickOn(point, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(Point2D point, Motion motion) {
+        return clickOn(point, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(Bounds bounds) {
-        return clickOn(bounds, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(Bounds bounds, Motion motion) {
+        return clickOn(bounds, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(Node node) {
-        return clickOn(node, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(Node node, Motion motion) {
+        return clickOn(node, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(Scene scene) {
-        return clickOn(scene, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(Scene scene, Motion motion) {
+        return clickOn(scene, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(Window window) {
-        return clickOn(window, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(Window window, Motion motion) {
+        return clickOn(window, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot rightClickOn(String query) {
-        return clickOn(query, MouseButton.SECONDARY);
+    public FxRobot rightClickOn(String query, Motion motion) {
+        return clickOn(query, motion, MouseButton.SECONDARY);
     }
 
     @Override
     @Unstable(reason = "might change to accept all objects")
-    public <T extends Node> FxRobot rightClickOn(Matcher<T> matcher) {
-        return clickOn(matcher, MouseButton.SECONDARY);
+    public <T extends Node> FxRobot rightClickOn(Matcher<T> matcher, Motion motion) {
+        return clickOn(matcher, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate) {
-        return clickOn(predicate, MouseButton.SECONDARY);
+    public <T extends Node> FxRobot rightClickOn(Predicate<T> predicate, Motion motion) {
+        return clickOn(predicate, motion, MouseButton.SECONDARY);
     }
 
     @Override
-    public FxRobot doubleClickOn(double x,
-                                 double y,
-                                 MouseButton... buttons) {
-        return doubleClickOn(point(x, y), buttons);
+    public FxRobot doubleClickOn(double x, double y, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(point(x, y), motion, buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(Point2D point,
-                                 MouseButton... buttons) {
-        return doubleClickOn(point(point), buttons);
+    public FxRobot doubleClickOn(Point2D point, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(point(point), motion, buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(Bounds bounds,
-                                 MouseButton... buttons) {
-        return doubleClickOn(point(bounds), buttons);
+    public FxRobot doubleClickOn(Bounds bounds, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(point(bounds), motion, buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(Node node,
-                                 MouseButton... buttons) {
-        return doubleClickOn(point(node), buttons);
+    public FxRobot doubleClickOn(Node node, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(point(node), motion, buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(Scene scene,
-                                 MouseButton... buttons) {
-        return doubleClickOn(point(scene), buttons);
+    public FxRobot doubleClickOn(Scene scene, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(point(scene), motion, buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(Window window,
-                                 MouseButton... buttons) {
-        return doubleClickOn(point(window), buttons);
+    public FxRobot doubleClickOn(Window window, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(point(window), motion, buttons);
     }
 
     @Override
-    public FxRobot doubleClickOn(String query,
-                                 MouseButton... buttons) {
-        return doubleClickOn(pointOfVisibleNode(query), buttons);
+    public FxRobot doubleClickOn(String query, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(pointOfVisibleNode(query), motion, buttons);
     }
 
     @Override
-    public <T extends Node> FxRobot doubleClickOn(Matcher<T> matcher,
-                                                  MouseButton... buttons) {
-        return doubleClickOn(pointOfVisibleNode(matcher), buttons);
+    public <T extends Node> FxRobot doubleClickOn(Matcher<T> matcher, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(pointOfVisibleNode(matcher), motion, buttons);
     }
 
     @Override
-    public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate,
-                                                  MouseButton... buttons) {
-        return doubleClickOn(pointOfVisibleNode(predicate), buttons);
+    public <T extends Node> FxRobot doubleClickOn(Predicate<T> predicate, Motion motion, MouseButton... buttons) {
+        return doubleClickOn(pointOfVisibleNode(predicate), motion, buttons);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -1009,63 +1010,61 @@ public class FxRobot implements FxRobotInterface {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public FxRobot moveTo(PointQuery pointQuery) {
-        context.getMoveRobot().moveTo(pointQuery);
+    public FxRobot moveTo(PointQuery pointQuery, Motion motion) {
+        context.getMoveRobot().moveTo(pointQuery, motion);
         return this;
     }
 
     @Override
-    public FxRobot moveBy(double x,
-                          double y) {
-        context.getMoveRobot().moveBy(x, y);
+    public FxRobot moveBy(double x, double y, Motion motion) {
+        context.getMoveRobot().moveBy(x, y, motion);
         return this;
     }
 
     @Override
-    public FxRobot moveTo(double x,
-                          double y) {
-        return moveTo(point(new Point2D(x, y)));
+    public FxRobot moveTo(double x, double y, Motion motion) {
+        return moveTo(point(new Point2D(x, y)), motion);
     }
 
     @Override
-    public FxRobot moveTo(Point2D point) {
-        return moveTo(point(point));
+    public FxRobot moveTo(Point2D point, Motion motion) {
+        return moveTo(point(point), motion);
     }
 
     @Override
-    public FxRobot moveTo(Bounds bounds) {
-        return moveTo(point(bounds));
+    public FxRobot moveTo(Bounds bounds, Motion motion) {
+        return moveTo(point(bounds), motion);
     }
 
     @Override
-    public FxRobot moveTo(Node node) {
-        return moveTo(point(node));
+    public FxRobot moveTo(Node node, Motion motion) {
+        return moveTo(point(node), motion);
     }
 
     @Override
-    public FxRobot moveTo(Scene scene) {
-        return moveTo(point(scene));
+    public FxRobot moveTo(Scene scene, Motion motion) {
+        return moveTo(point(scene), motion);
     }
 
     @Override
-    public FxRobot moveTo(Window window) {
-        return moveTo(point(window));
+    public FxRobot moveTo(Window window, Motion motion) {
+        return moveTo(point(window), motion);
     }
 
     @Override
-    public FxRobot moveTo(String query) {
-        return moveTo(pointOfVisibleNode(query));
+    public FxRobot moveTo(String query, Motion motion) {
+        return moveTo(pointOfVisibleNode(query), motion);
     }
 
     @Override
     @Unstable(reason = "might change to accept all objects")
-    public <T extends Node> FxRobot moveTo(Matcher<T> matcher) {
-        return moveTo(pointOfVisibleNode(matcher));
+    public <T extends Node> FxRobot moveTo(Matcher<T> matcher, Motion motion) {
+        return moveTo(pointOfVisibleNode(matcher), motion);
     }
 
     @Override
-    public <T extends Node> FxRobot moveTo(Predicate<T> predicate) {
-        return moveTo(pointOfVisibleNode(predicate));
+    public <T extends Node> FxRobot moveTo(Predicate<T> predicate, Motion motion) {
+        return moveTo(pointOfVisibleNode(predicate), motion);
     }
 
     //---------------------------------------------------------------------------------------------

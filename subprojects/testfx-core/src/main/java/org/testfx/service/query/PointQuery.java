@@ -16,8 +16,12 @@
  */
 package org.testfx.service.query;
 
+import java.util.Optional;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+
+import org.testfx.robot.Motion;
 
 /**
  * Used to calculate a position within a given {@link javafx.geometry.Bounds}.
@@ -83,8 +87,12 @@ public interface PointQuery {
 
     /**
      *
-     * @return a position that offsets the relative position within the initial {@code Bounds} object that is calculated
+     * @return a position that offsets the relative position within the initial {@code Bounds}object that is calculated
      * via {@link #getPosition()} by {@link #getOffset()} amount.
      */
     public Point2D query();
+
+    PointQuery onNode(Node node);
+
+    Optional<Motion> queryMotion();
 }

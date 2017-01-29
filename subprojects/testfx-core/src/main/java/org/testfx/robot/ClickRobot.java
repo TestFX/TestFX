@@ -27,31 +27,54 @@ public interface ClickRobot {
      *
      * @param buttons the mouse buttons to click
      */
-    public void clickOn(MouseButton... buttons);
+    void clickOn(MouseButton... buttons);
 
     /**
-     * Moves mouse to {@link PointQuery#query()} and clicks whatever is under it.
+     * Moves mouse directly to {@link PointQuery#query()} and clicks whatever is under it.
      *
      * @param pointQuery the pointQuery
      * @param buttons the mouse buttons to click
      */
-    public void clickOn(PointQuery pointQuery,
-                        MouseButton... buttons);
+    default void clickOn(PointQuery pointQuery, MouseButton... buttons) {
+        clickOn(pointQuery, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Moves mouse to {@link PointQuery#query()} using the specified {@code motion}
+     * (see: {@link Motion}) and clicks whatever is under it.
+     *
+     * @param pointQuery the pointQuery
+     * @param motion the type of motion to use for movement
+     * @param buttons the mouse buttons to click
+     */
+    void clickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons);
 
     /**
      * Double-clicks whatever is under the mouse.
      *
      * @param buttons the mouse buttons to click
      */
-    public void doubleClickOn(MouseButton... buttons);
+    void doubleClickOn(MouseButton... buttons);
 
     /**
-     * Moves mouse to {@link PointQuery#query()} and double-clicks whatever is under it.
+     * Moves mouse directly to {@link PointQuery#query()} and double-clicks whatever
+     * is under it.
      *
      * @param pointQuery the pointQuery
      * @param buttons the mouse buttons to click
      */
-    public void doubleClickOn(PointQuery pointQuery,
-                              MouseButton... buttons);
+    default void doubleClickOn(PointQuery pointQuery, MouseButton... buttons) {
+        doubleClickOn(pointQuery, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Moves mouse to {@link PointQuery#query()} using the specified {@code motion}
+     * (see: {@link Motion} and double-clicks whatever is under it.
+     *
+     * @param pointQuery the pointQuery
+     * @param motion the type of motion to use for movement
+     * @param buttons the mouse buttons to click
+     */
+    void doubleClickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons);
 
 }

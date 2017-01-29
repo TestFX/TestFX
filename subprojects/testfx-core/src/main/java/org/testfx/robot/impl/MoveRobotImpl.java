@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
@@ -66,12 +67,17 @@ public class MoveRobotImpl implements MoveRobot {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public void moveTo(PointQuery pointQuery) {
+    public void moveTo(PointQuery pointQuery, Motion motion) {
         // Since moving takes time, only do it if we're not already at the desired point.
         Point2D sourcePoint = retrieveMouseLocation();
+
+        if (motion == Motion.DEFAULT && pointQuery.queryMotion().isPresent()) {
+            // The user explicitly requested a non-default type of motion, so honor it.
+            motion = pointQuery.queryMotion().get();
+        }
         Point2D targetPoint = pointQuery.query();
         if (sourcePoint != targetPoint) {
-            moveMouseStepwiseBetween(sourcePoint, targetPoint);
+            moveMouseStepwiseBetween(sourcePoint, targetPoint, motion);
         }
 
         // If the target has moved while we were moving the mouse, update to the new position.
@@ -80,11 +86,11 @@ public class MoveRobotImpl implements MoveRobot {
     }
 
     @Override
-    public void moveBy(double x,
-                       double y) {
+    public void moveBy(double x, double y, Motion motion) {
+
         Point2D sourcePoint = retrieveMouseLocation();
         Point2D targetPoint = new Point2D(sourcePoint.getX() + x, sourcePoint.getY() + y);
-        moveMouseStepwiseBetween(sourcePoint, targetPoint);
+        moveMouseStepwiseBetween(sourcePoint, targetPoint, motion);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -100,15 +106,46 @@ public class MoveRobotImpl implements MoveRobot {
     }
 
     private void moveMouseStepwiseBetween(Point2D sourcePoint,
-                                          Point2D targetPoint) {
+                                          Point2D targetPoint,
+                                          Motion motion) {
+        if (motion == Motion.DEFAULT) {
+            motion = Motion.DIRECT;
+        }
         double pointDistance = calculateDistanceBetween(sourcePoint, targetPoint);
         int pointOffsetCount = (int) limitValueBetween(
             pointDistance, MIN_POINT_OFFSET_COUNT, MAX_POINT_OFFSET_COUNT
         );
-        List<Point2D> points = interpolatePointsBetween(
-            sourcePoint, targetPoint, pointOffsetCount
-        );
-        for (Point2D point : Iterables.limit(points, points.size() - 1)) {
+
+        Iterable<Point2D> path = new ArrayList<>(pointOffsetCount);
+        if (motion == Motion.DIRECT) {
+            path = interpolatePointsBetween(sourcePoint, targetPoint, pointOffsetCount);
+        }
+        else if (motion == Motion.HORIZONTAL_FIRST) {
+            // ratio of the horizontal to the vertical side of the right-triangle (determines how much time should
+            // be spent traversing in each direction)
+            double percentHorizontal = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY()) /
+                    targetPoint.distance(targetPoint.getX(), sourcePoint.getY());
+            // the point where the horizontal path stops and the vertical path starts
+            Point2D intermediate = new Point2D(targetPoint.getX(), sourcePoint.getY());
+            path = Iterables.concat(
+                    interpolatePointsBetween(
+                            sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)),
+                    interpolatePointsBetween(
+                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)));
+        }
+        else if (motion == Motion.VERTICAL_FIRST) {
+            // ratio of the vertical to the horizontal side of the right-triangle
+            double percentVertical = targetPoint.distance(targetPoint.getX(), sourcePoint.getY()) /
+                    sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
+            // the point where the vertical path stops and the horizontal path starts
+            Point2D intermediate = new Point2D(sourcePoint.getX(), targetPoint.getY());
+            path = Iterables.concat(
+                    interpolatePointsBetween(
+                            sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)),
+                    interpolatePointsBetween(
+                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)));
+        }
+        for (Point2D point : Iterables.limit(path, Iterables.size(path) - 1)) {
             mouseRobot.moveNoWait(point);
             sleepRobot.sleep(SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS);
         }

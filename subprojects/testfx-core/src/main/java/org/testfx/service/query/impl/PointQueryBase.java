@@ -16,10 +16,13 @@
  */
 package org.testfx.service.query.impl;
 
+import java.util.Optional;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 
 import org.testfx.api.annotation.Unstable;
+import org.testfx.robot.Motion;
 import org.testfx.service.query.PointQuery;
 import org.testfx.util.PointQueryUtils;
 
@@ -33,6 +36,8 @@ public abstract class PointQueryBase implements PointQuery {
     private Point2D position = new Point2D(0, 0);
 
     private Point2D offset = new Point2D(0, 0);
+
+    protected Node node;
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -80,4 +85,22 @@ public abstract class PointQueryBase implements PointQuery {
         return atOffset(new Point2D(offsetX, offsetY));
     }
 
+    @Override
+    public PointQuery onNode(Node node) {
+        this.node = node;
+        return this;
+    }
+
+    @Override
+    public Optional<Motion> queryMotion() {
+        if (node == null) {
+            return Optional.empty();
+        }
+        switch (node.getClass().getSimpleName()) {
+            case "MenuItemContainer":
+                return Optional.of(Motion.VERTICAL_FIRST);
+            default:
+                return Optional.of(Motion.DEFAULT);
+        }
+    }
 }

@@ -21,6 +21,7 @@ import javafx.scene.input.MouseButton;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.robot.ClickRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
@@ -99,7 +100,7 @@ public final class ClickRobotImplTest {
         clickRobot.clickOn(pointQuery, MouseButton.PRIMARY);
 
         // then:
-        verify(moveRobot, times(1)).moveTo(eq(pointQuery));
+        verify(moveRobot, times(1)).moveTo(eq(pointQuery), eq(Motion.DEFAULT));
         verify(mouseRobot, times(1)).pressNoWait(eq(MouseButton.PRIMARY));
         verify(mouseRobot, times(1)).release(eq(MouseButton.PRIMARY));
         verifyNoMoreInteractions(moveRobot, mouseRobot);
@@ -145,7 +146,7 @@ public final class ClickRobotImplTest {
         clickRobot.doubleClickOn(pointQuery, MouseButton.PRIMARY);
 
         // then:
-        verify(moveRobot, times(1)).moveTo(eq(pointQuery));
+        verify(moveRobot, times(1)).moveTo(eq(pointQuery), eq(Motion.DEFAULT));
         verify(mouseRobot, times(2)).pressNoWait(eq(MouseButton.PRIMARY));
         verify(mouseRobot, times(2)).release(eq(MouseButton.PRIMARY));
         verify(sleepRobot, times(1)).sleep(anyLong());
