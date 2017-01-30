@@ -16,12 +16,12 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point2D;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
@@ -118,7 +118,7 @@ public class MoveRobotImpl implements MoveRobot {
     private List<Point2D> interpolatePointsBetween(Point2D sourcePoint,
                                                    Point2D targetPoint,
                                                    int pointOffsetCount) {
-        List<Point2D> points = Lists.newArrayList();
+        List<Point2D> points = new ArrayList<>();
         for (int pointOffset = 0; pointOffset <= pointOffsetCount; pointOffset++) {
             double factor = (double) pointOffset / (double) pointOffsetCount;
             Point2D point = interpolatePointBetween(sourcePoint, targetPoint, factor);
