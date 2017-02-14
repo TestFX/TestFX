@@ -16,6 +16,7 @@
  */
 package org.testfx.toolkit.impl;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Objects;
 import javafx.application.Application;
@@ -40,9 +41,9 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     private static final String NATIVE_PLATFORM_FACTORY =
         "com.sun.glass.ui.monocle.NativePlatformFactory";
-    private static final String HEADLESS_NATIVE_PLATFORM =
+    private static final String HEADLESS_PLATFORM =
         "com.sun.glass.ui.monocle.headless.HeadlessPlatform";
-    private static final String HEADLESS_U40_NATIVE_PLATFORM =
+    private static final String HEADLESS_PLATFORM_U40 =
         "com.sun.glass.ui.monocle.HeadlessPlatform";
 
     //---------------------------------------------------------------------------------------------
@@ -98,12 +99,14 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
                                  throws Exception {
         Class<?> nativePlatformFactoryClass = Class.forName(NATIVE_PLATFORM_FACTORY);
         try {
-            Object nativePlatformImpl = Class.forName(HEADLESS_U40_NATIVE_PLATFORM).newInstance();
-            assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformImpl);
+            Constructor<?> nativePlatformCtor = Class.forName(HEADLESS_PLATFORM_U40).getDeclaredConstructor();
+            nativePlatformCtor.setAccessible(true);
+            assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformCtor.newInstance());
         }
         catch (ClassNotFoundException exception) {
-            Object nativePlatformImpl = Class.forName(HEADLESS_NATIVE_PLATFORM).newInstance();
-            assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformImpl);
+            Constructor<?> nativePlatformCtor = Class.forName(HEADLESS_PLATFORM).getDeclaredConstructor();
+            nativePlatformCtor.setAccessible(true);
+            assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformCtor.newInstance());
         }
     }
 
