@@ -16,11 +16,10 @@
  */
 package org.testfx.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -94,7 +93,7 @@ public class WaitForAsyncUtils {
     // ---------------------------------------------------------------------------------------------
 
     private static ExecutorService executorService = Executors.newCachedThreadPool();
-    private static List<Throwable> exceptions = Collections.synchronizedList(new ArrayList<Throwable>());
+    private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
 
     /**
      * If {@literal true} any exceptions encountered during execution of the
@@ -194,7 +193,7 @@ public class WaitForAsyncUtils {
             checkExceptionWrapped();
         }
         Callable<T> call = new ASyncFXCallable<T>(callable, throwExceptions);
-        return executorService.submit(call); //exception handling not guaranteed
+        return executorService.submit(call); // exception handling not guaranteed
     }
 
     /**
@@ -362,7 +361,7 @@ public class WaitForAsyncUtils {
     // SLEEP METHODS.
 
     /**
-     * Sleeps the given duration.
+     * Sleeps the current thread for the given duration.
      *
      * @param duration the duration to sleep
      * @param timeUnit the time unit {@code duration} is in
@@ -376,7 +375,7 @@ public class WaitForAsyncUtils {
     }
 
     /**
-     * Sleeps for the given duration.
+     * Sleeps the current thread for the given duration.
      *
      * @param duration the duration to sleep
      * @param timeUnit the time unit {@code duration} is in
@@ -444,28 +443,16 @@ public class WaitForAsyncUtils {
         return waitForMillis(millis, future);
     }
 
-
     /**
-     * Checks if a exception in a async task occurred, that has not been checked currently.
+     * Checks if an exception in an async task occurred that has not been checked currently.
      * If so, the first exception will be removed and thrown by this method.
      *
-     * @throws Throwable the exception to check
+     * @throws Throwable if an exception has occurred in an async task
      */
     public static void checkException() throws Throwable {
         Throwable throwable = getCheckException();
         if (throwable != null) {
             throw throwable;
-        }
-    }
-
-    /**
-     * Prints unhandled exceptions to stderr. The printed exceptions are not removed
-     * from the stack.
-     */
-    public static void printExceptions() {
-        for (int i = 0; i < exceptions.size(); i++) {
-            System.err.println("ExceptionQueue: " + i);
-            exceptions.get(i);
         }
     }
 
@@ -501,7 +488,7 @@ public class WaitForAsyncUtils {
      */
     private static Throwable getCheckException() {
         if (exceptions.size() > 0) {
-            Throwable throwable = exceptions.get(0);
+            Throwable throwable = exceptions.poll();
             StackTraceElement stackTraceElement = new StackTraceElement(WaitForAsyncUtils.class.getName(),
                     "---- Delayed Exception: (See Trace Below) ----",
                     WaitForAsyncUtils.class.getSimpleName() + ".java", 0);
@@ -549,6 +536,37 @@ public class WaitForAsyncUtils {
         }
         catch (InterruptedException ignore) {
         }
+    }
+
+    private static void printException(Throwable e, StackTraceElement[] trace) {
+        StringBuilder out = new StringBuilder("--- Exception in Async Thread ---\n");
+        out.append(e.getClass().getName()).append(": ").append(e.getMessage()).append('\n');
+        StackTraceElement[] st = e.getStackTrace();
+        out.append(printTrace(st));
+        Throwable cause = e.getCause();
+        while (cause != null) {
+            out.append(cause.getClass().getName()).append(": ").append(cause.getMessage()).append('\n');
+            st = cause.getStackTrace();
+            out.append(printTrace(st));
+            cause = cause.getCause();
+        }
+        out.append("--- Trace of caller of unhandled exception in Async Thread ---\n");
+        out.append(printTrace(trace));
+        System.err.println(out.toString());
+    }
+
+    /**
+     * Returns a {@code String} containing the printed stacktrace.
+     *
+     * @param st the stacktrace
+     * @return a {@code String} containing the printed stacktrace
+     */
+    private static String printTrace(StackTraceElement[] st) {
+        StringBuilder stackTrace = new StringBuilder();
+        for (int i = 0; i < st.length; i++) {
+            stackTrace.append("\t").append(st[i].toString()).append("\n");
+        }
+        return stackTrace.toString();
     }
 
     /**
@@ -603,20 +621,7 @@ public class WaitForAsyncUtils {
             catch (Exception e) {
                 if (throwException) {
                     if (printException) {
-                        String out = "--- Exception in Async Thread ---\n";
-                        out += printException(e);
-                        StackTraceElement[] st = e.getStackTrace();
-                        out += printTrace(st);
-                        Throwable cause = e.getCause();
-                        while (cause != null) {
-                            out += printException(cause);
-                            st = cause.getStackTrace();
-                            out += printTrace(st);
-                            cause = cause.getCause();
-                        }
-                        out += "--- Trace of caller of unhandled Exception in Async Thread ---\n";
-                        out += printTrace(trace);
-                        System.err.println(out);
+                        printException(e, trace);
                     }
                     exception = transformException(e);
                     // Add exception to list of occured exceptions
@@ -651,8 +656,8 @@ public class WaitForAsyncUtils {
          * @return the throwable exception
          */
         protected Throwable transformException(Throwable exception) {
-            // unwind one ExecutionException
             if (exception instanceof ExecutionException) {
+                // unwind one ExecutionException
                 exception = exception.getCause();
             }
             if (exception instanceof RuntimeException) {
@@ -699,29 +704,6 @@ public class WaitForAsyncUtils {
             }
         }
 
-        /**
-         * Get a string for the exception header.
-         *
-         * @param e the exception
-         * @return the line containing the header
-         */
-        protected String printException(Throwable e) {
-            return e.getClass().getName() + ": " + e.getMessage() + "\n";
-        }
-
-        /**
-         * Returns a {@code String} containing the printed stacktrace.
-         *
-         * @param st the stacktrace
-         * @return a {@code String} containing the printed stacktrace
-         */
-        protected String printTrace(StackTraceElement[] st) {
-            String ret = "";
-            for (int i = 0; i < st.length; i++) {
-                ret += "\t" + st[i].toString() + "\n";
-            }
-            return ret;
-        }
     }
 
 }
