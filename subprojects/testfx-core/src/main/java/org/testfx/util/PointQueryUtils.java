@@ -44,7 +44,7 @@ public final class PointQueryUtils {
      * @param bounds the given bounds
      * @param position the position within the bounds
      * @return a point somewhere in the given bounds whose x and y values are determined by
-     * {@code computePosition(position)}.
+     * passing the given {@code position} to {@link #computePositionFactors(Pos)}.
      */
     public static Point2D atPosition(Bounds bounds,
                                      Pos position) {
@@ -54,7 +54,7 @@ public final class PointQueryUtils {
     /**
      *
      * @param bounds the given bounds
-     * @param positionFactors a {@code Point2D} object whose x and y values represent percentage values
+     * @param positionFactors a {@code Point2D} object whose x and y values represent percentages
      *                        (0.0 = 0% and 1.0 = 100%). As an example, an x value of 0 will return
      *                        {@link Bounds#getMinX()}, 1.0 will return {@link Bounds#getMaxX()}, and 0.5 will return
      *                        {@code bounds.getMinX() + (bounds.getWidth() * positionFactors.getX()}.

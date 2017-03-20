@@ -24,7 +24,7 @@ import java.util.Optional;
 import javafx.scene.paint.Color;
 
 /**
- * Provides utilities for working with JavaFX Colors.
+ * Contains {@link javafx.scene.paint.Color} utility methods.
  *
  * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
  */
