@@ -106,14 +106,14 @@ public final class NodeQueryUtils {
      * Returns a function that calls {@link Node#lookup(String)} on each given node
      */
     public static Function<Node, Set<Node>> bySelector(String selector) {
-        return (parentNode) -> lookupWithSelector(parentNode, selector);
+        return parentNode -> lookupWithSelector(parentNode, selector);
     }
 
     /**
      * Returns a function that returns a {@code Set} of all {@code Node}s that pass the given {@code predicate}.
      */
     public static Function<Node, Set<Node>> byPredicate(Predicate<Node> predicate) {
-        return (parentNode) -> lookupWithPredicate(parentNode, predicate);
+        return parentNode -> lookupWithPredicate(parentNode, predicate);
     }
 
     /**
@@ -135,7 +135,7 @@ public final class NodeQueryUtils {
      * Returns a predicate that returns true if the node's id equals the given {@code id}.
      */
     public static Predicate<Node> hasId(String id) {
-        return (node) -> hasNodeId(node, id);
+        return node -> hasNodeId(node, id);
     }
 
     /**
@@ -143,14 +143,14 @@ public final class NodeQueryUtils {
      * {@link TextInputControl}, or any of their subclasses whose text equals the given {@code text}.
      */
     public static Predicate<Node> hasText(String text) {
-        return (node) -> hasNodeText(node, text);
+        return node -> hasNodeText(node, text);
     }
 
     /**
      * Returns a predicate that returns true if the given node matches the given {@code matcher}.
      */
     public static Predicate<Node> matchesMatcher(Matcher<Node> matcher) {
-        return (node) -> matchesNodeMatcher(node, matcher);
+        return node -> matchesNodeMatcher(node, matcher);
     }
 
     /**
@@ -158,7 +158,7 @@ public final class NodeQueryUtils {
      * node's local bounds are within its scene's bounds
      */
     public static Predicate<Node> isVisible() {
-        return (node) -> isNodeVisible(node);
+        return node -> isNodeVisible(node);
     }
 
     /**
@@ -167,7 +167,7 @@ public final class NodeQueryUtils {
      */
     public static Function<Node, Set<Node>> combine(Function<Node, Set<Node>> function0,
                                                     Function<Node, Set<Node>> function1) {
-        return (input) -> combine(input, ImmutableList.of(function0, function1));
+        return input -> combine(input, ImmutableList.of(function0, function1));
     }
 
     //---------------------------------------------------------------------------------------------
