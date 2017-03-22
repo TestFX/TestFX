@@ -1,10 +1,34 @@
 # Change Log
 
-## [v4.0.5-alpha](https://github.com/testfx/testfx/tree/v4.0.5-alpha) (2016-12-19)
+## [4.0.6-alpha](https://github.com/testfx/testfx/tree/4.0.6-alpha) (2017-03-22)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.5-alpha...4.0.6-alpha)
+
+**Merged pull requests:**
+
+- \(chore\) Bump gradle wrapper version. [\#373](https://github.com/TestFX/TestFX/pull/373) ([brcolow](https://github.com/brcolow))
+- \(cleanup\) Cleanup utility classes. [\#371](https://github.com/TestFX/TestFX/pull/371) ([brcolow](https://github.com/brcolow))
+- \(refactor\) Use better data structure for exception stack. [\#370](https://github.com/TestFX/TestFX/pull/370) ([brcolow](https://github.com/brcolow))
+- \(feature\) Adds button matchers for default and cancel buttons. [\#368](https://github.com/TestFX/TestFX/pull/368) ([cguckes](https://github.com/cguckes))
+- \(fix\) Make HeadlessPlatform constructor accessible. [\#365](https://github.com/TestFX/TestFX/pull/365) ([brcolow](https://github.com/brcolow))
+- \(feature\) Introduce the concept of motion. [\#363](https://github.com/TestFX/TestFX/pull/363) ([brcolow](https://github.com/brcolow))
+- \(refactor\) Replace Guava newX\(\) calls with regular constructors. [\#362](https://github.com/TestFX/TestFX/pull/362) ([brcolow](https://github.com/brcolow))
+- \(chore\) Gradle: Upgrade from 3.2.1 to 3.3. [\#361](https://github.com/TestFX/TestFX/pull/361) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump Checkstyle from 7.3 -\> 7.4. [\#360](https://github.com/TestFX/TestFX/pull/360) ([brcolow](https://github.com/brcolow))
+- \(cleanup\) Don't ignore whitespace around enhanced for-loop. [\#358](https://github.com/TestFX/TestFX/pull/358) ([brcolow](https://github.com/brcolow))
+- \(refactor\) Replace calls to FXRobot with Event.fireEvent. [\#355](https://github.com/TestFX/TestFX/pull/355) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump Google Guava version from 20.0 -\> 21.0. [\#352](https://github.com/TestFX/TestFX/pull/352) ([brcolow](https://github.com/brcolow))
+- 281: Vulnerability in WaitForAsyncUtils [\#351](https://github.com/TestFX/TestFX/pull/351) ([brcolow](https://github.com/brcolow))
+- \(chore\) Opt-in to the travis trusty beta. [\#350](https://github.com/TestFX/TestFX/pull/350) ([brcolow](https://github.com/brcolow))
+- Fix tests of jUnit5 adapter [\#347](https://github.com/TestFX/TestFX/pull/347) ([SimY4](https://github.com/SimY4))
+- Bump the macOS travis image version. [\#345](https://github.com/TestFX/TestFX/pull/345) ([brcolow](https://github.com/brcolow))
+- \(doc\) Add documentation to `matcher` package. [\#344](https://github.com/TestFX/TestFX/pull/344) ([JordanMartinez](https://github.com/JordanMartinez))
+
+## [v4.0.5-alpha](https://github.com/testfx/testfx/tree/v4.0.5-alpha) (2016-12-20)
 [Full Changelog](https://github.com/testfx/testfx/compare/v4.0.4-alpha...v4.0.5-alpha)
 
 **Merged pull requests:**
 
+- \(release\) TestFX 4.0.5-alpha [\#343](https://github.com/TestFX/TestFX/pull/343) ([brcolow](https://github.com/brcolow))
 - \(refactor\) Moved `ShortcutKeyTest` to core package. [\#342](https://github.com/TestFX/TestFX/pull/342) ([JordanMartinez](https://github.com/JordanMartinez))
 - Doc api package [\#341](https://github.com/TestFX/TestFX/pull/341) ([JordanMartinez](https://github.com/JordanMartinez))
 - Doc toolkit interfaces [\#340](https://github.com/TestFX/TestFX/pull/340) ([JordanMartinez](https://github.com/JordanMartinez))
