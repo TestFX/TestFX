@@ -183,12 +183,18 @@ public class TableViewMatchers {
 
     private static boolean hasCellValue(Cell cell,
                                         Object value) {
-        return !cell.isEmpty() && hasItemValue(cell.getItem(), value);
+        return !cell.isEmpty() && hasItemValue(cell.getText(), value);
     }
 
     private static boolean hasItemValue(Object item,
                                         Object value) {
-        return Objects.equals(item, value) || Objects.equals(item.toString(), value);
+        if (item == null && value == null) {
+            return true;
+        } else if (item == null || value == null) {
+            return false;
+        }
+        return Objects.equals(item, value) || Objects.equals(item.toString(), value) || value.toString() != null ?
+                Objects.equals(item.toString(), value.toString()) : false;
     }
 
 }
