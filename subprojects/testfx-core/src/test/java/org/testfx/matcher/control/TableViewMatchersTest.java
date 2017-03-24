@@ -16,7 +16,10 @@
  */
 package org.testfx.matcher.control;
 
+import java.util.Locale;
 import java.util.Map;
+
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
@@ -30,6 +33,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,6 +49,7 @@ public class TableViewMatchersTest extends FxRobot {
     public ExpectedException exception = ExpectedException.none();
 
     public TableView<Map> tableView;
+    TableColumn<Map, String> tableColumn0;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -64,8 +69,8 @@ public class TableViewMatchersTest extends FxRobot {
                     ImmutableMap.of("name", "bob", "age", 31),
                     ImmutableMap.of("name", "carol"),
                     ImmutableMap.of("name", "dave")
-                    ));
-            TableColumn<Map, String> tableColumn0 = new TableColumn<>("name");
+            ));
+            tableColumn0 = new TableColumn<>("name");
             tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
             tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
@@ -87,12 +92,60 @@ public class TableViewMatchersTest extends FxRobot {
     }
 
     @Test
+    public void hasTableCell_customCellValueFactory() {
+        // given:
+        tableColumn0.setCellFactory(column -> {
+            return new TableCell<Map, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.toUpperCase(Locale.US).concat("!"));
+                    }
+                }
+            };
+        });
+
+        // expect:
+        WaitForAsyncUtils.waitForFxEvents();
+        assertThat(tableView, TableViewMatchers.hasTableCell("ALICE!"));
+        assertThat(tableView, TableViewMatchers.hasTableCell("BOB!"));
+    }
+
+    @Test
     public void hasTableCell_fails() {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has table cell \"foobar\"\n");
 
         assertThat(tableView, TableViewMatchers.hasTableCell("foobar"));
+    }
+
+    @Test
+    public void hasTableCell_fails_customCellValueFactory() {
+        // given:
+        tableColumn0.setCellFactory(column -> {
+            return new TableCell<Map, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.toUpperCase(Locale.US).concat("!"));
+                    }
+                }
+            };
+        });
+
+        // expect:
+        WaitForAsyncUtils.waitForFxEvents();
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has table cell \"ALICE!!!\"\n");
+        assertThat(tableView, TableViewMatchers.hasTableCell("ALICE!!!"));
     }
 
     @Test
