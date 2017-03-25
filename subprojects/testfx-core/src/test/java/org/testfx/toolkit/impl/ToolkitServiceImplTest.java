@@ -16,6 +16,7 @@
  */
 package org.testfx.toolkit.impl;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,6 +36,7 @@ import org.testfx.toolkit.PrimaryStageFuture;
 import org.testfx.toolkit.ToolkitService;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testfx.util.WaitForAsyncUtils.sleep;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
@@ -58,11 +60,11 @@ public class ToolkitServiceImplTest {
         PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
         Class<? extends Application> toolkitApplication = PrimaryStageApplication.class;
         toolkitService = new ToolkitServiceImpl(
-            new ApplicationLauncherImpl(), new ApplicationServiceImpl()
+                new ApplicationLauncherImpl(), new ApplicationServiceImpl()
         );
 
         primaryStage = waitFor(10, TimeUnit.SECONDS,
-            toolkitService.setupPrimaryStage(primaryStageFuture, toolkitApplication)
+                toolkitService.setupPrimaryStage(primaryStageFuture, toolkitApplication)
         );
     }
 
@@ -91,18 +93,19 @@ public class ToolkitServiceImplTest {
     public void should_construct_application() throws Exception {
         printCurrentThreadName("should_construct_application()");
         Application application = waitFor(5, TimeUnit.SECONDS,
-            toolkitService.setupApplication(() -> primaryStage, FixtureApplication.class)
+                toolkitService.setupApplication(() -> primaryStage, FixtureApplication.class)
         );
 
         sleep(2, TimeUnit.SECONDS);
         assertThat(application, instanceOf(FixtureApplication.class));
+        assertThat(application.getParameters().getNamed(), notNullValue());
     }
 
     @Test
     public void should_construct_scene() throws Exception {
         printCurrentThreadName("should_construct_scene");
         Scene scene = waitFor(5, TimeUnit.SECONDS,
-            toolkitService.setupScene(primaryStage, () -> new FixtureScene())
+                toolkitService.setupScene(primaryStage, () -> new FixtureScene())
         );
 
         sleep(2, TimeUnit.SECONDS);
@@ -131,6 +134,11 @@ public class ToolkitServiceImplTest {
         @Override
         public void stop() throws Exception {
             printCurrentThreadName("Application#stop()");
+        }
+
+        private String getApplicationParameter(String parameterName) {
+            Map<String, String> applicationParameters = getParameters().getNamed();
+            return applicationParameters.get(parameterName);
         }
     }
 
