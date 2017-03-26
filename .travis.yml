@@ -1,7 +1,6 @@
 language: java
 sudo: false
 
-# install the newest java.
 addons:
   apt:
     packages:
@@ -13,6 +12,7 @@ addons:
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
     - $HOME/.gradle/caches/
@@ -36,7 +36,7 @@ matrix:
       jdk: oraclejdk9
       env:
         - USE_FRAMEBUFFER=true
-        - _JAVA_OPTIONS="--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+        - _JAVA_OPTIONS="-XX:+IgnoreUnrecognizedVMOptions --add-opens=java.base/java.lang=ALL-UNNAMED --add-exports-private java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --permit-illegal-access"
     - os: osx
       osx_image: xcode8.2
       env:
@@ -46,15 +46,13 @@ matrix:
       osx_image: xcode8.2
       env: _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
   allow_failures:
+    - jdk: oraclejdk9
     - env:
       - USE_FRAMEBUFFER=false
       - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
     - env:
       - OSX_HEADLESS=false
       - _JAVA_OPTIONS="-Dprism.order=sw"
-    - env:
-      - USE_FRAMEBUFFER=true
-      - _JAVA_OPTIONS="--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
 
 
 before_script:
