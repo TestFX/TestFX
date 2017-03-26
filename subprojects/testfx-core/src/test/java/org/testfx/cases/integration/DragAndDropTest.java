@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -125,6 +126,7 @@ public class DragAndDropTest extends TestCaseBase {
         // when:
         drag("R3");
         dropTo("L2");
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(4));
@@ -138,6 +140,7 @@ public class DragAndDropTest extends TestCaseBase {
         // when:
         drag("L3");
         dropTo("L2");
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(leftListView.getItems(), hasSize(3));
