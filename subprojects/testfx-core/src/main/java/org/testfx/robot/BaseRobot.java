@@ -25,38 +25,38 @@ import javafx.scene.input.MouseButton;
 
 public interface BaseRobot {
 
-    public void pressKeyboard(KeyCode key);
+    void pressKeyboard(KeyCode key);
 
-    public void releaseKeyboard(KeyCode key);
+    void releaseKeyboard(KeyCode key);
 
-    public void typeKeyboard(Scene scene,
-                             KeyCode key,
-                             String character);
+    void typeKeyboard(Scene scene,
+                      KeyCode key,
+                      String character);
 
     /**
      *
      * @return the current mouse location
      */
-    public Point2D retrieveMouse();
+    Point2D retrieveMouse();
 
-    public void moveMouse(Point2D point);
+    void moveMouse(Point2D point);
 
-    public void scrollMouse(int amount);
+    void scrollMouse(int amount);
 
-    public void pressMouse(MouseButton button);
+    void pressMouse(MouseButton button);
 
-    public void releaseMouse(MouseButton button);
+    void releaseMouse(MouseButton button);
 
     /**
      *
      * @param region the given bounds for the image
      * @return a screen shot of the given region
      */
-    public Image captureRegion(Rectangle2D region);
+    Image captureRegion(Rectangle2D region);
 
     /**
      * Calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}
      */
-    public void awaitEvents();
+    void awaitEvents();
 
 }

@@ -80,7 +80,7 @@ public class WriteRobotImpl implements WriteRobot {
     //---------------------------------------------------------------------------------------------
 
     private Window fetchTargetWindow() {
-        Window targetWindow = windowFinder.window(window -> window.isFocused());
+        Window targetWindow = windowFinder.window(Window::isFocused);
         if (targetWindow == null) {
             targetWindow = windowFinder.targetWindow();
         }

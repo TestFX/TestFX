@@ -44,7 +44,7 @@ public class WindowMatchers {
      */
     @Factory
     public static Matcher<Window> isShowing() {
-        return baseMatcher("Window is showing", window -> isShowing(window));
+        return baseMatcher("Window is showing", WindowMatchers::isShowing);
     }
 
     /**
@@ -64,7 +64,7 @@ public class WindowMatchers {
      */
     @Factory
     public static Matcher<Window> isFocused() {
-        return baseMatcher("Window is focused", window -> isFocused(window));
+        return baseMatcher("Window is focused", WindowMatchers::isFocused);
     }
 
     /**

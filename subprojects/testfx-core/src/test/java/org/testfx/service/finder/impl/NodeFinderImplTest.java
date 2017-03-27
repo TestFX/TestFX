@@ -90,12 +90,12 @@ public class NodeFinderImplTest {
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(() -> setupStagesClass());
+        FxToolkit.setupFixture(NodeFinderImplTest::setupStagesClass);
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(() -> cleanupStagesClass());
+        FxToolkit.setupFixture(NodeFinderImplTest::cleanupStagesClass);
     }
 
     @Before
@@ -103,7 +103,7 @@ public class NodeFinderImplTest {
         assumeThat(System.getProperty("java.specification.version"), is("1.8"));
 
         windowFinder = new WindowFinderStub();
-        windowFinder.windows = Lists.<Window>newArrayList(window, otherWindow, twinWindow);
+        windowFinder.windows = Lists.newArrayList(window, otherWindow, twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
     }
 
@@ -283,12 +283,7 @@ public class NodeFinderImplTest {
     //---------------------------------------------------------------------------------------------
 
     public Predicate<? extends Node> createLabelTextPredicate(final String labelText) {
-        return new Predicate<Label>() {
-            @Override
-            public boolean test(Label label) {
-                return labelText.equals(label.getText());
-            }
-        };
+        return (Predicate<Label>) label -> labelText.equals(label.getText());
     }
 
     public Matcher<? extends Node> createLabelTextMatcher(final String labelText) {

@@ -26,21 +26,21 @@ public interface TypeRobot {
      *
      * @param combination the combination
      */
-    public void push(KeyCode... combination);
+    void push(KeyCode... combination);
 
     /**
      * Pushes a given key combination.
      *
      * @param combination the combination
      */
-    public void push(KeyCodeCombination combination);
+    void push(KeyCodeCombination combination);
 
     /**
      * Types given keys one after the other.
      *
      * @param keyCodes the key codes
      */
-    public void type(KeyCode... keyCodes);
+    void type(KeyCode... keyCodes);
 
     /**
      * Types a given key multiple times.
@@ -48,7 +48,7 @@ public interface TypeRobot {
      * @param keyCode the key code
      * @param times number of times
      */
-    public void type(KeyCode keyCode,
-                     int times);
+    void type(KeyCode keyCode,
+              int times);
 
 }

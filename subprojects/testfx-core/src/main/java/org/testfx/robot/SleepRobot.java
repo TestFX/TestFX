@@ -25,7 +25,7 @@ public interface SleepRobot {
      *
      * @param milliseconds the duration in milliseconds
      */
-    public void sleep(long milliseconds);
+    void sleep(long milliseconds);
 
     /**
      * Same as Thread.sleep(), but without checked exceptions.
@@ -33,7 +33,7 @@ public interface SleepRobot {
      * @param duration the duration
      * @param timeUnit the unit of time
      */
-    public void sleep(long duration,
-                      TimeUnit timeUnit);
+    void sleep(long duration,
+               TimeUnit timeUnit);
 
 }

@@ -21,6 +21,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Before;
@@ -56,7 +57,7 @@ public class DragAndDropTest extends TestCaseBase {
             ImmutableList.of(leftListView, rightListView).forEach(this::setupListView);
             return new HBox(leftListView, rightListView);
         });
-        FxToolkit.setupStage(stage -> stage.show());
+        FxToolkit.setupStage(Stage::show);
     }
 
     public void setupListView(ListView<String> listView) {

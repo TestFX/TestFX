@@ -23,13 +23,13 @@ public interface WriteRobot {
      *
      * @param character the text character
      */
-    public void write(char character);
+    void write(char character);
 
     /**
      * Writes given text characters one after the other.
      *
      * @param text the text characters
      */
-    public void write(String text);
+    void write(String text);
 
 }

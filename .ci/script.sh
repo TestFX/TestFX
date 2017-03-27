@@ -26,7 +26,7 @@ if [[ ${RESULT} -ne 0 ]]; then
   fi
 
   if [ -n "${CORES}" ]; then
-    for core in $CORES; do
+    for core in ${CORES}; do
     echo "======= Core file $core ======="
     if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
       lldb -Q -o "bt all" -f "$(which java)" -c "${core}"
@@ -36,5 +36,5 @@ if [[ ${RESULT} -ne 0 ]]; then
   done
   fi
 
-  exit $RESULT
+  exit ${RESULT}
 fi

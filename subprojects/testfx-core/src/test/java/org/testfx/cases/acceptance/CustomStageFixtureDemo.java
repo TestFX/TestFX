@@ -52,10 +52,8 @@ public class CustomStageFixtureDemo {
     private static void afterClass() throws Exception {}
 
     private static void before() throws Exception {
-        FxToolkit.registerStage(() -> new Stage());
-        FxToolkit.setupStage(stage -> {
-            stage.setScene(new Scene(new Label("within custom stage")));
-        });
+        FxToolkit.registerStage(Stage::new);
+        FxToolkit.setupStage(stage -> stage.setScene(new Scene(new Label("within custom stage"))));
         FxToolkit.showStage();
     }
 

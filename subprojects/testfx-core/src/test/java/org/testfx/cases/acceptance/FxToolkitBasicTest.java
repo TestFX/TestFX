@@ -77,7 +77,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
     @Test
     public void registerStage_should_return_the_stage() throws Exception {
         // when:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
 
         // then:
         assertThat(stage, instanceOf(Stage.class));
@@ -89,7 +89,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         FxToolkit.toolkitContext().setRegisteredStage(null);
 
         // when:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
 
         // then:
         assertThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
@@ -98,7 +98,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
     @Test
     public void showStage_should_show_the_registered_stage() throws Exception {
         // given:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
 
         // when:
         FxToolkit.showStage();
@@ -111,7 +111,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
     @Ignore
     public void hideStage_should_hide_the_registered_stage() throws Exception {
         // given:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
         FxToolkit.showStage();
 
         // when:

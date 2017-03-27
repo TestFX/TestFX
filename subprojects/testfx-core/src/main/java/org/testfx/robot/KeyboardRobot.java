@@ -27,7 +27,7 @@ public interface KeyboardRobot {
      *
      * @param keys the key codes
      */
-    public void press(KeyCode... keys);
+    void press(KeyCode... keys);
 
     /**
      * Presses given keys, until explicitly released via {@link #release(KeyCode...)}.
@@ -35,14 +35,14 @@ public interface KeyboardRobot {
      *
      * @param keys the key codes
      */
-    public void pressNoWait(KeyCode... keys);
+    void pressNoWait(KeyCode... keys);
 
     /**
      * Gets the keys that have been pressed and not released.
      *
      * @return an unmodifiable set of the keys that have been pressed but not released.
      */
-    public Set<KeyCode> getPressedKeys();
+    Set<KeyCode> getPressedKeys();
 
     /**
      * Releases given keys. Once released, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is called.
@@ -50,7 +50,7 @@ public interface KeyboardRobot {
      *
      * @param keys the key codes
      */
-    public void release(KeyCode... keys);
+    void release(KeyCode... keys);
 
     /**
      * Releases given keys. {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
@@ -58,6 +58,6 @@ public interface KeyboardRobot {
      *
      * @param keys the key codes
      */
-    public void releaseNoWait(KeyCode... keys);
+    void releaseNoWait(KeyCode... keys);
 
 }

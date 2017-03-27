@@ -54,12 +54,12 @@ public class WindowFinderImplTest {
         FxToolkit.registerPrimaryStage();
         FxToolkit.showStage();
         FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(() -> setupStagesClass());
+        FxToolkit.setupFixture(WindowFinderImplTest::setupStagesClass);
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(() -> cleanupStagesClass());
+        FxToolkit.setupFixture(WindowFinderImplTest::cleanupStagesClass);
     }
 
     @Before
@@ -133,7 +133,7 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow(window);
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is((Window) window));
+        assertThat(windowFinder.targetWindow(), Matchers.is(window));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow(1);
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is((Window) window));
+        assertThat(windowFinder.targetWindow(), Matchers.is(window));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow("window");
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is((Window) window));
+        assertThat(windowFinder.targetWindow(), Matchers.is(window));
     }
 
     @Test
@@ -160,17 +160,17 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow(scene);
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.targetWindow(), Matchers.is(otherWindow));
     }
 
     @Test
     public void window_windowIndex() {
         // TODO: Assert that it throws an exception of index is out of range.
         // expect:
-        assertThat(windowFinder.window(1), Matchers.is((Window) window));
-        assertThat(windowFinder.window(2), Matchers.is((Window) windowInWindow));
-        assertThat(windowFinder.window(3), Matchers.is((Window) windowInWindowInWindow));
-        assertThat(windowFinder.window(4), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.window(1), Matchers.is(window));
+        assertThat(windowFinder.window(2), Matchers.is(windowInWindow));
+        assertThat(windowFinder.window(3), Matchers.is(windowInWindowInWindow));
+        assertThat(windowFinder.window(4), Matchers.is(otherWindow));
     }
 
     @Test
@@ -178,16 +178,16 @@ public class WindowFinderImplTest {
         // TODO: Assert that it thrown an exception of stage title regex does not match.
         // TODO: Assert that stages without title do not throw a NPE.
         // expect:
-        assertThat(windowFinder.window("window"), Matchers.is((Window) window));
-        assertThat(windowFinder.window("windowInWindow"), Matchers.is((Window) windowInWindow));
-        assertThat(windowFinder.window("windowInWindowInWindow"), Matchers.is((Window) windowInWindowInWindow));
-        assertThat(windowFinder.window("otherWindow"), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.window("window"), Matchers.is(window));
+        assertThat(windowFinder.window("windowInWindow"), Matchers.is(windowInWindow));
+        assertThat(windowFinder.window("windowInWindowInWindow"), Matchers.is(windowInWindowInWindow));
+        assertThat(windowFinder.window("otherWindow"), Matchers.is(otherWindow));
     }
 
     @Test
     public void window_scene() {
         // expect:
-        assertThat(windowFinder.window(scene), Matchers.is((Window) otherWindow));
+        assertThat(windowFinder.window(scene), Matchers.is(otherWindow));
     }
 
 }

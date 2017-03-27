@@ -24,6 +24,6 @@ import javafx.geometry.Bounds;
 @FunctionalInterface
 public interface BoundsQuery {
 
-    public Bounds query();
+    Bounds query();
 
 }

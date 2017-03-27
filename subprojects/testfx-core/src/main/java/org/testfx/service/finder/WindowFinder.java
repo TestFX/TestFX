@@ -32,46 +32,46 @@ public interface WindowFinder {
     /**
      * Returns the last stored target window
      */
-    public Window targetWindow();
+    Window targetWindow();
 
     /**
      * Stores the given window as the target window
      */
-    public void targetWindow(Window window);
+    void targetWindow(Window window);
 
     /**
      * Stores the first window that is closes by proximity to the last stored target window and passes the
      * given predicate as the new last target window or throws a {@link java.util.NoSuchElementException}
      * if none exist.
      */
-    public void targetWindow(Predicate<Window> predicate);
+    void targetWindow(Predicate<Window> predicate);
 
     // Convenience methods:
 
     /**
      * Stores the window returned from {@link #window(int)} as the new last target window
      */
-    public void targetWindow(int windowIndex);
+    void targetWindow(int windowIndex);
 
     /**
      * Stores the stage whose title matches the given regex as the new last target window.
      */
-    public void targetWindow(String stageTitleRegex);
+    void targetWindow(String stageTitleRegex);
 
     /**
      * Stores the stage whose title matches the given regex as the new last target window.
      */
-    public void targetWindow(Pattern stageTitlePattern);
+    void targetWindow(Pattern stageTitlePattern);
 
     /**
      * Stores the given scene's window as the new last target window
      */
-    public void targetWindow(Scene scene);
+    void targetWindow(Scene scene);
 
     /**
      * Stores the given node's scene's window as the new last target window
      */
-    public void targetWindow(Node node);
+    void targetWindow(Node node);
 
     //---------------------------------------------------------------------------------------------
     // METHODS FOR WINDOW LOOKUP.
@@ -80,44 +80,44 @@ public interface WindowFinder {
     /**
      * Calls {@link Window#impl_getWindows()}
      */
-    public List<Window> listWindows();
+    List<Window> listWindows();
 
     /**
      * Returns a list of windows that are ordered by proximity to the last target window
      */
-    public List<Window> listTargetWindows();
+    List<Window> listTargetWindows();
 
     /**
      * Calls {@link #listTargetWindows()} and returns the first window that passes the predicate or throws
      * a {@link java.util.NoSuchElementException} if none exist.
      */
-    public Window window(Predicate<Window> predicate);
+    Window window(Predicate<Window> predicate);
 
     // Convenience methods:
     /**
      * Returns the window at the given index from the list of windows that are ordered by proximity to the last stored
      * target window
      */
-    public Window window(int windowIndex);
+    Window window(int windowIndex);
 
     /**
      * Returns the stage whose title matches the given regex
      */
-    public Window window(String stageTitleRegex);
+    Window window(String stageTitleRegex);
 
     /**
      * Returns the stage whose title matches the given regex
      */
-    public Window window(Pattern stageTitlePattern);
+    Window window(Pattern stageTitlePattern);
 
     /**
      * Returns the scene's window
      */
-    public Window window(Scene scene);
+    Window window(Scene scene);
 
     /**
      * Returns the node's scene's window
      */
-    public Window window(Node node);
+    Window window(Node node);
 
 }

@@ -52,7 +52,7 @@ public class NodeFinderException extends RuntimeException {
     // STATIC INNER CLASSES.
     //---------------------------------------------------------------------------------------------
 
-    public static enum ErrorType {
+    public enum ErrorType {
         NO_NODES_FOUND,
         NO_VISIBLE_NODES_FOUND
     }

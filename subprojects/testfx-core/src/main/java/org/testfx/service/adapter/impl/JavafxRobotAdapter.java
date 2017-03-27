@@ -26,7 +26,6 @@ import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotResult;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -37,7 +36,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 
 import org.testfx.api.annotation.Unstable;
 
@@ -156,20 +154,15 @@ public class JavafxRobotAdapter {
 
     public CompletableFuture<Image> getCaptureRegion(Rectangle2D region) {
         CompletableFuture<Image> captureRegionFutureResult = new CompletableFuture<>();
-        Platform.runLater(() -> {
-            scene.snapshot(new Callback<SnapshotResult, Void>() {
-                @Override
-                public Void call(SnapshotResult result) {
-                    ImageView imageView = new ImageView(result.getImage());
-                    imageView.setViewport(region);
-                    Pane pane = new Pane(imageView);
-                    Scene offScreenScene = new Scene(pane);
-                    WritableImage croppedImage = imageView.snapshot(null, null);
-                    captureRegionFutureResult.complete(croppedImage);
-                    return null;
-                }
-            }, null);
-        });
+        Platform.runLater(() -> scene.snapshot(result -> {
+            ImageView imageView = new ImageView(result.getImage());
+            imageView.setViewport(region);
+            Pane pane = new Pane(imageView);
+            Scene offScreenScene = new Scene(pane);
+            WritableImage croppedImage = imageView.snapshot(null, null);
+            captureRegionFutureResult.complete(croppedImage);
+            return null;
+        }, null));
         return captureRegionFutureResult;
     }
 
@@ -180,7 +173,7 @@ public class JavafxRobotAdapter {
      */
     public void timerWaitForIdle() {
         final CountDownLatch latch = new CountDownLatch(1);
-        Platform.runLater(() -> latch.countDown());
+        Platform.runLater(latch::countDown);
         while (true) {
             try {
                 latch.await();
@@ -268,7 +261,7 @@ public class JavafxRobotAdapter {
 
         return new ScrollEvent(ScrollEvent.SCROLL, (int) sceneMouseX, (int) sceneMouseY, (int) screenMouseX,
                 (int)screenMouseY, isShiftDown, isControlDown, isAltDown, isMetaDown, false, false, 0,
-                (int) wheelAmount * 40, 0, 0, ScrollEvent.HorizontalTextScrollUnits.NONE, 0,
+                wheelAmount * 40, 0, 0, ScrollEvent.HorizontalTextScrollUnits.NONE, 0,
                 ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, null);
     }
 

@@ -36,7 +36,7 @@ public class ApplicationStartTest extends ApplicationTest {
 
     @Override
     public void init() throws Exception {
-        FxToolkit.registerStage(() -> new Stage());
+        FxToolkit.registerStage(Stage::new);
     }
 
     @Override

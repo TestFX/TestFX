@@ -71,9 +71,7 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void robotCreate() {
-        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            glassRobot = createGlassRobot();
-        });
+        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> glassRobot = createGlassRobot());
     }
 
     @Override
@@ -95,53 +93,40 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void keyPress(KeyCode key) {
-        asyncFx(() -> {
-            useRobot().keyPress(convertToKeyCodeId(key));
-        });
+        asyncFx(() -> useRobot().keyPress(convertToKeyCodeId(key)));
     }
 
     @Override
     public void keyRelease(KeyCode key) {
-        asyncFx(() -> {
-            useRobot().keyRelease(convertToKeyCodeId(key));
-        });
+        asyncFx(() -> useRobot().keyRelease(convertToKeyCodeId(key)));
     }
 
     // MOUSE.
 
     @Override
     public Point2D getMouseLocation() {
-        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            return convertFromCoordinates(useRobot().getMouseX(), useRobot().getMouseY());
-        });
+        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> convertFromCoordinates(
+                useRobot().getMouseX(), useRobot().getMouseY()));
     }
 
     @Override
     public void mouseMove(Point2D location) {
-        asyncFx(() -> {
-            useRobot().mouseMove((int) location.getX(), (int) location.getY());
-        });
+        asyncFx(() -> useRobot().mouseMove((int) location.getX(), (int) location.getY()));
     }
 
     @Override
     public void mousePress(MouseButton button) {
-        asyncFx(() -> {
-            useRobot().mousePress(convertToButtonId(button));
-        });
+        asyncFx(() -> useRobot().mousePress(convertToButtonId(button)));
     }
 
     @Override
     public void mouseRelease(MouseButton button) {
-        asyncFx(() -> {
-            useRobot().mouseRelease(convertToButtonId(button));
-        });
+        asyncFx(() -> useRobot().mouseRelease(convertToButtonId(button)));
     }
 
     @Override
     public void mouseWheel(int wheelAmount) {
-        asyncFx(() -> {
-            useRobot().mouseWheel(wheelAmount);
-        });
+        asyncFx(() -> useRobot().mouseWheel(wheelAmount));
     }
 
     // CAPTURE.
