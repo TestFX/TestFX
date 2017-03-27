@@ -158,7 +158,7 @@ public final class NodeQueryUtils {
      * node's local bounds are within its scene's bounds
      */
     public static Predicate<Node> isVisible() {
-        return node -> isNodeVisible(node);
+        return NodeQueryUtils::isNodeVisible;
     }
 
     /**

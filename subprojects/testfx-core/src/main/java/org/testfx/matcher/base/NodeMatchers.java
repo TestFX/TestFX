@@ -58,7 +58,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isNull() {
-        return baseMatcher("Node is null", node -> isNull(node));
+        return baseMatcher("Node is null", NodeMatchers::isNull);
     }
 
     /**
@@ -74,7 +74,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isVisible() {
-        return baseMatcher("Node is visible", node -> isVisible(node));
+        return baseMatcher("Node is visible", NodeMatchers::isVisible);
     }
 
     /**
@@ -90,7 +90,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isEnabled() {
-        return baseMatcher("Node is enabled", node -> isEnabled(node));
+        return baseMatcher("Node is enabled", NodeMatchers::isEnabled);
     }
 
     /**

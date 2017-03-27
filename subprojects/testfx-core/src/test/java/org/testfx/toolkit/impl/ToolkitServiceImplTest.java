@@ -105,7 +105,7 @@ public class ToolkitServiceImplTest {
     public void should_construct_scene() throws Exception {
         printCurrentThreadName("should_construct_scene");
         Scene scene = waitFor(5, TimeUnit.SECONDS,
-                toolkitService.setupScene(primaryStage, () -> new FixtureScene())
+                toolkitService.setupScene(primaryStage, FixtureScene::new)
         );
 
         sleep(2, TimeUnit.SECONDS);

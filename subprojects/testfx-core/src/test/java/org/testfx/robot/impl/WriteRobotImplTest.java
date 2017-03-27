@@ -61,7 +61,7 @@ public final class WriteRobotImplTest {
 
     @Before
     public void setup() throws Exception {
-        stage = FxToolkit.registerStage(() -> new Stage());
+        stage = FxToolkit.registerStage(Stage::new);
         scene = FxToolkit.setupScene(() -> new Scene(new Region()));
 
         baseRobot = mock(BaseRobot.class);

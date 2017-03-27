@@ -62,9 +62,8 @@ public class NodeMatchersTest extends FxRobot {
 
     @Test
     public void anything() throws Exception {
-        List<Node> nodes = FxToolkit.setupFixture(() -> {
-            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
-        });
+        List<Node> nodes = FxToolkit.setupFixture(() -> ImmutableList.of(
+                new Region(), new Button("foo"), new TextField("bar")));
 
         // expect:
         assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(),
@@ -101,7 +100,7 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasText_with_region_fails() throws Exception {
         // given:
-        Region region = FxToolkit.setupFixture(() -> new Region());
+        Region region = FxToolkit.setupFixture(Region::new);
 
         // expect:
         exception.expect(AssertionError.class);
@@ -113,9 +112,8 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasText_filters_nodes() throws Exception {
         // given:
-        List<Node> nodes = FxToolkit.setupFixture(() -> {
-            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
-        });
+        List<Node> nodes = FxToolkit.setupFixture(() -> ImmutableList.of(
+                new Region(), new Button("foo"), new TextField("bar")));
 
         // expect:
         NodeQuery query1 = from(nodes).match(NodeMatchers.hasText("foo"));
@@ -129,9 +127,8 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasChild() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane(
+                new Label("foo"), new Button("bar"), new Button("baz")));
 
         // expect:
         assertThat(parent, NodeMatchers.hasChild(".button"));
@@ -154,9 +151,8 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasChildren() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane(
+                new Label("foo"), new Button("bar"), new Button("baz")));
 
         // expect:
         assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
@@ -165,9 +161,7 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasChildren_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"));
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
         // expect:
         exception.expect(AssertionError.class);

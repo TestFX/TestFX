@@ -68,12 +68,12 @@ public class BoundsLocatorImplTest {
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(() -> setupStagesClass());
+        FxToolkit.setupFixture(BoundsLocatorImplTest::setupStagesClass);
     }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(() -> cleanupStagesClass());
+        FxToolkit.setupFixture(BoundsLocatorImplTest::cleanupStagesClass);
     }
 
     @Before

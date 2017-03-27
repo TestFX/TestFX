@@ -18,14 +18,16 @@ package org.testfx.robot.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
@@ -117,10 +119,10 @@ public class TypeRobotImpl implements TypeRobot {
             KeyCombination.META_DOWN, keyCombination.getMeta(),
             KeyCombination.SHORTCUT_DOWN, keyCombination.getShortcut()
         );
-        List<KeyCode> modifierKeyCodes = FluentIterable.from(modifiers.entrySet())
-            .filter(entry -> entry.getKey().getValue() == entry.getValue())
-            .transform(entry -> entry.getKey().getKey())
-            .toList();
+        List<KeyCode> modifierKeyCodes = modifiers.entrySet().stream()
+                .filter(entry -> entry.getKey().getValue() == entry.getValue())
+                .map(entry -> entry.getKey().getKey())
+                .collect(Collectors.toList());
         return ImmutableList.<KeyCode>builder()
             .addAll(modifierKeyCodes)
             .add(keyCombination.getCode())

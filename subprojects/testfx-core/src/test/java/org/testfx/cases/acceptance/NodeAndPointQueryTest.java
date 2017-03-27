@@ -71,9 +71,7 @@ public class NodeAndPointQueryTest {
     public void setup() throws Exception {
         FxToolkit.setupStage(stage -> {
             button0 = new Button("click me!");
-            button0.setOnAction((actionEvent) -> {
-                button0.setText("clicked!");
-            });
+            button0.setOnAction((actionEvent) -> button0.setText("clicked!"));
             button1 = new Button("button");
             label0 = new Label("label");
             label0.setVisible(false);

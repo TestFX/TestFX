@@ -140,9 +140,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                                                 Supplier<Application> applicationSupplier,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = applicationService.create(() ->
-                applicationSupplier.get()
-            ).get();
+            Application application = applicationService.create(applicationSupplier::get).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -172,7 +170,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                     .getDeclaredConstructor(List.class).newInstance(Arrays.asList(applicationArgs));
             Method registerParamsMethod = parametersImplClass.getDeclaredMethod("registerParameters", Application.class,
                     Application.Parameters.class);
-            registerParamsMethod.invoke(null, application, (Application.Parameters) parametersImpl);
+            registerParamsMethod.invoke(null, application, parametersImpl);
         }
         catch (Exception exception) {
             throw new IllegalStateException("could not register application parameters", exception);

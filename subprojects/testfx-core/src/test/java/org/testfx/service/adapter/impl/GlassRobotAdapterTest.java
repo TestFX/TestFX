@@ -291,9 +291,7 @@ public class GlassRobotAdapterTest {
         AtomicBoolean reachedStatement = new AtomicBoolean(false);
         asyncFx(() -> {
             sleep(100, TimeUnit.MILLISECONDS);
-            asyncFx(() -> {
-                reachedStatement.set(true);
-            });
+            asyncFx(() -> reachedStatement.set(true));
         });
         robotAdapter.timerWaitForIdle();
 

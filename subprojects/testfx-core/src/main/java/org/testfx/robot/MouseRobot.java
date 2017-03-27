@@ -30,7 +30,7 @@ public interface MouseRobot {
      *
      * @param buttons the mouse buttons
      */
-    public void press(MouseButton... buttons);
+    void press(MouseButton... buttons);
 
     /**
      * Presses given buttons, until explicitly released via {@link #release(MouseButton...)}. Once pressed,
@@ -39,13 +39,13 @@ public interface MouseRobot {
      *
      * @param buttons the mouse buttons
      */
-    public void pressNoWait(MouseButton... buttons);
+    void pressNoWait(MouseButton... buttons);
 
     /**
      * Gets the buttons that have been pressed but not yet released.
      * @return an unmodifiable set of the pressed buttons
      */
-    public Set<MouseButton> getPressedButtons();
+    Set<MouseButton> getPressedButtons();
 
     /**
      * Releases given buttons. Once pressed, calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
@@ -53,7 +53,7 @@ public interface MouseRobot {
      *
      * @param buttons the mouse buttons
      */
-    public void release(MouseButton... buttons);
+    void release(MouseButton... buttons);
 
     /**
      * Releases given buttons. Once pressed, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
@@ -61,14 +61,14 @@ public interface MouseRobot {
      *
      * @param buttons the mouse buttons
      */
-    public void releaseNoWait(MouseButton... buttons);
+    void releaseNoWait(MouseButton... buttons);
 
     /**
      * Moves mouse to given location. Once moved, calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
      *
      * @param location the location to move
      */
-    public void move(Point2D location);
+    void move(Point2D location);
 
     /**
      * Moves mouse to given location. Once moved, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is
@@ -76,7 +76,7 @@ public interface MouseRobot {
      *
      * @param location the location to move
      */
-    public void moveNoWait(Point2D location);
+    void moveNoWait(Point2D location);
 
     /**
      * Scrolls mouse wheel by the given amount. Once scrolled, calls
@@ -84,7 +84,7 @@ public interface MouseRobot {
      *
      * @param wheelAmount the amount to scroll
      */
-    public void scroll(int wheelAmount);
+    void scroll(int wheelAmount);
 
     /**
      * Scrolls mouse wheel by the given amount. Once scrolled,
@@ -92,6 +92,6 @@ public interface MouseRobot {
      *
      * @param wheelAmount the amount to scroll
      */
-    public void scrollNoWait(int wheelAmount);
+    void scrollNoWait(int wheelAmount);
 
 }

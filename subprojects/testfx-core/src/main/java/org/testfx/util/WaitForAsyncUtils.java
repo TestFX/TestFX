@@ -33,6 +33,8 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Stopwatch;
 import org.testfx.api.annotation.Unstable;
 
@@ -128,7 +130,7 @@ public class WaitForAsyncUtils {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
-        Callable<Void> call = new ASyncFXCallable<Void>(runnable, true);
+        Callable<Void> call = new ASyncFXCallable<>(runnable, true);
         return executorService.submit(call);
     }
 
@@ -149,7 +151,7 @@ public class WaitForAsyncUtils {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
-        Callable<Void> call = new ASyncFXCallable<Void>(runnable, throwExceptions);
+        Callable<Void> call = new ASyncFXCallable<>(runnable, throwExceptions);
         return executorService.submit(call);
     }
 
@@ -169,7 +171,7 @@ public class WaitForAsyncUtils {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
-        ASyncFXCallable<T> call = new ASyncFXCallable<T>(callable, true);
+        ASyncFXCallable<T> call = new ASyncFXCallable<>(callable, true);
         executorService.submit((Runnable) call); // exception handling not guaranteed
         return call;
     }
@@ -192,7 +194,7 @@ public class WaitForAsyncUtils {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
-        Callable<T> call = new ASyncFXCallable<T>(callable, throwExceptions);
+        Callable<T> call = new ASyncFXCallable<>(callable, throwExceptions);
         return executorService.submit(call); // exception handling not guaranteed
     }
 
@@ -212,7 +214,7 @@ public class WaitForAsyncUtils {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
-        ASyncFXCallable<Void> call = new ASyncFXCallable<Void>(runnable, true);
+        ASyncFXCallable<Void> call = new ASyncFXCallable<>(runnable, true);
         runOnFxThread(call);
         return call;
     }
@@ -234,7 +236,7 @@ public class WaitForAsyncUtils {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
-        ASyncFXCallable<T> call = new ASyncFXCallable<T>(callable, true);
+        ASyncFXCallable<T> call = new ASyncFXCallable<>(callable, true);
         runOnFxThread(call);
         return call;
     }
@@ -273,7 +275,7 @@ public class WaitForAsyncUtils {
      * @param future the future to wait for to be set
      * @param <T> the type of  the future
      * @return the result of the future
-     * @throws TimeoutException
+     * @throws TimeoutException if the wait timed out
      */
     public static <T> T waitFor(long timeout, TimeUnit timeUnit, Future<T> future) throws TimeoutException {
         try {
@@ -297,7 +299,7 @@ public class WaitForAsyncUtils {
      * @param timeout the timeout to wait for
      * @param timeUnit the time unit {@code timeout} is in
      * @param condition the condition to wait for to be {@literal true}
-     * @throws TimeoutException
+     * @throws TimeoutException if the wait timed out
      */
     public static void waitFor(long timeout, TimeUnit timeUnit, Callable<Boolean> condition)
             throws TimeoutException {
@@ -317,7 +319,7 @@ public class WaitForAsyncUtils {
      * @param timeout the timeout to wait for
      * @param timeUnit the time unit {@code timeout} is in
      * @param booleanValue the observable
-     * @throws TimeoutException
+     * @throws TimeoutException if the wait timed out
      */
     public static void waitFor(long timeout, TimeUnit timeUnit, ObservableBooleanValue booleanValue)
             throws TimeoutException {
@@ -379,7 +381,8 @@ public class WaitForAsyncUtils {
      *
      * @param duration the duration to sleep
      * @param timeUnit the time unit {@code duration} is in
-     * @throws InterruptedException
+     * @throws InterruptedException if any thread has interrupted the current thread. The interrupted
+     *      status of the current thread is cleared when this exception is thrown.
      */
     public static void sleepWithException(long duration, TimeUnit timeUnit) throws InterruptedException {
         Thread.sleep(timeUnit.toMillis(duration));
@@ -495,7 +498,7 @@ public class WaitForAsyncUtils {
             StackTraceElement[] stackTrace = new StackTraceElement[1];
             stackTrace[0] = stackTraceElement;
             throwable.setStackTrace(stackTrace);
-            exceptions.remove(0);
+            exceptions.poll();
             return throwable;
         }
         return null;
@@ -563,8 +566,8 @@ public class WaitForAsyncUtils {
      */
     private static String printTrace(StackTraceElement[] st) {
         StringBuilder stackTrace = new StringBuilder();
-        for (int i = 0; i < st.length; i++) {
-            stackTrace.append("\t").append(st[i].toString()).append("\n");
+        for (StackTraceElement ste : st) {
+            stackTrace.append("\t").append(ste.toString()).append("\n");
         }
         return stackTrace.toString();
     }
@@ -596,7 +599,7 @@ public class WaitForAsyncUtils {
         private Throwable exception;
 
         public ASyncFXCallable(Runnable runnable, boolean throwException) {
-            super(runnable, (X) null);
+            super(runnable, null);
             this.throwException = throwException;
             trace = Thread.currentThread().getStackTrace();
         }
@@ -658,13 +661,10 @@ public class WaitForAsyncUtils {
         protected Throwable transformException(Throwable exception) {
             if (exception instanceof ExecutionException) {
                 // unwind one ExecutionException
-                exception = exception.getCause();
+                return exception.getCause();
             }
-            if (exception instanceof RuntimeException) {
-                return (RuntimeException) exception;
-            }
-            if (exception instanceof Error) {
-                return (Error) exception;
+            else if (exception instanceof RuntimeException || exception instanceof Error) {
+                return exception;
             } else {
                 return new RuntimeException(exception);
             }
@@ -691,7 +691,8 @@ public class WaitForAsyncUtils {
         }
 
         @Override
-        public X get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        public X get(long timeout, @Nonnull TimeUnit unit)
+                throws InterruptedException, ExecutionException, TimeoutException {
             try {
                 return super.get(timeout, unit);
             }

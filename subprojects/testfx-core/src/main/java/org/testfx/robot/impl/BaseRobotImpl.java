@@ -46,10 +46,6 @@ public class BaseRobotImpl implements BaseRobot {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final String robotAdapterName = System.getProperty(
-        PROPERTY_TESTFX_ROBOT, PROPERTY_TESTFX_ROBOT_AWT
-    );
-
     private final RobotAdapter robotAdapter;
     private final JavafxRobotAdapter javafxRobotAdapter;
 
@@ -58,6 +54,7 @@ public class BaseRobotImpl implements BaseRobot {
     //---------------------------------------------------------------------------------------------
 
     public BaseRobotImpl() {
+        String robotAdapterName = System.getProperty(PROPERTY_TESTFX_ROBOT, PROPERTY_TESTFX_ROBOT_AWT);
         if (isAwtRobotAdapter(robotAdapterName)) {
             robotAdapter = new AwtRobotAdapter();
         }

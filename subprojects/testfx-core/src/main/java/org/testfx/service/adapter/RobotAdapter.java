@@ -27,38 +27,38 @@ public interface RobotAdapter<T> {
 
     // ROBOT.
 
-    public void robotCreate();
+    void robotCreate();
 
-    public void robotDestroy();
+    void robotDestroy();
 
-    public T getRobotInstance();
+    T getRobotInstance();
 
     // KEY.
 
-    public void keyPress(KeyCode key);
+    void keyPress(KeyCode key);
 
-    public void keyRelease(KeyCode key);
+    void keyRelease(KeyCode key);
 
     // MOUSE.
 
-    public Point2D getMouseLocation();
+    Point2D getMouseLocation();
 
-    public void mouseMove(Point2D location);
+    void mouseMove(Point2D location);
 
-    public void mousePress(MouseButton button);
+    void mousePress(MouseButton button);
 
-    public void mouseRelease(MouseButton button);
+    void mouseRelease(MouseButton button);
 
-    public void mouseWheel(int wheelAmount);
+    void mouseWheel(int wheelAmount);
 
     // CAPTURE.
 
-    public Color getCapturePixelColor(Point2D location);
+    Color getCapturePixelColor(Point2D location);
 
-    public Image getCaptureRegion(Rectangle2D region);
+    Image getCaptureRegion(Rectangle2D region);
 
     // TIMER.
 
-    public void timerWaitForIdle();
+    void timerWaitForIdle();
 
 }

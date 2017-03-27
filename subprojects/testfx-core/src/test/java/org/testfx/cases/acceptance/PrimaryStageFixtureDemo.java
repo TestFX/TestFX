@@ -51,9 +51,7 @@ public class PrimaryStageFixtureDemo {
     private static void afterClass() throws Exception {}
 
     private static void before() throws Exception {
-        FxToolkit.setupStage(stage -> {
-            stage.setScene(new Scene(new Label("within primary stage")));
-        });
+        FxToolkit.setupStage(stage -> stage.setScene(new Scene(new Label("within primary stage"))));
         FxToolkit.showStage();
     }
 
