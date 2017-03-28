@@ -159,9 +159,8 @@ public class WaitForAsyncUtilsTest {
         // given:
         WaitForAsyncUtils.printException = false;
         Callable<Void> callable = () -> {
-            throw new NullPointerException();
+            throw new NullPointerException("Hello!");
         };
-        WaitForAsyncUtils.clearExceptions();
 
         // when:
         Future<Void> future = WaitForAsyncUtils.async(callable);
@@ -169,6 +168,7 @@ public class WaitForAsyncUtilsTest {
             WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
         }
         catch (Throwable ignore) {
+            System.out.println("Waitfor throw: " + ignore);
         }
 
         // then:
@@ -177,9 +177,13 @@ public class WaitForAsyncUtilsTest {
             WaitForAsyncUtils.checkException();
         }
         catch (Throwable e) {
+            System.out.println("Exception: " + e.getMessage());
             fail("Handled exception not removed from stack");
         }
         WaitForAsyncUtils.clearExceptions();
+        waitForException(future);
+        WaitForAsyncUtils.clearExceptions();
+        WaitForAsyncUtils.checkException();
         waitForThreads(future);
     }
 

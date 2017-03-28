@@ -490,7 +490,7 @@ public class WaitForAsyncUtils {
      * @return the exception or {@literal null} if none in stack
      */
     private static Throwable getCheckException() {
-        if (exceptions.size() > 0) {
+        if (exceptions.peek() != null) {
             Throwable throwable = exceptions.poll();
             StackTraceElement stackTraceElement = new StackTraceElement(WaitForAsyncUtils.class.getName(),
                     "---- Delayed Exception: (See Trace Below) ----",
@@ -498,10 +498,10 @@ public class WaitForAsyncUtils {
             StackTraceElement[] stackTrace = new StackTraceElement[1];
             stackTrace[0] = stackTraceElement;
             throwable.setStackTrace(stackTrace);
-            exceptions.poll();
             return throwable;
+        } else {
+            return null;
         }
-        return null;
     }
 
     private static <T> T waitForMillis(long millis, Future<T> future) {
