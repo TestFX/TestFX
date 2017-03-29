@@ -591,12 +591,13 @@ public class WaitForAsyncUtils {
          * Holds the stacktrace of the caller, for printing, if an Exception occurs.
          */
         private final StackTraceElement[] trace;
-        private boolean running;
 
         /**
          * The unhandled exception.
          */
         private Throwable exception;
+
+        private volatile boolean running;
 
         public ASyncFXCallable(Runnable runnable, boolean throwException) {
             super(runnable, null);
@@ -622,18 +623,17 @@ public class WaitForAsyncUtils {
                 get();
             }
             catch (Exception e) {
+                running = false;
                 if (throwException) {
                     if (printException) {
                         printException(e, trace);
                     }
                     exception = transformException(e);
-                    // Add exception to list of occured exceptions
+                    // Add exception to queue of occured exceptions
                     exceptions.add(exception);
                 }
-                running = false;
                 if (!Platform.isFxApplicationThread()) {
-                    Throwable ex = transformException(e);
-                    throwException(ex);
+                    throwException(transformException(e));
                 }
             }
         }
@@ -682,7 +682,7 @@ public class WaitForAsyncUtils {
                 return super.get();
             }
             catch (Exception e) {
-                if ((!running) && (exception != null)) {
+                if (!running && exception != null) {
                     exceptions.remove(exception);
                     exception = null;
                 }
@@ -697,7 +697,7 @@ public class WaitForAsyncUtils {
                 return super.get(timeout, unit);
             }
             catch (Exception e) {
-                if ((!running) && (exception != null)) {
+                if (!running && exception != null) {
                     exceptions.remove(exception);
                     exception = null;
                 }
