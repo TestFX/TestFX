@@ -46,7 +46,7 @@ public class WaitForAsyncUtilsTest {
 
 
     @Rule
-    public Timeout globalTimeout = Timeout.millis(1000);
+    public Timeout globalTimeout = Timeout.millis(10000);
 
     // ---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
@@ -156,33 +156,41 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void unhandledExceptionTest() throws Throwable {
-        // given:
-        WaitForAsyncUtils.printException = false;
-        Callable<Void> callable = () -> {
-            throw new NullPointerException();
-        };
+        for (int i = 0; i < 20; i++) {
+            // given:
+            WaitForAsyncUtils.printException = false;
+            Callable<Void> callable = () -> {
+                throw new NullPointerException("unhandledExceptionTest");
+            };
+            WaitForAsyncUtils.clearExceptions();
 
-        // when:
-        Future<Void> future = WaitForAsyncUtils.async(callable);
-        try {
-            WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
-        }
-        catch (Throwable ignore) {
-        }
+            // when:
+            Future<Void> future = WaitForAsyncUtils.async(callable);
+            try {
+                WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+                fail("No exception thrown");
+            }
+            catch (Throwable exception) {
+                if (exception.getMessage().indexOf("unhandledExceptionTest") == -1) {
+                    fail("Another exception was thrown: " + exception.getMessage());
+                }
+            }
 
-        // then:
-        WaitForAsyncUtils.printException = true;
-        try {
-            WaitForAsyncUtils.checkException();
+            // then:
+            WaitForAsyncUtils.printException = true;
+            try {
+                WaitForAsyncUtils.checkException();
+            }
+            catch (Throwable e) {
+                if (e.getMessage().indexOf("unhandledExceptionTest") > -1) {
+                    fail("Handled exception not removed from stack");
+                } else {
+                    fail("Another exception was thrown: " + e.getMessage());
+                }
+            }
+            WaitForAsyncUtils.clearExceptions();
+            waitForException(future);
         }
-        catch (Throwable e) {
-            fail("Handled exception not removed from stack");
-        }
-        WaitForAsyncUtils.clearExceptions();
-        waitForException(future);
-        WaitForAsyncUtils.clearExceptions();
-        WaitForAsyncUtils.checkException();
-        waitForThreads(future);
     }
 
     @Test
@@ -219,26 +227,24 @@ public class WaitForAsyncUtilsTest {
             WaitForAsyncUtils.sleepWithException(100, MILLISECONDS);
             return null;
         });
-        future.cancel(true);
-        waitForThreads(future);
         try {
             Thread.sleep(50);
         }
         catch (Exception ignore) {
         }
+        future.cancel(true);
+        waitForThreads(future);
 
         // then:
-        try {
+        try { // only thrown if really interrupted (need to be started first)
             WaitForAsyncUtils.checkException();
             fail("checkException didn't detect Exception");
         }
-        catch (Throwable e) {
-            if (!(e instanceof CancellationException)) {
-                throw e;
-            }
+        catch (Throwable ignore) {
+
         }
         thrown.expect(CancellationException.class);
-        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);  // check cancellation
     }
 
     @Test
