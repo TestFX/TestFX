@@ -597,7 +597,6 @@ public class WaitForAsyncUtils {
          */
         private Throwable exception;
 
-        private volatile boolean running;
 
         public ASyncFXCallable(Runnable runnable, boolean throwException) {
             super(runnable, null);
@@ -612,43 +611,19 @@ public class WaitForAsyncUtils {
         }
 
         /**
-         * Runs the task and evaluates exceptions encountered during execution.
-         * Exceptions are printed and pushed on to the stack.
+         * Called to handle exceptions during run().
          */
         @Override
-        public void run() {
-            running = true;
-            super.run();
-            try {
-                get();
-            }
-            catch (Exception e) {
-                running = false;
-                if (throwException) {
-                    if (printException) {
-                        printException(e, trace);
-                    }
-                    exception = transformException(e);
-                    // Add exception to queue of occured exceptions
-                    exceptions.add(exception);
+        protected void setException(Throwable throwable) {
+            if (throwException) {
+                if (printException) {
+                    printException(throwable, trace);
                 }
-                if (!Platform.isFxApplicationThread()) {
-                    throwException(transformException(e));
-                }
+                exception = transformException(throwable);
+                // Add exception to stack of occured exceptions
+                exceptions.add(exception);
             }
-        }
-
-        /**
-         * Throws a transformed exception.
-         *
-         * @param exception the exception to throw
-         */
-        protected void throwException(Throwable exception) {
-            if (exception instanceof RuntimeException) {
-                throw (RuntimeException) exception;
-            } else if (exception instanceof Error) {
-                throw (Error) exception;
-            }
+            super.setException(throwable);
         }
 
         /**
@@ -658,7 +633,7 @@ public class WaitForAsyncUtils {
          * @param exception the exception to transform
          * @return the throwable exception
          */
-        protected Throwable transformException(Throwable exception) {
+        private Throwable transformException(Throwable exception) {
             if (exception instanceof ExecutionException) {
                 // unwind one ExecutionException
                 return exception.getCause();
@@ -681,8 +656,8 @@ public class WaitForAsyncUtils {
             try {
                 return super.get();
             }
-            catch (Exception e) {
-                if (!running && exception != null) {
+            catch (Exception e) { // exception is thrown to caller, so remove it from stack
+                if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
                 }
@@ -696,8 +671,8 @@ public class WaitForAsyncUtils {
             try {
                 return super.get(timeout, unit);
             }
-            catch (Exception e) {
-                if (!running && exception != null) {
+            catch (Exception e) { // exception is thrown to caller, so remove it from stack
+                if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
                 }
