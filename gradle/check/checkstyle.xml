@@ -86,7 +86,7 @@
             <property name="allowEmptyMethods" value="true"/>
             <property name="allowEmptyTypes" value="true"/>
             <property name="allowEmptyLambdas" value="true"/>
-            <property name="ignoreEnhancedForColon" value="false"/> 
+            <property name="ignoreEnhancedForColon" value="false"/>
         </module>
         <module name="EmptyCatchBlock">
             <property name="commentFormat" value="expected"/>
@@ -146,7 +146,7 @@
         </module>
         <module name="ParameterName"/>
         <module name="TypeName"/>
-
+        <module name="PackageDeclaration"/>
         <!-- to enable SuppressionCommentFilter -->
         <module name="FileContentsHolder"/>
     </module>
@@ -160,7 +160,6 @@
     <module name="RegexpSingleline">
         <property name="format" value="^\s*\*\s*@author"/>
     </module>
-
     <!-- allows suppressing using the //CHECKSTYLE:ON //CHECKSTYLE:OFF -->
     <module name="SuppressionCommentFilter"/>
 </module>
