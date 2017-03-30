@@ -571,6 +571,7 @@ public class WaitForAsyncUtils {
         }
         return stackTrace.toString();
     }
+    
 
     /**
      * Internally used {@code Callable} that handles all the async stuff. All external
@@ -591,7 +592,6 @@ public class WaitForAsyncUtils {
          * Holds the stacktrace of the caller, for printing, if an Exception occurs.
          */
         private final StackTraceElement[] trace;
-        private boolean running;
 
         /**
          * The unhandled exception.
@@ -610,45 +610,21 @@ public class WaitForAsyncUtils {
             trace = Thread.currentThread().getStackTrace();
         }
 
+        
         /**
-         * Runs the task and evaluates exceptions encountered during execution.
-         * Exceptions are printed and pushed on to the stack.
+         * Called to handle exceptions during run().
          */
         @Override
-        public void run() {
-            running = true;
-            super.run();
-            try {
-                get();
-            }
-            catch (Exception e) {
-                if (throwException) {
-                    if (printException) {
-                        printException(e, trace);
-                    }
-                    exception = transformException(e);
-                    // Add exception to list of occured exceptions
-                    exceptions.add(exception);
+        protected void setException(Throwable t) {
+            if (throwException) {
+                if (printException) {
+                    printException(t, trace);
                 }
-                running = false;
-                if (!Platform.isFxApplicationThread()) {
-                    Throwable ex = transformException(e);
-                    throwException(ex);
-                }
+                exception = transformException(t);
+                // Add exception to list of occured exceptions
+                exceptions.add(exception);
             }
-        }
-
-        /**
-         * Throws a transformed exception.
-         *
-         * @param exception the exception to throw
-         */
-        protected void throwException(Throwable exception) {
-            if (exception instanceof RuntimeException) {
-                throw (RuntimeException) exception;
-            } else if (exception instanceof Error) {
-                throw (Error) exception;
-            }
+            super.setException(t);
         }
 
         /**
@@ -658,7 +634,7 @@ public class WaitForAsyncUtils {
          * @param exception the exception to transform
          * @return the throwable exception
          */
-        protected Throwable transformException(Throwable exception) {
+        private Throwable transformException(Throwable exception) {
             if (exception instanceof ExecutionException) {
                 // unwind one ExecutionException
                 return exception.getCause();
@@ -681,8 +657,8 @@ public class WaitForAsyncUtils {
             try {
                 return super.get();
             }
-            catch (Exception e) {
-                if ((!running) && (exception != null)) {
+            catch (Exception e) { //exception is thrown to caller, so remove it from stack
+                if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
                 }
@@ -696,8 +672,8 @@ public class WaitForAsyncUtils {
             try {
                 return super.get(timeout, unit);
             }
-            catch (Exception e) {
-                if ((!running) && (exception != null)) {
+            catch (Exception e) { //exception is thrown to caller, so remove it from stack
+                if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
                 }
