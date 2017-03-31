@@ -26,17 +26,17 @@ import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class WindowFinderImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     static Stage window;
     static Stage windowInWindow;
     static Stage windowInWindowInWindow;
@@ -44,10 +44,6 @@ public class WindowFinderImplTest {
     static Scene scene;
 
     WindowFinderImpl windowFinder;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -96,10 +92,6 @@ public class WindowFinderImplTest {
         windowInWindowInWindow.close();
         otherWindow.close();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void listWindows() {

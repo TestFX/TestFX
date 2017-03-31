@@ -29,7 +29,9 @@ import javafx.scene.layout.Pane;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.service.query.NodeQuery;
 
@@ -45,10 +47,8 @@ import static org.testfx.util.NodeQueryUtils.rootOfScene;
 
 public class NodeQueryImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     NodeQuery nodeQuery;
 
     Scene scene;
@@ -68,10 +68,6 @@ public class NodeQueryImplTest {
     @FXML TextField textfield0;
     @FXML TextField textfield1;
     @FXML TextField textfield2;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -94,10 +90,6 @@ public class NodeQueryImplTest {
             }
         });
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void queryFirst() {

@@ -17,7 +17,9 @@
 package org.testfx.robot.impl;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 
@@ -28,27 +30,17 @@ import static org.mockito.Mockito.verify;
 
 public class ScrollRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public ScrollRobot scrollRobot;
 
     public MouseRobot mouseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
         mouseRobot = mock(MouseRobot.class);
         scrollRobot = new ScrollRobotImpl(mouseRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void scrollUp() {

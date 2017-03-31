@@ -25,7 +25,9 @@ import javafx.stage.Window;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.PointQuery;
@@ -34,10 +36,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PointLocatorImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     PointLocator pointLocator;
     BoundsLocatorStub boundsLocatorStub;
 
@@ -47,10 +47,6 @@ public class PointLocatorImplTest {
     Bounds sceneBoundsAfterChange;
     Bounds windowBounds;
     Bounds windowBoundsAfterChange;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
@@ -64,10 +60,6 @@ public class PointLocatorImplTest {
         windowBounds = new BoundingBox(100, 100, 600, 400);
         windowBoundsAfterChange = new BoundingBox(200, 200, 600, 400);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void pointFor_Bounds_atOffset() {

@@ -361,7 +361,7 @@ public final class FxToolkit {
      * Detects if the JavaFx Application Thread is currently running.
      * @return true, if the FX Application Thread is running
      */
-    private static boolean isFXApplicationThreadRunning() {
+    public static boolean isFXApplicationThreadRunning() {
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
         for (Thread thread : threads) {
             if (thread.getName().equals("JavaFX Application Thread")) {

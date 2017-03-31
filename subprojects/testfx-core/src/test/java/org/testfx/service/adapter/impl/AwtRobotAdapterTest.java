@@ -41,7 +41,9 @@ import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
@@ -65,10 +67,8 @@ import static org.testfx.util.WaitForAsyncUtils.sleep;
 
 public class AwtRobotAdapterTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public AwtRobotAdapter robotAdapter;
 
     public Stage targetStage;
@@ -76,10 +76,6 @@ public class AwtRobotAdapterTest {
 
     public Region region;
     public Point2D regionPoint;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -115,10 +111,6 @@ public class AwtRobotAdapterTest {
         robotAdapter.keyRelease(KeyCode.A);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     // ROBOT.
 

@@ -21,22 +21,18 @@ import javafx.geometry.Dimension2D;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeometryMatchersTest extends FxRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void hasDimension() {

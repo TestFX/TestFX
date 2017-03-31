@@ -31,7 +31,9 @@ import javafx.stage.Window;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
@@ -42,10 +44,8 @@ import static org.hamcrest.Matchers.not;
 
 public class BoundsLocatorImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     BoundsLocator boundsLocator;
     Insets windowInsets;
 
@@ -59,10 +59,6 @@ public class BoundsLocatorImplTest {
     static Bounds boundsInsideOfScene;
     static Bounds boundsPartyOutsideOfScene;
     static Bounds boundsOutsideOfScene;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -109,10 +105,6 @@ public class BoundsLocatorImplTest {
     public static void cleanupStagesClass() {
         primaryWindow.close();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void boundsInSceneFor_nodeInsideOfScene() {

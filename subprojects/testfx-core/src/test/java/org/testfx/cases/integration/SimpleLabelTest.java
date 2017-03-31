@@ -22,15 +22,16 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 
 public class SimpleLabelTest extends TestCaseBase {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     @Before
     public void setup() throws Exception {
@@ -41,18 +42,10 @@ public class SimpleLabelTest extends TestCaseBase {
         });
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void should_move_to_label() {
         moveTo(".label").sleep(1000);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private Region createSceneRoot(Class<?> cls) {
         return new StackPane(new Label(cls.getSimpleName()));

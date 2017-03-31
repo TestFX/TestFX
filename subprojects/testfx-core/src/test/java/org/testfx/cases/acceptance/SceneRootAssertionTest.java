@@ -24,18 +24,20 @@ import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
 
 @Ignore
 public class SceneRootAssertionTest {
 
-    // FIXTURES.
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     StackPane stackPane;
     Label label;
 
-    // FIXTURE METHODS.
     @Before
     public void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -47,13 +49,11 @@ public class SceneRootAssertionTest {
         FxToolkit.showStage();
     }
 
-    // FEATURE METHODS.
     @Test
     public void should_have_stage_root_with_label() {
         FxAssert.verifyThat(stackPane, hasChild(label));
     }
 
-    // HELPER METHODS.
     private Predicate<Parent> hasChild(Node node) {
         return (Parent parent) -> parent.getChildrenUnmodifiable().contains(node);
     }

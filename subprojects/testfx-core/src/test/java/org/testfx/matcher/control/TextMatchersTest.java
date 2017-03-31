@@ -24,6 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
@@ -32,9 +33,8 @@ import static org.hamcrest.Matchers.endsWith;
 
 public class TextMatchersTest extends FxRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -42,10 +42,6 @@ public class TextMatchersTest extends FxRobot {
     public Text foobarText;
     public Text quuxText;
     public Region region;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -60,10 +56,6 @@ public class TextMatchersTest extends FxRobot {
             region = new Region();
         });
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void hasText() {

@@ -23,7 +23,9 @@ import javafx.stage.Stage;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
@@ -38,10 +40,8 @@ import static org.mockito.Mockito.verify;
 
 public final class WriteRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public WriteRobot writeRobot;
 
     public Stage stage;
@@ -49,10 +49,6 @@ public final class WriteRobotImplTest {
     public BaseRobot baseRobot;
     public SleepRobot sleepRobot;
     public WindowFinder windowFinder;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -69,10 +65,6 @@ public final class WriteRobotImplTest {
         windowFinder = mock(WindowFinder.class);
         writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void write_char() {

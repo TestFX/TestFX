@@ -19,7 +19,9 @@ package org.testfx.robot.impl;
 import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.DragRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
@@ -35,18 +37,12 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 public final class DragRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public DragRobot dragRobot;
 
     public MouseRobot mouseRobot;
     public MoveRobot moveRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
@@ -54,10 +50,6 @@ public final class DragRobotImplTest {
         moveRobot = mock(MoveRobot.class);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void drag_with_primary_button() {

@@ -28,15 +28,12 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeneralMatchersTest {
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     public Node nullNode;
 
@@ -51,11 +48,10 @@ public class GeneralMatchersTest {
         parent -> parent.getChildrenUnmodifiable().size() > 0;
 
     @Rule
-    public ExpectedException exception = ExpectedException.none();
+    public TestFXRule testFXRule = new TestFXRule();
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -67,10 +63,6 @@ public class GeneralMatchersTest {
         notMatchingNode = FxToolkit.setupFixture(() -> new Pane());
         notParentNode = FxToolkit.setupFixture(() -> new Button());
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void baseMatcher_with_nullNode() {

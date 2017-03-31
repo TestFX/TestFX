@@ -32,7 +32,9 @@ import javafx.stage.Stage;
 import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.impl.BaseRobotImpl;
@@ -46,10 +48,8 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 public class CaptureSupportImplTest extends FxRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURES.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     private CaptureSupport capturer;
 
     private Stage primaryStage;
@@ -69,20 +69,12 @@ public class CaptureSupportImplTest extends FxRobot {
         }
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Before
     public void setup() throws Exception {
         primaryStage = FxToolkit.registerPrimaryStage();
         capturer = new CaptureSupportImpl(new BaseRobotImpl());
         FxToolkit.setupApplication(LoginDialog.class);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void capture_node() {
