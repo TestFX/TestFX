@@ -22,7 +22,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.cases.TestCaseBase;
 
 import static org.hamcrest.Matchers.not;
@@ -38,18 +40,13 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 public class FxAssertBasicTest extends TestCaseBase {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     @Before
     public void setup() throws Exception {
         setupApplication(DemoApplication.class);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void missing_is_null() {

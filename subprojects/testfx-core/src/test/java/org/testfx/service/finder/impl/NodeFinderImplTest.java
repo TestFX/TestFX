@@ -41,6 +41,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
@@ -52,10 +53,6 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assume.assumeThat;
 
 public class NodeFinderImplTest {
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     static Stage window;
     static Stage otherWindow;
@@ -80,11 +77,9 @@ public class NodeFinderImplTest {
     NodeFinderImpl nodeFinder;
 
     @Rule
+    public TestFXRule testFXRule = new TestFXRule();
+    @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -158,10 +153,6 @@ public class NodeFinderImplTest {
         otherWindow.close();
         twinWindow.close();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void node_string_cssQuery() {

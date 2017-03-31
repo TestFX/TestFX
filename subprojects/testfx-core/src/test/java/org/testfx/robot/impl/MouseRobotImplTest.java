@@ -19,7 +19,9 @@ package org.testfx.robot.impl;
 import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 
@@ -32,27 +34,17 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public final class MouseRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public MouseRobot mouseRobot;
 
     public BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
         baseRobot = mock(BaseRobot.class);
         mouseRobot = new MouseRobotImpl(baseRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void press_with_primary_button() {

@@ -31,7 +31,9 @@ import javafx.scene.layout.VBox;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.Motion;
@@ -40,6 +42,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class MenuBarTest {
+
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     FxRobot fxRobot = new FxRobot();
     Menu editMenu;

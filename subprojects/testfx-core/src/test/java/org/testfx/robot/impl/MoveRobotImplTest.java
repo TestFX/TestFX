@@ -19,7 +19,9 @@ package org.testfx.robot.impl;
 import javafx.geometry.Point2D;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
@@ -35,19 +37,13 @@ import static org.mockito.Mockito.verify;
 
 public final class MoveRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public MoveRobot moveRobot;
 
     public BaseRobot baseRobot;
     public MouseRobot mouseRobot;
     public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
@@ -56,10 +52,6 @@ public final class MoveRobotImplTest {
         sleepRobot = mock(SleepRobot.class);
         moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void moveTo_a_point_within_10_pixels() {

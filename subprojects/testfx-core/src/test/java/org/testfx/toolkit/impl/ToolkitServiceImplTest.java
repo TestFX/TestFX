@@ -30,7 +30,9 @@ import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.toolkit.PrimaryStageApplication;
 import org.testfx.toolkit.PrimaryStageFuture;
 import org.testfx.toolkit.ToolkitService;
@@ -44,16 +46,10 @@ import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public class ToolkitServiceImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public static Stage primaryStage;
     public static ToolkitService toolkitService;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -84,10 +80,6 @@ public class ToolkitServiceImplTest {
             primaryStage.hide();
         });
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE CLASSES.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void should_construct_application() throws Exception {

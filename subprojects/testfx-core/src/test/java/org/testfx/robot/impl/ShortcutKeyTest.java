@@ -25,7 +25,9 @@ import javafx.scene.input.KeyCode;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
@@ -42,6 +44,8 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class ShortcutKeyTest extends FxRobot {
 
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     private final KeyCode osSpecificShortcutKey;
 
     {

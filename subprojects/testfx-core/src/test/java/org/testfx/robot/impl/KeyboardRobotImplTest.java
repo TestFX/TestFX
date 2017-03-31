@@ -17,7 +17,9 @@
 package org.testfx.robot.impl;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
 
@@ -33,27 +35,17 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public final class KeyboardRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public KeyboardRobot keyboardRobot;
 
     public BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
         baseRobot = mock(BaseRobot.class);
         keyboardRobot = new KeyboardRobotImpl(baseRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void press_with_keyCode_for_A() {

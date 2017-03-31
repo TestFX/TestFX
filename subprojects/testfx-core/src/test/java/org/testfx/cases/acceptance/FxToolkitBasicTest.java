@@ -20,7 +20,9 @@ import javafx.stage.Stage;
 
 import org.junit.AfterClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 
@@ -30,20 +32,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class FxToolkitBasicTest extends TestCaseBase {
 
-    // `FxToolkit` is responsible for setup and cleanup of JavaFX fixtures.
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
         FxToolkit.cleanupStages();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void registerPrimaryStage_should_be_callable_multiple_times() throws Exception {

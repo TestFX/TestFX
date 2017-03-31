@@ -31,6 +31,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxRobotException;
 import org.testfx.api.FxToolkit;
@@ -45,10 +46,6 @@ import static org.hamcrest.Matchers.nullValue;
 
 public class NodeAndPointQueryTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     public FxRobot fx = new FxRobot();
 
     public Button button0;
@@ -56,11 +53,10 @@ public class NodeAndPointQueryTest {
     public Label label0;
 
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public TestFXRule testFXRule = new TestFXRule();
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -82,10 +78,6 @@ public class NodeAndPointQueryTest {
             stage.show();
         });
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void node_queryFirst_returns_node() {

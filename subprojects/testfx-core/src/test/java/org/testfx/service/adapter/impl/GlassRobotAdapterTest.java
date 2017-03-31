@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2013-2014 SmartBear Software
  * Copyright 2014-2015 The TestFX Contributors
@@ -41,7 +40,9 @@ import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
@@ -64,10 +65,8 @@ import static org.testfx.util.WaitForAsyncUtils.sleep;
 
 public class GlassRobotAdapterTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public GlassRobotAdapter robotAdapter;
 
     public Stage targetStage;
@@ -75,10 +74,6 @@ public class GlassRobotAdapterTest {
 
     public Region region;
     public Point2D regionPoint;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -115,10 +110,6 @@ public class GlassRobotAdapterTest {
         robotAdapter.keyRelease(KeyCode.A);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     // ROBOT.
 

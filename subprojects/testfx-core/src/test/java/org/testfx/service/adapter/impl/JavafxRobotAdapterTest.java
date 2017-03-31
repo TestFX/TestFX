@@ -47,7 +47,9 @@ import com.google.common.collect.Range;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -61,10 +63,8 @@ import static org.testfx.matcher.base.NodeMatchers.hasText;
 
 public class JavafxRobotAdapterTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public JavafxRobotAdapter robotAdapter;
 
     public Stage targetStage;
@@ -76,10 +76,6 @@ public class JavafxRobotAdapterTest {
     public Point2D regionPoint;
     public Point2D textFieldPoint;
     public Point2D textAreaPoint;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -119,10 +115,6 @@ public class JavafxRobotAdapterTest {
         robotAdapter.keyRelease(KeyCode.A);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     // KEY.
 

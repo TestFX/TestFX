@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 import org.testfx.util.WaitForAsyncUtils;
@@ -39,16 +40,10 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 public class DragAndDropTest extends TestCaseBase {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public ListView<String> leftListView;
     public ListView<String> rightListView;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() throws Exception {
@@ -90,10 +85,6 @@ public class DragAndDropTest extends TestCaseBase {
             listView.getItems().remove(selectedItem);
         });
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void should_have_initialized_items() {

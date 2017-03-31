@@ -19,7 +19,9 @@ package org.testfx.robot.impl;
 import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -37,19 +39,14 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 public final class ClickRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     public ClickRobot clickRobot;
 
     public MouseRobot mouseRobot;
     public MoveRobot moveRobot;
     public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
@@ -58,10 +55,6 @@ public final class ClickRobotImplTest {
         sleepRobot = mock(SleepRobot.class);
         clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void clickOn_with_primary_mouse_button() {

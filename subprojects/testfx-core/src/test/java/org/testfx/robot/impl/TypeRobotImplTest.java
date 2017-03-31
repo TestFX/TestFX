@@ -19,7 +19,9 @@ package org.testfx.robot.impl;
 import javafx.scene.input.KeyCodeCombination;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
@@ -41,18 +43,12 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public final class TypeRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
     public TypeRobot typeRobot;
 
     public KeyboardRobot keyboardRobot;
     public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
@@ -60,10 +56,6 @@ public final class TypeRobotImplTest {
         sleepRobot = mock(SleepRobot.class);
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void push_with_key_for_A() {
