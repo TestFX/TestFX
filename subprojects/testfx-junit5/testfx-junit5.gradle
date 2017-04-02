@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M3'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
     }
 }
 
@@ -31,9 +31,9 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 dependencies {
     compile project(":testfx-core")
 
-    providedCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M3'
+    providedCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
 
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M3'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M4'
 
     testCompile "org.hamcrest:hamcrest-library:1.3"
     testCompile "org.testfx:openjfx-monocle:1.8.0_20"
