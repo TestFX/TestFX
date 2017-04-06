@@ -103,4 +103,9 @@ public abstract class PointQueryBase implements PointQuery {
                 return Optional.of(Motion.DEFAULT);
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("PointQueryBase [position = %s, offset = %s node = %s]", position, offset, node);
+    }
 }
