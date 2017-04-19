@@ -311,6 +311,13 @@ public class WaitForAsyncUtilsTest {
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 
+    @Test
+    public void daemonThreads() throws Exception {
+        final Future<Thread> future = WaitForAsyncUtils.async(Thread::currentThread);
+        final Thread thread = future.get();
+        assertThat(thread.isDaemon(), Matchers.is(true));
+    }
+
     protected void waitForException(Future<?> f) throws InterruptedException {
         Thread.sleep(50);
         assertTrue(f.isDone());

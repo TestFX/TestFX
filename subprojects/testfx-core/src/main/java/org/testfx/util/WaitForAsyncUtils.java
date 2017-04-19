@@ -26,8 +26,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -94,7 +96,7 @@ public class WaitForAsyncUtils {
     // STATIC FIELDS.
     // ---------------------------------------------------------------------------------------------
 
-    private static ExecutorService executorService = Executors.newCachedThreadPool();
+    private static ExecutorService executorService = Executors.newCachedThreadPool(new DefaultThreadFactory());
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
 
     /**
@@ -682,4 +684,15 @@ public class WaitForAsyncUtils {
 
     }
 
+    private static class DefaultThreadFactory implements ThreadFactory {
+        private final AtomicInteger threadCount = new AtomicInteger(1);
+
+        @Override
+        public Thread newThread(Runnable r) {
+            final Thread thread = new Thread(r);
+            thread.setDaemon(true);
+            thread.setName(String.format("testfx-async-pool-thread-%d", threadCount.getAndIncrement()));
+            return thread;
+        }
+    }
 }
