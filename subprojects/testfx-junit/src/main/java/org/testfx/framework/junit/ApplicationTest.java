@@ -16,14 +16,15 @@
  */
 package org.testfx.framework.junit;
 
+import java.util.concurrent.Semaphore;
 import javafx.application.Application;
 import javafx.application.Application.Parameters;
 import javafx.application.HostServices;
+import javafx.application.Platform;
 import javafx.application.Preloader.PreloaderNotification;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-
 import org.junit.After;
 import org.junit.Before;
 import org.testfx.api.FxRobot;
@@ -81,6 +82,12 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     @Unstable(reason = "is missing apidocs")
     public void stop()
               throws Exception {}
+
+    public void waitForRunLater() throws InterruptedException {
+        final Semaphore semaphore = new Semaphore(0);
+        Platform.runLater(() -> semaphore.release());
+        semaphore.acquire();
+    }
 
     @Deprecated
     public final HostServices getHostServices() {
