@@ -26,11 +26,11 @@ buildscript {
     repositories {
         jcenter()
     }
+}
+plugins {
+    id "com.github.hierynomus.license" version "0.14.0"
+    id "com.jfrog.bintray" version "1.7.3"
 
-    dependencies {
-        classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
-    }
 }
 
 //-------------------------------------------------------------------------------------------------
