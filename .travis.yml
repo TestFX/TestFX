@@ -62,6 +62,9 @@ before_script:
   # run on xvfb screen (for linux).
   - if [ $USE_FRAMEBUFFER = "true" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
 
+  # run on xvfb screen using sudo (for OSX)
+  - if [ $_JAVA_OPTIONS="-Dprism.order=sw" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
+
 before_install: .ci/before_install.sh
 
 # skip install stage.
