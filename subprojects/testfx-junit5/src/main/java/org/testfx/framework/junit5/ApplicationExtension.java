@@ -28,7 +28,6 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -66,23 +65,23 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
     }
 
     @Override
-    public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return parameterContext.getParameter().getType().isAssignableFrom(FxRobot.class);
     }
 
     @Override
-    public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return this;
     }
 
     @Override
-    public void beforeEach(TestExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(applicationFixture));
     }
 
     @Override
-    public void afterEach(TestExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) throws Exception {
         FxToolkit.cleanupApplication(new ApplicationAdapter(applicationFixture));
     }
 
