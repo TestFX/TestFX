@@ -74,8 +74,8 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public abstract void start(Stage stage)
-                        throws Exception;
+    public void start(Stage stage)
+                        throws Exception {}
 
     @Override
     @Unstable(reason = "is missing apidocs")
