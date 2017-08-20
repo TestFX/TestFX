@@ -5,8 +5,6 @@ addons:
   apt:
     packages:
       - gdb
-      - oracle-java8-installer
-      - oracle-java9-installer
 
 # keep gradle cache.
 before_cache:
@@ -25,18 +23,30 @@ matrix:
       dist: trusty
       jdk: oraclejdk8
       env: USE_FRAMEBUFFER=true
+      addons:
+        apt:
+          packages:
+            - oracle-java8-installer
     - os: linux
       dist: trusty
       jdk: oraclejdk8
       env:
         - USE_FRAMEBUFFER=false
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+      addons:
+        apt:
+          packages:
+            - oracle-java8-installer
     - os: linux
       dist: trusty
       jdk: oraclejdk9
       env:
         - USE_FRAMEBUFFER=true
         - _JAVA_OPTIONS="-XX:+IgnoreUnrecognizedVMOptions --add-opens=java.base/java.lang=ALL-UNNAMED --add-exports-private java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --permit-illegal-access"
+      addons:
+        apt:
+          packages:
+            - oracle-java9-installer
     - os: osx
       osx_image: xcode8.2
       env:
