@@ -1,10 +1,31 @@
 # Change Log
 
-## [4.0.6-alpha](https://github.com/testfx/testfx/tree/4.0.6-alpha) (2017-03-22)
-[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.5-alpha...4.0.6-alpha)
+## [4.0.7-alpha](https://github.com/testfx/testfx/tree/4.0.7-alpha) (2017-08-21)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.6-alpha...4.0.7-alpha)
 
 **Merged pull requests:**
 
+- Refactor spock [\#414](https://github.com/TestFX/TestFX/pull/414) ([JordanMartinez](https://github.com/JordanMartinez))
+- \[chore\] Split Travis apt packages for \*nix by JDK. [\#413](https://github.com/TestFX/TestFX/pull/413) ([brcolow](https://github.com/brcolow))
+- \(refactor\) Make ApplicationTest\#start\(\) not abstract [\#412](https://github.com/TestFX/TestFX/pull/412) ([AustinShalit](https://github.com/AustinShalit))
+- Fix incompatibility with Junit5 RC2 [\#409](https://github.com/TestFX/TestFX/pull/409) ([JLLeitschuh](https://github.com/JLLeitschuh))
+- \(feature\) Add Spock variant of TestFX [\#404](https://github.com/TestFX/TestFX/pull/404) ([JordanMartinez](https://github.com/JordanMartinez))
+- \(chore\) Bump gradle version 3.5-rc3 -\> 3.5. [\#394](https://github.com/TestFX/TestFX/pull/394) ([brcolow](https://github.com/brcolow))
+- \(chore\) Fix license URL and update copyright dates. [\#393](https://github.com/TestFX/TestFX/pull/393) ([brcolow](https://github.com/brcolow))
+- Prevent blocking JVM shutdown by using daemon threads [\#390](https://github.com/TestFX/TestFX/pull/390) ([raniejade](https://github.com/raniejade))
+- \(chore\) Bump mockito and monocle versions. [\#388](https://github.com/TestFX/TestFX/pull/388) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump gradle version 3.5-rc2 -\> 3.5-rc3. [\#387](https://github.com/TestFX/TestFX/pull/387) ([brcolow](https://github.com/brcolow))
+- \(fix\) Fix drag and drop test flakiness. [\#383](https://github.com/TestFX/TestFX/pull/383) ([brcolow](https://github.com/brcolow))
+- \[WIP\] \(refactor\) Fix many IntelliJ inspection issues. [\#382](https://github.com/TestFX/TestFX/pull/382) ([brcolow](https://github.com/brcolow))
+- \(fix\) Pass along application parameters. [\#381](https://github.com/TestFX/TestFX/pull/381) ([brcolow](https://github.com/brcolow))
+- \(fix\) Make TableViewMatchers work with cell factories. [\#379](https://github.com/TestFX/TestFX/pull/379) ([brcolow](https://github.com/brcolow))
+
+## [v4.0.6-alpha](https://github.com/testfx/testfx/tree/v4.0.6-alpha) (2017-03-22)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.5-alpha...v4.0.6-alpha)
+
+**Merged pull requests:**
+
+- \(release\) TestFX 4.0.6-alpha [\#376](https://github.com/TestFX/TestFX/pull/376) ([brcolow](https://github.com/brcolow))
 - \(chore\) Bump gradle wrapper version. [\#373](https://github.com/TestFX/TestFX/pull/373) ([brcolow](https://github.com/brcolow))
 - \(cleanup\) Cleanup utility classes. [\#371](https://github.com/TestFX/TestFX/pull/371) ([brcolow](https://github.com/brcolow))
 - \(refactor\) Use better data structure for exception stack. [\#370](https://github.com/TestFX/TestFX/pull/370) ([brcolow](https://github.com/brcolow))
