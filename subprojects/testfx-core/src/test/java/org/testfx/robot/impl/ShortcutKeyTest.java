@@ -35,8 +35,9 @@ import static javafx.scene.input.KeyCode.COMMAND;
 import static javafx.scene.input.KeyCode.CONTROL;
 import static javafx.scene.input.KeyCode.SHORTCUT;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+
+import static org.testfx.api.FxAssert.verifyThat;
 
 /**
  * Tests whether pressing {@code KeyCode.SHORTCUT} will convert into the OS-specific KeyCode (i.e.
@@ -92,7 +93,7 @@ public class ShortcutKeyTest extends FxRobot {
         press(SHORTCUT);
 
         // then:
-        assertThat(field.getText(), equalTo(pressedText));
+        verifyThat(field.getText(), equalTo(pressedText), this);
     }
 
     @Test
@@ -101,12 +102,12 @@ public class ShortcutKeyTest extends FxRobot {
         press(osSpecificShortcutKey);
 
         // and:
-        assertThat(field.getText(), equalTo(pressedText));
+        verifyThat(field.getText(), equalTo(pressedText), this);
 
         // when:
         release(SHORTCUT);
 
         // then:
-        assertThat(field.getText(), equalTo(releasedText));
+        verifyThat(field.getText(), equalTo(releasedText), this);
     }
 }

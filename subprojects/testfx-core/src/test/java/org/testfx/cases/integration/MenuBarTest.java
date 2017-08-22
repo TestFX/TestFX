@@ -38,8 +38,9 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.Motion;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+
+import static org.testfx.api.FxAssert.verifyThat;
 
 public class MenuBarTest {
 
@@ -99,12 +100,12 @@ public class MenuBarTest {
         // First we show that it is indeed the case that {@code editMenu} is triggered when moving directly:
         editMenu.setOnShown(event -> editMenuShownLatch.countDown());
         fxRobot.clickOn("#fileMenu").clickOn("#newItem", Motion.DIRECT);
-        assertThat(editMenuShownLatch.await(3, TimeUnit.SECONDS), is(true));
-        assertThat(newMenuShownLatch.getCount(), is(1L));
+        verifyThat(editMenuShownLatch.await(3, TimeUnit.SECONDS), is(true), fxRobot);
+        verifyThat(newMenuShownLatch.getCount(), is(1L), fxRobot);
 
         // Next we show that calling the "clickOn" method without specifying the type of motion automatically
         // uses Motion.VERTICAL_FIRST because "#newItem" is a MenuItem.
         fxRobot.clickOn("#fileMenu").clickOn("#newItem");
-        assertThat(newMenuShownLatch.await(3, TimeUnit.SECONDS), is(true));
+        verifyThat(newMenuShownLatch.await(3, TimeUnit.SECONDS), is(true), fxRobot);
     }
 }

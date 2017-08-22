@@ -51,19 +51,19 @@ public class FxAssertBasicTest extends TestCaseBase {
     @Test
     public void missing_is_null() {
         // expect:
-        verifyThat("#missing", isNull());
+        verifyThat("#missing", isNull(), this);
     }
 
     @Test
     public void button_is_not_null() {
         // expect:
-        verifyThat("#button", isNotNull());
+        verifyThat("#button", isNotNull(), this);
     }
 
     @Test
     public void button_is_enabled() {
         // expect:
-        verifyThat("#button", isEnabled());
+        verifyThat("#button", isEnabled(), this);
     }
 
     @Test
@@ -72,13 +72,13 @@ public class FxAssertBasicTest extends TestCaseBase {
         interact(() -> lookup("#button").query().setDisable(true));
 
         // then:
-        verifyThat("#button", isDisabled());
+        verifyThat("#button", isDisabled(), this);
     }
 
     @Test
     public void button_is_visible() {
         // expect:
-        verifyThat("#button", isVisible());
+        verifyThat("#button", isVisible(), this);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class FxAssertBasicTest extends TestCaseBase {
         interact(() -> lookup("#button").query().setVisible(false));
 
         // then:
-        verifyThat("#button", isInvisible());
+        verifyThat("#button", isInvisible(), this);
     }
 
     @Test
@@ -96,13 +96,13 @@ public class FxAssertBasicTest extends TestCaseBase {
         clickOn("#button");
 
         // then:
-        verifyThat("#button", hasText("clicked!"));
+        verifyThat("#button", hasText("clicked!"), this);
     }
 
     @Test
     public void button_has_not_label() {
         // expect:
-        verifyThat("#button", not(hasText("clicked!")));
+        verifyThat("#button", not(hasText("clicked!")), this);
     }
 
     //@Test

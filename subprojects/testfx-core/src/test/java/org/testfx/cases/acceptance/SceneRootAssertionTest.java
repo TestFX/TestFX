@@ -27,8 +27,9 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.TestFXRule;
-import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
+
+import static org.testfx.api.FxAssert.verifyThat;
 
 @Ignore
 public class SceneRootAssertionTest {
@@ -51,7 +52,7 @@ public class SceneRootAssertionTest {
 
     @Test
     public void should_have_stage_root_with_label() {
-        FxAssert.verifyThat(stackPane, hasChild(label));
+        verifyThat(stackPane, hasChild(label));
     }
 
     private Predicate<Parent> hasChild(Node node) {
