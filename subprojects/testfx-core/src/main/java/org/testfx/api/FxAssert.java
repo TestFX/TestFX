@@ -26,6 +26,8 @@ import java.util.function.UnaryOperator;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Screen;
 
 import org.hamcrest.Matcher;
@@ -71,6 +73,13 @@ public final class FxAssert {
         verifyThatImpl(emptyReason(), value, matcher, errorHandler);
     }
 
+    @Unstable(reason = "is missing apidocs; might be removed due to complications with generics")
+    public static <T> void verifyThat(T value,
+                                      Matcher<? super T> matcher,
+                                      FxRobot robot) {
+        verifyThatImpl(emptyReason(), value, matcher, robot);
+    }
+
     // ASSERTIONS: {NODE, NODES} + MATCHER.
 
     @Unstable(reason = "is missing apidocs")
@@ -86,6 +95,13 @@ public final class FxAssert {
         verifyThatImpl(emptyReason(), node, nodeMatcher, errorHandler);
     }
 
+    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(T node,
+                                                   Matcher<T> nodeMatcher,
+                                                   FxRobot robot) {
+        verifyThatImpl(emptyReason(), node, nodeMatcher, robot);
+    }
+
     @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
                                                        Matcher<Iterable<T>> nodesMatcher) {
@@ -97,6 +113,13 @@ public final class FxAssert {
                                                        Matcher<Iterable<T>> nodesMatcher,
                                                        UnaryOperator<AssertionError> errorHandler) {
         verifyThatImpl(emptyReason(), nodes, nodesMatcher, errorHandler);
+    }
+
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       FxRobot robot) {
+        verifyThatImpl(emptyReason(), nodes, nodesMatcher, robot);
     }
 
     // ASSERTIONS: STRING QUERY + MATCHER.
@@ -114,6 +137,13 @@ public final class FxAssert {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, errorHandler);
     }
 
+    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(String nodeQuery,
+                                                   Matcher<T> nodeMatcher,
+                                                   FxRobot robot) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, robot);
+    }
+
     @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(String nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
@@ -125,6 +155,13 @@ public final class FxAssert {
                                                        Matcher<Iterable<T>> nodesMatcher,
                                                        UnaryOperator<AssertionError> errorHandler) {
         verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, errorHandler);
+    }
+
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(String nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       FxRobot robot) {
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, robot);
     }
 
     // ASSERTIONS: NODE QUERY + MATCHER.
@@ -142,6 +179,13 @@ public final class FxAssert {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, errorHandler);
     }
 
+    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
+                                                   Matcher<T> nodeMatcher,
+                                                   FxRobot robot) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, robot);
+    }
+
     @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
@@ -153,6 +197,13 @@ public final class FxAssert {
                                                        Matcher<Iterable<T>> nodesMatcher,
                                                        UnaryOperator<AssertionError> errorHandler) {
         verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, errorHandler);
+    }
+
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       FxRobot robot) {
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, robot);
     }
 
     // ASSERTIONS: {NODE, STRING QUERY, NODE QUERY} + PREDICATE.
@@ -171,6 +222,13 @@ public final class FxAssert {
     }
 
     @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(T node,
+                                                   Predicate<T> nodePredicate,
+                                                   FxRobot robot) {
+        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate), robot);
+    }
+
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), defaultErrorHandler());
@@ -184,6 +242,13 @@ public final class FxAssert {
     }
 
     @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(String nodeQuery,
+                                                   Predicate<T> nodePredicate,
+                                                   FxRobot robot) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), robot);
+    }
+
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
                                                    Predicate<T> nodePredicate) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), defaultErrorHandler());
@@ -194,6 +259,31 @@ public final class FxAssert {
                                                    Predicate<T> nodePredicate,
                                                    UnaryOperator<AssertionError> errorHandler) {
         verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), errorHandler);
+    }
+
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
+                                                   Predicate<T> nodePredicate,
+                                                   FxRobot robot) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), robot);
+    }
+
+    public static <T> void verifyThatImpl(String reason, T value, Matcher<? super T> matcher,
+                                           FxRobot robot) {
+        verifyThatImpl(reason, value, matcher, informedErrorHandler(robot));
+    }
+
+    public static UnaryOperator<AssertionError> informedErrorHandler(FxRobot robot) {
+        return error -> {
+            Set<KeyCode> keysPressed = robot.robotContext().getKeyboardRobot().getPressedKeys();
+            Set<MouseButton> buttonsPressed = robot.robotContext().getMouseRobot().getPressedButtons();
+            StringBuilder sb = new StringBuilder(error.getMessage());
+            sb.append("\n\n").append("Context:")
+                    .append("\n   Keys pressed: ").append(keysPressed)
+                    .append("\n   Mouse Buttons pressed: ").append(buttonsPressed);
+
+            return new AssertionError(sb.toString());
+        };
     }
 
     // INTERNAL CONTEXT.
