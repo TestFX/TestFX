@@ -21,6 +21,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -59,7 +61,14 @@ public final class FxAssert {
     @Unstable(reason = "is missing apidocs; might be removed due to complications with generics")
     public static <T> void verifyThat(T value,
                                       Matcher<? super T> matcher) {
-        verifyThatImpl(emptyReason(), value, matcher);
+        verifyThatImpl(emptyReason(), value, matcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might be removed due to complications with generics")
+    public static <T> void verifyThat(T value,
+                                      Matcher<? super T> matcher,
+                                      UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), value, matcher, errorHandler);
     }
 
     // ASSERTIONS: {NODE, NODES} + MATCHER.
@@ -67,13 +76,27 @@ public final class FxAssert {
     @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(T node,
                                                    Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), node, nodeMatcher);
+        verifyThatImpl(emptyReason(), node, nodeMatcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(T node,
+                                                   Matcher<T> nodeMatcher,
+                                                   UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), node, nodeMatcher, errorHandler);
     }
 
     @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
                                                        Matcher<Iterable<T>> nodesMatcher) {
-        verifyThatImpl(emptyReason(), nodes, nodesMatcher);
+        verifyThatImpl(emptyReason(), nodes, nodesMatcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), nodes, nodesMatcher, errorHandler);
     }
 
     // ASSERTIONS: STRING QUERY + MATCHER.
@@ -81,13 +104,27 @@ public final class FxAssert {
     @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(String nodeQuery,
+                                                   Matcher<T> nodeMatcher,
+                                                   UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, errorHandler);
     }
 
     @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(String nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
-        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(String nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, errorHandler);
     }
 
     // ASSERTIONS: NODE QUERY + MATCHER.
@@ -95,13 +132,27 @@ public final class FxAssert {
     @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
                                                    Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
+                                                   Matcher<T> nodeMatcher,
+                                                   UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher, errorHandler);
     }
 
     @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
-        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher, errorHandler);
     }
 
     // ASSERTIONS: {NODE, STRING QUERY, NODE QUERY} + PREDICATE.
@@ -109,19 +160,40 @@ public final class FxAssert {
     @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(T node,
                                                    Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
+        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate), defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(T node,
+                                                   Predicate<T> nodePredicate,
+                                                   UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate), errorHandler);
     }
 
     @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(String nodeQuery,
                                                    Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(String nodeQuery,
+                                                   Predicate<T> nodePredicate,
+                                                   UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), errorHandler);
     }
 
     @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
                                                    Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), defaultErrorHandler());
+    }
+
+    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
+                                                   Predicate<T> nodePredicate,
+                                                   UnaryOperator<AssertionError> errorHandler) {
+        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate), errorHandler);
     }
 
     // INTERNAL CONTEXT.
@@ -138,17 +210,23 @@ public final class FxAssert {
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static <T> void verifyThatImpl(String reason,
-                                           T value,
-                                           Matcher<? super T> matcher) {
+    /**
+     * Allow developer to debug a failed test (e.g. the state of the stage or node, which keys were pressed, etc.)
+     */
+    private static <T> void verifyThatImpl(String reason, T value, Matcher<? super T> matcher,
+                                           UnaryOperator<AssertionError> mapper) {
         try {
             MatcherAssert.assertThat(reason, value, matcher);
         }
         catch (AssertionError error) {
             // TODO: make error capture and assertion throw more reliable.
             // captureErrorScreenshot();
-            throw new AssertionError(error.getMessage());
+            throw mapper.apply(error);
         }
+    }
+
+    private static UnaryOperator<AssertionError> defaultErrorHandler() {
+        return error -> new AssertionError(error.getMessage());
     }
 
     private static String emptyReason() {
