@@ -89,8 +89,8 @@ public class DragAndDropTest extends TestCaseBase {
     @Test
     public void should_have_initialized_items() {
         // expect:
-        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3"));
-        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"));
+        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3"), this);
+        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"), this);
     }
 
     @Test
@@ -101,8 +101,8 @@ public class DragAndDropTest extends TestCaseBase {
         drop();
 
         // then:
-        verifyThat(leftListView.getItems(), contains("L2", "L3"));
-        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3", "L1")); // gets added to end of ListView
+        verifyThat(leftListView.getItems(), contains("L2", "L3"), this);
+        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3", "L1"), this); // gets added to end of ListView
     }
 
     @Test
@@ -113,8 +113,8 @@ public class DragAndDropTest extends TestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3", "R3"));
-        verifyThat(rightListView.getItems(), contains("R1", "R2"));
+        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3", "R3"), this);
+        verifyThat(rightListView.getItems(), contains("R1", "R2"), this);
     }
 
     @Ignore("see #383")
@@ -126,8 +126,8 @@ public class DragAndDropTest extends TestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3"));
-        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"));
+        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3"), this);
+        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"), this);
     }
 
 }

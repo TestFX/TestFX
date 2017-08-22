@@ -28,7 +28,7 @@ import org.testfx.cases.TestCaseBase;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testfx.api.FxAssert.verifyThat;
 
 public class FxToolkitBasicTest extends TestCaseBase {
 
@@ -54,7 +54,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         Stage stage = FxToolkit.registerPrimaryStage();
 
         // then:
-        assertThat(stage, instanceOf(Stage.class));
+        verifyThat(stage, instanceOf(Stage.class));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         Stage stage = FxToolkit.registerPrimaryStage();
 
         // then:
-        assertThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
+        verifyThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         Stage stage = FxToolkit.registerStage(Stage::new);
 
         // then:
-        assertThat(stage, instanceOf(Stage.class));
+        verifyThat(stage, instanceOf(Stage.class));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         Stage stage = FxToolkit.registerStage(Stage::new);
 
         // then:
-        assertThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
+        verifyThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         FxToolkit.showStage();
 
         // then:
-        assertThat(stage.isShowing(), is(true));
+        verifyThat(stage.isShowing(), is(true));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         FxToolkit.hideStage();
 
         // then:
-        assertThat(stage.isShowing(), is(false));
+        verifyThat(stage.isShowing(), is(false));
     }
 
 }
