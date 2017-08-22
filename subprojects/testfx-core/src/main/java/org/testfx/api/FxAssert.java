@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
+import javafx.event.Event;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -278,9 +279,15 @@ public final class FxAssert {
             Set<KeyCode> keysPressed = robot.robotContext().getKeyboardRobot().getPressedKeys();
             Set<MouseButton> buttonsPressed = robot.robotContext().getMouseRobot().getPressedButtons();
             StringBuilder sb = new StringBuilder(error.getMessage());
+            String spacedTab = "   ";
             sb.append("\n\n").append("Context:")
-                    .append("\n   Keys pressed: ").append(keysPressed)
-                    .append("\n   Mouse Buttons pressed: ").append(buttonsPressed);
+                    .append("\n").append(spacedTab).append("Keys pressed: ").append(keysPressed)
+                    .append("\n").append(spacedTab).append("Mouse Buttons pressed: ").append(buttonsPressed)
+                    .append("\n").append(spacedTab).append("Fired events since test began:");
+
+            FxToolkit.toolkitContext().getFiredEvents().stream()
+                    .map(Event::toString)
+                    .forEach(e -> sb.append("\n").append(spacedTab).append(spacedTab).append(e));
 
             return new AssertionError(sb.toString());
         };

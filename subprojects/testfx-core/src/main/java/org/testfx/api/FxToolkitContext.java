@@ -16,10 +16,14 @@
  */
 package org.testfx.api;
 
+import java.util.List;
+
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.stage.Stage;
 
 import org.testfx.api.annotation.Unstable;
+import org.testfx.service.support.FiredEvents;
 import org.testfx.toolkit.PrimaryStageApplication;
 import org.testfx.toolkit.PrimaryStageFuture;
 
@@ -62,6 +66,8 @@ public class FxToolkitContext {
     private String[] applicationArgs = new String[] {};
 
     private Stage registeredStage;
+
+    private FiredEvents firedEvents;
 
     /**
      * The number of milliseconds before timing out launch-related components. Default value: 60,000 (1 minute)
@@ -107,6 +113,14 @@ public class FxToolkitContext {
 
     public void setRegisteredStage(Stage registeredStage) {
         this.registeredStage = registeredStage;
+        if (firedEvents != null) {
+            firedEvents.stopStoringFiredEvents();
+        }
+        firedEvents = FiredEvents.beginStoringFiredEventsOf(registeredStage);
+    }
+
+    public List<Event> getFiredEvents() {
+        return firedEvents.getEvents();
     }
 
     public long getLaunchTimeoutInMillis() {
