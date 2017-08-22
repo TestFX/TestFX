@@ -279,15 +279,17 @@ public final class FxAssert {
             Set<KeyCode> keysPressed = robot.robotContext().getKeyboardRobot().getPressedKeys();
             Set<MouseButton> buttonsPressed = robot.robotContext().getMouseRobot().getPressedButtons();
             StringBuilder sb = new StringBuilder(error.getMessage());
-            String spacedTab = "   ";
+            // simulate tab character with 3 spaces
             sb.append("\n\n").append("Context:")
-                    .append("\n").append(spacedTab).append("Keys pressed: ").append(keysPressed)
-                    .append("\n").append(spacedTab).append("Mouse Buttons pressed: ").append(buttonsPressed)
-                    .append("\n").append(spacedTab).append("Fired events since test began:");
+                    .append("\n   ").append("Keys pressed at test failure: ")
+                    .append("\n      ").append(keysPressed)
+                    .append("\n   ").append("Mouse Buttons pressed at test failure: ")
+                    .append("\n      ").append(buttonsPressed)
+                    .append("\n   ").append("Fired events since test began:");
 
             FxToolkit.toolkitContext().getFiredEvents().stream()
                     .map(Event::toString)
-                    .forEach(e -> sb.append("\n").append(spacedTab).append(spacedTab).append(e));
+                    .forEach(e -> sb.append("\n      ").append(e));
 
             return new AssertionError(sb.toString());
         };
