@@ -35,6 +35,11 @@ import org.testfx.matcher.base.GeneralMatchers;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
+/**
+ * All TestFX tests should use {@link #verifyThat(Node, Matcher, Function)} when writing tests,
+ * so that the developer can use {@link org.testfx.util.DebugUtils} to provide additional info
+ * as to why a failed test failed.
+ */
 @Unstable(reason = "method signatures need fine-tuning")
 public final class FxAssert {
 
@@ -212,6 +217,8 @@ public final class FxAssert {
 
     /**
      * Allow developer to debug a failed test (e.g. the state of the stage or node, which keys were pressed, etc.)
+     *
+     * @see org.testfx.util.DebugUtils
      */
     private static <T> void verifyThatImpl(String reason, T value, Matcher<? super T> matcher,
                                            Function<StringBuilder, StringBuilder> errorMessageMapper) {
