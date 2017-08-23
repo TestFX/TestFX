@@ -55,6 +55,7 @@ public class FxAssertBasicTest extends TestCaseBase {
         verifyThat("#missing", isNull(), informedErrorMessage(this));
     }
 
+    // TODO: Deflake flaky test - [OSX - Partial Headless, Windows - Headed & Headless]
     @Test
     public void button_is_not_null() {
         // expect:
@@ -91,6 +92,7 @@ public class FxAssertBasicTest extends TestCaseBase {
         verifyThat("#button", isInvisible(), informedErrorMessage(this));
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void button_has_label() {
         // when:

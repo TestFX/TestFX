@@ -91,6 +91,7 @@ public class MenuBarTest {
         });
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void should_move_vertically_first() throws Exception {
         // When moving directly from "#fileMenu" to "#newItem" (i.e. diagonally) the {@code editMenu}

@@ -94,6 +94,7 @@ public class DragAndDropTest extends TestCaseBase {
         verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"), informedErrorMessage(this));
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void should_drag_and_drop_from_left_to_right() {
         // when:
@@ -107,6 +108,7 @@ public class DragAndDropTest extends TestCaseBase {
         verifyThat(rightListView.getItems(), contains("R1", "R2", "R3", "L1"), informedErrorMessage(this));
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void should_drag_and_drop_from_right_to_left() {
         // when:
