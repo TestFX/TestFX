@@ -37,6 +37,7 @@ import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isNotNull;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class FxAssertBasicTest extends TestCaseBase {
 
@@ -51,19 +52,19 @@ public class FxAssertBasicTest extends TestCaseBase {
     @Test
     public void missing_is_null() {
         // expect:
-        verifyThat("#missing", isNull(), this);
+        verifyThat("#missing", isNull(), informedErrorMessage(this));
     }
 
     @Test
     public void button_is_not_null() {
         // expect:
-        verifyThat("#button", isNotNull(), this);
+        verifyThat("#button", isNotNull(), informedErrorMessage(this));
     }
 
     @Test
     public void button_is_enabled() {
         // expect:
-        verifyThat("#button", isEnabled(), this);
+        verifyThat("#button", isEnabled(), informedErrorMessage(this));
     }
 
     @Test
@@ -72,13 +73,13 @@ public class FxAssertBasicTest extends TestCaseBase {
         interact(() -> lookup("#button").query().setDisable(true));
 
         // then:
-        verifyThat("#button", isDisabled(), this);
+        verifyThat("#button", isDisabled(), informedErrorMessage(this));
     }
 
     @Test
     public void button_is_visible() {
         // expect:
-        verifyThat("#button", isVisible(), this);
+        verifyThat("#button", isVisible(), informedErrorMessage(this));
     }
 
     @Test
@@ -87,7 +88,7 @@ public class FxAssertBasicTest extends TestCaseBase {
         interact(() -> lookup("#button").query().setVisible(false));
 
         // then:
-        verifyThat("#button", isInvisible(), this);
+        verifyThat("#button", isInvisible(), informedErrorMessage(this));
     }
 
     @Test
@@ -96,13 +97,13 @@ public class FxAssertBasicTest extends TestCaseBase {
         clickOn("#button");
 
         // then:
-        verifyThat("#button", hasText("clicked!"), this);
+        verifyThat("#button", hasText("clicked!"), informedErrorMessage(this));
     }
 
     @Test
     public void button_has_not_label() {
         // expect:
-        verifyThat("#button", not(hasText("clicked!")), this);
+        verifyThat("#button", not(hasText("clicked!")), informedErrorMessage(this));
     }
 
     //@Test
