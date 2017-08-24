@@ -37,17 +37,16 @@ import org.testfx.service.support.FiredEvents;
  *
  * <p>
  *     Quickly chain things together using {@link #compose(Function[])} or use standard handlers like
- *     {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)}. Any {@code tab} parameters in methods
- *     are there to specify what to insert as a tab. This could be a tab or a number of spaces. Default tab
- *     value is three spaces (e.g. {@code "   "}).
+ *     {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)}. Any {@code indent} parameters
+ *     in methods are there to specify what to insert to offset values. Default indent value is three spaces
+ *     (e.g. {@code "   "}).
  * </p>
  */
 public final class DebugUtils {
 
-    // simulate tab character with 3 spaces
-    // as it is easier to read the list of fired events
+    // 3 spaces easier to read the list of fired events
     // on Travis CI's console when error message is thrown
-    private static final String THREE_SPACES = "   ";
+    private static final String DEFAULT_INDENT = "   ";
 
     private DebugUtils() {
         throw new IllegalStateException("Cannot initialize DebugUtils");
@@ -87,26 +86,26 @@ public final class DebugUtils {
      * Inserts a header on a newline; useful for specifying a section in the message
      */
     public static Function<StringBuilder, StringBuilder> insertHeader(String headerText) {
-        return insertHeader(headerText, THREE_SPACES);
+        return insertHeader(headerText, DEFAULT_INDENT);
     }
 
-    public static Function<StringBuilder, StringBuilder> insertHeader(String headerText, String tab) {
-        return sb -> sb.append("\n\n").append(tab).append(headerText);
+    public static Function<StringBuilder, StringBuilder> insertHeader(String headerText, String indent) {
+        return sb -> sb.append("\n\n").append(indent).append(headerText);
     }
 
     /**
      * Shows the keys that were pressed when the test failed.
      */
     public static Function<StringBuilder, StringBuilder> showKeysPressedAtTestFailure(FxRobot robot) {
-        return showKeysPressedAtTestFailure(robot, THREE_SPACES);
+        return showKeysPressedAtTestFailure(robot, DEFAULT_INDENT);
     }
 
-    public static Function<StringBuilder, StringBuilder> showKeysPressedAtTestFailure(FxRobot robot, String tab) {
+    public static Function<StringBuilder, StringBuilder> showKeysPressedAtTestFailure(FxRobot robot, String indent) {
         return sb -> {
             Set<KeyCode> keysPressed = robot.robotContext().getKeyboardRobot().getPressedKeys();
             return sb
-                    .append("\n").append(tab).append("Keys pressed at test failure:")
-                    .append("\n").append(tab).append(tab).append(keysPressed);
+                    .append("\n").append(indent).append("Keys pressed at test failure:")
+                    .append("\n").append(indent).append(indent).append(keysPressed);
         };
     }
 
@@ -114,16 +113,16 @@ public final class DebugUtils {
      * Shows the {@link MouseButton}s that were pressed when the test failed.
      */
     public static Function<StringBuilder, StringBuilder> showMouseButtonsPressedAtTestFailure(FxRobot robot) {
-        return showMouseButtonsPressedAtTestFailure(robot, THREE_SPACES);
+        return showMouseButtonsPressedAtTestFailure(robot, DEFAULT_INDENT);
     }
 
     public static Function<StringBuilder, StringBuilder> showMouseButtonsPressedAtTestFailure(FxRobot robot,
-                                                                                              String tab) {
+                                                                                              String indent) {
         return sb -> {
             Set<MouseButton> mouseButtons = robot.robotContext().getMouseRobot().getPressedButtons();
             return sb
-                    .append("\n").append(tab).append("Mouse Buttons pressed at test failure:")
-                    .append("\n").append(tab).append(tab).append(mouseButtons);
+                    .append("\n").append(indent).append("Mouse Buttons pressed at test failure:")
+                    .append("\n").append(indent).append(indent).append(mouseButtons);
         };
     }
 
@@ -132,13 +131,13 @@ public final class DebugUtils {
      * {@link org.testfx.api.FxToolkitContext#getFiredEvents()} will be shown
      */
     public static Function<StringBuilder, StringBuilder> showFiredEvents() {
-        return showFiredEvents(THREE_SPACES);
+        return showFiredEvents(DEFAULT_INDENT);
     }
 
-    public static Function<StringBuilder, StringBuilder> showFiredEvents(String tab) {
+    public static Function<StringBuilder, StringBuilder> showFiredEvents(String indent) {
         return sb -> {
             List<Event> firedEvents = FxToolkit.toolkitContext().getFiredEvents();
-            return showFiredEvents(firedEvents, tab).apply(sb);
+            return showFiredEvents(firedEvents, indent).apply(sb);
         };
     }
 
@@ -146,24 +145,24 @@ public final class DebugUtils {
      * Shows all events that were fired since the start of the test.
      */
     public static Function<StringBuilder, StringBuilder> showFiredEvents(FiredEvents events) {
-        return showFiredEvents(events, THREE_SPACES);
+        return showFiredEvents(events, DEFAULT_INDENT);
     }
 
-    public static Function<StringBuilder, StringBuilder> showFiredEvents(FiredEvents events, String tab) {
-        return showFiredEvents(events.getEvents(), tab);
+    public static Function<StringBuilder, StringBuilder> showFiredEvents(FiredEvents events, String indent) {
+        return showFiredEvents(events.getEvents(), indent);
     }
 
     public static Function<StringBuilder, StringBuilder> showFiredEvents(List<Event> events) {
-        return showFiredEvents(events, THREE_SPACES);
+        return showFiredEvents(events, DEFAULT_INDENT);
     }
 
-    public static Function<StringBuilder, StringBuilder> showFiredEvents(List<Event> events, String tab) {
+    public static Function<StringBuilder, StringBuilder> showFiredEvents(List<Event> events, String indent) {
         return sb -> {
-            sb.append("\n").append(tab).append("Fired events since test began:");
+            sb.append("\n").append(indent).append("Fired events since test began:");
 
             events.stream()
                     .map(Event::toString)
-                    .forEach(e -> sb.append("\n").append(tab).append(tab).append(e));
+                    .forEach(e -> sb.append("\n").append(indent).append(indent).append(e));
 
             return sb;
         };
@@ -199,13 +198,13 @@ public final class DebugUtils {
             function = insertHeader(headerText).compose(function);
         }
         if (showKeysPressed) {
-            function = showKeysPressedAtTestFailure(robot, THREE_SPACES).compose(function);
+            function = showKeysPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
         }
         if (showMouseButtonsPressed) {
-            function = showMouseButtonsPressedAtTestFailure(robot, THREE_SPACES).compose(function);
+            function = showMouseButtonsPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
         }
         if (showFiredEvents) {
-            function = showFiredEvents(THREE_SPACES).compose(function);
+            function = showFiredEvents(DEFAULT_INDENT).compose(function);
         }
         return function;
     }
