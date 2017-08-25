@@ -287,49 +287,6 @@ public final class DebugUtils {
         return insertContent("Fired events since test began:", events, indent);
     }
 
-    /**
-     * Convenience method for {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)} with all
-     * booleans set to {@code true} and the header text set to {@code "Context:"}.
-     */
-    public static Function<StringBuilder, StringBuilder> informedErrorMessage(FxRobot robot) {
-        return informedErrorMessage(robot, "Context:");
-    }
-
-    /**
-     * Convenience method for {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)} with all
-     * booleans set to {@code true}.
-     */
-    public static Function<StringBuilder, StringBuilder> informedErrorMessage(FxRobot robot, String headerText) {
-        return informedErrorMessage(headerText, true, robot, true, true);
-    }
-
-    /**
-     * Convenience method for {@link #insertHeader(String)} using "Context:" as the header text and then, via
-     * {@link #insertContent(String, Object)}, composes {@link #showKeysPressedAtTestFailure(FxRobot)},
-     * {@link #showMouseButtonsPressedAtTestFailure(FxRobot)}, and {@link #showFiredEvents()} together in
-     * their given order, depending on what the booleans are.
-     */
-    public static Function<StringBuilder, StringBuilder> informedErrorMessage(String headerText,
-                                                                              boolean showFiredEvents,
-                                                                              FxRobot robot,
-                                                                              boolean showKeysPressed,
-                                                                              boolean showMouseButtonsPressed) {
-        Function<StringBuilder, StringBuilder> function = Function.identity();
-        if (headerText != null) {
-            function = insertHeader(headerText).compose(function);
-        }
-        if (showKeysPressed) {
-            function = showKeysPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
-        }
-        if (showMouseButtonsPressed) {
-            function = showMouseButtonsPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
-        }
-        if (showFiredEvents) {
-            function = showFiredEvents(DEFAULT_INDENT).compose(function);
-        }
-        return function;
-    }
-
     //---------------------------------------------------------------------------------------------
     // CAPTURE SUPPORT.
     //---------------------------------------------------------------------------------------------
@@ -528,6 +485,53 @@ public final class DebugUtils {
 
             captureSupport.saveImage(errorImage, capturedImagePath.get());
         });
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // DEFAULT ERROR HANDLER METHODS.
+    //---------------------------------------------------------------------------------------------
+
+    /**
+     * Convenience method for {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)} with all
+     * booleans set to {@code true} and the header text set to {@code "Context:"}.
+     */
+    public static Function<StringBuilder, StringBuilder> informedErrorMessage(FxRobot robot) {
+        return informedErrorMessage(robot, "Context:");
+    }
+
+    /**
+     * Convenience method for {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)} with all
+     * booleans set to {@code true}.
+     */
+    public static Function<StringBuilder, StringBuilder> informedErrorMessage(FxRobot robot, String headerText) {
+        return informedErrorMessage(headerText, true, robot, true, true);
+    }
+
+    /**
+     * Convenience method for {@link #insertHeader(String)} using "Context:" as the header text and then, via
+     * {@link #insertContent(String, Object)}, composes {@link #showKeysPressedAtTestFailure(FxRobot)},
+     * {@link #showMouseButtonsPressedAtTestFailure(FxRobot)}, and {@link #showFiredEvents()} together in
+     * their given order, depending on what the booleans are.
+     */
+    public static Function<StringBuilder, StringBuilder> informedErrorMessage(String headerText,
+                                                                              boolean showFiredEvents,
+                                                                              FxRobot robot,
+                                                                              boolean showKeysPressed,
+                                                                              boolean showMouseButtonsPressed) {
+        Function<StringBuilder, StringBuilder> function = Function.identity();
+        if (headerText != null) {
+            function = insertHeader(headerText).compose(function);
+        }
+        if (showKeysPressed) {
+            function = showKeysPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
+        }
+        if (showMouseButtonsPressed) {
+            function = showMouseButtonsPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
+        }
+        if (showFiredEvents) {
+            function = showFiredEvents(DEFAULT_INDENT).compose(function);
+        }
+        return function;
     }
 
     //---------------------------------------------------------------------------------------------
