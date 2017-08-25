@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import javafx.event.Event;
 import javafx.geometry.Bounds;
@@ -69,6 +70,10 @@ public final class DebugUtils {
         throw new IllegalStateException("Cannot initialize DebugUtils");
     }
 
+    //---------------------------------------------------------------------------------------------
+    // COMPOSITION AND CREATION SUPPORT.
+    //---------------------------------------------------------------------------------------------
+
     /**
      * Composes multiple functions together into one. The ones to run first should be the first in the array,
      * and the ones to run last should be at the end of the array.
@@ -99,10 +104,6 @@ public final class DebugUtils {
         };
     }
 
-    //---------------------------------------------------------------------------------------------
-    // ERROR MESSAGE SUPPORT.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Inserts a header on a newline; useful for specifying a section in the message
      */
@@ -115,7 +116,80 @@ public final class DebugUtils {
     }
 
     /**
-     * Shows the keys that were pressed when the test failed.
+     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
+     * Then, inserts a newline followed by three indents followed by the content itself.
+     */
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object content) {
+        return insertContent(contentHeading, content, DEFAULT_INDENT);
+    }
+
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object content,
+                                                                       String indent) {
+        return sb -> sb
+                .append("\n").append(indent).append(indent).append(contentHeading)
+                .append("\n").append(indent).append(indent).append(indent).append(content);
+
+    }
+
+    /**
+     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
+     * Then, for each item in the list, inserts a newline followed by three indents followed by the list item itself.
+     */
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Iterable<?> contentIter) {
+        return insertContent(contentHeading, contentIter, DEFAULT_INDENT);
+    }
+
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Iterable<?> contentIter,
+                                                                       String indent) {
+        return sb -> {
+            sb
+                    .append("\n").append(indent).append(indent).append(contentHeading);
+            contentIter.forEach(content -> sb
+                    .append("\n").append(indent).append(indent).append(indent).append(content)
+            );
+            return sb;
+        };
+    }
+
+    /**
+     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
+     * Then, for each item in the array, inserts a newline followed by three indents followed by the array item itself.
+     */
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object[] contentArray) {
+        return insertContent(contentHeading, contentArray, DEFAULT_INDENT);
+    }
+
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object[] contentArray,
+                                                                       String indent) {
+        return insertContent(contentHeading, Stream.of(contentArray), indent);
+    }
+
+    /**
+     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
+     * Then, for each item in the stream, inserts a newline followed by three indents followed by the next item itself.
+     */
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Stream<?> contentStream) {
+        return insertContent(contentHeading, contentStream, DEFAULT_INDENT);
+    }
+
+    public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Stream<?> contentStream,
+                                                                       String indent) {
+        return sb -> {
+            sb
+                .append("\n").append(indent).append(indent).append(contentHeading);
+            contentStream.forEach(content -> sb
+                .append("\n").append(indent).append(indent).append(indent).append(content)
+            );
+            return sb;
+        };
+    }
+
+    //---------------------------------------------------------------------------------------------
+    // ERROR MESSAGE SUPPORT.
+    //---------------------------------------------------------------------------------------------
+
+    /**
+     * Via {@link #insertContent(String, Object)}: shows the keys that were pressed when the test failed.
      */
     public static Function<StringBuilder, StringBuilder> showKeysPressedAtTestFailure(FxRobot robot) {
         return showKeysPressedAtTestFailure(robot, DEFAULT_INDENT);
@@ -124,14 +198,14 @@ public final class DebugUtils {
     public static Function<StringBuilder, StringBuilder> showKeysPressedAtTestFailure(FxRobot robot, String indent) {
         return sb -> {
             Set<KeyCode> keysPressed = robot.robotContext().getKeyboardRobot().getPressedKeys();
-            return sb
-                    .append("\n").append(indent).append("Keys pressed at test failure:")
-                    .append("\n").append(indent).append(indent).append(keysPressed);
+            return insertContent("Keys pressed at test failure:", keysPressed, indent)
+                .apply(sb);
         };
     }
 
     /**
-     * Shows the {@link MouseButton}s that were pressed when the test failed.
+     * Via {@link #insertContent(String, Object)}: shows the {@link MouseButton}s
+     * that were pressed when the test failed.
      */
     public static Function<StringBuilder, StringBuilder> showMouseButtonsPressedAtTestFailure(FxRobot robot) {
         return showMouseButtonsPressedAtTestFailure(robot, DEFAULT_INDENT);
@@ -141,15 +215,14 @@ public final class DebugUtils {
                                                                                               String indent) {
         return sb -> {
             Set<MouseButton> mouseButtons = robot.robotContext().getMouseRobot().getPressedButtons();
-            return sb
-                    .append("\n").append(indent).append("Mouse Buttons pressed at test failure:")
-                    .append("\n").append(indent).append(indent).append(mouseButtons);
+            return insertContent("Mouse Buttons pressed at test failure:", mouseButtons, indent)
+                .apply(sb);
         };
     }
 
     /**
-     * Shows all events that were fired since the start of the test. Note: only events stored in
-     * {@link org.testfx.api.FxToolkitContext#getFiredEvents()} will be shown
+     * Via {@link #insertContent(String, Object)}: shows all events that were fired since the start of the test.
+     * Note: only events stored in {@link org.testfx.api.FxToolkitContext#getFiredEvents()} will be shown
      */
     public static Function<StringBuilder, StringBuilder> showFiredEvents() {
         return showFiredEvents(DEFAULT_INDENT);
@@ -163,7 +236,7 @@ public final class DebugUtils {
     }
 
     /**
-     * Shows all events that were fired since the start of the test.
+     * Via {@link #insertContent(String, Object)}: shows all events that were fired since the start of the test.
      */
     public static Function<StringBuilder, StringBuilder> showFiredEvents(FiredEvents events) {
         return showFiredEvents(events, DEFAULT_INDENT);
@@ -178,15 +251,7 @@ public final class DebugUtils {
     }
 
     public static Function<StringBuilder, StringBuilder> showFiredEvents(List<Event> events, String indent) {
-        return sb -> {
-            sb.append("\n").append(indent).append("Fired events since test began:");
-
-            events.stream()
-                    .map(Event::toString)
-                    .forEach(e -> sb.append("\n").append(indent).append(indent).append(e));
-
-            return sb;
-        };
+        return insertContent("Fired events since test began:", events, indent);
     }
 
     /**
@@ -206,8 +271,10 @@ public final class DebugUtils {
     }
 
     /**
-     * Convenience method for composing {@link #showFiredEvents()}, {@link #showKeysPressedAtTestFailure(FxRobot)},
-     * and {@link #showMouseButtonsPressedAtTestFailure(FxRobot)} together, depending on what the booleans are.
+     * Convenience method for {@link #insertHeader(String)} using "Context:" as the header text and then, via
+     * {@link #insertContent(String, Object)}, composes {@link #showKeysPressedAtTestFailure(FxRobot)},
+     * {@link #showMouseButtonsPressedAtTestFailure(FxRobot)}, and {@link #showFiredEvents()} together in
+     * their given order, depending on what the booleans are.
      */
     public static Function<StringBuilder, StringBuilder> informedErrorMessage(String headerText,
                                                                               boolean showFiredEvents,
