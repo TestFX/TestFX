@@ -540,7 +540,7 @@ public final class DebugUtils {
 
             Path path = capturedImagePath.get();
             captureSupport.saveImage(errorImage, path);
-            insertContent("Test image saved at:", path.toAbsolutePath(), indent).apply(sb);
+            insertContent("Test image saved at:", path.toAbsolutePath().toString(), indent).apply(sb);
             return sb;
         };
     }
