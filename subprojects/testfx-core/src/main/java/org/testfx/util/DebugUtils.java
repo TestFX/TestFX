@@ -59,6 +59,40 @@ import org.testfx.service.support.FiredEvents;
  *     and save images, or create your own via {@link #saveTestImage(Function, Supplier)},
  *     {@link #captureBounds(Bounds)}, and your own {@code Supplier<Path>}.
  * </p>
+ * <p>
+ *     This class follows the given philosophy in how to add additional information to the {@link AssertionError}'s
+ *     message:
+ * <pre><code>
+ * // Template:
+ * compose(
+ *      // insert a header for the section of error information
+ *      insertHeader(headerText),
+ *      // insert the specific content that falls under this header
+ *      insertContent(contentHeading, content),
+ *      insertContent(contentHeading2, contentIterable),
+ *      insertContent(contentHeading3, contentArray),
+ *      insertContent(contentHeading4, contentStream),
+ *
+ *      // insert a header for the section of error information
+ *      insertHeader(headerText),
+ *      // insert the specific content that falls under this header
+ *      insertContent(contentHeading5, contentStream2),
+ *      insertContent(contentHeading6, contentStream3),
+ * );
+ *
+ * // Example:
+ * compose(
+ *      insertHeader("Context:"),
+ *      showKeysPressedAtTestFailure(this),
+ *      showMouseButtonsPressedAtTestFailure(this),
+ *      showFiredEvents(),
+ *      saveScreenshot()
+ * );
+ *
+ * // The above example can be done using one method:
+ * informedErrorMessage(this);
+ * </code></pre>
+ * </p>
  */
 public final class DebugUtils {
 
