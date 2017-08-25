@@ -20,9 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -33,7 +31,6 @@ import static org.hamcrest.Matchers.is;
  * For keys, this prevents hanging issues (if Shortcut key is pressed) or deletion issues (if backspace/delete key
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Override
@@ -42,22 +39,26 @@ public class KeyAndButtonReleaseTest extends ApplicationTest {
     }
 
     @Test
-    public void b_When_a_test_forgets_to_release_keys() {
+    public void pressed_keys_are_released_at_test_end() throws Exception {
+        // given:
         press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT);
-    }
 
-    @Test
-    public void c_Then_keys_are_not_pressed() {
+        // when:
+        internalAfter();
+
+        // then:
         assertThat(robotContext().getKeyboardRobot().getPressedKeys().isEmpty(), is(true));
     }
 
     @Test
-    public void e_When_a_test_forgets_to_release_buttons() {
+    public void pressed_buttons_are_released_at_test_end() throws Exception {
+        // given:
         press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE);
-    }
 
-    @Test
-    public void f_Then_buttons_are_not_pressed() {
+        // when:
+        internalAfter();
+
+        // then:
         assertThat(robotContext().getMouseRobot().getPressedButtons().isEmpty(), is(true));
     }
 }

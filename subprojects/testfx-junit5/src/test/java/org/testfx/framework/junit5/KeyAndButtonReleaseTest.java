@@ -20,7 +20,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,8 +31,6 @@ import static org.hamcrest.Matchers.is;
  * For keys, this prevents hanging issues (if Shortcut key is pressed) or deletion issues (if backspace/delete key
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */
-//TODO junit5 doesn't support test ordering ATM, but this functionality can be added in future.
-@Disabled
 class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Override
@@ -42,22 +39,26 @@ class KeyAndButtonReleaseTest extends ApplicationTest {
     }
 
     @Test
-    void b_When_a_test_forgets_to_release_keys() {
+    void pressed_keys_are_released_at_test_end() throws Exception {
+        // given:
         press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT);
-    }
 
-    @Test
-    void c_Then_keys_are_not_pressed() {
+        // when:
+        internalAfter();
+
+        // then:
         assertThat(robotContext().getKeyboardRobot().getPressedKeys().isEmpty(), is(true));
     }
 
     @Test
-    void e_When_a_test_forgets_to_release_buttons() {
+    void pressed_buttons_are_released_at_test_end() throws Exception {
+        // given:
         press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE);
-    }
 
-    @Test
-    void f_Then_buttons_are_not_pressed() {
+        // when:
+        internalAfter();
+
+        // then:
         assertThat(robotContext().getMouseRobot().getPressedButtons().isEmpty(), is(true));
     }
 }
