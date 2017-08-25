@@ -119,7 +119,6 @@ public final class DebugUtils {
         } else if (functions.length == 1) {
             return functions[0];
         } else {
-            // reverse array due to composition
             return Arrays.stream(functions)
                     // flip arguments so that functions will be run in the order
                     // in which they appear in the given array
