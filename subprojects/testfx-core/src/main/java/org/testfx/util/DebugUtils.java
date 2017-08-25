@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -48,9 +49,9 @@ import org.testfx.service.support.FiredEvents;
  *
  * <p>
  *     Quickly chain things together using {@link #compose(Function[])} or use standard handlers like
- *     {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)}. Any {@code indent} parameters
- *     in methods are there to specify what to insert to offset values. Default indent value is three spaces
- *     (e.g. {@code "   "}).
+ *     {@link #informedErrorMessage(String, boolean, boolean, FxRobot, boolean, boolean)}.
+ *     Any {@code indent} parameters in methods are there to specify what to insert to offset values.
+ *     Default indent value is three spaces (e.g. {@code "   "}).
  * </p>
  * <p>
  *     When a test fails, an image of the test can be captured and saved to a PNG file. Supports a number
@@ -101,6 +102,7 @@ public final class DebugUtils {
     // 3 spaces easier to read the list of fired events
     // on Travis CI's console when error message is thrown
     private static final String DEFAULT_INDENT = "   ";
+    private static final AtomicInteger DEFAULT_PHOTO_NUMBER = new AtomicInteger(0);
 
     private DebugUtils() {
         throw new IllegalStateException("Cannot initialize DebugUtils");
@@ -329,6 +331,14 @@ public final class DebugUtils {
     }
 
     /**
+     * Returns {@link #defaultImagePath(String, int)} with "testfx-test" as the test name and
+     * {@link AtomicInteger#getAndIncrement() gets and increments} the next photo number.
+     */
+    public static Supplier<Path> defaultImagePath() {
+        return defaultImagePath("testfx-test", DEFAULT_PHOTO_NUMBER.getAndIncrement());
+    }
+
+    /**
      * Returns {@code () -> Paths.get(testName + " - 0.png");}
      */
     public static Supplier<Path> defaultImagePath(String testName) {
@@ -340,6 +350,13 @@ public final class DebugUtils {
      */
     public static Supplier<Path> defaultImagePath(String testName, int photoNumber) {
         return () -> Paths.get(testName + " - " + photoNumber + ".png");
+    }
+
+    /**
+     * Saves the captured primary screen image using {@link #defaultImagePath()} and the {@link #DEFAULT_INDENT}.
+     */
+    public static Function<StringBuilder, StringBuilder> saveScreenshot() {
+        return saveScreenshot(defaultImagePath(), DEFAULT_INDENT);
     }
 
     /**
@@ -397,8 +414,16 @@ public final class DebugUtils {
      * to the supplied path.
      */
     public static Function<StringBuilder, StringBuilder> saveScreenshot(int screenIndex,
-                                                                        Supplier<Path> capturedImagePath, String indent) {
+                                                                        Supplier<Path> capturedImagePath,
+                                                                        String indent) {
         return saveTestImage(captureScreenshot(screenIndex), capturedImagePath, indent);
+    }
+
+    /**
+     * Saves the captured registered stage image using {@link #defaultImagePath()} and the {@link #DEFAULT_INDENT}.
+     */
+    public static Function<StringBuilder, StringBuilder> saveWindow() {
+        return saveWindow(defaultImagePath(), DEFAULT_INDENT);
     }
 
     /**
@@ -431,6 +456,13 @@ public final class DebugUtils {
         return saveTestImage(captureWindow(window), capturedImagePath, indent);
     }
 
+    /**
+     * Saves the captured image based on the given bounds using {@link #defaultImagePath()}
+     * and the {@link #DEFAULT_INDENT}.
+     */
+    public static Function<StringBuilder, StringBuilder> saveBounds(Bounds bounds) {
+        return saveBounds(bounds, defaultImagePath(), DEFAULT_INDENT);
+    }
 
     /**
      * Saves the captured image based on the given bounds to "testName - photoNumber.png"
@@ -449,6 +481,14 @@ public final class DebugUtils {
     }
 
     /**
+     * Saves the captured image based on the given bounds using {@link #defaultImagePath()}
+     * and the {@link #DEFAULT_INDENT}.
+     */
+    public static Function<StringBuilder, StringBuilder> saveBounds(Rectangle2D bounds) {
+        return saveBounds(bounds, defaultImagePath(), DEFAULT_INDENT);
+    }
+
+    /**
      * Saves the captured image based on the given bounds to "testName - photoNumber.png"
      * (e.g. "button_has_label - 2.png").
      */
@@ -463,6 +503,13 @@ public final class DebugUtils {
     public static Function<StringBuilder, StringBuilder> saveBounds(Rectangle2D bounds,
                                                                     Supplier<Path> capturedImagePath, String indent) {
         return saveTestImage(captureBounds(bounds), capturedImagePath, indent);
+    }
+
+    /**
+     * Saves the captured node using {@link #defaultImagePath()} and the {@link #DEFAULT_INDENT}.
+     */
+    public static Function<StringBuilder, StringBuilder> saveNode(Node node) {
+        return saveNode(node, defaultImagePath(), DEFAULT_INDENT);
     }
 
     /**
@@ -503,19 +550,19 @@ public final class DebugUtils {
     //---------------------------------------------------------------------------------------------
 
     /**
-     * Convenience method for {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)} with all
-     * booleans set to {@code true} and the header text set to {@code "Context:"}.
+     * Convenience method for {@link #informedErrorMessage(String, boolean, boolean, FxRobot, boolean, boolean)}
+     * with all booleans set to {@code true} and the header text set to {@code "Context:"}.
      */
     public static Function<StringBuilder, StringBuilder> informedErrorMessage(FxRobot robot) {
         return informedErrorMessage(robot, "Context:");
     }
 
     /**
-     * Convenience method for {@link #informedErrorMessage(String, boolean, FxRobot, boolean, boolean)} with all
-     * booleans set to {@code true}.
+     * Convenience method for {@link #informedErrorMessage(String, boolean, boolean, FxRobot, boolean, boolean)}
+     * with all booleans set to {@code true}.
      */
     public static Function<StringBuilder, StringBuilder> informedErrorMessage(FxRobot robot, String headerText) {
-        return informedErrorMessage(headerText, true, robot, true, true);
+        return informedErrorMessage(headerText, true, true, robot, true, true);
     }
 
     /**
@@ -525,6 +572,7 @@ public final class DebugUtils {
      * their given order, depending on what the booleans are.
      */
     public static Function<StringBuilder, StringBuilder> informedErrorMessage(String headerText,
+                                                                              boolean takeScreenshot,
                                                                               boolean showFiredEvents,
                                                                               FxRobot robot,
                                                                               boolean showKeysPressed,
@@ -532,6 +580,9 @@ public final class DebugUtils {
         Function<StringBuilder, StringBuilder> function = Function.identity();
         if (headerText != null) {
             function = insertHeader(headerText).compose(function);
+        }
+        if (takeScreenshot) {
+            function = saveScreenshot().compose(function);
         }
         if (showKeysPressed) {
             function = showKeysPressedAtTestFailure(robot, DEFAULT_INDENT).compose(function);
