@@ -48,12 +48,12 @@ matrix:
           packages:
             - oracle-java9-installer
     - os: osx
-      osx_image: xcode8.2
+      osx_image: xcode9
       env:
         - OSX_HEADLESS=false
         - _JAVA_OPTIONS="-Dprism.order=sw"
     - os: osx
-      osx_image: xcode8.2
+      osx_image: xcode9
       env: _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
   allow_failures:
     - jdk: oraclejdk9
