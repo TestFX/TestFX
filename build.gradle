@@ -27,10 +27,10 @@ buildscript {
         jcenter()
     }
 }
+
 plugins {
     id "com.github.hierynomus.license" version "0.14.0"
     id "com.jfrog.bintray" version "1.7.3"
-
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -54,6 +54,7 @@ rootProject.with { project ->
         println "Java version: ${System.properties["java.version"]}"
         println "Gradle version: ${gradle.gradleVersion}"
         println "Groovy version: ${GroovySystem.version}"
+        println "${JavaVersion.current().majorVersion}"
     }
 
     ext {
@@ -105,7 +106,7 @@ subprojects { subproject ->
     apply(plugin: "java")
 
     apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
-    apply(from: rootProject.file("gradle/check-findbugs.gradle"))
+    //apply(from: rootProject.file("gradle/check-findbugs.gradle"))
     //apply(from: rootProject.file("gradle/check-jdepend.gradle"))
     apply(from: rootProject.file("gradle/check-license.gradle"))
 
@@ -139,17 +140,10 @@ subprojects { subproject ->
         javadocJar
     }
 
-    // source code compatible to java 8.
+    // source code compatible to current java version
     subproject.tasks.withType(JavaCompile) {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-    }
-
-    // configure javadoc task.
-    if (JavaVersion.current().isJava8Compatible()) {
-        tasks.withType(Javadoc) {
-            options.addStringOption("Xdoclint:none", "-quiet")
-        }
+        sourceCompatibility = "1.${JavaVersion.current().majorVersion}"
+        targetCompatibility = "1.${JavaVersion.current().majorVersion}"
     }
 
     // use utf-8 encoding for java compile.
@@ -211,10 +205,9 @@ subprojects { subproject ->
         options.windowTitle = "${subproject.pomDescription} ${version} API"
         options.docTitle    = "${subproject.pomDescription} ${version} API"
         options.footer      = project.javadocFooter
-        options.links       = [
-            "http://docs.oracle.com/javase/8/docs/api/",
-            "http://docs.oracle.com/javase/8/javafx/api/"
-        ]
+        options.links "http://docs.oracle.com/javase/${JavaVersion.current().majorVersion}/docs/api/",
+                "http://docs.oracle.com/javase/${JavaVersion.current().majorVersion}/javafx/api/"
+        options.addStringOption("Xdoclint:none", "-quiet")
     }
 }
 

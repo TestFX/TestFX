@@ -8,9 +8,9 @@ ulimit -c unlimited -S
 
 # Increase build log verbosity for JDK 9.
 if [ "$TRAVIS_JDK_VERSION" == "oraclejdk9" ]; then
-  ./gradlew build --debug --stacktrace
+  ./gradlew :testfx-core-jdk9:buildNeeded --stacktrace --info
 else
-  ./gradlew build --info
+  ./gradlew :testfx-core:buildNeeded --info
 fi
 
 # Print core dumps when JVM crashes.

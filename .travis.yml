@@ -42,7 +42,7 @@ matrix:
       jdk: oraclejdk9
       env:
         - USE_FRAMEBUFFER=true
-        - _JAVA_OPTIONS="-XX:+IgnoreUnrecognizedVMOptions --add-opens=java.base/java.lang=ALL-UNNAMED --add-exports-private java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --permit-illegal-access"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
       addons:
         apt:
           packages:
