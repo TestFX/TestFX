@@ -1,0 +1,39 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
+ */
+
+ext.pomDescription = "TestFX Core JDK 9"
+
+compileJava {
+    options.compilerArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED", "--add-opens", "java.base/java.util=ALL-UNNAMED", "--add-exports", "javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"]
+
+    javadoc {
+        options.addStringOption('-add-exports', 'javafx.graphics/com.sun.glass.ui=ALL-UNNAMED')
+    }
+}
+
+dependencies {
+    compile "com.google.guava:guava:23.0"
+    compile "org.hamcrest:hamcrest-core:1.3"
+    compile 'com.google.code.findbugs:annotations:3.0.1u2'
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-core:2.9.0"
+    testCompile "org.hamcrest:hamcrest-library:1.3"
+    testCompile "org.controlsfx:controlsfx:8.40.13"
+    testCompile "org.testfx:openjfx-monocle:8u76-b04"
+}
+
