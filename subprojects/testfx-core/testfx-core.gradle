@@ -18,6 +18,13 @@
 ext.pomDescription = "TestFX Core"
 
 dependencies {
+    // use correct API internally depending on which Java version is being used
+    if (usingJava9) {
+        compile project(":testfx-internal-java9")
+    } else {
+        compile project(":testfx-internal-java8")
+    }
+
     compile "com.google.guava:guava:21.0"
     compile "org.hamcrest:hamcrest-core:1.3"
     compile 'com.google.code.findbugs:annotations:3.0.1u2'
@@ -28,3 +35,19 @@ dependencies {
     testCompile "org.controlsfx:controlsfx:8.40.12"
     testCompile "org.testfx:openjfx-monocle:8u76-b04"
 }
+
+
+compileJava {
+    if (usingJava9) {
+        options.compilerArgs += [
+                "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+                "--add-opens", "java.base/java.util=ALL-UNNAMED",
+                "--add-exports", "javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+        ]
+
+        javadoc {
+            options.addStringOption('-add-exports', 'javafx.graphics/com.sun.glass.ui=ALL-UNNAMED')
+        }
+    }
+}
+

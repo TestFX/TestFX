@@ -39,6 +39,7 @@ import org.testfx.toolkit.impl.ApplicationServiceImpl;
 import org.testfx.toolkit.impl.ToolkitServiceImpl;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.testfx.service.adapter.JavaVersionAdapter.getWindows;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
@@ -294,7 +295,7 @@ public final class FxToolkit {
 
     /**
      * Runs on the {@code JavaFX Application Thread}: Hides all windows returned from
-     * {@link Window#impl_getWindows()} and returns once finished.
+     * {@link org.testfx.service.adapter.JavaVersionAdapter#getWindows()} and returns once finished.
      */
     public static void cleanupStages()
             throws TimeoutException {
@@ -350,7 +351,7 @@ public final class FxToolkit {
 
     @SuppressWarnings("deprecation")
     private static Set<Window> fetchAllWindows() {
-        return ImmutableSet.copyOf(Window.impl_getWindows());
+        return ImmutableSet.copyOf(getWindows());
     }
 
     private static void preventShutdownWhenLastWindowIsClosed() {

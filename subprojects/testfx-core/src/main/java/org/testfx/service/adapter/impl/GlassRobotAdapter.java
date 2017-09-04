@@ -35,6 +35,7 @@ import com.sun.glass.ui.Robot;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
+import static org.testfx.service.adapter.JavaVersionAdapter.convertToKeyCodeId;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
@@ -172,11 +173,6 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     private Robot createGlassRobot() {
         return Application.GetApplication().createRobot();
-    }
-
-    @SuppressWarnings("deprecation")
-    private int convertToKeyCodeId(KeyCode keyCode) {
-        return keyCode.impl_getCode();
     }
 
     private Point2D convertFromCoordinates(int pointX,

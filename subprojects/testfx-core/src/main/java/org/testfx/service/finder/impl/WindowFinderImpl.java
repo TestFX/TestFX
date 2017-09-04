@@ -34,6 +34,8 @@ import com.google.common.collect.Lists;
 
 import org.testfx.service.finder.WindowFinder;
 
+import static org.testfx.service.adapter.JavaVersionAdapter.getWindows;
+
 public class WindowFinderImpl implements WindowFinder {
 
     //---------------------------------------------------------------------------------------------
@@ -138,7 +140,7 @@ public class WindowFinderImpl implements WindowFinder {
 
     @SuppressWarnings("deprecation")
     private List<Window> fetchWindowsInQueue() {
-        List<Window> windows = Lists.newArrayList(Window.impl_getWindows());
+        List<Window> windows = Lists.newArrayList(getWindows());
         return ImmutableList.copyOf(Lists.reverse(windows));
     }
 
