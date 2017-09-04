@@ -39,6 +39,7 @@ import com.google.common.collect.ImmutableMap;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
+import static org.testfx.service.adapter.JavaVersionAdapter.convertToKeyCodeId;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
 @Unstable
@@ -89,12 +90,12 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void keyPress(KeyCode key) {
-        useRobot().keyPress(convertToAwtKey(key));
+        useRobot().keyPress(convertToKeyCodeId(key));
     }
 
     @Override
     public void keyRelease(KeyCode key) {
-        useRobot().keyRelease(convertToAwtKey(key));
+        useRobot().keyRelease(convertToKeyCodeId(key));
     }
 
     // MOUSE.
@@ -192,11 +193,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
             (int) rectangle.getMinX(), (int) rectangle.getMinY(),
             (int) rectangle.getWidth(), (int) rectangle.getHeight()
         );
-    }
-
-    @SuppressWarnings("deprecation")
-    private int convertToAwtKey(KeyCode keyCode) {
-        return keyCode.impl_getCode();
     }
 
 }

@@ -43,6 +43,8 @@ import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 
+import static org.testfx.service.adapter.JavaVersionAdapter.isNotVisible;
+
 @Unstable
 public final class NodeQueryUtils {
 
@@ -250,7 +252,7 @@ public final class NodeQueryUtils {
 
     @SuppressWarnings("deprecation")
     private static boolean isNodeVisible(Node node) {
-        if (!node.isVisible() || !node.impl_isTreeVisible()) {
+        if (isNotVisible(node)) {
             return false;
         }
         else if (!isNodeWithinSceneBounds(node)) {

@@ -19,11 +19,22 @@
 rootProject.name = "TestFX"
 
 // list of projects.
+if (System.properties["java.version"].startsWith("9")) {
+    include("subprojects/testfx-internal-java9")
+
+    // projects that only work on Java 9 right now
+
+} else {
+    include("subprojects/testfx-internal-java8")
+
+    // projects that only work on Java 8 right now
+    include "subprojects/testfx-spock"
+    include "subprojects/testfx-legacy"
+}
+// projects that work on Java 8 or 9 right now
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-junit5"
-include "subprojects/testfx-legacy"
-include "subprojects/testfx-spock"
 
 // location of the build files.
 rootProject.children.each { project ->
