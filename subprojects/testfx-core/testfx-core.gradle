@@ -51,3 +51,14 @@ compileJava {
     }
 }
 
+compileTestJava {
+    if (usingJava9) {
+        options.compilerArgs += [
+                "--add-opens", "org.testfx.internal/org.testfx.service.adapter=ALL-UNNAMED",
+                "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+                "--add-opens", "java.base/java.util=ALL-UNNAMED",
+                "--add-exports", "javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+        ]
+    }
+}
+
