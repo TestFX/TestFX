@@ -70,7 +70,17 @@ rootProject.with { project ->
 
         usingJava9 = javaVersion.startsWith("9")
         javaSourceAndTargetCompilation = usingJava9 ? "9" : "1.8"
-        javadocVersion = usingJava9 ? "9" : "8"
+
+        if (usingJava9) {
+            javadocLinks = [
+                    "http://download.java.net/java/jdk9/docs/api/"
+            ]
+        } else {
+            javadocLinks = [
+                    "http://docs.oracle.com/javase/8/docs/api/",
+                    "http://docs.oracle.com/javase/8/javafx/api/"
+            ]
+        }
     }
 }
 
@@ -110,7 +120,10 @@ subprojects { subproject ->
     apply(plugin: "java")
 
     apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
-    apply(from: rootProject.file("gradle/check-findbugs.gradle"))
+    if (!usingJava9) {
+        // throws an IllegalArgumentException on Java 9
+        apply(from: rootProject.file("gradle/check-findbugs.gradle"))
+    }
     //apply(from: rootProject.file("gradle/check-jdepend.gradle"))
     apply(from: rootProject.file("gradle/check-license.gradle"))
 
@@ -215,10 +228,7 @@ subprojects { subproject ->
         options.windowTitle = "${subproject.pomDescription} ${version} API"
         options.docTitle    = "${subproject.pomDescription} ${version} API"
         options.footer      = project.javadocFooter
-        options.links       = [
-            "http://docs.oracle.com/javase/${javadocVersion}/docs/api/",
-            "http://docs.oracle.com/javase/${javadocVersion}/javafx/api/"
-        ]
+        options.links = javadocLinks
     }
 }
 
@@ -244,10 +254,7 @@ task("aggregateJavadoc", type: Javadoc) {
         use = true
         splitIndex = true
         encoding = "UTF-8"
-        links = [
-            "http://docs.oracle.com/javase/{$javadocVersion}/docs/api/",
-            "http://docs.oracle.com/javase/{$javadocVersion}/javafx/api/"
-        ]
+        links = javadocLinks
     }
 
     // disable java 8 overly pedantic lint checking.
