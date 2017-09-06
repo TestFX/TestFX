@@ -6,12 +6,7 @@ echo "java_home: $(command -v "/usr/libexec/java_home")"
 ./gradlew --version
 ulimit -c unlimited -S
 
-# Increase build log verbosity for JDK 9.
-if [ "$TRAVIS_JDK_VERSION" == "oraclejdk9" ]; then
-  ./gradlew build --debug --stacktrace
-else
-  ./gradlew build --info
-fi
+./gradlew build --info
 
 # Print core dumps when JVM crashes.
 RESULT=$?
