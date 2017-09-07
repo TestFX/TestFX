@@ -16,7 +16,8 @@
  */
 package org.testfx.service.adapter;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -31,8 +32,8 @@ public final class JavaVersionAdapter {
         return keyCode.getCode();
     }
 
-    public static Iterator<Window> getWindows() {
-        return Window.getWindows().iterator();
+    public static List<Window> getWindows() {
+        return new ArrayList<>(Window.getWindows());
     }
 
     public static boolean isNotVisible(Node node) {

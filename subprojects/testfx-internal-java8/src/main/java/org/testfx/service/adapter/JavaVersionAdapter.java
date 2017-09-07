@@ -16,11 +16,13 @@
  */
 package org.testfx.service.adapter;
 
-import java.util.Iterator;
+import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
+
+import com.google.common.collect.Lists;
 
 /**
  * Provides consistent API for TestFX-Core subproject regardless of whether Java 8 or Java 9 is being used.
@@ -33,8 +35,8 @@ public final class JavaVersionAdapter {
     }
 
     @SuppressWarnings("deprecated")
-    public static Iterator<Window> getWindows() {
-        return Window.impl_getWindows();
+    public static List<Window> getWindows() {
+        return Lists.reverse(Lists.newArrayList(Window.impl_getWindows()));
     }
 
     @SuppressWarnings("deprecated")
