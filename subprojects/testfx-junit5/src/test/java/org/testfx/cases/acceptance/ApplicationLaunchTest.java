@@ -31,6 +31,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasText;
+import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class ApplicationLaunchTest extends FxRobot {
 
@@ -69,7 +70,7 @@ public class ApplicationLaunchTest extends FxRobot {
     @Test
     void should_contain_button() {
         // expect:
-        verifyThat(".button", hasText("click me!"));
+        verifyThat(".button", hasText("click me!"), informedErrorMessage(this));
     }
 
     @Test
@@ -78,7 +79,7 @@ public class ApplicationLaunchTest extends FxRobot {
         clickOn(".button");
 
         // then:
-        verifyThat(".button", hasText("clicked!"));
+        verifyThat(".button", hasText("clicked!"), informedErrorMessage(this));
     }
 
 }
