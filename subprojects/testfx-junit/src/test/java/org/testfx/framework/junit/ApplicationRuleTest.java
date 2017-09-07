@@ -19,6 +19,7 @@ package org.testfx.framework.junit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,12 +30,15 @@ import static org.testfx.matcher.base.NodeMatchers.hasText;
 public class ApplicationRuleTest {
 
     @Rule
-    public ApplicationRule robot = new ApplicationRule(stage -> {
-        Button button = new Button("click me!");
-        button.setOnAction(actionEvent -> button.setText("clicked!"));
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
-        stage.show();
-    });
+    public ApplicationRule robot = new ApplicationRule(
+        stage -> {
+            Button button = new Button("click me!");
+            button.setOnAction(actionEvent -> button.setText("clicked!"));
+            stage.setScene(new Scene(new StackPane(button), 100, 100));
+            stage.show();
+        },
+        Stage::close
+    );
 
     @Test
     public void should_contain_button() {

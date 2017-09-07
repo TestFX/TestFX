@@ -29,9 +29,17 @@ public class ApplicationRule extends FxRobot
         implements ApplicationFixture, TestRule {
 
     private final Consumer<Stage> start;
+    private final Consumer<Stage> stop;
+
+    private Stage stage;
 
     public ApplicationRule(Consumer<Stage> start) {
+        this(start, doNothing -> {});
+    }
+
+    public ApplicationRule(Consumer<Stage> start, Consumer<Stage> stop) {
         this.start = start;
+        this.stop = stop;
     }
 
     @Override
@@ -42,11 +50,12 @@ public class ApplicationRule extends FxRobot
     @Override
     public void start(Stage stage) throws Exception {
         start.accept(stage);
+        this.stage = stage;
     }
 
     @Override
     public void stop() throws Exception {
-        // do nothing
+        stop.accept(stage);
     }
 
     private void before() throws Exception {
