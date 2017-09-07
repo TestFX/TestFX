@@ -30,7 +30,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 
 import org.testfx.service.finder.WindowFinder;
 
@@ -140,8 +139,7 @@ public class WindowFinderImpl implements WindowFinder {
 
     @SuppressWarnings("deprecation")
     private List<Window> fetchWindowsInQueue() {
-        List<Window> windows = Lists.newArrayList(getWindows());
-        return ImmutableList.copyOf(Lists.reverse(windows));
+        return ImmutableList.copyOf(getWindows());
     }
 
     private List<Window> fetchWindowsByProximityTo(Window targetWindow) {

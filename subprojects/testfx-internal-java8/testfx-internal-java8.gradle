@@ -16,3 +16,7 @@
  */
 
 ext.pomDescription = "TestFX Internal Java 8"
+
+dependencies {
+    compile "com.google.guava:guava:21.0"
+}
