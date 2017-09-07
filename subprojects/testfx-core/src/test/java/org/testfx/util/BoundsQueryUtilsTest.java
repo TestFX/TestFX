@@ -16,6 +16,8 @@
  */
 package org.testfx.util;
 
+import java.util.concurrent.TimeoutException;
+
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
@@ -44,6 +46,7 @@ import javafx.stage.StageStyle;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
@@ -122,6 +125,11 @@ public class BoundsQueryUtilsTest {
         // stage.setY(0);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @AfterClass
+    public static void cleanupStage() throws TimeoutException {
+        FxToolkit.setupFixture(() -> stage.close());
     }
 
     //---------------------------------------------------------------------------------------------
