@@ -119,7 +119,9 @@ subprojects { subproject ->
     // provide java configurations and tasks.
     apply(plugin: "java")
 
-    apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
+    if (subproject.name != "testfx-internal-java9") {
+        apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
+    }
     if (!usingJava9) {
         // throws an IllegalArgumentException on Java 9
         apply(from: rootProject.file("gradle/check-findbugs.gradle"))
