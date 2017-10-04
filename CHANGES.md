@@ -1,10 +1,25 @@
 # Change Log
 
-## [4.0.7-alpha](https://github.com/testfx/testfx/tree/4.0.7-alpha) (2017-08-21)
-[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.6-alpha...4.0.7-alpha)
+## [4.0.8-alpha](https://github.com/testfx/testfx/tree/4.0.8-alpha) (2017-10-04)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.7-alpha...4.0.8-alpha)
 
 **Merged pull requests:**
 
+- \[WIP\] \(refactor\) Use Java-version-independent adapter for internal API [\#429](https://github.com/TestFX/TestFX/pull/429) ([JordanMartinez](https://github.com/JordanMartinez))
+- \(chore\) Use template in gradle-license-plugin. [\#428](https://github.com/TestFX/TestFX/pull/428) ([brcolow](https://github.com/brcolow))
+- \(chore\) Remove Travis macOS "partial headless" build. [\#426](https://github.com/TestFX/TestFX/pull/426) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump Travis macOS Xcode 8.2 =\> 9. [\#424](https://github.com/TestFX/TestFX/pull/424) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump gradle 3.5 =\> 4.1 [\#423](https://github.com/TestFX/TestFX/pull/423) ([brcolow](https://github.com/brcolow))
+- \[RFC\] \(feature\) Re-add capture support by moving it to DebugUtils [\#422](https://github.com/TestFX/TestFX/pull/422) ([JordanMartinez](https://github.com/JordanMartinez))
+- \[RFC\] Extract failed test debugger code into its own utiltiy class [\#421](https://github.com/TestFX/TestFX/pull/421) ([JordanMartinez](https://github.com/JordanMartinez))
+- \[RFC\] Increase debugability [\#418](https://github.com/TestFX/TestFX/pull/418) ([JordanMartinez](https://github.com/JordanMartinez))
+
+## [v4.0.7-alpha](https://github.com/testfx/testfx/tree/v4.0.7-alpha) (2017-08-21)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.6-alpha...v4.0.7-alpha)
+
+**Merged pull requests:**
+
+- \(release\) TestFX 4.0.7-alpha [\#416](https://github.com/TestFX/TestFX/pull/416) ([brcolow](https://github.com/brcolow))
 - Refactor spock [\#414](https://github.com/TestFX/TestFX/pull/414) ([JordanMartinez](https://github.com/JordanMartinez))
 - \[chore\] Split Travis apt packages for \*nix by JDK. [\#413](https://github.com/TestFX/TestFX/pull/413) ([brcolow](https://github.com/brcolow))
 - \(refactor\) Make ApplicationTest\#start\(\) not abstract [\#412](https://github.com/TestFX/TestFX/pull/412) ([AustinShalit](https://github.com/AustinShalit))
@@ -37,6 +52,7 @@
 - \(chore\) Bump Checkstyle from 7.3 -\> 7.4. [\#360](https://github.com/TestFX/TestFX/pull/360) ([brcolow](https://github.com/brcolow))
 - \(cleanup\) Don't ignore whitespace around enhanced for-loop. [\#358](https://github.com/TestFX/TestFX/pull/358) ([brcolow](https://github.com/brcolow))
 - \(refactor\) Replace calls to FXRobot with Event.fireEvent. [\#355](https://github.com/TestFX/TestFX/pull/355) ([brcolow](https://github.com/brcolow))
+- \(refactor\) Better failure message for ShortcutKeyTest [\#353](https://github.com/TestFX/TestFX/pull/353) ([brcolow](https://github.com/brcolow))
 - \(chore\) Bump Google Guava version from 20.0 -\> 21.0. [\#352](https://github.com/TestFX/TestFX/pull/352) ([brcolow](https://github.com/brcolow))
 - 281: Vulnerability in WaitForAsyncUtils [\#351](https://github.com/TestFX/TestFX/pull/351) ([brcolow](https://github.com/brcolow))
 - \(chore\) Opt-in to the travis trusty beta. [\#350](https://github.com/TestFX/TestFX/pull/350) ([brcolow](https://github.com/brcolow))
