@@ -19,6 +19,7 @@ package org.testfx.cases.acceptance;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.Before;
@@ -94,7 +95,7 @@ public class FxAssertBasicTest extends TestCaseBase {
     @Test
     public void button_has_label() {
         // when:
-        clickOn("#button");
+        moveTo("#button").sleep(5000).clickOn(MouseButton.PRIMARY);
         
         // then:
         verifyThat("#button", hasText("clicked!"), informedErrorMessage(this));
@@ -120,12 +121,11 @@ public class FxAssertBasicTest extends TestCaseBase {
         public void start(Stage stage) {
             Button button = new Button("click me!");
             button.setId("button");
-            button.setOnAction(action -> { 
-                button.setText("clicked!"); 
-                action.consume(); });
+            button.setOnAction(action -> button.setText("clicked!"));
             Scene scene = new Scene(button, 600, 400);
             stage.setScene(scene);
             stage.setTitle(getClass().getSimpleName());
+            stage.setAlwaysOnTop(true);
             stage.show();
         }
     }
