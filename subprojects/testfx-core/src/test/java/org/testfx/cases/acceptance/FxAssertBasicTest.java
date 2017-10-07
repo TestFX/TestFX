@@ -17,10 +17,8 @@
 package org.testfx.cases.acceptance;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -96,10 +94,10 @@ public class FxAssertBasicTest extends TestCaseBase {
     }
 
     @Test
-    public void button_has_label() {
+    public void button_has_label() throws InterruptedException, ExecutionException {
         // when:
         clickOn("#button");
-
+        
         // then:
         verifyThat("#button", hasText("clicked!"), informedErrorMessage(this));
     }
@@ -124,28 +122,13 @@ public class FxAssertBasicTest extends TestCaseBase {
         public void start(Stage stage) {
             Button button = new Button("click me!");
             button.setId("button");
-            button.setOnAction(actionEvent -> {
-                invokeAndWait(() -> button.setText("clicked!")); });
+            button.setOnAction(action -> { 
+                button.setText("clicked!"); 
+                action.consume(); });
             Scene scene = new Scene(button, 600, 400);
             stage.setScene(scene);
             stage.setTitle(getClass().getSimpleName());
             stage.show();
-        }
-        
-        public void invokeAndWait(Runnable r) {
-            if (Platform.isFxApplicationThread()) {
-                r.run();
-            } else {
-                System.out.println("Not in JavaFX GUI Thread");
-                FutureTask<Void> task = new FutureTask<>(r, null);
-                Platform.runLater(task);
-                try {
-                    task.get();
-                } 
-                catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
     }
 }
