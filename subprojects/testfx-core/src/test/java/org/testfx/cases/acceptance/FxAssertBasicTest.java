@@ -16,8 +16,6 @@
  */
 package org.testfx.cases.acceptance;
 
-import java.util.concurrent.ExecutionException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -94,7 +92,7 @@ public class FxAssertBasicTest extends TestCaseBase {
     }
 
     @Test
-    public void button_has_label() throws InterruptedException, ExecutionException {
+    public void button_has_label() {
         // when:
         clickOn("#button");
         
