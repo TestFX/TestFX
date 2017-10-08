@@ -46,6 +46,7 @@ public class ApplicationLaunchTest extends FxRobot {
             button.setOnAction((actionEvent) -> button.setText("clicked!"));
             stage.setScene(new Scene(new StackPane(button), 100, 100));
             stage.show();
+            stage.setAlwaysOnTop(true);
         }
     }
 

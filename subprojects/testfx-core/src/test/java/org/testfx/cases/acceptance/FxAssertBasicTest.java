@@ -95,7 +95,7 @@ public class FxAssertBasicTest extends TestCaseBase {
     public void button_has_label() {
         // when:
         clickOn("#button");
-
+        
         // then:
         verifyThat("#button", hasText("clicked!"), informedErrorMessage(this));
     }
@@ -125,7 +125,7 @@ public class FxAssertBasicTest extends TestCaseBase {
             stage.setScene(scene);
             stage.setTitle(getClass().getSimpleName());
             stage.show();
+            stage.setAlwaysOnTop(true);
         }
     }
-
 }
