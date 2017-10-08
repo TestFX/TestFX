@@ -120,7 +120,7 @@ public class FxAssertBasicTest extends TestCaseBase {
         public void start(Stage stage) {
             Button button = new Button("click me!");
             button.setId("button");
-            button.setOnAction(action -> button.setText("clicked!"));
+            button.setOnAction(actionEvent -> button.setText("clicked!"));
             Scene scene = new Scene(button, 600, 400);
             stage.setScene(scene);
             stage.setTitle(getClass().getSimpleName());
