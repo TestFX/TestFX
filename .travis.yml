@@ -47,6 +47,16 @@ matrix:
         apt:
           packages:
             - oracle-java9-installer
+    # Ubuntu Linux (trusty) / Java 9 / Headless
+    - os: linux
+      dist: trusty
+      jdk: oraclejdk9
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+      addons:
+        apt:
+          packages:
+            - oracle-java9-installer
     # macOS / Java 8 / Headless
     - os: osx
       osx_image: xcode9
@@ -63,8 +73,6 @@ matrix:
     # with the OpenGL ES graphics pipeline. While it is possible to run with
     # "-Dprism.order=sw" this "partial headless" testing scenario does not
     # provide any useful information.
-  allow_failures:
-    - jdk: oraclejdk9
 
 before_script:
   - echo $HOME

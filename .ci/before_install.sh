@@ -3,8 +3,6 @@
 # vim :set ts=2 sw=2 sts=2 et:
 if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
   brew update
-  brew install jenv
-  jenv versions
   if [[ "${TRAVIS_JAVA_VERSION}" == 8 ]]; then
     brew cask reinstall java8
   elif [[ "${TRAVIS_JAVA_VERSION}" == 9 ]]; then
