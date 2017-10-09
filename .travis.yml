@@ -51,6 +51,13 @@ matrix:
     - os: osx
       osx_image: xcode9
       env:
+        - TRAVIS_JAVA_VERSION="8"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+    # macOS / Java 9 / Headless
+    - os: osx
+      osx_image: xcode9
+      env:
+        - TRAVIS_JAVA_VERSION="9"
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
     # It is not currently possible to run JavaFX in headed mode on Travis CI
     # with the OpenGL ES graphics pipeline. While it is possible to run with
