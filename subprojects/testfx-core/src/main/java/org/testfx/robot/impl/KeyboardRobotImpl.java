@@ -41,7 +41,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;
     }
-
+ 
     @Override
     public void press(KeyCode... keys) {
         pressNoWait(keys);
