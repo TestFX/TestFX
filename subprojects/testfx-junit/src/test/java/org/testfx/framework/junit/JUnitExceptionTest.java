@@ -85,13 +85,14 @@ public class JUnitExceptionTest  extends ApplicationTest {
         WaitForAsyncUtils.printException = false; // do not print expected exception to log
         thrown.expectCause(instanceOf(UnsupportedOperationException.class));
         WaitForAsyncUtils.clearExceptions(); // just ensure no other test put an exception into the buffer
-        try{
+        try {
             clickOn("Throws Exception"); // does already handle all the async stuff...
             WaitForAsyncUtils.checkException(); // need to check Exception, as event is executed after click
             fail("checkException didn't detect Exception");
-        }catch(Exception e){ //clean up...
+        } 
+        catch (Exception e) { //clean up...
             release(MouseButton.PRIMARY);
-            moveBy(100,100); //otherwise the press release test fails?!
+            moveBy(100, 100); //otherwise the press release test fails?!
             WaitForAsyncUtils.printException = true; // enable printing for other tests
             WaitForAsyncUtils.clearExceptions(); // just ensure no pending exceptions in buffer
             throw e;
