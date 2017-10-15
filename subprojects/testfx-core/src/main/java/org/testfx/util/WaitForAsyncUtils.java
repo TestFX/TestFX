@@ -111,9 +111,58 @@ public class WaitForAsyncUtils {
      */
     public static boolean autoCheckException = true;
 
+    /**
+     * If {@literal true} any call to the {@code async} methods will check for
+     * unhandled exceptions in any Thread.
+     */
+    public static boolean checkAllExceptions = true;
+
+    /**
+     * Static initialization of WaitForAsyncUtils.
+     * Should be initialized with the FXToolkit, but the static initialization ensures, 
+     * that it is setup before the first use.
+     */
+    static {
+        setup();
+    }
+    
+
     // ---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     // ---------------------------------------------------------------------------------------------
+
+    // GLOBAL EXCEPTION HANDLING
+    /**
+     * Needs to be called to setup WaitForAsyncUtils before the first use.
+     * Currently it installs/removes the handler for uncaught exceptions depending on the flag 
+     * {@link checkAllExceptions}.
+     */
+    public static void setup() {
+        System.out.println("Setup Async");
+        if (checkAllExceptions) {
+            //install handler
+            Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+                registerException(e);
+            });
+        } else {
+            Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
+        }
+    }
+    
+    /**
+     * Used to add an exception on the stack. Used by the global exception handler.
+     * @param throwable the throwable to add on the local exception buffer.
+     */
+    private static void registerException(Throwable throwable) {
+        if (checkAllExceptions) {
+            if (printException) {
+                printException(throwable, null);
+            }
+            // Add exception to stack of occured exceptions
+            exceptions.add(new RuntimeException(throwable));
+        }
+    }
+    
 
     // ASYNC METHODS.
 
@@ -455,6 +504,7 @@ public class WaitForAsyncUtils {
      * @throws Throwable if an exception has occurred in an async task
      */
     public static void checkException() throws Throwable {
+        waitForFxEvents();
         Throwable throwable = getCheckException();
         if (throwable != null) {
             throw throwable;
@@ -555,8 +605,10 @@ public class WaitForAsyncUtils {
             out.append(printTrace(st));
             cause = cause.getCause();
         }
-        out.append("--- Trace of caller of unhandled exception in Async Thread ---\n");
-        out.append(printTrace(trace));
+        if (trace != null) {
+            out.append("--- Trace of caller of unhandled exception in Async Thread ---\n");
+            out.append(printTrace(trace));
+        }
         System.err.println(out.toString());
     }
 
