@@ -182,30 +182,37 @@ public class PointLocatorImplTest {
     public static class BoundsLocatorStub implements BoundsLocator {
         public Bounds bounds;
 
+        @Override
         public Bounds boundsInSceneFor(Node node) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsInWindowFor(Scene scene) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsInWindowFor(Bounds boundsInScene, Scene scene) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Node node) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Scene scene) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Window window) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Bounds boundsInScene, Scene scene) {
             return bounds;
         }
