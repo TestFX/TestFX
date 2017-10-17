@@ -102,6 +102,7 @@ public class WaitForAsyncUtils {
     /**
      * If {@literal true} any exceptions encountered during execution of the
      * {@code async} methods will be printed to stderr.
+     * The exceptions will be printed at the time they occur (not when fetched).
      */
     public static boolean printException = true;
 
@@ -116,6 +117,12 @@ public class WaitForAsyncUtils {
      * unhandled exceptions in any Thread.
      */
     public static boolean checkAllExceptions = true;
+    
+    /**
+     * If {@literal true} exceptions will be printed when they are fetched by a caller.
+     * Even when they are handled properly. This field is mainly for development debug purposes.
+     */
+    public static final boolean TRACE_FETCH = false;
 
     /**
      * Static initialization of WaitForAsyncUtils.
@@ -138,7 +145,6 @@ public class WaitForAsyncUtils {
      * {@link checkAllExceptions}.
      */
     public static void setup() {
-        System.out.println("Setup Async");
         if (checkAllExceptions) {
             //install handler
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
@@ -155,6 +161,11 @@ public class WaitForAsyncUtils {
      */
     private static void registerException(Throwable throwable) {
         if (checkAllExceptions) {
+            //Workaround for #411 see discussion in #440
+            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
+                //TODO more general version of filter after refactoring
+                return;
+            }
             if (printException) {
                 printException(throwable, null);
             }
@@ -523,12 +534,15 @@ public class WaitForAsyncUtils {
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Internal function that allows throws Exceptions. It does not require handling
+     * Internal function that throws Exceptions. It does not require handling
      * of the Exceptions.
      */
     private static void checkExceptionWrapped() {
         Throwable throwable = getCheckException();
         if (throwable instanceof RuntimeException) {
+            if (TRACE_FETCH) {
+                printException(throwable, Thread.currentThread().getStackTrace());
+            }
             throw (RuntimeException) throwable;
         } else if (throwable instanceof Error) {
             throw (Error) throwable;
@@ -714,6 +728,9 @@ public class WaitForAsyncUtils {
                 if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
+                }
+                if (TRACE_FETCH) {
+                    printException(e, Thread.currentThread().getStackTrace());
                 }
                 throw e;
             }
