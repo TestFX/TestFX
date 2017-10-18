@@ -73,7 +73,7 @@ public class WaitForAsyncUtilsTest {
 
         // then:
         assertThat(future.isDone(), Matchers.is(false));
-        WaitForAsyncUtils.sleep(100, MILLISECONDS);
+        WaitForAsyncUtils.sleep(250, MILLISECONDS);
         assertThat(future.get(), Matchers.is("foo"));
         waitForThreads(future);
     }
@@ -205,14 +205,14 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void waitFor_with_future_with_sleep() throws Exception {
+        thrown.expect(TimeoutException.class);
         // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(100, MILLISECONDS);
+            WaitForAsyncUtils.sleepWithException(250, MILLISECONDS);
             return null;
         });
 
         // then:
-        thrown.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
         waitForThreads(future);
     }
@@ -224,7 +224,7 @@ public class WaitForAsyncUtilsTest {
 
         // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(100, MILLISECONDS);
+            WaitForAsyncUtils.sleepWithException(250, MILLISECONDS);
             return null;
         });
         try {
