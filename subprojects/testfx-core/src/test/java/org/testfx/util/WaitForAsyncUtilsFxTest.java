@@ -17,6 +17,7 @@
 package org.testfx.util;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
@@ -48,6 +49,43 @@ public class WaitForAsyncUtilsFxTest {
         catch (TimeoutException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Tests that nested calls of async method triggers a exception. 
+     * @throws Throwable
+     */
+    @Test
+    public void asyncFx_nested_callable_with_exception() throws Throwable {
+
+        // given:
+        WaitForAsyncUtils.printException = false;
+        thrown.expectCause(instanceOf(ExecutionException.class));
+        Callable<Void> callable = () -> {
+            Future<Void> future = WaitForAsyncUtils.asyncFx(() -> {
+                throw new UnsupportedOperationException(); 
+            });
+            return future.get();
+        };
+        WaitForAsyncUtils.clearExceptions();
+
+        // when:
+        Future<Void> future = WaitForAsyncUtils.asyncFx(callable);
+        waitForException(future);
+
+        // then:
+        try {
+            WaitForAsyncUtils.checkException();
+            fail("checkException didn't detect Exception");
+        }
+        catch (Throwable e) {
+            if (!(e instanceof UnsupportedOperationException)) {
+                throw e;
+            }
+        }
+        WaitForAsyncUtils.printException = true;
+        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+        waitForThreads(future);
     }
 
     @Test

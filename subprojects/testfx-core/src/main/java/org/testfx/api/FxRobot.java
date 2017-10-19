@@ -600,6 +600,7 @@ public class FxRobot implements FxRobotInterface {
     // IMPLEMENTATION OF SCROLL ROBOT.
     //---------------------------------------------------------------------------------------------
 
+    @Override
     @Deprecated
     public FxRobot scroll(int amount) {
         context.getScrollRobot().scroll(amount);

@@ -53,6 +53,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     //---------------------------------------------------------------------------------------------
 
     private final Set<KeyCode> pressedKeys = new HashSet<>();
+    @Override
     public final Set<KeyCode> getPressedKeys() {
         return Collections.unmodifiableSet(pressedKeys);
     }

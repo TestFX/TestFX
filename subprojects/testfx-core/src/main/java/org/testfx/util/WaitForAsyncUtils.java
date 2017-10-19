@@ -102,6 +102,7 @@ public class WaitForAsyncUtils {
     /**
      * If {@literal true} any exceptions encountered during execution of the
      * {@code async} methods will be printed to stderr.
+     * The exceptions will be printed at the time they occur (not when fetched).
      */
     public static boolean printException = true;
 
@@ -111,9 +112,68 @@ public class WaitForAsyncUtils {
      */
     public static boolean autoCheckException = true;
 
+    /**
+     * If {@literal true} any call to the {@code async} methods will check for
+     * unhandled exceptions in any Thread.
+     */
+    public static boolean checkAllExceptions = true;
+    
+    /**
+     * If {@literal true} exceptions will be printed when they are fetched by a caller.
+     * Even when they are handled properly. This field is mainly for development debug purposes.
+     */
+    public static final boolean TRACE_FETCH = false;
+
+    /**
+     * Static initialization of WaitForAsyncUtils.
+     * Should be initialized with the FXToolkit, but the static initialization ensures, 
+     * that it is setup before the first use.
+     */
+    static {
+        setup();
+    }
+    
+
     // ---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     // ---------------------------------------------------------------------------------------------
+
+    // GLOBAL EXCEPTION HANDLING
+    /**
+     * Needs to be called to setup WaitForAsyncUtils before the first use.
+     * Currently it installs/removes the handler for uncaught exceptions depending on the flag 
+     * {@link checkAllExceptions}.
+     */
+    public static void setup() {
+        if (checkAllExceptions) {
+            //install handler
+            Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+                registerException(e);
+            });
+        } else {
+            Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
+        }
+    }
+    
+    /**
+     * Used to add an exception on the stack. Used by the global exception handler.
+     * @param throwable the throwable to add on the local exception buffer.
+     */
+    private static void registerException(Throwable throwable) {
+        if (checkAllExceptions) {
+            //Workaround for #411 see discussion in #440
+            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
+                //TODO more general version of filter after refactoring
+                return;
+            }
+            if (printException) {
+                printException(throwable, null);
+            }
+            // Add exception to stack of occured exceptions
+            exceptions.add(new RuntimeException(throwable));
+        }
+    }
+    
 
     // ASYNC METHODS.
 
@@ -455,6 +515,7 @@ public class WaitForAsyncUtils {
      * @throws Throwable if an exception has occurred in an async task
      */
     public static void checkException() throws Throwable {
+        waitForFxEvents();
         Throwable throwable = getCheckException();
         if (throwable != null) {
             throw throwable;
@@ -473,12 +534,15 @@ public class WaitForAsyncUtils {
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Internal function that allows throws Exceptions. It does not require handling
+     * Internal function that throws Exceptions. It does not require handling
      * of the Exceptions.
      */
     private static void checkExceptionWrapped() {
         Throwable throwable = getCheckException();
         if (throwable instanceof RuntimeException) {
+            if (TRACE_FETCH) {
+                printException(throwable, Thread.currentThread().getStackTrace());
+            }
             throw (RuntimeException) throwable;
         } else if (throwable instanceof Error) {
             throw (Error) throwable;
@@ -555,8 +619,10 @@ public class WaitForAsyncUtils {
             out.append(printTrace(st));
             cause = cause.getCause();
         }
-        out.append("--- Trace of caller of unhandled exception in Async Thread ---\n");
-        out.append(printTrace(trace));
+        if (trace != null) {
+            out.append("--- Trace of caller of unhandled exception in Async Thread ---\n");
+            out.append(printTrace(trace));
+        }
         System.err.println(out.toString());
     }
 
@@ -662,6 +728,9 @@ public class WaitForAsyncUtils {
                 if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
+                }
+                if (TRACE_FETCH) {
+                    printException(e, Thread.currentThread().getStackTrace());
                 }
                 throw e;
             }

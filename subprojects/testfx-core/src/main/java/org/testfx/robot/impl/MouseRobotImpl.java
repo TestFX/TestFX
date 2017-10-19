@@ -42,6 +42,7 @@ public class MouseRobotImpl implements MouseRobot {
     //---------------------------------------------------------------------------------------------
 
     private final Set<MouseButton> pressedButtons = new HashSet<>();
+    @Override
     public final Set<MouseButton> getPressedButtons() {
         return Collections.unmodifiableSet(pressedButtons);
     }
