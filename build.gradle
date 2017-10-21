@@ -73,7 +73,7 @@ rootProject.with { project ->
 
         if (usingJava9) {
             javadocLinks = [
-                    "http://download.java.net/java/jdk9/docs/api/"
+                    "https://docs.oracle.com/javase/9/docs/api"
             ]
         } else {
             javadocLinks = [
