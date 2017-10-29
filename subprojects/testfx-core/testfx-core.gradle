@@ -28,6 +28,7 @@ dependencies {
     compile "com.google.guava:guava:21.0"
     compile "org.hamcrest:hamcrest-core:1.3"
     compile 'com.google.code.findbugs:annotations:3.0.1u2'
+    compile 'org.osgi:org.osgi.core:6.0.0'
 
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:2.7.22"
@@ -66,3 +67,29 @@ compileTestJava {
     }
 }
 
+jar {
+    manifest {
+        instruction 'Import-Package', 'javax.annotation;bundle-symbolic-name=\"findbugsAnnotations\",*'
+        instruction 'Export-Package', 'org.testfx.api,\n' +
+                '                            org.testfx.matcher.base,\n' +
+                '                            org.testfx.matcher.control,\n' +
+                '                            org.testfx.robot,\n' +
+                '                            org.testfx.robot.impl,\n' +
+                '                            org.testfx.service.adapter,\n' +
+                '                            org.testfx.service.adapter.impl,\n' +
+                '                            org.testfx.service.finder,\n' +
+                '                            org.testfx.service.finder.impl,\n' +
+                '                            org.testfx.service.locator,\n' +
+                '                            org.testfx.service.locator.impl,\n' +
+                '                            org.testfx.service.query,\n' +
+                '                            org.testfx.service.query.impl,\n' +
+                '                            org.testfx.service.support,\n' +
+                '                            org.testfx.service.support.impl,\n' +
+                '                            org.testfx.toolkit,\n' +
+                '                            org.testfx.toolkit.impl,\n' +
+                '                            org.testfx.util,\n' +
+                '                            org.testfx.osgi.service'
+        instruction 'Bundle-Activator', 'org.testfx.osgi.Activator'
+        instruction 'Require-Capability', 'org.testfx.osgi.versionadapter'
+    }
+}

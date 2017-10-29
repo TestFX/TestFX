@@ -118,6 +118,7 @@ allprojects { project ->
 subprojects { subproject ->
     // provide java configurations and tasks.
     apply(plugin: "java")
+    apply(plugin: "osgi")
 
     apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
     if (!usingJava9) {
