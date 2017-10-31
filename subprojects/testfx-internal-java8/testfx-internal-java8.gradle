@@ -20,3 +20,10 @@ ext.pomDescription = "TestFX Internal Java 8"
 dependencies {
     compile "com.google.guava:guava:21.0"
 }
+
+jar {
+    manifest {
+        instruction 'Fragment-Host', 'org.testfx.core'
+        instruction 'Provide-Capability', 'org.testfx.osgi.versionadapter'
+    }
+}

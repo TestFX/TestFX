@@ -118,6 +118,7 @@ allprojects { project ->
 subprojects { subproject ->
     // provide java configurations and tasks.
     apply(plugin: "java")
+    apply(plugin: "osgi")
 
     apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
     if (!usingJava9) {
@@ -219,7 +220,7 @@ subprojects { subproject ->
     // configure javadoc task.
     javadoc {
         excludes = ["**/*.html", "META-INF/**"]
-        classpath = configurations.compile + configurations.providedCompile
+        classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
         options.use         = true
         options.splitIndex  = true
         options.encoding    = "UTF-8"
