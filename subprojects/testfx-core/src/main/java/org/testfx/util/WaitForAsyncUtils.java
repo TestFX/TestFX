@@ -35,8 +35,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.base.Stopwatch;
 import org.testfx.api.annotation.Unstable;
 
@@ -117,7 +115,7 @@ public class WaitForAsyncUtils {
      * unhandled exceptions in any Thread.
      */
     public static boolean checkAllExceptions = true;
-    
+
     /**
      * If {@literal true} exceptions will be printed when they are fetched by a caller.
      * Even when they are handled properly. This field is mainly for development debug purposes.
@@ -126,13 +124,13 @@ public class WaitForAsyncUtils {
 
     /**
      * Static initialization of WaitForAsyncUtils.
-     * Should be initialized with the FXToolkit, but the static initialization ensures, 
+     * Should be initialized with the FXToolkit, but the static initialization ensures,
      * that it is setup before the first use.
      */
     static {
         setup();
     }
-    
+
 
     // ---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -141,7 +139,7 @@ public class WaitForAsyncUtils {
     // GLOBAL EXCEPTION HANDLING
     /**
      * Needs to be called to setup WaitForAsyncUtils before the first use.
-     * Currently it installs/removes the handler for uncaught exceptions depending on the flag 
+     * Currently it installs/removes the handler for uncaught exceptions depending on the flag
      * {@link checkAllExceptions}.
      */
     public static void setup() {
@@ -154,7 +152,7 @@ public class WaitForAsyncUtils {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
         }
     }
-    
+
     /**
      * Used to add an exception on the stack. Used by the global exception handler.
      * @param throwable the throwable to add on the local exception buffer.
@@ -173,7 +171,7 @@ public class WaitForAsyncUtils {
             exceptions.add(new RuntimeException(throwable));
         }
     }
-    
+
 
     // ASYNC METHODS.
 
@@ -737,7 +735,7 @@ public class WaitForAsyncUtils {
         }
 
         @Override
-        public X get(long timeout, @Nonnull TimeUnit unit)
+        public X get(long timeout, TimeUnit unit)
                 throws InterruptedException, ExecutionException, TimeoutException {
             try {
                 return super.get(timeout, unit);
