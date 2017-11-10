@@ -73,36 +73,6 @@ dependencies {
 }
 ~~~
 
-Gradle `build.gradle` with `testfx-core`, `testfx-legacy` and a different `junit` version from Maven Central repository (at https://repo1.maven.org/maven2/).
-
-~~~groovy
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile "junit:junit:4.10"
-    testCompile "org.testfx:testfx-core:4.0.+"
-    testCompile "org.testfx:testfx-legacy:4.0.+", {
-        exclude group: "junit", module: "junit"
-    }
-}
-~~~
-
-Gradle `build.gradle` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
-
-~~~groovy
-repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
-dependencies {
-    testCompile "junit:junit:4.12"
-    testCompile "org.testfx:testfx-core:4.0.0-SNAPSHOT"
-}
-~~~
-
 Maven `pom.xml` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
 
 ~~~xml

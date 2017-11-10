@@ -29,7 +29,6 @@ if (System.properties["java.version"].startsWith("9")) {
 
     // projects that only work on Java 8 right now
     include "subprojects/testfx-spock"
-    include "subprojects/testfx-legacy"
 }
 // projects that work on Java 8 or 9 right now
 include "subprojects/testfx-core"
