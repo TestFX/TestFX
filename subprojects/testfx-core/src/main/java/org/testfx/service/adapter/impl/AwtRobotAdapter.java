@@ -25,6 +25,8 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -35,7 +37,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
-import com.google.common.collect.ImmutableMap;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
@@ -49,11 +50,15 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    public static final Map<MouseButton, Integer> AWT_BUTTONS = ImmutableMap.of(
-        MouseButton.PRIMARY, InputEvent.BUTTON1_MASK,
-        MouseButton.MIDDLE, InputEvent.BUTTON2_MASK,
-        MouseButton.SECONDARY, InputEvent.BUTTON3_MASK
-    );
+    static {
+        Map<MouseButton, Integer> buttons = new HashMap<>();
+        buttons.put(MouseButton.PRIMARY, InputEvent.BUTTON1_MASK);
+        buttons.put(MouseButton.MIDDLE, InputEvent.BUTTON2_MASK);
+        buttons.put(MouseButton.SECONDARY, InputEvent.BUTTON3_MASK);
+        AWT_BUTTONS = Collections.unmodifiableMap(buttons);
+    }
+
+    private static final Map<MouseButton, Integer> AWT_BUTTONS;
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.

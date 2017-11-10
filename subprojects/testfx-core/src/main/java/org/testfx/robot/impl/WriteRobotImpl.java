@@ -16,11 +16,12 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.stream.Collectors;
+
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 
-import com.google.common.collect.Lists;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
@@ -69,7 +70,7 @@ public class WriteRobotImpl implements WriteRobot {
     @Override
     public void write(String text) {
         Scene scene = fetchTargetWindow().getScene();
-        for (char character : Lists.charactersOf(text)) {
+        for (char character : text.chars().mapToObj(i -> (char) i).collect(Collectors.toList())) {
             typeCharacterInScene(character, scene);
             sleepRobot.sleep(SLEEP_AFTER_CHARACTER_IN_MILLIS);
         }

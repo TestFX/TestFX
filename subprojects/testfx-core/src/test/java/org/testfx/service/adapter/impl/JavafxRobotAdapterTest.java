@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
@@ -40,10 +42,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import com.google.common.collect.ContiguousSet;
-import com.google.common.collect.DiscreteDomain;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Range;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -124,16 +122,16 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
-        String glyphs = ".:12";
+        char[] glyphs = new char[] {'.', ':', '1', '2'};
 
         // when:
-        for (char character : Lists.charactersOf(glyphs)) {
+        for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
         robotAdapter.timerWaitForIdle();
 
         // then:
-        verifyThat(textField, hasText(glyphs));
+        verifyThat(textField, hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -142,16 +140,16 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
-        String glyphs = "eEuU";
+        char[] glyphs = new char[] {'e', 'E', 'u', 'U'};
 
         // when:
-        for (char character : Lists.charactersOf(glyphs)) {
+        for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
         robotAdapter.timerWaitForIdle();
 
         // then:
-        verifyThat(textField, hasText(glyphs));
+        verifyThat(textField, hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -160,16 +158,16 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
-        String glyphs = "éüāč";
+        char[] glyphs = new char[] {'é', 'ü', 'ā', 'č'};
 
         // when:
-        for (char character : Lists.charactersOf(glyphs)) {
+        for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
         robotAdapter.timerWaitForIdle();
 
         // then:
-        verifyThat(textField, hasText(glyphs));
+        verifyThat(textField, hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -178,16 +176,16 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
         robotAdapter.timerWaitForIdle();
-        String glyphs = "树木한";
+        char[] glyphs = new char[] {'树', '木', '한'};
 
         // when:
-        for (char character : Lists.charactersOf(glyphs)) {
+        for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
         robotAdapter.timerWaitForIdle();
 
         // then:
-        verifyThat(textField, hasText(glyphs));
+        verifyThat(textField, hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -246,7 +244,7 @@ public class JavafxRobotAdapterTest {
         robotAdapter.timerWaitForIdle();
 
         // when:
-        for (char character : Lists.charactersOf(LATIN_EXTENDED_A_GLYPHS)) {
+        for (char character : LATIN_EXTENDED_A_GLYPHS) {
             keyPressTypeRelease(KeyCode.UNDEFINED, Character.toString(character));
         }
         for (int character : LATIN_EXTENDED_A_CODES) {
@@ -255,7 +253,8 @@ public class JavafxRobotAdapterTest {
         robotAdapter.timerWaitForIdle();
 
         // then:
-        verifyThat(textField, hasText(LATIN_EXTENDED_A_GLYPHS + LATIN_EXTENDED_A_GLYPHS));
+        verifyThat(textField, hasText(String.valueOf(LATIN_EXTENDED_A_GLYPHS) +
+                String.valueOf(LATIN_EXTENDED_A_GLYPHS)));
     }
 
     // CAPTURE.
@@ -314,38 +313,39 @@ public class JavafxRobotAdapterTest {
     // BASIC LATIN (U+0000 TO U+007F).
 
     public String        BASIC_LATIN_UPPERCASE_GLYPHS = "@ABCDEFGHIJKLMNO";
-    public List<Integer> BASIC_LATIN_UPPERCASE_CODES  = rangeToInts(0x0040, 0x004f);
+    public List<Integer> BASIC_LATIN_UPPERCASE_CODES  = closedRangeToInts(0x0040, 0x004f);
 
     public String        BASIC_LATIN_LOWERCASE_GLYPHS = "`abcdefghijklmno";
-    public List<Integer> BASIC_LATIN_LOWERCASE_CODES  = rangeToInts(0x0060, 0x006f);
+    public List<Integer> BASIC_LATIN_LOWERCASE_CODES  = closedRangeToInts(0x0060, 0x006f);
 
     // LATIN-1 SUPPLEMENT (U+0080 TO U+00FF).
 
     public String        LATIN_1_SUPPLEMENT_UPPERCASE_GLYPHS = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏ";
-    public List<Integer> LATIN_1_SUPPLEMENT_UPPERCASE_CODES  = rangeToInts(0x00c0, 0x00cf);
+    public List<Integer> LATIN_1_SUPPLEMENT_UPPERCASE_CODES  = closedRangeToInts(0x00c0, 0x00cf);
 
     public String        LATIN_1_SUPPLEMENT_LOWERCASE_GLYPHS = "àáâãäåæçèéêëìíîï";
-    public List<Integer> LATIN_1_SUPPLEMENT_LOWERCASE_CODES  = rangeToInts(0x00e0, 0x00ef);
+    public List<Integer> LATIN_1_SUPPLEMENT_LOWERCASE_CODES  = closedRangeToInts(0x00e0, 0x00ef);
 
     // LATIN EXTENDED-A (U+0100 TO U+017F).
 
-    public String        LATIN_EXTENDED_A_GLYPHS = "ĀāĂăĄąĆćĈĉĊċČčĎď";
-    public List<Integer> LATIN_EXTENDED_A_CODES  = rangeToInts(0x0100, 0x010f);
+    public char[]        LATIN_EXTENDED_A_GLYPHS = new char[] {'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ',
+        'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď'};
+    public List<Integer> LATIN_EXTENDED_A_CODES  = closedRangeToInts(0x0100, 0x010f);
 
     //---------------------------------------------------------------------------------------------
     // HELPER METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private List<Integer> rangeToInts(int lower, int upper) {
-        Range<Integer> range = Range.closed(lower, upper);
-        return ContiguousSet.create(range, DiscreteDomain.integers()).asList();
+    private List<Integer> closedRangeToInts(int lower, int upper) {
+        return IntStream.range(lower, upper + 1).boxed().collect(Collectors.toList());
     }
 
     private void typeText(String text) {
         // TODO(mike): This extra tab should not be needed but currently {@code textField} has focus
         // instead of {@code textArea} when this method is called.
         keyPressTypeRelease(KeyCode.TAB, String.valueOf('\t'));
-        for (char character : Lists.charactersOf(text)) {
+
+        for (char character : text.chars().mapToObj(i -> (char) i).collect(Collectors.toList())) {
             KeyCode key = KeyCode.UNDEFINED;
             key = (character == '\n') ? KeyCode.ENTER : key;
             key = (character == '\t') ? KeyCode.TAB : key;

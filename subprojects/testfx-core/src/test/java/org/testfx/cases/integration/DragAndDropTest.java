@@ -23,8 +23,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import com.google.common.collect.Lists;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -51,7 +49,8 @@ public class DragAndDropTest extends TestCaseBase {
         FxToolkit.setupSceneRoot(() -> {
             leftListView = new ListView<>(observableArrayList("L1", "L2", "L3"));
             rightListView = new ListView<>(observableArrayList("R1", "R2", "R3"));
-            Lists.newArrayList(leftListView, rightListView).forEach(this::setupListView);
+            setupListView(leftListView);
+            setupListView(rightListView);
             return new HBox(leftListView, rightListView);
         });
         FxToolkit.setupStage(Stage::show);

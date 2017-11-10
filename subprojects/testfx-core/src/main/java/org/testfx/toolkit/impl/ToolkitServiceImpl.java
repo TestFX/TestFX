@@ -74,7 +74,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                     applicationLauncher.launch(applicationClass, applicationArgs);
                 }
                 catch (Throwable exception) {
-                    primaryStageFuture.setException(exception);
+                    primaryStageFuture.completeExceptionally(exception);
                 }
             });
         }

@@ -29,8 +29,6 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.ImmutableList;
-
 import org.testfx.service.finder.WindowFinder;
 
 import static org.testfx.service.adapter.JavaVersionAdapter.getWindows;
@@ -139,7 +137,7 @@ public class WindowFinderImpl implements WindowFinder {
 
     @SuppressWarnings("deprecation")
     private List<Window> fetchWindowsInQueue() {
-        return ImmutableList.copyOf(getWindows());
+        return Collections.unmodifiableList(getWindows());
     }
 
     private List<Window> fetchWindowsByProximityTo(Window targetWindow) {

@@ -17,11 +17,13 @@
 package org.testfx.robot.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javafx.geometry.Point2D;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.Motion;
@@ -116,7 +118,7 @@ public class MoveRobotImpl implements MoveRobot {
             pointDistance, MIN_POINT_OFFSET_COUNT, MAX_POINT_OFFSET_COUNT
         );
 
-        Iterable<Point2D> path = new ArrayList<>(pointOffsetCount);
+        List<Point2D> path = new ArrayList<>(pointOffsetCount);
         if (motion == Motion.DIRECT) {
             path = interpolatePointsBetween(sourcePoint, targetPoint, pointOffsetCount);
         }
@@ -127,11 +129,12 @@ public class MoveRobotImpl implements MoveRobot {
                     targetPoint.distance(targetPoint.getX(), sourcePoint.getY());
             // the point where the horizontal path stops and the vertical path starts
             Point2D intermediate = new Point2D(targetPoint.getX(), sourcePoint.getY());
-            path = Iterables.concat(
+            path = Stream.concat(
                     interpolatePointsBetween(
-                            sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)),
+                            sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)).stream(),
                     interpolatePointsBetween(
-                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)));
+                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)).stream())
+                    .collect(Collectors.toList());
         }
         else if (motion == Motion.VERTICAL_FIRST) {
             // ratio of the vertical to the horizontal side of the right-triangle
@@ -139,13 +142,15 @@ public class MoveRobotImpl implements MoveRobot {
                     sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
             // the point where the vertical path stops and the horizontal path starts
             Point2D intermediate = new Point2D(sourcePoint.getX(), targetPoint.getY());
-            path = Iterables.concat(
+            path = Stream.concat(
                     interpolatePointsBetween(
-                            sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)),
+                            sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)).stream(),
                     interpolatePointsBetween(
-                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)));
+                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)).stream())
+                    .collect(Collectors.toList());
         }
-        for (Point2D point : Iterables.limit(path, Iterables.size(path) - 1)) {
+        for (Point2D point : path.stream().limit(path.size() - 1).collect(Collectors.toList())) {
+            // TODO(mike): Why is the limiting necessary?
             mouseRobot.moveNoWait(point);
             sleepRobot.sleep(SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS);
         }
@@ -161,7 +166,7 @@ public class MoveRobotImpl implements MoveRobot {
             Point2D point = interpolatePointBetween(sourcePoint, targetPoint, factor);
             points.add(point);
         }
-        return ImmutableList.copyOf(points);
+        return Collections.unmodifiableList(points);
     }
 
     private double calculateDistanceBetween(Point2D point0,

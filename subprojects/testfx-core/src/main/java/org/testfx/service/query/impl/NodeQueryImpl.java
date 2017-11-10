@@ -16,6 +16,7 @@
  */
 package org.testfx.service.query.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -26,8 +27,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
 
 import org.testfx.api.annotation.Unstable;
@@ -49,7 +48,7 @@ public class NodeQueryImpl implements NodeQuery {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Set<Node> parentNodes = Sets.newLinkedHashSet();
+    private Set<Node> parentNodes = new LinkedHashSet<>();
 
     //---------------------------------------------------------------------------------------------
     // METHODS.
@@ -57,7 +56,7 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     public NodeQuery from(Node... parentNodes) {
-        this.parentNodes.addAll(ImmutableList.copyOf(parentNodes));
+        this.parentNodes.addAll(Arrays.asList(parentNodes));
         return this;
     }
 

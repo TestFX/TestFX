@@ -17,8 +17,11 @@
 package org.testfx.service.support.impl;
 
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -29,7 +32,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -158,11 +160,12 @@ public class CaptureSupportImplTest extends FxRobot {
     private Path resourcePath(Class<?> contextClass,
                               String resourceName) {
         try {
-            return Paths.get(Resources.getResource(contextClass, resourceName).toURI());
+            URL url = contextClass.getResource(resourceName);
+            Objects.requireNonNull(url, "url must not be null");
+            return Paths.get(url.toURI());
         }
         catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
         }
     }
-
 }

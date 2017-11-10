@@ -16,6 +16,10 @@
  */
 package org.testfx.util;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +39,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 
-import com.google.common.base.Stopwatch;
 import org.testfx.api.annotation.Unstable;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -140,7 +143,7 @@ public class WaitForAsyncUtils {
     /**
      * Needs to be called to setup WaitForAsyncUtils before the first use.
      * Currently it installs/removes the handler for uncaught exceptions depending on the flag
-     * {@link checkAllExceptions}.
+     * {@link #checkAllExceptions}.
      */
     public static void setup() {
         if (checkAllExceptions) {
@@ -363,10 +366,10 @@ public class WaitForAsyncUtils {
      */
     public static void waitFor(long timeout, TimeUnit timeUnit, Callable<Boolean> condition)
             throws TimeoutException {
-        Stopwatch stopwatch = Stopwatch.createStarted();
+        Instant start = Instant.now();
         while (!callConditionAndReturnResult(condition)) {
             sleep(CONDITION_SLEEP_IN_MILLIS, MILLISECONDS);
-            if (stopwatch.elapsed(timeUnit) > timeout) {
+            if (Duration.between(start, Instant.now()).compareTo(Duration.of(timeout, chronoUnit(timeUnit))) >= 0) {
                 throw new TimeoutException();
             }
         }
@@ -636,6 +639,28 @@ public class WaitForAsyncUtils {
             stackTrace.append("\t").append(ste.toString()).append("\n");
         }
         return stackTrace.toString();
+    }
+
+    private static ChronoUnit chronoUnit(TimeUnit unit) {
+        Objects.requireNonNull(unit, "unit");
+        switch (unit) {
+            case NANOSECONDS:
+                return ChronoUnit.NANOS;
+            case MICROSECONDS:
+                return ChronoUnit.MICROS;
+            case MILLISECONDS:
+                return ChronoUnit.MILLIS;
+            case SECONDS:
+                return ChronoUnit.SECONDS;
+            case MINUTES:
+                return ChronoUnit.MINUTES;
+            case HOURS:
+                return ChronoUnit.HOURS;
+            case DAYS:
+                return ChronoUnit.DAYS;
+            default:
+                throw new IllegalArgumentException("Unknown TimeUnit constant");
+        }
     }
 
     /**

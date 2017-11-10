@@ -16,6 +16,7 @@
  */
 package org.testfx.matcher.control;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -25,7 +26,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.StackPane;
 
-import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -60,12 +60,21 @@ public class TableViewMatchersTest extends FxRobot {
     public void setup() throws Exception {
         FxToolkit.setupSceneRoot(() -> {
             tableView = new TableView<>();
-            tableView.setItems(observableArrayList(
-                    ImmutableMap.of("name", "alice", "age", 30),
-                    ImmutableMap.of("name", "bob", "age", 31),
-                    ImmutableMap.of("name", "carol"),
-                    ImmutableMap.of("name", "dave")
-            ));
+            Map<String, Object> row1 = new HashMap<>(2);
+            row1.put("name", "alice");
+            row1.put("age", 30);
+
+            Map<String, Object> row2 = new HashMap<>(2);
+            row2.put("name", "bob");
+            row2.put("age", 31);
+
+            Map<String, Object> row3 = new HashMap<>(1);
+            row3.put("name", "carol");
+
+            Map<String, Object> row4 = new HashMap<>(1);
+            row4.put("name", "dave");
+
+            tableView.setItems(observableArrayList(row1, row2, row3, row4));
             tableColumn0 = new TableColumn<>("name");
             tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
@@ -86,18 +95,16 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     public void hasTableCell_customCellValueFactory() {
         // given:
-        tableColumn0.setCellFactory(column -> {
-            return new TableCell<Map, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty) {
-                        setText(null);
-                    } else {
-                        setText(item.toUpperCase(Locale.US).concat("!"));
-                    }
+        tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.toUpperCase(Locale.US).concat("!"));
                 }
-            };
+            }
         });
 
         // expect:
@@ -175,12 +182,23 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex() {
-        tableView.setItems(observableArrayList(
-                ImmutableMap.of("name", "alice", "age", 30),
-                ImmutableMap.of("name", "bob", "age", 31),
-                ImmutableMap.of("name", "carol", "age", 42),
-                ImmutableMap.of("name", "dave", "age", 55)
-        ));
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
+
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
+
+        Map<String, Object> row3 = new HashMap<>(2);
+        row3.put("name", "carol");
+        row3.put("age", 42);
+
+        Map<String, Object> row4 = new HashMap<>(2);
+        row4.put("name", "dave");
+        row4.put("age", 55);
+
+        tableView.setItems(observableArrayList(row1, row2, row3, row4));
 
         // expect:
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
@@ -194,12 +212,22 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_with_empty_cells() {
-        tableView.setItems(observableArrayList(
-                ImmutableMap.of("name", "alice", "age", 30),
-                ImmutableMap.of("name", "bob", "age", 31),
-                ImmutableMap.of("name", "carol"),
-                ImmutableMap.of("name", "dave")
-        ));
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
+
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
+
+        Map<String, Object> row3 = new HashMap<>(1);
+        row3.put("name", "carol");
+
+        Map<String, Object> row4 = new HashMap<>(1);
+        row4.put("name", "dave");
+
+        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+
         // expect:
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, "bob", 31));
@@ -238,12 +266,23 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow() {
-        tableView.setItems(observableArrayList(
-                ImmutableMap.of("name", "alice", "age", 30),
-                ImmutableMap.of("name", "bob", "age", 31),
-                ImmutableMap.of("name", "carol", "age", 42),
-                ImmutableMap.of("name", "dave", "age", 55)
-        ));
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
+
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
+
+        Map<String, Object> row3 = new HashMap<>(2);
+        row3.put("name", "carol");
+        row3.put("age", 42);
+
+        Map<String, Object> row4 = new HashMap<>(2);
+        row4.put("name", "dave");
+        row4.put("age", 55);
+
+        tableView.setItems(observableArrayList(row1, row2, row3, row4));
 
         // expect:
         assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
@@ -255,12 +294,22 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow_with_empty_cells() {
-        tableView.setItems(observableArrayList(
-                ImmutableMap.of("name", "alice", "age", 30),
-                ImmutableMap.of("name", "bob", "age", 31),
-                ImmutableMap.of("name", "carol"),
-                ImmutableMap.of("name", "dave")
-        ));
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
+
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
+
+        Map<String, Object> row3 = new HashMap<>(1);
+        row3.put("name", "carol");
+
+        Map<String, Object> row4 = new HashMap<>(1);
+        row4.put("name", "dave");
+
+        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+
         // expect:
         assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
         assertThat(tableView, TableViewMatchers.containsRow("bob", 31));

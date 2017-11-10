@@ -70,7 +70,7 @@ public interface PointQuery {
      * Updates {@link #getOffset()} to be
      * {@code new Point2D(this.offset.getX() + offset.getX(), this.offset.getY() + offset.getY())}.
      *
-     * @param offset the amount by which to increase/decrease the offset's x & y values
+     * @param offset the amount by which to increase/decrease the offset's x and y values
      * @return itself
      */
     PointQuery atOffset(Point2D offset);

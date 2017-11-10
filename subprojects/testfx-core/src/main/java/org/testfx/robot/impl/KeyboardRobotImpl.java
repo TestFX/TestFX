@@ -16,14 +16,16 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javafx.scene.input.KeyCode;
 
-import com.google.common.collect.Lists;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
@@ -52,7 +54,8 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private final Set<KeyCode> pressedKeys = new HashSet<>();
+    private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();
+
     @Override
     public final Set<KeyCode> getPressedKeys() {
         return Collections.unmodifiableSet(pressedKeys);
@@ -78,7 +81,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void pressNoWait(KeyCode... keys) {
-        pressKeys(Lists.newArrayList(keys));
+        pressKeys(Arrays.asList(keys));
     }
 
     @Override
@@ -93,7 +96,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
             releasePressedKeys();
         }
         else {
-            releaseKeys(Lists.newArrayList(keys));
+            releaseKeys(Arrays.asList(keys));
         }
     }
 
@@ -109,12 +112,12 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         keyCodes.forEach(this::pressKey);
     }
 
-    private void releaseKeys(List<KeyCode> keyCodes) {
+    private void releaseKeys(Collection<KeyCode> keyCodes) {
         keyCodes.forEach(this::releaseKey);
     }
 
     private void releasePressedKeys() {
-        releaseKeys(Lists.newArrayList(pressedKeys));
+        releaseKeys(pressedKeys);
     }
 
     private void pressKey(KeyCode keyCode) {

@@ -93,7 +93,7 @@ public final class TypeRobotImplTest {
     @Test
     public void push_with_combination_for_CONTROL_SHIFT_A() {
         // when:
-        typeRobot.push(new KeyCodeCombination(A, CONTROL_DOWN, SHIFT_DOWN));
+        typeRobot.push(new KeyCodeCombination(A, SHIFT_DOWN, CONTROL_DOWN));
 
         // then:
         verify(keyboardRobot, times(1)).pressNoWait(eq(SHIFT), eq(CONTROL), eq(A));

@@ -16,8 +16,10 @@
  */
 package org.testfx.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -36,10 +38,6 @@ import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
 import org.testfx.api.annotation.Unstable;
 
@@ -64,7 +62,9 @@ public final class NodeQueryUtils {
      * Returns a set of the given windows' scenes' root nodes
      */
     public static Set<Node> rootsOfWindows(Collection<Window> windows) {
-        return rootOfWindow(Iterables.toArray(windows, Window.class));
+        return windows.stream()
+                .map(NodeQueryUtils::fromWindow)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -169,7 +169,10 @@ public final class NodeQueryUtils {
      */
     public static Function<Node, Set<Node>> combine(Function<Node, Set<Node>> function0,
                                                     Function<Node, Set<Node>> function1) {
-        return input -> combine(input, ImmutableList.of(function0, function1));
+        List<Function<Node, Set<Node>>> functions = new ArrayList<>();
+        functions.add(function0);
+        functions.add(function1);
+        return input -> combine(input, functions);
     }
 
     //---------------------------------------------------------------------------------------------
@@ -203,7 +206,7 @@ public final class NodeQueryUtils {
 
     private static Set<Node> lookupWithPredicate(Node parentNode,
                                                  Predicate<Node> predicate) {
-        Set<Node> resultNodes = Sets.newLinkedHashSet();
+        Set<Node> resultNodes = new LinkedHashSet<>();
         if (applyPredicateSafely(predicate, parentNode)) {
             resultNodes.add(parentNode);
         }
@@ -213,7 +216,7 @@ public final class NodeQueryUtils {
                 resultNodes.addAll(lookupWithPredicate(childNode, predicate));
             }
         }
-        return ImmutableSet.copyOf(resultNodes);
+        return Collections.unmodifiableSet(resultNodes);
     }
 
     private static <T> boolean applyPredicateSafely(Predicate<T> predicate,

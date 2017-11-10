@@ -16,6 +16,9 @@
  */
 package org.testfx.cases.acceptance;
 
+import java.util.Collections;
+import java.util.HashSet;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import com.google.common.collect.ImmutableSet;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -112,7 +114,7 @@ public class NodeAndPointQueryTest {
         NodeQuery query = fx.lookup(".missing");
 
         // then:
-        assertThat(query.queryAll(), is(ImmutableSet.of()));
+        assertThat(query.queryAll(), is(Collections.unmodifiableSet(new HashSet<>())));
     }
 
     @Test
