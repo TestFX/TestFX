@@ -43,7 +43,7 @@ public class PrimaryStageApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle(getClass().getSimpleName());
-        PRIMARY_STAGE_FUTURE.set(primaryStage);
+        PRIMARY_STAGE_FUTURE.complete(primaryStage);
     }
 
 }

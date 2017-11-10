@@ -16,6 +16,7 @@
  */
 package org.testfx.service.finder.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -29,7 +30,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.Lists;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -98,7 +98,10 @@ public class NodeFinderImplTest {
         assumeThat(System.getProperty("java.specification.version"), is("1.8"));
 
         windowFinder = new WindowFinderStub();
-        windowFinder.windows = Lists.newArrayList(window, otherWindow, twinWindow);
+        windowFinder.windows = new ArrayList<>();
+        windowFinder.windows.add(window);
+        windowFinder.windows.add(otherWindow);
+        windowFinder.windows.add(twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
     }
 

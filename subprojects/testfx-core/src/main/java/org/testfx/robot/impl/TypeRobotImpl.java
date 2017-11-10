@@ -16,17 +16,14 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.KeyboardRobot;
@@ -100,8 +97,9 @@ public class TypeRobotImpl implements TypeRobot {
     }
 
     private void pushKeyCodeCombination(KeyCode... keyCodeCombination) {
-        List<KeyCode> keyCodesForwards = Lists.newArrayList(keyCodeCombination);
-        List<KeyCode> keyCodesBackwards = Lists.reverse(keyCodesForwards);
+        List<KeyCode> keyCodesForwards = Arrays.asList(keyCodeCombination);
+        List<KeyCode> keyCodesBackwards = new ArrayList<>(keyCodesForwards);
+        Collections.reverse(keyCodesBackwards);
         keyboardRobot.pressNoWait(toKeyCodeArray(keyCodesForwards));
         keyboardRobot.release(toKeyCodeArray(keyCodesBackwards));
     }
@@ -112,21 +110,24 @@ public class TypeRobotImpl implements TypeRobot {
     }
 
     private List<KeyCode> filterKeyCodes(KeyCodeCombination keyCombination) {
-        Map<KeyCombination.Modifier, KeyCombination.ModifierValue> modifiers = ImmutableMap.of(
-            KeyCombination.SHIFT_DOWN, keyCombination.getShift(),
-            KeyCombination.CONTROL_DOWN, keyCombination.getControl(),
-            KeyCombination.ALT_DOWN, keyCombination.getAlt(),
-            KeyCombination.META_DOWN, keyCombination.getMeta(),
-            KeyCombination.SHORTCUT_DOWN, keyCombination.getShortcut()
-        );
-        List<KeyCode> modifierKeyCodes = modifiers.entrySet().stream()
-                .filter(entry -> entry.getKey().getValue() == entry.getValue())
-                .map(entry -> entry.getKey().getKey())
-                .collect(Collectors.toList());
-        return ImmutableList.<KeyCode>builder()
-            .addAll(modifierKeyCodes)
-            .add(keyCombination.getCode())
-            .build();
+        List<KeyCode> modifierKeyCodes = new ArrayList<>();
+        if (keyCombination.getShift() == KeyCombination.SHIFT_DOWN.getValue()) {
+            modifierKeyCodes.add(KeyCode.SHIFT);
+        }
+        if (keyCombination.getAlt() == KeyCombination.ALT_DOWN.getValue()) {
+            modifierKeyCodes.add(KeyCode.ALT);
+        }
+        if (keyCombination.getMeta() == KeyCombination.META_DOWN.getValue()) {
+            modifierKeyCodes.add(KeyCode.META);
+        }
+        if (keyCombination.getShortcut() == KeyCombination.SHORTCUT_DOWN.getValue()) {
+            modifierKeyCodes.add(KeyCode.SHORTCUT);
+        }
+        if (keyCombination.getControl() == KeyCombination.CONTROL_DOWN.getValue()) {
+            modifierKeyCodes.add(KeyCode.CONTROL);
+        }
+        modifierKeyCodes.add(keyCombination.getCode());
+        return Collections.unmodifiableList(modifierKeyCodes);
     }
 
     private KeyCode[] toKeyCodeArray(List<KeyCode> keyCodes) {

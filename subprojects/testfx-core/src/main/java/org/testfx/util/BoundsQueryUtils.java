@@ -60,8 +60,8 @@ public final class BoundsQueryUtils {
     }
 
     /**
-     * Creates a {@link Bounds} object whose top-left corner = 0 and whose width & height = {code dimension.getWidth()}
-     * and {@code dimension.getHeight()}, respectively.
+     * Creates a {@link Bounds} object whose top-left corner = 0 and whose width and height =
+     * {@code dimension.getWidth()} and {@code dimension.getHeight()}, respectively.
      */
     public static Bounds bounds(Dimension2D dimension) {
         return bounds(0, 0, dimension.getWidth(), dimension.getHeight());

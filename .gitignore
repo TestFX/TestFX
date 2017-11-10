@@ -25,3 +25,4 @@ screenshot*.png
 # ctags
 tags
 
+/subprojects/testfx-core/out/

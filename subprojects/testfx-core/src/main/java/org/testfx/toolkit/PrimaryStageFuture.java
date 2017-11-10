@@ -16,13 +16,14 @@
  */
 package org.testfx.toolkit;
 
+import java.util.concurrent.CompletableFuture;
+
 import javafx.stage.Stage;
 
-import com.google.common.util.concurrent.AbstractFuture;
 import org.testfx.api.annotation.Unstable;
 
 @Unstable(reason = "needs more tests")
-public class PrimaryStageFuture extends AbstractFuture<Stage> {
+public class PrimaryStageFuture extends CompletableFuture<Stage> {
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -43,13 +44,13 @@ public class PrimaryStageFuture extends AbstractFuture<Stage> {
     //---------------------------------------------------------------------------------------------
 
     @Override
-    public boolean set(Stage stage) {
-        return super.set(stage);
+    public boolean complete(Stage stage) {
+        return super.complete(stage);
     }
 
     @Override
-    public boolean setException(Throwable throwable) {
-        return super.setException(throwable);
+    public boolean completeExceptionally(Throwable throwable) {
+        return super.completeExceptionally(throwable);
     }
 
 }

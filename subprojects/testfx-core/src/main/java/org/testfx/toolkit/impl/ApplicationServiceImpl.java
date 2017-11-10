@@ -17,11 +17,11 @@
 package org.testfx.toolkit.impl;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import com.google.common.util.concurrent.SettableFuture;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationService;
 
@@ -43,13 +43,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Future<Void> init(Application application) {
         // Should be called in TestFX launcher thread.
-        SettableFuture<Void> future = SettableFuture.create();
+        CompletableFuture<Void> future = new CompletableFuture<>();
         try {
             application.init();
-            future.set(null);
+            future.complete(null);
         }
         catch (Exception exception) {
-            future.setException(exception);
+            future.completeExceptionally(exception);
         }
         return future;
     }

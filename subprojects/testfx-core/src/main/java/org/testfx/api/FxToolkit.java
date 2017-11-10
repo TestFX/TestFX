@@ -16,6 +16,8 @@
  */
 package org.testfx.api;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -29,7 +31,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.ImmutableSet;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
@@ -351,7 +352,7 @@ public final class FxToolkit {
 
     @SuppressWarnings("deprecation")
     private static Set<Window> fetchAllWindows() {
-        return ImmutableSet.copyOf(getWindows());
+        return Collections.unmodifiableSet(new HashSet<>(getWindows()));
     }
 
     private static void preventShutdownWhenLastWindowIsClosed() {

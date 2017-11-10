@@ -18,6 +18,8 @@ package org.testfx.service.adapter.impl;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -28,7 +30,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
-import com.google.common.collect.ImmutableMap;
 import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
@@ -47,16 +48,21 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     // CONSTANTS.
     //---------------------------------------------------------------------------------------------
 
-    public static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
+    private static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
 
-    public static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
-    public static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
+    private static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
+    private static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
 
-    public static final Map<MouseButton, Integer> GLASS_BUTTONS = ImmutableMap.of(
-        MouseButton.PRIMARY, Robot.MOUSE_LEFT_BTN,
-        MouseButton.SECONDARY, Robot.MOUSE_RIGHT_BTN,
-        MouseButton.MIDDLE, Robot.MOUSE_MIDDLE_BTN
-    );
+    static {
+        Map<MouseButton, Integer> buttons = new HashMap<>();
+        buttons.put(MouseButton.PRIMARY, Robot.MOUSE_LEFT_BTN);
+        buttons.put(MouseButton.SECONDARY, Robot.MOUSE_RIGHT_BTN);
+        buttons.put(MouseButton.MIDDLE, Robot.MOUSE_MIDDLE_BTN);
+        GLASS_BUTTONS = Collections.unmodifiableMap(buttons);
+
+    }
+
+    private static final Map<MouseButton, Integer> GLASS_BUTTONS;
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.

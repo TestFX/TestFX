@@ -23,7 +23,7 @@ package org.testfx.robot;
  * a right-angled triangle where the hypotenuse is the straight-line between a and b.
  * <p>
  * <pre><code>
- * +------------------------> +x
+ * +-----------------------→ +x
  * |    d        b
  * |    |        *
  * |    |      * *

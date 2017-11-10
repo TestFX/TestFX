@@ -16,6 +16,7 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -25,7 +26,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -54,8 +54,13 @@ public class NodeMatchersTest extends FxRobot {
 
     @Test
     public void anything() throws Exception {
-        List<Node> nodes = FxToolkit.setupFixture(() -> ImmutableList.of(
-                new Region(), new Button("foo"), new TextField("bar")));
+        List<Node> nodes = FxToolkit.setupFixture(() -> {
+            List<Node> temp = new ArrayList<>(3);
+            temp.add(new Region());
+            temp.add(new Button("foo"));
+            temp.add(new TextField("bar"));
+            return temp;
+        });
 
         // expect:
         assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(),
@@ -104,8 +109,13 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasText_filters_nodes() throws Exception {
         // given:
-        List<Node> nodes = FxToolkit.setupFixture(() -> ImmutableList.of(
-                new Region(), new Button("foo"), new TextField("bar")));
+        List<Node> nodes =  FxToolkit.setupFixture(() -> {
+            List<Node> temp = new ArrayList<>(3);
+            temp.add(new Region());
+            temp.add(new Button("foo"));
+            temp.add(new TextField("bar"));
+            return temp;
+        });
 
         // expect:
         NodeQuery query1 = from(nodes).match(NodeMatchers.hasText("foo"));

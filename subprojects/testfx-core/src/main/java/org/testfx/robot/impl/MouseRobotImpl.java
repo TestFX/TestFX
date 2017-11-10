@@ -16,14 +16,15 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 
-import com.google.common.collect.Lists;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
@@ -42,6 +43,7 @@ public class MouseRobotImpl implements MouseRobot {
     //---------------------------------------------------------------------------------------------
 
     private final Set<MouseButton> pressedButtons = new HashSet<>();
+
     @Override
     public final Set<MouseButton> getPressedButtons() {
         return Collections.unmodifiableSet(pressedButtons);
@@ -71,7 +73,7 @@ public class MouseRobotImpl implements MouseRobot {
             pressPrimaryButton();
         }
         else {
-            pressButtons(Lists.newArrayList(buttons));
+            pressButtons(Arrays.asList(buttons));
         }
     }
 
@@ -87,7 +89,7 @@ public class MouseRobotImpl implements MouseRobot {
             releasePressedButtons();
         }
         else {
-            releaseButtons(Lists.newArrayList(buttons));
+            releaseButtons(Arrays.asList(buttons));
         }
     }
 
@@ -126,14 +128,14 @@ public class MouseRobotImpl implements MouseRobot {
     }
 
     private void releasePressedButtons() {
-        releaseButtons(Lists.newArrayList(pressedButtons));
+        releaseButtons(new ArrayList<>(pressedButtons));
     }
 
-    private void pressButtons(List<MouseButton> buttons) {
+    private void pressButtons(Collection<MouseButton> buttons) {
         buttons.forEach(this::pressButton);
     }
 
-    private void releaseButtons(List<MouseButton> buttons) {
+    private void releaseButtons(Collection<MouseButton> buttons) {
         buttons.forEach(this::releaseButton);
     }
 
