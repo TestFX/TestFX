@@ -29,7 +29,7 @@ dependencies {
     compileOnly 'org.osgi:org.osgi.core:6.0.0'
 
     testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:2.7.22"
+    testCompile "org.mockito:mockito-core:2.12.0"
     testCompile "org.hamcrest:hamcrest-library:1.3"
     if (usingJava9) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
