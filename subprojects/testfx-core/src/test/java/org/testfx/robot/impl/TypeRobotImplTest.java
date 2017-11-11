@@ -29,9 +29,11 @@ import org.testfx.robot.TypeRobot;
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.ALT;
 import static javafx.scene.input.KeyCode.B;
+import static javafx.scene.input.KeyCode.COMMAND;
 import static javafx.scene.input.KeyCode.CONTROL;
 import static javafx.scene.input.KeyCode.SHIFT;
 import static javafx.scene.input.KeyCombination.ALT_DOWN;
+
 import static javafx.scene.input.KeyCombination.CONTROL_DOWN;
 import static javafx.scene.input.KeyCombination.SHIFT_DOWN;
 
@@ -76,6 +78,17 @@ public final class TypeRobotImplTest {
         // then:
         verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
+        verifyNoMoreInteractions(keyboardRobot);
+    }
+
+    @Test
+    public void push_with_keys_for_COMMAND_B() {
+        // when:
+        typeRobot.push(COMMAND, B);
+
+        // then:
+        verify(keyboardRobot, times(1)).pressNoWait(eq(COMMAND), eq(B));
+        verify(keyboardRobot, times(1)).release(eq(B), eq(COMMAND));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
