@@ -19,15 +19,24 @@ package org.testfx.matcher.control;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -48,7 +57,7 @@ public class TableViewMatchersTest extends FxRobot {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    public TableView<Map> tableView;
+    TableView<Map> tableView;
     TableColumn<Map, String> tableColumn0;
 
     @BeforeClass
@@ -80,7 +89,8 @@ public class TableViewMatchersTest extends FxRobot {
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
             tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
             tableView.getColumns().setAll(tableColumn0, tableColumn1);
-            return new StackPane(tableView);
+            StackPane stackPane = new StackPane(tableView);
+            return stackPane;
         });
         FxToolkit.showStage();
     }
@@ -125,19 +135,17 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     public void hasTableCell_fails_customCellValueFactory() {
         // given:
-        tableColumn0.setCellFactory(column -> {
-            return new TableCell<Map, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
+        tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
 
-                    if (item == null || empty) {
-                        setText(null);
-                    } else {
-                        setText(item.toUpperCase(Locale.US).concat("!"));
-                    }
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.toUpperCase(Locale.US).concat("!"));
                 }
-            };
+            }
         });
 
         // expect:
@@ -334,5 +342,51 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
 
         assertThat(tableView, TableViewMatchers.containsRow(63, "deedee"));
+    }
+
+    @Test
+    @Ignore("Issue #449")
+    public void containsRow_after_edited_cell() throws TimeoutException {
+        TableColumn<Person, String> tableColumn0 = new TableColumn<>("name");
+        tableColumn0.setEditable(true);
+        tableColumn0.setCellFactory(TextFieldTableCell.forTableColumn());
+        tableColumn0.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableColumn0.setPrefWidth(150);
+        TableColumn<Person, Number> tableColumn1 = new TableColumn<>("age");
+        tableColumn1.setCellValueFactory(new PropertyValueFactory<>("age"));
+        tableColumn1.setEditable(true);
+        TableView<Person> tableView = new TableView<>();
+        tableView.setEditable(true);
+        tableView.getColumns().setAll(tableColumn0, tableColumn1);
+        Person alice = new Person("alice", 30);
+        Person bob = new Person("bob", 41);
+        tableView.setItems(observableArrayList(alice, bob));
+        FxToolkit.setupSceneRoot(() -> new StackPane(tableView));
+        WaitForAsyncUtils.waitForFxEvents();
+        clickOn("alice");
+        clickOn("alice");
+        press(KeyCode.BACK_SPACE);
+        write("not alice!");
+        press(KeyCode.ENTER);
+
+        assertThat(tableView, TableViewMatchers.containsRow("not alice!", 30));
+    }
+
+    public static class Person {
+        private final StringProperty name;
+        private final IntegerProperty age;
+
+        public Person(String name, int age) {
+            this.name = new SimpleStringProperty(name);
+            this.age = new SimpleIntegerProperty(age);
+        }
+
+        public StringProperty nameProperty() {
+            return name;
+        }
+
+        public IntegerProperty ageProperty() {
+            return age;
+        }
     }
 }
