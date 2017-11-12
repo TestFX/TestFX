@@ -18,6 +18,16 @@ ext.pomDescription = "TestFX Spock"
 
 apply plugin: 'groovy'
 
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    baseName 'testfx-spock'
+    classifier 'groovydoc'
+    from groovydoc.destinationDir
+}
+
+artifacts {
+    archives groovydocJar
+}
+
 dependencies {
     compile project(":testfx-core")
 

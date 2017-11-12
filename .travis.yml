@@ -16,6 +16,10 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+env:
+  global:
+  - secure: XxAYzDEO8Vga/0KfvrMgm4d7VkOky2uHCeJvVR4vMBrMd7bpLE8AtT6Qy99NI/FQdbFu60AAyGJjiXoAZ9gqCvrt8fKGz8vyuyvYlQFVruw0UJ9UPCPazUaE5s/85vuwv7fW2asKlc3ZPHskWqUpzMUi/rSt5rjfB0Had5arbSo=
+
 matrix:
   fast_finish: true
   include:
@@ -88,6 +92,9 @@ install: true
 
 # run gradle build.
 script: .ci/script.sh
+
+after_success:
+- .ci/update_snapshot_docs.sh
 
 notifications:
   webhooks:
