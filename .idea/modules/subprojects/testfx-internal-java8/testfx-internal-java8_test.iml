@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":testfx-internal-java8:test" external.linked.project.path="$MODULE_DIR$/../../../../subprojects/testfx-internal-java8" external.root.project.path="$MODULE_DIR$/../../../.." external.system.id="GRADLE" external.system.module.group="org.testfx" external.system.module.type="sourceSet" external.system.module.version="4.0.8-alpha" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output-test url="file://$MODULE_DIR$/../../../../subprojects/testfx-internal-java8/out/test/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../subprojects/testfx-internal-java8/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../subprojects/testfx-internal-java8/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../subprojects/testfx-internal-java8/src/test/resources" type="java-test-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="testfx-internal-java8_main" />
+  </component>
+  <component name="TestModuleProperties" production-module="testfx-internal-java8_main" />
+</module>

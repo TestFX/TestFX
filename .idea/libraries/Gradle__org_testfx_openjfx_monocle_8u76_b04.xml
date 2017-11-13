@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.testfx:openjfx-monocle:8u76-b04">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.testfx/openjfx-monocle/8u76-b04/f64bea0eccfa3884c08a790313f0da5c94b7582/openjfx-monocle-8u76-b04.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.testfx/openjfx-monocle/8u76-b04/dceb6c0c8d0e6606f03492ff15d787f37f9b56bd/openjfx-monocle-8u76-b04-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

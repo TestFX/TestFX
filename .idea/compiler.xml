@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="testfx-core-jdk9_main" target="1.8" />
+      <module name="testfx-core-jdk9_test" target="1.8" />
+      <module name="testfx-core_main" target="1.8" />
+      <module name="testfx-core_test" target="1.8" />
+      <module name="testfx-internal-java8_main" target="1.8" />
+      <module name="testfx-internal-java8_test" target="1.8" />
+      <module name="testfx-junit5_main" target="1.8" />
+      <module name="testfx-junit5_test" target="1.8" />
+      <module name="testfx-junit_main" target="1.8" />
+      <module name="testfx-junit_test" target="1.8" />
+      <module name="testfx-legacy_main" target="1.8" />
+      <module name="testfx-legacy_test" target="1.8" />
+      <module name="testfx-spock_main" target="1.8" />
+      <module name="testfx-spock_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TestFX.iml" filepath="$PROJECT_DIR$/.idea/modules/TestFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-core/testfx-core.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-core/testfx-core.iml" group="testfx-core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-core/testfx-core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-core/testfx-core_main.iml" group="testfx-core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-core/testfx-core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-core/testfx-core_test.iml" group="testfx-core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-internal-java8/testfx-internal-java8.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-internal-java8/testfx-internal-java8.iml" group="testfx-internal-java8" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-internal-java8/testfx-internal-java8_main.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-internal-java8/testfx-internal-java8_main.iml" group="testfx-internal-java8" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-internal-java8/testfx-internal-java8_test.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-internal-java8/testfx-internal-java8_test.iml" group="testfx-internal-java8" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit/testfx-junit.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit/testfx-junit.iml" group="testfx-junit" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit5/testfx-junit5.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit5/testfx-junit5.iml" group="testfx-junit5" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit5/testfx-junit5_main.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit5/testfx-junit5_main.iml" group="testfx-junit5" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit5/testfx-junit5_test.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit5/testfx-junit5_test.iml" group="testfx-junit5" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit/testfx-junit_main.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit/testfx-junit_main.iml" group="testfx-junit" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit/testfx-junit_test.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-junit/testfx-junit_test.iml" group="testfx-junit" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-spock/testfx-spock.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-spock/testfx-spock.iml" group="testfx-spock" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-spock/testfx-spock_main.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-spock/testfx-spock_main.iml" group="testfx-spock" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/subprojects/testfx-spock/testfx-spock_test.iml" filepath="$PROJECT_DIR$/.idea/modules/subprojects/testfx-spock/testfx-spock_test.iml" group="testfx-spock" />
+    </modules>
+  </component>
+</project>
