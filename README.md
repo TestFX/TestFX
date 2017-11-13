@@ -13,8 +13,8 @@ Simple and clean testing for [JavaFX][10].
 
 ## Status
 
-Version 4 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.md) and latest documentation is only available via `gradle javadoc`.
-
+Version 4 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.md). [Javadocs](http://testfx.github.io/TestFX/docs/javadoc/) are available
+online (these are auto-generated from `master`) or by running `gradle javadoc`.
 
 ## Features
 
@@ -26,7 +26,7 @@ Version 4 is in alpha phase. Release notes are listed in [`CHANGES.md`](CHANGES.
 **Support for:**
 
 - Java 8 features and JavaFX 8 controls.
-- JUnit testing framework and Hamcrest matchers.
+- Multiple testing frameworks ([Junit 4](http://junit.org/junit4/), [Junit 5](http://junit.org/junit5/), and [Spock](http://spockframework.org/)) with Hamcrest matchers.
 - Precise screenshots of failed tests.
 - Headless testing using Monocle.
 
@@ -58,9 +58,9 @@ public class DesktopPaneTest extends ApplicationTest {
 ~~~
 
 
-## Gradle and Maven
+## Gradle
 
-Gradle `build.gradle` with `testfx-core` and `testfx-junit` from Bintray's JCenter (at https://jcenter.bintray.com/):
+`build.gradle` with `testfx-core` and `testfx-junit` from Bintray's JCenter (at https://jcenter.bintray.com/):
 
 ~~~groovy
 repositories {
@@ -73,71 +73,27 @@ dependencies {
 }
 ~~~
 
-Maven `pom.xml` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
+
+## Maven
+
+`pom.xml` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
 
 ~~~xml
-<repositories>
-    <repository>
-        <id>maven-central-repo</id>
-        <url>http://repo1.maven.org/maven2</url>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-</repositories>
-
 <dependencies>
     <dependency>
         <groupId>org.testfx</groupId>
         <artifactId>testfx-core</artifactId>
-        <version>4.0.1-alpha</version>
+        <version>4.0.8-alpha</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>org.testfx</groupId>
-        <artifactId>testfx-junit</artifactId>
-        <version>4.0.1-alpha</version>
+        <artifactId>testfx-junit</artifactId> <!-- or testfx-junit5 -->
+        <version>4.0.8-alpha</version>
         <scope>test</scope>
     </dependency>
 </dependencies>
 ~~~
-
-Maven `pom.xml` with `testfx-core` (SNAPSHOT) from Sonatype Snapshots repository (at https://oss.sonatype.org/content/repositories/snapshots/).
-
-~~~xml
-<repositories>
-    <repository>
-        <id>maven-central-repo</id>
-        <url>http://repo1.maven.org/maven2</url>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-    <repository>
-        <id>sonatype-snapshots-repo</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        <snapshots>
-            <enabled>true</enabled>
-       </snapshots>
-    </repository>
-</repositories>
-
-<dependencies>
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.testfx</groupId>
-        <artifactId>testfx-core</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
-~~~
-
 
 ## Documentation
 
@@ -176,11 +132,9 @@ Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([vi
 [42]: http://www.guigarage.com/2013/03/introducing-marvinfx/
 
 
-## Mailing List
+## Gitter
 
-Head over to [testfx-discuss@googlegroups.com][50] for discussions, questions and announcements.
-
-[50]: https://groups.google.com/d/forum/testfx-discuss
+Head over to our [gitter chat](testfx-discuss@googlegroups.com) for discussion and questions.
 
 
 ## Credits
