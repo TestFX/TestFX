@@ -23,7 +23,6 @@ apply plugin: "license"
 license {
     header = rootProject.file("gradle/check/license-header.txt")
     strictCheck = true
-    ignoreFailures = false
     license {
         ext.year = Calendar.getInstance().get(Calendar.YEAR)
     }
@@ -33,7 +32,14 @@ license {
     mapping {
         java = "SLASHSTAR_STYLE"
         groovy = "SLASHSTAR_STYLE"
+        gradle = "SLASHSTAR_STYLE"
     }
-    // TODO: Check **/*.gradle files too (doesn't work currently)
-    includes(["**/*.java", "**/*.groovy"])
+    // TODO: Checking *.gradle files does not work currently because they are not in
+    // the source set.
+    includes(["**/*.java", "**/*.groovy", "**/*.gradle"])
+}
+
+// Decrease verbosity (printing that the header in each file is OK).
+[licenseMain, licenseTest].each { task ->
+    task.logging.setLevel(LogLevel.LIFECYCLE)
 }

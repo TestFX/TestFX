@@ -28,6 +28,11 @@ checkstyle {
     toolVersion = "7.6.1"
 }
 
+// Decrease verbosity (printing of XSL style sheets, etc.)
+[checkstyleMain, checkstyleTest].each { task ->
+    task.logging.setLevel(LogLevel.LIFECYCLE)
+}
+
 // exclude module info files for Java 9
 checkstyleMain.exclude "**/module-info.java"
 checkstyleTest.exclude "**/module-info.java"
