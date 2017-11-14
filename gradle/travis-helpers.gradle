@@ -1,0 +1,43 @@
+ext.isTravis = System.env['HAS_JOSH_K_SEAL_OF_APPROVAL'] != null // ex-Chief Play-Doh Officer @ Travis CI
+
+ext.getShortTag = { name ->
+    name.split(':')[1]
+}
+
+ext.travisFoldStart = { tag ->
+    if (isTravis) {
+        def shortTag = getShortTag(tag)
+        def title = shortTag + " test suite"
+        println("travis_fold:start:$shortTag\033[33;1m$title\033[0m")
+    }
+}
+
+ext.travisFoldEnd = { tag ->
+    if (isTravis) {
+        def shortTag = getShortTag(tag)
+        println("\ntravis_fold:end:$shortTag\r")
+    }
+}
+
+ext.travisTimerStart = {
+    if (isTravis) {
+        def timerId = String.format("%08x", randomShort() * randomShort())
+        def start = System.nanoTime()
+        println("travis_time:start:$timerId\r\033[0m")
+        new Tuple2(timerId, start)
+    } else {
+        new Tuple2(null, null)
+    }
+}
+
+ext.randomShort = {
+    new Random().nextInt(Short.MAX_VALUE + 1)
+}
+
+ext.travisTimerEnd = { timerId, start ->
+    if (isTravis) {
+        def end = System.nanoTime()
+        def duration = end - start
+        println("\ntravis_time:end:$timerId:start=$start,finish=$end,duration=$duration\r\033[0m")
+    }
+}

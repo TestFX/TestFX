@@ -194,12 +194,23 @@ subprojects { subproject ->
                     TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
             }
             info.events = debug.events
+            def tuple
+            beforeSuite { desc ->
+                if (!desc.parent) { // will match the outermost suite
+                    travisFoldStart(desc.name)
+                    tuple = travisTimerStart()
+                }
+            }
             afterSuite { desc, result ->
                 if (!desc.parent) { // will match the outermost suite
+                    if (tuple != null) {
+                        travisTimerEnd(tuple.first, tuple.second)
+                    }
                     def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
                     def startItem = '|  ', endItem = '  |'
                     def repeatLength = startItem.length() + output.length() + endItem.length()
                     println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+                    travisFoldEnd(desc.name)
                 }
             }
         }
@@ -229,7 +240,8 @@ subprojects { subproject ->
         options.windowTitle = "${subproject.pomDescription} ${version} API"
         options.docTitle    = "${subproject.pomDescription} ${version} API"
         options.footer      = project.javadocFooter
-        options.links = javadocLinks
+        options.links       = javadocLinks
+        options.noTimestamp = true
     }
 }
 

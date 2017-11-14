@@ -18,6 +18,10 @@ ext.pomDescription = "TestFX Spock"
 
 apply plugin: 'groovy'
 
+groovydoc {
+    noTimestamp = true
+}
+
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
     baseName 'testfx-spock'
     classifier 'groovydoc'
