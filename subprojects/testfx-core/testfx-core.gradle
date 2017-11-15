@@ -15,8 +15,6 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-ext.pomDescription = "TestFX Core"
-
 dependencies {
     // use correct API internally depending on which Java version is being used
     if (usingJava9) {
