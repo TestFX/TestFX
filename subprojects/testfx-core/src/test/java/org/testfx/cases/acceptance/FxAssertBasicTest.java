@@ -42,7 +42,7 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 public class FxAssertBasicTest extends TestCaseBase {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestFXRule testFXRule = new TestFXRule(3);
 
     @Before
     public void setup() throws Exception {
@@ -95,7 +95,7 @@ public class FxAssertBasicTest extends TestCaseBase {
     public void button_has_label() {
         // when:
         clickOn("#button");
-        
+
         // then:
         verifyThat("#button", hasText("clicked!"), informedErrorMessage(this));
     }
