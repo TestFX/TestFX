@@ -175,8 +175,8 @@ subprojects { subproject ->
         options.encoding = "UTF-8"
     }
 
-    // use test logging.
     test {
+        reports.junitXml.destination = file("$projectDir/../../build/test-reports/xml")
         testLogging {
             // Fancy formatting from http://stackoverflow.com/a/36130467/3634630
             // set options for log level LIFECYCLE

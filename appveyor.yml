@@ -35,6 +35,13 @@ build_script:
 test_script:
   - gradlew check --info --no-daemon
 
+after_test:
+  - ps: |
+        Write-Verbose -Message 'Uploading test results to AppVeyor…' -Verbose
+        $wc = New-Object 'System.Net.WebClient'
+        ForEach ($file in Get-ChildItem '.\build\test-reports\xml\TEST-*.xml') {
+            $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", $file)
+        }
 cache:
   - C:\Users\appveyor\.gradle\caches
   - C:\Users\appveyor\.gradle\wrapper -> .gradle-wrapper\gradle-wrapper.properties
@@ -45,4 +52,3 @@ notifications:
     on_build_success: true
     on_build_failure: true
     on_build_status_changed: true
-
