@@ -24,16 +24,21 @@ import javafx.stage.Stage;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.framework.junit.TestFXRule;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasText;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class ApplicationLaunchTest extends FxRobot {
+
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule(3);
 
     //---------------------------------------------------------------------------------------------
     // FIXTURES.
