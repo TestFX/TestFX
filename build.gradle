@@ -65,8 +65,6 @@ rootProject.with { project ->
 
         // add java version and vendor to project attributes.
         javaVersion = System.properties["java.version"]
-        javaVendor = System.properties["java.vendor"]
-        javaVmVersion = System.properties["java.vm.version"]
 
         usingJava9 = javaVersion.startsWith("9")
         javaSourceAndTargetCompilation = usingJava9 ? "9" : "1.8"
@@ -83,54 +81,32 @@ rootProject.with { project ->
         }
     }
 }
-
-//-------------------------------------------------------------------------------------------------
-// EACH PROJECT.
-//-------------------------------------------------------------------------------------------------
-
 allprojects { project ->
     configurations {
         providedCompile
     }
-
-    // task to create main and test source directories.
-    task("initSourceDirs", group: "build setup").doLast {
-        // ignore source directories for projects without source sets.
-        if (!project.hasProperty("sourceSets")) { return }
-
-        // list all source directories.
-        def sourceSets = project.sourceSets as SourceSetContainer
-        def sourceDirs = sourceSets*.allSource.srcDirs.flatten() as List<File>
-
-        // create source directories, for those who not exists.
-        for (sourceDir in sourceDirs) {
-            if (sourceDir.mkdirs()) {
-                println "Created source dir: \"${sourceDir}\"."
-            }
-        }
-    }
 }
-
 //-------------------------------------------------------------------------------------------------
 // EACH SUBPROJECT.
 //-------------------------------------------------------------------------------------------------
 
 subprojects { subproject ->
-    // provide java configurations and tasks.
     apply(plugin: "java")
     apply(plugin: "osgi")
 
-    apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
+    apply(from: rootProject.file("gradle/checkstyle.gradle"))
     if (!usingJava9) {
         // throws an IllegalArgumentException on Java 9
-        apply(from: rootProject.file("gradle/check-findbugs.gradle"))
+        apply(from: rootProject.file("gradle/findbugs.gradle"))
     }
-    //apply(from: rootProject.file("gradle/check-jdepend.gradle"))
-    apply(from: rootProject.file("gradle/check-license.gradle"))
+    apply(from: rootProject.file("gradle/jacoco.gradle"))
+    //apply(from: rootProject.file("gradle/jdepend.gradle"))
+    apply(from: rootProject.file("gradle/license.gradle"))
 
     apply(from: rootProject.file("gradle/publish-jar.gradle"))
     apply(from: rootProject.file("gradle/publish-maven.gradle"))
     apply(from: rootProject.file("gradle/publish-bintray.gradle"))
+    apply(from: rootProject.file("gradle/travis-helpers.gradle"))
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
@@ -237,13 +213,15 @@ subprojects { subproject ->
         options.encoding    = "UTF-8"
         options.author      = true
         options.version     = subproject.sourceCompatibility
-        options.windowTitle = "${subproject.pomDescription} ${version} API"
-        options.docTitle    = "${subproject.pomDescription} ${version} API"
+        options.windowTitle = "${subproject.name} ${version} API"
+        options.docTitle    = "${subproject.name} ${version} API"
         options.footer      = project.javadocFooter
         options.links       = javadocLinks
         options.noTimestamp = true
     }
 }
+
+evaluationDependsOnChildren()
 
 task("aggregateJavadoc", type: Javadoc) {
     group "Documentation"

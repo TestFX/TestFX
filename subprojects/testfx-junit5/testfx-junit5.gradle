@@ -15,8 +15,6 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-ext.pomDescription = "TestFX JUnit5"
-
 buildscript {
     repositories {
         mavenCentral()
