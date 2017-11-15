@@ -2,11 +2,9 @@
 
 # vim :set ts=2 sw=2 sts=2 et:
 echo "which java: $(which java)"
-echo "java_home: $(command -v "/usr/libexec/java_home")"
-./gradlew --version
 ulimit -c unlimited -S
 
-./gradlew build --info
+./gradlew versions test jacocoTestReport --info
 
 # Print core dumps when JVM crashes.
 RESULT=$?

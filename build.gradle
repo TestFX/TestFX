@@ -51,6 +51,7 @@ rootProject.with { project ->
     // task to print gradle and groovy versions.
     task("versions", group: "help").doLast {
         println "JAVA_OPTS: ${System.env.JAVA_OPTS}"
+        println "JAVA_HOME: ${System.env.JAVA_HOME}"
         println "Java version: ${System.properties["java.version"]}"
         println "Gradle version: ${gradle.gradleVersion}"
         println "Groovy version: ${GroovySystem.version}"
