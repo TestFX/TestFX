@@ -25,7 +25,7 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.TestFXRule;
+import org.testfx.framework.junit.TestFXRule;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

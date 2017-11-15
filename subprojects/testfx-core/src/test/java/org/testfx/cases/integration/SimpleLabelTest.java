@@ -24,9 +24,9 @@ import javafx.scene.layout.StackPane;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
+import org.testfx.framework.junit.TestFXRule;
 
 public class SimpleLabelTest extends TestCaseBase {
 

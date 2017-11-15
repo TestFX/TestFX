@@ -41,8 +41,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 

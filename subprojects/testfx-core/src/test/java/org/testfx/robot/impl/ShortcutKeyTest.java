@@ -27,9 +27,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.scene.input.KeyCode.COMMAND;
