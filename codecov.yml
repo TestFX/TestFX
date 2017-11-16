@@ -9,3 +9,6 @@ coverage:
         url: "https://webhooks.gitter.im/e/2532276e31bee9ba82b7"
 
 comment: false
+
+fixes:
+  - "::subprojects/testfx-core/" # FIXME: This will only fix paths for testfx-core project
