@@ -48,12 +48,17 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.TestFXRule;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class BoundsQueryUtilsTest {
+
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     //---------------------------------------------------------------------------------------------
     // FIXTURES.

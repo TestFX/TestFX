@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# vim :set ts=2 sw=2 sts=2 et:
 echo "which java: $(which java)"
 ulimit -c unlimited -S
 
@@ -35,3 +35,5 @@ if [[ ${RESULT} -ne 0 ]]; then
 
   exit ${RESULT}
 fi
+
+# vim :set ts=2 sw=2 sts=2 et:
