@@ -21,9 +21,6 @@ rootProject.name = "TestFX"
 // list of projects.
 if (System.properties["java.version"].startsWith("9")) {
     include("subprojects/testfx-internal-java9")
-
-    // projects that only work on Java 9 right now
-
 } else {
     include("subprojects/testfx-internal-java8")
 

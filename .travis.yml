@@ -93,9 +93,7 @@ install: true
 # run gradle build.
 script: .ci/script.sh
 
-after_success:
-- bash <(curl -s https://codecov.io/bash)
-- .ci/update_snapshot_docs.sh
+after_success: .ci/after_success.sh
 
 notifications:
   webhooks:

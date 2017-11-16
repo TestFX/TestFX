@@ -71,7 +71,9 @@ public class TestFXRule extends TestWatcher {
                         System.err.println(description.getDisplayName() + ": run " + (i + 1) + " failed (retrying...)");
                     }
                 }
-                System.err.println(description.getDisplayName() + ": giving up after " + retryCount + " failures");
+                if (retryCount != 0) {
+                    System.err.println(description.getDisplayName() + ": giving up after " + retryCount + " failures");
+                }
                 if (caughtThrowable != null) {
                     throw caughtThrowable;
                 }

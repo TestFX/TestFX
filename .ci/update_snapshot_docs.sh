@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# vim :set ts=2 sw=2 sts=2 et:
 # see http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/ for details
 
 if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
@@ -37,3 +36,5 @@ if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
     git push -fq origin gh-pages
     echo "Published Javadoc to gh-pages."
 fi
+
+# vim :set ts=2 sw=2 sts=2 et:

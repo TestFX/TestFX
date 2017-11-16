@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# vim :set ts=2 sw=2 sts=2 et:
 if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
   brew update
   if [[ "${TRAVIS_JAVA_VERSION}" == 8 ]]; then
@@ -16,3 +16,5 @@ if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
 fi
 
 chmod +x .ci/update_snapshot_docs.sh
+
+# vim :set ts=2 sw=2 sts=2 et:
