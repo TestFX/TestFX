@@ -44,8 +44,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -330,7 +330,7 @@ public class BoundsQueryUtilsTest {
                                       double minY,
                                       double width,
                                       double height) {
-        return Matchers.is(new BoundingBox(minX, minY, width, height));
+        return CoreMatchers.is(new BoundingBox(minX, minY, width, height));
     }
 
 }

@@ -40,11 +40,11 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 public class NodeAndPointQueryTest {
 
@@ -96,7 +96,7 @@ public class NodeAndPointQueryTest {
         NodeQuery query = fx.lookup(".button");
 
         // then:
-        assertThat(query.queryAll(), contains(button0, button1));
+        assertThat(query.queryAll(), hasItems(button0, button1));
     }
 
     @Test

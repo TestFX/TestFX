@@ -4,7 +4,7 @@ set -euo pipefail
 if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
   brew update
   if [[ "${TRAVIS_JAVA_VERSION}" == 8 ]]; then
-    brew cask reinstall java8
+    brew cask reinstall caskroom/versions/java8
   elif [[ "${TRAVIS_JAVA_VERSION}" == 9 ]]; then
     brew cask reinstall java
   else

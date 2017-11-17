@@ -18,14 +18,14 @@ package org.testfx.cases.acceptance;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Set;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
+import org.junit.Ignore;
 
+@Ignore("requires hamcrest-library")
 public class MatcherReflectionDemo {
 
     public static void main(String[] args) {
+        /*
         Matcher matcherIterable = Matchers.emptyIterable();
         Matcher matcherCollection = Matchers.empty();
         Matcher matcherArray = Matchers.emptyArray();
@@ -40,6 +40,7 @@ public class MatcherReflectionDemo {
         System.out.println(isAssignableToType(Set.class, typeCollection));
         System.out.println(isAssignableToType(Set.class, typeArray));
         System.out.println(isAssignableToType(Set.class, typeString));
+        */
     }
 
     private static Type fetchGenericArgumentType(Object instance,

@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.testfx.cases.TestCaseBase;
 import org.testfx.framework.junit.TestFXRule;
 
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.CoreMatchers.not;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.api.FxToolkit.setupApplication;
 import static org.testfx.matcher.base.NodeMatchers.hasText;

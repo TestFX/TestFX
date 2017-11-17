@@ -22,8 +22,8 @@ import javafx.geometry.Pos;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.testfx.util.PointQueryUtils.atPosition;
 import static org.testfx.util.PointQueryUtils.atPositionFactors;
 import static org.testfx.util.PointQueryUtils.computePositionFactors;

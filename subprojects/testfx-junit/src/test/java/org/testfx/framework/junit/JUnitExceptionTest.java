@@ -32,13 +32,13 @@ import org.junit.rules.Timeout;
 import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
 
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.fail;
 
 
 /**
  * This class tests exception handling of the GUI within the JUnit framework.
- * 
+ *
  */
 public class JUnitExceptionTest  extends ApplicationTest {
     @Rule
@@ -47,7 +47,7 @@ public class JUnitExceptionTest  extends ApplicationTest {
     @Rule
     public Timeout globalTimeout = Timeout.millis(10000);
 
-    
+
     @BeforeClass
     public static void setUpClass() {
         try {
@@ -89,7 +89,7 @@ public class JUnitExceptionTest  extends ApplicationTest {
             clickOn("Throws Exception"); // does already handle all the async stuff...
             WaitForAsyncUtils.checkException(); // need to check Exception, as event is executed after click
             fail("checkException didn't detect Exception");
-        } 
+        }
         catch (Exception e) { //clean up...
             release(MouseButton.PRIMARY);
             moveBy(100, 100); //otherwise the press release test fails?!

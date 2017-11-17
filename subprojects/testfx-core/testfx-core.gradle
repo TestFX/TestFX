@@ -14,6 +14,12 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
+ext.moduleName = 'org.testfx'
+
+
+repositories {
+    jcenter()
+}
 
 dependencies {
     // use correct API internally depending on which Java version is being used
@@ -28,7 +34,6 @@ dependencies {
 
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:2.12.0"
-    testCompile "org.hamcrest:hamcrest-library:1.3"
     testCompile project(":testfx-junit")
     if (usingJava9) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
@@ -37,34 +42,56 @@ dependencies {
     }
 }
 
+sourceSets {
+    if (!usingJava9) {
+        main {
+            java {
+                exclude '**/module-info.java'
+            }
+        }
+    }
+}
 
 compileJava {
     if (usingJava9) {
-        options.compilerArgs += [
-                "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-                "--add-opens", "java.base/java.util=ALL-UNNAMED",
-                "--add-exports", "javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
-        ]
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+                    "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx"
+            ]
+            classpath = files()
+        }
 
         javadoc {
-            options.addStringOption('-add-exports', 'javafx.graphics/com.sun.glass.ui=ALL-UNNAMED')
+            exclude "**/module-info.java"
+            options.addStringOption('-module-path', classpath.asPath)
+            options.addStringOption('-add-exports', 'javafx.graphics/com.sun.glass.ui=org.testfx')
         }
     }
 }
 
 compileTestJava {
     if (usingJava9) {
-        options.compilerArgs += [
-                "--add-opens", "org.testfx.internal/org.testfx.service.adapter=ALL-UNNAMED",
-                "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-                "--add-opens", "java.base/java.util=ALL-UNNAMED",
-                "--add-exports", "javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
-        ]
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+                    '--add-modules', 'junit',
+                    '--add-reads', "$moduleName=junit",
+                    '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+                    "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx",
+            ]
+            classpath = files()
+        }
     }
 }
 
 jar {
+    inputs.property("moduleName", moduleName)
+
     manifest {
+        attributes('Automatic-Module-Name': moduleName)
         instruction 'Export-Package', '*'
         instruction 'Bundle-Activator', 'org.testfx.osgi.Activator'
         instruction 'Require-Capability', 'org.testfx.osgi.versionadapter'

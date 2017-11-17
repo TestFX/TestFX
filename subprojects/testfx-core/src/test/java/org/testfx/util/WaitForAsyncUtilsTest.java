@@ -23,15 +23,15 @@ import java.util.concurrent.TimeoutException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-import org.hamcrest.Matchers;
+import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Timeout;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -59,7 +59,7 @@ public class WaitForAsyncUtilsTest {
 
         // then:
         WaitForAsyncUtils.sleepWithException(10, MILLISECONDS);
-        assertThat(future.get(), Matchers.is("foo"));
+        assertThat(future.get(), CoreMatchers.is("foo"));
         waitForThreads(future);
     }
 
@@ -72,9 +72,9 @@ public class WaitForAsyncUtilsTest {
         });
 
         // then:
-        assertThat(future.isDone(), Matchers.is(false));
+        assertThat(future.isDone(), CoreMatchers.is(false));
         WaitForAsyncUtils.sleep(250, MILLISECONDS);
-        assertThat(future.get(), Matchers.is("foo"));
+        assertThat(future.get(), CoreMatchers.is("foo"));
         waitForThreads(future);
     }
 
@@ -272,7 +272,7 @@ public class WaitForAsyncUtilsTest {
     @Test
     public void waitFor_with_booleanCallable_with_exception() throws Exception {
         // expect:
-        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        thrown.expectCause(isA(UnsupportedOperationException.class));
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
             throw new UnsupportedOperationException();
         });
@@ -315,7 +315,7 @@ public class WaitForAsyncUtilsTest {
     public void daemonThreads() throws Exception {
         final Future<Thread> future = WaitForAsyncUtils.async(Thread::currentThread);
         final Thread thread = future.get();
-        assertThat(thread.isDaemon(), Matchers.is(true));
+        assertThat(thread.isDaemon(), CoreMatchers.is(true));
     }
 
     protected void waitForException(Future<?> f) throws InterruptedException {

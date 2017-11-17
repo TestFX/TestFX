@@ -46,10 +46,11 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assume.assumeThat;
 
 public class NodeFinderImplTest {
@@ -237,7 +238,7 @@ public class NodeFinderImplTest {
     @Test
     public void nodes_string_cssQuery() {
         // expect:
-        assertThat(nodeFinder.lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
+        assertThat(nodeFinder.lookup(".sub").queryAll(), hasItems(subLabel, subSubLabel));
     }
 
     @Test
@@ -261,15 +262,15 @@ public class NodeFinderImplTest {
     @Test
     public void nodes_string_cssQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.from(otherPane).lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
-        assertThat(nodeFinder.from(otherSubPane).lookup(".sub").queryAll(), contains(subSubLabel));
+        assertThat(nodeFinder.from(otherPane).lookup(".sub").queryAll(), hasItems(subLabel, subSubLabel));
+        assertThat(nodeFinder.from(otherSubPane).lookup(".sub").queryAll(), hasItems(subSubLabel));
     }
 
     @Test
     public void nodes_string_labelQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.from(otherPane).lookup("#subLabel").queryAll(), contains(subLabel));
-        assertThat(nodeFinder.from(otherSubPane).lookup("#subSubLabel").queryAll(), contains(subSubLabel));
+        assertThat(nodeFinder.from(otherPane).lookup("#subLabel").queryAll(), hasItem(subLabel));
+        assertThat(nodeFinder.from(otherSubPane).lookup("#subSubLabel").queryAll(), hasItem(subSubLabel));
     }
 
     //---------------------------------------------------------------------------------------------

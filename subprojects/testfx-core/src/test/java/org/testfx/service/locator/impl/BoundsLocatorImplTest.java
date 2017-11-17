@@ -38,9 +38,9 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
 
 public class BoundsLocatorImplTest {
 

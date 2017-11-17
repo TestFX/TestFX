@@ -31,7 +31,7 @@ import javafx.stage.Window;
 
 import org.testfx.service.finder.WindowFinder;
 
-import static org.testfx.service.adapter.JavaVersionAdapter.getWindows;
+import static org.testfx.internal.JavaVersionAdapter.getWindows;
 
 public class WindowFinderImpl implements WindowFinder {
 

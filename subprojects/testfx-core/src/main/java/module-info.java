@@ -15,9 +15,13 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-module org.testfx.internal {
-    requires java.base;
+module org.testfx {
+    requires java.desktop;
+    requires javafx.controls;
+    requires javafx.fxml;
     requires javafx.graphics;
-
-    exports org.testfx.internal;
+    requires javafx.swing;
+    requires javafx.web;
+    requires hamcrest.core;
+    requires org.testfx.internal;
 }
