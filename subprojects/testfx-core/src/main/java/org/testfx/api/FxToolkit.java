@@ -40,7 +40,7 @@ import org.testfx.toolkit.impl.ApplicationServiceImpl;
 import org.testfx.toolkit.impl.ToolkitServiceImpl;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.testfx.service.adapter.JavaVersionAdapter.getWindows;
+import static org.testfx.internal.JavaVersionAdapter.getWindows;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 

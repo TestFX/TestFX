@@ -29,7 +29,7 @@ import org.junit.rules.Timeout;
 import org.testfx.api.FxToolkit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -50,9 +50,9 @@ public class WaitForAsyncUtilsFxTest {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * Tests that nested calls of async method triggers a exception. 
+     * Tests that nested calls of async method triggers a exception.
      * @throws Throwable
      */
     @Test
@@ -63,7 +63,7 @@ public class WaitForAsyncUtilsFxTest {
         thrown.expectCause(instanceOf(ExecutionException.class));
         Callable<Void> callable = () -> {
             Future<Void> future = WaitForAsyncUtils.asyncFx(() -> {
-                throw new UnsupportedOperationException(); 
+                throw new UnsupportedOperationException();
             });
             return future.get();
         };
@@ -94,7 +94,7 @@ public class WaitForAsyncUtilsFxTest {
         WaitForAsyncUtils.printException = false;
         thrown.expectCause(instanceOf(UnsupportedOperationException.class));
         Callable<Void> callable = () -> {
-            throw new UnsupportedOperationException(); 
+            throw new UnsupportedOperationException();
         };
         WaitForAsyncUtils.clearExceptions();
 

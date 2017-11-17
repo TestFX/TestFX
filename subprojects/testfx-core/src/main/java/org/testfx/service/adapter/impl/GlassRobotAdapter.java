@@ -36,7 +36,7 @@ import com.sun.glass.ui.Robot;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
-import static org.testfx.service.adapter.JavaVersionAdapter.convertToKeyCodeId;
+import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;

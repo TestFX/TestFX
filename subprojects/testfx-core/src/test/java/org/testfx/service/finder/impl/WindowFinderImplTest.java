@@ -22,7 +22,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import org.hamcrest.Matchers;
+import org.hamcrest.CoreMatchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -100,10 +100,10 @@ public class WindowFinderImplTest {
         List<Window> windows = windowFinder.listWindows();
 
         // then:
-        assertThat(windows, Matchers.hasItems((Window) window));
-        assertThat(windows, Matchers.hasItems((Window) windowInWindow));
-        assertThat(windows, Matchers.hasItems((Window) windowInWindowInWindow));
-        assertThat(windows, Matchers.hasItems((Window) otherWindow));
+        assertThat(windows, CoreMatchers.hasItems((Window) window));
+        assertThat(windows, CoreMatchers.hasItems((Window) windowInWindow));
+        assertThat(windows, CoreMatchers.hasItems((Window) windowInWindowInWindow));
+        assertThat(windows, CoreMatchers.hasItems((Window) otherWindow));
     }
 
     @Test
@@ -113,10 +113,10 @@ public class WindowFinderImplTest {
         List<Window> orderedWindows = windowFinder.listTargetWindows();
 
         // then:
-        assertThat(orderedWindows, Matchers.hasItems((Window) window));
-        assertThat(orderedWindows, Matchers.hasItems((Window) windowInWindow));
-        assertThat(orderedWindows, Matchers.hasItems((Window) windowInWindowInWindow));
-        assertThat(orderedWindows, Matchers.hasItems((Window) otherWindow));
+        assertThat(orderedWindows, CoreMatchers.hasItems((Window) window));
+        assertThat(orderedWindows, CoreMatchers.hasItems((Window) windowInWindow));
+        assertThat(orderedWindows, CoreMatchers.hasItems((Window) windowInWindowInWindow));
+        assertThat(orderedWindows, CoreMatchers.hasItems((Window) otherWindow));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow(window);
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is(window));
+        assertThat(windowFinder.targetWindow(), CoreMatchers.is(window));
     }
 
     @Test
@@ -134,7 +134,7 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow(1);
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is(window));
+        assertThat(windowFinder.targetWindow(), CoreMatchers.is(window));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow("window");
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is(window));
+        assertThat(windowFinder.targetWindow(), CoreMatchers.is(window));
     }
 
     @Test
@@ -152,17 +152,17 @@ public class WindowFinderImplTest {
         windowFinder.targetWindow(scene);
 
         // then:
-        assertThat(windowFinder.targetWindow(), Matchers.is(otherWindow));
+        assertThat(windowFinder.targetWindow(), CoreMatchers.is(otherWindow));
     }
 
     @Test
     public void window_windowIndex() {
         // TODO: Assert that it throws an exception of index is out of range.
         // expect:
-        assertThat(windowFinder.window(1), Matchers.is(window));
-        assertThat(windowFinder.window(2), Matchers.is(windowInWindow));
-        assertThat(windowFinder.window(3), Matchers.is(windowInWindowInWindow));
-        assertThat(windowFinder.window(4), Matchers.is(otherWindow));
+        assertThat(windowFinder.window(1), CoreMatchers.is(window));
+        assertThat(windowFinder.window(2), CoreMatchers.is(windowInWindow));
+        assertThat(windowFinder.window(3), CoreMatchers.is(windowInWindowInWindow));
+        assertThat(windowFinder.window(4), CoreMatchers.is(otherWindow));
     }
 
     @Test
@@ -170,16 +170,16 @@ public class WindowFinderImplTest {
         // TODO: Assert that it thrown an exception of stage title regex does not match.
         // TODO: Assert that stages without title do not throw a NPE.
         // expect:
-        assertThat(windowFinder.window("window"), Matchers.is(window));
-        assertThat(windowFinder.window("windowInWindow"), Matchers.is(windowInWindow));
-        assertThat(windowFinder.window("windowInWindowInWindow"), Matchers.is(windowInWindowInWindow));
-        assertThat(windowFinder.window("otherWindow"), Matchers.is(otherWindow));
+        assertThat(windowFinder.window("window"), CoreMatchers.is(window));
+        assertThat(windowFinder.window("windowInWindow"), CoreMatchers.is(windowInWindow));
+        assertThat(windowFinder.window("windowInWindowInWindow"), CoreMatchers.is(windowInWindowInWindow));
+        assertThat(windowFinder.window("otherWindow"), CoreMatchers.is(otherWindow));
     }
 
     @Test
     public void window_scene() {
         // expect:
-        assertThat(windowFinder.window(scene), Matchers.is(otherWindow));
+        assertThat(windowFinder.window(scene), CoreMatchers.is(otherWindow));
     }
 
 }

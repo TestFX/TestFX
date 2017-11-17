@@ -36,7 +36,7 @@ import static javafx.scene.input.KeyCode.COMMAND;
 import static javafx.scene.input.KeyCode.CONTROL;
 import static javafx.scene.input.KeyCode.SHORTCUT;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;

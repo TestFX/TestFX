@@ -38,7 +38,7 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.robot.Motion;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.is;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;

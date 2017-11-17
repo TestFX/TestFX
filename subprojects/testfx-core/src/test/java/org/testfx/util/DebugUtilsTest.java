@@ -37,11 +37,11 @@ import org.testfx.cases.TestCaseBase;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.support.FiredEvents;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.compose;
 import static org.testfx.util.DebugUtils.insertHeader;

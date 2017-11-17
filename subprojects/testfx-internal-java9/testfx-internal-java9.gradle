@@ -14,10 +14,11 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-
-ext.pomDescription = "TestFX Internal Java 9"
+ext.moduleName = 'org.testfx.internal9'
 
 jar {
+    inputs.property("moduleName", moduleName)
+
     manifest {
         instruction 'Fragment-Host', 'org.testfx.core'
         instruction 'Provide-Capability', 'org.testfx.osgi.versionadapter'

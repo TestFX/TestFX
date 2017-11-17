@@ -14,9 +14,10 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.service.adapter;
+package org.testfx.internal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.scene.Node;
@@ -28,16 +29,22 @@ import javafx.stage.Window;
  */
 public final class JavaVersionAdapter {
 
+    @SuppressWarnings("deprecated")
     public static int convertToKeyCodeId(KeyCode keyCode) {
-        return keyCode.getCode();
+        return keyCode.impl_getCode();
     }
 
+    @SuppressWarnings("deprecated")
     public static List<Window> getWindows() {
-        return new ArrayList<>(Window.getWindows());
+        List<Window> windows = new ArrayList<>();
+        Window.impl_getWindows().forEachRemaining(windows::add);
+        Collections.reverse(windows);
+        return windows;
     }
 
+    @SuppressWarnings("deprecated")
     public static boolean isNotVisible(Node node) {
-        return !node.isVisible();
+        return !node.isVisible() || !node.impl_isTreeVisible();
     }
 
 }

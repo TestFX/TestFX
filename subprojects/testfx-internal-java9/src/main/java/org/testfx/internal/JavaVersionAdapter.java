@@ -14,38 +14,30 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.service.adapter;
+package org.testfx.internal;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 
-
 /**
  * Provides consistent API for TestFX-Core subproject regardless of whether Java 8 or Java 9 is being used.
  */
 public final class JavaVersionAdapter {
 
-    @SuppressWarnings("deprecated")
     public static int convertToKeyCodeId(KeyCode keyCode) {
-        return keyCode.impl_getCode();
+        return keyCode.getCode();
     }
 
-    @SuppressWarnings("deprecated")
     public static List<Window> getWindows() {
-        List<Window> windows = new ArrayList<>();
-        Window.impl_getWindows().forEachRemaining(windows::add);
-        Collections.reverse(windows);
-        return windows;
+        return new ArrayList<>(Window.getWindows());
     }
 
-    @SuppressWarnings("deprecated")
     public static boolean isNotVisible(Node node) {
-        return !node.isVisible() || !node.impl_isTreeVisible();
+        return !node.isVisible();
     }
 
 }

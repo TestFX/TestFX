@@ -35,9 +35,9 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.query.NodeQuery;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItem;
 
 public class NodeMatchersTest extends FxRobot {
 
@@ -119,11 +119,11 @@ public class NodeMatchersTest extends FxRobot {
 
         // expect:
         NodeQuery query1 = from(nodes).match(NodeMatchers.hasText("foo"));
-        assertThat(query1.queryAll(), contains(nodes.get(1)));
+        assertThat(query1.queryAll(), hasItems(nodes.get(1)));
 
         // and:
         NodeQuery query2 = from(nodes).match(NodeMatchers.hasText("bar"));
-        assertThat(query2.queryAll(), contains(nodes.get(2)));
+        assertThat(query2.queryAll(), hasItems(nodes.get(2)));
     }
 
     @Test

@@ -23,8 +23,8 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 /**
  * Tests to see if pressed keys/buttons are released after a test is run.

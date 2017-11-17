@@ -35,10 +35,9 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.query.NodeQuery;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.testfx.util.NodeQueryUtils.bySelector;
 import static org.testfx.util.NodeQueryUtils.combine;
@@ -141,7 +140,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0, label1, label2));
+        assertThat(result, hasItems(label0, label1, label2));
     }
 
     @Test
@@ -151,7 +150,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, is(empty()));
+        assertThat(result.isEmpty(), is(true));
     }
 
     @Test
@@ -162,7 +161,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0, label1));
+        assertThat(result, hasItems(label0, label1));
     }
 
     @Test
@@ -173,7 +172,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label1, label0));
+        assertThat(result, hasItems(label1, label0));
     }
 
     @Test
@@ -184,7 +183,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0, label1));
+        assertThat(result, hasItems(label0, label1));
     }
 
     @Test
@@ -195,7 +194,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0));
+        assertThat(result, hasItems(label0));
     }
 
     @Test
@@ -206,7 +205,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0));
+        assertThat(result, hasItems(label0));
     }
 
     @Test
@@ -218,7 +217,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0, label1, label2));
+        assertThat(result, hasItems(label0, label1, label2));
     }
 
     @Test
@@ -231,7 +230,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0, label1, label2));
+        assertThat(result, hasItems(label0, label1, label2));
     }
 
     @Test
@@ -243,7 +242,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label0, label1, label2, button0, button1, button2));
+        assertThat(result, hasItems(label0, label1, label2, button0, button1, button2));
     }
 
     @Test
@@ -256,7 +255,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label1));
+        assertThat(result, hasItems(label1));
     }
 
     @Test
@@ -271,7 +270,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(label2));
+        assertThat(result, hasItems(label2));
     }
 
     @Test
@@ -284,7 +283,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, empty());
+        assertThat(result.isEmpty(), is(true));
     }
 
     @Test
@@ -299,7 +298,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, empty());
+        assertThat(result.isEmpty(), is(true));
     }
 
     @Test
@@ -312,7 +311,7 @@ public class NodeQueryImplTest {
             .queryAll();
 
         // then:
-        assertThat(result, contains(button1));
+        assertThat(result, hasItems(button1));
     }
 
 }

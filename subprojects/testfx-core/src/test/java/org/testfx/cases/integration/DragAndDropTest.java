@@ -33,7 +33,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
@@ -89,8 +89,8 @@ public class DragAndDropTest extends TestCaseBase {
     @Test
     public void should_have_initialized_items() {
         // expect:
-        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3"), informedErrorMessage(this));
-        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"), informedErrorMessage(this));
+        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"), informedErrorMessage(this));
+        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"), informedErrorMessage(this));
     }
 
     @Test
@@ -101,9 +101,9 @@ public class DragAndDropTest extends TestCaseBase {
         drop();
 
         // then:
-        verifyThat(leftListView.getItems(), contains("L2", "L3"), informedErrorMessage(this));
+        verifyThat(leftListView.getItems(), hasItems("L2", "L3"), informedErrorMessage(this));
         // gets added to end of ListView
-        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3", "L1"), informedErrorMessage(this));
+        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3", "L1"), informedErrorMessage(this));
     }
 
     @Test
@@ -114,8 +114,8 @@ public class DragAndDropTest extends TestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3", "R3"), informedErrorMessage(this));
-        verifyThat(rightListView.getItems(), contains("R1", "R2"), informedErrorMessage(this));
+        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3", "R3"), informedErrorMessage(this));
+        verifyThat(rightListView.getItems(), hasItems("R1", "R2"), informedErrorMessage(this));
     }
 
     @Ignore("see #383")
@@ -127,8 +127,8 @@ public class DragAndDropTest extends TestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(leftListView.getItems(), contains("L1", "L2", "L3"), informedErrorMessage(this));
-        verifyThat(rightListView.getItems(), contains("R1", "R2", "R3"), informedErrorMessage(this));
+        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"), informedErrorMessage(this));
+        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"), informedErrorMessage(this));
     }
 
 }

@@ -27,6 +27,7 @@ buildscript {
         jcenter()
     }
 }
+
 plugins {
     id "com.github.hierynomus.license" version "0.14.0"
     id "com.jfrog.bintray" version "1.8.0"

@@ -49,13 +49,12 @@ import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeThat;
 import static org.mockito.Matchers.any;
@@ -191,8 +190,8 @@ public class AwtRobotAdapterTest {
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:
-        assertThat(mouseLocation.getX(), is(greaterThanOrEqualTo(0.0)));
-        assertThat(mouseLocation.getY(), is(greaterThanOrEqualTo(0.0)));
+        assertThat("mouseLocation.getX() is greater than or equal to 0.0", mouseLocation.getX() >= 0.0);
+        assertThat("mouseLocation.getY() is greater than or equal to 0.0", mouseLocation.getY() >= 0.0);
     }
 
     @Test
