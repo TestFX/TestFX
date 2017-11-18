@@ -4,7 +4,7 @@ set -euo pipefail
 echo "which java: $(which java)"
 ulimit -c unlimited -S
 
-./gradlew versions test jacocoTestReport --info
+./gradlew versions test jacocoRootReport --info
 
 # Print core dumps when JVM crashes.
 RESULT=$?
