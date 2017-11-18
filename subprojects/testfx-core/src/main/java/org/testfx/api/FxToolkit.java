@@ -296,7 +296,7 @@ public final class FxToolkit {
 
     /**
      * Runs on the {@code JavaFX Application Thread}: Hides all windows returned from
-     * {@link org.testfx.service.adapter.JavaVersionAdapter#getWindows()} and returns once finished.
+     * {@link org.testfx.internal.JavaVersionAdapter#getWindows()} and returns once finished.
      */
     public static void cleanupStages()
             throws TimeoutException {

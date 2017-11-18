@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2017 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -34,14 +34,8 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.17.0'
 }
 
-//-------------------------------------------------------------------------------------------------
-// ROOT PROJECT.
-//-------------------------------------------------------------------------------------------------
-
 rootProject.with { project ->
     // provide assemble and clean tasks.
-    apply(plugin: "base")
-
     // task to add gradle wrapper files.
     task("wrapper", type: Wrapper) {
         gradleVersion = '4.3.1'
@@ -67,48 +61,42 @@ rootProject.with { project ->
 
         // add java version and vendor to project attributes.
         javaVersion = System.properties["java.version"]
-
         usingJava9 = javaVersion.startsWith("9")
-        javaSourceAndTargetCompilation = usingJava9 ? "9" : "1.8"
-
-        if (usingJava9) {
-            javadocLinks = [
-                    "https://docs.oracle.com/javase/9/docs/api"
-            ]
-        } else {
-            javadocLinks = [
-                    "http://docs.oracle.com/javase/8/docs/api/",
-                    "http://docs.oracle.com/javase/8/javafx/api/"
-            ]
-        }
+        javaSourceCompat = usingJava9 ? "9" : "1.8"
     }
 }
+
 allprojects { project ->
+    apply plugin: 'base'
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply from: "${rootDir}/gradle/jacoco.gradle"
+
     configurations {
         providedCompile
     }
+
+    repositories {
+        if (project.hasProperty("useMavenLocal")) {
+            mavenLocal()
+        }
+        jcenter()
+    }
 }
-//-------------------------------------------------------------------------------------------------
-// EACH SUBPROJECT.
-//-------------------------------------------------------------------------------------------------
 
 subprojects { subproject ->
-    apply(plugin: "java")
-    apply(plugin: "osgi")
+    apply plugin: 'osgi'
 
-    apply(from: rootProject.file("gradle/checkstyle.gradle"))
     if (!usingJava9) {
-        // throws an IllegalArgumentException on Java 9
-        apply(from: rootProject.file("gradle/findbugs.gradle"))
+        apply from: "${rootDir}/gradle/findbugs.gradle"
     }
-    apply(from: rootProject.file("gradle/jacoco.gradle"))
     //apply(from: rootProject.file("gradle/jdepend.gradle"))
-    apply(from: rootProject.file("gradle/license.gradle"))
-
-    apply(from: rootProject.file("gradle/publish-jar.gradle"))
-    apply(from: rootProject.file("gradle/publish-maven.gradle"))
-    apply(from: rootProject.file("gradle/publish-bintray.gradle"))
-    apply(from: rootProject.file("gradle/travis-helpers.gradle"))
+    apply from: "${rootDir}/gradle/checkstyle.gradle"
+    apply from: "${rootDir}/gradle/license.gradle"
+    apply from: "${rootDir}/gradle/publish-jar.gradle"
+    apply from: "${rootDir}/gradle/publish-maven.gradle"
+    apply from: "${rootDir}/gradle/publish-bintray.gradle"
+    apply from: "${rootDir}/gradle/travis-helpers.gradle"
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
@@ -136,17 +124,8 @@ subprojects { subproject ->
         javadocJar
     }
 
-    subproject.tasks.withType(JavaCompile) {
-        sourceCompatibility = javaSourceAndTargetCompilation
-        targetCompatibility = javaSourceAndTargetCompilation
-    }
-
-    // configure javadoc task.
-    if (JavaVersion.current().isJava8Compatible()) {
-        tasks.withType(Javadoc) {
-            options.addStringOption("Xdoclint:none", "-quiet")
-        }
-    }
+    sourceCompatibility = javaSourceCompat
+    targetCompatibility = javaSourceCompat
 
     // use utf-8 encoding for java compile.
     tasks.withType(JavaCompile) {
@@ -197,16 +176,20 @@ subprojects { subproject ->
 
 evaluationDependsOnChildren()
 
-subprojects { subproject ->
-    // maven repositories for dependencies.
-    repositories {
-        if (project.hasProperty("useMavenLocal")) {
-            mavenLocal()
-        }
-        jcenter()
+ext {
+    if (usingJava9) {
+        javadocLinks = [
+                "https://docs.oracle.com/javase/9/docs/api"
+        ]
+    } else {
+        javadocLinks = [
+                "http://docs.oracle.com/javase/8/docs/api/",
+                "http://docs.oracle.com/javase/8/javafx/api/"
+        ]
     }
+}
 
-    // configure javadoc task.
+subprojects { subproject ->
     javadoc {
         excludes = ["**/*.html", "META-INF/**"]
         classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
@@ -220,12 +203,11 @@ subprojects { subproject ->
         options.footer      = project.javadocFooter
         options.links       = javadocLinks
         options.noTimestamp = true
+        options.addStringOption("Xdoclint:none", "-quiet")
     }
 }
 
-evaluationDependsOnChildren()
-
-task("aggregateJavadoc", type: Javadoc) {
+task aggregateJavadoc(type: Javadoc) {
     group "Documentation"
     description "Generates aggregated Javadoc API documentation."
 
@@ -261,3 +243,28 @@ task("aggregateJavadoc", type: Javadoc) {
         logger.info "Destdir  : ${destinationDir}"
     }
 }
+
+task jacocoMerge(type: JacocoMerge) {
+    destinationFile = file("$buildDir/jacoco/jacoco-all.exec")
+    subprojects.each { subproject ->
+        executionData subproject.tasks.withType(Test)
+    }
+    doFirst {
+        executionData = files(executionData.findAll { it.exists() })
+    }
+}
+
+task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
+    description = 'Generates an aggregate report from all subprojects'
+    dependsOn subprojects.test, jacocoMerge
+    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(subprojects.sourceSets.main.output)
+    executionData = files(subprojects.jacocoTestReport.executionData).filter { it.exists() }
+
+    reports {
+        html.enabled = true // human readable
+        xml.enabled = true // required by coveralls
+    }
+}
+

@@ -20,7 +20,13 @@
 
 apply plugin: "jacoco"
 
+jacoco {
+    toolVersion = "0.7.9"
+}
+
 jacocoTestReport {
+    group = 'Coverage reports'
+    description = 'Generates a test coverage report for a project'
     reports {
         html.enabled true
         xml.enabled true

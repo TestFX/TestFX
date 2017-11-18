@@ -78,7 +78,7 @@ public interface WindowFinder {
     //---------------------------------------------------------------------------------------------
 
     /**
-     * Calls {@link org.testfx.service.adapter.JavaVersionAdapter#getWindows()}
+     * Calls {@link org.testfx.internal.JavaVersionAdapter#getWindows()}
      */
     List<Window> listWindows();
 
