@@ -32,6 +32,7 @@ plugins {
     id "com.github.hierynomus.license" version "0.14.0"
     id "com.jfrog.bintray" version "1.8.0"
     id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'com.github.kt3k.coveralls' version '2.8.2'
 }
 
 rootProject.with { project ->
@@ -69,8 +70,10 @@ rootProject.with { project ->
 allprojects { project ->
     apply plugin: 'base'
     apply plugin: 'java'
+    apply plugin: 'com.github.kt3k.coveralls'
     apply plugin: 'jacoco'
     apply from: "${rootDir}/gradle/jacoco.gradle"
+    apply from: "${rootDir}/gradle/travis-helpers.gradle"
 
     configurations {
         providedCompile
@@ -96,7 +99,6 @@ subprojects { subproject ->
     apply from: "${rootDir}/gradle/publish-jar.gradle"
     apply from: "${rootDir}/gradle/publish-maven.gradle"
     apply from: "${rootDir}/gradle/publish-bintray.gradle"
-    apply from: "${rootDir}/gradle/travis-helpers.gradle"
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
@@ -263,8 +265,20 @@ task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
     executionData = files(subprojects.jacocoTestReport.executionData).filter { it.exists() }
 
     reports {
-        html.enabled = true // human readable
-        xml.enabled = true // required by coveralls
+        html.enabled = true
+        xml.enabled = true
     }
 }
 
+coveralls {
+    sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+}
+
+tasks.coveralls {
+    group = 'Coverage reports'
+    description = 'Uploads the aggregated coverage report to Coveralls'
+
+    dependsOn jacocoRootReport
+    onlyIf { isTravis && !JavaVersion.current().isJava9Compatible() }
+}
