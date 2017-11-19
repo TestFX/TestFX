@@ -2,8 +2,7 @@
 
 [![Travis CI](https://img.shields.io/travis/TestFX/TestFX/master.svg?label=travis&style=flat-square)](https://travis-ci.org/TestFX/TestFX)
 [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/testfx/testfx/master.svg?style=flat-square)](https://ci.appveyor.com/project/testfx/testfx/branch/master)
-[![Codecov Test Coverage](https://img.shields.io/codecov/c/github/testfx/testfx/master.svg?style=flat-square)](https://codecov.io/gh/TestFX/TestFX)
-[![Coveralls Test Coverage](https://img.shields.io/coveralls/github/jekyll/jekyll/master.svg?style=flat-square)](https://coveralls.io/github/TestFX/TestFX)
+[![Coveralls Test Coverage](https://img.shields.io/coveralls/github/testfx/testfx/master.svg?style=flat-square)](https://coveralls.io/github/TestFX/TestFX)
 [![Bintray JCenter](https://img.shields.io/bintray/v/testfx/testfx/testfx-core.svg?label=bintray&style=flat-square)](https://bintray.com/testfx/testfx)
 [![Maven Central](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven&style=flat-square)](https://search.maven.org/#search|ga|1|org.testfx)
 [![Chat on Gitter](https://img.shields.io/gitter/room/testfx/testfx-core.svg?style=flat-square)](https://gitter.im/TestFX/TestFX)
@@ -99,11 +98,9 @@ dependencies {
 
 ## Documentation
 
-- [How to use TestFX in your project][100]
 - [How to build and deploy TestFX][101]
 - [How to contribute][102]
 
-[100]: https://github.com/TestFX/TestFX/wiki/How-to-use-TestFX-in-your-project
 [101]: https://github.com/TestFX/TestFX/wiki/How-to-build-and-deploy-TestFX
 [102]: https://github.com/TestFX/TestFX/wiki/How-to-Contribute
 
