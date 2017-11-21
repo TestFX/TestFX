@@ -22,8 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
 import javafx.scene.control.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,16 +40,14 @@ import org.testfx.service.query.NodeQuery;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link TableView}
+ * TestFX matchers for {@link TableView} controls.
  */
 @Unstable(reason = "needs more tests")
 public class TableViewMatchers {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final String SELECTOR_TABLE_CELL = ".table-cell";
+
+    private TableViewMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -58,37 +58,67 @@ public class TableViewMatchers {
      * whose value or {@code value.toString()} equals the given value.
      */
     @Factory
-    public static Matcher<Node> hasTableCell(Object value) {
+    public static Matcher<TableView> hasTableCell(Object value) {
         String descriptionText = "has table cell \"" + value + "\"";
         return typeSafeMatcher(TableView.class, descriptionText,
+            tableView -> toText(tableView) + "\nwhich does not contain a cell with the given value",
             node -> hasTableCell(node, value));
     }
 
     /**
-     * Creates a matcher that matches all {@link TableView}s that has exactly {@code amount} items.
+     * Creates a matcher that matches all {@link TableView}s that have exactly {@code amount} items.
+     *
+     * @deprecated Use {@link #hasNumRows(int amount)} instead.
      */
     @Factory
-    public static Matcher<Node> hasItems(int amount) {
-        String descriptionText = "has " + amount + " items";
-        return typeSafeMatcher(TableView.class, descriptionText, node -> hasItems(node, amount));
+    @Deprecated
+    public static Matcher<TableView> hasItems(int rows) {
+        String descriptionText = "has " + rows + " rows";
+        return typeSafeMatcher(TableView.class, descriptionText,
+            tableView -> String.valueOf(tableView.getItems().size()),
+            node -> hasNumRows(node, rows));
     }
 
     /**
-     * Creates a matcher that matches all {@link TableView}s whose row at the given index has all of the given cells.
+     * Creates a matcher that matches all {@link TableView}s that have exactly {@code amount} rows.
      */
     @Factory
-    public static Matcher<Node> containsRowAtIndex(int rowIndex, Object...cells) {
-        String descriptionText = "has row: " + Arrays.toString(cells);
-        return typeSafeMatcher(TableView.class, descriptionText, node -> containsRowAtIndex(node, rowIndex, cells));
+    public static Matcher<TableView> hasNumRows(int rows) {
+        String descriptionText = "has " + rows + " rows";
+        return typeSafeMatcher(TableView.class, descriptionText,
+            tableView -> String.valueOf(tableView.getItems().size()),
+            node -> hasNumRows(node, rows));
     }
 
     /**
-     * Creates a matcher that matches all {@link TableView}s that has a row containing all the given cells.
+     * Creates a matcher that matches all {@link TableView}s that have a row at the given {@code index} with
+     * all of the given cells.
      */
     @Factory
-    public static Matcher<Node> containsRow(Object...cells) {
+    public static Matcher<TableView> containsRowAtIndex(int rowIndex, Object... cells) {
+        String descriptionText = String.format("has row: %s at index %d", Arrays.toString(cells), rowIndex);
+        return typeSafeMatcher(TableView.class, descriptionText,
+            tableView -> {
+                if (rowIndex < 0) {
+                    return "given negative row index";
+                } else if (rowIndex >= tableView.getItems().size()) {
+                    return "given out-of-bounds row index: " + rowIndex +
+                            " (table only has " + tableView.getItems().size() + " rows)";
+                } else {
+                    return toText(tableView, rowIndex);
+                }
+            },
+            node -> containsRowAtIndex(node, rowIndex, cells));
+    }
+
+    /**
+     * Creates a matcher that matches all {@link TableView}s that have a row containing all the given cells.
+     */
+    @Factory
+    public static Matcher<TableView> containsRow(Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
-        return typeSafeMatcher(TableView.class, descriptionText, node -> containsRow(node, cells));
+        return typeSafeMatcher(TableView.class, descriptionText, TableViewMatchers::toText,
+            node -> containsRow(node, cells));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -104,25 +134,17 @@ public class TableViewMatchers {
             .tryQuery().isPresent();
     }
 
-    private static boolean hasItems(TableView tableView,
-                                    int amount) {
-        return tableView.getItems().size() == amount;
+    private static boolean hasNumRows(TableView tableView, int rows) {
+        return tableView.getItems().size() == rows;
     }
 
     private static <T> boolean containsRowAtIndex(TableView<T> tableView, int rowIndex,
                                                   Object...cells) {
-        if (rowIndex >= tableView.getItems().size()) {
+        if (rowIndex < 0 || rowIndex >= tableView.getItems().size()) {
             return false;
         }
 
-        T rowObject = tableView.getItems().get(rowIndex);
-        List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
-        for (int i = 0; i < tableView.getColumns().size(); i++) {
-            TableColumn<T, ?> column = tableView.getColumns().get(i);
-            TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures<>(
-                    tableView, column, rowObject);
-            rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
-        }
+        List<ObservableValue<?>> rowValues = getRowValues(tableView, rowIndex);
         for (int i = 0; i < cells.length; i++) {
             if (rowValues.get(i).getValue() == null) {
                 if (cells[i] != null) {
@@ -137,6 +159,40 @@ public class TableViewMatchers {
         return true;
     }
 
+    private static List<ObservableValue<?>> getRowValues(TableView<?> tableView, int rowIndex) {
+        Object rowObject = tableView.getItems().get(rowIndex);
+        List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
+        for (int i = 0; i < tableView.getColumns().size(); i++) {
+            TableColumn<?, ?> column = tableView.getColumns().get(i);
+            TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures(
+                    tableView, column, rowObject);
+            rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
+        }
+        return rowValues;
+    }
+
+    /**
+     * Returns a textual representation of all rows of the given {@code tableView}.
+     */
+    private static String toText(TableView<?> tableView) {
+        StringJoiner joiner = new StringJoiner(", ", "[", "]");
+        for (int rowIndex = 0; rowIndex < tableView.getItems().size(); rowIndex++) {
+            joiner.add(toText(tableView, rowIndex));
+        }
+        return joiner.toString();
+    }
+
+    /**
+     * Returns a textual representation of one row (specified by {@code rowIndex}) of the given
+     * {@code tableView}.
+     */
+    private static String toText(TableView<?> tableView, int rowIndex) {
+        return '[' + getRowValues(tableView, rowIndex).stream()
+                .map(observableValue -> observableValue.getValue() == null ?
+                        "null" : observableValue.getValue().toString())
+                .collect(Collectors.joining(", ")) + ']';
+    }
+
     private static <T> boolean containsRow(TableView<T> tableView, Object...cells) {
         if (tableView.getItems().isEmpty()) {
             return false;
@@ -144,15 +200,7 @@ public class TableViewMatchers {
 
         Map<Integer, List<ObservableValue<?>>> rowValuesMap = new HashMap<>(tableView.getColumns().size());
         for (int j = 0; j < tableView.getItems().size(); j++) {
-            T rowObject = tableView.getItems().get(j);
-            List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
-
-            for (int i = 0; i < tableView.getColumns().size(); i++) {
-                TableColumn<T, ?> column = tableView.getColumns().get(i);
-                TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures<>(
-                        tableView, column, rowObject);
-                rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
-            }
+            List<ObservableValue<?>> rowValues = getRowValues(tableView, j);
             rowValuesMap.put(j, rowValues);
         }
 
@@ -193,8 +241,9 @@ public class TableViewMatchers {
         } else if (item == null || value == null) {
             return false;
         }
-        return Objects.equals(item, value) || Objects.equals(item.toString(), value) || value.toString() != null ?
-                Objects.equals(item.toString(), value.toString()) : false;
+        return Objects.equals(item, value) ||
+                Objects.equals(item.toString(), value) ||
+                (value.toString() != null && Objects.equals(item.toString(), value.toString()));
     }
 
 }

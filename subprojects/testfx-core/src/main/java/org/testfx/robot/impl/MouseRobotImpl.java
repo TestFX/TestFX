@@ -32,16 +32,7 @@ import org.testfx.robot.MouseRobot;
 @Unstable
 public class MouseRobotImpl implements MouseRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     public BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private final Set<MouseButton> pressedButtons = new HashSet<>();
 
     @Override

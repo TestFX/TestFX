@@ -27,7 +27,7 @@ import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.service.query.PointQuery;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -39,8 +39,8 @@ public final class DragRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public DragRobot dragRobot;
 
+    public DragRobot dragRobot;
     public MouseRobot mouseRobot;
     public MoveRobot moveRobot;
 

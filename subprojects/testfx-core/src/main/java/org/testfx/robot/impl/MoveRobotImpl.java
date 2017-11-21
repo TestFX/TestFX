@@ -35,18 +35,9 @@ import org.testfx.service.query.PointQuery;
 @Unstable
 public class MoveRobotImpl implements MoveRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = 1;
-
     private static final long MIN_POINT_OFFSET_COUNT = 1;
     private static final long MAX_POINT_OFFSET_COUNT = 200;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private BaseRobot baseRobot;
     private MouseRobot mouseRobot;
@@ -119,36 +110,41 @@ public class MoveRobotImpl implements MoveRobot {
         );
 
         List<Point2D> path = new ArrayList<>(pointOffsetCount);
-        if (motion == Motion.DIRECT) {
-            path = interpolatePointsBetween(sourcePoint, targetPoint, pointOffsetCount);
+        switch (motion) {
+            case DIRECT:
+                path = interpolatePointsBetween(sourcePoint, targetPoint, pointOffsetCount);
+                break;
+            case HORIZONTAL_FIRST: {
+                // ratio of the horizontal to the vertical side of the right-triangle (determines how much time should
+                // be spent traversing in each direction)
+                double percentHorizontal = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY()) /
+                        targetPoint.distance(targetPoint.getX(), sourcePoint.getY());
+                // the point where the horizontal path stops and the vertical path starts
+                Point2D intermediate = new Point2D(targetPoint.getX(), sourcePoint.getY());
+                path = Stream.concat(
+                        interpolatePointsBetween(
+                                sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)).stream(),
+                        interpolatePointsBetween(
+                                intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)).stream())
+                        .collect(Collectors.toList());
+                break;
+            }
+            case VERTICAL_FIRST: {
+                // ratio of the vertical to the horizontal side of the right-triangle
+                double percentVertical = targetPoint.distance(targetPoint.getX(), sourcePoint.getY()) /
+                        sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
+                // the point where the vertical path stops and the horizontal path starts
+                Point2D intermediate = new Point2D(sourcePoint.getX(), targetPoint.getY());
+                path = Stream.concat(
+                        interpolatePointsBetween(
+                                sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)).stream(),
+                        interpolatePointsBetween(
+                                intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)).stream())
+                        .collect(Collectors.toList());
+                break;
+            }
         }
-        else if (motion == Motion.HORIZONTAL_FIRST) {
-            // ratio of the horizontal to the vertical side of the right-triangle (determines how much time should
-            // be spent traversing in each direction)
-            double percentHorizontal = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY()) /
-                    targetPoint.distance(targetPoint.getX(), sourcePoint.getY());
-            // the point where the horizontal path stops and the vertical path starts
-            Point2D intermediate = new Point2D(targetPoint.getX(), sourcePoint.getY());
-            path = Stream.concat(
-                    interpolatePointsBetween(
-                            sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)).stream(),
-                    interpolatePointsBetween(
-                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)).stream())
-                    .collect(Collectors.toList());
-        }
-        else if (motion == Motion.VERTICAL_FIRST) {
-            // ratio of the vertical to the horizontal side of the right-triangle
-            double percentVertical = targetPoint.distance(targetPoint.getX(), sourcePoint.getY()) /
-                    sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
-            // the point where the vertical path stops and the horizontal path starts
-            Point2D intermediate = new Point2D(sourcePoint.getX(), targetPoint.getY());
-            path = Stream.concat(
-                    interpolatePointsBetween(
-                            sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)).stream(),
-                    interpolatePointsBetween(
-                            intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)).stream())
-                    .collect(Collectors.toList());
-        }
+
         for (Point2D point : path.stream().limit(path.size() - 1).collect(Collectors.toList())) {
             // TODO(mike): Why is the limiting necessary?
             mouseRobot.moveNoWait(point);

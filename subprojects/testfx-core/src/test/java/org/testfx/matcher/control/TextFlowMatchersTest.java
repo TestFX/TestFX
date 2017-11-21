@@ -25,6 +25,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
@@ -34,13 +36,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TextFlowMatchersTest extends FxRobot {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    public TextFlow textFlow;
-    public TextFlow exactTextFlow;
+    TextFlow textFlow;
+    TextFlow exactTextFlow;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -72,7 +72,8 @@ public class TextFlowMatchersTest extends FxRobot {
     public void hasText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextFlow has text \"foobar baaz\"\n");
+        exception.expectMessage("Expected: TextFlow has text \"foobar baaz\"\n     " +
+                "but: was TextFlow containing text: \"foobar quux\"");
 
         assertThat(textFlow, TextFlowMatchers.hasText("foobar baaz"));
     }
@@ -86,20 +87,32 @@ public class TextFlowMatchersTest extends FxRobot {
     public void hasColoredText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextFlow has colored text " +
-                "\"foobar <BLUE>quux</BLUE>\"\n");
+        exception.expectMessage("Expected: TextFlow has colored text \"foobar <BLUE>quux</BLUE>\"\n     " +
+                "but: was TextFlow with colored text: \"foobar <RED>quux</RED>\"");
 
         assertThat(textFlow, TextFlowMatchers.hasColoredText("foobar <BLUE>quux</BLUE>"));
+    }
+
+    @Test
+    public void hasColoredText_withBogusColor_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TextFlow has colored text \"foobar <LALALA>quux</LALALA>\"\n     " +
+                "but: was TextFlow with colored text: \"foobar <RED>quux</RED>\"");
+
+        assertThat(textFlow, TextFlowMatchers.hasColoredText("foobar <LALALA>quux</LALALA>"));
     }
 
     @Test
     public void hasExactlyColoredText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextFlow has exactly colored " +
-                "text \"<LIMEGREEN>exact</LIMEGREEN>\"\n");
+        exception.expectMessage("Expected: TextFlow has exactly colored text \"<LIMEGREEN>exact</LIMEGREEN>\"\n     " +
+                "but: was impossible to exactly match TextFlow containing " +
+                "colored text: \"exact\" which has color: \"33cd32\".\n" +
+                "This is not a named color. The closest named color is: \"LIMEGREEN\".\n" +
+                "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
 
         assertThat(exactTextFlow, TextFlowMatchers.hasExactlyColoredText("<LIMEGREEN>exact</LIMEGREEN>"));
     }
-
 }

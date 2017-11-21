@@ -158,7 +158,7 @@ public class ToolkitServiceImpl implements ToolkitService {
     //---------------------------------------------------------------------------------------------
 
     private Application createApplication(Class<? extends Application> applicationClass) throws Exception {
-        return applicationClass.newInstance();
+        return applicationClass.getDeclaredConstructor().newInstance();
     }
 
     private void registerApplicationParameters(Application application, String... applicationArgs) {

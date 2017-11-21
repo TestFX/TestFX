@@ -79,8 +79,8 @@ compileTestJava {
                     '--module-path', classpath.asPath,
                     '--add-modules', 'junit',
                     '--add-reads', "$moduleName=junit",
-                    '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx",
+                    '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
             ]
             classpath = files()
         }

@@ -45,15 +45,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
 @Unstable(reason = "needs more tests")
 public class CaptureSupportImpl implements CaptureSupport {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     public static final String PNG_IMAGE_FORMAT = "png";
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private BaseRobot baseRobot;
 

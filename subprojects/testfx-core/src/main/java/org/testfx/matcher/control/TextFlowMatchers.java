@@ -29,12 +29,15 @@ import org.testfx.api.annotation.Unstable;
 import org.testfx.util.ColorUtils;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
+import static org.testfx.util.ColorUtils.getClosestNamedColor;
 
 /**
- * TestFX matchers for {@link TextFlow}
+ * TestFX matchers for {@link TextFlow} controls.
  */
 @Unstable(reason = "needs more tests")
 public class TextFlowMatchers {
+
+    private TextFlowMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -45,9 +48,11 @@ public class TextFlowMatchers {
      * its {@link Text} children's {@link Text#getText() text} together) equals the given {@code string}.
      */
     @Factory
-    public static Matcher<Node> hasText(String string) {
+    public static Matcher<TextFlow> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
-        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasText(node, string));
+        return typeSafeMatcher(TextFlow.class, descriptionText,
+            textFlow -> "TextFlow containing text: \"" + getText(textFlow) + "\"",
+            node -> hasText(node, string));
     }
 
     /**
@@ -72,16 +77,18 @@ public class TextFlowMatchers {
      *   assertThat(textFlow, TextFlowMatchers.hasColoredText("<RED>hello</RED>"));
      * </code></pre>
      *
-     * @param string the text contained in the TextFlow with color markup that
+     * @param coloredTextMarkup the text contained in the TextFlow with color markup that
      * specifies the expected color of the text
      * @return a match if the text contained in the TextFlow has the same content
      * and colors that match by the "closest named color" criteria
-     * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
+     * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
      */
     @Factory
-    public static Matcher<Node> hasColoredText(String string) {
-        String descriptionText = "has colored text \"" + string + "\"";
-        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, false));
+    public static Matcher<TextFlow> hasColoredText(String coloredTextMarkup) {
+        String descriptionText = "has colored text \"" + coloredTextMarkup + "\"";
+        return typeSafeMatcher(TextFlow.class, descriptionText,
+            textFlow -> "TextFlow with colored text: \"" + getColoredTextMarkup(textFlow, false) + "\"",
+            node -> hasColoredText(node, coloredTextMarkup, false));
     }
 
     /**
@@ -106,23 +113,40 @@ public class TextFlowMatchers {
      *   assertThat(textFlow, TextFlowMatchers.hasExactlyColoredText("<BLUE>hello</BLUE>"));
      * </code></pre>
      *
-     * @param string the text contained in the TextFlow with color markup that
+     * @param coloredTextMarkup the text contained in the TextFlow with color markup that
      * specifies the expected color of the text
      * @return a match if the text contained in the TextFlow has the same content
      * and the exactly matching colors
-     * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
+     * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
      */
     @Factory
-    public static Matcher<Node> hasExactlyColoredText(String string) {
-        String descriptionText = "has exactly colored text \"" + string + "\"";
-        return typeSafeMatcher(TextFlow.class, descriptionText, node -> hasColoredText(node, string, true));
+    public static Matcher<TextFlow> hasExactlyColoredText(String coloredTextMarkup) {
+        String descriptionText = "has exactly colored text \"" + coloredTextMarkup + "\"";
+        return typeSafeMatcher(TextFlow.class, descriptionText, textFlow -> {
+            for (Node child : textFlow.getChildren()) {
+                if (Text.class.isAssignableFrom(child.getClass())) {
+                    Text text = (Text) child;
+                    String textColor = text.getFill().toString().substring(2, 8);
+                    if (!ColorUtils.getNamedColor(textColor).isPresent()) {
+                        return "impossible to exactly match TextFlow containing colored text: \"" +
+                                ((Text) child).getText() + "\" which has color: \"" + textColor + "\".\n" +
+                                "This is not a named color. The closest named color is: \"" +
+                                getClosestNamedColor(textColor).toUpperCase(Locale.US) + "\".\nSee: " +
+                                "https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files" +
+                                "/cssref.html#typecolor";
+                    }
+                }
+            }
+            return getColoredTextMarkup(textFlow, true);
+        },
+            node -> hasColoredText(node, coloredTextMarkup, true));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static boolean hasText(TextFlow textFlow, String string) {
+    private static String getText(TextFlow textFlow) {
         StringBuilder textBuilder = new StringBuilder();
 
         for (Node child : textFlow.getChildren()) {
@@ -130,11 +154,20 @@ public class TextFlowMatchers {
                 textBuilder.append(((Text) child).getText());
             }
         }
-        return Objects.equals(string, textBuilder.toString());
+        return textBuilder.toString();
+    }
+
+    private static boolean hasText(TextFlow textFlow, String string) {
+        return Objects.equals(string, getText(textFlow));
     }
 
     private static boolean hasColoredText(TextFlow textFlow, String string, boolean exact) {
-        StringBuilder textBuilder = new StringBuilder();
+        String textColorMarkup = getColoredTextMarkup(textFlow, exact);
+        return textColorMarkup != null && Objects.equals(string, textColorMarkup);
+    }
+
+    private static String getColoredTextMarkup(TextFlow textFlow, boolean exact) {
+        StringBuilder coloredTextMarkup = new StringBuilder();
 
         for (Node child : textFlow.getChildren()) {
             if (Text.class.isAssignableFrom(child.getClass())) {
@@ -146,24 +179,26 @@ public class TextFlowMatchers {
                     if (colorOptional.isPresent()) {
                         color = colorOptional.get().toUpperCase(Locale.US);
                     } else {
-                        return false;
+                        return null;
                     }
                 } else {
-                    color = ColorUtils.getClosestNamedColor(text.getFill().toString()
+                    color = getClosestNamedColor(text.getFill().toString()
                             .substring(2, 8)).toUpperCase(Locale.US);
                 }
 
+                // Instead of comparing to BLACK we should compare to the color nearest the
+                // -fx-text-fill applied to the TextFlow.
                 if (!color.equals("BLACK")) {
-                    textBuilder.append("<").append(color).append(">");
+                    coloredTextMarkup.append("<").append(color).append(">");
                 }
-                textBuilder.append(text.getText());
+                coloredTextMarkup.append(text.getText());
 
                 if (!color.equals("BLACK")) {
-                    textBuilder.append("</").append(color).append(">");
+                    coloredTextMarkup.append("</").append(color).append(">");
                 }
             }
         }
-        return Objects.equals(string, textBuilder.toString());
-    }
 
+        return coloredTextMarkup.toString();
+    }
 }

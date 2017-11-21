@@ -22,7 +22,9 @@
     <property name="charset" value="UTF-8"/>
 
     <module name="TreeWalker">
-        <module name="AvoidNestedBlocks"/>
+        <module name="AvoidNestedBlocks">
+            <property name="allowInSwitchCase" value="true"/>
+        </module>
         <module name="OuterTypeFilename"/>
         <module name="AvoidEscapedUnicodeCharacters">
             <property name="allowEscapesForControlCharacters" value="true"/>

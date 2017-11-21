@@ -41,6 +41,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.finder.NodeFinderException;
@@ -51,9 +53,12 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assume.assumeThat;
 
 public class NodeFinderImplTest {
+
+    @Rule
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
     static Stage window;
     static Stage otherWindow;
@@ -77,11 +82,6 @@ public class NodeFinderImplTest {
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @BeforeClass
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -96,8 +96,6 @@ public class NodeFinderImplTest {
 
     @Before
     public void setup() {
-        assumeThat(System.getProperty("java.specification.version"), is("1.8"));
-
         windowFinder = new WindowFinderStub();
         windowFinder.windows = new ArrayList<>();
         windowFinder.windows.add(window);
@@ -179,8 +177,8 @@ public class NodeFinderImplTest {
     @Ignore("error is only used for robots")
     public void node_string_cssQuery_nonExistentNode() {
         // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("No matching nodes were found.");
+        exception.expect(NodeFinderException.class);
+        exception.expectMessage("No matching nodes were found.");
         assertThat(nodeFinder.lookup("#nonExistentNode").query(), is(nullValue()));
     }
 
@@ -188,8 +186,8 @@ public class NodeFinderImplTest {
     @Ignore("error is only used for robots")
     public void node_string_cssQuery_invisibleNode() {
         // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
+        exception.expect(NodeFinderException.class);
+        exception.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
     }
 
@@ -203,8 +201,8 @@ public class NodeFinderImplTest {
     @Ignore("error is only used for robots")
     public void node_string_labelQuery_nonExistentNode() {
         // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("No matching nodes were found.");
+        exception.expect(NodeFinderException.class);
+        exception.expectMessage("No matching nodes were found.");
         assertThat(nodeFinder.lookup("nonExistent").query(), is(nullValue()));
     }
 
@@ -212,8 +210,8 @@ public class NodeFinderImplTest {
     @Ignore("error is only used for robots")
     public void node_string_labelQuery_invisibleNode() {
         // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
+        exception.expect(NodeFinderException.class);
+        exception.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.lookup("invisible").query(), is(nullValue()));
     }
 
@@ -245,8 +243,8 @@ public class NodeFinderImplTest {
     @Ignore("error is only used for robots")
     public void nodes_string_cssQuery_nonExistentNode() {
         // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("No matching nodes were found.");
+        exception.expect(NodeFinderException.class);
+        exception.expectMessage("No matching nodes were found.");
         assertThat(nodeFinder.lookup("#nonExistentNode").query(), is(nullValue()));
     }
 
@@ -254,8 +252,8 @@ public class NodeFinderImplTest {
     @Ignore("error is only used for robots")
     public void nodes_string_cssQuery_invisibleNode() {
         // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
+        exception.expect(NodeFinderException.class);
+        exception.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
     }
 

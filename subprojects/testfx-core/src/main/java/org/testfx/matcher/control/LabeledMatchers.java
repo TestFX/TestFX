@@ -17,7 +17,6 @@
 package org.testfx.matcher.control;
 
 import java.util.Objects;
-import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 
 import org.hamcrest.Factory;
@@ -27,32 +26,42 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link Labeled}
+ * TestFX matchers for {@link Labeled} controls.
  */
 @Unstable(reason = "needs more tests")
 public class LabeledMatchers {
+
+    private LabeledMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     /**
-     * Creates a matcher that matches all {@link Labeled} objects that have the given {@code string} as
+     * Creates a matcher that matches all {@link Labeled} objects that have the given {@code text} as
      * their text.
+     *
+     * @param text the {@code String} the matched Labeleds should have as their text
      */
     @Factory
-    public static Matcher<Node> hasText(String string) {
-        String descriptionText = "has text \"" + string + "\"";
-        return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, string));
+    public static Matcher<Labeled> hasText(String text) {
+        String descriptionText = "has text \"" + text + "\"";
+        return typeSafeMatcher(Labeled.class, descriptionText,
+            labeled -> "\"" + labeled.getText() + "\"",
+            node -> hasText(node, text));
     }
 
     /**
      * Creates a matcher that matches all {@link Labeled} objects whose text matches the given matcher.
+     *
+     * @param matcher the {@code Matcher<String>} that the Labeleds text should match
      */
     @Factory
-    public static Matcher<Node> hasText(Matcher<String> matcher) {
+    public static Matcher<Labeled> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
-        return typeSafeMatcher(Labeled.class, descriptionText, node -> hasText(node, matcher));
+        return typeSafeMatcher(Labeled.class, descriptionText,
+            labeled -> "\"" + labeled.getText() + "\"",
+            node -> hasText(node, matcher));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -61,16 +70,12 @@ public class LabeledMatchers {
 
     private static boolean hasText(Labeled labeled,
                                    String string) {
-        return Objects.equals(string, lookupText(labeled));
+        return Objects.equals(string, labeled.getText());
     }
 
     private static boolean hasText(Labeled labeled,
                                    Matcher<String> matcher) {
-        return matcher.matches(lookupText(labeled));
-    }
-
-    private static String lookupText(Labeled labeled) {
-        return labeled.getText();
+        return matcher.matches(labeled.getText());
     }
 
 }

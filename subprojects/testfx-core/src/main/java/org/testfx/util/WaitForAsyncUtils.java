@@ -83,19 +83,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 @Unstable
 public class WaitForAsyncUtils {
 
-    // ---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    // ---------------------------------------------------------------------------------------------
-
     private static final long CONDITION_SLEEP_IN_MILLIS = 10;
-
     private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
-
     private static final int SEMAPHORE_LOOPS_COUNT = 5;
-
-    // ---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    // ---------------------------------------------------------------------------------------------
 
     private static ExecutorService executorService = Executors.newCachedThreadPool(new DefaultThreadFactory());
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
@@ -125,9 +115,9 @@ public class WaitForAsyncUtils {
      */
     public static final boolean TRACE_FETCH = false;
 
-    /**
+    /*
      * Static initialization of WaitForAsyncUtils.
-     * Should be initialized with the FXToolkit, but the static initialization ensures,
+     * Should be initialized with the FXToolkit, but the static initialization ensures
      * that it is setup before the first use.
      */
     static {
@@ -148,9 +138,7 @@ public class WaitForAsyncUtils {
     public static void setup() {
         if (checkAllExceptions) {
             //install handler
-            Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-                registerException(e);
-            });
+            Thread.setDefaultUncaughtExceptionHandler((t, e) -> registerException(e));
         } else {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
         }

@@ -25,6 +25,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 import org.testfx.api.FxToolkit;
 
@@ -36,10 +38,8 @@ import static org.junit.Assert.fail;
 public class WaitForAsyncUtilsFxTest {
 
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Rule
-    public Timeout globalTimeout = Timeout.millis(1000);
+    public TestRule rule = RuleChain.outerRule(Timeout.millis(1000)).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
     @BeforeClass
     public static void setUpClass() {
@@ -60,7 +60,7 @@ public class WaitForAsyncUtilsFxTest {
 
         // given:
         WaitForAsyncUtils.printException = false;
-        thrown.expectCause(instanceOf(ExecutionException.class));
+        exception.expectCause(instanceOf(ExecutionException.class));
         Callable<Void> callable = () -> {
             Future<Void> future = WaitForAsyncUtils.asyncFx(() -> {
                 throw new UnsupportedOperationException();
@@ -92,7 +92,7 @@ public class WaitForAsyncUtilsFxTest {
     public void asyncFx_callable_with_exception() throws Throwable {
         // given:
         WaitForAsyncUtils.printException = false;
-        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        exception.expectCause(instanceOf(UnsupportedOperationException.class));
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
         };

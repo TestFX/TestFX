@@ -29,8 +29,8 @@ import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
 import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -39,8 +39,8 @@ public final class MoveRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public MoveRobot moveRobot;
 
+    public MoveRobot moveRobot;
     public BaseRobot baseRobot;
     public MouseRobot mouseRobot;
     public SleepRobot sleepRobot;

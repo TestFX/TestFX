@@ -63,11 +63,10 @@ public class JavafxRobotAdapterTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public JavafxRobotAdapter robotAdapter;
 
+    public JavafxRobotAdapter robotAdapter;
     public Stage targetStage;
     public Parent sceneRoot;
-
     public Region region;
     public TextField textField;
     public TextArea textArea;

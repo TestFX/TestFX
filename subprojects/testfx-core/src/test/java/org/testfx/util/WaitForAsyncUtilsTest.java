@@ -27,6 +27,8 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -37,16 +39,9 @@ import static org.junit.Assert.fail;
 
 public class WaitForAsyncUtilsTest {
 
-    // ---------------------------------------------------------------------------------------------
-    // FIELDS.
-    // ---------------------------------------------------------------------------------------------
-
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-
-    @Rule
-    public Timeout globalTimeout = Timeout.millis(10000);
+    public TestRule rule = RuleChain.outerRule(Timeout.millis(5000)).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
     // ---------------------------------------------------------------------------------------------
     // FEATURE METHODS.
@@ -82,7 +77,7 @@ public class WaitForAsyncUtilsTest {
     public void async_callable_with_exception() throws Throwable {
         // given:
         WaitForAsyncUtils.printException = false;
-        thrown.expect(UnsupportedOperationException.class);
+        exception.expect(UnsupportedOperationException.class);
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
         };
@@ -205,7 +200,7 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void waitFor_with_future_with_sleep() throws Exception {
-        thrown.expect(TimeoutException.class);
+        exception.expect(TimeoutException.class);
         // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
             WaitForAsyncUtils.sleepWithException(250, MILLISECONDS);
@@ -243,7 +238,7 @@ public class WaitForAsyncUtilsTest {
         catch (Throwable ignore) {
 
         }
-        thrown.expect(CancellationException.class);
+        exception.expect(CancellationException.class);
         WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);  // check cancellation
     }
 
@@ -265,14 +260,14 @@ public class WaitForAsyncUtilsTest {
     @Test
     public void waitFor_with_booleanCallable_with_false() throws Exception {
         // expect:
-        thrown.expect(TimeoutException.class);
+        exception.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> false);
     }
 
     @Test
     public void waitFor_with_booleanCallable_with_exception() throws Exception {
         // expect:
-        thrown.expectCause(isA(UnsupportedOperationException.class));
+        exception.expectCause(isA(UnsupportedOperationException.class));
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
             throw new UnsupportedOperationException();
         });
@@ -307,7 +302,7 @@ public class WaitForAsyncUtilsTest {
         });
 
         // then:
-        thrown.expect(TimeoutException.class);
+        exception.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
     }
 

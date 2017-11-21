@@ -46,10 +46,6 @@ import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 @Unstable
 public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     static {
         Map<MouseButton, Integer> buttons = new HashMap<>();
         buttons.put(MouseButton.PRIMARY, InputEvent.BUTTON1_MASK);
@@ -59,10 +55,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     }
 
     private static final Map<MouseButton, Integer> AWT_BUTTONS;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private Robot awtRobot;
 

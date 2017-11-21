@@ -38,7 +38,7 @@ public interface PointLocator {
 
     /**
      *
-     * @param point to convert into a {@link Bounds} object.
+     * @param point to convert into a {@link Bounds} object
      * @return a {@link PointQuery} whose bounds x and y values are the given point and whose width/height = 0
      */
     PointQuery point(Point2D point);

@@ -46,16 +46,15 @@ public class BoundsLocatorImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     BoundsLocator boundsLocator;
     Insets windowInsets;
 
     static Stage primaryWindow;
     static Scene primaryScene;
-
     static Node nodeInsideOfScene;
     static Node nodePartyOutsideOfScene;
     static Node nodeOutsideOfScene;
-
     static Bounds boundsInsideOfScene;
     static Bounds boundsPartyOutsideOfScene;
     static Bounds boundsOutsideOfScene;

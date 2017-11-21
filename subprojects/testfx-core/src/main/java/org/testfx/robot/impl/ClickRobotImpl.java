@@ -29,15 +29,7 @@ import org.testfx.service.query.PointQuery;
 @Unstable
 public class ClickRobotImpl implements ClickRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     public MouseRobot mouseRobot;
     public MoveRobot moveRobot;

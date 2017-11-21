@@ -31,15 +31,7 @@ import org.testfx.service.finder.WindowFinder;
 @Unstable
 public class WriteRobotImpl implements WriteRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final long SLEEP_AFTER_CHARACTER_IN_MILLIS = 25;
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     public BaseRobot baseRobot;
     public SleepRobot sleepRobot;

@@ -55,8 +55,8 @@ public class CaptureSupportImplTest extends FxRobot {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    private CaptureSupport capturer;
 
+    private CaptureSupport capturer;
     private Stage primaryStage;
 
     public static class LoginDialog extends Application {

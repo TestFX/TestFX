@@ -16,7 +16,6 @@
  */
 package org.testfx.matcher.control;
 
-import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 import org.junit.Before;
@@ -24,6 +23,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
@@ -34,14 +35,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TextMatchersTest extends FxRobot {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    public Text foobarText;
-    public Text quuxText;
-    public Region region;
+    Text foobarText;
+    Text quuxText;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -53,7 +51,6 @@ public class TextMatchersTest extends FxRobot {
         FxToolkit.setupFixture(() -> {
             foobarText = new Text("foobar");
             quuxText = new Text("quux");
-            region = new Region();
         });
     }
 
@@ -67,18 +64,10 @@ public class TextMatchersTest extends FxRobot {
     public void hasText_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has text \"foobar\"\n");
+        exception.expectMessage("Expected: Text has text \"foobar\"\n     " +
+                        "but: was Text with text: \"quux\"");
 
         assertThat(quuxText, TextMatchers.hasText("foobar"));
-    }
-
-    @Test
-    public void hasText_with_region_fails() {
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has text \"foobar\"\n");
-
-        assertThat(region, TextMatchers.hasText("foobar"));
     }
 
     @Test
@@ -91,18 +80,10 @@ public class TextMatchersTest extends FxRobot {
     public void hasText_matcher_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has a string ending with \"bar\"\n");
+        exception.expectMessage("Expected: Text has a string ending with \"bar\"\n     " +
+                        "but: was Text with text: \"quux\"");
 
         assertThat(quuxText, TextMatchers.hasText(endsWith("bar")));
-    }
-
-    @Test
-    public void hasText_matcher_with_region_fails() {
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has a string ending with \"bar\"\n");
-
-        assertThat(region, TextMatchers.hasText(endsWith("bar")));
     }
 
 }

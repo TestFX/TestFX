@@ -33,15 +33,7 @@ import org.testfx.robot.TypeRobot;
 @Unstable
 public class TypeRobotImpl implements TypeRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS = 25;
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     public KeyboardRobot keyboardRobot;
     public SleepRobot sleepRobot;

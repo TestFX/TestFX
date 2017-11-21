@@ -26,10 +26,12 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link Parent}.
+ * TestFX matchers for {@link Parent} nodes.
  */
 @Unstable(reason = "needs more tests")
 public class ParentMatchers {
+
+    private ParentMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.

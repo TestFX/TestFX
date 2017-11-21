@@ -44,10 +44,6 @@ import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 @Unstable
 public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
 
     private static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
@@ -63,10 +59,6 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     }
 
     private static final Map<MouseButton, Integer> GLASS_BUTTONS;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private Robot glassRobot;
 

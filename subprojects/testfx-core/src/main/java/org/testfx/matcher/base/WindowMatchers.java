@@ -25,13 +25,12 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 /**
- * TestFX matchers for {@link Window}
+ * TestFX matchers for {@link Window} instances.
  */
 @Unstable(reason = "needs more tests")
 public class WindowMatchers {
-    private WindowMatchers() {
-        // intentionally private and blank
-    }
+
+    private WindowMatchers() { }
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
