@@ -34,17 +34,9 @@ import org.testfx.service.adapter.impl.JavafxRobotAdapter;
 @Unstable(reason = "needs more tests")
 public class BaseRobotImpl implements BaseRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final String PROPERTY_TESTFX_ROBOT = "testfx.robot";
     private static final String PROPERTY_TESTFX_ROBOT_AWT = "awt";
     private static final String PROPERTY_TESTFX_ROBOT_GLASS = "glass";
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private final RobotAdapter robotAdapter;
     private final JavafxRobotAdapter javafxRobotAdapter;

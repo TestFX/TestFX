@@ -231,12 +231,12 @@ public final class NodeQueryUtils {
     }
 
     private static boolean hasNodeId(Node node,
-                                       String id) {
+                                     String id) {
         return Objects.equals(node.getId(), id);
     }
 
     private static boolean hasNodeText(Node node,
-                                         String text) {
+                                       String text) {
         // TODO: Test cases with node.getText() == null.
         if (node instanceof Labeled) {
             return Objects.equals(((Labeled) node).getText(), text);
@@ -248,20 +248,14 @@ public final class NodeQueryUtils {
     }
 
     private static boolean matchesNodeMatcher(Node node,
-                                                Matcher matcher) {
+                                              Matcher matcher) {
         // TODO: Test cases with ClassCastException.
         return matcher.matches(node);
     }
 
     @SuppressWarnings("deprecation")
     private static boolean isNodeVisible(Node node) {
-        if (isNotVisible(node)) {
-            return false;
-        }
-        else if (!isNodeWithinSceneBounds(node)) {
-            return false;
-        }
-        return true;
+        return !isNotVisible(node) && isNodeWithinSceneBounds(node);
     }
 
     private static boolean isNodeWithinSceneBounds(Node node) {

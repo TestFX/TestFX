@@ -32,8 +32,8 @@ import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
 
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -42,8 +42,8 @@ public final class WriteRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public WriteRobot writeRobot;
 
+    public WriteRobot writeRobot;
     public Stage stage;
     public Scene scene;
     public BaseRobot baseRobot;

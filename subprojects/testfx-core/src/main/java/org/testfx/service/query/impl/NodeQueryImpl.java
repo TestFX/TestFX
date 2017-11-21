@@ -36,17 +36,8 @@ import org.testfx.util.NodeQueryUtils;
 @Unstable
 public class NodeQueryImpl implements NodeQuery {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final String CSS_ID_SELECTOR_PREFIX = "#";
-
     private static final String CSS_CLASS_SELECTOR_PREFIX = ".";
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private Set<Node> parentNodes = new LinkedHashSet<>();
 

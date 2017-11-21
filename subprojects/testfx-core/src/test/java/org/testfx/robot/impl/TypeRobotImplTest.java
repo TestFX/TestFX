@@ -37,7 +37,7 @@ import static javafx.scene.input.KeyCombination.ALT_DOWN;
 import static javafx.scene.input.KeyCombination.CONTROL_DOWN;
 import static javafx.scene.input.KeyCombination.SHIFT_DOWN;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,8 +47,8 @@ public final class TypeRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public TypeRobot typeRobot;
 
+    public TypeRobot typeRobot;
     public KeyboardRobot keyboardRobot;
     public SleepRobot sleepRobot;
 

@@ -34,10 +34,12 @@ import org.testfx.service.query.NodeQuery;
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 /**
- * TestFX matchers for {@link Node}.
+ * TestFX matchers for {@link Node} instances.
  */
 @Unstable(reason = "needs more tests")
 public class NodeMatchers {
+
+    private NodeMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.

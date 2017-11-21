@@ -27,10 +27,6 @@ import org.testfx.service.query.PointQuery;
 @Unstable
 public class DragRobotImpl implements DragRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     public MouseRobot mouseRobot;
     public MoveRobot moveRobot;
 

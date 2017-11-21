@@ -48,6 +48,7 @@ public class ToolkitServiceImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     public static Stage primaryStage;
     public static ToolkitService toolkitService;
 

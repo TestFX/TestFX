@@ -224,14 +224,16 @@ public class JavafxRobotAdapter {
         EventType<MouseEvent> type = eventType;
         if (type == MouseEvent.MOUSE_PRESSED || type == MouseEvent.MOUSE_RELEASED) {
             boolean pressed = type == MouseEvent.MOUSE_PRESSED;
-            if (button == MouseButton.PRIMARY) {
-                isButton1Pressed = pressed;
-            }
-            else if (button == MouseButton.MIDDLE) {
-                isButton2Pressed = pressed;
-            }
-            else if (button == MouseButton.SECONDARY) {
-                isButton3Pressed = pressed;
+            switch (button) {
+                case PRIMARY:
+                    isButton1Pressed = pressed;
+                    break;
+                case MIDDLE:
+                    isButton2Pressed = pressed;
+                    break;
+                case SECONDARY:
+                    isButton3Pressed = pressed;
+                    break;
             }
             if (pressed) {
                 lastButtonPressed = button;

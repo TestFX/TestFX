@@ -36,6 +36,7 @@ public class SceneRootAssertionTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     StackPane stackPane;
     Label label;
 

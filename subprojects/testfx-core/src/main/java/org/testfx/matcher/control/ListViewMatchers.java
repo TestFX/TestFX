@@ -32,94 +32,92 @@ import org.testfx.service.query.NodeQuery;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link ListView}
+ * TestFX matchers for {@link ListView} controls.
  */
 @Unstable(reason = "needs more tests")
 public class ListViewMatchers {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final String SELECTOR_LIST_CELL = ".list-cell";
+
+    private ListViewMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
     /**
-     * Creates a matcher that matches all {@link ListView}s that has one cell that equals the given {@code value}.
+     * Creates a matcher that matches all {@link ListView}s that have one cell that equals the given {@code value}.
+     *
+     * @param value the list cell the matched ListView's should have
      */
     @Factory
-    public static Matcher<Node> hasListCell(Object value) {
+    public static Matcher<ListView> hasListCell(Object value) {
         String descriptionText = "has list cell \"" + value + "\"";
-        return typeSafeMatcher(ListView.class, descriptionText, node -> hasListCell(node, value));
+        return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::getItemsString,
+            node -> hasListCell(node, value));
     }
 
     /**
-     * Creates a matcher that matches all {@link ListView}s that has exactly {@code amount} items.
+     * Creates a matcher that matches all {@link ListView}s that have exactly {@code amount} items (i.e.
+     * sizeof({@link ListView#getItems()}) = {@code amount}).
+     *
+     * @param amount the number of items the matched ListView's should have
      */
     @Factory
-    public static Matcher<Node> hasItems(int amount) {
+    public static Matcher<ListView> hasItems(int amount) {
         String descriptionText = "has " + amount + " items";
-        return typeSafeMatcher(ListView.class, descriptionText, node -> hasItems(node, amount));
+        return typeSafeMatcher(ListView.class, descriptionText,
+            listView -> String.valueOf(listView.getItems().size()),
+            node -> hasItems(node, amount));
     }
 
     /**
-     * Creates a matcher that matches all {@link ListView}s whose {@link ListView#getItems() list of items}
-     * is empty.
+     * Creates a matcher that matches all {@link ListView}s that have no items (i.e.
+     * sizeof({@link ListView#getItems()}) = 0).
      */
     @Factory
-    public static Matcher<Node> isEmpty() {
-        String descriptionText = "is empty (has no items)";
-        return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::isListEmpty);
+    public static Matcher<ListView> isEmpty() {
+        String descriptionText = "is empty (contains 0 (zero) items)";
+        return typeSafeMatcher(ListView.class, descriptionText,
+            listView -> "contains " + listView.getItems().size() + " items", ListViewMatchers::isListEmpty);
     }
 
     /**
-     * Creates a matcher that matches all {@link ListView}s in two situations: if both the
-     * {@link ListView#getPlaceholder() ListView's placeholder} and the given {@code placeHolder} are
-     * {@link Labeled} objects or subclasses thereof, it matches if the two placeholder's texts equal,
-     * and it matches if the two placeholders, when they are not {@link Labeled} objects or subclasses,
-     * are equal.
+     * Creates a matcher that matches {@link ListView}s that have the given {@code placeHolder}.
+     * As a special case if the {@code placeHolder} is an instance of {@link Labeled} then the placeholder
+     * matches if the given {@code placeHolder}'s text is equal to the ListView's text.
+     *
+     * @param placeHolder the placeHolder {@code Node} the matched ListView's should have
      */
     @Factory
-    public static Matcher<Node> hasPlaceholder(Node placeHolder) {
-        String descriptionText = "has ";
-        // better description messages for Labeled nodes
-        if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
-            descriptionText += "labeled placeholder containing text: \"" +
-                    ((Labeled) placeHolder).getText() + "\"";
-        } else {
-            descriptionText += "placeholder " + placeHolder;
-        }
-        return typeSafeMatcher(ListView.class, descriptionText, node -> hasPlaceholder(node, placeHolder));
+    public static Matcher<ListView> hasPlaceholder(Node placeHolder) {
+        String descriptionText = "has " + getPlaceHolderDescription(placeHolder, false);
+        return typeSafeMatcher(ListView.class, descriptionText,
+            listView -> getPlaceHolderDescription(listView.getPlaceholder(), false),
+            node -> hasPlaceholder(node, placeHolder));
     }
 
     /**
-     * Creates a matcher that matches all {@link ListView}s whose {@link ListView#getPlaceholder() placeholder}
-     * is visible in two situations: if both the {@link ListView#getPlaceholder() ListView's placeholder}
-     * and the given {@code placeHolder} are {@link Labeled} objects or subclasses thereof, it matches if the
-     * two placeholder's texts equal; otherwise, it matches if the two placeholders are equal.
+     * Creates a matcher that matches {@link ListView}s that have the given <em>visible</em> {@code placeHolder}.
+     * As a special case if the {@code placeHolder} is an instance of {@link Labeled} then the placeholder
+     * matches if the given {@code placeHolder}'s text is equal to the ListView's text and the ListView's
+     * placeHolder is visible.
+     *
+     * @param placeHolder the visible placeHolder {@code Node} the matched ListView's should have
      */
     @Factory
-    public static Matcher<Node> hasVisiblePlaceholder(Node placeHolder) {
-        String descriptionText = "has visible";
-        // better description messages for Labeled nodes
-        if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
-            descriptionText += "labeled placeholder containing text: \"" +
-                    ((Labeled) placeHolder).getText() + "\"";
-        } else {
-            descriptionText += "placeholder " + placeHolder;
-        }
-        return typeSafeMatcher(ListView.class, descriptionText, node -> hasVisiblePlaceholder(node, placeHolder));
+    public static Matcher<ListView> hasVisiblePlaceholder(Node placeHolder) {
+        String descriptionText = "has " + getPlaceHolderDescription(placeHolder, true);
+        return typeSafeMatcher(ListView.class, descriptionText,
+            listView -> getPlaceHolderDescription(listView.getPlaceholder(), true),
+            node -> hasVisiblePlaceholder(node, placeHolder));
     }
 
     //---------------------------------------------------------------------------------------------
     // PRIVATE STATIC METHODS.
     //---------------------------------------------------------------------------------------------
 
-    private static boolean hasListCell(ListView listView,
-                                       Object value) {
+    private static boolean hasListCell(ListView listView, Object value) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(listView);
         return nodeQuery.lookup(SELECTOR_LIST_CELL)
@@ -127,13 +125,11 @@ public class ListViewMatchers {
             .tryQuery().isPresent();
     }
 
-    private static boolean hasItems(ListView listView,
-                                    int amount) {
+    private static boolean hasItems(ListView listView, int amount) {
         return listView.getItems().size() == amount;
     }
 
-    private static boolean hasCellValue(Cell cell,
-                                        Object value) {
+    private static boolean hasCellValue(Cell cell, Object value) {
         return !cell.isEmpty() && Objects.equals(cell.getItem(), value);
     }
 
@@ -141,8 +137,7 @@ public class ListViewMatchers {
         return listView.getItems().isEmpty();
     }
 
-    private static boolean hasPlaceholder(ListView listView,
-                                          Node placeHolder) {
+    private static boolean hasPlaceholder(ListView listView, Node placeHolder) {
         if (Labeled.class.isAssignableFrom(placeHolder.getClass()) &&
                 Labeled.class.isAssignableFrom(listView.getPlaceholder().getClass())) {
             return ((Labeled) listView.getPlaceholder()).getText()
@@ -152,9 +147,30 @@ public class ListViewMatchers {
         }
     }
 
-    private static boolean hasVisiblePlaceholder(ListView listView,
-                                                 Node placeHolder) {
+    private static boolean hasVisiblePlaceholder(ListView listView, Node placeHolder) {
         return listView.getPlaceholder().isVisible() &&
                 hasPlaceholder(listView, placeHolder);
+    }
+
+    private static String getItemsString(ListView<?> listView) {
+        StringBuilder items = new StringBuilder("[");
+        for (int i = 0; i < listView.getItems().size(); i++) {
+            items.append(listView.getItems().get(i).toString());
+            if (i < listView.getItems().size() - 1) {
+                items.append(", ");
+            }
+        }
+        items.append("]");
+        return items.toString();
+    }
+
+    private static String getPlaceHolderDescription(Node placeHolder, boolean describeVisibility) {
+        if (Labeled.class.isAssignableFrom(placeHolder.getClass())) {
+            return (describeVisibility ? (placeHolder.isVisible() ? "visible " : "invisible ") : "") +
+                    "labeled placeholder containing text: \"" + ((Labeled) placeHolder).getText() + "\"";
+        } else {
+            return (describeVisibility ? (placeHolder.isVisible() ? "visible " : "invisible ") : "") +
+                    "placeholder " + placeHolder;
+        }
     }
 }

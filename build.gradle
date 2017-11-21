@@ -278,6 +278,7 @@ coveralls {
 tasks.coveralls {
     group = 'Coverage reports'
     description = 'Uploads the aggregated coverage report to Coveralls'
+    logging.setLevel(LogLevel.LIFECYCLE)
 
     dependsOn jacocoRootReport
     onlyIf { isTravis && !JavaVersion.current().isJava9Compatible() }

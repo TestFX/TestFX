@@ -41,6 +41,7 @@ public class DragAndDropTest extends TestCaseBase {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     public ListView<String> leftListView;
     public ListView<String> rightListView;
 

@@ -38,9 +38,9 @@ public class PointLocatorImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     PointLocator pointLocator;
     BoundsLocatorStub boundsLocatorStub;
-
     Bounds nodeBounds;
     Bounds nodeBoundsAfterChange;
     Bounds sceneBounds;

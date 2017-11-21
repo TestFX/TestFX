@@ -48,22 +48,19 @@ public class NodeQueryImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    NodeQuery nodeQuery;
 
+    NodeQuery nodeQuery;
     Scene scene;
 
     @FXML Pane labels;
     @FXML Pane buttons;
     @FXML Pane textfields;
-
     @FXML Label label0;
     @FXML Label label1;
     @FXML Label label2;
-
     @FXML Button button0;
     @FXML Button button1;
     @FXML Button button2;
-
     @FXML TextField textfield0;
     @FXML TextField textfield1;
     @FXML TextField textfield2;

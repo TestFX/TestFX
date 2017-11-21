@@ -25,7 +25,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -36,8 +36,8 @@ public final class MouseRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public MouseRobot mouseRobot;
 
+    public MouseRobot mouseRobot;
     public BaseRobot baseRobot;
 
     @Before

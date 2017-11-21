@@ -16,6 +16,8 @@
  */
 package org.testfx.framework.junit;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.concurrent.Callable;
 
 import org.junit.rules.TestWatcher;
@@ -32,7 +34,7 @@ import org.testfx.util.WaitForAsyncUtils;
  * This rule can be used by adding the following annotated field to your
  * test classes:
  * <pre>{@code
- * @Rule
+ * {@literal @}Rule
  * public TestFXRule testFXRule = new TestFXRule();
  * }</pre>
  * <p>
@@ -42,41 +44,41 @@ public class TestFXRule extends TestWatcher {
 
     private final int retryCount;
     private static final long WAIT_MILLIS = 30000;
-    private static boolean initialized;
+    private boolean initialized;
+    private int currentAttempt;
+    private Throwable[] errors = new Throwable[0];
 
     public TestFXRule() {
-        this.retryCount = 0;
+        this.retryCount = 1;
     }
 
     public TestFXRule(int retryCount) {
         this.retryCount = retryCount;
     }
 
-    public Statement apply(Statement base, Description description) {
-        return statement(base, description);
-    }
+    @Override public Statement apply(final Statement base, final Description description) {
 
-    private Statement statement(final Statement base, final Description description) {
+        errors = new Throwable[retryCount];
+
         return new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-                Throwable caughtThrowable = null;
-
-                for (int i = 0; i < retryCount; i++) {
+            @Override public void evaluate() throws Throwable {
+                while (currentAttempt < retryCount) {
                     try {
                         base.evaluate();
                         return;
                     } catch (Throwable t) {
-                        caughtThrowable = t;
-                        System.err.println(description.getDisplayName() + ": run " + (i + 1) + " failed (retrying...)");
+                        if (t.toString().startsWith("org.junit.AssumptionViolatedException")) {
+                            // In this case we should not propagate the error because violated assumptions
+                            // are a normal part of testing on various configurations such as:
+                            // assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+                            return;
+                        }
+                        errors[currentAttempt] = t;
+                        currentAttempt++;
+                        Thread.sleep(1000);
                     }
                 }
-                if (retryCount != 0) {
-                    System.err.println(description.getDisplayName() + ": giving up after " + retryCount + " failures");
-                }
-                if (caughtThrowable != null) {
-                    throw caughtThrowable;
-                }
+                throw RetryException.from(errors);
             }
         };
     }
@@ -102,4 +104,27 @@ public class TestFXRule extends TestWatcher {
         }
     }
 
+    private static class RetryException extends RuntimeException {
+        private RetryException(String message) {
+            super(message);
+        }
+
+        private static RetryException from(Throwable[] errors) {
+            final StringBuilder msg = new StringBuilder("Invoked methods still failed after " +
+                    errors.length + " attempts.");
+            for (int i = 0; i < errors.length; i++) {
+                final Throwable error = errors[i];
+                msg.append('\n');
+                msg.append("Attempt #").append(i).append(" threw exception:");
+                msg.append(stackTraceAsString(error));
+            }
+            return new RetryException(msg.toString());
+        }
+
+        private static String stackTraceAsString(Throwable t) {
+            final StringWriter errors = new StringWriter();
+            t.printStackTrace(new PrintWriter(errors));
+            return errors.toString();
+        }
+    }
 }

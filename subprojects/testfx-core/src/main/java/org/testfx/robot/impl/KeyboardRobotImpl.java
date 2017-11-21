@@ -33,10 +33,6 @@ import org.testfx.robot.KeyboardRobot;
 @Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final KeyCode OS_SPECIFIC_SHORTCUT;
 
     static {
@@ -44,15 +40,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         OS_SPECIFIC_SHORTCUT = osName.startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     public BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();
 

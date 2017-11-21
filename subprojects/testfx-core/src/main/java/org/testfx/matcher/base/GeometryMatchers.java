@@ -25,10 +25,12 @@ import org.testfx.api.annotation.Unstable;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link Dimension2D}
+ * TestFX matchers for {@link Dimension2D} instances.
  */
 @Unstable(reason = "needs more tests")
 public class GeometryMatchers {
+
+    private GeometryMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.

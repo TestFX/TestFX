@@ -26,7 +26,7 @@ import org.testfx.robot.KeyboardRobot;
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.B;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -37,8 +37,8 @@ public final class KeyboardRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public KeyboardRobot keyboardRobot;
 
+    public KeyboardRobot keyboardRobot;
     public BaseRobot baseRobot;
 
     @Before

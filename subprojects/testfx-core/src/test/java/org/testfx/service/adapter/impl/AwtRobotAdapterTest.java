@@ -57,7 +57,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -68,11 +68,10 @@ public class AwtRobotAdapterTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public AwtRobotAdapter robotAdapter;
 
+    public AwtRobotAdapter robotAdapter;
     public Stage targetStage;
     public Parent sceneRoot;
-
     public Region region;
     public Point2D regionPoint;
 

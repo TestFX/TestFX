@@ -34,10 +34,6 @@ import org.testfx.service.query.impl.CallableBoundsPointQuery;
 @Unstable
 public class PointLocatorImpl implements PointLocator {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private BoundsLocator boundsLocator;
 
     //---------------------------------------------------------------------------------------------

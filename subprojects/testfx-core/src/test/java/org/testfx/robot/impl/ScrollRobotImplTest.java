@@ -23,7 +23,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -32,8 +32,8 @@ public class ScrollRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
-    public ScrollRobot scrollRobot;
 
+    public ScrollRobot scrollRobot;
     public MouseRobot mouseRobot;
 
     @Before

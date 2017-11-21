@@ -26,16 +26,8 @@ import org.testfx.robot.ScrollRobot;
 @Unstable
 public class ScrollRobotImpl implements ScrollRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final int SCROLL_ONE_UP_OR_LEFT = -1;
     private static final int SCROLL_ONE_DOWN_OR_RIGHT = 1;
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     public MouseRobot mouseRobot;
 

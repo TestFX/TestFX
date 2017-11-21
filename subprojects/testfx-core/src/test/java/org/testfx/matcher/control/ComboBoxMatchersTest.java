@@ -25,6 +25,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
@@ -35,12 +37,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ComboBoxMatchersTest extends FxRobot {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    public ComboBox<String> comboBox;
+    ComboBox<String> comboBox;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -68,7 +68,8 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void hasItems_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox has 3 items\n");
+        exception.expectMessage("Expected: ComboBox has 3 items\n     " +
+                "but: was 4");
 
         assertThat(comboBox, ComboBoxMatchers.hasItems(3));
     }
@@ -88,7 +89,8 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void hasSelection_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox has selection bob\n");
+        exception.expectMessage("Expected: ComboBox has selection bob\n     " +
+                "but: was alice");
 
         assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob"));
     }
@@ -108,7 +110,8 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void containsItems_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains items [alice, bob, eric]\n");
+        exception.expectMessage("Expected: ComboBox contains items [alice, bob, eric]\n" +
+                "     but: was [alice, bob, carol, dave]");
 
         assertThat(comboBox, ComboBoxMatchers.containsItems("alice", "bob", "eric"));
     }
@@ -126,7 +129,8 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void containsExactlyItems_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains exactly items [alice, bob, carol]\n");
+        exception.expectMessage("Expected: ComboBox contains exactly items [alice, bob, carol]\n" +
+                "     but: was [alice, bob, carol, dave]");
 
         // missing "dave", so should fail
         assertThat(comboBox, ComboBoxMatchers.containsExactlyItems("alice", "bob", "carol"));
@@ -145,7 +149,8 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void containsItemsInOrder_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains items in order [alice, carol, bob]\n");
+        exception.expectMessage("Expected: ComboBox contains items in order [alice, carol, bob]\n" +
+                "     but: was [alice, bob, carol, dave]");
 
         assertThat(comboBox, ComboBoxMatchers.containsItemsInOrder("alice", "carol", "bob"));
     }
@@ -161,7 +166,8 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void containsExactlyItemsInOrder_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains exactly items in order [bob, alice, dave, carol]\n");
+        exception.expectMessage("Expected: ComboBox contains exactly items in order [bob, alice, dave, carol]\n" +
+                "     but: was [alice, bob, carol, dave]");
 
         // not in correct order, should fail
         assertThat(comboBox, ComboBoxMatchers.containsExactlyItemsInOrder("bob", "alice", "dave", "carol"));

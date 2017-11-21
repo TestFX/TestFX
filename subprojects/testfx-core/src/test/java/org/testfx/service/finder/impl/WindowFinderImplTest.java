@@ -37,6 +37,7 @@ public class WindowFinderImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     static Stage window;
     static Stage windowInWindow;
     static Stage windowInWindowInWindow;

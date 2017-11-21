@@ -118,16 +118,17 @@ public final class DebugUtils {
      */
     @SafeVarargs
     public static Function<StringBuilder, StringBuilder> compose(Function<StringBuilder, StringBuilder>... functions) {
-        if (functions.length == 0) {
-            return Function.identity();
-        } else if (functions.length == 1) {
-            return functions[0];
-        } else {
-            return Arrays.stream(functions)
-                    // flip arguments so that functions will be run in the order
-                    // in which they appear in the given array
-                    .reduce((accumulated, nextFunction) -> nextFunction.compose(accumulated))
-                    .orElse(Function.identity());
+        switch (functions.length) {
+            case 0:
+                return Function.identity();
+            case 1:
+                return functions[0];
+            default:
+                return Arrays.stream(functions)
+                        // flip arguments so that functions will be run in the order
+                        // in which they appear in the given array
+                        .reduce((accumulated, nextFunction) -> nextFunction.compose(accumulated))
+                        .orElse(Function.identity());
         }
     }
 

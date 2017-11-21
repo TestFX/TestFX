@@ -27,10 +27,6 @@ import org.testfx.toolkit.ApplicationLauncher;
 @Unstable(reason = "needs more tests")
 public class ApplicationLauncherImpl implements ApplicationLauncher {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
     private static final String PROPERTY_JAVAFX_MACOSX_EMBEDDED = "javafx.macosx.embedded";
     private static final String PROPERTY_TESTFX_HEADLESS = "testfx.headless";
 
@@ -91,7 +87,7 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
     private void assignMonoclePlatform()
                                 throws Exception {
         Class<?> platformFactoryClass = Class.forName(PLATFORM_FACTORY);
-        Object platformFactoryImpl = Class.forName(MONOCLE_PLATFORM_FACTORY).newInstance();
+        Object platformFactoryImpl = Class.forName(MONOCLE_PLATFORM_FACTORY).getDeclaredConstructor().newInstance();
         assignPrivateStaticField(platformFactoryClass, "instance", platformFactoryImpl);
     }
 

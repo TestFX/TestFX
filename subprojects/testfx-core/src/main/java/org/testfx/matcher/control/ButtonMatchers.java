@@ -25,9 +25,11 @@ import org.hamcrest.Matcher;
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link Button}
+ * TestFX matchers for {@link Button} controls.
  */
 public class ButtonMatchers {
+
+    private ButtonMatchers() {}
 
     //---------------------------------------------------------------------------------------------
     // STATIC METHODS.
@@ -37,7 +39,7 @@ public class ButtonMatchers {
      * Creates a matcher that matches all {@link Button}s that are considered cancel buttons.
      */
     @Factory
-    public static Matcher<Node> isCancelButton() {
+    public static Matcher<Button> isCancelButton() {
         return typeSafeMatcher(Button.class, "is cancel button", Button::isCancelButton);
     }
 

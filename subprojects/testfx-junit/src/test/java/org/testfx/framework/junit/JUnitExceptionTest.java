@@ -28,6 +28,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
@@ -35,18 +37,14 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.fail;
 
-
 /**
  * This class tests exception handling of the GUI within the JUnit framework.
- *
  */
-public class JUnitExceptionTest  extends ApplicationTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+public class JUnitExceptionTest extends ApplicationTest {
 
     @Rule
-    public Timeout globalTimeout = Timeout.millis(10000);
-
+    public TestRule rule = RuleChain.outerRule(Timeout.millis(10000)).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
     @BeforeClass
     public static void setUpClass() {
@@ -83,7 +81,7 @@ public class JUnitExceptionTest  extends ApplicationTest {
         // time in checkException()
         // given:
         WaitForAsyncUtils.printException = false; // do not print expected exception to log
-        thrown.expectCause(instanceOf(UnsupportedOperationException.class));
+        exception.expectCause(instanceOf(UnsupportedOperationException.class));
         WaitForAsyncUtils.clearExceptions(); // just ensure no other test put an exception into the buffer
         try {
             clickOn("Throws Exception"); // does already handle all the async stuff...

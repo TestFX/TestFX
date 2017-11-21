@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,6 +41,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
@@ -52,10 +55,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TableViewMatchersTest extends FxRobot {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
+    public ExpectedException exception;
 
     TableView<Map> tableView;
     TableColumn<Map, String> tableColumn0;
@@ -105,20 +106,21 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     public void hasTableCell_customCellValueFactory() {
         // given:
-        tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setText(null);
-                } else {
-                    setText(item.toUpperCase(Locale.US).concat("!"));
+        Platform.runLater(() ->
+            tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.toUpperCase(Locale.US).concat("!"));
+                    }
                 }
-            }
-        });
+            }));
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
-        WaitForAsyncUtils.waitForFxEvents();
         assertThat(tableView, TableViewMatchers.hasTableCell("ALICE!"));
         assertThat(tableView, TableViewMatchers.hasTableCell("BOB!"));
     }
@@ -127,7 +129,9 @@ public class TableViewMatchersTest extends FxRobot {
     public void hasTableCell_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has table cell \"foobar\"\n");
+        exception.expectMessage("Expected: TableView has table cell \"foobar\"\n     " +
+                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]\n" +
+                "which does not contain a cell with the given value");
 
         assertThat(tableView, TableViewMatchers.hasTableCell("foobar"));
     }
@@ -135,23 +139,28 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     public void hasTableCell_fails_customCellValueFactory() {
         // given:
-        tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
+        Platform.runLater(() ->
+            tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
 
-                if (item == null || empty) {
-                    setText(null);
-                } else {
-                    setText(item.toUpperCase(Locale.US).concat("!"));
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.toUpperCase(Locale.US).concat("!"));
+                    }
                 }
-            }
-        });
+            }));
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
-        WaitForAsyncUtils.waitForFxEvents();
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has table cell \"ALICE!!!\"\n");
+        exception.expectMessage("Expected: TableView has table cell \"ALICE!!!\"\n     ");
+        // FIXME(mike): Currently the table is printed without applying the cell value factory
+        // once that is fixed, add these lines:
+        // "but: was [[ALICE!, 30], [BOB!, 31], [CAROL!, null], [DAVE!, null]]\n" +
+        // "which does not contain a cell with the given value");
         assertThat(tableView, TableViewMatchers.hasTableCell("ALICE!!!"));
     }
 
@@ -168,24 +177,28 @@ public class TableViewMatchersTest extends FxRobot {
     public void hasTableCell_with_null_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has table cell \"null\"\n");
+        // FIXME: This works but it is nonsensical - why can't we accept null?
+        exception.expectMessage("Expected: TableView has table cell \"null\"\n     " +
+                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]\n" +
+                "which does not contain a cell with the given value");
 
         assertThat(tableView, TableViewMatchers.hasTableCell(null));
     }
 
     @Test
-    public void hasItems() {
+    public void hasNumRows() {
         // expect:
-        assertThat(tableView, TableViewMatchers.hasItems(4));
+        assertThat(tableView, TableViewMatchers.hasNumRows(4));
     }
 
     @Test
-    public void hasItems_fails() {
+    public void hasNumRows_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has 0 items\n");
+        exception.expectMessage("Expected: TableView has 0 rows\n     " +
+                "but: was 4");
 
-        assertThat(tableView, TableViewMatchers.hasItems(0));
+        assertThat(tableView, TableViewMatchers.hasNumRows(0));
     }
 
     @Test
@@ -206,7 +219,8 @@ public class TableViewMatchersTest extends FxRobot {
         row4.put("name", "dave");
         row4.put("age", 55);
 
-        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+        Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
@@ -234,7 +248,8 @@ public class TableViewMatchersTest extends FxRobot {
         Map<String, Object> row4 = new HashMap<>(1);
         row4.put("name", "dave");
 
-        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+        Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
@@ -249,7 +264,8 @@ public class TableViewMatchersTest extends FxRobot {
     public void containsRowAtIndex_no_such_row_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has row: [jerry, 29]\n");
+        exception.expectMessage("Expected: TableView has row: [jerry, 29] at index 0\n     " +
+                "but: was [alice, 30]");
 
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "jerry", 29));
     }
@@ -258,16 +274,28 @@ public class TableViewMatchersTest extends FxRobot {
     public void containsRowAtIndex_out_of_bounds_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has row: [tom, 54]\n");
+        exception.expectMessage("Expected: TableView has row: [tom, 54] at index 4\n     " +
+                "but: was given out-of-bounds row index: 4 (table only has 4 rows)");
 
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(4, "tom", 54));
+    }
+
+    @Test
+    public void containsRowAtNegativeIndex_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TableView has row: [alice, 30] at index -1\n     " +
+                "but: was given negative row index");
+
+        assertThat(tableView, TableViewMatchers.containsRowAtIndex(-1, "alice", 30));
     }
 
     @Test
     public void containsRowAtIndex_wrong_types_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
+        exception.expectMessage("Expected: TableView has row: [63, deedee] at index 1\n     " +
+                "but: was [bob, 31]");
 
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee"));
     }
@@ -290,7 +318,8 @@ public class TableViewMatchersTest extends FxRobot {
         row4.put("name", "dave");
         row4.put("age", 55);
 
-        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+        Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
         assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
@@ -316,7 +345,8 @@ public class TableViewMatchersTest extends FxRobot {
         Map<String, Object> row4 = new HashMap<>(1);
         row4.put("name", "dave");
 
-        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+        Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
         assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
@@ -328,18 +358,54 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow_no_such_row_fails() {
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
+
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
+
+        Map<String, Object> row3 = new HashMap<>(1);
+        row3.put("name", "carol");
+
+        Map<String, Object> row4 = new HashMap<>(1);
+        row4.put("name", "dave");
+
+        Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
+        WaitForAsyncUtils.waitForFxEvents();
+
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has row: [jerry, 29]\n");
+        exception.expectMessage("Expected: TableView has row: [jerry, 29]\n     " +
+                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
 
         assertThat(tableView, TableViewMatchers.containsRow("jerry", 29));
     }
 
     @Test
     public void containsRow_wrong_types_fails() {
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
+
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
+
+        Map<String, Object> row3 = new HashMap<>(1);
+        row3.put("name", "carol");
+
+        Map<String, Object> row4 = new HashMap<>(1);
+        row4.put("name", "dave");
+
+        Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
+        WaitForAsyncUtils.waitForFxEvents();
+
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
+        exception.expectMessage("Expected: TableView has row: [63, deedee]\n     " +
+                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
 
         assertThat(tableView, TableViewMatchers.containsRow(63, "deedee"));
     }
