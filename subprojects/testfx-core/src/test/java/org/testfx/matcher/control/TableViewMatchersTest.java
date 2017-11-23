@@ -46,6 +46,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -93,6 +94,11 @@ public class TableViewMatchersTest extends FxRobot {
             return stackPane;
         });
         FxToolkit.showStage();
+    }
+
+    @Test
+    public void impossibleTest() {
+        assertThat(true, is(false));
     }
 
     @Test
