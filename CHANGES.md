@@ -1,10 +1,34 @@
 # Change Log
 
-## [4.0.8-alpha](https://github.com/testfx/testfx/tree/4.0.8-alpha) (2017-10-04)
-[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.7-alpha...4.0.8-alpha)
+## [4.0.9-alpha](https://github.com/testfx/testfx/tree/4.0.9-alpha) (2017-11-25)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.8-alpha...4.0.9-alpha)
 
 **Merged pull requests:**
 
+- \(chore\) Switch from findbugs to spotbugs. [\#463](https://github.com/TestFX/TestFX/pull/463) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Produce better descriptions of actual if mismatch. [\#461](https://github.com/TestFX/TestFX/pull/461) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Add module-info.java to testfx-core. [\#460](https://github.com/TestFX/TestFX/pull/460) ([brcolow](https://github.com/brcolow))
+- \(chore\) Try to fix codecov a different way. [\#459](https://github.com/TestFX/TestFX/pull/459) ([brcolow](https://github.com/brcolow))
+- \(chore\) Fix codecov paths for core project. [\#458](https://github.com/TestFX/TestFX/pull/458) ([brcolow](https://github.com/brcolow))
+- \(chore\) Utilize Travis CI log folding. [\#457](https://github.com/TestFX/TestFX/pull/457) ([brcolow](https://github.com/brcolow))
+- \(chore\) Update README. [\#456](https://github.com/TestFX/TestFX/pull/456) ([brcolow](https://github.com/brcolow))
+- \(chore\) Automatically upload snapshot docs via Travis. [\#455](https://github.com/TestFX/TestFX/pull/455) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump gradle 4.2.1 -\> 4.3.1. [\#454](https://github.com/TestFX/TestFX/pull/454) ([brcolow](https://github.com/brcolow))
+- \(chore\) Remove dependency on Guava. [\#453](https://github.com/TestFX/TestFX/pull/453) ([brcolow](https://github.com/brcolow))
+- \(fix\) Remove Findbugs annotations. [\#450](https://github.com/TestFX/TestFX/pull/450) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Issue \#441 - OSGi Headers in Manifest [\#446](https://github.com/TestFX/TestFX/pull/446) ([jtkb](https://github.com/jtkb))
+- \(chore\) Add Java 9 builds to Appveyor. [\#445](https://github.com/TestFX/TestFX/pull/445) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump gradle 4.1 =\> 4.2.1 [\#444](https://github.com/TestFX/TestFX/pull/444) ([brcolow](https://github.com/brcolow))
+- Propagate uncaught exceptions [\#440](https://github.com/TestFX/TestFX/pull/440) ([Ortner](https://github.com/Ortner))
+- \(chore\) Add Java 9 build for macOS to Travis. [\#439](https://github.com/TestFX/TestFX/pull/439) ([brcolow](https://github.com/brcolow))
+- Flaky test: org.testfx.cases.acceptance.FxAssertBasicTest \> button\_has\_label  [\#438](https://github.com/TestFX/TestFX/pull/438) ([Oliver-Loeffler](https://github.com/Oliver-Loeffler))
+
+## [v4.0.8-alpha](https://github.com/testfx/testfx/tree/v4.0.8-alpha) (2017-10-04)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.7-alpha...v4.0.8-alpha)
+
+**Merged pull requests:**
+
+- \(release\) TestFX 4.0.8-alpha [\#434](https://github.com/TestFX/TestFX/pull/434) ([brcolow](https://github.com/brcolow))
 - \[WIP\] \(refactor\) Use Java-version-independent adapter for internal API [\#429](https://github.com/TestFX/TestFX/pull/429) ([JordanMartinez](https://github.com/JordanMartinez))
 - \(chore\) Use template in gradle-license-plugin. [\#428](https://github.com/TestFX/TestFX/pull/428) ([brcolow](https://github.com/brcolow))
 - \(chore\) Remove Travis macOS "partial headless" build. [\#426](https://github.com/TestFX/TestFX/pull/426) ([brcolow](https://github.com/brcolow))
