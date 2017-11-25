@@ -15,15 +15,14 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// FindBugs is a defect detection tool for Java that uses static analysis to look for more than
-// 200 bug patterns, such as null pointer dereferences, infinite recursive loops, bad uses of
-// the Java libraries and deadlocks.
-// http://findbugs.sourceforge.net/
+// SpotBugs SpotBugs is the spiritual successor of FindBugs (a defect detection tool for Java that uses static
+// analysis to look for more than 200 bug patterns, such as null pointer dereferences, infinite recursive loops,
+// bad uses of the Java libraries and deadlocks).
+// https://spotbugs.github.io/
+apply plugin: "com.github.spotbugs"
 
-apply plugin: "findbugs"
-
-findbugs {
-    toolVersion = "3.0.1"
+spotbugs {
+    toolVersion = "3.1.0"
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/reports/findbugs")
@@ -31,14 +30,14 @@ findbugs {
     reportLevel = "high"
 }
 
-findbugsMain {
+spotbugsMain {
     reports {
         xml.enabled = false
         html.enabled = true
     }
 }
 
-findbugsTest {
+spotbugsTest {
     reports {
         xml.enabled = false
         html.enabled = true
