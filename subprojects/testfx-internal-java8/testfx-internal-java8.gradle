@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-ext.pomDescription = "TestFX Internal Java 8"
+ext.pomDescription = 'TestFX Internal Java 8'
 
 dependencies {
 }

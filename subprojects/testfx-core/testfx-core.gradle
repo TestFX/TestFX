@@ -14,8 +14,8 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
+ext.pomDescription = 'TestFX Core'
 ext.moduleName = 'org.testfx'
-
 
 repositories {
     jcenter()
