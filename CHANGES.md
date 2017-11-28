@@ -1,10 +1,19 @@
 # Change Log
 
-## [4.0.9-alpha](https://github.com/testfx/testfx/tree/4.0.9-alpha) (2017-11-25)
-[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.8-alpha...4.0.9-alpha)
+## [4.0.10-alpha](https://github.com/testfx/testfx/tree/4.0.10-alpha) (2017-11-27)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.9-alpha...4.0.10-alpha)
 
 **Merged pull requests:**
 
+- \(chore\) Update junit5 to 5.1.0-M1 [\#467](https://github.com/TestFX/TestFX/pull/467) ([brcolow](https://github.com/brcolow))
+- \(chore\) Fix coveralls badge URL. [\#465](https://github.com/TestFX/TestFX/pull/465) ([brcolow](https://github.com/brcolow))
+
+## [v4.0.9-alpha](https://github.com/testfx/testfx/tree/v4.0.9-alpha) (2017-11-25)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.8-alpha...v4.0.9-alpha)
+
+**Merged pull requests:**
+
+- \(release\) TestFX 4.0.9-alpha [\#464](https://github.com/TestFX/TestFX/pull/464) ([brcolow](https://github.com/brcolow))
 - \(chore\) Switch from findbugs to spotbugs. [\#463](https://github.com/TestFX/TestFX/pull/463) ([brcolow](https://github.com/brcolow))
 - \(enhancement\) Produce better descriptions of actual if mismatch. [\#461](https://github.com/TestFX/TestFX/pull/461) ([brcolow](https://github.com/brcolow))
 - \(enhancement\) Add module-info.java to testfx-core. [\#460](https://github.com/TestFX/TestFX/pull/460) ([brcolow](https://github.com/brcolow))
