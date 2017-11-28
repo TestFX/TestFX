@@ -133,7 +133,7 @@ Today, TestFX is used in all of the about 100 automated GUI tests in LoadUI ([vi
 
 ## Gitter
 
-Head over to our [gitter chat](testfx-discuss@googlegroups.com) for discussion and questions.
+Head over to our [gitter chat](https://gitter.im/TestFX/TestFX) for discussion and questions.
 
 
 ## Credits
