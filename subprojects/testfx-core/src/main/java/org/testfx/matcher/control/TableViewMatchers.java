@@ -56,8 +56,7 @@ public class TableViewMatchers {
     @Factory
     public static Matcher<TableView> hasTableCell(Object value) {
         String descriptionText = "has table cell \"" + value + "\"";
-        return typeSafeMatcher(TableView.class, descriptionText,
-            tableView -> toText(tableView) + "\nwhich does not contain a cell with the given value",
+        return typeSafeMatcher(TableView.class, descriptionText, TableViewMatchers::toText,
             tableView -> hasTableCell(tableView, value));
     }
 
@@ -82,13 +81,14 @@ public class TableViewMatchers {
     public static Matcher<TableView> hasNumRows(int rows) {
         String descriptionText = "has " + rows + " rows";
         return typeSafeMatcher(TableView.class, descriptionText,
-            tableView -> String.valueOf(tableView.getItems().size()),
+            tableView -> "contained " + (tableView.getItems().isEmpty() ? "no" : String.valueOf(
+                    tableView.getItems().size()) + ' ' + (tableView.getItems().size() == 1 ? "row" : "rows")),
             tableView -> tableView.getItems().size() == rows);
     }
 
     /**
      * Creates a matcher that matches all {@link TableView}s that have a row at the given {@code index} that
-     * contains the given calues for each column of a {@code TableView}.
+     * contains the given values for each column of a {@code TableView}.
      * <p>
      * For example, given a {@code TableView} that has three columns:
      * <pre>{@code
@@ -117,12 +117,12 @@ public class TableViewMatchers {
         return typeSafeMatcher(TableView.class, descriptionText,
             tableView -> {
                 if (rowIndex < 0) {
-                    return "given negative row index";
+                    return "given negative row index: " + rowIndex;
                 } else if (rowIndex >= tableView.getItems().size()) {
                     return "given out-of-bounds row index: " + rowIndex +
                             " (table only has " + tableView.getItems().size() + " rows)";
                 } else {
-                    return toText(tableView, rowIndex);
+                    return toText(tableView, rowIndex) + " at index: " + rowIndex;
                 }
             },
             tableView -> containsRowAtIndex(tableView, rowIndex, cells));

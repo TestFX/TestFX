@@ -56,7 +56,10 @@ public class ColorMatchersTest extends FxRobot {
     @Test
     public void isColor_colorMatcher_fails() {
         // expect:
-        assertThat(Color.color(0.5, 0, 0), ColorMatchers.isColor(Color.RED, new PixelMatcherRgb(0.5, 0)));
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Color has color \"RED\" (#ff0000)\n     ");
+
+        assertThat(Color.color(0.5, 0, 0), ColorMatchers.isColor(Color.RED, new PixelMatcherRgb(0.01, 0)));
     }
 
     @Test

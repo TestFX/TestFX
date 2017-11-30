@@ -16,12 +16,13 @@ TestFX requires a minimum JDK version of 8 (1.8).
 - A fluent and clean API.
 - Flexible setup and cleanup of JavaFX test fixtures.
 - Simple robots to simulate user interactions.
-- Rich collection of matchers to verify expected states of JavaFX widgets.
+- Rich collection of matchers and assertions to verify expected states of JavaFX scene-graph nodes.
 
 **Support for:**
 
-- Java 8 features and JavaFX 8 controls.
-- Multiple testing frameworks ([Junit 4](http://junit.org/junit4/), [Junit 5](http://junit.org/junit5/), and [Spock](http://spockframework.org/)) with Hamcrest matchers.
+- Java 8 and 9.
+- Multiple testing frameworks ([Junit 4](http://junit.org/junit4/), [Junit 5](http://junit.org/junit5/), and [Spock](http://spockframework.org/)).
+- [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](http://joel-costigliola.github.io/assertj/) assertions (or both!).
 - Screenshots of failed tests.
 - Headless testing using [Monocle](https://github.com/TestFX/Monocle).
 
@@ -115,13 +116,18 @@ To use TestFX with Java 9 the `testfx-core` dependency must be tweaked by exclud
 There are plans to make this easier in a future version of TestFX, perhaps
 by utilizing multi-release JARs.
 
-## Example (JUnit 4)
+## Example: JUnit 4 with Hamcrest Matchers
 
 ```java
 public class DesktopPaneTest extends ApplicationTest {
+
+    DesktopPane desktopPane;
+
     @Override
     public void start(Stage stage) {
-        Scene scene = new Scene(new DesktopPane(), 800, 600);
+        desktopPane = new DesktopPane();
+        desktopPane.setId("desktop");
+        Scene scene = new Scene(desktopPane, 800, 600);
         stage.setScene(scene);
         stage.show();
     }
@@ -130,7 +136,7 @@ public class DesktopPaneTest extends ApplicationTest {
     public void should_drag_file_into_trashcan() {
         // given:
         rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
-        write("myTextfile.txt").push(ENTER);
+        write("myTextfile.txt").push(KeyCode.ENTER);
 
         // when:
         drag(".file").dropTo("#trash-can");
@@ -141,7 +147,44 @@ public class DesktopPaneTest extends ApplicationTest {
 }
 ```
 
-### Example (JUnit 5)
+## Example: JUnit 4 with AssertJ Assertions
+
+```java
+import static org.testfx.assertions.api.Assertions.assertThat;
+
+public class DesktopPaneTest extends ApplicationTest {
+
+    DesktopPane desktopPane;
+
+    @Override
+    public void start(Stage stage) {
+        desktopPane = new DesktopPane();
+        desktopPane.setId("desktop");
+        Scene scene = new Scene(desktopPane, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @Test
+    public void should_drag_file_into_trashcan() {
+        // given:
+        rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
+        write("myTextfile.txt").push(KeyCode.ENTER);
+
+        // when:
+        drag(".file").dropTo("#trash-can");
+
+        // then:
+        assertThat(desktopPane).hasChildren(0, ".file");
+        // or (lookup by css id):
+        assertThat(lookup("#desktop").queryAs(DesktopPane.class)).hasChildren(0, ".file");
+        // or (look up css class):
+        assertThat(lookup(".desktop-pane").queryAs(DesktopPane.class)).hasChildren(0, ".file");
+    }
+}
+```
+
+## Example: JUnit 5 with Hamcrest Matchers
 
 ```java
 @ExtendWith(ApplicationExtension.class)
@@ -172,7 +215,55 @@ class ClickableButtonTest {
 }
 ```
 
-## Example (Spock)
+## Example: JUnit 5 with AssertJ Assertions
+
+```java
+import static org.testfx.assertions.api.Assertions.assertThat;
+
+@ExtendWith(ApplicationExtension.class)
+class ClickableButtonTest {
+
+    Button button;
+
+    @Start
+    void onStart(Stage stage) {
+        button = new Button("click me!");
+        button.setId("myButton");
+        button.setOnAction(actionEvent -> button.setText("clicked!"));
+        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        stage.show();
+    }
+
+    @Test
+    void should_contain_button() {
+        // expect:
+        assertThat(button).hasText("click me!");
+        // or (lookup by css id):
+        assertThat(lookup("#myButton").queryAs(Button.class)).hasText("click me!");
+        // or (lookup by css class):
+        assertThat(lookup(".button").queryAs(Button.class)).hasText("click me!");
+        // or (query specific type):
+        assertThat(lookup(".button").queryButton()).hasText("click me!');
+    }
+
+    @Test
+    void should_click_on_button(FxRobot robot) {
+        // when:
+        robot.clickOn(".button");
+
+        // then:
+        assertThat(button).hasText("clicked!");
+        // or (lookup by css id):
+        assertThat(lookup("#myButton").queryAs(Button.class)).hasText("clicked!");
+        // or (lookup by css class):
+        assertThat(lookup(".button").queryAs(Button.class)).hasText("clicked!");
+        // or (query specific type)
+        assertThat(lookup(".button").queryButton()).hasText("clicked!");
+    }
+}
+```
+
+## Example: Spock with Hamcrest Matchers
 
 ```java
 class ClickableButtonSpec extends ApplicationSpec {

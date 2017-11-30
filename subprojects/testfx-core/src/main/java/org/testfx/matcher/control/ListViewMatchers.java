@@ -61,7 +61,7 @@ public class ListViewMatchers {
      */
     @Factory
     public static Matcher<ListView> hasItems(int amount) {
-        String descriptionText = "has " + amount + " items";
+        String descriptionText = "has exactly " + amount + ' ' + (amount == 1 ? "item" : "items");
         return typeSafeMatcher(ListView.class, descriptionText,
             listView -> String.valueOf(listView.getItems().size()),
             listView -> listView.getItems().size() == amount);
@@ -73,9 +73,9 @@ public class ListViewMatchers {
      */
     @Factory
     public static Matcher<ListView> isEmpty() {
-        String descriptionText = "is empty (contains 0 (zero) items)";
+        String descriptionText = "is empty (contains no items)";
         return typeSafeMatcher(ListView.class, descriptionText,
-            listView -> "contains " + listView.getItems().size() + " items",
+            listView -> listView.getItems().size() == 0 ? "empty" : "contains " + listView.getItems().size() + " items",
             listView -> listView.getItems().isEmpty());
     }
 

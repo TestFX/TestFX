@@ -49,6 +49,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -58,7 +59,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeThat;
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.base.NodeMatchers.hasText;
 
 public class JavafxRobotAdapterTest {
 
@@ -130,7 +130,7 @@ public class JavafxRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(textField, hasText(String.valueOf(glyphs)));
+        verifyThat(textField, TextInputControlMatchers.hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class JavafxRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(textField, hasText(String.valueOf(glyphs)));
+        verifyThat(textField, TextInputControlMatchers.hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -166,7 +166,7 @@ public class JavafxRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(textField, hasText(String.valueOf(glyphs)));
+        verifyThat(textField, TextInputControlMatchers.hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class JavafxRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(textField, hasText(String.valueOf(glyphs)));
+        verifyThat(textField, TextInputControlMatchers.hasText(String.valueOf(glyphs)));
     }
 
     @Test
@@ -206,7 +206,7 @@ public class JavafxRobotAdapterTest {
         typeText(text);
 
         // then:
-        verifyThat(textArea, hasText(text));
+        verifyThat(textArea, TextInputControlMatchers.hasText(text));
     }
 
     @Test
@@ -227,7 +227,7 @@ public class JavafxRobotAdapterTest {
         typeText(text);
 
         // then:
-        verifyThat(textArea, hasText(text));
+        verifyThat(textArea, TextInputControlMatchers.hasText(text));
     }
 
     @Test
@@ -247,7 +247,7 @@ public class JavafxRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(textField, hasText(String.valueOf(LATIN_EXTENDED_A_GLYPHS) +
+        verifyThat(textField, TextInputControlMatchers.hasText(String.valueOf(LATIN_EXTENDED_A_GLYPHS) +
                 String.valueOf(LATIN_EXTENDED_A_GLYPHS)));
     }
 

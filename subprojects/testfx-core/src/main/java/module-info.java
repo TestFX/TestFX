@@ -17,6 +17,7 @@
 module org.testfx {
     exports org.testfx.api;
     exports org.testfx.api.annotation;
+    exports org.testfx.assertions.api;
     exports org.testfx.matcher.base;
     exports org.testfx.matcher.control;
     exports org.testfx.service.adapter;
@@ -38,4 +39,5 @@ module org.testfx {
     requires javafx.web;
     requires hamcrest.core;
     requires org.testfx.internal;
+    requires assertj.core;
 }

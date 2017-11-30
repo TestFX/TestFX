@@ -17,7 +17,7 @@
 package org.testfx.cases.acceptance
 
 import static org.testfx.api.FxAssert.verifyThat
-import static org.testfx.matcher.base.NodeMatchers.hasText
+import static org.testfx.matcher.control.LabeledMatchers.hasText
 
 import javafx.scene.Scene
 import javafx.scene.control.Button

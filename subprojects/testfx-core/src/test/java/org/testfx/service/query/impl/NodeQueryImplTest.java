@@ -24,7 +24,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 import org.junit.Before;
@@ -53,17 +52,12 @@ public class NodeQueryImplTest {
     Scene scene;
 
     @FXML Pane labels;
-    @FXML Pane buttons;
-    @FXML Pane textfields;
     @FXML Label label0;
     @FXML Label label1;
     @FXML Label label2;
     @FXML Button button0;
     @FXML Button button1;
     @FXML Button button2;
-    @FXML TextField textfield0;
-    @FXML TextField textfield1;
-    @FXML TextField textfield2;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -88,7 +82,7 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void queryFirst() {
+    public void query() {
         // when:
         Node result = nodeQuery
             .from(label0, label1, label2)
@@ -99,7 +93,7 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void queryFirst_is_null() {
+    public void query_null() {
         // when:
         Node result = nodeQuery
             .query();
@@ -109,7 +103,7 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void tryQueryFirst() {
+    public void tryQuery() {
         // when:
         Optional<Node> result = nodeQuery
             .from(label0, label1, label2)
@@ -120,7 +114,7 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void tryQueryFirst_is_absent() {
+    public void tryQueryFirst_absent() {
         // when:
         Optional<Node> result = nodeQuery
             .tryQuery();
@@ -148,6 +142,17 @@ public class NodeQueryImplTest {
 
         // then:
         assertThat(result.isEmpty(), is(true));
+    }
+
+    @Test
+    public void queryAllAs() {
+        // when:
+        Set<Label> result = nodeQuery
+                .from(label0, label1, label2)
+                .queryAllAs(Label.class);
+
+        // then:
+        assertThat(result, hasItems(label0, label1, label2));
     }
 
     @Test
@@ -284,7 +289,7 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void lookup_selectAt_lookup_selectAt_with_indizes_out_of_bounds() {
+    public void lookup_selectAt_lookup_selectAt_with_indices_out_of_bounds() {
         // when:
         Set<Node> result = nodeQuery
             .from(rootOfScene(scene))

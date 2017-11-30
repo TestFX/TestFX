@@ -28,15 +28,17 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
  * TestFX matchers for {@link ComboBox} controls.
- * <p>
+ *
  * <h4>Example</h4>
- * <p>
+ *
  * The following code:
+ *
  * <pre>{@code
  *   ComboBox<String> fruits = new ComboBox<>();
  *   fruits.getItems().addAll("Apple", "Banana", "Cherry");
  *   assertThat(fruits, ComboBoxMatchers.containsExactlyItemsInOrder("Apple", "Banana", "Cherry"));
  * }</pre>
+ *
  * will verify that {@code fruits} contains exactly (only) the {@code String}'s
  * "Apple", "Banana", and "Cherry" in order.
  */
@@ -52,7 +54,7 @@ public class ComboBoxMatchers {
      */
     @Factory
     public static Matcher<ComboBox> hasItems(int amount) {
-        String descriptionText = "has " + amount + " items";
+        String descriptionText = "has exactly " + amount + " items";
         return typeSafeMatcher(ComboBox.class, descriptionText,
             comboBox -> String.valueOf(comboBox.getItems().size()),
             comboBox -> comboBox.getItems().size() == amount);
@@ -66,9 +68,9 @@ public class ComboBoxMatchers {
      */
     @Factory
     public static <T> Matcher<ComboBox> hasSelectedItem(T selection) {
-        String descriptionText = "has selection " + selection;
+        String descriptionText = String.format("has selection \"%s\"", selection);
         return typeSafeMatcher(ComboBox.class, descriptionText,
-            comboBox -> comboBox.getSelectionModel().getSelectedItem().toString(),
+            comboBox -> "\"" + comboBox.getSelectionModel().getSelectedItem().toString() + "\"",
             comboBox -> hasSelectedItem(comboBox, selection));
     }
 

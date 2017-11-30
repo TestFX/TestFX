@@ -46,7 +46,7 @@ public class WindowMatchersTest extends FxRobot {
     }
 
     @Test
-    public void windowIsNotShowing() throws Exception {
+    public void isNotShowing() throws Exception {
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
 
         // expect:
@@ -54,7 +54,7 @@ public class WindowMatchersTest extends FxRobot {
     }
 
     @Test
-    public void windowIsNotFocused() throws Exception {
+    public void isNotFocused() throws Exception {
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
 
         // expect:
@@ -62,7 +62,7 @@ public class WindowMatchersTest extends FxRobot {
     }
 
     @Test
-    public void windowIsShowing() throws Exception {
+    public void isShowing() throws Exception {
         Window window = FxToolkit.setupFixture(() -> {
             Stage stage = new Stage();
             stage.show();
@@ -83,7 +83,7 @@ public class WindowMatchersTest extends FxRobot {
 
     @Test
     @Ignore("See https://github.com/TestFX/TestFX/pull/284 for details")
-    public void windowIsFocused() throws Exception {
+    public void isFocused() throws Exception {
         Window window = FxToolkit.setupFixture(() -> {
             Stage stage = new Stage();
             stage.show();
