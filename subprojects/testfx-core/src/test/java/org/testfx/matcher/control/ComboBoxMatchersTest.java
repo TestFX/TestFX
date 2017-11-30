@@ -68,29 +68,32 @@ public class ComboBoxMatchersTest extends FxRobot {
     public void hasItems_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox has 3 items\n     " +
+        exception.expectMessage("Expected: ComboBox has exactly 3 items\n     " +
                 "but: was 4");
 
         assertThat(comboBox, ComboBoxMatchers.hasItems(3));
     }
 
     @Test
-    public void hasSelection() {
+    public void hasSelectedItem() {
+        // given:
         assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("alice"));
 
+        // when:
         clickOn(".combo-box-base");
         type(KeyCode.DOWN);
         type(KeyCode.ENTER);
 
+        // then:
         assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob"));
     }
 
     @Test
-    public void hasSelection_fails() {
+    public void hasSelectedItem_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox has selection bob\n     " +
-                "but: was alice");
+        exception.expectMessage("Expected: ComboBox has selection \"bob\"\n     " +
+                "but: was \"alice\"");
 
         assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob"));
     }

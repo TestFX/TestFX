@@ -25,7 +25,17 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import org.hamcrest.Matcher;
 
@@ -123,6 +133,60 @@ public class NodeQueryImpl implements NodeQuery {
     }
 
     @Override
+    public Button queryButton() {
+        return (Button) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> ComboBox<T> queryComboBox() {
+        return (ComboBox<T>) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public Labeled queryLabeled() {
+        return (Labeled) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> ListView<T> queryListView() {
+        return (ListView<T>) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public Parent queryParent() {
+        return (Parent) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> TableView<T> queryTableView() {
+        return (TableView<T>) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public Text queryText() {
+        return (Text) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public TextFlow queryTextFlow() {
+        return (TextFlow) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public TextInputControl queryTextInputControl() {
+        return (TextInputControl) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Node> T queryAs(Class<T> clazz) {
+        return (T) parentNodes.stream().findFirst().orElse(null);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> Optional<T> tryQuery() {
         return (Optional<T>) parentNodes.stream().findFirst();
@@ -130,7 +194,19 @@ public class NodeQueryImpl implements NodeQuery {
 
     @Override
     @SuppressWarnings("unchecked")
+    public <T extends Node> Optional<T> tryQueryAs(Class<T> clazz) {
+        return (Optional<T>) parentNodes.stream().findFirst();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public <T extends Node> Set<T> queryAll() {
+        return (Set<T>) new LinkedHashSet<>(parentNodes);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends Node> Set<T> queryAllAs(Class<T> clazz) {
         return (Set<T>) new LinkedHashSet<>(parentNodes);
     }
 

@@ -16,6 +16,10 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.stream.Collectors;
+
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import org.hamcrest.Factory;
@@ -37,8 +41,9 @@ public class ParentMatchers {
      */
     @Factory
     public static Matcher<Parent> hasChild() {
-        String descriptionText = "has child";
+        String descriptionText = "has at least one child";
         return typeSafeMatcher(Parent.class, descriptionText,
+            parent -> toText(parent.getChildrenUnmodifiable()),
             parent -> !parent.getChildrenUnmodifiable().isEmpty());
     }
 
@@ -47,9 +52,20 @@ public class ParentMatchers {
      */
     @Factory
     public static Matcher<Parent> hasChildren(int amount) {
-        String descriptionText = "has " + amount + " children";
+        String descriptionText = "has exactly " + amount + " children";
         return typeSafeMatcher(Parent.class, descriptionText,
+            parent -> toText(parent.getChildrenUnmodifiable()),
             parent -> parent.getChildrenUnmodifiable().size() == amount);
+    }
+
+    private static String toText(ObservableList<Node> children) {
+        if (children.isEmpty()) {
+            return "empty (contained no children)";
+        } else {
+            return '[' + children.stream().map(node -> node.getClass().getSimpleName())
+                    .collect(Collectors.joining(", ")) + ']' +
+                    " (which has " + children.size() + ' ' + (children.size() == 1 ? "child" : "children") + ')';
+        }
     }
 
 }

@@ -40,32 +40,33 @@ import org.hamcrest.Matcher;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxService;
 import org.testfx.api.FxToolkit;
+import org.testfx.api.annotation.Unstable;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.FiredEvents;
 
 /**
- * Utility class for displaying additional info, running code, or capturing an image of the test when
+ * Utility class for displaying additional info, running code, or capturing an image of a test whenever
  * a test fails using {@link org.testfx.api.FxAssert#verifyThat(Node, Matcher)} or its related methods.
- *
  * <p>
- *     Quickly chain things together using {@link #compose(Function[])} or use standard handlers like
- *     {@link #informedErrorMessage(String, boolean, boolean, FxRobot, boolean, boolean)}.
- *     Any {@code indent} parameters in methods are there to specify what to insert to offset values.
- *     Default indent value is three spaces (e.g. {@code "   "}).
- * </p>
+ * It is possible to create completely customized error messages by chaining functions together using
+ * {@link #compose(Function[])} or one can use the standard provided handlers such as
+ * {@link #informedErrorMessage(FxRobot)}, {@link #informedErrorMessage(FxRobot, String)}, etc.
+ * All {@code indent} parameters in methods are used to specify the spacing to insert in order to
+ * offset values. The default indent value is three spaces (e.g. {@code "   "}).
  * <p>
- *     When a test fails, an image of the test can be captured and saved to a PNG file. Supports a number
- *     of image sizes: a screenshot, a window, an area of the screen (i.e. bounds), or an individual node.
- *     Use the convenience methods prefixed by "save" (e.g. {@link #saveScreenshot(String)}) to quickly capture
- *     and save images. The image path will be outputted using {@link #insertContent(String, Object)} and
- *     will appear in the error's message.
- *     For your own custom-built handler, use {@link #saveTestImage(Function, Supplier, String)}, one of the
- *     "capture"-prefixed methods, and your own {@code Supplier<Path>}.
- * </p>
+ * When a test fails, an image of the screen at the time of failure can be captured and saved to a PNG file.
+ * {@code DebugUtils} provides support for a number of image sizes: the full screen, a window, an area of the
+ * screen (i.e. bounds), or an individual node. Use the convenience methods prefixed by "save" (e.g.
+ * {@link #saveScreenshot(String)}) to capture and save images. The image path will be printed using
+ * {@link #insertContent(String, Object)} and will appear in the error message. For your own custom handler, use
+ * {@link #saveTestImage(Function, Supplier, String)}, one of the "capture"-prefixed methods, and a
+ * {@code Supplier<Path>} that determines where to save the image to.
  * <p>
- *     This class follows the given philosophy in how to add additional information to the {@link AssertionError}'s
- *     message:
- * <pre><code>
+ * This class uses the concept of combining functions together in order to add additional information
+ * to the error message of an {@link AssertionError} thrown by a failing test.
+ * <p>
+ * Example:
+ * <pre>{@code
  * // Template:
  * compose(
  *      // insert a header for the section of error information
@@ -80,8 +81,7 @@ import org.testfx.service.support.FiredEvents;
  *      insertHeader(headerText),
  *      // insert the specific content that falls under this header
  *      insertContent(contentHeading5, contentStream2),
- *      insertContent(contentHeading6, contentStream3),
- * );
+ *      insertContent(contentHeading6, contentStream3));
  *
  * // Example:
  * compose(
@@ -89,30 +89,30 @@ import org.testfx.service.support.FiredEvents;
  *      showKeysPressedAtTestFailure(this),
  *      showMouseButtonsPressedAtTestFailure(this),
  *      showFiredEvents(),
- *      saveScreenshot()
- * );
+ *      saveScreenshot());
  *
- * // The above example can be done using one method:
+ * // is equivalent to:
+ *
  * informedErrorMessage(this);
- * </code></pre>
- * </p>
+ *
+ * // as it uses all of the default arguments.
+ * }</pre>
  */
+@Unstable(reason = "class was recently added")
 public final class DebugUtils {
 
-    // 3 spaces easier to read the list of fired events
-    // on Travis CI's console when error message is thrown
+    /**
+     * The default indentation to use for spacing between items of the error messages, defaults to
+     * three spaces.
+     */
     private static final String DEFAULT_INDENT = "   ";
     private static final AtomicInteger DEFAULT_PHOTO_NUMBER = new AtomicInteger(0);
 
     private DebugUtils() {}
 
-    //---------------------------------------------------------------------------------------------
-    // COMPOSITION AND CREATION SUPPORT.
-    //---------------------------------------------------------------------------------------------
-
     /**
-     * Composes multiple functions together into one. The ones to run first should be the first in the array,
-     * and the ones to run last should be at the end of the array.
+     * Composes multiple functions together into one. The functions are called in the order that they appear
+     * in the array. That is, {@code functions[0]} is run first, {@code functions[1]} is run second, etc.
      */
     @SafeVarargs
     public static Function<StringBuilder, StringBuilder> compose(Function<StringBuilder, StringBuilder>... functions) {
@@ -131,7 +131,7 @@ public final class DebugUtils {
     }
 
     /**
-     * Ignores the StringBuilder and runs the given code block
+     * Ignores the given {@code StringBuilder} and just runs the given code block.
      */
     public static Function<StringBuilder, StringBuilder> runCode(Runnable runnable) {
         return sb -> {
@@ -141,88 +141,108 @@ public final class DebugUtils {
     }
 
     /**
-     * Inserts a header on a newline; useful for specifying a section in the message
+     * Inserts a header on a newline followed by the default indent; useful for specifying a section
+     * in the error message.
      */
     public static Function<StringBuilder, StringBuilder> insertHeader(String headerText) {
         return insertHeader(headerText, DEFAULT_INDENT);
     }
 
+    /**
+     * Inserts a header on a newline followed by the given {@code indent}; useful for specifying a
+     * section in the error message.
+     */
     public static Function<StringBuilder, StringBuilder> insertHeader(String headerText, String indent) {
         return sb -> sb.append("\n\n").append(indent).append(headerText);
     }
 
     /**
-     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
-     * Then, inserts a newline followed by three indents followed by the content itself.
+     * Inserts the heading on a newline followed by two default indents followed by the given {@code contentHeading}.
+     * Then, inserts a newline followed by three default indents followed by the content itself.
      */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object content) {
         return insertContent(contentHeading, content, DEFAULT_INDENT);
     }
 
+    /**
+     * Inserts the heading on a newline followed by two of the given {@code indents} followed by the given
+     * {@code contentHeading}. Then, inserts a newline followed by three of the given {@code indents} followed
+     * by the content itself.
+     */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object content,
                                                                        String indent) {
-        return sb -> sb
-                .append("\n").append(indent).append(indent).append(contentHeading)
-                .append("\n").append(indent).append(indent).append(indent).append(content);
-
+        return sb -> sb.append("\n").append(indent).append(indent)
+                .append(contentHeading).append("\n")
+                .append(indent).append(indent).append(indent)
+                .append(content);
     }
 
     /**
-     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
-     * Then, for each item in the list, inserts a newline followed by three indents followed by the list item itself.
+     * Inserts the heading on a newline followed by two default indents followed by the given {@code contentHeading}.
+     * Then, for each item in the given iterable, inserts a newline followed by three default indents followed by the
+     * list item itself.
      */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Iterable<?> contentIter) {
         return insertContent(contentHeading, contentIter, DEFAULT_INDENT);
     }
 
+    /**
+     * Inserts the heading on a newline followed by two of the given {@code indents} followed by the given
+     * {@code contentHeading}. Then, for each item in the given iterable, inserts a newline followed by three of
+     * the given indents followed by the list item itself.
+     */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Iterable<?> contentIter,
                                                                        String indent) {
         return sb -> {
-            sb
-                    .append("\n").append(indent).append(indent).append(contentHeading);
-            contentIter.forEach(content -> sb
-                    .append("\n").append(indent).append(indent).append(indent).append(content)
-            );
+            sb.append("\n").append(indent).append(indent).append(contentHeading);
+            contentIter.forEach(content ->
+                sb.append("\n").append(indent).append(indent).append(indent).append(content));
             return sb;
         };
     }
 
     /**
-     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
-     * Then, for each item in the array, inserts a newline followed by three indents followed by the array item itself.
+     * Inserts the heading on a newline followed by two default indents followed by the given {@code contentHeading}.
+     * Then, for each item in the given array, inserts a newline followed by three default indents followed by the
+     * array item itself.
      */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object[] contentArray) {
         return insertContent(contentHeading, contentArray, DEFAULT_INDENT);
     }
 
+    /**
+     * Inserts the heading on a newline followed by two of the given indents followed by the given
+     * {@code contentHeading}. Then, for each item in the given array, inserts a newline followed by three of the
+     * given indents followed by the array item itself.
+     */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Object[] contentArray,
                                                                        String indent) {
         return insertContent(contentHeading, Stream.of(contentArray), indent);
     }
 
     /**
-     * Inserts the heading on a newline followed by two indents followed by the contentHeading.
-     * Then, for each item in the stream, inserts a newline followed by three indents followed by the next item itself.
+     * Inserts the heading on a newline followed by two default indents followed by the given {@code contentHeading}.
+     * Then, for each item in the given stream, inserts a newline followed by three default indents followed by the
+     * item itself.
      */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Stream<?> contentStream) {
         return insertContent(contentHeading, contentStream, DEFAULT_INDENT);
     }
 
+    /**
+     * Inserts the heading on a newline followed by two of the given indents followed by the given
+     * {@code contentHeading}. Then, for each item in the given stream, inserts a newline followed by three of
+     * the given indents followed by the item itself.
+     */
     public static Function<StringBuilder, StringBuilder> insertContent(String contentHeading, Stream<?> contentStream,
                                                                        String indent) {
         return sb -> {
-            sb
-                .append("\n").append(indent).append(indent).append(contentHeading);
-            contentStream.forEach(content -> sb
-                .append("\n").append(indent).append(indent).append(indent).append(content)
-            );
+            sb.append("\n").append(indent).append(indent).append(contentHeading);
+            contentStream.forEach(content ->
+                sb.append("\n").append(indent).append(indent).append(indent).append(content));
             return sb;
         };
     }
-
-    //---------------------------------------------------------------------------------------------
-    // ERROR MESSAGE SUPPORT.
-    //---------------------------------------------------------------------------------------------
 
     /**
      * Via {@link #insertContent(String, Object)}: shows the keys that were pressed when the test failed.
@@ -258,7 +278,7 @@ public final class DebugUtils {
 
     /**
      * Via {@link #insertContent(String, Object)}: shows all events that were fired since the start of the test.
-     * Note: only events stored in {@link org.testfx.api.FxToolkitContext#getFiredEvents()} will be shown
+     * Note: only events stored in {@link org.testfx.api.FxToolkitContext#getFiredEvents()} will be shown.
      */
     public static Function<StringBuilder, StringBuilder> showFiredEvents() {
         return showFiredEvents(DEFAULT_INDENT);
@@ -290,10 +310,6 @@ public final class DebugUtils {
         return insertContent("Fired events since test began:", events, indent);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // CAPTURE SUPPORT.
-    //---------------------------------------------------------------------------------------------
-
     public static Function<CaptureSupport, Image> captureScreenshot() {
         return captureScreenshot(Screen.getPrimary());
     }
@@ -307,7 +323,7 @@ public final class DebugUtils {
     }
 
     /**
-     * Captures the registered stage
+     * Captures the registered stage.
      */
     public static Function<CaptureSupport, Image> captureWindow() {
         return captureWindow(FxToolkit.toolkitContext().getRegisteredStage());
@@ -433,7 +449,7 @@ public final class DebugUtils {
     }
 
     /**
-     * Saves the captured registered stage to the supplied path
+     * Saves the captured registered stage to the supplied path.
      */
     public static Function<StringBuilder, StringBuilder> saveWindow(Supplier<Path> capturedImagePath, String indent) {
         return saveWindow(FxToolkit.toolkitContext().getRegisteredStage(), capturedImagePath, indent);
@@ -448,7 +464,7 @@ public final class DebugUtils {
     }
 
     /**
-     * Saves the captured window to the supplied path
+     * Saves the captured window to the supplied path.
      */
     public static Function<StringBuilder, StringBuilder> saveWindow(Window window, Supplier<Path> capturedImagePath,
                                                                     String indent) {
@@ -544,10 +560,6 @@ public final class DebugUtils {
         };
     }
 
-    //---------------------------------------------------------------------------------------------
-    // DEFAULT ERROR HANDLER METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Convenience method for {@link #informedErrorMessage(String, boolean, boolean, FxRobot, boolean, boolean)}
      * with all booleans set to {@code true} and the header text set to {@code "Context:"}.
@@ -594,10 +606,6 @@ public final class DebugUtils {
         }
         return function;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private static Rectangle2D mapToRect2D(Bounds bounds) {
         return new Rectangle2D(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());

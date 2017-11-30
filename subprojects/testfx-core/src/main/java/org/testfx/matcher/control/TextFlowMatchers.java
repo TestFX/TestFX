@@ -59,7 +59,7 @@ public class TextFlowMatchers {
     /**
      * Allows one to verify both the content and color of the text that makes
      * up a TextFlow. The color is matched by using the closest named color,
-     * as described further on.
+     * as described below.
      * <p>
      * Colors are specified using the following markup:
      * <pre>{@code <COLOR>text</COLOR>}</pre>
@@ -93,8 +93,7 @@ public class TextFlowMatchers {
 
     /**
      * Allows one to verify both the content and color of the text that makes
-     * up a TextFlow. The color is matched in an exact way, as described fruther
-     * on.
+     * up a TextFlow. The color is matched in an exact way, as described below.
      * <p>
      * Colors are specified using the following markup:
      * <pre>{@code <COLOR>text</COLOR>}</pre>
@@ -102,7 +101,7 @@ public class TextFlowMatchers {
      * Where {@literal COLOR} is one of JavaFX's named colors.
      * <p>
      * Here is an example for verifying that a TextFlow contains the text
-     * "hello" and that the color of the text is *exactly* {@literal Colors.BLUE}
+     * "hello" and that the color of the text is <em>exactly</em> {@literal Colors.BLUE}
      * (that is, it has an RGB value of (0, 0, 255)).
      *
      * <pre><code>

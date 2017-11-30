@@ -26,7 +26,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -37,12 +36,14 @@ import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.matcher.control.LabeledMatchers;
+import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 
 public class NodeMatchersTest extends FxRobot {
 
@@ -69,51 +70,11 @@ public class NodeMatchersTest extends FxRobot {
         });
 
         // expect:
-        assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(),
-            hasItem(NodeMatchers.hasText("bar")));
+        assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(), hasItem(nodes.get(1)));
     }
 
     @Test
-    public void hasText_with_button() throws Exception {
-        // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
-
-        // expect:
-        assertThat(button, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_text_field() throws Exception {
-        // given:
-        TextField textField = FxToolkit.setupFixture(() -> new TextField("foo"));
-
-        // expect:
-        assertThat(textField, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_text() throws Exception {
-        // given:
-        Text textShape = FxToolkit.setupFixture(() -> new Text("foo"));
-
-        // expect:
-        assertThat(textShape, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void hasText_with_region_fails() throws Exception {
-        // given:
-        Region region = FxToolkit.setupFixture(Region::new);
-
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text \"foo\"\n");
-
-        assertThat(region, NodeMatchers.hasText("foo"));
-    }
-
-    @Test
-    public void isFocus() throws Exception {
+    public void isFocused() throws Exception {
         // given:
         FxToolkit.setupSceneRoot(() -> {
             textField = new TextField("foo");
@@ -194,11 +155,11 @@ public class NodeMatchersTest extends FxRobot {
         });
 
         // expect:
-        NodeQuery query1 = from(nodes).match(NodeMatchers.hasText("foo"));
+        NodeQuery query1 = from(nodes).match(LabeledMatchers.hasText("foo"));
         assertThat(query1.queryAll(), hasItems(nodes.get(1)));
 
         // and:
-        NodeQuery query2 = from(nodes).match(NodeMatchers.hasText("bar"));
+        NodeQuery query2 = from(nodes).match(TextInputControlMatchers.hasText("bar"));
         assertThat(query2.queryAll(), hasItems(nodes.get(2)));
     }
 

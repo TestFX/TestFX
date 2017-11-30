@@ -70,8 +70,8 @@ public class ListViewMatchersTest extends FxRobot {
     public void hasListCell_with_null_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has list cell \"null\"\n" +
-                "     but: was [alice, bob, carol, dave]");
+        exception.expectMessage("Expected: ListView has list cell \"null\"\n     " +
+                "but: was [alice, bob, carol, dave]");
 
         assertThat(listView, ListViewMatchers.hasListCell(null));
     }
@@ -80,8 +80,8 @@ public class ListViewMatchersTest extends FxRobot {
     public void hasListCell_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has list cell \"foobar\"\n" +
-                "     but: was [alice, bob, carol, dave]");
+        exception.expectMessage("Expected: ListView has list cell \"foobar\"\n     " +
+                "but: was [alice, bob, carol, dave]");
 
         assertThat(listView, ListViewMatchers.hasListCell("foobar"));
     }
@@ -96,7 +96,7 @@ public class ListViewMatchersTest extends FxRobot {
     public void hasItems_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has 0 items\n     " +
+        exception.expectMessage("Expected: ListView has exactly 0 items\n     " +
                 "but: was 4");
 
         assertThat(listView, ListViewMatchers.hasItems(0));
@@ -116,7 +116,7 @@ public class ListViewMatchersTest extends FxRobot {
     public void isEmpty_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView is empty (contains 0 (zero) items)\n     " +
+        exception.expectMessage("Expected: ListView is empty (contains no items)\n     " +
                 "but: was contains 4 items");
         assertThat(listView, ListViewMatchers.isEmpty());
     }
@@ -131,10 +131,16 @@ public class ListViewMatchersTest extends FxRobot {
     public void hasPlaceholder_fails() {
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has labeled placeholder containing text: \"foobar\"\n" +
-                "     but: was labeled placeholder containing text: \"Empty!\"");
+        exception.expectMessage("Expected: ListView has labeled placeholder containing text: \"foobar\"\n     " +
+                "but: was labeled placeholder containing text: \"Empty!\"");
 
         assertThat(listView, ListViewMatchers.hasPlaceholder(new Label("foobar")));
+    }
+
+    @Test
+    public void hasVisiblePlaceholder() {
+        // expect:
+        assertThat(listView, ListViewMatchers.hasVisiblePlaceholder(new Label("Empty!")));
     }
 
     @Test
@@ -151,6 +157,7 @@ public class ListViewMatchersTest extends FxRobot {
     public void hasVisiblePlaceholder_fails_whenPlaceHolderIsInvisible() {
         // when:
         listView.getPlaceholder().setVisible(false);
+        WaitForAsyncUtils.waitForFxEvents();
 
         // expect:
         exception.expect(AssertionError.class);

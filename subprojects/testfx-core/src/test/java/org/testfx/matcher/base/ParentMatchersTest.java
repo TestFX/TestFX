@@ -54,6 +54,19 @@ public class ParentMatchersTest {
     }
 
     @Test
+    public void hasChild_fails() throws Exception {
+        // given:
+        Parent parent = FxToolkit.setupFixture(() -> new StackPane());
+
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Parent has at least one child\n     " +
+                "but: was empty (contained no children)");
+
+        assertThat(parent, ParentMatchers.hasChild());
+    }
+
+    @Test
     public void hasChildren() throws Exception {
         // given:
         Parent parent = FxToolkit.setupFixture(() -> new StackPane(
@@ -64,25 +77,14 @@ public class ParentMatchersTest {
     }
 
     @Test
-    public void hasChild_fails() throws Exception {
-        // given:
-        Parent parent = FxToolkit.setupFixture(() -> new StackPane());
-
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has child\n");
-
-        assertThat(parent, ParentMatchers.hasChild());
-    }
-
-    @Test
     public void hasChildren_fails() throws Exception {
         // given:
         Parent parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
         // expect:
         exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has 3 children\n");
+        exception.expectMessage("Expected: Parent has exactly 3 children\n     " +
+                "but: was [Label, Button] (which has 2 children)");
 
         assertThat(parent, ParentMatchers.hasChildren(3));
     }

@@ -19,17 +19,11 @@ package org.testfx.matcher.base;
 import java.util.Objects;
 
 import javafx.scene.Node;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.text.Text;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
 import org.testfx.api.annotation.Unstable;
-import org.testfx.matcher.control.LabeledMatchers;
-import org.testfx.matcher.control.TextInputControlMatchers;
-import org.testfx.matcher.control.TextMatchers;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
@@ -118,27 +112,7 @@ public class NodeMatchers {
     }
 
     /**
-     * Creates a matcher that matches all {@link javafx.scene.control.Labeled}, {@link TextInputControl},
-     * and {@link Text} objects that have the given {@code string}.
-     */
-    @Factory
-    public static Matcher<Node> hasText(String string) {
-        String descriptionText = "Node has text \"" + string + "\"";
-        return baseMatcher(descriptionText, node -> hasText(node, string));
-    }
-
-    /**
-     * Creates a matcher that matches all {@link javafx.scene.control.Labeled}, {@link TextInputControl},
-     * and {@link Text} objects whose {@code text} matches the given {@code matcher}.
-     */
-    @Factory
-    public static Matcher<Node> hasText(Matcher<String> matcher) {
-        String descriptionText = "Node has " + matcher.toString();
-        return baseMatcher(descriptionText, node -> hasText(node, matcher));
-    }
-
-    /**
-     * Creates a matcher that matches all {@link Node}s that have at least one node that is found via
+     * Creates a matcher that matches all {@link Node}s that have at least one child node that is found via
      * {@link org.testfx.service.query.NodeQuery#lookup(String)}.
      */
     @Factory
@@ -148,39 +122,13 @@ public class NodeMatchers {
     }
 
     /**
-     * Creates a matcher that matches all {@link Node}s that have exactly {@code amount} nodes that are found via
-     * {@link org.testfx.service.query.NodeQuery#lookup(String)}.
+     * Creates a matcher that matches all {@link Node}s that have exactly {@code amount} child nodes that are found
+     * via {@link org.testfx.service.query.NodeQuery#lookup(String)}.
      */
     @Factory
     public static Matcher<Node> hasChildren(int amount, String query) {
         String descriptionText = "Node has " + amount + " children \"" + query + "\"";
         return baseMatcher(descriptionText, node -> hasChildren(node, amount, query));
-    }
-
-    private static boolean hasText(Node node, String string) {
-        if (node instanceof Labeled) {
-            return LabeledMatchers.hasText(string).matches(node);
-        }
-        else if (node instanceof TextInputControl) {
-            return TextInputControlMatchers.hasText(string).matches(node);
-        }
-        else if (node instanceof Text) {
-            return TextMatchers.hasText(string).matches(node);
-        }
-        return false;
-    }
-
-    private static boolean hasText(Node node, Matcher<String> matcher) {
-        if (node instanceof Labeled) {
-            return LabeledMatchers.hasText(matcher).matches(node);
-        }
-        else if (node instanceof TextInputControl) {
-            return TextInputControlMatchers.hasText(matcher).matches(node);
-        }
-        else if (node instanceof Text) {
-            return TextMatchers.hasText(matcher).matches(node);
-        }
-        return false;
     }
 
     private static boolean hasChild(Node node, String query) {

@@ -104,7 +104,7 @@ public class ColorMatchers {
 
     /**
      * Creates a matcher that matches all {@link Color}s that have the given named color {@code String}
-     * their closest JavaFX named color. The {@code namedColor} is <em>not</em> case sensitive.
+     * as their closest JavaFX named color. The {@code namedColor} is <em>not</em> case sensitive.
      *
      * @throws AssertionError if the given named color {@code String} is not a JavaFX named color
      * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">JavaFX Named Colors</a>

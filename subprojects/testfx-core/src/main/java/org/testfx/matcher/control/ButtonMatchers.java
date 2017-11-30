@@ -16,7 +16,6 @@
  */
 package org.testfx.matcher.control;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 import org.hamcrest.Factory;
@@ -32,7 +31,7 @@ public class ButtonMatchers {
     private ButtonMatchers() {}
 
     /**
-     * Creates a matcher that matches all {@link Button}s that are considered cancel buttons.
+     * Creates a matcher that matches all {@link Button}s that are cancel buttons.
      */
     @Factory
     public static Matcher<Button> isCancelButton() {
@@ -40,10 +39,10 @@ public class ButtonMatchers {
     }
 
     /**
-     * Creates a matcher that matches all {@link Button}s that are considered default buttons.
+     * Creates a matcher that matches all {@link Button}s that are default buttons.
      */
     @Factory
-    public static Matcher<Node> isDefaultButton() {
+    public static Matcher<Button> isDefaultButton() {
         return typeSafeMatcher(Button.class, "is default button", Button::isDefaultButton);
     }
 }

@@ -90,8 +90,7 @@ public class TableViewMatchersTest extends FxRobot {
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
             tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
             tableView.getColumns().setAll(tableColumn0, tableColumn1);
-            StackPane stackPane = new StackPane(tableView);
-            return stackPane;
+            return new StackPane(tableView);
         });
         FxToolkit.showStage();
     }
@@ -130,8 +129,7 @@ public class TableViewMatchersTest extends FxRobot {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has table cell \"foobar\"\n     " +
-                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]\n" +
-                "which does not contain a cell with the given value");
+                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
 
         assertThat(tableView, TableViewMatchers.hasTableCell("foobar"));
     }
@@ -159,8 +157,7 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expectMessage("Expected: TableView has table cell \"ALICE!!!\"\n     ");
         // FIXME(mike): Currently the table is printed without applying the cell value factory
         // once that is fixed, add these lines:
-        // "but: was [[ALICE!, 30], [BOB!, 31], [CAROL!, null], [DAVE!, null]]\n" +
-        // "which does not contain a cell with the given value");
+        // "but: was [[ALICE!, 30], [BOB!, 31], [CAROL!, null], [DAVE!, null]]");
         assertThat(tableView, TableViewMatchers.hasTableCell("ALICE!!!"));
     }
 
@@ -179,8 +176,7 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expect(AssertionError.class);
         // FIXME: This works but it is nonsensical - why can't we accept null?
         exception.expectMessage("Expected: TableView has table cell \"null\"\n     " +
-                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]\n" +
-                "which does not contain a cell with the given value");
+                "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
 
         assertThat(tableView, TableViewMatchers.hasTableCell(null));
     }
@@ -196,7 +192,7 @@ public class TableViewMatchersTest extends FxRobot {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has 0 rows\n     " +
-                "but: was 4");
+                "but: was contained 4 rows");
 
         assertThat(tableView, TableViewMatchers.hasNumRows(0));
     }
@@ -265,7 +261,7 @@ public class TableViewMatchersTest extends FxRobot {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [jerry, 29] at index 0\n     " +
-                "but: was [alice, 30]");
+                "but: was [alice, 30] at index: 0");
 
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "jerry", 29));
     }
@@ -285,7 +281,7 @@ public class TableViewMatchersTest extends FxRobot {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [alice, 30] at index -1\n     " +
-                "but: was given negative row index");
+                "but: was given negative row index: -1");
 
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(-1, "alice", 30));
     }
@@ -295,7 +291,7 @@ public class TableViewMatchersTest extends FxRobot {
         // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [63, deedee] at index 1\n     " +
-                "but: was [bob, 31]");
+                "but: was [bob, 31] at index: 1");
 
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee"));
     }
