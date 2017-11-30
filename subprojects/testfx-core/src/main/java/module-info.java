@@ -16,6 +16,21 @@
  */
 
 module org.testfx {
+    exports org.testfx.api;
+    exports org.testfx.api.annotation;
+    exports org.testfx.matcher.base;
+    exports org.testfx.matcher.control;
+    exports org.testfx.service.adapter;
+    exports org.testfx.service.finder;
+    exports org.testfx.service.locator;
+    exports org.testfx.service.query;
+    exports org.testfx.service.support;
+    exports org.testfx.osgi;
+    exports org.testfx.osgi.service;
+    exports org.testfx.robot;
+    exports org.testfx.toolkit;
+    exports org.testfx.util;
+
     requires java.desktop;
     requires javafx.controls;
     requires javafx.fxml;

@@ -48,9 +48,9 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     static {
         Map<MouseButton, Integer> buttons = new HashMap<>();
-        buttons.put(MouseButton.PRIMARY, InputEvent.BUTTON1_MASK);
-        buttons.put(MouseButton.MIDDLE, InputEvent.BUTTON2_MASK);
-        buttons.put(MouseButton.SECONDARY, InputEvent.BUTTON3_MASK);
+        buttons.put(MouseButton.PRIMARY, InputEvent.BUTTON1_DOWN_MASK);
+        buttons.put(MouseButton.MIDDLE, InputEvent.BUTTON2_DOWN_MASK);
+        buttons.put(MouseButton.SECONDARY, InputEvent.BUTTON3_DOWN_MASK);
         AWT_BUTTONS = Collections.unmodifiableMap(buttons);
     }
 

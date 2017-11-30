@@ -58,7 +58,8 @@ compileJava {
         doFirst {
             options.compilerArgs = [
                     '--module-path', classpath.asPath,
-                    "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx"
+                    "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
+                    "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
             ]
             classpath = files()
         }
@@ -66,7 +67,10 @@ compileJava {
         javadoc {
             exclude "**/module-info.java"
             options.addStringOption('-module-path', classpath.asPath)
-            options.addStringOption('-add-exports', 'javafx.graphics/com.sun.glass.ui=org.testfx')
+            options.addMultilineStringsOption('-add-exports').setValue([
+                    'javafx.graphics/com.sun.javafx.application=org.testfx',
+                    'javafx.graphics/com.sun.glass.ui=org.testfx'])
+
         }
     }
 }
@@ -78,8 +82,11 @@ compileTestJava {
             options.compilerArgs = [
                     '--module-path', classpath.asPath,
                     '--add-modules', 'junit',
+                    '--add-modules', 'org.testfx.junit',
                     '--add-reads', "$moduleName=junit",
-                    "--add-exports", "javafx.graphics/com.sun.glass.ui=org.testfx",
+                    '--add-reads', "$moduleName=org.testfx.junit",
+                    "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
+                    "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
                     '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
             ]
             classpath = files()
