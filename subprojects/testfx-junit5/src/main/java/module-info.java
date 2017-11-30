@@ -14,15 +14,9 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.framework.junit5;
-
-import javafx.stage.Stage;
-
-public interface ApplicationFixture {
-
-    void init() throws Exception;
-
-    void start(Stage stage) throws Exception;
-
-    void stop() throws Exception;
+module org.testfx.junit5 {
+    requires org.junit.jupiter.api;
+    requires javafx.graphics;
+    requires org.testfx;
+    exports org.testfx.framework.junit5;
 }

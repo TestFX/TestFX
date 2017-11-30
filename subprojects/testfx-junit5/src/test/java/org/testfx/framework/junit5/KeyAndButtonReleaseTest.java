@@ -32,8 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * For keys, this prevents hanging issues (if Shortcut key is pressed) or deletion issues (if backspace/delete key
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */
-//TODO junit5 doesn't support test ordering ATM, but this functionality can be added in future.
-@Disabled
+@Disabled("junit5 doesn't support test ordering ATM, but this functionality can be added in future")
 class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Override
