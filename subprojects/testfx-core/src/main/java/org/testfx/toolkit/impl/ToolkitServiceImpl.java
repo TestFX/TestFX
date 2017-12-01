@@ -16,9 +16,6 @@
  */
 package org.testfx.toolkit.impl;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
@@ -28,6 +25,8 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import com.sun.javafx.application.ParametersImpl;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
@@ -41,7 +40,6 @@ import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 @Unstable
 public class ToolkitServiceImpl implements ToolkitService {
 
-    private static final String PARAMETERS_IMPL = "com.sun.javafx.application.ParametersImpl";
     //---------------------------------------------------------------------------------------------
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
@@ -162,18 +160,7 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     private void registerApplicationParameters(Application application, String... applicationArgs) {
-        // this is done via reflection to avoid compile-time dependencies on the JavaFX private API
-        Method registerParameters;
-        try {
-            Class<?> parametersImplClass = Class.forName(PARAMETERS_IMPL);
-            Application.Parameters parametersImpl = (Application.Parameters) parametersImplClass
-                    .getDeclaredConstructor(List.class).newInstance(Arrays.asList(applicationArgs));
-            Method registerParamsMethod = parametersImplClass.getDeclaredMethod("registerParameters", Application.class,
-                    Application.Parameters.class);
-            registerParamsMethod.invoke(null, application, parametersImpl);
-        }
-        catch (Exception exception) {
-            throw new IllegalStateException("could not register application parameters", exception);
-        }
+        ParametersImpl parameters = new ParametersImpl(applicationArgs);
+        ParametersImpl.registerParameters(application, parameters);
     }
 }
