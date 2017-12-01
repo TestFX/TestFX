@@ -27,7 +27,7 @@ class KeyAndButtonReleaseSpec extends ApplicationSpec {
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.show();
+        stage.show()
     }
 
     def "Keys are released whether test remembers to unrelease them or not"() {

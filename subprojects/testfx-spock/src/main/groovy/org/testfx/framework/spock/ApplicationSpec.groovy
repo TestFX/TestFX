@@ -32,20 +32,12 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     @Delegate
     private final FxRobot robot = new FxRobot()
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Unstable(reason = "is missing apidocs")
     public static void launch(Class<? extends Application> appClass,
                               String... appArgs) throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(appClass, appArgs);
+        FxToolkit.registerPrimaryStage()
+        FxToolkit.setupApplication(appClass, appArgs)
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     def setup() {
         internalBefore()
@@ -56,50 +48,44 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     }
 
     @Unstable(reason = "is missing apidocs")
-    public final void internalBefore()
-            throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication( { new ApplicationAdapter(this) });
+    public final void internalBefore() throws Exception {
+        FxToolkit.registerPrimaryStage()
+        FxToolkit.setupApplication( { new ApplicationAdapter(this) })
     }
 
     @Unstable(reason = "is missing apidocs")
-    public final void internalAfter()
-            throws Exception {
+    public final void internalAfter() throws Exception {
         // release all keys
-        release(new KeyCode[0]);
+        release(new KeyCode[0])
         // release all mouse buttons
-        release(new MouseButton[0]);
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+        release(new MouseButton[0])
+        FxToolkit.cleanupApplication(new ApplicationAdapter(this))
     }
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public void init()
-            throws Exception {}
+    public void init() throws Exception {}
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public abstract void start(Stage stage)
-            throws Exception;
+    public abstract void start(Stage stage) throws Exception
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public void stop()
-            throws Exception {}
+    public void stop() throws Exception {}
 
     @Deprecated
     public final HostServices getHostServices() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException()
     }
 
     @Deprecated
     public final Application.Parameters getParameters() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException()
     }
 
     @Deprecated
     public final void notifyPreloader(Preloader.PreloaderNotification notification) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException()
     }
-
 }
