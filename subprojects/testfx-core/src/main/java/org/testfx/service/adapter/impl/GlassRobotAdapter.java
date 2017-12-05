@@ -182,10 +182,12 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         return GLASS_BUTTONS.get(button);
     }
 
-    private Color convertFromGlassColor(int glassColor) {
-        WritableImage image = new WritableImage(1, 1);
-        image.getPixelWriter().setArgb(0, 0, glassColor);
-        return image.getPixelReader().getColor(0, 0);
+    private Color convertFromGlassColor(int color) {
+        int alpha = (color >> 24) & 0xFF;
+        int red   = (color >> 16) & 0xFF;
+        int green = (color >>  8) & 0xFF;
+        int blue  =  color        & 0xFF;
+        return new Color(red / 255d, green / 255d, blue / 255d, alpha / 255d);
     }
 
     private Image convertFromGlassPixels(Pixels glassPixels) {
