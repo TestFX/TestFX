@@ -18,9 +18,6 @@ package org.testfx.service.adapter.impl;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -48,17 +45,6 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     private static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
     private static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
-
-    static {
-        Map<MouseButton, Integer> buttons = new HashMap<>();
-        buttons.put(MouseButton.PRIMARY, Robot.MOUSE_LEFT_BTN);
-        buttons.put(MouseButton.SECONDARY, Robot.MOUSE_RIGHT_BTN);
-        buttons.put(MouseButton.MIDDLE, Robot.MOUSE_MIDDLE_BTN);
-        GLASS_BUTTONS = Collections.unmodifiableMap(buttons);
-
-    }
-
-    private static final Map<MouseButton, Integer> GLASS_BUTTONS;
 
     private Robot glassRobot;
 
@@ -179,7 +165,12 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     }
 
     private int convertToButtonId(MouseButton button) {
-        return GLASS_BUTTONS.get(button);
+        switch (button) {
+            case PRIMARY: return Robot.MOUSE_LEFT_BTN;
+            case SECONDARY: return Robot.MOUSE_RIGHT_BTN;
+            case MIDDLE: return Robot.MOUSE_MIDDLE_BTN;
+            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by Robot");
+        }
     }
 
     private Color convertFromGlassColor(int color) {
