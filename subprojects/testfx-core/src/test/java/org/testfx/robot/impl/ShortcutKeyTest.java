@@ -98,6 +98,7 @@ public class ShortcutKeyTest extends FxRobot {
         release(SHORTCUT, OS_SPECIFIC_KEY);
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_pressed() {
         // when:
@@ -107,6 +108,7 @@ public class ShortcutKeyTest extends FxRobot {
         verifyThat(field.getText(), equalTo(pressedText), informedErrorMessage(this));
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() {
         // given:

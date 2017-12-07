@@ -74,6 +74,7 @@ public class ComboBoxMatchersTest extends FxRobot {
         assertThat(comboBox, ComboBoxMatchers.hasItems(3));
     }
 
+    // TODO: Deflake flaky test - OSX - Partial Headless
     @Test
     public void hasSelection() {
         assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("alice"));
