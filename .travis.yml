@@ -1,11 +1,6 @@
 language: java
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - gdb
-
 # keep gradle cache.
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -41,6 +36,7 @@ matrix:
         apt:
           packages:
             - oracle-java8-installer
+            - gdb
     # Ubuntu Linux (trusty) / Java 9 / Headed
     - os: linux
       dist: trusty
@@ -51,6 +47,7 @@ matrix:
         apt:
           packages:
             - oracle-java9-installer
+            - gdb
     # Ubuntu Linux (trusty) / Java 9 / Headless
     - os: linux
       dist: trusty
