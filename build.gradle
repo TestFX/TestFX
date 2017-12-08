@@ -164,10 +164,13 @@ subprojects { subproject ->
                     if (tuple != null) {
                         travisTimerEnd(tuple.first, tuple.second)
                     }
-                    def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                    def output = "Results: ${result.resultType} (${result.testCount} tests, " +
+                            "${result.successfulTestCount} successes, " +
+                            "${result.failedTestCount} failures, " +
+                            "${result.skippedTestCount} skipped)"
                     def startItem = '|  ', endItem = '  |'
-                    def repeatLength = startItem.length() + output.length() + endItem.length()
-                    println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+                    def repeat = startItem + output + endItem
+                    println('\n' + ('-' * repeat.length()) + '\n' + repeat + '\n' + ('-' * repeat.length()))
                     travisFoldEnd(desc.name)
                 }
             }
