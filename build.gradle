@@ -152,17 +152,26 @@ subprojects { subproject ->
                     TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
             }
             info.events = debug.events
-            def tuple
+            def travisTuple
+            def failedTestSummary = "\n\n FAILED TESTS SUMMARY: \n\n"
+            afterTest { desc, result ->
+                if (desc.parent) {
+                    if (result.getResultType() == TestResult.ResultType.FAILURE) {
+                        failedTestSummary += "${desc.getClassName()}#${desc.getName()} FAILED:\n" +
+                                "${result.getExceptions()}\n"
+                    }
+                }
+            }
             beforeSuite { desc ->
                 if (!desc.parent) { // will match the outermost suite
                     travisFoldStart(desc.name)
-                    tuple = travisTimerStart()
+                    travisTuple = travisTimerStart()
                 }
             }
             afterSuite { desc, result ->
                 if (!desc.parent) { // will match the outermost suite
-                    if (tuple != null) {
-                        travisTimerEnd(tuple.first, tuple.second)
+                    if (travisTuple != null) {
+                        travisTimerEnd(travisTuple.first, travisTuple.second)
                     }
                     def output = "Results: ${result.resultType} (${result.testCount} tests, " +
                             "${result.successfulTestCount} successes, " +
@@ -171,6 +180,9 @@ subprojects { subproject ->
                     def startItem = '|  ', endItem = '  |'
                     def repeat = startItem + output + endItem
                     println('\n' + ('-' * repeat.length()) + '\n' + repeat + '\n' + ('-' * repeat.length()))
+                    if (result.failedTestCount > 0) {
+                        println(failedTestSummary)
+                    }
                     travisFoldEnd(desc.name)
                 }
             }
