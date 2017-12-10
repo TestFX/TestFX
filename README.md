@@ -33,6 +33,7 @@ online (these are auto-generated from `master`) or by running `gradle javadoc`.
 
 
 ## Example
+The following example application is written for JUnit 4 only. [Here](https://github.com/TestFX/TestFX/blob/master/subprojects/testfx-junit5/src/test/java/org/testfx/framework/junit5/ApplicationRuleTest.java) is an example of a test with testfx-junit5.
 
 ~~~java
 public class DesktopPaneTest extends ApplicationTest {
@@ -61,7 +62,7 @@ public class DesktopPaneTest extends ApplicationTest {
 
 ## Gradle
 
-`build.gradle` with `testfx-core` and `testfx-junit` from Bintray's JCenter (at https://jcenter.bintray.com/):
+`build.gradle` with `testfx-core` and `testfx-junit` (Junit4) from Bintray's JCenter (at https://jcenter.bintray.com/):
 
 ~~~groovy
 repositories {
@@ -74,10 +75,11 @@ dependencies {
 }
 ~~~
 
+For Junit5, use the `testfx-junit5` artifact instead of `testfx-junit`
 
 ## Maven
 
-`pom.xml` with `testfx-core` from Maven Central repository (at https://repo1.maven.org/maven2/).
+`pom.xml` with `testfx-core` and `testfx-junit` (Junit4) from Maven Central repository (at https://repo1.maven.org/maven2/).
 
 ~~~xml
 <dependencies>
@@ -95,6 +97,8 @@ dependencies {
     </dependency>
 </dependencies>
 ~~~
+
+For Junit5, use the `testfx-junit5` artifact instead of `testfx-junit`
 
 ## Documentation
 
