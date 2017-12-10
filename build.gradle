@@ -40,7 +40,7 @@ rootProject.with { project ->
     // provide assemble and clean tasks.
     // task to add gradle wrapper files.
     task wrapper(type: Wrapper) {
-        gradleVersion = '4.3.1'
+        gradleVersion = '4.4'
         distributionUrl = "https://services.gradle.org/distributions/" +
             "gradle-${gradleVersion}-all.zip"
     }
