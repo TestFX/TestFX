@@ -36,11 +36,10 @@ online (these are auto-generated from `master`) or by running `gradle javadoc`.
 
 ~~~java
 public class DesktopPaneTest extends ApplicationTest {
-    @Override
-    public void start(Stage stage) {
-        Scene scene = new Scene(new DesktopPane(), 800, 600);
-        stage.setScene(scene);
-        stage.show();
+
+    @BeforeEach
+    public void setup() throws Exception {
+        ApplicationTest.launch(DesktopPane.class);
     }
 
     @Test
