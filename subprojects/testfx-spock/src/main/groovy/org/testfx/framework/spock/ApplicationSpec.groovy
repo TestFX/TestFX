@@ -17,8 +17,6 @@
 package org.testfx.framework.spock
 
 import javafx.application.Application
-import javafx.application.HostServices
-import javafx.application.Preloader
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 import javafx.stage.Stage
@@ -27,34 +25,58 @@ import org.testfx.api.FxToolkit
 import org.testfx.api.annotation.Unstable
 import spock.lang.Specification
 
+/**
+ * Base class for all TestFX Spock specifications.
+ * <p>
+ * <h3>Example:</h3>
+ * <pre><code>
+ * class MySpec extends ApplicationSpec {
+ *
+ * {@literal @}Override
+ * void start(Stage stage) {
+ *     Button button = new Button("click me!")
+ *     button.setOnAction { button.setText("clicked!") }
+ *     stage.setScene(new Scene(new StackPane(button), 100, 100))
+ *     stage.show()
+ * }
+ *
+ * def "button should change text when clicked"() {
+ *    when:
+ *    clickOn(".button")
+ *
+ *    then:
+ *    verifyThat(".button", hasText("clicked!"))
+ * }
+ * </code></pre>
+ */
 abstract class ApplicationSpec extends Specification implements ApplicationFixture {
 
     @Delegate
     private final FxRobot robot = new FxRobot()
 
-    @Unstable(reason = "is missing apidocs")
-    public static void launch(Class<? extends Application> appClass,
+    @Unstable(reason = 'is missing apidocs')
+    static void launch(Class<? extends Application> appClass,
                               String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage()
         FxToolkit.setupApplication(appClass, appArgs)
     }
 
-    def setup() {
+    void setup() {
         internalBefore()
     }
 
-    def cleanup() {
+    void cleanup() {
         internalAfter()
     }
 
-    @Unstable(reason = "is missing apidocs")
-    public final void internalBefore() throws Exception {
+    @Unstable(reason = 'is missing apidocs')
+    final void internalBefore() throws Exception {
         FxToolkit.registerPrimaryStage()
-        FxToolkit.setupApplication( { new ApplicationAdapter(this) })
+        FxToolkit.setupApplication { new ApplicationAdapter(this) }
     }
 
-    @Unstable(reason = "is missing apidocs")
-    public final void internalAfter() throws Exception {
+    @Unstable(reason = 'is missing apidocs')
+    final void internalAfter() throws Exception {
         // release all keys
         release(new KeyCode[0])
         // release all mouse buttons
@@ -63,29 +85,16 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
-    public void init() throws Exception {}
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public abstract void start(Stage stage) throws Exception
-
-    @Override
-    @Unstable(reason = "is missing apidocs")
-    public void stop() throws Exception {}
-
-    @Deprecated
-    public final HostServices getHostServices() {
-        throw new UnsupportedOperationException()
+    @Unstable(reason = 'is missing apidocs')
+    void init() throws Exception {
     }
 
-    @Deprecated
-    public final Application.Parameters getParameters() {
-        throw new UnsupportedOperationException()
-    }
+    @Override
+    @Unstable(reason = 'is missing apidocs')
+    abstract void start(Stage stage) throws Exception
 
-    @Deprecated
-    public final void notifyPreloader(Preloader.PreloaderNotification notification) {
-        throw new UnsupportedOperationException()
+    @Override
+    @Unstable(reason = 'is missing apidocs')
+    void stop() throws Exception {
     }
 }

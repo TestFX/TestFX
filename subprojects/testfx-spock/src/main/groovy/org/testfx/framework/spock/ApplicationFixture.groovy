@@ -18,7 +18,7 @@ package org.testfx.framework.spock
 
 import javafx.stage.Stage
 
-public interface ApplicationFixture {
+interface ApplicationFixture {
 
     void init() throws Exception
 

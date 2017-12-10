@@ -19,26 +19,26 @@ package org.testfx.framework.spock
 import javafx.application.Application
 import javafx.stage.Stage
 
-public final class ApplicationAdapter extends Application implements ApplicationFixture {
+final class ApplicationAdapter extends Application implements ApplicationFixture {
 
-    private ApplicationFixture applicationFixture
+    private final ApplicationFixture applicationFixture
 
     ApplicationAdapter(ApplicationFixture applicationFixture) {
         this.applicationFixture = applicationFixture
     }
 
     @Override
-    public void init() throws Exception {
+    void init() throws Exception {
         applicationFixture.init()
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    void start(Stage primaryStage) throws Exception {
         applicationFixture.start(primaryStage)
     }
 
     @Override
-    public void stop() throws Exception {
+    void stop() throws Exception {
         applicationFixture.stop()
     }
 }

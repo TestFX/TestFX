@@ -16,6 +16,9 @@
  */
 package org.testfx.cases.acceptance
 
+import static org.testfx.api.FxAssert.verifyThat
+import static org.testfx.matcher.base.NodeMatchers.hasText
+
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.control.Button
@@ -26,55 +29,40 @@ import org.testfx.api.FxToolkit
 import org.testfx.framework.spock.ApplicationSpec
 import spock.lang.Specification
 
-import static org.testfx.api.FxAssert.verifyThat
-import static org.testfx.matcher.base.NodeMatchers.hasText
-
-public class ApplicationLaunchSpec extends Specification {
+class ApplicationLaunchSpec extends Specification {
 
     @Delegate
     private final FxRobot robot = new FxRobot()
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURES.
-    //---------------------------------------------------------------------------------------------
-
-    public static class DemoApplication extends Application {
+    static class DemoApplication extends Application {
         @Override
-        public void start(Stage stage) {
-            Button button = new Button("click me!")
-            button.setOnAction { button.setText("clicked!") }
+        void start(Stage stage) {
+            Button button = new Button('click me!')
+            button.setOnAction { button.setText('clicked!') }
             stage.setScene(new Scene(new StackPane(button), 100, 100))
             stage.show()
         }
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    def setup() throws Exception {
-        ApplicationSpec.launch(DemoApplication.class);
+    void setup() throws Exception {
+        ApplicationSpec.launch(DemoApplication.class)
     }
 
-    def cleanup() throws Exception {
-        FxToolkit.cleanupStages();
+    void cleanup() throws Exception {
+        FxToolkit.cleanupStages()
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     def "should contain button"() {
         expect:
-        verifyThat(".button", hasText("click me!"));
+        verifyThat('.button', hasText('click me!'))
     }
 
     def "should click on button"() {
         when:
-        clickOn(".button");
+        clickOn('.button')
 
         then:
-        verifyThat(".button", hasText("clicked!"));
+        verifyThat('.button', hasText('clicked!'))
     }
 
 }

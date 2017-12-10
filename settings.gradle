@@ -15,24 +15,23 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// name of root project.
 rootProject.name = "TestFX"
 
-// list of projects.
 if (System.properties["java.version"].startsWith("9")) {
     include("subprojects/testfx-internal-java9")
 } else {
     include("subprojects/testfx-internal-java8")
 
-    // projects that only work on Java 8 right now
+    // Projects that only work on Java 8
     include "subprojects/testfx-spock"
 }
-// projects that work on Java 8 or 9 right now
+
+// Projects that work on Java 8 and 9
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-junit5"
 
-// location of the build files.
+// Location of each subproject's build file
 rootProject.children.each { project ->
     def projectDir = new File(project.name)
     project.name = projectDir.name
