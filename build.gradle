@@ -39,20 +39,24 @@ plugins {
 rootProject.with { project ->
     // provide assemble and clean tasks.
     // task to add gradle wrapper files.
-    task("wrapper", type: Wrapper) {
+    task wrapper(type: Wrapper) {
         gradleVersion = '4.3.1'
         distributionUrl = "https://services.gradle.org/distributions/" +
             "gradle-${gradleVersion}-all.zip"
     }
 
     // task to print gradle and groovy versions.
-    task("versions", group: "help").doLast {
-        println "JAVA_OPTS: ${System.env.JAVA_OPTS}"
-        println "JAVA_HOME: ${System.env.JAVA_HOME}"
-        println "Java version: ${System.properties["java.version"]}"
-        println "Gradle version: ${gradle.gradleVersion}"
-        println "Groovy version: ${GroovySystem.version}"
-        println "Included projects are: ${rootProject.childProjects.keySet()}"
+    task versions {
+        group 'help'
+        description 'Prints tool versions and useful environment variables.'
+        doLast {
+            println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
+            println "JAVA_HOME:      ${System.env.JAVA_HOME}"
+            println "Java version:   ${javaVersion}"
+            println "Gradle version: ${gradle.gradleVersion}"
+            println "Groovy version: ${GroovySystem.version}"
+            println "Subprojects:    ${rootProject.childProjects.keySet()}"
+        }
     }
 
     ext {
@@ -65,6 +69,17 @@ rootProject.with { project ->
         javaVersion = System.properties["java.version"]
         usingJava9 = javaVersion.startsWith("9")
         javaSourceCompat = usingJava9 ? "9" : "1.8"
+
+        if (usingJava9) {
+            javadocLinks = [
+                    "https://docs.oracle.com/javase/9/docs/api"
+            ]
+        } else {
+            javadocLinks = [
+                    "http://docs.oracle.com/javase/8/docs/api/",
+                    "http://docs.oracle.com/javase/8/javafx/api/"
+            ]
+        }
     }
 }
 
@@ -103,17 +118,17 @@ subprojects { subproject ->
     sourceSets.test.compileClasspath += configurations.providedCompile
     sourceSets.test.runtimeClasspath += configurations.providedCompile
 
-    task("sourceJar", type: Jar) {
-        group "Build"
-        description "An archive of the source code"
-        classifier "sources"
+    task sourceJar(type: Jar) {
+        group 'Build'
+        description 'An archive of the source code'
+        classifier 'sources'
         from sourceSets.main.allJava
     }
 
-    task("javadocJar", type: Jar) {
-        group "Build"
-        description "An archive of the javadoc"
-        classifier "javadoc"
+    task javadocJar(type: Jar) {
+        group 'Build'
+        description 'An archive of the javadoc'
+        classifier 'javadoc'
         from javadoc
     }
 
@@ -128,15 +143,17 @@ subprojects { subproject ->
     sourceCompatibility = javaSourceCompat
     targetCompatibility = javaSourceCompat
 
-    // use utf-8 encoding for java compile.
     tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(GroovyCompile) {
+        options.encoding = 'UTF-8'
+        groovyOptions.encoding = 'UTF-8'
     }
 
     test {
         reports.junitXml.setDestination(file("$projectDir/../../build/test-reports/xml"))
         testLogging {
-            // Fancy formatting from http://stackoverflow.com/a/36130467/3634630
             // set options for log level LIFECYCLE
             events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
                 TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT
@@ -192,19 +209,6 @@ subprojects { subproject ->
 
 evaluationDependsOnChildren()
 
-ext {
-    if (usingJava9) {
-        javadocLinks = [
-                "https://docs.oracle.com/javase/9/docs/api"
-        ]
-    } else {
-        javadocLinks = [
-                "http://docs.oracle.com/javase/8/docs/api/",
-                "http://docs.oracle.com/javase/8/javafx/api/"
-        ]
-    }
-}
-
 subprojects { subproject ->
     javadoc {
         excludes = ["**/*.html", "META-INF/**"]
@@ -248,7 +252,7 @@ task aggregateJavadoc(type: Javadoc) {
         links = javadocLinks
     }
 
-    // disable java 8 overly pedantic lint checking.
+    // disable overly pedantic lint checking.
     if (JavaVersion.current().isJava8Compatible()) {
         options.addStringOption("Xdoclint:none", "-quiet")
     }
@@ -270,7 +274,8 @@ task jacocoMerge(type: JacocoMerge) {
     }
 }
 
-task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
+task jacocoRootReport(type: JacocoReport) {
+    group = 'Coverage reports'
     description = 'Generates an aggregate report from all subprojects'
     dependsOn subprojects.test, jacocoMerge
     additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
@@ -291,7 +296,7 @@ coveralls {
 
 tasks.coveralls {
     group = 'Coverage reports'
-    description = 'Uploads the aggregated coverage report to Coveralls'
+    description = 'Uploads the aggregated coverage report to Coveralls.'
     logging.setLevel(LogLevel.LIFECYCLE)
 
     dependsOn jacocoRootReport
