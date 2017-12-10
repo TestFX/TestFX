@@ -16,6 +16,9 @@
  */
 package org.testfx.cases.acceptance
 
+import static org.testfx.api.FxAssert.verifyThat
+import static org.testfx.matcher.base.NodeMatchers.hasText
+
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.StackPane
@@ -23,40 +26,33 @@ import javafx.stage.Stage
 import org.testfx.api.FxToolkit
 import org.testfx.framework.spock.ApplicationSpec
 
-import static org.testfx.api.FxAssert.verifyThat
-import static org.testfx.matcher.base.NodeMatchers.hasText
-
+/**
+ * Simple test that pressed a Button and verifies that the text
+ * is changed.
+ */
 class ApplicationStartSpec extends ApplicationSpec {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
-    public void init() throws Exception {
+    void init() throws Exception {
         FxToolkit.registerStage { new Stage() }
     }
 
     @Override
-    public void start(Stage stage) {
-        Button button = new Button("click me!")
-        button.setOnAction { button.setText("clicked!") }
+    void start(Stage stage) {
+        Button button = new Button('click me!')
+        button.setOnAction { button.setText('clicked!') }
         stage.setScene(new Scene(new StackPane(button), 100, 100))
         stage.show()
     }
 
     @Override
-    public void stop() throws Exception {
+    void stop() throws Exception {
         FxToolkit.hideStage()
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     def "should contain button"() {
         expect:
-        verifyThat(".button", hasText("click me!"))
+        verifyThat('.button', hasText('click me!'))
     }
 
     def "should click on button"() {
@@ -64,7 +60,7 @@ class ApplicationStartSpec extends ApplicationSpec {
         clickOn(".button")
 
         then:
-        verifyThat(".button", hasText("clicked!"))
+        verifyThat('.button', hasText('clicked!'))
     }
 
 }

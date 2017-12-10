@@ -18,6 +18,7 @@ ext.pomDescription = 'TestFX Spock'
 ext.moduleName = 'org.testfx.spock'
 
 apply plugin: 'groovy'
+apply plugin: 'codenarc'
 
 groovydoc {
     noTimestamp = true
@@ -27,6 +28,25 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
     baseName 'testfx-spock'
     classifier 'groovydoc'
     from groovydoc.destinationDir
+}
+
+codenarc {
+    toolVersion = "1.0"
+    reportFormat = 'console'
+}
+
+codenarcMain {
+    configFile = rootProject.file('gradle/codenarc/rules.groovy')
+    maxPriority1Violations 0
+    maxPriority2Violations 10
+    maxPriority3Violations 20
+}
+
+codenarcTest {
+    configFile = rootProject.file('gradle/codenarc/rules.groovy')
+    maxPriority1Violations 0
+    maxPriority2Violations 10
+    maxPriority3Violations 20
 }
 
 artifacts {

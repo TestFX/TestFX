@@ -29,8 +29,8 @@ buildscript {
 }
 
 plugins {
-    id "com.github.hierynomus.license" version "0.14.0"
-    id "com.jfrog.bintray" version "1.8.0"
+    id 'com.github.hierynomus.license' version '0.14.0'
+    id 'com.jfrog.bintray' version '1.8.0'
     id 'com.github.ben-manes.versions' version '0.17.0'
     id 'com.github.kt3k.coveralls' version '2.8.2'
     id 'com.github.spotbugs' version '1.6.0'
@@ -134,7 +134,7 @@ subprojects { subproject ->
     }
 
     test {
-        reports.junitXml.destination = file("$projectDir/../../build/test-reports/xml")
+        reports.junitXml.setDestination(file("$projectDir/../../build/test-reports/xml"))
         testLogging {
             // Fancy formatting from http://stackoverflow.com/a/36130467/3634630
             // set options for log level LIFECYCLE

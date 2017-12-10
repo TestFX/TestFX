@@ -16,39 +16,43 @@
  */
 package org.testfx.framework.spock
 
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.CoreMatchers.is
+
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 import javafx.stage.Stage
 
-import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.CoreMatchers.is
-
+/**
+ * Verifies that keyboard keys and mouse buttons are released after each
+ * test (even if the developer forgets to manually release them).
+ */
 class KeyAndButtonReleaseSpec extends ApplicationSpec {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    void start(Stage stage) throws Exception {
         stage.show()
     }
 
-    def "Keys are released whether test remembers to unrelease them or not"() {
-        given: "a test where keys are pressed at some point and not released"
-        press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT);
+    def "Keys are released whether test remembers to release them or not"() {
+        given: 'a test where keys are pressed at some point and not released'
+        press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT)
 
-        when: "the test ends"
+        when: 'the test ends'
         internalAfter()
 
-        then: "all pressed keys have been released"
-        assertThat(robotContext().getKeyboardRobot().getPressedKeys().isEmpty(), is(true))
+        then: 'all pressed keys have been released'
+        assertThat(robotContext().keyboardRobot.pressedKeys.isEmpty(), is(true))
     }
 
-    def "Buttons are released whether test remembers to unrelease them or not"() {
-        given: "a test where keys are pressed at some point and not released"
-        press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE);
+    def "Buttons are released whether test remembers to release them or not"() {
+        given: 'a test where keys are pressed at some point and not released'
+        press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE)
 
-        when: "the test ends"
+        when: 'the test ends'
         internalAfter()
 
-        then: "all pressed mouse buttons have been released"
-        assertThat(robotContext().getMouseRobot().getPressedButtons().isEmpty(), is(true))
+        then: 'all pressed mouse buttons have been released'
+        assertThat(robotContext().mouseRobot.pressedButtons.isEmpty(), is(true))
     }
 }
