@@ -111,6 +111,30 @@ extends spock.lang.Specification
 
 
 
+    <p> Base class for all TestFX Spock specifications.
+ <p>
+ <h3>Example:</h3>
+ <pre><code>
+ class MySpec extends ApplicationSpec {
+
+ @Override
+ void start(Stage stage) {
+     Button button = new Button("click me!")
+     button.setOnAction { button.setText("clicked!") }
+     stage.setScene(new Scene(new StackPane(button), 100, 100))
+     stage.show()
+ }
+
+ def "button should change text when clicked"() {
+    when:
+    clickOn(".button")
+
+    then:
+    verifyThat(".button", hasText("clicked!"))
+ }
+ </code></pre>
+ </p>
+
           </li>
     </ul>
 </div>
@@ -171,20 +195,8 @@ extends spock.lang.Specification
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.lang.Object</code></td>
+                            <td class="colLast"><code>void</code></td>
                             <td class="colLast"><code><strong><a href="#cleanup()">cleanup</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>javafx.application.HostServices</code></td>
-                            <td class="colLast"><code><strong><a href="#getHostServices()">getHostServices</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>javafx.application.Application$Parameters</code></td>
-                            <td class="colLast"><code><strong><a href="#getParameters()">getParameters</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -214,22 +226,16 @@ extends spock.lang.Specification
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#notifyPreloader(javafx.application.Preloader$PreloaderNotification)">notifyPreloader</a></strong>(javafx.application.Preloader$PreloaderNotification notification)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.lang.Object</code></td>
                             <td class="colLast"><code><strong><a href="#setup()">setup</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
                             <td class="colLast"><code><strong><a href="#start(javafx.stage.Stage)">start</a></strong>(javafx.stage.Stage stage)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
                             <td class="colLast"><code><strong><a href="#stop()">stop</a></strong>()</code><br></td>
@@ -251,7 +257,7 @@ extends spock.lang.Specification
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class spock.lang.Specification</code></td>
-                            <td class="colLast"><code>spock.lang.Specification#old(java.lang.Object), spock.lang.Specification#with(java.lang.Object, groovy.lang.Closure), spock.lang.Specification#with(java.lang.Object, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#thrown(java.lang.Class), spock.lang.Specification#thrown(), spock.lang.Specification#noExceptionThrown(), spock.lang.Specification#verifyAll(groovy.lang.Closure), spock.lang.Specification#notThrown(java.lang.Class), spock.lang.Specification#interaction(groovy.lang.Closure), spock.lang.Specification#Mock(java.util.Map, java.lang.Class), spock.lang.Specification#Mock(groovy.lang.Closure), spock.lang.Specification#Mock(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Mock(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Mock(java.util.Map, groovy.lang.Closure), spock.lang.Specification#Mock(), spock.lang.Specification#Mock(java.lang.Class), spock.lang.Specification#Mock(java.util.Map), spock.lang.Specification#Stub(groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map, groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map, java.lang.Class), spock.lang.Specification#Stub(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map), spock.lang.Specification#Stub(), spock.lang.Specification#Stub(java.lang.Class), spock.lang.Specification#Spy(groovy.lang.Closure), spock.lang.Specification#Spy(java.util.Map, java.lang.Class), spock.lang.Specification#Spy(java.lang.Object), spock.lang.Specification#Spy(java.util.Map, groovy.lang.Closure), spock.lang.Specification#Spy(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Spy(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Spy(), spock.lang.Specification#Spy(java.util.Map), spock.lang.Specification#Spy(java.lang.Class), spock.lang.Specification#GroovyMock(groovy.lang.Closure), spock.lang.Specification#GroovyMock(java.util.Map, groovy.lang.Closure), spock.lang.Specification#GroovyMock(java.util.Map, java.lang.Class), spock.lang.Specification#GroovyMock(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyMock(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyMock(), spock.lang.Specification#GroovyMock(java.util.Map), spock.lang.Specification#GroovyMock(java.lang.Class), spock.lang.Specification#GroovyStub(java.util.Map, groovy.lang.Closure), spock.lang.Specification#GroovyStub(groovy.lang.Closure), spock.lang.Specification#GroovyStub(java.util.Map, java.lang.Class), spock.lang.Specification#GroovyStub(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyStub(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyStub(), spock.lang.Specification#GroovyStub(java.util.Map), spock.lang.Specification#GroovyStub(java.lang.Class), spock.lang.Specification#GroovySpy(java.util.Map, java.lang.Class), spock.lang.Specification#GroovySpy(groovy.lang.Closure), spock.lang.Specification#GroovySpy(java.util.Map, groovy.lang.Closure), spock.lang.Specification#GroovySpy(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovySpy(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovySpy(), spock.lang.Specification#GroovySpy(java.util.Map), spock.lang.Specification#GroovySpy(java.lang.Class), spock.lang.Specification#getSpecificationContext(), spock.lang.Specification#createMock(java.lang.String, java.lang.Object, java.lang.reflect.Type, org.spockframework.mock.MockNature, org.spockframework.mock.MockImplementation, java.util.Map, groovy.lang.Closure), spock.lang.Specification#createMock(java.lang.String, java.lang.reflect.Type, org.spockframework.mock.MockNature, org.spockframework.mock.MockImplementation, java.util.Map, groovy.lang.Closure), spock.lang.Specification#wait(long, int), spock.lang.Specification#wait(long), spock.lang.Specification#wait(), spock.lang.Specification#equals(java.lang.Object), spock.lang.Specification#toString(), spock.lang.Specification#hashCode(), spock.lang.Specification#getClass(), spock.lang.Specification#notify(), spock.lang.Specification#notifyAll()</code></td>
+                            <td class="colLast"><code>spock.lang.Specification#with(java.lang.Object, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#with(java.lang.Object, groovy.lang.Closure), spock.lang.Specification#thrown(java.lang.Class), spock.lang.Specification#thrown(), spock.lang.Specification#old(java.lang.Object), spock.lang.Specification#noExceptionThrown(), spock.lang.Specification#verifyAll(groovy.lang.Closure), spock.lang.Specification#notThrown(java.lang.Class), spock.lang.Specification#interaction(groovy.lang.Closure), spock.lang.Specification#Mock(java.util.Map, java.lang.Class), spock.lang.Specification#Mock(groovy.lang.Closure), spock.lang.Specification#Mock(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Mock(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Mock(java.util.Map, groovy.lang.Closure), spock.lang.Specification#Mock(), spock.lang.Specification#Mock(java.lang.Class), spock.lang.Specification#Mock(java.util.Map), spock.lang.Specification#Stub(groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map, groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map, java.lang.Class), spock.lang.Specification#Stub(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Stub(java.util.Map), spock.lang.Specification#Stub(), spock.lang.Specification#Stub(java.lang.Class), spock.lang.Specification#Spy(groovy.lang.Closure), spock.lang.Specification#Spy(java.util.Map, java.lang.Class), spock.lang.Specification#Spy(java.lang.Object), spock.lang.Specification#Spy(java.util.Map, groovy.lang.Closure), spock.lang.Specification#Spy(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Spy(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#Spy(), spock.lang.Specification#Spy(java.util.Map), spock.lang.Specification#Spy(java.lang.Class), spock.lang.Specification#GroovyMock(groovy.lang.Closure), spock.lang.Specification#GroovyMock(java.util.Map, groovy.lang.Closure), spock.lang.Specification#GroovyMock(java.util.Map, java.lang.Class), spock.lang.Specification#GroovyMock(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyMock(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyMock(), spock.lang.Specification#GroovyMock(java.util.Map), spock.lang.Specification#GroovyMock(java.lang.Class), spock.lang.Specification#GroovyStub(java.util.Map, groovy.lang.Closure), spock.lang.Specification#GroovyStub(groovy.lang.Closure), spock.lang.Specification#GroovyStub(java.util.Map, java.lang.Class), spock.lang.Specification#GroovyStub(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyStub(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovyStub(), spock.lang.Specification#GroovyStub(java.util.Map), spock.lang.Specification#GroovyStub(java.lang.Class), spock.lang.Specification#GroovySpy(java.util.Map, java.lang.Class), spock.lang.Specification#GroovySpy(groovy.lang.Closure), spock.lang.Specification#GroovySpy(java.util.Map, groovy.lang.Closure), spock.lang.Specification#GroovySpy(java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovySpy(java.util.Map, java.lang.Class, groovy.lang.Closure), spock.lang.Specification#GroovySpy(), spock.lang.Specification#GroovySpy(java.util.Map), spock.lang.Specification#GroovySpy(java.lang.Class), spock.lang.Specification#getSpecificationContext(), spock.lang.Specification#createMock(java.lang.String, java.lang.Object, java.lang.reflect.Type, org.spockframework.mock.MockNature, org.spockframework.mock.MockImplementation, java.util.Map, groovy.lang.Closure), spock.lang.Specification#createMock(java.lang.String, java.lang.reflect.Type, org.spockframework.mock.MockNature, org.spockframework.mock.MockImplementation, java.util.Map, groovy.lang.Closure), spock.lang.Specification#wait(long, int), spock.lang.Specification#wait(long), spock.lang.Specification#wait(), spock.lang.Specification#equals(java.lang.Object), spock.lang.Specification#toString(), spock.lang.Specification#hashCode(), spock.lang.Specification#getClass(), spock.lang.Specification#notify(), spock.lang.Specification#notifyAll()</code></td>
                         </tr>
                         <tr class="altColor">
                             <td class="colFirst"><code>class spock.mock.MockingApi</code></td>
@@ -292,25 +298,7 @@ extends spock.lang.Specification
                         <a name="cleanup()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.lang.Object <strong>cleanup</strong>()</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="getHostServices()"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>@java.lang.Deprecated
-final&nbsp;javafx.application.HostServices <strong>getHostServices</strong>()</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="getParameters()"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>@java.lang.Deprecated
-final&nbsp;javafx.application.Application$Parameters <strong>getParameters</strong>()</h4>
+                                <h4>void <strong>cleanup</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -319,7 +307,7 @@ final&nbsp;javafx.application.Application$Parameters <strong>getParameters</stro
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-@org.testfx.api.annotation.Unstable(reason = "is missing apidocs")
+@org.testfx.api.annotation.Unstable(reason = 'is missing apidocs')
 void <strong>init</strong>()</h4>
                                 <p></p>
                             </li>
@@ -328,7 +316,7 @@ void <strong>init</strong>()</h4>
                         <a name="internalAfter()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@org.testfx.api.annotation.Unstable(reason = "is missing apidocs")
+                                <h4>@org.testfx.api.annotation.Unstable(reason = 'is missing apidocs')
 final&nbsp;void <strong>internalAfter</strong>()</h4>
                                 <p></p>
                             </li>
@@ -337,7 +325,7 @@ final&nbsp;void <strong>internalAfter</strong>()</h4>
                         <a name="internalBefore()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@org.testfx.api.annotation.Unstable(reason = "is missing apidocs")
+                                <h4>@org.testfx.api.annotation.Unstable(reason = 'is missing apidocs')
 final&nbsp;void <strong>internalBefore</strong>()</h4>
                                 <p></p>
                             </li>
@@ -346,17 +334,8 @@ final&nbsp;void <strong>internalBefore</strong>()</h4>
                         <a name="launch(Class<? extends Application>, java.lang.String)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>@org.testfx.api.annotation.Unstable(reason = "is missing apidocs")
+                                <h4>@org.testfx.api.annotation.Unstable(reason = 'is missing apidocs')
 static&nbsp;void <strong>launch</strong>(java.lang.Class&lt;? extends javafx.application.Application&gt; appClass, java.lang.String... appArgs)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="notifyPreloader(javafx.application.Preloader$PreloaderNotification)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>@java.lang.Deprecated
-final&nbsp;void <strong>notifyPreloader</strong>(javafx.application.Preloader$PreloaderNotification notification)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -364,7 +343,7 @@ final&nbsp;void <strong>notifyPreloader</strong>(javafx.application.Preloader$Pr
                         <a name="setup()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.lang.Object <strong>setup</strong>()</h4>
+                                <h4>void <strong>setup</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -373,7 +352,7 @@ final&nbsp;void <strong>notifyPreloader</strong>(javafx.application.Preloader$Pr
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-@org.testfx.api.annotation.Unstable(reason = "is missing apidocs")
+@org.testfx.api.annotation.Unstable(reason = 'is missing apidocs')
 void <strong>start</strong>(javafx.stage.Stage stage)</h4>
                                 <p></p>
                             </li>
@@ -383,7 +362,7 @@ void <strong>start</strong>(javafx.stage.Stage stage)</h4>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-@org.testfx.api.annotation.Unstable(reason = "is missing apidocs")
+@org.testfx.api.annotation.Unstable(reason = 'is missing apidocs')
 void <strong>stop</strong>()</h4>
                                 <p></p>
                             </li>
