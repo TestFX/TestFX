@@ -29,6 +29,7 @@ import javafx.scene.input.KeyCode;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
+import org.testfx.util.WaitForAsyncUtils;
 
 @Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
@@ -64,7 +65,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     @Override
     public void press(KeyCode... keys) {
         pressNoWait(keys);
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @Override
@@ -75,7 +76,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     @Override
     public void release(KeyCode... keys) {
         releaseNoWait(keys);
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @Override

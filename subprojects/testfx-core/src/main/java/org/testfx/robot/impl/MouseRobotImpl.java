@@ -28,6 +28,7 @@ import javafx.scene.input.MouseButton;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
+import org.testfx.util.WaitForAsyncUtils;
 
 @Unstable
 public class MouseRobotImpl implements MouseRobot {
@@ -55,7 +56,7 @@ public class MouseRobotImpl implements MouseRobot {
     @Override
     public void press(MouseButton... buttons) {
         pressNoWait(buttons);
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MouseRobotImpl implements MouseRobot {
     @Override
     public void release(MouseButton... buttons) {
         releaseNoWait(buttons);
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @Override
@@ -87,7 +88,7 @@ public class MouseRobotImpl implements MouseRobot {
     @Override
     public void move(Point2D location) {
         moveNoWait(location);
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @Override
@@ -98,7 +99,7 @@ public class MouseRobotImpl implements MouseRobot {
     @Override
     public void scroll(int wheelAmount) {
         scrollNoWait(wheelAmount);
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @Override

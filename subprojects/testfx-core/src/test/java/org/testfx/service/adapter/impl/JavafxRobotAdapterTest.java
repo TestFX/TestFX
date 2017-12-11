@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -49,6 +50,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -120,14 +122,14 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         char[] glyphs = new char[] {'.', ':', '1', '2'};
 
         // when:
         for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(textField, hasText(String.valueOf(glyphs)));
@@ -138,14 +140,14 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         char[] glyphs = new char[] {'e', 'E', 'u', 'U'};
 
         // when:
         for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(textField, hasText(String.valueOf(glyphs)));
@@ -156,14 +158,14 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         char[] glyphs = new char[] {'é', 'ü', 'ā', 'č'};
 
         // when:
         for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(textField, hasText(String.valueOf(glyphs)));
@@ -174,14 +176,14 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         char[] glyphs = new char[] {'树', '木', '한'};
 
         // when:
         for (char character : glyphs) {
             robotAdapter.keyType(KeyCode.UNDEFINED, Character.toString(character));
         }
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(textField, hasText(String.valueOf(glyphs)));
@@ -197,7 +199,7 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textAreaPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // Source: http://en.wikisource.org/wiki/All_in_the_Golden_Afternoon
         String text = "All in the golden afternoon\n" +
@@ -219,7 +221,7 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textAreaPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         // Source: http://ko.wikisource.org/wiki/이상한_나라의_앨리스
         String text = "화창한 오후마다\n" +
                 "\t우린 느긋이 배를 타지;\n" +
@@ -240,7 +242,7 @@ public class JavafxRobotAdapterTest {
         // given:
         robotAdapter.mouseMove(textFieldPoint);
         mousePressReleaseClick(MouseButton.PRIMARY);
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // when:
         for (char character : LATIN_EXTENDED_A_GLYPHS) {
@@ -249,7 +251,7 @@ public class JavafxRobotAdapterTest {
         for (int character : LATIN_EXTENDED_A_CODES) {
             keyPressTypeRelease(KeyCode.UNDEFINED, Character.toString((char) character));
         }
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         verifyThat(textField, hasText(String.valueOf(LATIN_EXTENDED_A_GLYPHS) +
@@ -262,21 +264,23 @@ public class JavafxRobotAdapterTest {
     public void getCapturePixelColor() throws InterruptedException {
         // given:
         assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+        CountDownLatch captureColorLatch = new CountDownLatch(1);
 
         // when:
-        CountDownLatch captureColorLatch = new CountDownLatch(1);
-        CompletableFuture<Color> captureColorFutureResult = robotAdapter.getCapturePixelColor(regionPoint);
+        CompletableFuture<Color> captureColorFutureResult = new CompletableFuture<>();
+        Platform.runLater(() -> captureColorFutureResult.complete(robotAdapter.getCapturePixelColor(regionPoint)));
+
+        // then:
         captureColorFutureResult.whenComplete((pixelColor, throwable) -> {
             if (throwable != null) {
                 fail("JavafxRobotAdapter.getCapturePixelColor(..) should not have completed exceptionally");
             }
             else {
-                assertThat(pixelColor, is(Color.web("magenta")));
+                assertThat(pixelColor, is(Color.MAGENTA));
                 captureColorLatch.countDown();
             }
         });
 
-        // then:
         assertThat(captureColorLatch.await(3, TimeUnit.SECONDS), is(true));
     }
 
@@ -284,11 +288,14 @@ public class JavafxRobotAdapterTest {
     public void getCaptureRegion() throws InterruptedException {
         // given:
         assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+        CountDownLatch captureRegionLatch = new CountDownLatch(1);
 
         // when:
-        CountDownLatch captureRegionLatch = new CountDownLatch(1);
         Rectangle2D region = new Rectangle2D(regionPoint.getX(), regionPoint.getY(), 10, 20);
-        CompletableFuture<Image> captureRegionFutureResult = robotAdapter.getCaptureRegion(region);
+        CompletableFuture<Image> captureRegionFutureResult = new CompletableFuture<>();
+        Platform.runLater(() -> captureRegionFutureResult.complete(robotAdapter.getCaptureRegion(region)));
+
+        // then:
         captureRegionFutureResult.whenComplete((regionImage, throwable) -> {
             if (throwable != null) {
                 fail("JavafxRobotAdapter.getCaptureRegion(..) should not have completed exceptionally");
@@ -296,13 +303,12 @@ public class JavafxRobotAdapterTest {
             else {
                 assertThat(regionImage.getWidth(), is(10.0));
                 assertThat(regionImage.getHeight(), is(20.0));
-                assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.web("magenta")));
+                assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.MAGENTA));
                 captureRegionLatch.countDown();
             }
         });
 
-        // then:
-        assertThat(captureRegionLatch.await(3, TimeUnit.SECONDS), is(true));
+        assertThat(captureRegionLatch.await(5, TimeUnit.SECONDS), is(true));
     }
 
     //---------------------------------------------------------------------------------------------
@@ -350,7 +356,7 @@ public class JavafxRobotAdapterTest {
             key = (character == '\t') ? KeyCode.TAB : key;
             keyPressTypeRelease(key, String.valueOf(character));
         }
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     private void keyPressTypeRelease(KeyCode key, String string) {

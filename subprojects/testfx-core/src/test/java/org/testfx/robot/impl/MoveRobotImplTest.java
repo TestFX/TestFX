@@ -72,7 +72,6 @@ public final class MoveRobotImplTest {
             verify(baseRobot, times(1)).moveMouse(new Point2D(x, 0));
         }
         verify(baseRobot, times(2)).moveMouse(new Point2D(10, 0));
-        verify(baseRobot, times(2)).awaitEvents();
     }
 
     @Test
@@ -92,7 +91,6 @@ public final class MoveRobotImplTest {
         // then:
         verify(baseRobot, times(200)).moveMouse(not(eq(targetPoint)));
         verify(baseRobot, times(2)).moveMouse(targetPoint);
-        verify(baseRobot, times(2)).awaitEvents();
     }
 
     @Test
@@ -113,7 +111,6 @@ public final class MoveRobotImplTest {
         // then:
         verify(baseRobot, times(1)).moveMouse(targetPoint);
         verify(baseRobot, times(1)).moveMouse(movedTargetPoint);
-        verify(baseRobot, times(2)).awaitEvents();
     }
 
     @Test
@@ -129,7 +126,6 @@ public final class MoveRobotImplTest {
         // then:
         verify(baseRobot, times(10)).moveMouse(not(eq(targetPoint)));
         verify(baseRobot, times(1)).moveMouse(targetPoint);
-        verify(baseRobot, times(1)).awaitEvents();
     }
 
     @Test
@@ -145,7 +141,6 @@ public final class MoveRobotImplTest {
         // then:
         verify(baseRobot, times(200)).moveMouse(not(eq(targetPoint)));
         verify(baseRobot, times(1)).moveMouse(targetPoint);
-        verify(baseRobot, times(1)).awaitEvents();
     }
 
 }
