@@ -16,9 +16,6 @@
  */
 package org.testfx.service.adapter.impl;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventTarget;
@@ -38,15 +35,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import org.testfx.api.annotation.Unstable;
+import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
+/**
+ * A {@link RobotAdapter} implementation that uses the only the JavaFX public API.
+ * <p>
+ * Developer's Note: Forcing the type parameter to be {@code JavafxRobotAdapter} is a bit
+ * of a kludge. Ideally we would use a {@code JavafxRobot} instead but such a type does
+ * not exist.
+ */
 @Unstable
-public class JavafxRobotAdapter {
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
+public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
     private Scene scene;
 
     private boolean isShiftDown;
@@ -63,17 +64,24 @@ public class JavafxRobotAdapter {
     private double screenMouseX;
     private double screenMouseY;
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    // ROBOT.
-
     public void robotCreate(Scene scene) {
         this.scene = scene;
     }
 
-    // KEY.
+    @Override
+    public void robotCreate() {
+        // NO-OP
+    }
+
+    @Override
+    public void robotDestroy() {
+        // NO-OP
+    }
+
+    @Override
+    public JavafxRobotAdapter getRobotInstance() {
+        return null;
+    }
 
     public void keyPress(KeyCode key) {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
@@ -141,52 +149,26 @@ public class JavafxRobotAdapter {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createScrollEvent(wheelAmount)));
     }
 
-    // CAPTURE.
-    public CompletableFuture<Color> getCapturePixelColor(Point2D location) {
-        CompletableFuture<Color> captureColorFutureResult = new CompletableFuture<>();
-        Platform.runLater(() -> {
-            WritableImage snapshot = scene.snapshot(null);
-            captureColorFutureResult.complete(snapshot.getPixelReader().getColor(
-                    (int) location.getX(), (int) location.getY()));
-        });
-        return captureColorFutureResult;
-    }
-
-    public CompletableFuture<Image> getCaptureRegion(Rectangle2D region) {
-        CompletableFuture<Image> captureRegionFutureResult = new CompletableFuture<>();
-        Platform.runLater(() -> scene.snapshot(result -> {
-            ImageView imageView = new ImageView(result.getImage());
-            imageView.setViewport(region);
-            Pane pane = new Pane(imageView);
-            Scene offScreenScene = new Scene(pane);
-            WritableImage croppedImage = imageView.snapshot(null, null);
-            captureRegionFutureResult.complete(croppedImage);
-            return null;
-        }, null));
-        return captureRegionFutureResult;
-    }
-
-    // TIMER.
-
-    /**
-     * Block until events in the queue are processed.
-     */
-    public void timerWaitForIdle() {
-        final CountDownLatch latch = new CountDownLatch(1);
-        Platform.runLater(latch::countDown);
-        while (true) {
-            try {
-                latch.await();
-                break;
-            }
-            catch (InterruptedException ignore) {
-            }
+    public Color getCapturePixelColor(Point2D location) {
+        if (!Platform.isFxApplicationThread()) {
+            throw new RuntimeException("JavafxRobotAdapter#getCapturePixelColor(..) must be called on JavaFX " +
+                    "application thread but was: " + Thread.currentThread());
         }
+        WritableImage snapshot = scene.snapshot(null);
+        return snapshot.getPixelReader().getColor((int) location.getX(), (int) location.getY());
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
+    public Image getCaptureRegion(Rectangle2D region) {
+        if (!Platform.isFxApplicationThread()) {
+            throw new RuntimeException("JavafxRobotAdapter#getCaptureRegion(..) must be called on JavaFX " +
+                    "application thread but was: " + Thread.currentThread());
+        }
+        ImageView imageView = new ImageView(scene.snapshot(null));
+        imageView.setViewport(region);
+        Pane pane = new Pane(imageView);
+        Scene offScreenScene = new Scene(pane); // The imageView must be in an off-screen Scene to be snapshotted
+        return imageView.snapshot(null, null);
+    }
 
     private EventTarget getEventTarget(Scene scene) {
         return scene.getFocusOwner() != null ? scene.getFocusOwner() : scene;

@@ -53,7 +53,6 @@ public final class MouseRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -65,7 +64,6 @@ public final class MouseRobotImplTest {
         // then:
         verify(baseRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
         verify(baseRobot, times(1)).pressMouse(eq(MouseButton.SECONDARY));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -76,7 +74,6 @@ public final class MouseRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).pressMouse(eq(MouseButton.PRIMARY));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -91,7 +88,6 @@ public final class MouseRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -107,7 +103,6 @@ public final class MouseRobotImplTest {
         // then:
         verify(baseRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
         verify(baseRobot, times(1)).releaseMouse(MouseButton.SECONDARY);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -118,7 +113,6 @@ public final class MouseRobotImplTest {
 
         // then:
         verify(baseRobot, times(0)).releaseMouse(MouseButton.PRIMARY);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -133,7 +127,6 @@ public final class MouseRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).releaseMouse(MouseButton.PRIMARY);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 

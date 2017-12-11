@@ -47,6 +47,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -157,7 +158,7 @@ public class GlassRobotAdapterTest {
         robotAdapter.keyPress(KeyCode.A);
 
         // then:
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         verify(keyEventHandler, times(1)).handle(any());
     }
 
@@ -176,7 +177,7 @@ public class GlassRobotAdapterTest {
         robotAdapter.keyRelease(KeyCode.A);
 
         // then:
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         verify(keyEventHandler, times(1)).handle(any());
     }
 
@@ -198,7 +199,7 @@ public class GlassRobotAdapterTest {
         robotAdapter.mouseMove(new Point2D(100, 200));
 
         // when:
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:
@@ -220,7 +221,7 @@ public class GlassRobotAdapterTest {
         robotAdapter.mousePress(MouseButton.PRIMARY);
 
         // then:
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
@@ -239,7 +240,7 @@ public class GlassRobotAdapterTest {
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
 
         // then:
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
@@ -282,7 +283,7 @@ public class GlassRobotAdapterTest {
             sleep(100, TimeUnit.MILLISECONDS);
             asyncFx(() -> reachedStatement.set(true));
         });
-        robotAdapter.timerWaitForIdle();
+        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
         assertThat(reachedStatement.get(), is(true));

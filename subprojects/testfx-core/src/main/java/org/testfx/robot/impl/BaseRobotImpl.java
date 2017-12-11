@@ -115,11 +115,6 @@ public class BaseRobotImpl implements BaseRobot {
         return robotAdapter.getCaptureRegion(region);
     }
 
-    @Override
-    public void awaitEvents() {
-        robotAdapter.timerWaitForIdle();
-    }
-
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------

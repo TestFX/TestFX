@@ -54,7 +54,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).pressKeyboard(eq(A));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -66,7 +65,6 @@ public final class KeyboardRobotImplTest {
         // then:
         verify(baseRobot, times(1)).pressKeyboard(eq(A));
         verify(baseRobot, times(1)).pressKeyboard(eq(B));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -81,7 +79,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -97,7 +94,6 @@ public final class KeyboardRobotImplTest {
         // then:
         verify(baseRobot, times(1)).releaseKeyboard(B);
         verify(baseRobot, times(1)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -108,7 +104,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(0)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -123,7 +118,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 

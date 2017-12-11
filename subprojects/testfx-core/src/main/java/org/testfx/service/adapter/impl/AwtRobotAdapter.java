@@ -25,9 +25,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Point2D;
@@ -41,28 +38,11 @@ import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
-import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
 @Unstable
 public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
-    static {
-        Map<MouseButton, Integer> buttons = new HashMap<>();
-        buttons.put(MouseButton.PRIMARY, InputEvent.BUTTON1_DOWN_MASK);
-        buttons.put(MouseButton.MIDDLE, InputEvent.BUTTON2_DOWN_MASK);
-        buttons.put(MouseButton.SECONDARY, InputEvent.BUTTON3_DOWN_MASK);
-        AWT_BUTTONS = Collections.unmodifiableMap(buttons);
-    }
-
-    private static final Map<MouseButton, Integer> AWT_BUTTONS;
-
     private Robot awtRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    // ROBOT.
 
     @Override
     public void robotCreate() {
@@ -83,8 +63,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         return awtRobot;
     }
 
-    // KEY.
-
     @Override
     public void keyPress(KeyCode key) {
         useRobot().keyPress(convertToKeyCodeId(key));
@@ -94,8 +72,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     public void keyRelease(KeyCode key) {
         useRobot().keyRelease(convertToKeyCodeId(key));
     }
-
-    // MOUSE.
 
     @Override
     public Point2D getMouseLocation() {
@@ -122,8 +98,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         useRobot().mouseWheel(wheelAmount);
     }
 
-    // CAPTURE.
-
     @Override
     public Color getCapturePixelColor(Point2D location) {
         Rectangle2D region = new Rectangle2D(location.getX(), location.getY(), 1, 1);
@@ -137,17 +111,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
         return convertFromAwtBufferedImage(awtBufferedImage);
     }
-
-    // TIMER.
-
-    @Override
-    public void timerWaitForIdle() {
-        waitForFxEvents();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private Robot useRobot() {
         if (awtRobot == null) {
@@ -182,7 +145,12 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     }
 
     private int convertToAwtButton(MouseButton button) {
-        return AWT_BUTTONS.get(button);
+        switch (button) {
+            case PRIMARY: return InputEvent.BUTTON1_DOWN_MASK;
+            case MIDDLE: return InputEvent.BUTTON2_DOWN_MASK;
+            case SECONDARY: return InputEvent.BUTTON3_DOWN_MASK;
+            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by AwtRobot");
+        }
     }
 
     private Rectangle convertToAwtRectangle(Rectangle2D rectangle) {

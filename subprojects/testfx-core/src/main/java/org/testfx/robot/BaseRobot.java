@@ -54,9 +54,4 @@ public interface BaseRobot {
      */
     Image captureRegion(Rectangle2D region);
 
-    /**
-     * Calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}
-     */
-    void awaitEvents();
-
 }

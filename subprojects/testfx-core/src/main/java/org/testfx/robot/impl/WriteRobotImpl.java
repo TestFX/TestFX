@@ -27,6 +27,7 @@ import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
+import org.testfx.util.WaitForAsyncUtils;
 
 @Unstable
 public class WriteRobotImpl implements WriteRobot {
@@ -87,7 +88,7 @@ public class WriteRobotImpl implements WriteRobot {
                                       Scene scene) {
         KeyCode key = determineKeyCode(character);
         baseRobot.typeKeyboard(scene, key, Character.toString(character));
-        baseRobot.awaitEvents();
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     private KeyCode determineKeyCode(char character) {

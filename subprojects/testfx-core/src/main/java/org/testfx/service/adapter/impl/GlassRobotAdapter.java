@@ -36,7 +36,6 @@ import org.testfx.service.adapter.RobotAdapter;
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
-import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
 @Unstable
 public class GlassRobotAdapter implements RobotAdapter<Robot> {
@@ -139,11 +138,6 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     // TIMER.
 
-    @Override
-    public void timerWaitForIdle() {
-        waitForFxEvents();
-    }
-
     //---------------------------------------------------------------------------------------------
     // PRIVATE METHODS.
     //---------------------------------------------------------------------------------------------
@@ -169,7 +163,7 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
             case PRIMARY: return Robot.MOUSE_LEFT_BTN;
             case SECONDARY: return Robot.MOUSE_RIGHT_BTN;
             case MIDDLE: return Robot.MOUSE_MIDDLE_BTN;
-            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by Robot");
+            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by GlassRobot");
         }
     }
 
