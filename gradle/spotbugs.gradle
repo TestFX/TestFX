@@ -32,14 +32,43 @@ spotbugs {
 
 spotbugsMain {
     reports {
-        xml.enabled = false
-        html.enabled = true
+        xml.enabled = true
+        html.enabled = false
     }
 }
 
 spotbugsTest {
     reports {
-        xml.enabled = false
-        html.enabled = true
+        xml.enabled = true
+        html.enabled = false
     }
+}
+
+task checkSpotBugsReport << {
+    def xmlReport = spotbugsMain.reports.xml
+    if (!xmlReport.destination.exists()) return
+    def parser = new XmlSlurper()
+    parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    def slurped = parser.parse(xmlReport.destination)
+    def report = ""
+    slurped['BugInstance'].eachWithIndex { bug, index ->
+        report += "${index + 1}. Found priority ${bug.@'priority'} bug: ${bug.@'type'} of category: ${bug.@'category'} "
+        report += "in the following places:"
+        bug['SourceLine'].each { place ->
+            if (place.start == place.end) {
+                report += "\n       ${place.@'classname'} at line: ${place.@'start'}"
+            } else {
+                // multi-line
+                report += "\n       ${place.@'classname'} starting at line: ${place.@'start'} to line: ${place.@'end'}"
+            }
+        }
+    }
+    if (report.length() > 1) {
+        logger.error "[SPOTBUGS]\n ${report}"
+    }
+}
+
+if (System.env.CI == "true") {
+    spotbugsMain.finalizedBy checkSpotBugsReport
 }

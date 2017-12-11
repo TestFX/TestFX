@@ -106,7 +106,7 @@ allprojects { project ->
 subprojects { subproject ->
     apply plugin: 'osgi'
 
-    apply from: "${rootDir}/gradle/findbugs.gradle"
+    apply from: "${rootDir}/gradle/spotbugs.gradle"
     //apply(from: rootProject.file("gradle/jdepend.gradle"))
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
