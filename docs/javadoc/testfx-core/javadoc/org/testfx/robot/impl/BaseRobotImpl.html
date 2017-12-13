@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -152,44 +152,38 @@ implements <a href="../../../../org/testfx/robot/BaseRobot.html" title="interfac
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#awaitEvents--">awaitEvents</a></span>()</code>
-<div class="block">Calls <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a></div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code>javafx.scene.image.Image</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#captureRegion-javafx.geometry.Rectangle2D-">captureRegion</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#moveMouse-javafx.geometry.Point2D-">moveMouse</a></span>(javafx.geometry.Point2D&nbsp;point)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#pressKeyboard-javafx.scene.input.KeyCode-">pressKeyboard</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#pressMouse-javafx.scene.input.MouseButton-">pressMouse</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#releaseKeyboard-javafx.scene.input.KeyCode-">releaseKeyboard</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#releaseMouse-javafx.scene.input.MouseButton-">releaseMouse</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>javafx.geometry.Point2D</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#retrieveMouse--">retrieveMouse</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#scrollMouse-int-">scrollMouse</a></span>(int&nbsp;amount)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/BaseRobotImpl.html#typeKeyboard-javafx.scene.Scene-javafx.scene.input.KeyCode-java.lang.String-">typeKeyboard</a></span>(javafx.scene.Scene&nbsp;scene,
             javafx.scene.input.KeyCode&nbsp;key,
@@ -345,7 +339,7 @@ implements <a href="../../../../org/testfx/robot/BaseRobot.html" title="interfac
 <a name="captureRegion-javafx.geometry.Rectangle2D-">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>captureRegion</h4>
 <pre>public&nbsp;javafx.scene.image.Image&nbsp;captureRegion(javafx.geometry.Rectangle2D&nbsp;region)</pre>
@@ -356,21 +350,6 @@ implements <a href="../../../../org/testfx/robot/BaseRobot.html" title="interfac
 <dd><code>region</code> - the given bounds for the image</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a screen shot of the given region</dd>
-</dl>
-</li>
-</ul>
-<a name="awaitEvents--">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>awaitEvents</h4>
-<pre>public&nbsp;void&nbsp;awaitEvents()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/BaseRobot.html#awaitEvents--">BaseRobot</a></code></span></div>
-<div class="block">Calls <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a></div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/testfx/robot/BaseRobot.html#awaitEvents--">awaitEvents</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a></code></dd>
 </dl>
 </li>
 </ul>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -106,11 +106,21 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</dd>
+</dl>
 <hr>
 <br>
 <pre><a href="../../../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>
 public class <span class="typeNameLabel">JavafxRobotAdapter</span>
-extends java.lang.Object</pre>
+extends java.lang.Object
+implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</pre>
+<div class="block">A <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter"><code>RobotAdapter</code></a> implementation that uses the only the JavaFX public API.
+ <p>
+ Developer's Note: Forcing the type parameter to be <code>JavafxRobotAdapter</code> is a bit
+ of a kludge. Ideally we would use a <code>JavafxRobot</code> instead but such a type does
+ not exist.</div>
 </li>
 </ul>
 </div>
@@ -147,11 +157,11 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.util.concurrent.CompletableFuture&lt;javafx.scene.paint.Color&gt;</code></td>
+<td class="colFirst"><code>javafx.scene.paint.Color</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></span>(javafx.geometry.Point2D&nbsp;location)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>java.util.concurrent.CompletableFuture&lt;javafx.scene.image.Image&gt;</code></td>
+<td class="colFirst"><code>javafx.scene.image.Image</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -159,66 +169,72 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#getMouseLocation--">getMouseLocation</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+<td class="colFirst"><code><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#getRobotInstance--">getRobotInstance</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#keyType-javafx.scene.input.KeyCode-java.lang.String-">keyType</a></span>(javafx.scene.input.KeyCode&nbsp;key,
        java.lang.String&nbsp;character)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseClick-javafx.scene.input.MouseButton-">mouseClick</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseClick-javafx.scene.input.MouseButton-int-">mouseClick</a></span>(javafx.scene.input.MouseButton&nbsp;button,
           int&nbsp;clickCount)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseDrag-javafx.scene.input.MouseButton-">mouseDrag</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></span>(javafx.geometry.Point2D&nbsp;location)</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mousePress-javafx.scene.input.MouseButton-int-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button,
           int&nbsp;clickCount)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-int-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button,
             int&nbsp;clickCount)</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#mouseWheel-int-">mouseWheel</a></span>(int&nbsp;wheelAmount)</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#robotCreate--">robotCreate</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#robotCreate-javafx.scene.Scene-">robotCreate</a></span>(javafx.scene.Scene&nbsp;scene)</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#timerWaitForIdle--">timerWaitForIdle</a></span>()</code>
-<div class="block">Block until events in the queue are processed.</div>
-</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html#robotDestroy--">robotDestroy</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -268,6 +284,45 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;void&nbsp;robotCreate(javafx.scene.Scene&nbsp;scene)</pre>
 </li>
 </ul>
+<a name="robotCreate--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>robotCreate</h4>
+<pre>public&nbsp;void&nbsp;robotCreate()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#robotCreate--">robotCreate</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
+<a name="robotDestroy--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>robotDestroy</h4>
+<pre>public&nbsp;void&nbsp;robotDestroy()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#robotDestroy--">robotDestroy</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
+<a name="getRobotInstance--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRobotInstance</h4>
+<pre>public&nbsp;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&nbsp;getRobotInstance()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getRobotInstance--">getRobotInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
+</li>
+</ul>
 <a name="keyPress-javafx.scene.input.KeyCode-">
 <!--   -->
 </a>
@@ -275,6 +330,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>keyPress</h4>
 <pre>public&nbsp;void&nbsp;keyPress(javafx.scene.input.KeyCode&nbsp;key)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="keyRelease-javafx.scene.input.KeyCode-">
@@ -284,6 +343,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>keyRelease</h4>
 <pre>public&nbsp;void&nbsp;keyRelease(javafx.scene.input.KeyCode&nbsp;key)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="keyType-javafx.scene.input.KeyCode-java.lang.String-">
@@ -303,6 +366,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getMouseLocation</h4>
 <pre>public&nbsp;javafx.geometry.Point2D&nbsp;getMouseLocation()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getMouseLocation--">getMouseLocation</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="mouseMove-javafx.geometry.Point2D-">
@@ -312,6 +379,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>mouseMove</h4>
 <pre>public&nbsp;void&nbsp;mouseMove(javafx.geometry.Point2D&nbsp;location)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="mousePress-javafx.scene.input.MouseButton-int-">
@@ -351,6 +422,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>mousePress</h4>
 <pre>public&nbsp;void&nbsp;mousePress(javafx.scene.input.MouseButton&nbsp;button)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="mouseRelease-javafx.scene.input.MouseButton-">
@@ -360,6 +435,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>mouseRelease</h4>
 <pre>public&nbsp;void&nbsp;mouseRelease(javafx.scene.input.MouseButton&nbsp;button)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="mouseClick-javafx.scene.input.MouseButton-">
@@ -387,6 +466,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>mouseWheel</h4>
 <pre>public&nbsp;void&nbsp;mouseWheel(int&nbsp;wheelAmount)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseWheel-int-">mouseWheel</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="getCapturePixelColor-javafx.geometry.Point2D-">
@@ -395,26 +478,24 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getCapturePixelColor</h4>
-<pre>public&nbsp;java.util.concurrent.CompletableFuture&lt;javafx.scene.paint.Color&gt;&nbsp;getCapturePixelColor(javafx.geometry.Point2D&nbsp;location)</pre>
+<pre>public&nbsp;javafx.scene.paint.Color&nbsp;getCapturePixelColor(javafx.geometry.Point2D&nbsp;location)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 <a name="getCaptureRegion-javafx.geometry.Rectangle2D-">
 <!--   -->
 </a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getCaptureRegion</h4>
-<pre>public&nbsp;java.util.concurrent.CompletableFuture&lt;javafx.scene.image.Image&gt;&nbsp;getCaptureRegion(javafx.geometry.Rectangle2D&nbsp;region)</pre>
-</li>
-</ul>
-<a name="timerWaitForIdle--">
-<!--   -->
-</a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>timerWaitForIdle</h4>
-<pre>public&nbsp;void&nbsp;timerWaitForIdle()</pre>
-<div class="block">Block until events in the queue are processed.</div>
+<h4>getCaptureRegion</h4>
+<pre>public&nbsp;javafx.scene.image.Image&nbsp;getCaptureRegion(javafx.geometry.Rectangle2D&nbsp;region)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;<a href="../../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a>&gt;</code></dd>
+</dl>
 </li>
 </ul>
 </li>
