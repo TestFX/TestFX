@@ -16,6 +16,7 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javafx.scene.Scene;
@@ -34,25 +35,18 @@ public class WriteRobotImpl implements WriteRobot {
 
     private static final long SLEEP_AFTER_CHARACTER_IN_MILLIS = 25;
 
-    public BaseRobot baseRobot;
-    public SleepRobot sleepRobot;
-    public WindowFinder windowFinder;
+    private final BaseRobot baseRobot;
+    private final SleepRobot sleepRobot;
+    private final WindowFinder windowFinder;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public WriteRobotImpl(BaseRobot baseRobot,
-                          SleepRobot sleepRobot,
-                          WindowFinder windowFinder) {
+    public WriteRobotImpl(BaseRobot baseRobot, SleepRobot sleepRobot, WindowFinder windowFinder) {
+        Objects.requireNonNull(baseRobot, "baseRobot must not be null");
+        Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
+        Objects.requireNonNull(windowFinder, "windowFinder must not be null");
         this.baseRobot = baseRobot;
         this.sleepRobot = sleepRobot;
         this.windowFinder = windowFinder;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void write(char character) {
@@ -68,10 +62,6 @@ public class WriteRobotImpl implements WriteRobot {
             sleepRobot.sleep(SLEEP_AFTER_CHARACTER_IN_MILLIS);
         }
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private Window fetchTargetWindow() {
         Window targetWindow = windowFinder.window(Window::isFocused);

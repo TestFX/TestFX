@@ -50,7 +50,7 @@ public interface BaseRobot {
     /**
      *
      * @param region the given bounds for the image
-     * @return a screen shot of the given region
+     * @return a screen capture of the given region
      */
     Image captureRegion(Rectangle2D region);
 

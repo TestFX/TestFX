@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -35,22 +36,15 @@ public class TypeRobotImpl implements TypeRobot {
 
     private static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS = 25;
 
-    public KeyboardRobot keyboardRobot;
-    public SleepRobot sleepRobot;
+    private final KeyboardRobot keyboardRobot;
+    private final SleepRobot sleepRobot;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public TypeRobotImpl(KeyboardRobot keyboardRobot,
-                         SleepRobot sleepRobot) {
+    public TypeRobotImpl(KeyboardRobot keyboardRobot, SleepRobot sleepRobot) {
+        Objects.requireNonNull(keyboardRobot, "keyboardRobot must not be null");
+        Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
         this.keyboardRobot = keyboardRobot;
         this.sleepRobot = sleepRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void push(KeyCode... combination) {
@@ -71,17 +65,12 @@ public class TypeRobotImpl implements TypeRobot {
     }
 
     @Override
-    public void type(KeyCode key,
-                     int times) {
+    public void type(KeyCode key, int times) {
         for (int index = 0; index < times; index++) {
             pushKeyCode(key);
             sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
         }
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private void pushKeyCode(KeyCode keyCode) {
         keyboardRobot.pressNoWait(keyCode);
@@ -92,13 +81,13 @@ public class TypeRobotImpl implements TypeRobot {
         List<KeyCode> keyCodesForwards = Arrays.asList(keyCodeCombination);
         List<KeyCode> keyCodesBackwards = new ArrayList<>(keyCodesForwards);
         Collections.reverse(keyCodesBackwards);
-        keyboardRobot.pressNoWait(toKeyCodeArray(keyCodesForwards));
-        keyboardRobot.release(toKeyCodeArray(keyCodesBackwards));
+        keyboardRobot.pressNoWait(keyCodesForwards.toArray(new KeyCode[keyCodesForwards.size()]));
+        keyboardRobot.release(keyCodesBackwards.toArray(new KeyCode[keyCodesBackwards.size()]));
     }
 
     private void pushKeyCodeCombination(KeyCodeCombination keyCodeCombination) {
         List<KeyCode> keyCodes = filterKeyCodes(keyCodeCombination);
-        pushKeyCodeCombination(toKeyCodeArray(keyCodes));
+        pushKeyCodeCombination(keyCodes.toArray(new KeyCode[keyCodes.size()]));
     }
 
     private List<KeyCode> filterKeyCodes(KeyCodeCombination keyCombination) {
@@ -120,10 +109,6 @@ public class TypeRobotImpl implements TypeRobot {
         }
         modifierKeyCodes.add(keyCombination.getCode());
         return Collections.unmodifiableList(modifierKeyCodes);
-    }
-
-    private KeyCode[] toKeyCodeArray(List<KeyCode> keyCodes) {
-        return keyCodes.toArray(new KeyCode[keyCodes.size()]);
     }
 
 }

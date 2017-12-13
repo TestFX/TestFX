@@ -16,6 +16,8 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Objects;
+
 import javafx.scene.input.MouseButton;
 
 import org.testfx.api.annotation.Unstable;
@@ -27,22 +29,15 @@ import org.testfx.service.query.PointQuery;
 @Unstable
 public class DragRobotImpl implements DragRobot {
 
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
+    private final MouseRobot mouseRobot;
+    private final MoveRobot moveRobot;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public DragRobotImpl(MouseRobot mouseRobot,
-                          MoveRobot moveRobot) {
+    public DragRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot) {
+        Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
+        Objects.requireNonNull(moveRobot, "moveRobot must not be null");
         this.mouseRobot = mouseRobot;
         this.moveRobot = moveRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void drag(MouseButton... buttons) {
@@ -50,8 +45,7 @@ public class DragRobotImpl implements DragRobot {
     }
 
     @Override
-    public void drag(PointQuery pointQuery,
-                     MouseButton... buttons) {
+    public void drag(PointQuery pointQuery, MouseButton... buttons) {
         moveRobot.moveTo(pointQuery);
         drag(buttons);
     }
@@ -68,8 +62,7 @@ public class DragRobotImpl implements DragRobot {
     }
 
     @Override
-    public void dropBy(double x,
-                       double y) {
+    public void dropBy(double x, double y) {
         moveRobot.moveBy(x, y);
         drop();
     }

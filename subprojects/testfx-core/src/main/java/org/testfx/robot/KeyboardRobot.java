@@ -22,41 +22,43 @@ import javafx.scene.input.KeyCode;
 public interface KeyboardRobot {
 
     /**
-     * Presses given keys, until explicitly released via {@link #release(KeyCode...)}. Once pressed,
+     * Presses the given keys, until explicitly released via {@link #release(KeyCode...)}. Once pressed,
      * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is called.
      *
-     * @param keys the key codes
+     * @param keys the key codes to press
      */
     void press(KeyCode... keys);
 
     /**
-     * Presses given keys, until explicitly released via {@link #release(KeyCode...)}.
+     * Presses the given keys, until explicitly released via {@link #release(KeyCode...)}.
      * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
      *
-     * @param keys the key codes
+     * @param keys the key codes to press without waiting afterwards
      */
     void pressNoWait(KeyCode... keys);
 
     /**
-     * Gets the keys that have been pressed and not released.
+     * Gets the keys that have been pressed and not yet released.
      *
-     * @return an unmodifiable set of the keys that have been pressed but not released.
+     * @return an (unmodifiable) containing the keys that have been pressed (but not yet) released.
      */
     Set<KeyCode> getPressedKeys();
 
     /**
-     * Releases given keys. Once released, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is called.
+     * Releases the given keys. Once released, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is called.
+     * <p>
      * <em>Note:</em> passing in an empty {@code KeyCode[]} will release all pressed keys.
      *
-     * @param keys the key codes
+     * @param keys the key codes to release
      */
     void release(KeyCode... keys);
 
     /**
-     * Releases given keys. {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     * Releases the given keys. {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     * <p>
      * <em>Note:</em> passing in an empty {@code KeyCode[]} will release all pressed keys.
      *
-     * @param keys the key codes
+     * @param keys the key codes to release without waiting afterwards
      */
     void releaseNoWait(KeyCode... keys);
 

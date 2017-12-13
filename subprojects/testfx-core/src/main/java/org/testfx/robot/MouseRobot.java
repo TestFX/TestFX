@@ -24,73 +24,81 @@ import javafx.scene.input.MouseButton;
 public interface MouseRobot {
 
     /**
-     * Presses given buttons, until explicitly released via {@link #release(MouseButton...)}. Once pressed,
-     * calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
+     * Presses the given mouse buttons, until explicitly released via {@link #release(MouseButton...)}.
+     * Once pressed, calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
+     * <p>
      * <em>Note:</em> passing in an empty {@code MouseButton[]} will call {@code press(MouseButton.PRIMARY)}.
      *
-     * @param buttons the mouse buttons
+     * @param buttons the mouse buttons to press
      */
     void press(MouseButton... buttons);
 
     /**
-     * Presses given buttons, until explicitly released via {@link #release(MouseButton...)}. Once pressed,
-     * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     * Presses the given mouse buttons, until explicitly released via {@link #release(MouseButton...)}.
+     * Once pressed, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     * <p>
      * <em>Note:</em> passing in an empty {@code MouseButton[]} will call {@code press(MouseButton.PRIMARY)}.
      *
-     * @param buttons the mouse buttons
+     * @param buttons the mouse buttons to press without waiting afterwards
      */
     void pressNoWait(MouseButton... buttons);
 
     /**
-     * Gets the buttons that have been pressed but not yet released.
-     * @return an unmodifiable set of the pressed buttons
+     * Gets the mouse buttons that have been pressed but not yet released.
+     *
+     * @return an (unmodifiable) set containing the pressed (but not yet released) buttons
      */
     Set<MouseButton> getPressedButtons();
 
     /**
-     * Releases given buttons. Once pressed, calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
+     * Releases the given mouse buttons. Once pressed, calls
+     * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
+     * <p>
      * <em>Note:</em> passing in an empty {@code MouseButton[]} will release all pressed {@code MouseButton}s.
      *
-     * @param buttons the mouse buttons
+     * @param buttons the mouse buttons to release
      */
     void release(MouseButton... buttons);
 
     /**
-     * Releases given buttons. Once pressed, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
+     * Releases the given mouse buttons. Once pressed, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}
+     * is not called.
+     * <p>
      * <em>Note:</em> passing in an empty {@code MouseButton[]} will release all pressed {@code MouseButton}s.
      *
-     * @param buttons the mouse buttons
+     * @param buttons the mouse buttons to release without waiting afterwards
      */
     void releaseNoWait(MouseButton... buttons);
 
     /**
-     * Moves mouse to given location. Once moved, calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
+     * Moves the mouse to the given location. Once moved, calls
+     * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
      *
-     * @param location the location to move
+     * @param location the location to move the mouse to
      */
     void move(Point2D location);
 
     /**
-     * Moves mouse to given location. Once moved, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is
-     * not called.
+     * Moves the mouse to the given location. Once moved, {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}
+     * is not called.
      *
-     * @param location the location to move
+     * @param location the location to move the mouse to without waiting afterwards
      */
     void moveNoWait(Point2D location);
 
     /**
-     * Scrolls mouse wheel by the given amount. Once scrolled, calls
+     * Scrolls the mouse wheel by the given amount. Once scrolled, calls
      * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}.
      *
-     * @param wheelAmount the amount to scroll
+     * @param wheelAmount the amount to scroll the mouse by
      */
     void scroll(int wheelAmount);
 
     /**
-     * Scrolls mouse wheel by the given amount. Once scrolled,
+     * Scrolls the mouse wheel by the given amount. Once scrolled,
      * {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()} is not called.
      *
-     * @param wheelAmount the amount to scroll
+     * @param wheelAmount the amount to scroll the mouse by without waiting afterwards
      */
     void scrollNoWait(int wheelAmount);
 
