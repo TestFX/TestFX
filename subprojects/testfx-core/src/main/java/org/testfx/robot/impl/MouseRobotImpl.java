@@ -18,9 +18,9 @@ package org.testfx.robot.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
@@ -33,25 +33,13 @@ import org.testfx.util.WaitForAsyncUtils;
 @Unstable
 public class MouseRobotImpl implements MouseRobot {
 
-    public BaseRobot baseRobot;
+    private final BaseRobot baseRobot;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
 
-    @Override
-    public final Set<MouseButton> getPressedButtons() {
-        return Collections.unmodifiableSet(pressedButtons);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
     public MouseRobotImpl(BaseRobot baseRobot) {
+        Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void press(MouseButton... buttons) {
@@ -61,11 +49,11 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void pressNoWait(MouseButton... buttons) {
-        if (isArrayEmpty(buttons)) {
-            pressPrimaryButton();
+        if (buttons.length == 0) {
+            pressButton(MouseButton.PRIMARY);
         }
         else {
-            pressButtons(Arrays.asList(buttons));
+            Arrays.asList(buttons).forEach(this::pressButton);
         }
     }
 
@@ -77,11 +65,11 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void releaseNoWait(MouseButton... buttons) {
-        if (isArrayEmpty(buttons)) {
-            releasePressedButtons();
+        if (buttons.length == 0) {
+            new ArrayList<>(pressedButtons).forEach(this::releaseButton);
         }
         else {
-            releaseButtons(Arrays.asList(buttons));
+            Arrays.asList(buttons).forEach(this::releaseButton);
         }
     }
 
@@ -93,7 +81,7 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void moveNoWait(Point2D location) {
-        moveCursor(location);
+        baseRobot.moveMouse(location);
     }
 
     @Override
@@ -104,31 +92,12 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void scrollNoWait(int wheelAmount) {
-        scrollWheel(wheelAmount);
+        baseRobot.scrollMouse(wheelAmount);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private boolean isArrayEmpty(Object[] elements) {
-        return elements.length == 0;
-    }
-
-    private void pressPrimaryButton() {
-        pressButton(MouseButton.PRIMARY);
-    }
-
-    private void releasePressedButtons() {
-        releaseButtons(new ArrayList<>(pressedButtons));
-    }
-
-    private void pressButtons(Collection<MouseButton> buttons) {
-        buttons.forEach(this::pressButton);
-    }
-
-    private void releaseButtons(Collection<MouseButton> buttons) {
-        buttons.forEach(this::releaseButton);
+    @Override
+    public final Set<MouseButton> getPressedButtons() {
+        return Collections.unmodifiableSet(pressedButtons);
     }
 
     private void pressButton(MouseButton button) {
@@ -141,14 +110,6 @@ public class MouseRobotImpl implements MouseRobot {
         if (pressedButtons.remove(button)) {
             baseRobot.releaseMouse(button);
         }
-    }
-
-    private void moveCursor(Point2D location) {
-        baseRobot.moveMouse(location);
-    }
-
-    private void scrollWheel(int amount) {
-        baseRobot.scrollMouse(amount);
     }
 
 }

@@ -24,31 +24,30 @@ public interface TypeRobot {
     /**
      * Pushes a given key combination.
      *
-     * @param combination the combination
+     * @param combination the combination to push
      */
     void push(KeyCode... combination);
 
     /**
      * Pushes a given key combination.
      *
-     * @param combination the combination
+     * @param combination the combination to push
      */
     void push(KeyCodeCombination combination);
 
     /**
      * Types given keys one after the other.
      *
-     * @param keyCodes the key codes
+     * @param keyCodes the key codes to type
      */
     void type(KeyCode... keyCodes);
 
     /**
      * Types a given key multiple times.
      *
-     * @param keyCode the key code
-     * @param times number of times
+     * @param keyCode the key code to type {@code times} times
+     * @param times number of times to type the {@code keyCode}
      */
-    void type(KeyCode keyCode,
-              int times);
+    void type(KeyCode keyCode, int times);
 
 }

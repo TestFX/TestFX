@@ -16,7 +16,6 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.Objects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -34,35 +33,25 @@ import org.testfx.service.adapter.impl.JavafxRobotAdapter;
 @Unstable(reason = "needs more tests")
 public class BaseRobotImpl implements BaseRobot {
 
-    private static final String PROPERTY_TESTFX_ROBOT = "testfx.robot";
-    private static final String PROPERTY_TESTFX_ROBOT_AWT = "awt";
-    private static final String PROPERTY_TESTFX_ROBOT_GLASS = "glass";
-
     private final RobotAdapter robotAdapter;
     private final JavafxRobotAdapter javafxRobotAdapter;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
     public BaseRobotImpl() {
-        String robotAdapterName = System.getProperty(PROPERTY_TESTFX_ROBOT, PROPERTY_TESTFX_ROBOT_AWT);
-        if (isAwtRobotAdapter(robotAdapterName)) {
-            robotAdapter = new AwtRobotAdapter();
-        }
-        else if (isGlassRobotAdapter(robotAdapterName)) {
-            robotAdapter = new GlassRobotAdapter();
-        }
-        else {
-            throw new IllegalStateException("Unknown robot adapter " +
-                "'" + PROPERTY_TESTFX_ROBOT + "=" + robotAdapterName + "'");
+        // Default to awt if "testfx.robot" is not explicitly set.
+        String robotAdapterName = System.getProperty("testfx.robot", "awt");
+        switch (robotAdapterName) {
+            case "awt":
+                robotAdapter = new AwtRobotAdapter();
+                break;
+            case "glass":
+                robotAdapter = new GlassRobotAdapter();
+                break;
+            default:
+                throw new IllegalStateException(String.format(
+                        "unknown robot adapter 'testfx.robot=%s' (must be 'awt' or 'glass')", robotAdapterName));
         }
         javafxRobotAdapter = new JavafxRobotAdapter();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void pressKeyboard(KeyCode key) {
@@ -75,9 +64,7 @@ public class BaseRobotImpl implements BaseRobot {
     }
 
     @Override
-    public void typeKeyboard(Scene scene,
-                             KeyCode key,
-                             String character) {
+    public void typeKeyboard(Scene scene, KeyCode key, String character) {
         // KeyEvent: "For key typed events, {@code code} is always {@code KeyCode.UNDEFINED}."
         javafxRobotAdapter.robotCreate(scene);
         javafxRobotAdapter.keyPress(key);
@@ -113,18 +100,6 @@ public class BaseRobotImpl implements BaseRobot {
     @Override
     public Image captureRegion(Rectangle2D region) {
         return robotAdapter.getCaptureRegion(region);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private boolean isAwtRobotAdapter(String robotAdapterName) {
-        return Objects.equals(robotAdapterName, PROPERTY_TESTFX_ROBOT_AWT);
-    }
-
-    private boolean isGlassRobotAdapter(String robotAdapterName) {
-        return Objects.equals(robotAdapterName, PROPERTY_TESTFX_ROBOT_GLASS);
     }
 
 }

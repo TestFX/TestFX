@@ -17,10 +17,9 @@
 package org.testfx.robot.impl;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,33 +33,16 @@ import org.testfx.util.WaitForAsyncUtils;
 @Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
 
-    private static final KeyCode OS_SPECIFIC_SHORTCUT;
+    private static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)
+            .startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
 
-    static {
-        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
-        OS_SPECIFIC_SHORTCUT = osName.startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
-    }
-
-    public BaseRobot baseRobot;
-
+    private final BaseRobot baseRobot;
     private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();
 
-    @Override
-    public final Set<KeyCode> getPressedKeys() {
-        return Collections.unmodifiableSet(pressedKeys);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
     public KeyboardRobotImpl(BaseRobot baseRobot) {
+        Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void press(KeyCode... keys) {
@@ -70,7 +52,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void pressNoWait(KeyCode... keys) {
-        pressKeys(Arrays.asList(keys));
+        Arrays.asList(keys).forEach(this::pressKey);
     }
 
     @Override
@@ -81,32 +63,17 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     @Override
     public void releaseNoWait(KeyCode... keys) {
-        if (isArrayEmpty(keys)) {
-            releasePressedKeys();
+        if (keys.length == 0) {
+            pressedKeys.forEach(this::releaseKey);
         }
         else {
-            releaseKeys(Arrays.asList(keys));
+            Arrays.asList(keys).forEach(this::releaseKey);
         }
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private boolean isArrayEmpty(Object[] elements) {
-        return elements.length == 0;
-    }
-
-    private void pressKeys(List<KeyCode> keyCodes) {
-        keyCodes.forEach(this::pressKey);
-    }
-
-    private void releaseKeys(Collection<KeyCode> keyCodes) {
-        keyCodes.forEach(this::releaseKey);
-    }
-
-    private void releasePressedKeys() {
-        releaseKeys(pressedKeys);
+    @Override
+    public final Set<KeyCode> getPressedKeys() {
+        return Collections.unmodifiableSet(pressedKeys);
     }
 
     private void pressKey(KeyCode keyCode) {

@@ -24,10 +24,6 @@ import org.testfx.robot.SleepRobot;
 @Unstable(reason = "needs more tests")
 public class SleepRobotImpl implements SleepRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public void sleep(long milliseconds) {
         try {

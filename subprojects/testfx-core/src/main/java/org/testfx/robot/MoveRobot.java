@@ -21,38 +21,38 @@ import org.testfx.service.query.PointQuery;
 public interface MoveRobot {
 
     /**
-     * Moves mouse directly to {@link PointQuery#query()}.
+     * Moves the mouse directly to the (x,y) position specified by the given
+     * {@link PointQuery#query()}.
      *
-     * @param pointQuery the pointQuery
+     * @param pointQuery the pointQuery to move to
      */
     default void moveTo(PointQuery pointQuery) {
         moveTo(pointQuery, Motion.DEFAULT);
     }
 
     /**
-     * Moves mouse to {@link PointQuery#query()} using the specified {@code motion}
-     * (see: {@link Motion}) and clicks whatever is under it.
+     * Moves the mouse to the (x,y) position specified by the given {@link PointQuery#query()}
+     * using the specified {@code motion} (see: {@link Motion}) and clicks whatever is under it.
      *
-     * @param pointQuery the pointQuery
+     * @param pointQuery the pointQuery to move to
      * @param motion the type of motion to use for movement
      */
     void moveTo(PointQuery pointQuery, Motion motion);
 
     /**
-     * Moves mouse directly from current location to new location by {@code x} on the
-     * horizontal axis and by {@code y} on the vertical axis.
+     * Moves the mouse directly (see: {@link Motion#DIRECT} from the current location to the
+     * given ({@code x}, {@code y}) location.
      *
-     * @param x the amount by which to move the mouse horizontally
-     * @param y the amount by which to move the mouse vertically
+     * @param x the amount by which to directly move the mouse horizontally
+     * @param y the amount by which to directly move the mouse vertically
      */
     default void moveBy(double x, double y) {
         moveBy(x, y, Motion.DEFAULT);
     }
 
     /**
-     * Moves mouse from current location to new location by {@code x} using the given
-     * {@code motion} (see: {@link Motion} on the horizontal axis and by {@code y} on
-     * the vertical axis.
+     * Moves the mouse from the current location to the given ({@code x}, {@code y}) location.
+     * The movement is done using the given {@link Motion}.
      *
      * @param x the amount by which to move the mouse horizontally
      * @param y the amount by which to move the mouse vertically

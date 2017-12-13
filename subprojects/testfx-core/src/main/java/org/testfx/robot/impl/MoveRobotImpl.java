@@ -39,30 +39,20 @@ public class MoveRobotImpl implements MoveRobot {
     private static final long MIN_POINT_OFFSET_COUNT = 1;
     private static final long MAX_POINT_OFFSET_COUNT = 200;
 
-    private BaseRobot baseRobot;
-    private MouseRobot mouseRobot;
-    private SleepRobot sleepRobot;
+    private final BaseRobot baseRobot;
+    private final MouseRobot mouseRobot;
+    private final SleepRobot sleepRobot;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public MoveRobotImpl(BaseRobot baseRobot,
-                         MouseRobot mouseRobot,
-                         SleepRobot sleepRobot) {
+    public MoveRobotImpl(BaseRobot baseRobot, MouseRobot mouseRobot, SleepRobot sleepRobot) {
         this.baseRobot = baseRobot;
         this.mouseRobot = mouseRobot;
         this.sleepRobot = sleepRobot;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public void moveTo(PointQuery pointQuery, Motion motion) {
         // Since moving takes time, only do it if we're not already at the desired point.
-        Point2D sourcePoint = retrieveMouseLocation();
+        Point2D sourcePoint = baseRobot.retrieveMouse();
 
         if (motion == Motion.DEFAULT && pointQuery.queryMotion().isPresent()) {
             // The user explicitly requested a non-default type of motion, so honor it.
@@ -75,27 +65,15 @@ public class MoveRobotImpl implements MoveRobot {
 
         // If the target has moved while we were moving the mouse, update to the new position.
         Point2D finalPoint = pointQuery.query();
-        moveMouseDirectlyTo(finalPoint);
+        mouseRobot.move(finalPoint);
     }
 
     @Override
     public void moveBy(double x, double y, Motion motion) {
 
-        Point2D sourcePoint = retrieveMouseLocation();
+        Point2D sourcePoint = baseRobot.retrieveMouse();
         Point2D targetPoint = new Point2D(sourcePoint.getX() + x, sourcePoint.getY() + y);
         moveMouseStepwiseBetween(sourcePoint, targetPoint, motion);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Point2D retrieveMouseLocation() {
-        return baseRobot.retrieveMouse();
-    }
-
-    private void moveMouseDirectlyTo(Point2D targetPoint) {
-        mouseRobot.move(targetPoint);
     }
 
     private void moveMouseStepwiseBetween(Point2D sourcePoint,
@@ -165,8 +143,7 @@ public class MoveRobotImpl implements MoveRobot {
         return Collections.unmodifiableList(points);
     }
 
-    private double calculateDistanceBetween(Point2D point0,
-                                            Point2D point1) {
+    private double calculateDistanceBetween(Point2D point0, Point2D point1) {
         double x = point0.getX() - point1.getX();
         double y = point0.getY() - point1.getY();
         return Math.sqrt((x * x) + (y * y));

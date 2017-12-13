@@ -21,14 +21,14 @@ public interface WriteRobot {
     /**
      * Writes a given text character.
      *
-     * @param character the text character
+     * @param character the text character to write
      */
     void write(char character);
 
     /**
-     * Writes given text characters one after the other.
+     * Writes the given text characters one after the other.
      *
-     * @param text the text characters
+     * @param text the text characters to write
      */
     void write(String text);
 

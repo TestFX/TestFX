@@ -30,24 +30,24 @@ public interface DragRobot {
     void drag(MouseButton... buttons);
 
     /**
-     * Moves the mouse to {@link PointQuery#query()} before presses the given mouse button(s) on whatever is under
-     * the mouse's new location.
+     * Moves the mouse to the location specified by the given {@link PointQuery#query()} and then presses the
+     * given mouse button(s) on whatever is under the mouse's new location.
      *
-     * @param pointQuery the pointQuery
+     * @param pointQuery the pointQuery that specifies where to move the mouse to
      * @param buttons the mouse buttons to press
      */
-    void drag(PointQuery pointQuery,
-              MouseButton... buttons);
+    void drag(PointQuery pointQuery, MouseButton... buttons);
 
     /**
-     * Releases the mouse at current position.
+     * Releases the mouse at its' current position.
      */
     void drop();
 
     /**
-     * Moves the mouse to {@link PointQuery#query()} before releasing the mouse.
+     * Moves the mouse to the location specified by the given {@link PointQuery#query()} and then
+     * releases the mouse.
      *
-     * @param pointQuery the pointQuery
+     * @param pointQuery the pointQuery that specifies where to move the mouse to
      */
     void dropTo(PointQuery pointQuery);
 
@@ -57,7 +57,6 @@ public interface DragRobot {
      * @param x the amount by which to move the mouse horizontally
      * @param y the amount by which to move the mouse vertically
      */
-    void dropBy(double x,
-                double y);
+    void dropBy(double x, double y);
 
 }

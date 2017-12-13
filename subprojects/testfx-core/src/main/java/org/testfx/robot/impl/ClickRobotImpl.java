@@ -16,6 +16,8 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Objects;
+
 import javafx.scene.input.MouseButton;
 
 import org.testfx.api.annotation.Unstable;
@@ -31,23 +33,18 @@ public class ClickRobotImpl implements ClickRobot {
 
     private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;
 
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
-    public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final MouseRobot mouseRobot;
+    private final MoveRobot moveRobot;
+    private final SleepRobot sleepRobot;
 
     public ClickRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot, SleepRobot sleepRobot) {
+        Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
+        Objects.requireNonNull(moveRobot, "moveRobot must not be null");
+        Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
         this.mouseRobot = mouseRobot;
         this.moveRobot = moveRobot;
         this.sleepRobot = sleepRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void clickOn(MouseButton... buttons) {

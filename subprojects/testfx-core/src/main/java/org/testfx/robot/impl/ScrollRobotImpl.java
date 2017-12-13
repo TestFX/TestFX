@@ -16,6 +16,8 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Objects;
+
 import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
 
@@ -29,19 +31,12 @@ public class ScrollRobotImpl implements ScrollRobot {
     private static final int SCROLL_ONE_UP_OR_LEFT = -1;
     private static final int SCROLL_ONE_DOWN_OR_RIGHT = 1;
 
-    public MouseRobot mouseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final MouseRobot mouseRobot;
 
     public ScrollRobotImpl(MouseRobot mouseRobot) {
+        Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
         this.mouseRobot = mouseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void scroll(int amount) {
@@ -54,8 +49,7 @@ public class ScrollRobotImpl implements ScrollRobot {
     }
 
     @Override
-    public void scroll(int positiveAmount,
-                       VerticalDirection direction) {
+    public void scroll(int positiveAmount, VerticalDirection direction) {
         if (direction == VerticalDirection.UP) {
             scrollUp(positiveAmount);
         }
@@ -79,8 +73,7 @@ public class ScrollRobotImpl implements ScrollRobot {
     }
 
     @Override
-    public void scroll(int positiveAmount,
-                       HorizontalDirection direction) {
+    public void scroll(int positiveAmount, HorizontalDirection direction) {
         if (direction == HorizontalDirection.RIGHT) {
             scrollRight(positiveAmount);
         }

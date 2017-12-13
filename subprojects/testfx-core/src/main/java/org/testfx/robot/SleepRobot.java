@@ -21,19 +21,18 @@ import java.util.concurrent.TimeUnit;
 public interface SleepRobot {
 
     /**
-     * Same as Thread.sleep(), but without checked exceptions.
+     * Same as {@link Thread#sleep(long)}}, but without checked exceptions.
      *
-     * @param milliseconds the duration in milliseconds
+     * @param milliseconds the duration in milliseconds to sleep for
      */
     void sleep(long milliseconds);
 
     /**
-     * Same as Thread.sleep(), but without checked exceptions.
+     * Same as {@link Thread#sleep(long)}, but without checked exceptions.
      *
-     * @param duration the duration
-     * @param timeUnit the unit of time
+     * @param duration the duration to sleep for
+     * @param timeUnit the unit of time the duration to sleep for is in
      */
-    void sleep(long duration,
-               TimeUnit timeUnit);
+    void sleep(long duration, TimeUnit timeUnit);
 
 }
