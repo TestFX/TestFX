@@ -38,7 +38,7 @@ public class StageHideDeadlockBug extends TestCaseBase {
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupStage((stage) -> stage.setScene(new Scene(new Region(), 500, 500)));
+        FxToolkit.setupStage(stage -> stage.setScene(new Scene(new Region(), 500, 500)));
         FxToolkit.showStage();
     }
 

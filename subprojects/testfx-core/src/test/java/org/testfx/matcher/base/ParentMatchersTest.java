@@ -16,7 +16,7 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -46,7 +46,7 @@ public class ParentMatchersTest {
     @Test
     public void hasChild() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(
+        Parent parent = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
         // expect:
@@ -56,7 +56,7 @@ public class ParentMatchersTest {
     @Test
     public void hasChildren() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(
+        Parent parent = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
         // expect:
@@ -66,7 +66,7 @@ public class ParentMatchersTest {
     @Test
     public void hasChild_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane());
+        Parent parent = FxToolkit.setupFixture(() -> new StackPane());
 
         // expect:
         exception.expect(AssertionError.class);
@@ -78,7 +78,7 @@ public class ParentMatchersTest {
     @Test
     public void hasChildren_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
+        Parent parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
         // expect:
         exception.expect(AssertionError.class);

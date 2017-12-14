@@ -66,7 +66,7 @@ public class MenuBarTest {
 
             MenuItem newItem = new MenuItem("New");
             newItem.setId("newItem");
-            newItem.setOnAction((actionEvent) -> newMenuShownLatch.countDown());
+            newItem.setOnAction(actionEvent -> newMenuShownLatch.countDown());
             fileMenu.getItems().add(newItem);
 
             MenuItem saveAsItem = new MenuItem("Save As..............................");

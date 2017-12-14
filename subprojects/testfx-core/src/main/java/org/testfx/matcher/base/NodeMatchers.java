@@ -16,6 +16,8 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.Objects;
+
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
@@ -32,8 +34,6 @@ import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
-
-import java.util.Objects;
 
 /**
  * TestFX matchers for {@link Node} instances.
