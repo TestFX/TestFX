@@ -39,10 +39,6 @@ public class TextFlowMatchers {
 
     private TextFlowMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all ({@link TextFlow}s whose "text" (the result of combining all of
      * its {@link Text} children's {@link Text#getText() text} together) equals the given {@code string}.
@@ -61,8 +57,7 @@ public class TextFlowMatchers {
      * as described further on.
      * <p>
      * Colors are specified using the following markup:
-     *
-     * <pre><code><COLOR>text</COLOR></code></pre>
+     * <pre>{@code <COLOR>text</COLOR>}</pre>
      * <p>
      * Where {@literal COLOR} is one of JavaFX's named colors.
      * <p>
@@ -70,12 +65,12 @@ public class TextFlowMatchers {
      * "hello" and that the named color that has the closest value to the
      * color of the text is {@literal Colors.RED}:
      * <p>
-     * <pre><code>
+     * <pre>{@code
      *   Text text = new Text("hello");
      *   text.setFill(Colors.RED);
      *   TextFlow textFlow = new TextFlow(text);
      *   assertThat(textFlow, TextFlowMatchers.hasColoredText("<RED>hello</RED>"));
-     * </code></pre>
+     * }</pre>
      *
      * @param coloredTextMarkup the text contained in the TextFlow with color markup that
      * specifies the expected color of the text
@@ -97,8 +92,7 @@ public class TextFlowMatchers {
      * on.
      * <p>
      * Colors are specified using the following markup:
-     * <p>
-     * <pre><code><COLOR>text</COLOR></code></pre>
+     * <pre>{@code <COLOR>text</COLOR>}</pre>
      * <p>
      * Where {@literal COLOR} is one of JavaFX's named colors.
      * <p>
@@ -141,10 +135,6 @@ public class TextFlowMatchers {
         },
             node -> hasColoredText(node, coloredTextMarkup, true));
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private static String getText(TextFlow textFlow) {
         StringBuilder textBuilder = new StringBuilder();

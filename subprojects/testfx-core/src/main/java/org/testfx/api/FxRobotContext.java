@@ -55,34 +55,22 @@ import org.testfx.service.support.impl.CaptureSupportImpl;
 @Unstable(reason = "class was recently added")
 public class FxRobotContext {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private WindowFinder windowFinder;
     private NodeFinder nodeFinder;
-
     private Pos pointPosition;
     private BoundsLocator boundsLocator;
     private PointLocator pointLocator;
-
     private BaseRobot baseRobot;
     private MouseRobot mouseRobot;
     private KeyboardRobot keyboardRobot;
     private MoveRobot moveRobot;
     private SleepRobot sleepRobot;
-
     private ClickRobot clickRobot;
     private DragRobot dragRobot;
     private ScrollRobot scrollRobot;
     private TypeRobot typeRobot;
     private WriteRobot writeRobot;
-
     private CaptureSupport captureSupport;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
 
     public FxRobotContext() {
         windowFinder = FxService.serviceContext().getWindowFinder();
@@ -105,10 +93,6 @@ public class FxRobotContext {
 
         captureSupport = new CaptureSupportImpl(baseRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
 
     public WindowFinder getWindowFinder() {
         return windowFinder;

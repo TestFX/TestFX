@@ -46,10 +46,10 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void robotCreate() {
-        if (isAwtEnvironmentHeadless()) {
-            throw new RuntimeException("environment is headless");
+        if (GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()) {
+            throw new RuntimeException("can not create awt robot as environment is headless");
         }
-        initializeAwtToolkit();
+        Toolkit.getDefaultToolkit(); // initializes awt toolkit
         awtRobot = createAwtRobot();
     }
 
@@ -75,7 +75,8 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Point2D getMouseLocation() {
-        return convertFromAwtPoint(MouseInfo.getPointerInfo().getLocation());
+        Point awtPoint = MouseInfo.getPointerInfo().getLocation();
+        return new Point2D(awtPoint.getX(), awtPoint.getY());
     }
 
     @Override
@@ -107,9 +108,11 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Image getCaptureRegion(Rectangle2D region) {
-        Rectangle awtRectangle = convertToAwtRectangle(region);
+        Rectangle awtRectangle = new Rectangle(
+                (int) region.getMinX(), (int) region.getMinY(),
+                (int) region.getWidth(), (int) region.getHeight());
         BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
-        return convertFromAwtBufferedImage(awtBufferedImage);
+        return SwingFXUtils.toFXImage(awtBufferedImage, null);
     }
 
     private Robot useRobot() {
@@ -128,36 +131,13 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         }
     }
 
-    private void initializeAwtToolkit() {
-        Toolkit.getDefaultToolkit();
-    }
-
-    private boolean isAwtEnvironmentHeadless() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance();
-    }
-
-    private Point2D convertFromAwtPoint(Point awtPoint) {
-        return new Point2D(awtPoint.getX(), awtPoint.getY());
-    }
-
-    private Image convertFromAwtBufferedImage(BufferedImage awtBufferedImage) {
-        return SwingFXUtils.toFXImage(awtBufferedImage, null);
-    }
-
     private int convertToAwtButton(MouseButton button) {
         switch (button) {
             case PRIMARY: return InputEvent.BUTTON1_DOWN_MASK;
             case MIDDLE: return InputEvent.BUTTON2_DOWN_MASK;
             case SECONDARY: return InputEvent.BUTTON3_DOWN_MASK;
-            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by AwtRobot");
+            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by awt robot");
         }
-    }
-
-    private Rectangle convertToAwtRectangle(Rectangle2D rectangle) {
-        return new Rectangle(
-            (int) rectangle.getMinX(), (int) rectangle.getMinY(),
-            (int) rectangle.getWidth(), (int) rectangle.getHeight()
-        );
     }
 
 }

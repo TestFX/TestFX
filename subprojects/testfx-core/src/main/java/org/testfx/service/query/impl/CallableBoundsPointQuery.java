@@ -27,15 +27,7 @@ import org.testfx.service.query.PointQuery;
 @Unstable
 public class CallableBoundsPointQuery extends PointQueryBase {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private Callable<Bounds> callableBounds;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
 
     public CallableBoundsPointQuery(Callable<Bounds> callableBounds) {
         this(callableBounds, null);
@@ -45,11 +37,6 @@ public class CallableBoundsPointQuery extends PointQueryBase {
         this.callableBounds = callableBounds;
         this.node = node;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public Point2D query() {
         Bounds bounds = fetchCallableBounds();
@@ -58,10 +45,6 @@ public class CallableBoundsPointQuery extends PointQueryBase {
             .atOffset(getOffset());
         return boundsQuery.query();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private Bounds fetchCallableBounds() {
         try {

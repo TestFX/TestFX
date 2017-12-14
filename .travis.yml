@@ -70,10 +70,9 @@ matrix:
       env:
         - TRAVIS_JAVA_VERSION="9"
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
-    # It is not currently possible to run JavaFX in headed mode on Travis CI
-    # with the OpenGL ES graphics pipeline. While it is possible to run with
-    # "-Dprism.order=sw" this "partial headless" testing scenario does not
-    # provide any useful information.
+    # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
+    # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
+    # this "partial headless" testing scenario does not provide any useful information.
 
 before_script:
   - echo $HOME

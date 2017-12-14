@@ -29,19 +29,9 @@ import org.testfx.util.PointQueryUtils;
 @Unstable
 public abstract class PointQueryBase implements PointQuery {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private Point2D position = new Point2D(0, 0);
-
     private Point2D offset = new Point2D(0, 0);
-
     protected Node node;
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public Point2D getPosition() {
@@ -60,8 +50,7 @@ public abstract class PointQueryBase implements PointQuery {
     }
 
     @Override
-    public PointQuery atPosition(double positionX,
-                                 double positionY) {
+    public PointQuery atPosition(double positionX, double positionY) {
         return atPosition(new Point2D(positionX, positionY));
     }
 
@@ -72,16 +61,12 @@ public abstract class PointQueryBase implements PointQuery {
 
     @Override
     public PointQuery atOffset(Point2D offset) {
-        this.offset = new Point2D(
-            this.offset.getX() + offset.getX(),
-            this.offset.getY() + offset.getY()
-        );
+        this.offset = new Point2D(this.offset.getX() + offset.getX(), this.offset.getY() + offset.getY());
         return this;
     }
 
     @Override
-    public PointQuery atOffset(double offsetX,
-                               double offsetY) {
+    public PointQuery atOffset(double offsetX, double offsetY) {
         return atOffset(new Point2D(offsetX, offsetY));
     }
 

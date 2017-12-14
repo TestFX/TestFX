@@ -28,8 +28,8 @@ import javafx.scene.paint.Color;
  *
  * @see <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
  */
-public class ColorUtils {
-    private static Map<RGB, String> namedColors = new HashMap<>();
+public final class ColorUtils {
+    private static Map<RGB, String> namedColors = new HashMap<>(140);
 
     static {
         namedColors.put(new RGB(0xF0, 0xF8, 0xFF), "AliceBlue");
@@ -174,6 +174,8 @@ public class ColorUtils {
         namedColors.put(new RGB(0x9A, 0xCD, 0x32), "YellowGreen");
     }
 
+    private ColorUtils() {}
+
     /**
      * Get the color name that is closest to the given RGB color value.
      *
@@ -253,8 +255,7 @@ public class ColorUtils {
      * @param color1 the second color
      * @return the distance between the two colors
      */
-    public static double calculateColorDistSq(Color color0,
-                                              Color color1) {
+    public static double calculateColorDistSq(Color color0, Color color1) {
         double diffRed = color0.getRed() - color1.getRed();
         double diffGreen = color0.getGreen() - color1.getGreen();
         double diffBlue = color0.getBlue() - color1.getBlue();

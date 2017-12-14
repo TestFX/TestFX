@@ -44,10 +44,6 @@ import static java.lang.System.getProperty;
 @Unstable(reason = "class was recently added")
 public class FxToolkitContext {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * The {@link java.util.concurrent.Future Future&lt;Stage&gt;} that can run listeners when completed.
      * Default value: {@link PrimaryStageApplication#PRIMARY_STAGE_FUTURE}.
@@ -78,10 +74,6 @@ public class FxToolkitContext {
      * The number of milliseconds before timing out setup-related components. Default value: 30,000 (30 seconds)
      */
     private long setupTimeoutInMillis = parseLong(getProperty("testfx.setup.timeout", "30000"));
-
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
 
     public PrimaryStageFuture getPrimaryStageFuture() {
         return primaryStageFuture;

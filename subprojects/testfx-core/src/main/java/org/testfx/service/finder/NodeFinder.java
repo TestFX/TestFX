@@ -27,10 +27,6 @@ import org.testfx.service.query.NodeQuery;
 
 public interface NodeFinder {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Returns a {@link NodeQuery} that stores all the root nodes that meet the given query
      *

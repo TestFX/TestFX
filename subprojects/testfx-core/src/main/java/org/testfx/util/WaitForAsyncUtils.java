@@ -58,17 +58,17 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * <strong>Exception handling</strong>
  * <p>
  * As exceptions on different threads are thrown the caller is usually not aware
- * of these exceptions. Exceptions returned directly from this Framework are wrapped
- * in {@code RuntimeExceptions}.
+ * of these exceptions. Exceptions returned directly from this framework are wrapped
+ * in {@link RuntimeException}s.
  * <p>
  * There are two ways this class notifies the user of exceptions:
  * <ul>
- * <li>the returned future
+ * <li>the returned {@link Future}
  * <li>the internal exception stack
  * </ul>
  * <p>
  * Usually exceptions are forwarded to the {@code Future} returned by the methods
- * of this class. When the calling thread calls the getter of the Future any
+ * of this class. When the calling thread calls {@link Future#get()} on the Future any
  * exceptions encountered during execution will be thrown. All {@code waitFor} methods
  * acquire the value of the {@code Future} and accordingly throw the same exceptions.
  * <p>
@@ -81,7 +81,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * throw one of those exceptions.
  */
 @Unstable
-public class WaitForAsyncUtils {
+public final class WaitForAsyncUtils {
 
     private static final long CONDITION_SLEEP_IN_MILLIS = 10;
     private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
@@ -124,12 +124,6 @@ public class WaitForAsyncUtils {
         setup();
     }
 
-
-    // ---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    // ---------------------------------------------------------------------------------------------
-
-    // GLOBAL EXCEPTION HANDLING
     /**
      * Needs to be called to setup WaitForAsyncUtils before the first use.
      * Currently it installs/removes the handler for uncaught exceptions depending on the flag
@@ -137,7 +131,6 @@ public class WaitForAsyncUtils {
      */
     public static void setup() {
         if (checkAllExceptions) {
-            //install handler
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> registerException(e));
         } else {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
@@ -150,7 +143,7 @@ public class WaitForAsyncUtils {
      */
     private static void registerException(Throwable throwable) {
         if (checkAllExceptions) {
-            //Workaround for #411 see discussion in #440
+            // Workaround for #411 see discussion in #440
             if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
                 //TODO more general version of filter after refactoring
                 return;
@@ -158,13 +151,10 @@ public class WaitForAsyncUtils {
             if (printException) {
                 printException(throwable, null);
             }
-            // Add exception to stack of occured exceptions
+            // Add exception to stack of occurred exceptions
             exceptions.add(new RuntimeException(throwable));
         }
     }
-
-
-    // ASYNC METHODS.
 
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a
@@ -292,8 +282,6 @@ public class WaitForAsyncUtils {
         return call;
     }
 
-    // WAIT-FOR METHODS.
-
     /**
      * Waits for the given {@link Future} to be set and then returns the
      * future result of type {@code T}.
@@ -315,7 +303,6 @@ public class WaitForAsyncUtils {
             return null;
         }
     }
-
 
     /**
      * Waits for given {@link Future} to be set and returns {@code T}, otherwise times out
@@ -387,8 +374,6 @@ public class WaitForAsyncUtils {
         booleanValue.removeListener(changeListener);
     }
 
-    // WAIT-FOR-FX-EVENTS METHODS.
-
     /**
      * Waits for the event queue of the JavaFX Application Thread to be completed,
      * as well as any new events triggered in it.
@@ -410,8 +395,6 @@ public class WaitForAsyncUtils {
             sleep(SEMAPHORE_SLEEP_IN_MILLIS, MILLISECONDS);
         }
     }
-
-    // SLEEP METHODS.
 
     /**
      * Sleeps the current thread for the given duration.
@@ -438,8 +421,6 @@ public class WaitForAsyncUtils {
     public static void sleepWithException(long duration, TimeUnit timeUnit) throws InterruptedException {
         Thread.sleep(timeUnit.toMillis(duration));
     }
-
-    // WAIT-FOR-ASYNC METHODS.
 
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and waits {@code millis}
@@ -517,10 +498,6 @@ public class WaitForAsyncUtils {
     public static void clearExceptions() {
         exceptions.clear();
     }
-
-    // ---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    // ---------------------------------------------------------------------------------------------
 
     /**
      * Internal function that throws Exceptions. It does not require handling
@@ -647,7 +624,7 @@ public class WaitForAsyncUtils {
             case DAYS:
                 return ChronoUnit.DAYS;
             default:
-                throw new IllegalArgumentException("Unknown TimeUnit constant");
+                throw new IllegalArgumentException("unknown TimeUnit constant: " + unit);
         }
     }
 
@@ -675,7 +652,6 @@ public class WaitForAsyncUtils {
          * The unhandled exception.
          */
         private Throwable exception;
-
 
         public ASyncFXCallable(Runnable runnable, boolean throwException) {
             super(runnable, null);
@@ -706,7 +682,7 @@ public class WaitForAsyncUtils {
         }
 
         /**
-         * Transforms a exception to be throwable. Basically wraps the exception
+         * Transforms am exception to be a throwable. Basically wraps the exception
          * in a RuntimeException, if it is not already one.
          *
          * @param exception the exception to transform

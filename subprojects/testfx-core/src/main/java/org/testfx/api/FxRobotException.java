@@ -21,15 +21,7 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "class was recently added")
 public class FxRobotException extends RuntimeException {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private static final long serialVersionUID = 1L;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
 
     public FxRobotException(String message) {
         super(message);

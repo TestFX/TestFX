@@ -25,17 +25,13 @@ import javafx.stage.Window;
 
 public interface WindowFinder {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WINDOW TARGETING.
-    //---------------------------------------------------------------------------------------------
-
     /**
-     * Returns the last stored target window
+     * Returns the last stored target window.
      */
     Window targetWindow();
 
     /**
-     * Stores the given window as the target window
+     * Stores the given window as the target window.
      */
     void targetWindow(Window window);
 
@@ -46,10 +42,8 @@ public interface WindowFinder {
      */
     void targetWindow(Predicate<Window> predicate);
 
-    // Convenience methods:
-
     /**
-     * Stores the window returned from {@link #window(int)} as the new last target window
+     * Stores the window returned from {@link #window(int)} as the new last target window.
      */
     void targetWindow(int windowIndex);
 
@@ -64,18 +58,14 @@ public interface WindowFinder {
     void targetWindow(Pattern stageTitlePattern);
 
     /**
-     * Stores the given scene's window as the new last target window
+     * Stores the given scene's window as the new last target window.
      */
     void targetWindow(Scene scene);
 
     /**
-     * Stores the given node's scene's window as the new last target window
+     * Stores the given node's scene's window as the new last target window.
      */
     void targetWindow(Node node);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WINDOW LOOKUP.
-    //---------------------------------------------------------------------------------------------
 
     /**
      * Calls {@link org.testfx.internal.JavaVersionAdapter#getWindows()}
@@ -83,7 +73,7 @@ public interface WindowFinder {
     List<Window> listWindows();
 
     /**
-     * Returns a list of windows that are ordered by proximity to the last target window
+     * Returns a list of windows that are ordered by proximity to the last target window.
      */
     List<Window> listTargetWindows();
 
@@ -92,31 +82,29 @@ public interface WindowFinder {
      * a {@link java.util.NoSuchElementException} if none exist.
      */
     Window window(Predicate<Window> predicate);
-
-    // Convenience methods:
     /**
      * Returns the window at the given index from the list of windows that are ordered by proximity to the last stored
-     * target window
+     * target window.
      */
     Window window(int windowIndex);
 
     /**
-     * Returns the stage whose title matches the given regex
+     * Returns the stage whose title matches the given regex.
      */
     Window window(String stageTitleRegex);
 
     /**
-     * Returns the stage whose title matches the given regex
+     * Returns the stage whose title matches the given regex.
      */
     Window window(Pattern stageTitlePattern);
 
     /**
-     * Returns the scene's window
+     * Returns the scene's window.
      */
     Window window(Scene scene);
 
     /**
-     * Returns the node's scene's window
+     * Returns the node's scene's window.
      */
     Window window(Node node);
 

@@ -31,10 +31,6 @@ public class ButtonMatchers {
 
     private ButtonMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link Button}s that are considered cancel buttons.
      */

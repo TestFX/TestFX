@@ -41,10 +41,6 @@ public class NodeQueryImpl implements NodeQuery {
 
     private Set<Node> parentNodes = new LinkedHashSet<>();
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public NodeQuery from(Node... parentNodes) {
         this.parentNodes.addAll(Arrays.asList(parentNodes));
@@ -137,10 +133,6 @@ public class NodeQueryImpl implements NodeQuery {
     public <T extends Node> Set<T> queryAll() {
         return (Set<T>) new LinkedHashSet<>(parentNodes);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private boolean isCssSelector(String query) {
         return query.startsWith(CSS_ID_SELECTOR_PREFIX) ||

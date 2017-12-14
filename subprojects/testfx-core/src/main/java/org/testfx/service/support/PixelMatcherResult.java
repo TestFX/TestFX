@@ -24,33 +24,17 @@ import javafx.scene.image.Image;
  */
 public class PixelMatcherResult {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private final Image matchImage;
     private final long totalPixels;
-
     private final long matchPixels;
     private final double matchFactor;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public PixelMatcherResult(Image matchImage,
-                              long matchPixels,
-                              long totalPixels) {
+    public PixelMatcherResult(Image matchImage, long matchPixels, long totalPixels) {
         this.matchImage = matchImage;
         this.totalPixels = totalPixels;
-
         this.matchPixels = matchPixels;
         this.matchFactor = matchPixels / (double) totalPixels;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     /**
      * Gets the image whose pixels indicate matches and mismatches between the two original images.
@@ -60,7 +44,7 @@ public class PixelMatcherResult {
     }
 
     /**
-     * Gets the total number of pixels in the match image
+     * Gets the total number of pixels in the match image.
      */
     public long getTotalPixels() {
         return totalPixels;
@@ -81,14 +65,14 @@ public class PixelMatcherResult {
     }
 
     /**
-     * Gets the percentage of pixels that matched between the two original images
+     * Gets the percentage of pixels that matched between the two original images.
      */
     public double getMatchFactor() {
         return matchFactor;
     }
 
     /**
-     * Gets the percentage of pixels that did not match between the two original images
+     * Gets the percentage of pixels that did not match between the two original images.
      */
     public double getNonMatchFactor() {
         return 1.0 - matchFactor;

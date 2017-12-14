@@ -33,6 +33,8 @@ import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
+import java.util.Objects;
+
 /**
  * TestFX matchers for {@link Node} instances.
  */
@@ -40,10 +42,6 @@ import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 public class NodeMatchers {
 
     private NodeMatchers() {}
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
 
     /**
      * Creates a matcher that matches everything ({@link Matcher#matches(Object) matches(Object)} always
@@ -60,7 +58,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isNull() {
-        return baseMatcher("Node is null", NodeMatchers::isNull);
+        return baseMatcher("Node is null", Objects::isNull);
     }
 
     /**
@@ -68,7 +66,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isNotNull() {
-        return baseMatcher("Node is not null", node -> !isNull(node));
+        return baseMatcher("Node is not null", node -> !(node == null));
     }
 
     /**
@@ -76,7 +74,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isVisible() {
-        return baseMatcher("Node is visible", NodeMatchers::isVisible);
+        return baseMatcher("Node is visible", Node::isVisible);
     }
 
     /**
@@ -84,7 +82,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isInvisible() {
-        return baseMatcher("Node is invisible", node -> !isVisible(node));
+        return baseMatcher("Node is invisible", node -> !node.isVisible());
     }
 
     /**
@@ -92,7 +90,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isEnabled() {
-        return baseMatcher("Node is enabled", NodeMatchers::isEnabled);
+        return baseMatcher("Node is enabled", node -> !node.isDisabled());
     }
 
     /**
@@ -100,7 +98,7 @@ public class NodeMatchers {
      */
     @Factory
     public static Matcher<Node> isDisabled() {
-        return baseMatcher("Node is disabled", node -> !isEnabled(node));
+        return baseMatcher("Node is disabled", Node::isDisabled);
     }
 
     /**
@@ -138,30 +136,12 @@ public class NodeMatchers {
      * {@link org.testfx.service.query.NodeQuery#lookup(String)}.
      */
     @Factory
-    public static Matcher<Node> hasChildren(int amount,
-                                            String query) {
+    public static Matcher<Node> hasChildren(int amount, String query) {
         String descriptionText = "Node has " + amount + " children \"" + query + "\"";
         return baseMatcher(descriptionText, node -> hasChildren(node, amount, query));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean isNull(Node node) {
-        return node == null;
-    }
-
-    private static boolean isVisible(Node node) {
-        return node.isVisible();
-    }
-
-    private static boolean isEnabled(Node node) {
-        return !node.isDisabled();
-    }
-
-    private static boolean hasText(Node node,
-                                   String string) {
+    private static boolean hasText(Node node, String string) {
         if (node instanceof Labeled) {
             return LabeledMatchers.hasText(string).matches(node);
         }
@@ -174,8 +154,7 @@ public class NodeMatchers {
         return false;
     }
 
-    private static boolean hasText(Node node,
-                                   Matcher<String> matcher) {
+    private static boolean hasText(Node node, Matcher<String> matcher) {
         if (node instanceof Labeled) {
             return LabeledMatchers.hasText(matcher).matches(node);
         }
@@ -188,16 +167,13 @@ public class NodeMatchers {
         return false;
     }
 
-    private static boolean hasChild(Node node,
-                                    String query) {
+    private static boolean hasChild(Node node, String query) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(node);
         return !nodeQuery.lookup(query).queryAll().isEmpty();
     }
 
-    private static boolean hasChildren(Node node,
-                                       int amount,
-                                       String query) {
+    private static boolean hasChildren(Node node, int amount, String query) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(node);
         return nodeQuery.lookup(query).queryAll().size() == amount;

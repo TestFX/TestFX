@@ -34,10 +34,6 @@ import org.testfx.util.WaitForAsyncUtils;
 @Unstable(reason = "needs more tests")
 public class WaitUntilSupport {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Waits until the provided node fulfills the given condition.
      *

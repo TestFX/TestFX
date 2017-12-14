@@ -18,8 +18,8 @@
 package org.testfx.osgi.service;
 
 /**
- * Always returns true once the TestFx core bundle has been resolved and this interface has therefore been
- * registered as a service.
+ * Always returns {@literal true} once the TestFx core bundle has been resolved and this interface has
+ * therefore been registered as a service.
  */
 public interface TestFx {
     boolean isActive();

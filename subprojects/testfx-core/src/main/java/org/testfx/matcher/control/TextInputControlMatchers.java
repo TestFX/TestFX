@@ -33,10 +33,6 @@ public class TextInputControlMatchers {
 
     private TextInputControlMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link TextInputControl}s that have text equal to the given {@code text}.
      *
@@ -48,7 +44,7 @@ public class TextInputControlMatchers {
         return typeSafeMatcher(TextInputControl.class, descriptionText,
             textInputControl -> textInputControl.getClass().getSimpleName() + " with text: \"" +
                     textInputControl.getText() + "\"",
-            node -> hasText(node, text));
+            textInputControl -> Objects.equals(text, textInputControl.getText()));
     }
 
     /**
@@ -63,21 +59,7 @@ public class TextInputControlMatchers {
         return typeSafeMatcher(TextInputControl.class, descriptionText,
             textInputControl -> textInputControl.getClass().getSimpleName() + " with text: \"" +
                     textInputControl.getText() + "\"",
-            node -> hasText(node, matcher));
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasText(TextInputControl textInputControl,
-                                   String string) {
-        return Objects.equals(string, textInputControl.getText());
-    }
-
-    private static boolean hasText(TextInputControl textInputControl,
-                                   Matcher<String> matcher) {
-        return matcher.matches(textInputControl.getText());
+            textInputControl -> matcher.matches(textInputControl.getText()));
     }
 
 }

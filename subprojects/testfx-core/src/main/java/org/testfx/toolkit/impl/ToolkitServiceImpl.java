@@ -40,27 +40,14 @@ import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 @Unstable
 public class ToolkitServiceImpl implements ToolkitService {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    private ApplicationLauncher applicationLauncher;
-
-    private ApplicationService applicationService;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final ApplicationLauncher applicationLauncher;
+    private final ApplicationService applicationService;
 
     public ToolkitServiceImpl(ApplicationLauncher applicationLauncher,
                               ApplicationService applicationService) {
         this.applicationLauncher = applicationLauncher;
         this.applicationService = applicationService;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
@@ -123,9 +110,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                                                 Class<? extends Application> applicationClass,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = applicationService.create(() ->
-                createApplication(applicationClass)
-            ).get();
+            Application application = asyncFx(() -> createApplication(applicationClass)).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -138,7 +123,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                                                 Supplier<Application> applicationSupplier,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = applicationService.create(applicationSupplier::get).get();
+            Application application = asyncFx(applicationSupplier::get).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -150,10 +135,6 @@ public class ToolkitServiceImpl implements ToolkitService {
     public Future<Void> cleanupApplication(Application application) {
         return applicationService.stop(application);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private Application createApplication(Class<? extends Application> applicationClass) throws Exception {
         return applicationClass.getDeclaredConstructor().newInstance();

@@ -43,7 +43,7 @@ public class ApplicationStartTest extends ApplicationTest {
     @Override
     public void start(Stage stage) {
         Button button = new Button("click me!");
-        button.setOnAction((actionEvent) -> button.setText("clicked!"));
+        button.setOnAction(actionEvent -> button.setText("clicked!"));
         stage.setScene(new Scene(new StackPane(button), 100, 100));
         stage.show();
     }

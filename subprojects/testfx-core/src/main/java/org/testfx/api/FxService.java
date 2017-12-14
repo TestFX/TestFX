@@ -24,23 +24,11 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "class was recently added")
 public final class FxService {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private static FxServiceContext context;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
 
     private FxService() {
         throw new UnsupportedOperationException();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Unstable(reason = "is missing apidocs")
     public static FxServiceContext serviceContext() {

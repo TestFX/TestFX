@@ -41,10 +41,6 @@ public class ListViewMatchers {
 
     private ListViewMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link ListView}s that have one cell that equals the given {@code value}.
      *
@@ -54,7 +50,7 @@ public class ListViewMatchers {
     public static Matcher<ListView> hasListCell(Object value) {
         String descriptionText = "has list cell \"" + value + "\"";
         return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::getItemsString,
-            node -> hasListCell(node, value));
+            listView -> hasListCell(listView, value));
     }
 
     /**
@@ -68,7 +64,7 @@ public class ListViewMatchers {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(ListView.class, descriptionText,
             listView -> String.valueOf(listView.getItems().size()),
-            node -> hasItems(node, amount));
+            listView -> listView.getItems().size() == amount);
     }
 
     /**
@@ -79,7 +75,8 @@ public class ListViewMatchers {
     public static Matcher<ListView> isEmpty() {
         String descriptionText = "is empty (contains 0 (zero) items)";
         return typeSafeMatcher(ListView.class, descriptionText,
-            listView -> "contains " + listView.getItems().size() + " items", ListViewMatchers::isListEmpty);
+            listView -> "contains " + listView.getItems().size() + " items",
+            listView -> listView.getItems().isEmpty());
     }
 
     /**
@@ -94,7 +91,7 @@ public class ListViewMatchers {
         String descriptionText = "has " + getPlaceHolderDescription(placeHolder, false);
         return typeSafeMatcher(ListView.class, descriptionText,
             listView -> getPlaceHolderDescription(listView.getPlaceholder(), false),
-            node -> hasPlaceholder(node, placeHolder));
+            listView -> hasPlaceholder(listView, placeHolder));
     }
 
     /**
@@ -113,10 +110,6 @@ public class ListViewMatchers {
             node -> hasVisiblePlaceholder(node, placeHolder));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     private static boolean hasListCell(ListView listView, Object value) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(listView);
@@ -125,16 +118,8 @@ public class ListViewMatchers {
             .tryQuery().isPresent();
     }
 
-    private static boolean hasItems(ListView listView, int amount) {
-        return listView.getItems().size() == amount;
-    }
-
     private static boolean hasCellValue(Cell cell, Object value) {
         return !cell.isEmpty() && Objects.equals(cell.getItem(), value);
-    }
-
-    private static boolean isListEmpty(ListView listView) {
-        return listView.getItems().isEmpty();
     }
 
     private static boolean hasPlaceholder(ListView listView, Node placeHolder) {
@@ -148,8 +133,7 @@ public class ListViewMatchers {
     }
 
     private static boolean hasVisiblePlaceholder(ListView listView, Node placeHolder) {
-        return listView.getPlaceholder().isVisible() &&
-                hasPlaceholder(listView, placeHolder);
+        return listView.getPlaceholder().isVisible() && hasPlaceholder(listView, placeHolder);
     }
 
     private static String getItemsString(ListView<?> listView) {

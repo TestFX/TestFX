@@ -27,51 +27,28 @@ import org.testfx.toolkit.ApplicationLauncher;
 @Unstable(reason = "needs more tests")
 public class ApplicationLauncherImpl implements ApplicationLauncher {
 
-    private static final String PROPERTY_JAVAFX_MACOSX_EMBEDDED = "javafx.macosx.embedded";
-    private static final String PROPERTY_TESTFX_HEADLESS = "testfx.headless";
-
-    private static final String PLATFORM_FACTORY =
-        "com.sun.glass.ui.PlatformFactory";
-    private static final String MONOCLE_PLATFORM_FACTORY =
-        "com.sun.glass.ui.monocle.MonoclePlatformFactory";
-
-    private static final String NATIVE_PLATFORM_FACTORY =
-        "com.sun.glass.ui.monocle.NativePlatformFactory";
-    private static final String HEADLESS_PLATFORM =
-        "com.sun.glass.ui.monocle.headless.HeadlessPlatform";
-    private static final String HEADLESS_PLATFORM_U40 =
-        "com.sun.glass.ui.monocle.HeadlessPlatform";
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
-    public void launch(Class<? extends Application> appClass,
-                       String... appArgs) {
+    public void launch(Class<? extends Application> appClass, String... appArgs) {
         initMacosxEmbedded();
         initMonocleHeadless();
         Application.launch(appClass, appArgs);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     private void initMacosxEmbedded() {
-        if (checkSystemPropertyEquals(PROPERTY_JAVAFX_MACOSX_EMBEDDED, null)) {
-            System.setProperty(PROPERTY_JAVAFX_MACOSX_EMBEDDED, "true");
+        if (checkSystemPropertyEquals("javafx.macosx.embedded", null)) {
+            System.setProperty("javafx.macosx.embedded", "true");
         }
     }
 
     private void initMonocleHeadless() {
-        if (checkSystemPropertyEquals(PROPERTY_TESTFX_HEADLESS, "true")) {
+        if (checkSystemPropertyEquals("testfx.headless", "true")) {
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();
             }
             catch (ClassNotFoundException exception) {
-                throw new IllegalStateException("Monocle headless platform not found", exception);
+                throw new IllegalStateException("monocle headless platform not found - did you forget to add " +
+                        "a dependency on monocle (https://github.com/TestFX/Monocle)?", exception);
             }
             catch (Exception exception) {
                 throw new RuntimeException(exception);
@@ -79,40 +56,38 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
         }
     }
 
-    private boolean checkSystemPropertyEquals(String propertyName,
-                                              String valueOrNull) {
+    private boolean checkSystemPropertyEquals(String propertyName, String valueOrNull) {
         return Objects.equals(System.getProperty(propertyName, null), valueOrNull);
     }
 
-    private void assignMonoclePlatform()
-                                throws Exception {
-        Class<?> platformFactoryClass = Class.forName(PLATFORM_FACTORY);
-        Object platformFactoryImpl = Class.forName(MONOCLE_PLATFORM_FACTORY).getDeclaredConstructor().newInstance();
+    private void assignMonoclePlatform() throws Exception {
+        Class<?> platformFactoryClass = Class.forName("com.sun.glass.ui.PlatformFactory");
+        Object platformFactoryImpl = Class.forName("com.sun.glass.ui.monocle.MonoclePlatformFactory")
+                .getDeclaredConstructor().newInstance();
         assignPrivateStaticField(platformFactoryClass, "instance", platformFactoryImpl);
     }
 
-    private void assignHeadlessPlatform()
-                                 throws Exception {
-        Class<?> nativePlatformFactoryClass = Class.forName(NATIVE_PLATFORM_FACTORY);
+    private void assignHeadlessPlatform() throws Exception {
+        Class<?> nativePlatformFactoryClass = Class.forName("com.sun.glass.ui.monocle.NativePlatformFactory");
         try {
-            Constructor<?> nativePlatformCtor = Class.forName(HEADLESS_PLATFORM_U40).getDeclaredConstructor();
+            Constructor<?> nativePlatformCtor = Class.forName(
+                    "com.sun.glass.ui.monocle.HeadlessPlatform").getDeclaredConstructor();
             nativePlatformCtor.setAccessible(true);
             assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformCtor.newInstance());
         }
         catch (ClassNotFoundException exception) {
-            Constructor<?> nativePlatformCtor = Class.forName(HEADLESS_PLATFORM).getDeclaredConstructor();
+            // Before Java 8u40 HeadlessPlatform was located inside of a "headless" package.
+            Constructor<?> nativePlatformCtor = Class.forName(
+                    "com.sun.glass.ui.monocle.headless.HeadlessPlatform").getDeclaredConstructor();
             nativePlatformCtor.setAccessible(true);
             assignPrivateStaticField(nativePlatformFactoryClass, "platform", nativePlatformCtor.newInstance());
         }
     }
 
-    private void assignPrivateStaticField(Class<?> cls,
-                                          String name,
-                                          Object value)
-                                   throws Exception {
-        Field field = cls.getDeclaredField(name);
+    private void assignPrivateStaticField(Class<?> clazz, String name, Object value) throws Exception {
+        Field field = clazz.getDeclaredField(name);
         field.setAccessible(true);
-        field.set(cls, value);
+        field.set(clazz, value);
         field.setAccessible(false);
     }
 

@@ -27,12 +27,8 @@ import org.hamcrest.Matcher;
 
 public interface NodeQuery {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
-     * Stores all given {@code parentNodes} within this NodeQuery
+     * Stores all given {@code parentNodes} within this NodeQuery.
      *
      * @param parentNodes the parentNodes to store
      * @return itself
@@ -40,7 +36,7 @@ public interface NodeQuery {
     NodeQuery from(Node... parentNodes);
 
     /**
-     * Stores all given {@code parentNodes} within this NodeQuery
+     * Stores all given {@code parentNodes} within this NodeQuery.
      *
      * @param parentNodes the parentNodes to store
      * @return itself

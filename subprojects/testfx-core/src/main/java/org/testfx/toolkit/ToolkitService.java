@@ -26,8 +26,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Interface that sets up an {@link Application}, {@link Stage}, {@link Scene}, or {@link Parent rootNode} on the
- * {@code JavaFX Application Thread} as well as cleaning up the application.
+ * Interface that handles setting up an {@link Application}, {@link Stage}, {@link Scene}, or {@link Parent rootNode}
+ * and application cleanup on the {@code JavaFX Application Thread}.
  */
 public interface ToolkitService {
 
