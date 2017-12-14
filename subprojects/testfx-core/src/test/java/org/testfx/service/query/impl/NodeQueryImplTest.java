@@ -74,7 +74,7 @@ public class NodeQueryImplTest {
     public void setup() throws Exception {
         nodeQuery = new NodeQueryImpl();
 
-        FxToolkit.setupStage((stage) -> {
+        FxToolkit.setupStage(stage -> {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("res/nodeQueryImpl.fxml"));
             loader.setController(this);

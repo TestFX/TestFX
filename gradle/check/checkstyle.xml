@@ -149,8 +149,8 @@
         <module name="ParameterName"/>
         <module name="TypeName"/>
         <module name="PackageDeclaration"/>
-        <!-- to enable SuppressionCommentFilter -->
-        <module name="FileContentsHolder"/>
+        <!-- allows suppressing using the //CHECKSTYLE:ON //CHECKSTYLE:OFF -->
+        <module name="SuppressionCommentFilter"/>
     </module>
     <module name="FileTabCharacter"/>
     <module name="RegexpSingleline">
@@ -162,6 +162,4 @@
     <module name="RegexpSingleline">
         <property name="format" value="^\s*\*\s*@author"/>
     </module>
-    <!-- allows suppressing using the //CHECKSTYLE:ON //CHECKSTYLE:OFF -->
-    <module name="SuppressionCommentFilter"/>
 </module>
