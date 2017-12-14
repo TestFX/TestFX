@@ -29,10 +29,6 @@ import org.testfx.service.locator.BoundsLocatorException;
 @Unstable
 public class BoundsLocatorImpl implements BoundsLocator {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public Bounds boundsInSceneFor(Node node) {
         Bounds sceneBounds = node.localToScene(node.getBoundsInLocal());
@@ -41,18 +37,14 @@ public class BoundsLocatorImpl implements BoundsLocator {
 
     @Override
     public Bounds boundsInWindowFor(Scene scene) {
-        return new BoundingBox(
-            scene.getX(), scene.getY(),
-            scene.getWidth(), scene.getHeight()
-        );
+        return new BoundingBox(scene.getX(), scene.getY(), scene.getWidth(), scene.getHeight());
     }
 
     @Override
     public Bounds boundsInWindowFor(Bounds boundsInScene, Scene scene) {
         Bounds visibleBoundsInScene = limitToVisibleBounds(boundsInScene, scene);
         Bounds windowBounds = boundsInWindowFor(scene);
-        return translateBounds(visibleBoundsInScene,
-            windowBounds.getMinX(), windowBounds.getMinY());
+        return translateBounds(visibleBoundsInScene, windowBounds.getMinX(), windowBounds.getMinY());
     }
 
     @Override
@@ -83,21 +75,13 @@ public class BoundsLocatorImpl implements BoundsLocator {
         return translateBounds(windowBounds, window.getX(), window.getY());
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     private Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {
-        Bounds sceneBounds = makeSceneBounds(scene);
+        Bounds sceneBounds = new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
         Bounds visibleBounds = intersectBounds(boundsInScene, sceneBounds);
         if (!areBoundsVisible(visibleBounds)) {
-            throw new BoundsLocatorException("Bounds are not visible in Scene.");
+            throw new BoundsLocatorException("bounds are not visible in Scene");
         }
         return visibleBounds;
-    }
-
-    private Bounds makeSceneBounds(Scene scene) {
-        return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
     }
 
     private Bounds intersectBounds(Bounds a, Bounds b) {
@@ -115,10 +99,8 @@ public class BoundsLocatorImpl implements BoundsLocator {
     }
 
     private Bounds translateBounds(Bounds bounds, double x, double y) {
-        return new BoundingBox(
-            bounds.getMinX() + x, bounds.getMinY() + y,
-            bounds.getWidth(), bounds.getHeight()
-        );
+        return new BoundingBox(bounds.getMinX() + x, bounds.getMinY() + y,
+                bounds.getWidth(), bounds.getHeight());
     }
 
 }

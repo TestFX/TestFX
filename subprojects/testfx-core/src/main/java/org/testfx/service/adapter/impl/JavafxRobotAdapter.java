@@ -99,8 +99,6 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
                 KeyEvent.KEY_TYPED, key, character)));
     }
 
-    // MOUSE.
-
     public Point2D getMouseLocation() {
         throw new UnsupportedOperationException();
     }

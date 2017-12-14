@@ -166,7 +166,6 @@ public class NodeFinderImplTest {
 
     @Test
     public void node_string_labelQuery() {
-
         // expect:
         assertThat(nodeFinder.lookup("first").query(), is(firstIdLabel));
         assertThat(nodeFinder.lookup("second").query(), is(secondIdLabel));

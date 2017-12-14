@@ -30,17 +30,9 @@ import org.testfx.service.support.CaptureSupport;
 @Unstable(reason = "class was recently added")
 public class FxAssertContext {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private NodeFinder nodeFinder = FxService.serviceContext().getNodeFinder();
 
     private CaptureSupport captureSupport = FxService.serviceContext().getCaptureSupport();
-
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
 
     public NodeFinder getNodeFinder() {
         return nodeFinder;

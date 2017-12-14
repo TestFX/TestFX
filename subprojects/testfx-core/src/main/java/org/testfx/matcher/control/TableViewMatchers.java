@@ -49,10 +49,6 @@ public class TableViewMatchers {
 
     private TableViewMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link TableView}s that has a {@link javafx.scene.control.TableCell}
      * whose value or {@code value.toString()} equals the given value.
@@ -62,7 +58,7 @@ public class TableViewMatchers {
         String descriptionText = "has table cell \"" + value + "\"";
         return typeSafeMatcher(TableView.class, descriptionText,
             tableView -> toText(tableView) + "\nwhich does not contain a cell with the given value",
-            node -> hasTableCell(node, value));
+            tableView -> hasTableCell(tableView, value));
     }
 
     /**
@@ -76,7 +72,7 @@ public class TableViewMatchers {
         String descriptionText = "has " + rows + " rows";
         return typeSafeMatcher(TableView.class, descriptionText,
             tableView -> String.valueOf(tableView.getItems().size()),
-            node -> hasNumRows(node, rows));
+            tableView -> tableView.getItems().size() == rows);
     }
 
     /**
@@ -87,7 +83,7 @@ public class TableViewMatchers {
         String descriptionText = "has " + rows + " rows";
         return typeSafeMatcher(TableView.class, descriptionText,
             tableView -> String.valueOf(tableView.getItems().size()),
-            node -> hasNumRows(node, rows));
+            tableView -> tableView.getItems().size() == rows);
     }
 
     /**
@@ -108,7 +104,7 @@ public class TableViewMatchers {
                     return toText(tableView, rowIndex);
                 }
             },
-            node -> containsRowAtIndex(node, rowIndex, cells));
+            tableView -> containsRowAtIndex(tableView, rowIndex, cells));
     }
 
     /**
@@ -118,15 +114,10 @@ public class TableViewMatchers {
     public static Matcher<TableView> containsRow(Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
         return typeSafeMatcher(TableView.class, descriptionText, TableViewMatchers::toText,
-            node -> containsRow(node, cells));
+            tableView -> containsRow(tableView, cells));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasTableCell(TableView tableView,
-                                        Object value) {
+    private static boolean hasTableCell(TableView tableView, Object value) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(tableView);
         return nodeQuery.lookup(SELECTOR_TABLE_CELL)
@@ -134,12 +125,7 @@ public class TableViewMatchers {
             .tryQuery().isPresent();
     }
 
-    private static boolean hasNumRows(TableView tableView, int rows) {
-        return tableView.getItems().size() == rows;
-    }
-
-    private static <T> boolean containsRowAtIndex(TableView<T> tableView, int rowIndex,
-                                                  Object...cells) {
+    private static <T> boolean containsRowAtIndex(TableView<T> tableView, int rowIndex, Object...cells) {
         if (rowIndex < 0 || rowIndex >= tableView.getItems().size()) {
             return false;
         }
@@ -229,20 +215,17 @@ public class TableViewMatchers {
         return false;
     }
 
-    private static boolean hasCellValue(Cell cell,
-                                        Object value) {
+    private static boolean hasCellValue(Cell cell, Object value) {
         return !cell.isEmpty() && hasItemValue(cell.getText(), value);
     }
 
-    private static boolean hasItemValue(Object item,
-                                        Object value) {
+    private static boolean hasItemValue(Object item, Object value) {
         if (item == null && value == null) {
             return true;
         } else if (item == null || value == null) {
             return false;
         }
-        return Objects.equals(item, value) ||
-                Objects.equals(item.toString(), value) ||
+        return Objects.equals(item, value) || Objects.equals(item.toString(), value) ||
                 (value.toString() != null && Objects.equals(item.toString(), value.toString()));
     }
 

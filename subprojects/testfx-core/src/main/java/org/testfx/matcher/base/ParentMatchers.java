@@ -16,7 +16,6 @@
  */
 package org.testfx.matcher.base;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import org.hamcrest.Factory;
@@ -33,39 +32,24 @@ public class ParentMatchers {
 
     private ParentMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link Parent}s that have at least one child.
      */
     @Factory
-    public static Matcher<Node> hasChild() {
+    public static Matcher<Parent> hasChild() {
         String descriptionText = "has child";
-        return typeSafeMatcher(Parent.class, descriptionText, ParentMatchers::hasChild);
+        return typeSafeMatcher(Parent.class, descriptionText,
+            parent -> !parent.getChildrenUnmodifiable().isEmpty());
     }
 
     /**
      * Creates a matcher that matches all {@link Parent}s that have exactly {@code amount} children.
      */
     @Factory
-    public static Matcher<Node> hasChildren(int amount) {
+    public static Matcher<Parent> hasChildren(int amount) {
         String descriptionText = "has " + amount + " children";
-        return typeSafeMatcher(Parent.class, descriptionText, node -> hasChildren(amount, node));
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasChild(Parent parent) {
-        return !parent.getChildrenUnmodifiable().isEmpty();
-    }
-
-    private static boolean hasChildren(int amount,
-                                       Parent parent) {
-        return parent.getChildrenUnmodifiable().size() == amount;
+        return typeSafeMatcher(Parent.class, descriptionText,
+            parent -> parent.getChildrenUnmodifiable().size() == amount);
     }
 
 }

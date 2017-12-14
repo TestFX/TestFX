@@ -30,11 +30,7 @@ import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 @Unstable(reason = "needs more tests")
 public class WindowMatchers {
 
-    private WindowMatchers() { }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private WindowMatchers() {}
 
     /**
      * A matcher checking if a window is currently showing.
@@ -43,7 +39,7 @@ public class WindowMatchers {
      */
     @Factory
     public static Matcher<Window> isShowing() {
-        return baseMatcher("Window is showing", WindowMatchers::isShowing);
+        return baseMatcher("Window is showing", Window::isShowing);
     }
 
     /**
@@ -53,7 +49,7 @@ public class WindowMatchers {
      */
     @Factory
     public static Matcher<Window> isNotShowing() {
-        return baseMatcher("Window is not showing", window -> !isShowing(window));
+        return baseMatcher("Window is not showing", window -> !window.isShowing());
     }
 
     /**
@@ -63,7 +59,7 @@ public class WindowMatchers {
      */
     @Factory
     public static Matcher<Window> isFocused() {
-        return baseMatcher("Window is focused", WindowMatchers::isFocused);
+        return baseMatcher("Window is focused", Window::isFocused);
     }
 
     /**
@@ -73,18 +69,7 @@ public class WindowMatchers {
      */
     @Factory
     public static Matcher<Window> isNotFocused() {
-        return baseMatcher("Window is not focused", window -> !isFocused(window));
+        return baseMatcher("Window is not focused", window -> !window.isFocused());
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean isShowing(Window window) {
-        return window.isShowing();
-    }
-
-    private static boolean isFocused(Window window) {
-        return window.isFocused();
-    }
 }

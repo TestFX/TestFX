@@ -31,10 +31,6 @@ public class GeneralMatchers {
 
     private GeneralMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches when the given {@code predicate} returns {@literal true}.
      *

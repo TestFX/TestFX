@@ -42,7 +42,7 @@ public interface PointQuery {
     Point2D getOffset();
 
     /**
-     * Updates {@link #getPosition()} to the new {@code position}
+     * Updates {@link #getPosition()} to the new {@code position}.
      *
      * @param position the new position
      * @return itself
@@ -50,7 +50,7 @@ public interface PointQuery {
     PointQuery atPosition(Point2D position);
 
     /**
-     * Updates {@link #getPosition()} to the new {@code position}
+     * Updates {@link #getPosition()} to the new {@code position}.
      *
      * @param positionX the percentage to use: 0.0 (0%) to 1.0 (100%).
      * @param positionY the percentage to use: 0.0 (0%) to 1.0 (100%).

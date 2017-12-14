@@ -30,37 +30,25 @@ import org.testfx.api.annotation.Unstable;
 @Unstable
 public final class BoundsQueryUtils {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    private BoundsQueryUtils() {
-        throw new UnsupportedOperationException();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private BoundsQueryUtils() {}
 
     /**
-     * Creates a new {@link Bounds} object with the given parameters
+     * Creates a new {@link Bounds} object with the given parameters.
      */
-    public static Bounds bounds(double minX,
-                                double minY,
-                                double width,
-                                double height) {
+    public static Bounds bounds(double minX, double minY, double width, double height) {
         return new BoundingBox(minX, minY, width, height);
     }
 
     /**
-     * Creates a Bounds object whose top-left corner is the given point and whose width/height = 0
+     * Creates a new {@link Bounds} object whose top-left corner is the given point and whose width and height
+     * are 0.
      */
     public static Bounds bounds(Point2D point) {
         return bounds(point.getX(), point.getY(), 0, 0);
     }
 
     /**
-     * Creates a {@link Bounds} object whose top-left corner = 0 and whose width and height =
+     * Creates a new {@link Bounds} object whose top-left corner is 0 and whose width and height are
      * {@code dimension.getWidth()} and {@code dimension.getHeight()}, respectively.
      */
     public static Bounds bounds(Dimension2D dimension) {
@@ -68,11 +56,10 @@ public final class BoundsQueryUtils {
     }
 
     /**
-     * Converts the given region into a {@link Bounds} object.
+     * Converts the given region to a {@link Bounds} object.
      */
     public static Bounds bounds(Rectangle2D region) {
-        return bounds(region.getMinX(), region.getMinY(),
-                region.getWidth(), region.getHeight());
+        return bounds(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight());
     }
 
     /**
@@ -137,21 +124,18 @@ public final class BoundsQueryUtils {
     /**
      * Transforms the given bounds in the given scene to the screen's coordinate system.
      */
-    public static Bounds boundsOnScreen(Bounds boundsInScene,
-                                        Scene scene) {
+    public static Bounds boundsOnScreen(Bounds boundsInScene, Scene scene) {
         Bounds sceneBoundsInWindow = bounds(scene);
         Bounds windowBoundsOnScreen = bounds(scene.getWindow());
         return translateBounds(boundsInScene, byOffset(
                 sceneBoundsInWindow.getMinX() + windowBoundsOnScreen.getMinX(),
-                sceneBoundsInWindow.getMinY() + windowBoundsOnScreen.getMinY()
-        ));
+                sceneBoundsInWindow.getMinY() + windowBoundsOnScreen.getMinY()));
     }
 
     /**
      * Translates the given bounds in the given window to the screen's coordinate system
      */
-    public static Bounds boundsOnScreen(Bounds boundsInWindow,
-                                        Window window) {
+    public static Bounds boundsOnScreen(Bounds boundsInWindow, Window window) {
         Bounds windowBoundsOnScreen = bounds(window);
         return translateBounds(boundsInWindow, byOffset(
                 windowBoundsOnScreen.getMinX(),
@@ -163,24 +147,18 @@ public final class BoundsQueryUtils {
      * Translates the given bounds in the screen to a relative coordinate system where the given screenRegion's
      * top-left corner represents coordinate (0, 0).
      */
-    public static Bounds boundsOnScreen(Bounds boundsOnScreen,
-                                        Rectangle2D screenRegion) {
+    public static Bounds boundsOnScreen(Bounds boundsOnScreen, Rectangle2D screenRegion) {
         return translateBounds(boundsOnScreen, byOffset(
                 screenRegion.getMinX(),
                 screenRegion.getMinY()
         ));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static Bounds limitToVisibleBounds(Bounds boundsInScene,
-                                               Scene scene) {
+    private static Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {
         Bounds sceneBounds = makeSceneBounds(scene);
         Bounds visibleBounds = intersectBounds(boundsInScene, sceneBounds);
         if (!areBoundsVisible(visibleBounds)) {
-            throw new RuntimeException("Bounds are not visible in Scene.");
+            throw new RuntimeException("bounds are not visible in Scene.");
         }
         return visibleBounds;
     }
@@ -189,8 +167,7 @@ public final class BoundsQueryUtils {
         return new BoundingBox(0, 0, scene.getWidth(), scene.getHeight());
     }
 
-    private static Bounds intersectBounds(Bounds a,
-                                          Bounds b) {
+    private static Bounds intersectBounds(Bounds a, Bounds b) {
         double minX = Math.max(a.getMinX(), b.getMinX());
         double minY = Math.max(a.getMinY(), b.getMinY());
         double maxX = Math.min(a.getMaxX(), b.getMaxX());
@@ -204,18 +181,15 @@ public final class BoundsQueryUtils {
         return !bounds.isEmpty();
     }
 
-    private static Bounds translateBounds(Bounds bounds,
-                                          Point2D offset) {
+    private static Bounds translateBounds(Bounds bounds, Point2D offset) {
         return new BoundingBox(
                 bounds.getMinX() + offset.getX(),
                 bounds.getMinY() + offset.getY(),
                 bounds.getWidth(),
-                bounds.getHeight()
-        );
+                bounds.getHeight());
     }
 
-    private static Point2D byOffset(double x,
-                                    double y) {
+    private static Point2D byOffset(double x, double y) {
         return new Point2D(x, y);
     }
 

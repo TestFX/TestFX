@@ -25,23 +25,11 @@ import org.testfx.util.PointQueryUtils;
 @Unstable
 public class BoundsPointQuery extends PointQueryBase {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private Bounds bounds;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
 
     public BoundsPointQuery(Bounds bounds) {
         this.bounds = bounds;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
 
     public Bounds getBounds() {
         return bounds;
@@ -51,24 +39,11 @@ public class BoundsPointQuery extends PointQueryBase {
         this.bounds = bounds;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public Point2D query() {
-        Point2D point = pointAtPosition(this.bounds, this.getPosition());
+        Point2D point = PointQueryUtils.atPositionFactors(bounds, getPosition());
         Point2D offset = getOffset();
         return new Point2D(point.getX() + offset.getX(), point.getY() + offset.getY());
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Point2D pointAtPosition(Bounds bounds,
-                                    Point2D position) {
-        return PointQueryUtils.atPositionFactors(bounds, position);
     }
 
 }

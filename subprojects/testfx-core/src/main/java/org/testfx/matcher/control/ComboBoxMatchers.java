@@ -28,16 +28,15 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
  * TestFX matchers for {@link ComboBox} controls.
- *
+ * <p>
  * <h4>Example</h4>
- *
- * <p>The following code: <pre>   {@code
- *
+ * <p>
+ * The following code:
+ * <pre>{@code
  *   ComboBox<String> fruits = new ComboBox<>();
  *   fruits.getItems().addAll("Apple", "Banana", "Cherry");
  *   assertThat(fruits, ComboBoxMatchers.containsExactlyItemsInOrder("Apple", "Banana", "Cherry"));
  * }</pre>
- *
  * will verify that {@code fruits} contains exactly (only) the {@code String}'s
  * "Apple", "Banana", and "Cherry" in order.
  */
@@ -45,10 +44,6 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 public class ComboBoxMatchers {
 
     private ComboBoxMatchers() {}
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
 
     /**
      * Creates a matcher that matches all {@link ComboBox}es that have exactly {@code amount} items.
@@ -60,7 +55,7 @@ public class ComboBoxMatchers {
         String descriptionText = "has " + amount + " items";
         return typeSafeMatcher(ComboBox.class, descriptionText,
             comboBox -> String.valueOf(comboBox.getItems().size()),
-            node -> hasItems(node, amount));
+            comboBox -> comboBox.getItems().size() == amount);
     }
 
     /**
@@ -74,7 +69,7 @@ public class ComboBoxMatchers {
         String descriptionText = "has selection " + selection;
         return typeSafeMatcher(ComboBox.class, descriptionText,
             comboBox -> comboBox.getSelectionModel().getSelectedItem().toString(),
-            node -> hasSelectedItem(node, selection));
+            comboBox -> hasSelectedItem(comboBox, selection));
     }
 
     /**
@@ -87,7 +82,7 @@ public class ComboBoxMatchers {
     public static <T> Matcher<ComboBox> containsItems(T... items) {
         String descriptionText = "contains items " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
-            node -> containsItems(node, items));
+            comboBox -> containsItems(comboBox, items));
     }
 
     /**
@@ -100,7 +95,7 @@ public class ComboBoxMatchers {
     public static <T> Matcher<ComboBox> containsExactlyItems(T... items) {
         String descriptionText = "contains exactly items " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
-            node -> containsExactlyItems(node, items));
+            comboBox -> containsExactlyItems(comboBox, items));
     }
 
     /**
@@ -114,7 +109,7 @@ public class ComboBoxMatchers {
     public static <T> Matcher<ComboBox> containsItemsInOrder(T... items) {
         String descriptionText = "contains items in order " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
-            node -> containsItemsInOrder(node, items));
+            comboBox -> containsItemsInOrder(comboBox, items));
     }
 
     /**
@@ -127,36 +122,23 @@ public class ComboBoxMatchers {
     public static <T> Matcher<ComboBox> containsExactlyItemsInOrder(T... items) {
         String descriptionText = "contains exactly items in order " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
-            node -> containsExactlyItemsInOrder(node, items));
+            comboBox -> containsExactlyItemsInOrder(comboBox, items));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasItems(ComboBox<?> comboBox,
-                                    int amount) {
-        return comboBox.getItems().size() == amount;
-    }
-
-    private static <T> boolean hasSelectedItem(ComboBox<?> comboBox,
-                                               T selection) {
+    private static <T> boolean hasSelectedItem(ComboBox<?> comboBox, T selection) {
         return selection.equals(comboBox.getSelectionModel().getSelectedItem());
     }
 
-    private static boolean containsItems(ComboBox<?> comboBox,
-                                         Object... items) {
+    private static boolean containsItems(ComboBox<?> comboBox, Object... items) {
         return comboBox.getItems().containsAll(Arrays.asList(items));
     }
 
-    private static boolean containsExactlyItems(ComboBox<?> comboBox,
-                                                Object... items) {
+    private static boolean containsExactlyItems(ComboBox<?> comboBox, Object... items) {
         return comboBox.getItems().size() == items.length &&
                 comboBox.getItems().containsAll(Arrays.asList(items));
     }
 
-    private static boolean containsItemsInOrder(ComboBox<?> comboBox,
-                                                Object... items) {
+    private static boolean containsItemsInOrder(ComboBox<?> comboBox, Object... items) {
         int index = 0;
 
         // find start of matching sub-sequence
@@ -171,17 +153,14 @@ public class ComboBoxMatchers {
         return matchSubSequenceInOrder(comboBox, index, items);
     }
 
-    private static boolean containsExactlyItemsInOrder(ComboBox<?> comboBox,
-                                                       Object... items) {
+    private static boolean containsExactlyItemsInOrder(ComboBox<?> comboBox, Object... items) {
         return matchSubSequenceInOrder(comboBox, 0, items);
     }
 
     /**
      * If startIndex = 0, this method effectively matches the entire sequence.
      */
-    private static boolean matchSubSequenceInOrder(ComboBox<?> comboBox,
-                                                   int startIndex,
-                                                   Object... items) {
+    private static boolean matchSubSequenceInOrder(ComboBox<?> comboBox, int startIndex, Object... items) {
         int index = startIndex;
         for (Object item : items) {
             if (index >= comboBox.getItems().size() ||

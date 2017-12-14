@@ -24,43 +24,35 @@ import javafx.scene.shape.Shape;
 
 public interface CaptureSupport {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
-     * Returns a snapshot of the node
+     * Returns a snapshot of the node.
      */
     Image captureNode(Node node);
 
     /**
-     * Returns a screenshot of the given region
+     * Returns a screenshot of the given region.
      */
     Image captureRegion(Rectangle2D region);
 
     /**
-     * Loads the image file from the given path
+     * Loads the image file from the given path.
      */
     Image loadImage(Path path);
 
     /**
-     * Saves the given image to the given path
+     * Saves the given image to the given path.
      */
-    void saveImage(Image image,
-                   Path path);
+    void saveImage(Image image, Path path);
 
     /**
      * NOT YET IMPLEMENTED
      */
-    Image annotateImage(Shape shape,
-                        Image image);
+    Image annotateImage(Shape shape, Image image);
 
     /**
      * Compares two images and returns a {@link PixelMatcherResult} that defines
      * the how similar/dissimilar one was from the other.
      */
-    PixelMatcherResult matchImages(Image image0,
-                                   Image image1,
-                                   PixelMatcher pixelMatcher);
+    PixelMatcherResult matchImages(Image image0, Image image1, PixelMatcher pixelMatcher);
 
 }

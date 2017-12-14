@@ -104,9 +104,7 @@ public final class DebugUtils {
     private static final String DEFAULT_INDENT = "   ";
     private static final AtomicInteger DEFAULT_PHOTO_NUMBER = new AtomicInteger(0);
 
-    private DebugUtils() {
-        throw new IllegalStateException("Cannot initialize DebugUtils");
-    }
+    private DebugUtils() {}
 
     //---------------------------------------------------------------------------------------------
     // COMPOSITION AND CREATION SUPPORT.

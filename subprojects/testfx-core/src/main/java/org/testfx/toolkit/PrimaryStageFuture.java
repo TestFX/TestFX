@@ -25,23 +25,11 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "needs more tests")
 public class PrimaryStageFuture extends CompletableFuture<Stage> {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     public static PrimaryStageFuture create() {
         return new PrimaryStageFuture();
     }
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
     private PrimaryStageFuture() {}
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public boolean complete(Stage stage) {

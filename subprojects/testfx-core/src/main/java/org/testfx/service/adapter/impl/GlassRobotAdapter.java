@@ -41,21 +41,15 @@ import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     private static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
-
     private static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
     private static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
 
     private Robot glassRobot;
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    // ROBOT.
-
     @Override
     public void robotCreate() {
-        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> glassRobot = createGlassRobot());
+        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
+            () -> glassRobot = Application.GetApplication().createRobot());
     }
 
     @Override
@@ -73,8 +67,6 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         return glassRobot;
     }
 
-    // KEY.
-
     @Override
     public void keyPress(KeyCode key) {
         asyncFx(() -> useRobot().keyPress(convertToKeyCodeId(key)));
@@ -85,12 +77,10 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         asyncFx(() -> useRobot().keyRelease(convertToKeyCodeId(key)));
     }
 
-    // MOUSE.
-
     @Override
     public Point2D getMouseLocation() {
-        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> convertFromCoordinates(
-                useRobot().getMouseX(), useRobot().getMouseY()));
+        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
+            () -> new Point2D(useRobot().getMouseX(), useRobot().getMouseY()));
     }
 
     @Override
@@ -113,8 +103,6 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         asyncFx(() -> useRobot().mouseWheel(wheelAmount));
     }
 
-    // CAPTURE.
-
     @Override
     public Color getCapturePixelColor(Point2D location) {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
@@ -136,26 +124,11 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         });
     }
 
-    // TIMER.
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     private Robot useRobot() {
         if (glassRobot == null) {
             robotCreate();
         }
         return glassRobot;
-    }
-
-    private Robot createGlassRobot() {
-        return Application.GetApplication().createRobot();
-    }
-
-    private Point2D convertFromCoordinates(int pointX,
-                                           int pointY) {
-        return new Point2D(pointX, pointY);
     }
 
     private int convertToButtonId(MouseButton button) {
@@ -193,8 +166,7 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         return image;
     }
 
-    private void writeIntBufferToImage(IntBuffer intBuffer,
-                                       WritableImage image) {
+    private void writeIntBufferToImage(IntBuffer intBuffer, WritableImage image) {
         PixelWriter pixelWriter = image.getPixelWriter();
         double width = image.getWidth();
         double height = image.getHeight();
@@ -207,9 +179,10 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         }
     }
 
-    private void writeByteBufferToImage(ByteBuffer byteBuffer,
-                                        WritableImage image) {
-        throw new UnsupportedOperationException("Writing from byte buffer is not supported.");
+    private void writeByteBufferToImage(ByteBuffer byteBuffer, WritableImage image) {
+        // Note: Would love to know if screen captures are ever written this way by any
+        // Glass robot implementation in OpenJFX.
+        throw new UnsupportedOperationException("writing from byte buffer is not supported");
     }
 
 }

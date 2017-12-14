@@ -33,10 +33,6 @@ public class TextMatchers {
 
     private TextMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link Text}s whose text equals the given {@code text}.
      *
@@ -47,7 +43,7 @@ public class TextMatchers {
         String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(Text.class, descriptionText,
             textNode -> textNode.getClass().getSimpleName() + " with text: \"" + textNode.getText() + "\"",
-            node -> hasText(node, text));
+            textNode -> Objects.equals(text, textNode.getText()));
     }
 
     /**
@@ -60,21 +56,7 @@ public class TextMatchers {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(Text.class, descriptionText,
             text -> text.getClass().getSimpleName() + " with text: \"" + text.getText() + "\"",
-            node -> hasText(node, matcher));
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasText(Text text,
-                                   String string) {
-        return Objects.equals(string, text.getText());
-    }
-
-    private static boolean hasText(Text text,
-                                   Matcher<String> matcher) {
-        return matcher.matches(text.getText());
+            textNode -> matcher.matches(textNode.getText()));
     }
 
 }

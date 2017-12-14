@@ -35,15 +35,7 @@ import static org.testfx.internal.JavaVersionAdapter.getWindows;
 
 public class WindowFinderImpl implements WindowFinder {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private Window lastTargetWindow;
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public Window targetWindow() {
@@ -77,8 +69,6 @@ public class WindowFinderImpl implements WindowFinder {
             .findFirst()
             .orElseThrow(NoSuchElementException::new);
     }
-
-    // Convenience methods:
 
     @Override
     public void targetWindow(int windowIndex) {
@@ -131,10 +121,6 @@ public class WindowFinderImpl implements WindowFinder {
         return window(node.getScene());
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @SuppressWarnings("deprecation")
     private List<Window> fetchWindowsInQueue() {
         return Collections.unmodifiableList(getWindows());
@@ -145,15 +131,13 @@ public class WindowFinderImpl implements WindowFinder {
         return orderWindowsByProximityTo(targetWindow, windows);
     }
 
-    private List<Window> orderWindowsByProximityTo(Window targetWindow,
-                                                   List<Window> windows) {
+    private List<Window> orderWindowsByProximityTo(Window targetWindow, List<Window> windows) {
         List<Window> copy = new ArrayList<>(windows);
         copy.sort(Comparator.comparingInt(w -> calculateWindowProximityTo(targetWindow, w)));
         return Collections.unmodifiableList(copy);
     }
 
-    private int calculateWindowProximityTo(Window targetWindow,
-                                           Window window) {
+    private int calculateWindowProximityTo(Window targetWindow, Window window) {
         if (window == targetWindow) {
             return 0;
         }
@@ -163,8 +147,7 @@ public class WindowFinderImpl implements WindowFinder {
         return 2;
     }
 
-    private boolean isOwnerOf(Window window,
-                              Window targetWindow) {
+    private boolean isOwnerOf(Window window, Window targetWindow) {
         Window ownerWindow = retrieveOwnerOf(window);
         if (ownerWindow == targetWindow) {
             return true;
@@ -187,8 +170,7 @@ public class WindowFinderImpl implements WindowFinder {
             hasStageTitle((Stage) window, stageTitleRegex);
     }
 
-    private boolean hasStageTitle(Stage stage,
-                                  String stageTitleRegex) {
+    private boolean hasStageTitle(Stage stage, String stageTitleRegex) {
         return stage.getTitle() != null && stage.getTitle().matches(stageTitleRegex);
     }
 

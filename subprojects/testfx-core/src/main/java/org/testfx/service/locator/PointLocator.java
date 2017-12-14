@@ -29,6 +29,7 @@ import org.testfx.service.query.PointQuery;
  * point (in terms of the screen) somewhere in the bounds of the provided object.
  */
 public interface PointLocator {
+
     /**
      *
      * @param bounds the initial bounds with which to construct a {@link PointQuery}

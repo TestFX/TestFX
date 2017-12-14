@@ -46,20 +46,10 @@ import static org.testfx.internal.JavaVersionAdapter.isNotVisible;
 @Unstable
 public final class NodeQueryUtils {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    private NodeQueryUtils() {
-        throw new UnsupportedOperationException();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private NodeQueryUtils() {}
 
     /**
-     * Returns a set of the given windows' scenes' root nodes
+     * Returns a set of the given windows' scenes' root nodes.
      */
     public static Set<Node> rootsOfWindows(Collection<Window> windows) {
         return windows.stream()
@@ -68,7 +58,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given windows' scenes' root nodes
+     * Returns a set of the given windows' scenes' root nodes.
      */
     public static Set<Node> rootOfWindow(Window... windows) {
         // TODO: is this set (toSet()) in order?
@@ -78,7 +68,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given stages' scenes' root nodes
+     * Returns a set of the given stages' scenes' root nodes.
      */
     public static Set<Node> rootOfStage(Stage... stages) {
         return Arrays.stream(stages)
@@ -87,7 +77,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given scenes' root nodes
+     * Returns a set of the given scenes' root nodes.
      */
     public static Set<Node> rootOfScene(Scene... scenes) {
         return Arrays.stream(scenes)
@@ -96,7 +86,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given popup controls' scenes' root nodes
+     * Returns a set of the given popup controls' scenes' root nodes.
      */
     public static Set<Node> rootOfPopupControl(PopupControl... popupControls) {
         return Arrays.stream(popupControls)
@@ -105,7 +95,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a function that calls {@link Node#lookup(String)} on each given node
+     * Returns a function that calls {@link Node#lookup(String)} on each given node.
      */
     public static Function<Node, Set<Node>> bySelector(String selector) {
         return parentNode -> lookupWithSelector(parentNode, selector);
@@ -137,7 +127,7 @@ public final class NodeQueryUtils {
      * Returns a predicate that returns true if the node's id equals the given {@code id}.
      */
     public static Predicate<Node> hasId(String id) {
-        return node -> hasNodeId(node, id);
+        return node -> Objects.equals(node.getId(), id);
     }
 
     /**
@@ -175,37 +165,27 @@ public final class NodeQueryUtils {
         return input -> combine(input, functions);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     private static Parent fromWindow(Window window) {
-        //return window?.scene?.root
         return window.getScene().getRoot();
     }
 
     private static Parent fromStage(Stage stage) {
-        //return stage?.scene?.root
         return stage.getScene().getRoot();
     }
 
     private static Parent fromScene(Scene scene) {
-        //return scene?.root
         return scene.getRoot();
     }
 
     private static Parent fromPopupControl(PopupControl popupControl) {
-        //return popupControl?.scene?.root
         return popupControl.getScene().getRoot();
     }
 
-    private static Set<Node> lookupWithSelector(Node parentNode,
-                                                String selector) {
+    private static Set<Node> lookupWithSelector(Node parentNode, String selector) {
         return parentNode.lookupAll(selector);
     }
 
-    private static Set<Node> lookupWithPredicate(Node parentNode,
-                                                 Predicate<Node> predicate) {
+    private static Set<Node> lookupWithPredicate(Node parentNode, Predicate<Node> predicate) {
         Set<Node> resultNodes = new LinkedHashSet<>();
         if (applyPredicateSafely(predicate, parentNode)) {
             resultNodes.add(parentNode);
@@ -219,8 +199,7 @@ public final class NodeQueryUtils {
         return Collections.unmodifiableSet(resultNodes);
     }
 
-    private static <T> boolean applyPredicateSafely(Predicate<T> predicate,
-                                                    T input) {
+    private static <T> boolean applyPredicateSafely(Predicate<T> predicate, T input) {
         // TODO: Test cases with ClassCastException.
         try {
             return predicate.test(input);
@@ -230,13 +209,7 @@ public final class NodeQueryUtils {
         }
     }
 
-    private static boolean hasNodeId(Node node,
-                                     String id) {
-        return Objects.equals(node.getId(), id);
-    }
-
-    private static boolean hasNodeText(Node node,
-                                       String text) {
+    private static boolean hasNodeText(Node node, String text) {
         // TODO: Test cases with node.getText() == null.
         if (node instanceof Labeled) {
             return Objects.equals(((Labeled) node).getText(), text);
@@ -247,8 +220,7 @@ public final class NodeQueryUtils {
         return false;
     }
 
-    private static boolean matchesNodeMatcher(Node node,
-                                              Matcher matcher) {
+    private static boolean matchesNodeMatcher(Node node, Matcher matcher) {
         // TODO: Test cases with ClassCastException.
         return matcher.matches(node);
     }
@@ -264,8 +236,7 @@ public final class NodeQueryUtils {
         return nodeBounds.intersects(0, 0, scene.getWidth(), scene.getHeight());
     }
 
-    private static <T> Set<T> combine(T input,
-                                      Collection<Function<T, Set<T>>> functions) {
+    private static <T> Set<T> combine(T input, Collection<Function<T, Set<T>>> functions) {
         return functions.stream()
                 .map(f -> f.apply(input))
                 .flatMap(Collection::stream)

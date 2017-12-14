@@ -16,7 +16,6 @@
  */
 package org.testfx.toolkit.impl;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import javafx.application.Application;
@@ -29,16 +28,6 @@ import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
 @Unstable(reason = "needs more tests")
 public class ApplicationServiceImpl implements ApplicationService {
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @Override
-    public Future<Application> create(Callable<Application> applicationCallable) {
-        // Should run in JavaFX application thread.
-        return asyncFx(applicationCallable);
-    }
 
     @Override
     public Future<Void> init(Application application) {

@@ -29,18 +29,10 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "needs more tests")
 public class PrimaryStageApplication extends Application {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     public static final PrimaryStageFuture PRIMARY_STAGE_FUTURE = PrimaryStageFuture.create();
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle(getClass().getSimpleName());
         PRIMARY_STAGE_FUTURE.complete(primaryStage);

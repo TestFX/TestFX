@@ -33,10 +33,6 @@ public class LabeledMatchers {
 
     private LabeledMatchers() {}
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /**
      * Creates a matcher that matches all {@link Labeled} objects that have the given {@code text} as
      * their text.
@@ -48,7 +44,7 @@ public class LabeledMatchers {
         String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(Labeled.class, descriptionText,
             labeled -> "\"" + labeled.getText() + "\"",
-            node -> hasText(node, text));
+            labeled -> Objects.equals(text, labeled.getText()));
     }
 
     /**
@@ -61,21 +57,6 @@ public class LabeledMatchers {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(Labeled.class, descriptionText,
             labeled -> "\"" + labeled.getText() + "\"",
-            node -> hasText(node, matcher));
+            labeled -> matcher.matches(labeled.getText()));
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasText(Labeled labeled,
-                                   String string) {
-        return Objects.equals(string, labeled.getText());
-    }
-
-    private static boolean hasText(Labeled labeled,
-                                   Matcher<String> matcher) {
-        return matcher.matches(labeled.getText());
-    }
-
 }

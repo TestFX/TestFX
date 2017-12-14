@@ -18,39 +18,18 @@ package org.testfx.service.finder;
 
 public class NodeFinderException extends RuntimeException {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private static final long serialVersionUID = 1L;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private final ErrorType errorType;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public NodeFinderException(String message,
-                               ErrorType errorType) {
+    public NodeFinderException(String message, ErrorType errorType) {
         super(message);
         this.errorType = errorType;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
-
     public ErrorType getErrorType() {
         return errorType;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC INNER CLASSES.
-    //---------------------------------------------------------------------------------------------
 
     public enum ErrorType {
         NO_NODES_FOUND,

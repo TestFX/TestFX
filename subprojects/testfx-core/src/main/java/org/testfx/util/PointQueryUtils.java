@@ -27,17 +27,7 @@ import org.testfx.api.annotation.Unstable;
 @Unstable
 public final class PointQueryUtils {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    private PointQueryUtils() {
-        throw new UnsupportedOperationException();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private PointQueryUtils() {}
 
     /**
      *
@@ -46,8 +36,7 @@ public final class PointQueryUtils {
      * @return a point somewhere in the given bounds whose x and y values are determined by
      * passing the given {@code position} to {@link #computePositionFactors(Pos)}.
      */
-    public static Point2D atPosition(Bounds bounds,
-                                     Pos position) {
+    public static Point2D atPosition(Bounds bounds, Pos position) {
         return atPositionFactors(bounds, computePositionFactors(position));
     }
 
@@ -60,8 +49,7 @@ public final class PointQueryUtils {
      *                        {@code bounds.getMinX() + (bounds.getWidth() * positionFactors.getX()}.
      * @return a point somewhere in the given bounds whose x and y values are determined by {@code positionFactors}.
      */
-    public static Point2D atPositionFactors(Bounds bounds,
-                                            Point2D positionFactors) {
+    public static Point2D atPositionFactors(Bounds bounds, Point2D positionFactors) {
         double pointX = lerp(bounds.getMinX(), bounds.getWidth(), positionFactors.getX());
         double pointY = lerp(bounds.getMinY(), bounds.getHeight(), positionFactors.getY());
         return new Point2D(pointX, pointY);
@@ -79,13 +67,7 @@ public final class PointQueryUtils {
         return new Point2D(positionX, positionY);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static double lerp(double start,
-                               double distance,
-                               double factor) {
+    private static double lerp(double start, double distance, double factor) {
         return start + (distance * factor);
     }
 
@@ -98,7 +80,7 @@ public final class PointQueryUtils {
             case RIGHT:
                 return 1.0;
             default:
-                throw new AssertionError("Unhandled hPos");
+                throw new RuntimeException("unhandled hPos: " + hPos);
         }
     }
 
@@ -112,7 +94,7 @@ public final class PointQueryUtils {
             case BOTTOM:
                 return 1.0;
             default:
-                throw new AssertionError("Unhandled vPos");
+                throw new RuntimeException("unhandled vPos: " + vPos);
         }
     }
 
