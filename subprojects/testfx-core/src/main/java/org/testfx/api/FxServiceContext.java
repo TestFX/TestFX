@@ -24,7 +24,6 @@ import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.finder.impl.NodeFinderImpl;
 import org.testfx.service.finder.impl.WindowFinderImpl;
 import org.testfx.service.support.CaptureSupport;
-import org.testfx.service.support.WaitUntilSupport;
 import org.testfx.service.support.impl.CaptureSupportImpl;
 
 
@@ -35,15 +34,10 @@ import org.testfx.service.support.impl.CaptureSupportImpl;
  *     <li>a {@link NodeFinder}</li>
  *     <li>a {@link BaseRobot}</li>
  *     <li>{@link CaptureSupport}</li>
- *     <li>and {@link WaitUntilSupport}</li>
  * </ul>
  */
 @Unstable(reason = "class was recently added")
 public class FxServiceContext {
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private WindowFinder windowFinder = new WindowFinderImpl();
 
@@ -52,12 +46,6 @@ public class FxServiceContext {
     private BaseRobot baseRobot = new BaseRobotImpl();
 
     private CaptureSupport captureSupport = new CaptureSupportImpl(baseRobot);
-
-    private WaitUntilSupport waitUntilSupport = new WaitUntilSupport();
-
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
 
     public WindowFinder getWindowFinder() {
         return windowFinder;
@@ -89,14 +77,6 @@ public class FxServiceContext {
 
     public void setCaptureSupport(CaptureSupport captureSupport) {
         this.captureSupport = captureSupport;
-    }
-
-    public WaitUntilSupport getWaitUntilSupport() {
-        return waitUntilSupport;
-    }
-
-    public void setWaitUntilSupport(WaitUntilSupport waitUntilSupport) {
-        this.waitUntilSupport = waitUntilSupport;
     }
 
 }
