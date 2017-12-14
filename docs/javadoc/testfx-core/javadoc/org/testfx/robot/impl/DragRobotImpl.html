@@ -74,13 +74,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,29 +122,6 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/DragRobotImpl.html#mouseRobot">mouseRobot</a></span></code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/DragRobotImpl.html#moveRobot">moveRobot</a></span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -185,14 +162,14 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/DragRobotImpl.html#drag-org.testfx.service.query.PointQuery-javafx.scene.input.MouseButton...-">drag</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
     javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Moves the mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before presses the given mouse button(s) on whatever is under
- the mouse's new location.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then presses the
+ given mouse button(s) on whatever is under the mouse's new location.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/DragRobotImpl.html#drop--">drop</a></span>()</code>
-<div class="block">Releases the mouse at current position.</div>
+<div class="block">Releases the mouse at its' current position.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -205,7 +182,8 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/DragRobotImpl.html#dropTo-org.testfx.service.query.PointQuery-">dropTo</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery)</code>
-<div class="block">Moves the mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before releasing the mouse.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then
+ releases the mouse.</div>
 </td>
 </tr>
 </table>
@@ -224,32 +202,6 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="mouseRobot">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>mouseRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a> mouseRobot</pre>
-</li>
-</ul>
-<a name="moveRobot">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>moveRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a> moveRobot</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -300,13 +252,13 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <pre>public&nbsp;void&nbsp;drag(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
                  javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/DragRobot.html#drag-org.testfx.service.query.PointQuery-javafx.scene.input.MouseButton...-">DragRobot</a></code></span></div>
-<div class="block">Moves the mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before presses the given mouse button(s) on whatever is under
- the mouse's new location.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then presses the
+ given mouse button(s) on whatever is under the mouse's new location.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/DragRobot.html#drag-org.testfx.service.query.PointQuery-javafx.scene.input.MouseButton...-">drag</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pointQuery</code> - the pointQuery</dd>
+<dd><code>pointQuery</code> - the pointQuery that specifies where to move the mouse to</dd>
 <dd><code>buttons</code> - the mouse buttons to press</dd>
 </dl>
 </li>
@@ -319,7 +271,7 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <h4>drop</h4>
 <pre>public&nbsp;void&nbsp;drop()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/DragRobot.html#drop--">DragRobot</a></code></span></div>
-<div class="block">Releases the mouse at current position.</div>
+<div class="block">Releases the mouse at its' current position.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/DragRobot.html#drop--">drop</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a></code></dd>
@@ -334,12 +286,13 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <h4>dropTo</h4>
 <pre>public&nbsp;void&nbsp;dropTo(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/DragRobot.html#dropTo-org.testfx.service.query.PointQuery-">DragRobot</a></code></span></div>
-<div class="block">Moves the mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before releasing the mouse.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then
+ releases the mouse.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/DragRobot.html#dropTo-org.testfx.service.query.PointQuery-">dropTo</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pointQuery</code> - the pointQuery</dd>
+<dd><code>pointQuery</code> - the pointQuery that specifies where to move the mouse to</dd>
 </dl>
 </li>
 </ul>
@@ -417,13 +370,13 @@ implements <a href="../../../../org/testfx/robot/DragRobot.html" title="interfac
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

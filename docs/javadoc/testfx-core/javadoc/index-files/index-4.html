@@ -224,13 +224,13 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/ClickRobot.html#doubleClickOn-org.testfx.service.query.PointQuery-javafx.scene.input.MouseButton...-">doubleClickOn(PointQuery, MouseButton...)</a></span> - Method in interface org.testfx.robot.<a href="../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a></dt>
 <dd>
-<div class="block">Moves mouse directly to <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and double-clicks whatever
- is under it.</div>
+<div class="block">Moves the mouse directly to the location specified by the given <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and
+ double-clicks whatever is under it.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/ClickRobot.html#doubleClickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">doubleClickOn(PointQuery, Motion, MouseButton...)</a></span> - Method in interface org.testfx.robot.<a href="../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a></dt>
 <dd>
-<div class="block">Moves mouse to <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using the specified <code>motion</code>
- (see: <a href="../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> and double-clicks whatever is under it.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using
+ the specified <code>motion</code> (see: <a href="../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> and double-clicks whatever is under it.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/impl/ClickRobotImpl.html#doubleClickOn-javafx.scene.input.MouseButton...-">doubleClickOn(MouseButton...)</a></span> - Method in class org.testfx.robot.impl.<a href="../org/testfx/robot/impl/ClickRobotImpl.html" title="class in org.testfx.robot.impl">ClickRobotImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -318,8 +318,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/DragRobot.html#drag-org.testfx.service.query.PointQuery-javafx.scene.input.MouseButton...-">drag(PointQuery, MouseButton...)</a></span> - Method in interface org.testfx.robot.<a href="../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a></dt>
 <dd>
-<div class="block">Moves the mouse to <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before presses the given mouse button(s) on whatever is under
- the mouse's new location.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then presses the
+ given mouse button(s) on whatever is under the mouse's new location.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/impl/DragRobotImpl.html#drag-javafx.scene.input.MouseButton...-">drag(MouseButton...)</a></span> - Method in class org.testfx.robot.impl.<a href="../org/testfx/robot/impl/DragRobotImpl.html" title="class in org.testfx.robot.impl">DragRobotImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -339,7 +339,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/DragRobot.html#drop--">drop()</a></span> - Method in interface org.testfx.robot.<a href="../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a></dt>
 <dd>
-<div class="block">Releases the mouse at current position.</div>
+<div class="block">Releases the mouse at its' current position.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/impl/DragRobotImpl.html#drop--">drop()</a></span> - Method in class org.testfx.robot.impl.<a href="../org/testfx/robot/impl/DragRobotImpl.html" title="class in org.testfx.robot.impl">DragRobotImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -435,7 +435,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/DragRobot.html#dropTo-org.testfx.service.query.PointQuery-">dropTo(PointQuery)</a></span> - Method in interface org.testfx.robot.<a href="../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a></dt>
 <dd>
-<div class="block">Moves the mouse to <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before releasing the mouse.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then
+ releases the mouse.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/impl/DragRobotImpl.html#dropTo-org.testfx.service.query.PointQuery-">dropTo(PointQuery)</a></span> - Method in class org.testfx.robot.impl.<a href="../org/testfx/robot/impl/DragRobotImpl.html" title="class in org.testfx.robot.impl">DragRobotImpl</a></dt>
 <dd>&nbsp;</dd>

@@ -126,45 +126,45 @@ var activeTableTab = "activeTableTab";
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scroll-int-">scroll</a></span>(int&nbsp;amount)</code>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel): if <code>amount &gt;= 0</code>, up; otherwise, down.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel).</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scroll-int-javafx.geometry.HorizontalDirection-">scroll</a></span>(int&nbsp;positiveAmount,
       javafx.geometry.HorizontalDirection&nbsp;direction)</code>
-<div class="block">Scrolls horizontally by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls horizontally by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scroll-int-javafx.geometry.VerticalDirection-">scroll</a></span>(int&nbsp;positiveAmount,
       javafx.geometry.VerticalDirection&nbsp;direction)</code>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scrollDown-int-">scrollDown</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls down by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls down by <code>amount</code> (in terms of ticks of a wheel).</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scrollLeft-int-">scrollLeft</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls left by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls left by <code>amount</code> (in terms of ticks of a wheel).</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scrollRight-int-">scrollRight</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls right by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls right by <code>amount</code> (in terms of ticks of a wheel).</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/ScrollRobot.html#scrollUp-int-">scrollUp</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls up by amount (in terms of ticks of a mouse wheel).</div>
+<div class="block">Scrolls up by <code>amount</code> (in terms of ticks of a mouse wheel).</div>
 </td>
 </tr>
 </table>
@@ -189,10 +189,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>scroll</h4>
 <pre>void&nbsp;scroll(int&nbsp;amount)</pre>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel): if <code>amount &gt;= 0</code>, up; otherwise, down.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel). If
+ <code>amount</code> is positive we scroll up, if it's negative we scroll down.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>amount</code> - of a mouse wheel's scroll ticks</dd>
+<dd><code>amount</code> - the number of scroll ticks to scroll</dd>
 </dl>
 </li>
 </ul>
@@ -204,11 +205,11 @@ var activeTableTab = "activeTableTab";
 <h4>scroll</h4>
 <pre>void&nbsp;scroll(int&nbsp;positiveAmount,
             javafx.geometry.VerticalDirection&nbsp;direction)</pre>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
-<dd><code>direction</code> - whether to scroll up or down</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll vertically</dd>
+<dd><code>direction</code> - the vertical direction in which to scroll (up or down)</dd>
 </dl>
 </li>
 </ul>
@@ -219,11 +220,10 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>scrollUp</h4>
 <pre>void&nbsp;scrollUp(int&nbsp;positiveAmount)</pre>
-<div class="block">Scrolls up by amount (in terms of ticks of a mouse wheel).
- .</div>
+<div class="block">Scrolls up by <code>amount</code> (in terms of ticks of a mouse wheel).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll up</dd>
 </dl>
 </li>
 </ul>
@@ -234,10 +234,10 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>scrollDown</h4>
 <pre>void&nbsp;scrollDown(int&nbsp;positiveAmount)</pre>
-<div class="block">Scrolls down by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls down by <code>amount</code> (in terms of ticks of a wheel).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll down</dd>
 </dl>
 </li>
 </ul>
@@ -249,11 +249,11 @@ var activeTableTab = "activeTableTab";
 <h4>scroll</h4>
 <pre>void&nbsp;scroll(int&nbsp;positiveAmount,
             javafx.geometry.HorizontalDirection&nbsp;direction)</pre>
-<div class="block">Scrolls horizontally by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls horizontally by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
-<dd><code>direction</code> - whether to scroll left or right</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll horizontally</dd>
+<dd><code>direction</code> - the horizontal direction in which to scroll (left or right)</dd>
 </dl>
 </li>
 </ul>
@@ -264,10 +264,10 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>scrollLeft</h4>
 <pre>void&nbsp;scrollLeft(int&nbsp;positiveAmount)</pre>
-<div class="block">Scrolls left by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls left by <code>amount</code> (in terms of ticks of a wheel).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll left</dd>
 </dl>
 </li>
 </ul>
@@ -278,10 +278,10 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>scrollRight</h4>
 <pre>void&nbsp;scrollRight(int&nbsp;positiveAmount)</pre>
-<div class="block">Scrolls right by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls right by <code>amount</code> (in terms of ticks of a wheel).</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll right</dd>
 </dl>
 </li>
 </ul>

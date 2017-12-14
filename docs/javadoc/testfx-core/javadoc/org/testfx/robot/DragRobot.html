@@ -133,14 +133,14 @@ var activeTableTab = "activeTableTab";
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/DragRobot.html#drag-org.testfx.service.query.PointQuery-javafx.scene.input.MouseButton...-">drag</a></span>(<a href="../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
     javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Moves the mouse to <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before presses the given mouse button(s) on whatever is under
- the mouse's new location.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then presses the
+ given mouse button(s) on whatever is under the mouse's new location.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/DragRobot.html#drop--">drop</a></span>()</code>
-<div class="block">Releases the mouse at current position.</div>
+<div class="block">Releases the mouse at its' current position.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -153,7 +153,8 @@ var activeTableTab = "activeTableTab";
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/DragRobot.html#dropTo-org.testfx.service.query.PointQuery-">dropTo</a></span>(<a href="../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery)</code>
-<div class="block">Moves the mouse to <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before releasing the mouse.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then
+ releases the mouse.</div>
 </td>
 </tr>
 </table>
@@ -193,11 +194,11 @@ var activeTableTab = "activeTableTab";
 <h4>drag</h4>
 <pre>void&nbsp;drag(<a href="../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
           javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
-<div class="block">Moves the mouse to <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before presses the given mouse button(s) on whatever is under
- the mouse's new location.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then presses the
+ given mouse button(s) on whatever is under the mouse's new location.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pointQuery</code> - the pointQuery</dd>
+<dd><code>pointQuery</code> - the pointQuery that specifies where to move the mouse to</dd>
 <dd><code>buttons</code> - the mouse buttons to press</dd>
 </dl>
 </li>
@@ -209,7 +210,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>drop</h4>
 <pre>void&nbsp;drop()</pre>
-<div class="block">Releases the mouse at current position.</div>
+<div class="block">Releases the mouse at its' current position.</div>
 </li>
 </ul>
 <a name="dropTo-org.testfx.service.query.PointQuery-">
@@ -219,10 +220,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>dropTo</h4>
 <pre>void&nbsp;dropTo(<a href="../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery)</pre>
-<div class="block">Moves the mouse to <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> before releasing the mouse.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> and then
+ releases the mouse.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pointQuery</code> - the pointQuery</dd>
+<dd><code>pointQuery</code> - the pointQuery that specifies where to move the mouse to</dd>
 </dl>
 </li>
 </ul>

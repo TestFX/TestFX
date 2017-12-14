@@ -74,13 +74,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,25 +122,6 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#mouseRobot">mouseRobot</a></span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -173,45 +154,45 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scroll-int-">scroll</a></span>(int&nbsp;amount)</code>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel): if <code>amount &gt;= 0</code>, up; otherwise, down.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel).</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scroll-int-javafx.geometry.HorizontalDirection-">scroll</a></span>(int&nbsp;positiveAmount,
       javafx.geometry.HorizontalDirection&nbsp;direction)</code>
-<div class="block">Scrolls horizontally by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls horizontally by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scroll-int-javafx.geometry.VerticalDirection-">scroll</a></span>(int&nbsp;positiveAmount,
       javafx.geometry.VerticalDirection&nbsp;direction)</code>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scrollDown-int-">scrollDown</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls down by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls down by <code>amount</code> (in terms of ticks of a wheel).</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scrollLeft-int-">scrollLeft</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls left by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls left by <code>amount</code> (in terms of ticks of a wheel).</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scrollRight-int-">scrollRight</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls right by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls right by <code>amount</code> (in terms of ticks of a wheel).</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ScrollRobotImpl.html#scrollUp-int-">scrollUp</a></span>(int&nbsp;positiveAmount)</code>
-<div class="block">Scrolls up by amount (in terms of ticks of a mouse wheel).</div>
+<div class="block">Scrolls up by <code>amount</code> (in terms of ticks of a mouse wheel).</div>
 </td>
 </tr>
 </table>
@@ -230,23 +211,6 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="mouseRobot">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>mouseRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a> mouseRobot</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -278,12 +242,13 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <h4>scroll</h4>
 <pre>public&nbsp;void&nbsp;scroll(int&nbsp;amount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scroll-int-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel): if <code>amount &gt;= 0</code>, up; otherwise, down.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel). If
+ <code>amount</code> is positive we scroll up, if it's negative we scroll down.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scroll-int-">scroll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>amount</code> - of a mouse wheel's scroll ticks</dd>
+<dd><code>amount</code> - the number of scroll ticks to scroll</dd>
 </dl>
 </li>
 </ul>
@@ -296,13 +261,13 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <pre>public&nbsp;void&nbsp;scroll(int&nbsp;positiveAmount,
                    javafx.geometry.VerticalDirection&nbsp;direction)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scroll-int-javafx.geometry.VerticalDirection-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls vertically by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls vertically by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scroll-int-javafx.geometry.VerticalDirection-">scroll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
-<dd><code>direction</code> - whether to scroll up or down</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll vertically</dd>
+<dd><code>direction</code> - the vertical direction in which to scroll (up or down)</dd>
 </dl>
 </li>
 </ul>
@@ -314,13 +279,12 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <h4>scrollUp</h4>
 <pre>public&nbsp;void&nbsp;scrollUp(int&nbsp;positiveAmount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollUp-int-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls up by amount (in terms of ticks of a mouse wheel).
- .</div>
+<div class="block">Scrolls up by <code>amount</code> (in terms of ticks of a mouse wheel).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollUp-int-">scrollUp</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll up</dd>
 </dl>
 </li>
 </ul>
@@ -332,12 +296,12 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <h4>scrollDown</h4>
 <pre>public&nbsp;void&nbsp;scrollDown(int&nbsp;positiveAmount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollDown-int-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls down by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls down by <code>amount</code> (in terms of ticks of a wheel).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollDown-int-">scrollDown</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll down</dd>
 </dl>
 </li>
 </ul>
@@ -350,13 +314,13 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <pre>public&nbsp;void&nbsp;scroll(int&nbsp;positiveAmount,
                    javafx.geometry.HorizontalDirection&nbsp;direction)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scroll-int-javafx.geometry.HorizontalDirection-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls horizontally by amount (in terms of ticks of a mouse wheel) in given direction.</div>
+<div class="block">Scrolls horizontally by <code>amount</code> (in terms of ticks of a mouse wheel) in given direction.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scroll-int-javafx.geometry.HorizontalDirection-">scroll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
-<dd><code>direction</code> - whether to scroll left or right</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll horizontally</dd>
+<dd><code>direction</code> - the horizontal direction in which to scroll (left or right)</dd>
 </dl>
 </li>
 </ul>
@@ -368,12 +332,12 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <h4>scrollRight</h4>
 <pre>public&nbsp;void&nbsp;scrollRight(int&nbsp;positiveAmount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollRight-int-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls right by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls right by <code>amount</code> (in terms of ticks of a wheel).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollRight-int-">scrollRight</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll right</dd>
 </dl>
 </li>
 </ul>
@@ -385,12 +349,12 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <h4>scrollLeft</h4>
 <pre>public&nbsp;void&nbsp;scrollLeft(int&nbsp;positiveAmount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollLeft-int-">ScrollRobot</a></code></span></div>
-<div class="block">Scrolls left by amount (in terms of ticks of a wheel).</div>
+<div class="block">Scrolls left by <code>amount</code> (in terms of ticks of a wheel).</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ScrollRobot.html#scrollLeft-int-">scrollLeft</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>positiveAmount</code> - the number of scroll ticks</dd>
+<dd><code>positiveAmount</code> - the number of scroll ticks to scroll left</dd>
 </dl>
 </li>
 </ul>
@@ -449,13 +413,13 @@ implements <a href="../../../../org/testfx/robot/ScrollRobot.html" title="interf
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

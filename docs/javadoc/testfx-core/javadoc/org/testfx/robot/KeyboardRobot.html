@@ -126,31 +126,31 @@ var activeTableTab = "activeTableTab";
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;javafx.scene.input.KeyCode&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/KeyboardRobot.html#getPressedKeys--">getPressedKeys</a></span>()</code>
-<div class="block">Gets the keys that have been pressed and not released.</div>
+<div class="block">Gets the keys that have been pressed and not yet released.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/KeyboardRobot.html#press-javafx.scene.input.KeyCode...-">press</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>.</div>
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/KeyboardRobot.html#pressNoWait-javafx.scene.input.KeyCode...-">pressNoWait</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>.</div>
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-">release</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Releases given keys.</div>
+<div class="block">Releases the given keys.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/KeyboardRobot.html#releaseNoWait-javafx.scene.input.KeyCode...-">releaseNoWait</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Releases given keys.</div>
+<div class="block">Releases the given keys.</div>
 </td>
 </tr>
 </table>
@@ -175,11 +175,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>press</h4>
 <pre>void&nbsp;press(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>. Once pressed,
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>. Once pressed,
  <a href="../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is called.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to press</dd>
 </dl>
 </li>
 </ul>
@@ -190,11 +190,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>pressNoWait</h4>
 <pre>void&nbsp;pressNoWait(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>.
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>release(KeyCode...)</code></a>.
  <a href="../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to press without waiting afterwards</dd>
 </dl>
 </li>
 </ul>
@@ -205,10 +205,10 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getPressedKeys</h4>
 <pre>java.util.Set&lt;javafx.scene.input.KeyCode&gt;&nbsp;getPressedKeys()</pre>
-<div class="block">Gets the keys that have been pressed and not released.</div>
+<div class="block">Gets the keys that have been pressed and not yet released.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable set of the keys that have been pressed but not released.</dd>
+<dd>an (unmodifiable) containing the keys that have been pressed (but not yet) released.</dd>
 </dl>
 </li>
 </ul>
@@ -219,11 +219,12 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>release</h4>
 <pre>void&nbsp;release(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
-<div class="block">Releases given keys. Once released, <a href="../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is called.
+<div class="block">Releases the given keys. Once released, <a href="../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is called.
+ <p>
  <em>Note:</em> passing in an empty <code>KeyCode[]</code> will release all pressed keys.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to release</dd>
 </dl>
 </li>
 </ul>
@@ -234,11 +235,12 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>releaseNoWait</h4>
 <pre>void&nbsp;releaseNoWait(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
-<div class="block">Releases given keys. <a href="../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+<div class="block">Releases the given keys. <a href="../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+ <p>
  <em>Note:</em> passing in an empty <code>KeyCode[]</code> will release all pressed keys.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to release without waiting afterwards</dd>
 </dl>
 </li>
 </ul>

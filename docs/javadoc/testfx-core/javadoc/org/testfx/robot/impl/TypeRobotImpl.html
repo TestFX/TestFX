@@ -74,13 +74,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,29 +122,6 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/TypeRobotImpl.html#keyboardRobot">keyboardRobot</a></span></code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/TypeRobotImpl.html#sleepRobot">sleepRobot</a></span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -216,32 +193,6 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="keyboardRobot">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>keyboardRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a> keyboardRobot</pre>
-</li>
-</ul>
-<a name="sleepRobot">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>sleepRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a> sleepRobot</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -279,7 +230,7 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/TypeRobot.html#push-javafx.scene.input.KeyCode...-">push</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>combination</code> - the combination</dd>
+<dd><code>combination</code> - the combination to push</dd>
 </dl>
 </li>
 </ul>
@@ -296,7 +247,7 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/TypeRobot.html#push-javafx.scene.input.KeyCodeCombination-">push</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>combination</code> - the combination</dd>
+<dd><code>combination</code> - the combination to push</dd>
 </dl>
 </li>
 </ul>
@@ -313,7 +264,7 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/TypeRobot.html#type-javafx.scene.input.KeyCode...-">type</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to type</dd>
 </dl>
 </li>
 </ul>
@@ -331,8 +282,8 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/TypeRobot.html#type-javafx.scene.input.KeyCode-int-">type</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>key</code> - the key code</dd>
-<dd><code>times</code> - number of times</dd>
+<dd><code>key</code> - the key code to type <code>times</code> times</dd>
+<dd><code>times</code> - number of times to type the <code>keyCode</code></dd>
 </dl>
 </li>
 </ul>
@@ -391,13 +342,13 @@ implements <a href="../../../../org/testfx/robot/TypeRobot.html" title="interfac
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

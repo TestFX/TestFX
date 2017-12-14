@@ -74,13 +74,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,25 +122,6 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/KeyboardRobotImpl.html#baseRobot">baseRobot</a></span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -173,31 +154,31 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;javafx.scene.input.KeyCode&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/KeyboardRobotImpl.html#getPressedKeys--">getPressedKeys</a></span>()</code>
-<div class="block">Gets the keys that have been pressed and not released.</div>
+<div class="block">Gets the keys that have been pressed and not yet released.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/KeyboardRobotImpl.html#press-javafx.scene.input.KeyCode...-">press</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>.</div>
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/KeyboardRobotImpl.html#pressNoWait-javafx.scene.input.KeyCode...-">pressNoWait</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>.</div>
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/KeyboardRobotImpl.html#release-javafx.scene.input.KeyCode...-">release</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Releases given keys.</div>
+<div class="block">Releases the given keys.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/KeyboardRobotImpl.html#releaseNoWait-javafx.scene.input.KeyCode...-">releaseNoWait</a></span>(javafx.scene.input.KeyCode...&nbsp;keys)</code>
-<div class="block">Releases given keys.</div>
+<div class="block">Releases the given keys.</div>
 </td>
 </tr>
 </table>
@@ -216,23 +197,6 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="baseRobot">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>baseRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a> baseRobot</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -256,23 +220,6 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="getPressedKeys--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getPressedKeys</h4>
-<pre>public final&nbsp;java.util.Set&lt;javafx.scene.input.KeyCode&gt;&nbsp;getPressedKeys()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html#getPressedKeys--">KeyboardRobot</a></code></span></div>
-<div class="block">Gets the keys that have been pressed and not released.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/testfx/robot/KeyboardRobot.html#getPressedKeys--">getPressedKeys</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable set of the keys that have been pressed but not released.</dd>
-</dl>
-</li>
-</ul>
 <a name="press-javafx.scene.input.KeyCode...-">
 <!--   -->
 </a>
@@ -281,13 +228,13 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <h4>press</h4>
 <pre>public&nbsp;void&nbsp;press(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html#press-javafx.scene.input.KeyCode...-">KeyboardRobot</a></code></span></div>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>. Once pressed,
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>. Once pressed,
  <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is called.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/KeyboardRobot.html#press-javafx.scene.input.KeyCode...-">press</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to press</dd>
 </dl>
 </li>
 </ul>
@@ -299,13 +246,13 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <h4>pressNoWait</h4>
 <pre>public&nbsp;void&nbsp;pressNoWait(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html#pressNoWait-javafx.scene.input.KeyCode...-">KeyboardRobot</a></code></span></div>
-<div class="block">Presses given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>.
+<div class="block">Presses the given keys, until explicitly released via <a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-"><code>KeyboardRobot.release(KeyCode...)</code></a>.
  <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/KeyboardRobot.html#pressNoWait-javafx.scene.input.KeyCode...-">pressNoWait</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to press without waiting afterwards</dd>
 </dl>
 </li>
 </ul>
@@ -317,31 +264,50 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <h4>release</h4>
 <pre>public&nbsp;void&nbsp;release(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-">KeyboardRobot</a></code></span></div>
-<div class="block">Releases given keys. Once released, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is called.
+<div class="block">Releases the given keys. Once released, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is called.
+ <p>
  <em>Note:</em> passing in an empty <code>KeyCode[]</code> will release all pressed keys.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/KeyboardRobot.html#release-javafx.scene.input.KeyCode...-">release</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to release</dd>
 </dl>
 </li>
 </ul>
 <a name="releaseNoWait-javafx.scene.input.KeyCode...-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>releaseNoWait</h4>
 <pre>public&nbsp;void&nbsp;releaseNoWait(javafx.scene.input.KeyCode...&nbsp;keys)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html#releaseNoWait-javafx.scene.input.KeyCode...-">KeyboardRobot</a></code></span></div>
-<div class="block">Releases given keys. <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+<div class="block">Releases the given keys. <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+ <p>
  <em>Note:</em> passing in an empty <code>KeyCode[]</code> will release all pressed keys.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/KeyboardRobot.html#releaseNoWait-javafx.scene.input.KeyCode...-">releaseNoWait</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>keys</code> - the key codes</dd>
+<dd><code>keys</code> - the key codes to release without waiting afterwards</dd>
+</dl>
+</li>
+</ul>
+<a name="getPressedKeys--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getPressedKeys</h4>
+<pre>public final&nbsp;java.util.Set&lt;javafx.scene.input.KeyCode&gt;&nbsp;getPressedKeys()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html#getPressedKeys--">KeyboardRobot</a></code></span></div>
+<div class="block">Gets the keys that have been pressed and not yet released.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/testfx/robot/KeyboardRobot.html#getPressedKeys--">getPressedKeys</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an (unmodifiable) containing the keys that have been pressed (but not yet) released.</dd>
 </dl>
 </li>
 </ul>
@@ -400,13 +366,13 @@ implements <a href="../../../../org/testfx/robot/KeyboardRobot.html" title="inte
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

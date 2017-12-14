@@ -74,13 +74,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,25 +122,6 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#baseRobot">baseRobot</a></span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -173,55 +154,55 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;javafx.scene.input.MouseButton&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#getPressedButtons--">getPressedButtons</a></span>()</code>
-<div class="block">Gets the buttons that have been pressed but not yet released.</div>
+<div class="block">Gets the mouse buttons that have been pressed but not yet released.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#move-javafx.geometry.Point2D-">move</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
-<div class="block">Moves mouse to given location.</div>
+<div class="block">Moves the mouse to the given location.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#moveNoWait-javafx.geometry.Point2D-">moveNoWait</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
-<div class="block">Moves mouse to given location.</div>
+<div class="block">Moves the mouse to the given location.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#press-javafx.scene.input.MouseButton...-">press</a></span>(javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Presses given buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>.</div>
+<div class="block">Presses the given mouse buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#pressNoWait-javafx.scene.input.MouseButton...-">pressNoWait</a></span>(javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Presses given buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>.</div>
+<div class="block">Presses the given mouse buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#release-javafx.scene.input.MouseButton...-">release</a></span>(javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Releases given buttons.</div>
+<div class="block">Releases the given mouse buttons.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#releaseNoWait-javafx.scene.input.MouseButton...-">releaseNoWait</a></span>(javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Releases given buttons.</div>
+<div class="block">Releases the given mouse buttons.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#scroll-int-">scroll</a></span>(int&nbsp;wheelAmount)</code>
-<div class="block">Scrolls mouse wheel by the given amount.</div>
+<div class="block">Scrolls the mouse wheel by the given amount.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/MouseRobotImpl.html#scrollNoWait-int-">scrollNoWait</a></span>(int&nbsp;wheelAmount)</code>
-<div class="block">Scrolls mouse wheel by the given amount.</div>
+<div class="block">Scrolls the mouse wheel by the given amount.</div>
 </td>
 </tr>
 </table>
@@ -240,23 +221,6 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="baseRobot">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>baseRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a> baseRobot</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -280,23 +244,6 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="getPressedButtons--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getPressedButtons</h4>
-<pre>public final&nbsp;java.util.Set&lt;javafx.scene.input.MouseButton&gt;&nbsp;getPressedButtons()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#getPressedButtons--">MouseRobot</a></code></span></div>
-<div class="block">Gets the buttons that have been pressed but not yet released.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#getPressedButtons--">getPressedButtons</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>an unmodifiable set of the pressed buttons</dd>
-</dl>
-</li>
-</ul>
 <a name="press-javafx.scene.input.MouseButton...-">
 <!--   -->
 </a>
@@ -305,14 +252,15 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>press</h4>
 <pre>public&nbsp;void&nbsp;press(javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#press-javafx.scene.input.MouseButton...-">MouseRobot</a></code></span></div>
-<div class="block">Presses given buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>. Once pressed,
- calls <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.
+<div class="block">Presses the given mouse buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>.
+ Once pressed, calls <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.
+ <p>
  <em>Note:</em> passing in an empty <code>MouseButton[]</code> will call <code>press(MouseButton.PRIMARY)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#press-javafx.scene.input.MouseButton...-">press</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>buttons</code> - the mouse buttons</dd>
+<dd><code>buttons</code> - the mouse buttons to press</dd>
 </dl>
 </li>
 </ul>
@@ -324,14 +272,15 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>pressNoWait</h4>
 <pre>public&nbsp;void&nbsp;pressNoWait(javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#pressNoWait-javafx.scene.input.MouseButton...-">MouseRobot</a></code></span></div>
-<div class="block">Presses given buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>. Once pressed,
- <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+<div class="block">Presses the given mouse buttons, until explicitly released via <a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-"><code>MouseRobot.release(MouseButton...)</code></a>.
+ Once pressed, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+ <p>
  <em>Note:</em> passing in an empty <code>MouseButton[]</code> will call <code>press(MouseButton.PRIMARY)</code>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#pressNoWait-javafx.scene.input.MouseButton...-">pressNoWait</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>buttons</code> - the mouse buttons</dd>
+<dd><code>buttons</code> - the mouse buttons to press without waiting afterwards</dd>
 </dl>
 </li>
 </ul>
@@ -343,13 +292,15 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>release</h4>
 <pre>public&nbsp;void&nbsp;release(javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-">MouseRobot</a></code></span></div>
-<div class="block">Releases given buttons. Once pressed, calls <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.
+<div class="block">Releases the given mouse buttons. Once pressed, calls
+ <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.
+ <p>
  <em>Note:</em> passing in an empty <code>MouseButton[]</code> will release all pressed <code>MouseButton</code>s.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#release-javafx.scene.input.MouseButton...-">release</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>buttons</code> - the mouse buttons</dd>
+<dd><code>buttons</code> - the mouse buttons to release</dd>
 </dl>
 </li>
 </ul>
@@ -361,13 +312,15 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>releaseNoWait</h4>
 <pre>public&nbsp;void&nbsp;releaseNoWait(javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#releaseNoWait-javafx.scene.input.MouseButton...-">MouseRobot</a></code></span></div>
-<div class="block">Releases given buttons. Once pressed, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.
+<div class="block">Releases the given mouse buttons. Once pressed, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>
+ is not called.
+ <p>
  <em>Note:</em> passing in an empty <code>MouseButton[]</code> will release all pressed <code>MouseButton</code>s.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#releaseNoWait-javafx.scene.input.MouseButton...-">releaseNoWait</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>buttons</code> - the mouse buttons</dd>
+<dd><code>buttons</code> - the mouse buttons to release without waiting afterwards</dd>
 </dl>
 </li>
 </ul>
@@ -379,12 +332,13 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>move</h4>
 <pre>public&nbsp;void&nbsp;move(javafx.geometry.Point2D&nbsp;location)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#move-javafx.geometry.Point2D-">MouseRobot</a></code></span></div>
-<div class="block">Moves mouse to given location. Once moved, calls <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.</div>
+<div class="block">Moves the mouse to the given location. Once moved, calls
+ <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#move-javafx.geometry.Point2D-">move</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>location</code> - the location to move</dd>
+<dd><code>location</code> - the location to move the mouse to</dd>
 </dl>
 </li>
 </ul>
@@ -396,13 +350,13 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>moveNoWait</h4>
 <pre>public&nbsp;void&nbsp;moveNoWait(javafx.geometry.Point2D&nbsp;location)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#moveNoWait-javafx.geometry.Point2D-">MouseRobot</a></code></span></div>
-<div class="block">Moves mouse to given location. Once moved, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is
- not called.</div>
+<div class="block">Moves the mouse to the given location. Once moved, <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>
+ is not called.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#moveNoWait-javafx.geometry.Point2D-">moveNoWait</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>location</code> - the location to move</dd>
+<dd><code>location</code> - the location to move the mouse to without waiting afterwards</dd>
 </dl>
 </li>
 </ul>
@@ -414,31 +368,48 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <h4>scroll</h4>
 <pre>public&nbsp;void&nbsp;scroll(int&nbsp;wheelAmount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#scroll-int-">MouseRobot</a></code></span></div>
-<div class="block">Scrolls mouse wheel by the given amount. Once scrolled, calls
+<div class="block">Scrolls the mouse wheel by the given amount. Once scrolled, calls
  <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a>.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#scroll-int-">scroll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>wheelAmount</code> - the amount to scroll</dd>
+<dd><code>wheelAmount</code> - the amount to scroll the mouse by</dd>
 </dl>
 </li>
 </ul>
 <a name="scrollNoWait-int-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>scrollNoWait</h4>
 <pre>public&nbsp;void&nbsp;scrollNoWait(int&nbsp;wheelAmount)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#scrollNoWait-int-">MouseRobot</a></code></span></div>
-<div class="block">Scrolls mouse wheel by the given amount. Once scrolled,
+<div class="block">Scrolls the mouse wheel by the given amount. Once scrolled,
  <a href="../../../../org/testfx/util/WaitForAsyncUtils.html#waitForFxEvents--"><code>WaitForAsyncUtils.waitForFxEvents()</code></a> is not called.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#scrollNoWait-int-">scrollNoWait</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>wheelAmount</code> - the amount to scroll</dd>
+<dd><code>wheelAmount</code> - the amount to scroll the mouse by without waiting afterwards</dd>
+</dl>
+</li>
+</ul>
+<a name="getPressedButtons--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getPressedButtons</h4>
+<pre>public final&nbsp;java.util.Set&lt;javafx.scene.input.MouseButton&gt;&nbsp;getPressedButtons()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html#getPressedButtons--">MouseRobot</a></code></span></div>
+<div class="block">Gets the mouse buttons that have been pressed but not yet released.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/testfx/robot/MouseRobot.html#getPressedButtons--">getPressedButtons</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an (unmodifiable) set containing the pressed (but not yet released) buttons</dd>
 </dl>
 </li>
 </ul>
@@ -497,13 +468,13 @@ implements <a href="../../../../org/testfx/robot/MouseRobot.html" title="interfa
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

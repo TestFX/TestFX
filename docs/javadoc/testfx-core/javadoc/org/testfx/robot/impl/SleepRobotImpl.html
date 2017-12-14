@@ -154,14 +154,14 @@ implements <a href="../../../../org/testfx/robot/SleepRobot.html" title="interfa
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/SleepRobotImpl.html#sleep-long-">sleep</a></span>(long&nbsp;milliseconds)</code>
-<div class="block">Same as Thread.sleep(), but without checked exceptions.</div>
+<div class="block">Same as <code>Thread.sleep(long)</code>}, but without checked exceptions.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/SleepRobotImpl.html#sleep-long-java.util.concurrent.TimeUnit-">sleep</a></span>(long&nbsp;duration,
      java.util.concurrent.TimeUnit&nbsp;timeUnit)</code>
-<div class="block">Same as Thread.sleep(), but without checked exceptions.</div>
+<div class="block">Same as <code>Thread.sleep(long)</code>, but without checked exceptions.</div>
 </td>
 </tr>
 </table>
@@ -211,12 +211,12 @@ implements <a href="../../../../org/testfx/robot/SleepRobot.html" title="interfa
 <h4>sleep</h4>
 <pre>public&nbsp;void&nbsp;sleep(long&nbsp;milliseconds)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/SleepRobot.html#sleep-long-">SleepRobot</a></code></span></div>
-<div class="block">Same as Thread.sleep(), but without checked exceptions.</div>
+<div class="block">Same as <code>Thread.sleep(long)</code>}, but without checked exceptions.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/SleepRobot.html#sleep-long-">sleep</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>milliseconds</code> - the duration in milliseconds</dd>
+<dd><code>milliseconds</code> - the duration in milliseconds to sleep for</dd>
 </dl>
 </li>
 </ul>
@@ -229,13 +229,13 @@ implements <a href="../../../../org/testfx/robot/SleepRobot.html" title="interfa
 <pre>public&nbsp;void&nbsp;sleep(long&nbsp;duration,
                   java.util.concurrent.TimeUnit&nbsp;timeUnit)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/SleepRobot.html#sleep-long-java.util.concurrent.TimeUnit-">SleepRobot</a></code></span></div>
-<div class="block">Same as Thread.sleep(), but without checked exceptions.</div>
+<div class="block">Same as <code>Thread.sleep(long)</code>, but without checked exceptions.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/SleepRobot.html#sleep-long-java.util.concurrent.TimeUnit-">sleep</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>duration</code> - the duration</dd>
-<dd><code>timeUnit</code> - the unit of time</dd>
+<dd><code>duration</code> - the duration to sleep for</dd>
+<dd><code>timeUnit</code> - the unit of time the duration to sleep for is in</dd>
 </dl>
 </li>
 </ul>

@@ -74,13 +74,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,33 +122,6 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ClickRobotImpl.html#mouseRobot">mouseRobot</a></span></code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ClickRobotImpl.html#moveRobot">moveRobot</a></span></code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ClickRobotImpl.html#sleepRobot">sleepRobot</a></span></code>&nbsp;</td>
-</tr>
-</table>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -191,8 +164,8 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ClickRobotImpl.html#clickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">clickOn</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
        <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion,
        javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Moves mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using the specified <code>motion</code>
- (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a>) and clicks whatever is under it.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using
+ the specified <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a>) and clicks whatever is under it.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -206,8 +179,8 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/ClickRobotImpl.html#doubleClickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">doubleClickOn</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
              <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion,
              javafx.scene.input.MouseButton...&nbsp;buttons)</code>
-<div class="block">Moves mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using the specified <code>motion</code>
- (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> and double-clicks whatever is under it.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using
+ the specified <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> and double-clicks whatever is under it.</div>
 </td>
 </tr>
 </table>
@@ -233,41 +206,6 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="mouseRobot">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>mouseRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a> mouseRobot</pre>
-</li>
-</ul>
-<a name="moveRobot">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>moveRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a> moveRobot</pre>
-</li>
-</ul>
-<a name="sleepRobot">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>sleepRobot</h4>
-<pre>public&nbsp;<a href="../../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a> sleepRobot</pre>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -320,13 +258,13 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
                     <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion,
                     javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ClickRobot.html#clickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">ClickRobot</a></code></span></div>
-<div class="block">Moves mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using the specified <code>motion</code>
- (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a>) and clicks whatever is under it.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using
+ the specified <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a>) and clicks whatever is under it.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ClickRobot.html#clickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">clickOn</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pointQuery</code> - the pointQuery</dd>
+<dd><code>pointQuery</code> - the pointQuery that specifies the location to move the mouse to</dd>
 <dd><code>motion</code> - the type of motion to use for movement</dd>
 <dd><code>buttons</code> - the mouse buttons to click</dd>
 </dl>
@@ -345,7 +283,7 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ClickRobot.html#doubleClickOn-javafx.scene.input.MouseButton...-">doubleClickOn</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>buttons</code> - the mouse buttons to click</dd>
+<dd><code>buttons</code> - the mouse buttons to double-click</dd>
 </dl>
 </li>
 </ul>
@@ -359,15 +297,15 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
                           <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion,
                           javafx.scene.input.MouseButton...&nbsp;buttons)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/ClickRobot.html#doubleClickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">ClickRobot</a></code></span></div>
-<div class="block">Moves mouse to <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using the specified <code>motion</code>
- (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> and double-clicks whatever is under it.</div>
+<div class="block">Moves the mouse to the location specified by the given <a href="../../../../org/testfx/service/query/PointQuery.html#query--"><code>PointQuery.query()</code></a> using
+ the specified <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> and double-clicks whatever is under it.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../org/testfx/robot/ClickRobot.html#doubleClickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-javafx.scene.input.MouseButton...-">doubleClickOn</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pointQuery</code> - the pointQuery</dd>
+<dd><code>pointQuery</code> - the pointQuery that specifies the location to move the mouse to</dd>
 <dd><code>motion</code> - the type of motion to use for movement</dd>
-<dd><code>buttons</code> - the mouse buttons to click</dd>
+<dd><code>buttons</code> - the mouse buttons to double-click</dd>
 </dl>
 </li>
 </ul>
@@ -426,13 +364,13 @@ implements <a href="../../../../org/testfx/robot/ClickRobot.html" title="interfa
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
