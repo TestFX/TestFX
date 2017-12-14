@@ -58,6 +58,27 @@ matrix:
         apt:
           packages:
             - oracle-java9-installer
+    # Ubuntu Linux (xenial) / Java 9 / Headed
+    - os: linux
+      dist: xenial
+      jdk: oraclejdk9
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+      addons:
+        apt:
+          packages:
+            - oracle-java9-installer
+            - gdb
+    # Ubuntu Linux (xenial) / Java 9 / Headless
+    - os: linux
+      dist: xenial
+      jdk: oraclejdk9
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
+      addons:
+        apt:
+          packages:
+            - oracle-java9-installer
     # macOS / Java 8 / Headless
     - os: osx
       osx_image: xcode9
