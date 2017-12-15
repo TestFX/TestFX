@@ -35,10 +35,6 @@ public class GlassRobotClipboardBug {
 
     public static FxRobot fx;
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     /*
     static {
         System.setProperty("testfx.robot", "glass");
@@ -69,10 +65,6 @@ public class GlassRobotClipboardBug {
         });
         FxToolkit.setupStage(Stage::show);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test(timeout = 2000)
     public void should_first_try() {

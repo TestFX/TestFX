@@ -49,24 +49,22 @@ public class ToolkitServiceImplTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public static Stage primaryStage;
-    public static ToolkitService toolkitService;
+    static Stage primaryStage;
+    static ToolkitService toolkitService;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
         PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
         Class<? extends Application> toolkitApplication = PrimaryStageApplication.class;
         toolkitService = new ToolkitServiceImpl(
-                new ApplicationLauncherImpl(), new ApplicationServiceImpl()
-        );
+                new ApplicationLauncherImpl(), new ApplicationServiceImpl());
 
         primaryStage = waitFor(10, TimeUnit.SECONDS,
-                toolkitService.setupPrimaryStage(primaryStageFuture, toolkitApplication)
-        );
+                toolkitService.setupPrimaryStage(primaryStageFuture, toolkitApplication));
     }
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         waitForAsyncFx(2000, () -> {
             primaryStage.show();
             primaryStage.toBack();
@@ -75,7 +73,7 @@ public class ToolkitServiceImplTest {
     }
 
     @After
-    public void cleanup() throws Exception {
+    public void cleanup() {
         waitForAsyncFx(2000, () -> {
             Platform.setImplicitExit(false);
             primaryStage.hide();
@@ -105,18 +103,14 @@ public class ToolkitServiceImplTest {
         assertThat(scene, instanceOf(FixtureScene.class));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE CLASSES.
-    //---------------------------------------------------------------------------------------------
-
     public static class FixtureApplication extends Application {
         @Override
-        public void init() throws Exception {
+        public void init() {
             printCurrentThreadName("Application#init()");
         }
 
         @Override
-        public void start(Stage primaryStage) throws Exception {
+        public void start(Stage primaryStage) {
             printCurrentThreadName("Application#start()");
             Parent parent = new StackPane(new Label(getClass().getSimpleName()));
             Scene scene = new Scene(parent, 400, 200);
@@ -125,7 +119,7 @@ public class ToolkitServiceImplTest {
         }
 
         @Override
-        public void stop() throws Exception {
+        public void stop() {
             printCurrentThreadName("Application#stop()");
         }
 
@@ -143,10 +137,6 @@ public class ToolkitServiceImplTest {
             setRoot(parent);
         }
     }
-
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private static void printCurrentThreadName(String methodSignature) {
         String threadName = Thread.currentThread().getName();

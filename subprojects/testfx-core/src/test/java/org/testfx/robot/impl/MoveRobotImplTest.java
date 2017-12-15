@@ -35,15 +35,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public final class MoveRobotImplTest {
+public class MoveRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public MoveRobot moveRobot;
-    public BaseRobot baseRobot;
-    public MouseRobot mouseRobot;
-    public SleepRobot sleepRobot;
+    MoveRobot moveRobot;
+    BaseRobot baseRobot;
+    MouseRobot mouseRobot;
+    SleepRobot sleepRobot;
 
     @Before
     public void setup() {

@@ -32,13 +32,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public final class MouseRobotImplTest {
+public class MouseRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public MouseRobot mouseRobot;
-    public BaseRobot baseRobot;
+    MouseRobot mouseRobot;
+    BaseRobot baseRobot;
 
     @Before
     public void setup() {

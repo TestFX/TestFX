@@ -49,7 +49,7 @@ public class CustomStageFixtureDemo {
         FxToolkit.hideStage(); // hide the primary Stage, if was previously shown.
     }
 
-    private static void afterClass() throws Exception {}
+    private static void afterClass() {}
 
     private static void before() throws Exception {
         FxToolkit.registerStage(Stage::new);
@@ -65,7 +65,7 @@ public class CustomStageFixtureDemo {
         Thread.sleep(500);
     }
 
-    private static void cleanup() throws Exception {
+    private static void cleanup() {
         Platform.setImplicitExit(true);
     }
 

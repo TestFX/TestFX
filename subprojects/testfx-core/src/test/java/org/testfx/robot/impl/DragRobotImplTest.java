@@ -35,14 +35,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public final class DragRobotImplTest {
+public class DragRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public DragRobot dragRobot;
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
+    DragRobot dragRobot;
+    MouseRobot mouseRobot;
+    MoveRobot moveRobot;
 
     @Before
     public void setup() {

@@ -68,17 +68,14 @@ public class GlassRobotAdapterTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public GlassRobotAdapter robotAdapter;
-    public Stage targetStage;
-    public Parent sceneRoot;
-    public Region region;
-    public Point2D regionPoint;
+    GlassRobotAdapter robotAdapter;
+    Stage targetStage;
+    Parent sceneRoot;
+    Region region;
+    Point2D regionPoint;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        //System.setProperty("testfx.robot", "glass");
-        //System.setProperty("testfx.headless", "true");
-        //System.setProperty("prism.order", "sw");
         FxToolkit.registerPrimaryStage();
     }
 
@@ -110,8 +107,6 @@ public class GlassRobotAdapterTest {
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
 
-    // ROBOT.
-
     @Test
     public void robotCreate() {
         // when:
@@ -141,8 +136,6 @@ public class GlassRobotAdapterTest {
         // then:
         assertThat(robotAdapter.getRobotInstance(), nullValue());
     }
-
-    // KEY.
 
     @Test
     @SuppressWarnings("unchecked")
@@ -180,8 +173,6 @@ public class GlassRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
         verify(keyEventHandler, times(1)).handle(any());
     }
-
-    // MOUSE.
 
     @Test
     public void getMouseLocation() {
@@ -244,8 +235,6 @@ public class GlassRobotAdapterTest {
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
-    // CAPTURE.
-
     @Test
     public void getCapturePixelColor() {
         // given:
@@ -272,8 +261,6 @@ public class GlassRobotAdapterTest {
         assertThat(regionImage.getHeight(), is(20.0));
         assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.web("magenta")));
     }
-
-    // TIMER.
 
     @Test
     public void timerWaitForIdle() {

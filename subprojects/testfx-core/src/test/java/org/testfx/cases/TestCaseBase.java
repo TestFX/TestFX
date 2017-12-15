@@ -22,10 +22,6 @@ import org.testfx.api.FxToolkit;
 
 public abstract class TestCaseBase extends FxRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @BeforeClass
     public static void baseSetupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();

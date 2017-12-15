@@ -48,14 +48,14 @@ public class PrimaryStageFixtureDemo {
         FxToolkit.showStage(); // show the primary Stage, if was previously hidden.
     }
 
-    private static void afterClass() throws Exception {}
+    private static void afterClass() {}
 
     private static void before() throws Exception {
         FxToolkit.setupStage(stage -> stage.setScene(new Scene(new Label("within primary stage"))));
         FxToolkit.showStage();
     }
 
-    private static void after() throws Exception {}
+    private static void after() {}
 
     private static void test() throws Exception {
         Thread.sleep(500);

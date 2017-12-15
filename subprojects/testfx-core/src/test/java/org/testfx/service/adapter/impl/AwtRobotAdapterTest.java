@@ -70,15 +70,15 @@ public class AwtRobotAdapterTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public AwtRobotAdapter robotAdapter;
-    public Stage targetStage;
-    public Parent sceneRoot;
-    public Region region;
-    public Point2D regionPoint;
+    AwtRobotAdapter robotAdapter;
+    Stage targetStage;
+    Parent sceneRoot;
+    Region region;
+    Point2D regionPoint;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        assumeFalse("Cannot run AwtRobotAdapterTest in headless environment",
+        assumeFalse("skipping AwtRobotAdapterTest - in headless environment",
             GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance());
         FxToolkit.registerPrimaryStage();
     }

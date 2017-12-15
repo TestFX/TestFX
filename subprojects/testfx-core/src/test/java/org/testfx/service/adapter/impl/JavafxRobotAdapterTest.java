@@ -28,7 +28,6 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -66,15 +65,15 @@ public class JavafxRobotAdapterTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public JavafxRobotAdapter robotAdapter;
-    public Stage targetStage;
-    public Parent sceneRoot;
-    public Region region;
-    public TextField textField;
-    public TextArea textArea;
-    public Point2D regionPoint;
-    public Point2D textFieldPoint;
-    public Point2D textAreaPoint;
+    JavafxRobotAdapter robotAdapter;
+    Stage targetStage;
+    Parent sceneRoot;
+    Region region;
+    TextField textField;
+    TextArea textArea;
+    Point2D regionPoint;
+    Point2D textFieldPoint;
+    Point2D textAreaPoint;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -104,9 +103,10 @@ public class JavafxRobotAdapterTest {
         robotAdapter = new JavafxRobotAdapter();
         robotAdapter.robotCreate(targetStage.getScene());
 
-        regionPoint = pointInCenterFor(boundsInSceneFor(region));
-        textFieldPoint = pointInCenterFor(boundsInSceneFor(textField));
-        textAreaPoint = pointInCenterFor(boundsInSceneFor(textArea));
+        // Points are set to bounds in scene
+        regionPoint = pointInCenterFor(region.localToScene(region.getBoundsInLocal()));
+        textFieldPoint = pointInCenterFor(textField.localToScene(textField.getBoundsInLocal()));
+        textAreaPoint = pointInCenterFor(textArea.localToScene(textArea.getBoundsInLocal()));
     }
 
     @After
@@ -114,8 +114,6 @@ public class JavafxRobotAdapterTest {
         robotAdapter.keyRelease(KeyCode.A);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
-
-    // KEY.
 
     @Test
     public void keyType_with_punctuation_and_numbers() {
@@ -190,11 +188,6 @@ public class JavafxRobotAdapterTest {
     }
 
     @Test
-    public void keyType_with_whitespace() {
-
-    }
-
-    @Test
     public void keyPressTypeRelease_english_text() {
         // given:
         robotAdapter.mouseMove(textAreaPoint);
@@ -258,12 +251,12 @@ public class JavafxRobotAdapterTest {
                 String.valueOf(LATIN_EXTENDED_A_GLYPHS)));
     }
 
-    // CAPTURE.
-
     @Test
     public void getCapturePixelColor() throws InterruptedException {
+        assumeThat("skipping: screen capture on macOS uses configured display's color profile",
+                System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+
         // given:
-        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
         CountDownLatch captureColorLatch = new CountDownLatch(1);
 
         // when:
@@ -286,8 +279,10 @@ public class JavafxRobotAdapterTest {
 
     @Test
     public void getCaptureRegion() throws InterruptedException {
+        assumeThat("skipping: screen capture on macOS uses configured display's color profile",
+                System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+
         // given:
-        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
         CountDownLatch captureRegionLatch = new CountDownLatch(1);
 
         // when:
@@ -311,10 +306,6 @@ public class JavafxRobotAdapterTest {
         assertThat(captureRegionLatch.await(5, TimeUnit.SECONDS), is(true));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     // BASIC LATIN (U+0000 TO U+007F).
 
     public String        BASIC_LATIN_UPPERCASE_GLYPHS = "@ABCDEFGHIJKLMNO";
@@ -336,10 +327,6 @@ public class JavafxRobotAdapterTest {
     public char[]        LATIN_EXTENDED_A_GLYPHS = new char[] {'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ',
         'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď'};
     public List<Integer> LATIN_EXTENDED_A_CODES  = closedRangeToInts(0x0100, 0x010f);
-
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private List<Integer> closedRangeToInts(int lower, int upper) {
         return IntStream.range(lower, upper + 1).boxed().collect(Collectors.toList());
@@ -370,10 +357,6 @@ public class JavafxRobotAdapterTest {
         robotAdapter.mousePress(button);
         robotAdapter.mouseRelease(button);
         robotAdapter.mouseClick(button);
-    }
-
-    private Bounds boundsInSceneFor(Node node) {
-        return node.localToScene(node.getBoundsInLocal());
     }
 
     private Point2D pointInCenterFor(Bounds bounds) {
