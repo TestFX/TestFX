@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.text.*?>
-<?import javafx.scene.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label fx:id="title" text="ACME Kit">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <Region fx:id="filler" prefHeight="150.0" />
-      <TextField fx:id="username" promptText="Username">
-         <font>
-            <Font size="15.0" />
-         </font></TextField>
-      <PasswordField fx:id="password" promptText="Password">
-         <font>
-            <Font size="15.0" />
-         </font></PasswordField>
-      <Button fx:id="loginButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Log In">
-         <font>
-            <Font size="15.0" />
-         </font></Button>
-   </children>
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
-      <Insets bottom="40.0" left="40.0" right="40.0" top="20.0" />
+      <Insets bottom="40.0" left="40.0" right="40.0" top="20.0"/>
    </padding>
+   <Label fx:id="title" text="ACME Kit">
+      <font>
+         <Font name="System Bold" size="15.0"/>
+      </font>
+   </Label>
+   <Region fx:id="filler" prefHeight="150.0"/>
+   <TextField fx:id="username" promptText="Username">
+      <font>
+         <Font size="15.0"/>
+      </font>
+   </TextField>
+   <PasswordField fx:id="password" promptText="Password">
+      <font>
+         <Font size="15.0"/>
+      </font>
+   </PasswordField>
+   <Button fx:id="loginButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+           text="Log In">
+      <font>
+         <Font size="15.0"/>
+      </font>
+   </Button>
 </VBox>

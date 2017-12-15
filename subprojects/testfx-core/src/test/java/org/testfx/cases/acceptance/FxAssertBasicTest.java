@@ -106,15 +106,6 @@ public class FxAssertBasicTest extends TestCaseBase {
         verifyThat("#button", not(hasText("clicked!")), informedErrorMessage(this));
     }
 
-    //@Test
-    //public void foo() {
-    //    verifyThat("#button", nodeMatcher(TreeView.class, "is true", (TreeView input) -> true));
-    //}
-
-    //---------------------------------------------------------------------------------------------
-    // TEST FIXTURES.
-    //---------------------------------------------------------------------------------------------
-
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {

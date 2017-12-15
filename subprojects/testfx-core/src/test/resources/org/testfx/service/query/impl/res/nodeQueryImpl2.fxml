@@ -2,69 +2,56 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
-         <bottom>
-            <HBox fx:id="buttonPane" spacing="15.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="createButton" mnemonicParsing="false" text="Create" />
-                  <Button fx:id="updateButton" mnemonicParsing="false" text="Update" />
-                  <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete" />
-               </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" />
-               </padding>
-            </HBox>
-         </bottom>
-         <center>
-            <HBox spacing="30.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox fx:id="listerPane" prefWidth="999.0" spacing="10.0" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <HBox spacing="10.0">
-                           <children>
-                              <StackPane alignment="CENTER_LEFT">
-                                 <children>
-                                    <Label fx:id="filterLabel" minWidth="-Infinity" text="Filter:" />
-                                 </children>
-                              </StackPane>
-                              <TextField fx:id="filterField" HBox.hgrow="SOMETIMES" />
-                           </children>
-                        </HBox>
-                        <ListView fx:id="personList" prefWidth="10.0" />
-                     </children>
-                  </VBox>
-                  <GridPane fx:id="editorPane" hgap="10.0" prefWidth="999.0" vgap="10.0" HBox.hgrow="SOMETIMES">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
-                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints fillHeight="false" minHeight="10.0" vgrow="NEVER" />
-                      <RowConstraints fillHeight="false" minHeight="10.0" vgrow="NEVER" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label fx:id="firstNameLabel" minWidth="-Infinity" text="First Name:" />
-                        <Label fx:id="secondNameLabel" minWidth="-Infinity" text="Last Name:" GridPane.rowIndex="1" />
-                        <TextField fx:id="firstNameField" minWidth="-Infinity" prefWidth="10.0" GridPane.columnIndex="1" />
-                        <TextField fx:id="lastNameField" minWidth="-Infinity" prefWidth="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     </children>
-                  </GridPane>
-               </children>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </HBox>
-         </center>
-      </BorderPane>
-   </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0"
+           prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <bottom>
+         <HBox fx:id="buttonPane" spacing="15.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+               <Insets/>
+            </BorderPane.margin>
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0"/>
+            </padding>
+            <Button fx:id="createButton" mnemonicParsing="false" text="Create"/>
+            <Button fx:id="updateButton" mnemonicParsing="false" text="Update"/>
+            <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete"/>
+         </HBox>
+      </bottom>
+      <center>
+         <HBox spacing="30.0" BorderPane.alignment="CENTER">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+            <VBox fx:id="listerPane" prefWidth="999.0" spacing="10.0" HBox.hgrow="SOMETIMES">
+               <HBox spacing="10.0">
+                  <StackPane alignment="CENTER_LEFT">
+                     <Label fx:id="filterLabel" minWidth="-Infinity" text="Filter:"/>
+                  </StackPane>
+                  <TextField fx:id="filterField" HBox.hgrow="SOMETIMES"/>
+               </HBox>
+               <ListView fx:id="personList" prefWidth="10.0"/>
+            </VBox>
+            <GridPane fx:id="editorPane" hgap="10.0" prefWidth="999.0" vgap="10.0" HBox.hgrow="SOMETIMES">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0"/>
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints fillHeight="false" minHeight="10.0" vgrow="NEVER"/>
+                  <RowConstraints fillHeight="false" minHeight="10.0" vgrow="NEVER"/>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               </rowConstraints>
+               <Label fx:id="firstNameLabel" minWidth="-Infinity" text="First Name:"/>
+               <Label fx:id="secondNameLabel" minWidth="-Infinity" text="Last Name:" GridPane.rowIndex="1"/>
+               <TextField fx:id="firstNameField" minWidth="-Infinity" prefWidth="10.0" GridPane.columnIndex="1"/>
+               <TextField fx:id="lastNameField" minWidth="-Infinity" prefWidth="10.0" GridPane.columnIndex="1"
+                          GridPane.rowIndex="1"/>
+            </GridPane>
+         </HBox>
+      </center>
+   </BorderPane>
 </StackPane>

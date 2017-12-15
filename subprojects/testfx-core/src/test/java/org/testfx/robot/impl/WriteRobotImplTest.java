@@ -38,17 +38,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public final class WriteRobotImplTest {
+public class WriteRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public WriteRobot writeRobot;
-    public Stage stage;
-    public Scene scene;
-    public BaseRobot baseRobot;
-    public SleepRobot sleepRobot;
-    public WindowFinder windowFinder;
+    WriteRobot writeRobot;
+    Stage stage;
+    Scene scene;
+    BaseRobot baseRobot;
+    SleepRobot sleepRobot;
+    WindowFinder windowFinder;
 
     @BeforeClass
     public static void setupSpec() throws Exception {

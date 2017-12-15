@@ -52,12 +52,11 @@ public class WaitForAsyncUtilsFxTest {
     }
 
     /**
-     * Tests that nested calls of async method triggers a exception.
+     * Tests that nested calls of async methods triggers an exception.
      * @throws Throwable
      */
     @Test
     public void asyncFx_nested_callable_with_exception() throws Throwable {
-
         // given:
         WaitForAsyncUtils.printException = false;
         exception.expectCause(instanceOf(ExecutionException.class));
@@ -117,12 +116,12 @@ public class WaitForAsyncUtilsFxTest {
         waitForThreads(future);
     }
 
-    protected void waitForException(Future<?> f) throws InterruptedException {
+    void waitForException(Future<?> f) throws InterruptedException {
         Thread.sleep(50);
         assertTrue(f.isDone());
     }
 
-    protected void waitForThreads(Future<?> f) {
+    void waitForThreads(Future<?> f) {
         while (!f.isDone()) {
             try {
                 Thread.sleep(1);

@@ -33,13 +33,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public final class KeyboardRobotImplTest {
+public class KeyboardRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public KeyboardRobot keyboardRobot;
-    public BaseRobot baseRobot;
+    KeyboardRobot keyboardRobot;
+    BaseRobot baseRobot;
 
     @Before
     public void setup() {

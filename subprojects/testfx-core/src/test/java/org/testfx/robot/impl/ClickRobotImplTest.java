@@ -37,15 +37,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public final class ClickRobotImplTest {
+public class ClickRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public ClickRobot clickRobot;
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
-    public SleepRobot sleepRobot;
+    ClickRobot clickRobot;
+    MouseRobot mouseRobot;
+    MoveRobot moveRobot;
+    SleepRobot sleepRobot;
 
     @Before
     public void setup() {

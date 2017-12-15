@@ -33,7 +33,7 @@ import org.testfx.util.WaitForAsyncUtils;
 @Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
 
-    private static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)
+    protected static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)
             .startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
 
     private final BaseRobot baseRobot;

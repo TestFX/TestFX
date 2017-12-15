@@ -56,8 +56,8 @@ public class CaptureSupportImplTest extends FxRobot {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    private CaptureSupport capturer;
-    private Stage primaryStage;
+    CaptureSupport capturer;
+    Stage primaryStage;
 
     public static class LoginDialog extends Application {
         @Override
@@ -156,12 +156,7 @@ public class CaptureSupportImplTest extends FxRobot {
         verifyThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Path resourcePath(Class<?> contextClass,
-                              String resourceName) {
+    private Path resourcePath(Class<?> contextClass, String resourceName) {
         try {
             URL url = contextClass.getResource(resourceName);
             Objects.requireNonNull(url, "url must not be null");

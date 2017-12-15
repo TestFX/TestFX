@@ -43,14 +43,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public final class TypeRobotImplTest {
+public class TypeRobotImplTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public TypeRobot typeRobot;
-    public KeyboardRobot keyboardRobot;
-    public SleepRobot sleepRobot;
+    TypeRobot typeRobot;
+    KeyboardRobot keyboardRobot;
+    SleepRobot sleepRobot;
 
     @Before
     public void setup() {

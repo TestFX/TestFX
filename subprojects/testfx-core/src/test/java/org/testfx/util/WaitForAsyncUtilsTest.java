@@ -43,10 +43,6 @@ public class WaitForAsyncUtilsTest {
     public TestRule rule = RuleChain.outerRule(Timeout.millis(5000)).around(exception = ExpectedException.none());
     public ExpectedException exception;
 
-    // ---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    // ---------------------------------------------------------------------------------------------
-
     @Test
     public void async_callable() throws Exception {
         // when:
@@ -121,7 +117,7 @@ public class WaitForAsyncUtilsTest {
     }
 
     @Test
-    public void autoCheckExceptionTest() throws Throwable {
+    public void autoCheckExceptionTest() {
         // given:
         WaitForAsyncUtils.printException = false;
         WaitForAsyncUtils.autoCheckException = true;
@@ -166,7 +162,7 @@ public class WaitForAsyncUtilsTest {
                 fail("No exception thrown");
             }
             catch (Throwable exception) {
-                if (exception.getMessage().indexOf("unhandledExceptionTest") == -1) {
+                if (!exception.getMessage().contains("unhandledExceptionTest")) {
                     fail("Another exception was thrown: " + exception.getMessage());
                 }
             }
@@ -176,11 +172,11 @@ public class WaitForAsyncUtilsTest {
             try {
                 WaitForAsyncUtils.checkException();
             }
-            catch (Throwable e) {
-                if (e.getMessage().indexOf("unhandledExceptionTest") > -1) {
+            catch (Throwable exception) {
+                if (exception.getMessage().contains("unhandledExceptionTest")) {
                     fail("Handled exception not removed from stack");
                 } else {
-                    fail("Another exception was thrown: " + e.getMessage());
+                    fail("Another exception was thrown: " + exception.getMessage());
                 }
             }
             WaitForAsyncUtils.clearExceptions();
@@ -313,12 +309,12 @@ public class WaitForAsyncUtilsTest {
         assertThat(thread.isDaemon(), CoreMatchers.is(true));
     }
 
-    protected void waitForException(Future<?> f) throws InterruptedException {
+    void waitForException(Future<?> f) throws InterruptedException {
         Thread.sleep(50);
         assertTrue(f.isDone());
     }
 
-    protected void waitForThreads(Future<?> f) {
+    void waitForThreads(Future<?> f) {
         while (!f.isDone()) {
             try {
                 Thread.sleep(1);

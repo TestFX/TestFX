@@ -3,171 +3,159 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Group fx:id="one">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="two">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="45.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="three">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="90.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="four">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="135.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="five">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="180.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="six">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="225.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="seven">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="270.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Group fx:id="eight">
-         <children>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" rotate="315.0">
-               <children>
-                  <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0" startX="0.5192307692307692">
-                           <stops>
-                              <Stop color="#f3e916" />
-                              <Stop color="#f89d34" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Rectangle>
-                  <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Region prefHeight="210.0" prefWidth="140.0" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-   </children>
+   <Group fx:id="one">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="two">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="45.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="three">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="90.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="four">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="135.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="five">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="180.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="six">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="225.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="seven">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="270.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
+   <Group fx:id="eight">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            rotate="315.0">
+         <Rectangle arcHeight="140.0" arcWidth="140.0" blendMode="MULTIPLY" height="210.0" rotate="180.0"
+                    stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="140.0">
+            <fill>
+               <LinearGradient startX="0.5192307692307692">
+                  <stops>
+                     <Stop color="#f3e916"/>
+                     <Stop color="#f89d34" offset="1.0"/>
+                  </stops>
+               </LinearGradient>
+            </fill>
+         </Rectangle>
+         <Ellipse fill="TRANSPARENT" radiusX="14.0" radiusY="14.0" stroke="BLACK" strokeType="INSIDE"
+                  strokeWidth="0.0"/>
+         <Region prefHeight="210.0" prefWidth="140.0"/>
+      </VBox>
+   </Group>
 </StackPane>

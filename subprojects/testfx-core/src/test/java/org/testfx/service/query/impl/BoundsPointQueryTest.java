@@ -33,6 +33,7 @@ public class BoundsPointQueryTest {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+
     Bounds bounds;
 
     @Before

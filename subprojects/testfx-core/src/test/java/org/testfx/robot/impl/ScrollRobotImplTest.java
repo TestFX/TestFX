@@ -33,8 +33,8 @@ public class ScrollRobotImplTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    public ScrollRobot scrollRobot;
-    public MouseRobot mouseRobot;
+    ScrollRobot scrollRobot;
+    MouseRobot mouseRobot;
 
     @Before
     public void setup() {

@@ -18,6 +18,7 @@ package org.testfx.service.finder.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.scene.Node;
@@ -34,9 +35,8 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -60,42 +60,38 @@ public class NodeFinderImplTest {
     public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
     public ExpectedException exception;
 
-    static Stage window;
-    static Stage otherWindow;
-    static Stage twinWindow;
+    Stage window;
+    Stage otherWindow;
+    Stage twinWindow;
 
-    static Pane pane;
-    static Node firstIdLabel;
-    static Node secondIdLabel;
-    static Node thirdClassLabel;
-    static Node invisibleNode;
+    Pane pane;
+    Node firstIdLabel;
+    Node secondIdLabel;
+    Node thirdClassLabel;
+    Node invisibleNode;
 
-    static Pane otherPane;
-    static Node subLabel;
-    static Pane otherSubPane;
-    static Node subSubLabel;
+    Pane otherPane;
+    Node subLabel;
+    Pane otherSubPane;
+    Node subSubLabel;
 
-    static Pane twinPane;
-    static Node visibleTwin;
-    static Node invisibleTwin;
+    Pane twinPane;
+    Node visibleTwin;
+    Node invisibleTwin;
 
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(NodeFinderImplTest::setupStagesClass);
-    }
-
-    @AfterClass
-    public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(NodeFinderImplTest::cleanupStagesClass);
+    @After
+    public void cleanup() throws TimeoutException {
+        FxToolkit.setupFixture(this::cleanupStages);
     }
 
     @Before
-    public void setup() {
+    public void setup() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setupFixture(this::setupStages);
         windowFinder = new WindowFinderStub();
         windowFinder.windows = new ArrayList<>();
         windowFinder.windows.add(window);
@@ -104,7 +100,7 @@ public class NodeFinderImplTest {
         nodeFinder = new NodeFinderImpl(windowFinder);
     }
 
-    public static void setupStagesClass() {
+    public void setupStages() {
         pane = new VBox();
         firstIdLabel = new Label("first");
         firstIdLabel.setId("firstId");
@@ -150,7 +146,7 @@ public class NodeFinderImplTest {
         twinWindow.show();
     }
 
-    public static void cleanupStagesClass() {
+    public void cleanupStages() {
         window.close();
         otherWindow.close();
         twinWindow.close();
@@ -189,12 +185,6 @@ public class NodeFinderImplTest {
         exception.expectMessage("Matching nodes were found, but none of them are visible.");
         assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
     }
-
-    //@Test
-    //public void node_string_cssQuery_twinNodes() {
-    //    System.out.println(nodeFinder.node("#twin"));
-    //    // TODO: test node in invisible container.
-    //}
 
     @Test
     @Ignore("error is only used for robots")
@@ -269,10 +259,6 @@ public class NodeFinderImplTest {
         assertThat(nodeFinder.from(otherPane).lookup("#subLabel").queryAll(), hasItem(subLabel));
         assertThat(nodeFinder.from(otherSubPane).lookup("#subSubLabel").queryAll(), hasItem(subSubLabel));
     }
-
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
 
     public Predicate<? extends Node> createLabelTextPredicate(final String labelText) {
         return (Predicate<Label>) label -> labelText.equals(label.getText());

@@ -60,10 +60,6 @@ public class BoundsQueryUtilsTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURES.
-    //---------------------------------------------------------------------------------------------
-
     private static Shape shape;
     private static Region region;
     private static Scene scene;
@@ -76,10 +72,6 @@ public class BoundsQueryUtilsTest {
     private static final double PADDING_LEFT = 200;
     private static final double BORDER_LEFT = 100;
     private static final double MARGIN_LEFT = 50;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -137,199 +129,135 @@ public class BoundsQueryUtilsTest {
         FxToolkit.setupFixture(() -> stage.close());
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void bounds_doubles() {
         // expect:
-        verifyThat(BoundsQueryUtils.bounds(1, 2, 3, 4),
-                   hasBounds(1, 2, 3, 4));
+        verifyThat(BoundsQueryUtils.bounds(1, 2, 3, 4), hasBounds(1, 2, 3, 4));
     }
 
     @Test
     public void bounds_point() {
         // expect:
-        verifyThat(BoundsQueryUtils.bounds(new Point2D(1, 2)),
-                   hasBounds(1, 2, 0, 0));
+        verifyThat(BoundsQueryUtils.bounds(new Point2D(1, 2)), hasBounds(1, 2, 0, 0));
     }
 
     @Test
     public void bounds_dimension() {
         // expect:
-        verifyThat(BoundsQueryUtils.bounds(new Dimension2D(1, 2)),
-                   hasBounds(0, 0, 1, 2));
+        verifyThat(BoundsQueryUtils.bounds(new Dimension2D(1, 2)), hasBounds(0, 0, 1, 2));
     }
 
     @Test
     public void bounds_rectangle() {
         // expect:
-        verifyThat(BoundsQueryUtils.bounds(new Rectangle2D(1, 2, 3, 4)),
-                   hasBounds(1, 2, 3, 4));
+        verifyThat(BoundsQueryUtils.bounds(new Rectangle2D(1, 2, 3, 4)), hasBounds(1, 2, 3, 4));
     }
 
     @Test
     public void bounds_scene() {
         // expect:
-        verifyThat(BoundsQueryUtils.bounds(scene),
-                   hasBounds(0, 0, 1, 1));
+        verifyThat(BoundsQueryUtils.bounds(scene), hasBounds(0, 0, 1, 1));
     }
 
     @Test
     public void bounds_window() {
         // expect:
-        verifyThat(BoundsQueryUtils.bounds(stage),
-                   hasBounds(stage.getX(), stage.getY(), 1, 1));
+        verifyThat(BoundsQueryUtils.bounds(stage), hasBounds(stage.getX(), stage.getY(), 1, 1));
     }
 
     @Test
     public void nodeBounds_shape() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBounds(shape);
-        verifyThat(bounds, hasBounds(
-            0, 0,
-                SHAPE_WIDTH, 0
-        ));
+        verifyThat(bounds, hasBounds(0, 0, SHAPE_WIDTH, 0));
     }
 
     @Test
     public void nodeBoundsInLocal_shape() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInLocal(shape);
-        verifyThat(bounds, hasBounds(
-            0, 0,
-                CLIP_WIDTH, 0
-        ));
+        verifyThat(bounds, hasBounds(0, 0, CLIP_WIDTH, 0));
     }
 
     @Test
     public void nodeBoundsInParent_shape() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInParent(shape);
-        verifyThat(bounds, hasBounds(
-                TRANSLATE_X, 0,
-                CLIP_WIDTH, 0
-        ));
+        verifyThat(bounds, hasBounds(TRANSLATE_X, 0, CLIP_WIDTH, 0));
     }
 
     @Test
     public void nodeBoundsInScene_shape() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInScene(shape);
-        verifyThat(bounds, hasBounds(
-            LAYOUT_X + TRANSLATE_X, 0,
-                CLIP_WIDTH, 0
-        ));
+        verifyThat(bounds, hasBounds(LAYOUT_X + TRANSLATE_X, 0, CLIP_WIDTH, 0));
     }
 
     @Test
     public void nodeBounds_region() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBounds(region);
-        verifyThat(bounds, hasBounds(
-            0, 0,
-            BORDER_LEFT + PADDING_LEFT, 0
-        ));
+        verifyThat(bounds, hasBounds(0, 0, BORDER_LEFT + PADDING_LEFT, 0));
     }
 
     @Test
     public void nodeBoundsInLocal_region() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInLocal(region);
-        verifyThat(bounds, hasBounds(
-            0, 0,
-            BORDER_LEFT + PADDING_LEFT, 0
-        ));
+        verifyThat(bounds, hasBounds(0, 0, BORDER_LEFT + PADDING_LEFT, 0));
     }
 
     @Test
     public void nodeBoundsInParent_region() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInParent(region);
-        verifyThat(bounds, hasBounds(
-                MARGIN_LEFT, 0,
-            BORDER_LEFT + PADDING_LEFT, 0
-        ));
+        verifyThat(bounds, hasBounds(MARGIN_LEFT, 0, BORDER_LEFT + PADDING_LEFT, 0));
     }
 
     @Test
     public void nodeBoundsInScene_region() {
         // expect:
         Bounds bounds = BoundsQueryUtils.nodeBoundsInScene(region);
-        verifyThat(bounds, hasBounds(
-            LAYOUT_X + MARGIN_LEFT, 0,
-            BORDER_LEFT + PADDING_LEFT, 0
-        ));
+        verifyThat(bounds, hasBounds(LAYOUT_X + MARGIN_LEFT, 0, BORDER_LEFT + PADDING_LEFT, 0));
     }
-
-    // TODO: boundsOnScreen() with node.getScene() == null
-    // TODO: boundsOnScreen() with node.getScene().getWindow() == null
 
     @Test
     public void boundsOnScreen_screen() {
         // expect:
-        Bounds bounds = BoundsQueryUtils.boundsOnScreen(
-            new BoundingBox(1, 2, 3, 4),
-            Screen.getPrimary().getBounds()
-        );
+        Bounds bounds = BoundsQueryUtils.boundsOnScreen(new BoundingBox(1, 2, 3, 4), Screen.getPrimary().getBounds());
         verifyThat(bounds, hasBounds(1, 2, 3, 4));
     }
 
     @Test
     public void boundsOnScreen_window() {
         // expect:
-        Bounds bounds = BoundsQueryUtils.boundsOnScreen(
-            new BoundingBox(1, 2, 3, 4),
-            stage
-        );
-        verifyThat(bounds, hasBounds(
-            stage.getX() + 1, stage.getY() + 2,
-            3, 4
-        ));
+        Bounds bounds = BoundsQueryUtils.boundsOnScreen(new BoundingBox(1, 2, 3, 4), stage);
+        verifyThat(bounds, hasBounds(stage.getX() + 1, stage.getY() + 2, 3, 4));
     }
 
     @Test
     public void boundsOnScreen_scene() {
         // expect:
-        Bounds bounds = BoundsQueryUtils.boundsOnScreen(
-            new BoundingBox(1, 2, 3, 4),
-            scene
-        );
-        verifyThat(bounds, hasBounds(
-            stage.getX() + 1, stage.getY() + 2,
-            3, 4
-        ));
+        Bounds bounds = BoundsQueryUtils.boundsOnScreen(new BoundingBox(1, 2, 3, 4), scene);
+        verifyThat(bounds, hasBounds(stage.getX() + 1, stage.getY() + 2, 3, 4));
     }
 
     @Test
     public void boundsOnScreen_shape() {
         // expect:
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(shape);
-        verifyThat(bounds, hasBounds(
-            stage.getX() + LAYOUT_X + TRANSLATE_X, stage.getY(),
-                CLIP_WIDTH, 0
-        ));
+        verifyThat(bounds, hasBounds(stage.getX() + LAYOUT_X + TRANSLATE_X, stage.getY(), CLIP_WIDTH, 0));
     }
 
     @Test
     public void boundsOnScreen_region() {
         // expect:
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(region);
-        verifyThat(bounds, hasBounds(
-            stage.getX() + LAYOUT_X + MARGIN_LEFT, stage.getY(),
-            BORDER_LEFT + PADDING_LEFT, 0
-        ));
+        verifyThat(bounds, hasBounds(stage.getX() + LAYOUT_X + MARGIN_LEFT, stage.getY(),
+                BORDER_LEFT + PADDING_LEFT, 0));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Matcher<Bounds> hasBounds(double minX,
-                                      double minY,
-                                      double width,
-                                      double height) {
+    private Matcher<Bounds> hasBounds(double minX, double minY, double width, double height) {
         return CoreMatchers.is(new BoundingBox(minX, minY, width, height));
     }
 

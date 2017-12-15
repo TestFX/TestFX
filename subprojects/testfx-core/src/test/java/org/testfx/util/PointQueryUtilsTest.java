@@ -30,10 +30,6 @@ import static org.testfx.util.PointQueryUtils.computePositionFactors;
 
 public class PointQueryUtilsTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void atPosition_with_positions() {
         // given:

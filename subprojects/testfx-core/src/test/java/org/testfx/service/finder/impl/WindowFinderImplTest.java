@@ -17,15 +17,16 @@
 package org.testfx.service.finder.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
@@ -38,33 +39,28 @@ public class WindowFinderImplTest {
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
 
-    static Stage window;
-    static Stage windowInWindow;
-    static Stage windowInWindowInWindow;
-    static Stage otherWindow;
-    static Scene scene;
-
+    Stage window;
+    Stage windowInWindow;
+    Stage windowInWindowInWindow;
+    Stage otherWindow;
+    Scene scene;
     WindowFinderImpl windowFinder;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.showStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(WindowFinderImplTest::setupStagesClass);
-    }
-
-    @AfterClass
-    public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(WindowFinderImplTest::cleanupStagesClass);
+    @After
+    public void cleanup() throws TimeoutException {
+        FxToolkit.setupFixture(this::cleanupStages);
     }
 
     @Before
-    public void setup() {
+    public void setup() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.showStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setupFixture(this::setupStages);
         windowFinder = new WindowFinderImpl();
     }
 
-    public static void setupStagesClass() {
+    public void setupStages() {
         window = new Stage();
         window.setTitle("window");
 
@@ -87,7 +83,7 @@ public class WindowFinderImplTest {
         otherWindow.show();
     }
 
-    public static void cleanupStagesClass() {
+    public void cleanupStages() {
         window.close();
         windowInWindow.close();
         windowInWindowInWindow.close();

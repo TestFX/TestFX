@@ -139,9 +139,7 @@ public class NodeMatchersTest extends FxRobot {
     @Test
     public void hasChild_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane();
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane());
 
         // expect:
         exception.expect(AssertionError.class);

@@ -94,12 +94,7 @@ public class DebugUtilsTest extends TestCaseBase {
         String other = "other";
 
         // when:
-        AssertionError error = getThrownErrorPostMapper(
-            compose(
-                sb -> sb.append(text),
-                sb -> sb.append(other)
-            )
-        );
+        AssertionError error = getThrownErrorPostMapper(compose(sb -> sb.append(text), sb -> sb.append(other)));
 
         // then:
         assertThat(error.getMessage(), equalTo(text + other));
@@ -111,9 +106,7 @@ public class DebugUtilsTest extends TestCaseBase {
         SimpleBooleanProperty prop = new SimpleBooleanProperty(false);
 
         // when:
-        getThrownErrorPostMapper(
-            runCode(() -> prop.set(true))
-        );
+        getThrownErrorPostMapper(runCode(() -> prop.set(true)));
 
         // then:
         assertThat(prop.get(), is(true));
@@ -132,12 +125,10 @@ public class DebugUtilsTest extends TestCaseBase {
     }
 
     @Test
-    public void showPressedMouseButtonsInErrorMessage() throws TimeoutException {
+    public void showPressedMouseButtonsInErrorMessage() {
         // given:
         Stage stage = FxToolkit.toolkitContext().getRegisteredStage();
-        moveTo(stage)
-            .moveBy(10, 10)
-            .press(MOUSE_BUTTON);
+        moveTo(stage).moveBy(10, 10).press(MOUSE_BUTTON);
 
         // when:
         AssertionError error = getThrownErrorPostMapper(showMouseButtonsPressedAtTestFailure(this, INDENT));
@@ -147,12 +138,10 @@ public class DebugUtilsTest extends TestCaseBase {
     }
 
     @Test
-    public void showPressedKeysInErrorMessage() throws TimeoutException {
+    public void showPressedKeysInErrorMessage() {
         // given:
         Stage stage = FxToolkit.toolkitContext().getRegisteredStage();
-        moveTo(stage)
-            .moveBy(10, 10)
-            .press(KEY);
+        moveTo(stage).moveBy(10, 10).press(KEY);
 
         // when:
         AssertionError error = getThrownErrorPostMapper(showKeysPressedAtTestFailure(this, INDENT));
@@ -201,9 +190,7 @@ public class DebugUtilsTest extends TestCaseBase {
             }
 
             @Override
-            public void describeTo(Description description) {
-
-            }
+            public void describeTo(Description description) {}
         };
     }
 

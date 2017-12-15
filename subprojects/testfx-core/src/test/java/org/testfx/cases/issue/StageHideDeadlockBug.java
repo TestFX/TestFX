@@ -32,7 +32,7 @@ import org.testfx.cases.TestCaseBase;
 public class StageHideDeadlockBug extends TestCaseBase {
 
     @BeforeClass
-    public static void setupSpec() throws Exception {
+    public static void setupSpec() {
         //FxToolkit.setupFixture(() -> new Stage().show());
     }
 

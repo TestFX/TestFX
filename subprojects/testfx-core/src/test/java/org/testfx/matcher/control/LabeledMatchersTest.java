@@ -37,10 +37,6 @@ public class LabeledMatchersTest extends FxRobot {
     Button foobarButton;
     Button quuxButton;
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @BeforeClass
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -53,10 +49,6 @@ public class LabeledMatchersTest extends FxRobot {
             quuxButton = new Button("quux");
         });
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void hasText() {

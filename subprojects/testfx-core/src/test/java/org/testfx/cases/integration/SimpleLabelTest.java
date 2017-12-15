@@ -18,7 +18,6 @@ package org.testfx.cases.integration;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
@@ -36,7 +35,7 @@ public class SimpleLabelTest extends TestCaseBase {
     @Before
     public void setup() throws Exception {
         FxToolkit.setupStage(stage -> {
-            Scene scene = new Scene(createSceneRoot(getClass()), 300, 100);
+            Scene scene = new Scene(new StackPane(new Label("SimpleLabelTest")), 300, 100);
             stage.setScene(scene);
             stage.show();
         });
@@ -45,10 +44,6 @@ public class SimpleLabelTest extends TestCaseBase {
     @Test
     public void should_move_to_label() {
         moveTo(".label").sleep(1000);
-    }
-
-    private Region createSceneRoot(Class<?> cls) {
-        return new StackPane(new Label(cls.getSimpleName()));
     }
 
 }

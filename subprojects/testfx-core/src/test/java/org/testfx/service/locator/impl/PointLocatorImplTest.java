@@ -167,17 +167,9 @@ public class PointLocatorImplTest {
         assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(windowBoundsAfterChange)));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
-
     public Point2D topLeftPointFrom(Bounds bounds) {
         return new Point2D(bounds.getMinX(), bounds.getMinY());
     }
-
-    //---------------------------------------------------------------------------------------------
-    // STUBS AND MOCKS.
-    //---------------------------------------------------------------------------------------------
 
     public static class BoundsLocatorStub implements BoundsLocator {
         public Bounds bounds;

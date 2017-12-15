@@ -16,14 +16,11 @@
  */
 package org.testfx.cases.acceptance;
 
-import java.util.function.Predicate;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
@@ -31,7 +28,6 @@ import org.testfx.framework.junit.TestFXRule;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
-@Ignore
 public class SceneRootAssertionTest {
 
     @Rule
@@ -53,11 +49,7 @@ public class SceneRootAssertionTest {
 
     @Test
     public void should_have_stage_root_with_label() {
-        verifyThat(stackPane, hasChild(label));
-    }
-
-    private Predicate<Parent> hasChild(Node node) {
-        return (Parent parent) -> parent.getChildrenUnmodifiable().contains(node);
+        verifyThat(stackPane, (Parent parent) -> parent.getChildrenUnmodifiable().contains(label));
     }
 
 }

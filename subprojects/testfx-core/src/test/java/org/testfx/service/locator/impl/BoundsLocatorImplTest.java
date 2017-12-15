@@ -16,6 +16,8 @@
  */
 package org.testfx.service.locator.impl;
 
+import java.util.concurrent.TimeoutException;
+
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
@@ -28,9 +30,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
@@ -49,35 +50,30 @@ public class BoundsLocatorImplTest {
 
     BoundsLocator boundsLocator;
     Insets windowInsets;
+    Stage primaryWindow;
+    Scene primaryScene;
+    Node nodeInsideOfScene;
+    Node nodePartyOutsideOfScene;
+    Node nodeOutsideOfScene;
+    Bounds boundsInsideOfScene;
+    Bounds boundsPartyOutsideOfScene;
+    Bounds boundsOutsideOfScene;
 
-    static Stage primaryWindow;
-    static Scene primaryScene;
-    static Node nodeInsideOfScene;
-    static Node nodePartyOutsideOfScene;
-    static Node nodeOutsideOfScene;
-    static Bounds boundsInsideOfScene;
-    static Bounds boundsPartyOutsideOfScene;
-    static Bounds boundsOutsideOfScene;
-
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(BoundsLocatorImplTest::setupStagesClass);
-    }
-
-    @AfterClass
-    public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(BoundsLocatorImplTest::cleanupStagesClass);
+    @After
+    public void cleanupSpec() throws TimeoutException {
+        FxToolkit.setupFixture(() -> primaryWindow.close());
     }
 
     @Before
-    public void setup() {
+    public void setup() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setupFixture(this::setupStages);
         boundsLocator = new BoundsLocatorImpl();
         windowInsets = calculateWindowInsets(primaryWindow, primaryScene);
     }
 
-    public static void setupStagesClass() {
+    public void setupStages() {
         Pane primarySceneRoot = new AnchorPane();
         primaryScene = new Scene(primarySceneRoot, 600, 400);
 
@@ -99,10 +95,6 @@ public class BoundsLocatorImplTest {
         );
 
         primaryWindow.show();
-    }
-
-    public static void cleanupStagesClass() {
-        primaryWindow.close();
     }
 
     @Test
@@ -217,10 +209,6 @@ public class BoundsLocatorImplTest {
         assertThat(bounds, equalTo(null));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
-
     public Bounds bounds(double x, double y, double width, double height) {
         return new BoundingBox(x, y, width, height);
     }
@@ -236,21 +224,14 @@ public class BoundsLocatorImplTest {
     }
 
     public Bounds withOffset(Bounds bounds, Insets insets) {
-        return new BoundingBox(
-            bounds.getMinX() + insets.getLeft(),
-            bounds.getMinY() + insets.getTop(),
-            bounds.getWidth(),
-            bounds.getHeight()
-        );
+        return new BoundingBox(bounds.getMinX() + insets.getLeft(), bounds.getMinY() + insets.getTop(),
+            bounds.getWidth(), bounds.getHeight());
     }
 
     public Bounds withInsets(Bounds bounds, Insets insets) {
-        return new BoundingBox(
-            bounds.getMinX(),
-            bounds.getMinY(),
+        return new BoundingBox(bounds.getMinX(), bounds.getMinY(),
             bounds.getWidth() + insets.getLeft() + insets.getRight(),
-            bounds.getHeight() + insets.getTop() + insets.getBottom()
-        );
+            bounds.getHeight() + insets.getTop() + insets.getBottom());
     }
 
     public Insets calculateWindowInsets(Window window, Scene scene) {
