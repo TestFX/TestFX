@@ -196,8 +196,7 @@ extends java.lang.Object</pre>
  as described further on.
  <p>
  Colors are specified using the following markup:
-
- <pre><code><COLOR>text</COLOR></code></pre>
+ <pre><code> &lt;COLOR&gt;text&lt;/COLOR&gt;</code></pre>
  <p>
  Where COLOR is one of JavaFX's named colors.
  <p>
@@ -209,7 +208,7 @@ extends java.lang.Object</pre>
    Text text = new Text("hello");
    text.setFill(Colors.RED);
    TextFlow textFlow = new TextFlow(text);
-   assertThat(textFlow, TextFlowMatchers.hasColoredText("<RED>hello</RED>"));
+   assertThat(textFlow, TextFlowMatchers.hasColoredText("&lt;RED&gt;hello&lt;/RED&gt;"));
  </code></pre></div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -235,8 +234,7 @@ extends java.lang.Object</pre>
  on.
  <p>
  Colors are specified using the following markup:
- <p>
- <pre><code><COLOR>text</COLOR></code></pre>
+ <pre><code> &lt;COLOR&gt;text&lt;/COLOR&gt;</code></pre>
  <p>
  Where COLOR is one of JavaFX's named colors.
  <p>

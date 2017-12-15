@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -152,21 +152,15 @@ implements <a href="../../../../org/testfx/toolkit/ApplicationService.html" titl
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>java.util.concurrent.Future&lt;javafx.application.Application&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/toolkit/impl/ApplicationServiceImpl.html#create-java.util.concurrent.Callable-">create</a></span>(java.util.concurrent.Callable&lt;javafx.application.Application&gt;&nbsp;applicationCallable)</code>
-<div class="block">Calls the <code>Callable</code> that creates the application on the <code>JavaFX Application Thread</code>.</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.util.concurrent.Future&lt;java.lang.Void&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/toolkit/impl/ApplicationServiceImpl.html#init-javafx.application.Application-">init</a></span>(javafx.application.Application&nbsp;application)</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.util.concurrent.Future&lt;java.lang.Void&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/toolkit/impl/ApplicationServiceImpl.html#start-javafx.application.Application-javafx.stage.Stage-">start</a></span>(javafx.application.Application&nbsp;application,
      javafx.stage.Stage&nbsp;targetStage)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.util.concurrent.Future&lt;java.lang.Void&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/toolkit/impl/ApplicationServiceImpl.html#stop-javafx.application.Application-">stop</a></span>(javafx.application.Application&nbsp;application)</code>&nbsp;</td>
 </tr>
@@ -209,23 +203,6 @@ implements <a href="../../../../org/testfx/toolkit/ApplicationService.html" titl
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="create-java.util.concurrent.Callable-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>create</h4>
-<pre>public&nbsp;java.util.concurrent.Future&lt;javafx.application.Application&gt;&nbsp;create(java.util.concurrent.Callable&lt;javafx.application.Application&gt;&nbsp;applicationCallable)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/toolkit/ApplicationService.html#create-java.util.concurrent.Callable-">ApplicationService</a></code></span></div>
-<div class="block">Calls the <code>Callable</code> that creates the application on the <code>JavaFX Application Thread</code>.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/testfx/toolkit/ApplicationService.html#create-java.util.concurrent.Callable-">create</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/toolkit/ApplicationService.html" title="interface in org.testfx.toolkit">ApplicationService</a></code></dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a <code>Future</code> whose <code>Future.get()</code> will return the created <code>Application</code>.</dd>
-</dl>
-</li>
-</ul>
 <a name="init-javafx.application.Application-">
 <!--   -->
 </a>
@@ -238,7 +215,7 @@ implements <a href="../../../../org/testfx/toolkit/ApplicationService.html" titl
 <dd><code><a href="../../../../org/testfx/toolkit/ApplicationService.html#init-javafx.application.Application-">init</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/toolkit/ApplicationService.html" title="interface in org.testfx.toolkit">ApplicationService</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Future</code> whose <code>Future.get()</code> will return when the
- given application has finished its <code>Application.init()</code> method.</dd>
+ given application has finished its <code>Application.init()</code> method</dd>
 </dl>
 </li>
 </ul>
@@ -255,7 +232,7 @@ implements <a href="../../../../org/testfx/toolkit/ApplicationService.html" titl
 <dd><code><a href="../../../../org/testfx/toolkit/ApplicationService.html#start-javafx.application.Application-javafx.stage.Stage-">start</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/toolkit/ApplicationService.html" title="interface in org.testfx.toolkit">ApplicationService</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Future</code> whose <code>Future.get()</code> will return when the
- given application has finished its <code>Application.start(Stage)</code> method.</dd>
+ given application has finished its <code>Application.start(Stage)</code> method</dd>
 </dl>
 </li>
 </ul>
@@ -271,7 +248,7 @@ implements <a href="../../../../org/testfx/toolkit/ApplicationService.html" titl
 <dd><code><a href="../../../../org/testfx/toolkit/ApplicationService.html#stop-javafx.application.Application-">stop</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/toolkit/ApplicationService.html" title="interface in org.testfx.toolkit">ApplicationService</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Future</code> whose <code>Future.get()</code> will return when the
- given application has finished its <code>Application.stop()</code> method.</dd>
+ given application has finished its <code>Application.stop()</code> method</dd>
 </dl>
 </li>
 </ul>

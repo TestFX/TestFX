@@ -109,7 +109,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>
-public class <span class="typeNameLabel">WaitForAsyncUtils</span>
+public final class <span class="typeNameLabel">WaitForAsyncUtils</span>
 extends java.lang.Object</pre>
 <div class="block">Provides static methods for handling execution on different threads. The
  "Test Thread" is usually running on the main thread, while the GUI runs on the
@@ -125,17 +125,17 @@ extends java.lang.Object</pre>
  <strong>Exception handling</strong>
  <p>
  As exceptions on different threads are thrown the caller is usually not aware
- of these exceptions. Exceptions returned directly from this Framework are wrapped
- in <code>RuntimeExceptions</code>.
+ of these exceptions. Exceptions returned directly from this framework are wrapped
+ in <code>RuntimeException</code>s.
  <p>
  There are two ways this class notifies the user of exceptions:
  <ul>
- <li>the returned future
+ <li>the returned <code>Future</code>
  <li>the internal exception stack
  </ul>
  <p>
  Usually exceptions are forwarded to the <code>Future</code> returned by the methods
- of this class. When the calling thread calls the getter of the Future any
+ of this class. When the calling thread calls <code>Future.get()</code> on the Future any
  exceptions encountered during execution will be thrown. All <code>waitFor</code> methods
  acquire the value of the <code>Future</code> and accordingly throw the same exceptions.
  <p>

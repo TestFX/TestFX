@@ -384,58 +384,54 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
-<td class="colLast"><span class="typeNameLabel">NodeQueryFactory.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQueryFactory.html#build--">build</a></span>()</code>&nbsp;</td>
+<td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#from-java.util.Collection-">from</a></span>(java.util.Collection&lt;javafx.scene.Node&gt;&nbsp;parentNodes)</code>
+<div class="block">Stores all given <code>parentNodes</code> within this NodeQuery.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
-<td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#from-java.util.Collection-">from</a></span>(java.util.Collection&lt;javafx.scene.Node&gt;&nbsp;parentNodes)</code>
-<div class="block">Stores all given <code>parentNodes</code> within this NodeQuery</div>
+<td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#from-javafx.scene.Node...-">from</a></span>(javafx.scene.Node...&nbsp;parentNodes)</code>
+<div class="block">Stores all given <code>parentNodes</code> within this NodeQuery.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
-<td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#from-javafx.scene.Node...-">from</a></span>(javafx.scene.Node...&nbsp;parentNodes)</code>
-<div class="block">Stores all given <code>parentNodes</code> within this NodeQuery</div>
-</td>
-</tr>
-<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#lookup-java.util.function.Function-">lookup</a></span>(java.util.function.Function&lt;javafx.scene.Node,java.util.Set&lt;javafx.scene.Node&gt;&gt;&nbsp;function)</code>
 <div class="block">Sifts through stored nodes and uses <code>function</code> to determine which nodes to keep and which to remove.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#lookup-org.hamcrest.Matcher-">lookup</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>
 <div class="block">Sifts through stored nodes and keeps only those <code>Node</code>s that match the given matcher.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#lookup-java.util.function.Predicate-">lookup</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>
 <div class="block">Sifts through stored nodes and keeps only those <code>Node</code>s that pass the given <code>predicate</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-">lookup</a></span>(java.lang.String&nbsp;query)</code>
 <div class="block">Sifts through stored nodes by their id ("#id"), their class (".class"), or the text it has ("text"),
  depending on the query used, and keeps only those <code>Node</code>s that meet the query.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#match-org.hamcrest.Matcher-">match</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>
 <div class="block">Sifts through stored nodes and removes all <code>Node</code>s that match the given matcher.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#match-java.util.function.Predicate-">match</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>
 <div class="block">Sifts through stored nodes and removes all <code>Node</code>s that pass the given predicate.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQuery.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/NodeQuery.html#nth-int-">nth</a></span>(int&nbsp;index)</code>
 <div class="block">Keeps the nth <code>Node</code> in stored nodes and removes all others.</div>
@@ -470,41 +466,37 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
-<td class="colLast"><span class="typeNameLabel">NodeQueryFactoryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryFactoryImpl.html#build--">build</a></span>()</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#from-java.util.Collection-">from</a></span>(java.util.Collection&lt;javafx.scene.Node&gt;&nbsp;parentNodes)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#from-javafx.scene.Node...-">from</a></span>(javafx.scene.Node...&nbsp;parentNodes)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#lookup-java.util.function.Function-">lookup</a></span>(java.util.function.Function&lt;javafx.scene.Node,java.util.Set&lt;javafx.scene.Node&gt;&gt;&nbsp;function)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#lookup-org.hamcrest.Matcher-">lookup</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#lookup-java.util.function.Predicate-">lookup</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#lookup-java.lang.String-">lookup</a></span>(java.lang.String&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#match-org.hamcrest.Matcher-">match</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#match-java.util.function.Predicate-">match</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">NodeQueryImpl.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#nth-int-">nth</a></span>(int&nbsp;index)</code>&nbsp;</td>
 </tr>

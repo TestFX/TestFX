@@ -112,52 +112,49 @@ var activeTableTab = "activeTableTab";
 public final class <span class="typeNameLabel">FxToolkit</span>
 extends java.lang.Object</pre>
 <div class="block">Responsible for setup and cleanup of JavaFX fixtures that need the JavaFX thread.
-
- <p><b>Overview</b></p>
-
- <p>This class methods cover three different kinds of fixtures:</p>
-
+ <p>
+ <h3>Overview</h3>
+ <p>
+ This class methods cover three different kinds of fixtures:
  <ol>
  <li>Container fixtures, which are registered as <code>registeredStage</code>.</li>
  <li>Content fixtures, which are attached to the registered <code>registeredStage</code>.</li>
  <li>Individual fixtures, which do not require a <code>registeredStage</code>.</li>
  </ol>
-
- <p>Additionally it keeps an internal context.</p>
-
- <p><b>1. Container Fixtures</b></p>
-
- <p>They can be registered as <code>registeredStage</code> and provide a top-level container, i.e.
- <code>Stage</code>s.</p>
-
- <p>The primary stage can be registered as <code>registeredStage</code> using
- <a href="../../../org/testfx/api/FxToolkit.html#registerPrimaryStage--"><code>registerPrimaryStage()</code></a>. This call is mandatory before any other JavaFX fixture can be
- created.</p>
-
- <p>Other stages can be registered as <code>registeredStage</code>  using <a href="../../../org/testfx/api/FxToolkit.html#registerStage-java.util.function.Supplier-"><code>registerStage(Supplier&lt;Stage&gt;)</code></a>.</p>
-
- <p><b>2. Content Fixtures</b></p>
-
- <p>They can be attached to the <code>registeredStage</code>.</p>
-
- <p>Either constructed by calling an <code>Application.start()</code>, by
- supplying <code>Scene</code>s, <code>Parent</code>s, or by consuming a <code>Stage</code>.</p>
-
- <p>Use: <a href="../../../org/testfx/api/FxToolkit.html#setupStage-java.util.function.Consumer-"><code>setupStage(Consumer&lt;Stage&gt;)</code></a>,
+ Additionally it keeps an internal context.
+ <p>
+ <h4>1. Container Fixtures</h4>
+ <p>
+ They can be registered as <code>registeredStage</code> and provide a top-level container, i.e.
+ <code>Stage</code>s.
+ <p>
+ The primary stage can be registered as <code>registeredStage</code> using <a href="../../../org/testfx/api/FxToolkit.html#registerPrimaryStage--"><code>registerPrimaryStage()</code></a>.
+ This call is mandatory before any other JavaFX fixture can be created.
+ <p>
+ Other stages can be registered as <code>registeredStage</code>  using <a href="../../../org/testfx/api/FxToolkit.html#registerStage-java.util.function.Supplier-"><code>registerStage(Supplier&lt;Stage&gt;)</code></a>.
+ <p>
+ <h4>2. Content Fixtures</h4>
+ <p>
+ They can be attached to the <code>registeredStage</code>.
+ <p>
+ Either constructed by calling an <code>Application.start()</code>, by
+ supplying <code>Scene</code>s, <code>Parent</code>s, or by consuming a <code>Stage</code>.
+ <p>
+ Use: <a href="../../../org/testfx/api/FxToolkit.html#setupStage-java.util.function.Consumer-"><code>setupStage(Consumer&lt;Stage&gt;)</code></a>,
  <a href="../../../org/testfx/api/FxToolkit.html#setupApplication-java.lang.Class-java.lang.String...-"><code>setupApplication(Class&lt;? extends Application&gt;)</code></a>,
  <a href="../../../org/testfx/api/FxToolkit.html#setupScene-java.util.function.Supplier-"><code>setupScene(Supplier&lt;Scene&gt;)</code></a> or
- <a href="../../../org/testfx/api/FxToolkit.html#setupSceneRoot-java.util.function.Supplier-"><code>setupSceneRoot(Supplier&lt;Parent&gt;)</code></a></p>
-
- <p><b>3. Individual Fixtures</b></p>
-
- <p>To setup individual Stages, Scenes or Nodes use <a href="../../../org/testfx/api/FxToolkit.html#setupFixture-java.lang.Runnable-"><code>setupFixture(Runnable)</code></a> and
- <a href="../../../org/testfx/api/FxToolkit.html#setupFixture-java.util.concurrent.Callable-"><code>setupFixture(Callable)</code></a>.</p>
-
- <p><b>Internal Context</b></p>
-
- <p>Is internally responsible for handle the registered Stage for attachments,
+ <a href="../../../org/testfx/api/FxToolkit.html#setupSceneRoot-java.util.function.Supplier-"><code>setupSceneRoot(Supplier&lt;Parent&gt;)</code></a>
+ <p>
+ <h4>3. Individual Fixtures</h4>
+ <p>
+ To setup individual Stages, Scenes or Nodes use <a href="../../../org/testfx/api/FxToolkit.html#setupFixture-java.lang.Runnable-"><code>setupFixture(Runnable)</code></a> and
+ <a href="../../../org/testfx/api/FxToolkit.html#setupFixture-java.util.concurrent.Callable-"><code>setupFixture(Callable)</code></a>.
+ <p>
+ <h4>Internal Context</h4>
+ <p>
+ Is internally responsible for handle the registered Stage for attachments,
  handle timeouts, provide the Application for the Toolkit launch and execute the setup
- in the JavaFX thread. The primary Stage is constructed by the platform.</p></div>
+ in the JavaFX thread. The primary Stage is constructed by the platform.</div>
 </li>
 </ul>
 </div>

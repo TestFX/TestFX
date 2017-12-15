@@ -112,16 +112,15 @@ var activeTableTab = "activeTableTab";
 public class <span class="typeNameLabel">ComboBoxMatchers</span>
 extends java.lang.Object</pre>
 <div class="block">TestFX matchers for <code>ComboBox</code> controls.
-
+ <p>
  <h4>Example</h4>
-
- <p>The following code: <pre>   <code>
-
+ <p>
+ The following code:
+ <pre><code>
    ComboBox&lt;String&gt; fruits = new ComboBox&lt;&gt;();
    fruits.getItems().addAll("Apple", "Banana", "Cherry");
    assertThat(fruits, ComboBoxMatchers.containsExactlyItemsInOrder("Apple", "Banana", "Cherry"));
  </code></pre>
-
  will verify that <code>fruits</code> contains exactly (only) the <code>String</code>'s
  "Apple", "Banana", and "Cherry" in order.</div>
 </li>

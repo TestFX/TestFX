@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -117,7 +117,6 @@ extends java.lang.Object</pre>
      <li>a <a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder"><code>NodeFinder</code></a></li>
      <li>a <a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot"><code>BaseRobot</code></a></li>
      <li><a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support"><code>CaptureSupport</code></a></li>
-     <li>and <a href="../../../org/testfx/service/support/WaitUntilSupport.html" title="class in org.testfx.service.support"><code>WaitUntilSupport</code></a></li>
  </ul></div>
 </li>
 </ul>
@@ -167,30 +166,22 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#getNodeFinder--">getNodeFinder</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="../../../org/testfx/service/support/WaitUntilSupport.html" title="class in org.testfx.service.support">WaitUntilSupport</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#getWaitUntilSupport--">getWaitUntilSupport</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#getWindowFinder--">getWindowFinder</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setBaseRobot-org.testfx.robot.BaseRobot-">setBaseRobot</a></span>(<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;baseRobot)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setCaptureSupport-org.testfx.service.support.CaptureSupport-">setCaptureSupport</a></span>(<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;captureSupport)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setNodeFinder-org.testfx.service.finder.NodeFinder-">setNodeFinder</a></span>(<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;nodeFinder)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setWaitUntilSupport-org.testfx.service.support.WaitUntilSupport-">setWaitUntilSupport</a></span>(<a href="../../../org/testfx/service/support/WaitUntilSupport.html" title="class in org.testfx.service.support">WaitUntilSupport</a>&nbsp;waitUntilSupport)</code>&nbsp;</td>
-</tr>
-<tr id="i9" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setWindowFinder-org.testfx.service.finder.WindowFinder-">setWindowFinder</a></span>(<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;windowFinder)</code>&nbsp;</td>
 </tr>
@@ -299,28 +290,10 @@ extends java.lang.Object</pre>
 <a name="setCaptureSupport-org.testfx.service.support.CaptureSupport-">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>setCaptureSupport</h4>
 <pre>public&nbsp;void&nbsp;setCaptureSupport(<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;captureSupport)</pre>
-</li>
-</ul>
-<a name="getWaitUntilSupport--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getWaitUntilSupport</h4>
-<pre>public&nbsp;<a href="../../../org/testfx/service/support/WaitUntilSupport.html" title="class in org.testfx.service.support">WaitUntilSupport</a>&nbsp;getWaitUntilSupport()</pre>
-</li>
-</ul>
-<a name="setWaitUntilSupport-org.testfx.service.support.WaitUntilSupport-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>setWaitUntilSupport</h4>
-<pre>public&nbsp;void&nbsp;setWaitUntilSupport(<a href="../../../org/testfx/service/support/WaitUntilSupport.html" title="class in org.testfx.service.support">WaitUntilSupport</a>&nbsp;waitUntilSupport)</pre>
 </li>
 </ul>
 </li>
