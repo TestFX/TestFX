@@ -50,11 +50,15 @@ public class ScrollRobotImpl implements ScrollRobot {
 
     @Override
     public void scroll(int positiveAmount, VerticalDirection direction) {
-        if (direction == VerticalDirection.UP) {
-            scrollUp(positiveAmount);
-        }
-        else if (direction == VerticalDirection.DOWN) {
-            scrollDown(positiveAmount);
+        switch (direction) {
+            case UP:
+                scrollUp(positiveAmount);
+                break;
+            case DOWN:
+                scrollDown(positiveAmount);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown vertical direction: " + direction);
         }
     }
 
@@ -74,11 +78,15 @@ public class ScrollRobotImpl implements ScrollRobot {
 
     @Override
     public void scroll(int positiveAmount, HorizontalDirection direction) {
-        if (direction == HorizontalDirection.RIGHT) {
-            scrollRight(positiveAmount);
-        }
-        else if (direction == HorizontalDirection.LEFT) {
-            scrollLeft(positiveAmount);
+        switch (direction) {
+            case RIGHT:
+                scrollRight(positiveAmount);
+                break;
+            case LEFT:
+                scrollLeft(positiveAmount);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown horizontal direction: " + direction);
         }
     }
 
