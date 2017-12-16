@@ -37,7 +37,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -45,13 +44,11 @@ import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
-import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NodeFinderImplTest {
@@ -169,42 +166,6 @@ public class NodeFinderImplTest {
     }
 
     @Test
-    @Ignore("error is only used for robots")
-    public void node_string_cssQuery_nonExistentNode() {
-        // expect:
-        exception.expect(NodeFinderException.class);
-        exception.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.lookup("#nonExistentNode").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_cssQuery_invisibleNode() {
-        // expect:
-        exception.expect(NodeFinderException.class);
-        exception.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_labelQuery_nonExistentNode() {
-        // expect:
-        exception.expect(NodeFinderException.class);
-        exception.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.lookup("nonExistent").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_labelQuery_invisibleNode() {
-        // expect:
-        exception.expect(NodeFinderException.class);
-        exception.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.lookup("invisible").query(), is(nullValue()));
-    }
-
-    @Test
     public void node_predicate() {
         // given:
         Predicate<Node> predicate = createNodePredicate(createLabelTextPredicate("first"));
@@ -226,24 +187,6 @@ public class NodeFinderImplTest {
     public void nodes_string_cssQuery() {
         // expect:
         assertThat(nodeFinder.lookup(".sub").queryAll(), hasItems(subLabel, subSubLabel));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void nodes_string_cssQuery_nonExistentNode() {
-        // expect:
-        exception.expect(NodeFinderException.class);
-        exception.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.lookup("#nonExistentNode").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void nodes_string_cssQuery_invisibleNode() {
-        // expect:
-        exception.expect(NodeFinderException.class);
-        exception.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
     }
 
     @Test
