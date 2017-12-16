@@ -16,6 +16,9 @@
  */
 package org.testfx.robot.impl;
 
+import javafx.geometry.HorizontalDirection;
+import javafx.geometry.VerticalDirection;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,9 +30,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
-import javafx.geometry.HorizontalDirection;
-import javafx.geometry.VerticalDirection;
 
 public class ScrollRobotImplTest {
 
@@ -56,7 +56,7 @@ public class ScrollRobotImplTest {
     @Test
     public void scrollNegative() {
         // when:
-        scrollRobot.scroll(5);
+        scrollRobot.scroll(-5);
 
         verify(mouseRobot, times(5)).scroll(eq(-1));
     }
