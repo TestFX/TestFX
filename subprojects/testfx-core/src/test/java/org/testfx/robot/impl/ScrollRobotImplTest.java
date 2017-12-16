@@ -28,6 +28,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import javafx.geometry.HorizontalDirection;
+import javafx.geometry.VerticalDirection;
+
 public class ScrollRobotImplTest {
 
     @Rule
@@ -43,12 +46,64 @@ public class ScrollRobotImplTest {
     }
 
     @Test
+    public void scrollPositive() {
+        // when:
+        scrollRobot.scroll(5);
+
+        verify(mouseRobot, times(5)).scroll(eq(1));
+    }
+
+    @Test
+    public void scrollNegative() {
+        // when:
+        scrollRobot.scroll(5);
+
+        verify(mouseRobot, times(5)).scroll(eq(-1));
+    }
+
+    @Test
     public void scrollUp() {
         // when:
         scrollRobot.scrollUp(5);
 
         // then:
         verify(mouseRobot, times(5)).scroll(eq(-1));
+    }
+
+    @Test
+    public void scrollVerticalUp() {
+        // when:
+        scrollRobot.scroll(3, VerticalDirection.UP);
+
+        // then:
+        verify(mouseRobot, times(3)).scroll(eq(-1));
+    }
+
+    @Test
+    public void scrollVerticalDown() {
+        // when:
+        scrollRobot.scroll(3, VerticalDirection.DOWN);
+
+        // then:
+        verify(mouseRobot, times(3)).scroll(eq(1));
+    }
+
+    @Test
+    public void scrollHorizontalLeft() {
+        // when:
+        scrollRobot.scroll(4, HorizontalDirection.LEFT);
+
+        // then:
+        verify(mouseRobot, times(4)).scroll(eq(-1));
+    }
+
+    @Test
+    public void scrollHorizontalRight() {
+        // when:
+        scrollRobot.scroll(6, HorizontalDirection.RIGHT);
+
+        // then:
+        verify(mouseRobot, times(6)).scroll(eq(1));
     }
 
     @Test
