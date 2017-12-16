@@ -16,6 +16,7 @@
  */
 package org.testfx.service.support.impl;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -37,9 +38,11 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TemporaryFolder;
+import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
@@ -48,13 +51,15 @@ import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcherResult;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class CaptureSupportImplTest extends FxRobot {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(testFolder = new TemporaryFolder());
+    public TemporaryFolder testFolder;
 
     CaptureSupport capturer;
     Stage primaryStage;
@@ -112,15 +117,18 @@ public class CaptureSupportImplTest extends FxRobot {
     }
 
     @Test
-    public void save_image() {
+    public void save_image() throws IOException {
+        // when:
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-        // Files.createTempDir();
-        // capturer.saveImage(image, Paths.get("acme-login-actual.png"));
-        // waitFor(99, TimeUnit.MINUTES, () -> !primaryStage.isShowing());
+        Path actualImagePath = testFolder.newFile("acme-login-actual.png").toPath();
+        capturer.saveImage(image, actualImagePath);
+
+        // then:
+        assertThat(actualImagePath.toFile().exists(), is(true));
     }
 
     @Test
-    public void match_images() {
+    public void match_images() throws IOException {
         // given:
         Image image0 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
         Image image1 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-actual.png"));
@@ -128,16 +136,17 @@ public class CaptureSupportImplTest extends FxRobot {
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
-        // capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
+        Path differenceImagePath = testFolder.newFile("acme-login-difference.png").toPath();
+        capturer.saveImage(result.getMatchImage(), differenceImagePath);
 
         // then:
+        assertThat(differenceImagePath.toFile().exists(), is(true));
         verifyThat(result.getNonMatchPixels(), equalTo(2191L));
         verifyThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
     }
 
     @Test
-    @Ignore
-    public void match_images_from_scene() {
+    public void match_images_from_scene() throws IOException {
         // given:
         interact(() -> primaryStage.getScene().lookup("#loginButton").requestFocus());
         Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
@@ -149,10 +158,12 @@ public class CaptureSupportImplTest extends FxRobot {
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
         PixelMatcherResult result = capturer.matchImages(image0, image1, matcher);
-        // capturer.saveImage(result.getMatchImage(), Paths.get("acme-login-difference.png"));
+        Path differenceImagePath = testFolder.newFile("acme-login-difference.png").toPath();
+        capturer.saveImage(result.getMatchImage(), differenceImagePath);
 
         // then:
-        verifyThat(result.getNonMatchPixels(), equalTo(2191L));
+        assertThat(differenceImagePath.toFile().exists(), is(true));
+        assertThat(result.getNonMatchPixels() > 1900, is(true));
         verifyThat(result.getNonMatchFactor(), closeTo(0.02, /* tolerance */ 0.01));
     }
 
