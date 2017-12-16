@@ -99,6 +99,9 @@ allprojects { project ->
         if (project.hasProperty("useMavenLocal")) {
             mavenLocal()
         }
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
         jcenter()
     }
 }

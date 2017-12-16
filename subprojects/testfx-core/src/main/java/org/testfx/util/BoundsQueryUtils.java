@@ -66,19 +66,15 @@ public final class BoundsQueryUtils {
      * Bounds of Scene in Window.
      */
     public static Bounds bounds(Scene scene) {
-        return bounds(scene.getX(), scene.getY(),
-                scene.getWidth(), scene.getHeight());
+        return bounds(scene.getX(), scene.getY(), scene.getWidth(), scene.getHeight());
     }
 
     /**
      * Bounds of Window on Screen.
      */
     public static Bounds bounds(Window window) {
-        return bounds(window.getX(), window.getY(),
-                window.getWidth(), window.getHeight());
+        return bounds(window.getX(), window.getY(), window.getWidth(), window.getHeight());
     }
-
-    // BOUNDS FOR NODE.
 
     /**
      * Retrieve the logical bounds (geom) of a Node.
@@ -109,8 +105,6 @@ public final class BoundsQueryUtils {
         return node.localToScene(node.getBoundsInLocal());
     }
 
-    // BOUNDS ON SCREEN.
-
     /**
      * Retrieves the physical untransformed bounds (geom + effect + clip) of a Node before transforming that
      * to the screen's coordinate system.
@@ -138,9 +132,7 @@ public final class BoundsQueryUtils {
     public static Bounds boundsOnScreen(Bounds boundsInWindow, Window window) {
         Bounds windowBoundsOnScreen = bounds(window);
         return translateBounds(boundsInWindow, byOffset(
-                windowBoundsOnScreen.getMinX(),
-                windowBoundsOnScreen.getMinY()
-        ));
+                windowBoundsOnScreen.getMinX(), windowBoundsOnScreen.getMinY()));
     }
 
     /**
@@ -148,10 +140,7 @@ public final class BoundsQueryUtils {
      * top-left corner represents coordinate (0, 0).
      */
     public static Bounds boundsOnScreen(Bounds boundsOnScreen, Rectangle2D screenRegion) {
-        return translateBounds(boundsOnScreen, byOffset(
-                screenRegion.getMinX(),
-                screenRegion.getMinY()
-        ));
+        return translateBounds(boundsOnScreen, byOffset(screenRegion.getMinX(), screenRegion.getMinY()));
     }
 
     private static Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {
