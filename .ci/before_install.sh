@@ -11,7 +11,6 @@ if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
       echo "TRAVIS_JAVA_VERSION environment variable not set!"
   fi
 
-  brew outdated gradle || brew upgrade gradle
   brew unlink python # fixes 'run_one_line' is not defined error in backtrace
 fi
 

@@ -70,8 +70,8 @@ repositories {
 }
 
 dependencies {
-    testCompile "org.testfx:testfx-core:4.0.+"
-    testCompile "org.testfx:testfx-junit:4.0.+"
+    testCompile "org.testfx:testfx-core:4.0.10-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.10-alpha"
 }
 ~~~
 
@@ -86,13 +86,13 @@ For Junit5, use the `testfx-junit5` artifact instead of `testfx-junit`
     <dependency>
         <groupId>org.testfx</groupId>
         <artifactId>testfx-core</artifactId>
-        <version>4.0.8-alpha</version>
+        <version>4.0.10-alpha</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>org.testfx</groupId>
         <artifactId>testfx-junit</artifactId> <!-- or testfx-junit5 -->
-        <version>4.0.8-alpha</version>
+        <version>4.0.10-alpha</version>
         <scope>test</scope>
     </dependency>
 </dependencies>

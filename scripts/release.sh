@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage info
+show_help() {
+cat << EOF
+Usage: ${0##*/} [-h]
+Helper for issuing a new release of TestFX.
+
+Requires a Github API key for the TestFX repository.
+
+You can skip manually entering the API key be specifying
+the $TESTFX_GITHUB_API_KEY environment variable.
+
+Options:
+    -h / --help      display this help and exit
+EOF
+}
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  show_help
+  exit 0
+fi
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
+    echo "You are not currently at the root of the TestFX git repository."
+    exit
+fi
+
+if [ -z "$TESTFX_GITHUB_API_KEY" ]; then
+    echo "\"TESTFX_GITUB_API_KEY\" environment variable not set"
+    read -rp "Please enter your Github API key for TestFX: " githubApiKey
+fi
+
+currentVersion=$(git tag --list 'v*[0-9].*[0-9].*[0.9]-alpha' --sort=taggerdate | tail -n1)
+
+echo "Current version of TestFX: $currentVersion"
+IFS='.' read -ra version_parts <<< "$currentVersion"
+IFS='-' read -ra classifier_parts <<< "$currentVersion"
+
+major=${version_parts[0]}
+minor=${version_parts[1]}
+patch=${version_parts[2]}
+classifier=${classifier_parts[1]}
+
+echo "Would you like to bump the major, minor, or patch version?"
+echo "In x.y.z x = major, y = minor, z = patch"
+echo "Enter the number corresponding to the part you want to increment:"
+options=("Major" "Minor" "Patch")
+
+select bumpType in "${options[@]}"; do
+    case $bumpType in
+        "Major") major=$((major + 1)); break;;
+        "Minor") minor=$((minor + 1)); break;;
+        "Patch") patch=$((patch + 1)); break;;
+        *)       echo "Invalid option"; break;;
+    esac
+done
+
+newVersion="$major.$minor.$patch-$classifier"
+echo "The next release of TestFX will be: $newVersion"
+git checkout -b "$newVersion"-release
+echo "Bumping versions in README.md and gradle.properties..."
+sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
+sed -i -e "s/$currentVersion/$newVersion/g" README.md
+echo "Generating changelog..."
+github_changelog_generator --token "$githubApiKey" testfx/testfx --output CHANGES.md --no-issues --future-release "$newVersion"
+git add .
+git commit -m "(release) TestFX $newVersion"
+# Instead of opening a pull request with the release commit,
+# it is easier to just commit directly to testfx/testfx master.
+git tag -s "$newVersion" -m \""$newVersion"\"
+upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
+echo "Pushing tagged release commit to remote: $upstream"
+git push "$upstream" "$newVersion"
+
+# The below method uses a pull request, keep it in case we change our mind.
+if false ; then
+    git push origin "$newVersion"-release
+    
+    installedHub=false
+    if ! [ -x "$(command -v hub)" ]; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            echo "Installing hub (command-line Github tool) via Homebrew"
+            brew install hub
+            installedHub=true
+        elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+            if ! [ -x "$(command -v dnf)" ]; then
+                echo "Installing hub (command-line Github tool) via dnf"
+                sudo dnf install hub
+                installedHub=true
+            fi
+        fi
+        
+        if [ "$installedHub" = false ] ; then
+            echo "Downloading hub (command-line Github tool)"
+            wget --quiet --output-document=hub.tgz https://github.com/github/hub/releases/download/v2.3.0-pre10/hub-linux-amd64-2.3.0-pre10.tgz
+            if [[ $(sha256sum hub.tgz | head -c 64) != "015297eb81e8fe11f3989d8f65c213111e508cecf0e9de8af1b7741de2077320" ]]; then
+                echo "Error (integrity): hub release download had bad checksum: $(sha256sum hub.tgz | head -c 64)" >&2
+                exit
+            fi
+            mkdir hub-dir
+            tar -xf hub.tgz -C hub-dir --strip-components 1
+            rm hub.tgz
+            mkdir -p .sync
+            cp ./hub-dir/bin/hub .sync/
+            rm -r hub-dir
+            hub='./.sync/hub'
+        fi
+    fi
+
+    hub='hub'
+    if [ "$installedHub" = false ] ; then
+        hub='./.sync/hub'
+    fi
+
+    "${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
+fi
