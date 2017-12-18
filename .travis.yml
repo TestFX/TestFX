@@ -1,25 +1,39 @@
 language: java
 sudo: false
 
-# keep gradle cache.
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
 env:
   global:
   - secure: XxAYzDEO8Vga/0KfvrMgm4d7VkOky2uHCeJvVR4vMBrMd7bpLE8AtT6Qy99NI/FQdbFu60AAyGJjiXoAZ9gqCvrt8fKGz8vyuyvYlQFVruw0UJ9UPCPazUaE5s/85vuwv7fW2asKlc3ZPHskWqUpzMUi/rSt5rjfB0Had5arbSo=
 
-matrix:
+before_script:
+  - echo $HOME
+  - echo $JAVA_OPTS
+  - echo $GRADLE_OPTS
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
+
+before_install: .ci/before_install.sh
+
+install: true
+
+script: .ci/script.sh
+
+after_success: .ci/after_success.sh
+
+jobs:
   fast_finish: true
   include:
-    # Ubuntu Linux (trusty) / Java 8 / Headed
-    - os: linux
+    - stage: lint
+      os: linux
+      dist: trusty
+      jdk: oraclejdk8
+      addons:
+        apt:
+          packages:
+            - oracle-java8-installer
+      script: ./gradlew checkstyleMain checkstyleTest spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest
+    - stage: test
+     # Ubuntu Linux (trusty) / Java 8 / Headed
+      os: linux
       dist: trusty
       jdk: oraclejdk8
       addons:
@@ -73,23 +87,25 @@ matrix:
     # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
     # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
     # this "partial headless" testing scenario does not provide any useful information.
+    - stage: deploy
+      script: .ci/deploy.sh
+      os: osx
+      osx_image: xcode9
+      env:
+        - secure: "McAqe7fSHacgoaf6EN2xsJtQl+7bHWJFaxt9KjLsX5An/LEqCOCVAgRQA7pVpoc3VQUw3Lq997aDGK4NyRco6SmKb+73/L6AF14W9KO7ItNX4HVq16JDEkTqlfDip+/1Jo/Z8UDoQ2J9/2HViZ4ZoZDdEP9CjGJGlfEyUaEnAQQ="
+        - secure: "YzaXTwRHng74Uegz0COmH2/U6PZ4VghDeoXFog5Eds2ZSuUGG9NXBQTdCcBgTwA9KPmu1fvKhk4HqJeru4fpD3NqZ+Ks3znvXOPXgydr3SxgJUvWCJkRQljXOE5BlI07R1qVnDWwTqSDyt64ffaJo3XT0+3uOwnauJrMqexsniM="
+      if: tag =~ ^v[0-9]+.[0-9]+.[0-9]+(-alpha|-beta)?$ AND branch = master
 
-before_script:
-  - echo $HOME
-  - echo $JAVA_OPTS
-  - echo $GRADLE_OPTS
-  # run on xvfb screen (for linux).
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
 
-before_install: .ci/before_install.sh
-
-# skip install stage.
-install: true
-
-# run gradle build.
-script: .ci/script.sh
-
-after_success: .ci/after_success.sh
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 
 notifications:
   webhooks:
