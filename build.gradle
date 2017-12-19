@@ -18,10 +18,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-//-------------------------------------------------------------------------------------------------
-// GRADLE PLUGINS.
-//-------------------------------------------------------------------------------------------------
-
 buildscript {
     repositories {
         jcenter()
@@ -37,22 +33,19 @@ plugins {
 }
 
 rootProject.with { project ->
-    // provide assemble and clean tasks.
-    // task to add gradle wrapper files.
     task wrapper(type: Wrapper) {
         gradleVersion = '4.4'
         distributionUrl = "https://services.gradle.org/distributions/" +
             "gradle-${gradleVersion}-all.zip"
     }
 
-    // task to print gradle and groovy versions.
     task versions {
         group 'help'
         description 'Prints tool versions and useful environment variables.'
         doLast {
             println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
             println "JAVA_HOME:      ${System.env.JAVA_HOME}"
-            println "Java version:   ${javaVersion}"
+            println "Java version:   ${System.env.JAVA_VERSION}"
             println "Gradle version: ${gradle.gradleVersion}"
             println "Groovy version: ${GroovySystem.version}"
             println "Subprojects:    ${rootProject.childProjects.keySet()}"
@@ -60,17 +53,17 @@ rootProject.with { project ->
     }
 
     ext {
-        // add build time and date to project attributes.
         def buildTimeAndDate = new Date()
         buildDate = buildTimeAndDate.format("yyyy-MM-dd")
         buildTime = buildTimeAndDate.format("HH:mm:ss.SSSZ")
 
-        // add java version and vendor to project attributes.
-        javaVersion = System.properties["java.version"]
-        usingJava9 = javaVersion.startsWith("9")
-        javaSourceCompat = usingJava9 ? "9" : "1.8"
+        if (JavaVersion.current().isJava9Compatible()) {
+            javaSourceCompat = JavaVersion.current().toString().substring(2) // Turns "1.x" in to "x"
+        } else {
+            javaSourceCompat = JavaVersion.current().toString()
+        }
 
-        if (usingJava9) {
+        if (JavaVersion.current().isJava9Compatible()) {
             javadocLinks = [
                     "https://docs.oracle.com/javase/9/docs/api"
             ]
@@ -123,14 +116,14 @@ subprojects { subproject ->
 
     task sourceJar(type: Jar) {
         group 'Build'
-        description 'An archive of the source code'
+        description 'Assembles a JAR containing the source code.'
         classifier 'sources'
         from sourceSets.main.allJava
     }
 
     task javadocJar(type: Jar) {
         group 'Build'
-        description 'An archive of the javadoc'
+        description 'Assembles a JAR containing the Javadoc.'
         classifier 'javadoc'
         from javadoc
     }
@@ -173,7 +166,7 @@ subprojects { subproject ->
             }
             info.events = debug.events
             def travisTuple
-            def failedTestSummary = "\n\n FAILED TESTS SUMMARY: \n\n"
+            def failedTestSummary = "\n\nFAILED TESTS SUMMARY: \n\n"
             afterTest { desc, result ->
                 if (desc.parent) {
                     if (result.getResultType() == TestResult.ResultType.FAILURE) {
@@ -232,7 +225,7 @@ subprojects { subproject ->
 
 task aggregateJavadoc(type: Javadoc) {
     group "Documentation"
-    description "Generates aggregated Javadoc API documentation."
+    description "Generates a Javadoc aggregate containing the docs of each subproject."
 
     def javadocSubprojects = subprojects.findAll { project ->
         project.sourceSets.main.allJava.matching { include "org/testfx/**" }.with { !it.empty }
@@ -268,6 +261,8 @@ task aggregateJavadoc(type: Javadoc) {
 }
 
 task jacocoMerge(type: JacocoMerge) {
+    group = 'Coverage reports'
+    description = 'Merges individual JaCoCo coverage data in to a single data set.'
     destinationFile = file("$buildDir/jacoco/jacoco-all.exec")
     subprojects.each { subproject ->
         executionData subproject.tasks.withType(Test)
@@ -279,7 +274,7 @@ task jacocoMerge(type: JacocoMerge) {
 
 task jacocoRootReport(type: JacocoReport) {
     group = 'Coverage reports'
-    description = 'Generates an aggregate report from all subprojects'
+    description = 'Generates an aggregate JaCoCo coverage report containing the coverage data of each subproject.'
     dependsOn subprojects.test, jacocoMerge
     additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
     sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)

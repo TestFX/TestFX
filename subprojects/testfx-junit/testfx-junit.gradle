@@ -21,7 +21,7 @@ dependencies {
     compile project(":testfx-core")
     compile "junit:junit:4.12"
 
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
     } else {
         testCompile "org.testfx:openjfx-monocle:8u76-b04"
@@ -29,7 +29,7 @@ dependencies {
 }
 
 sourceSets {
-    if (!usingJava9) {
+    if (!JavaVersion.current().isJava9Compatible()) {
         main {
             java {
                 exclude '**/module-info.java'
@@ -39,7 +39,7 @@ sourceSets {
 }
 
 compileJava {
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         inputs.property("moduleName", moduleName)
         doFirst {
             options.compilerArgs = [
@@ -56,7 +56,7 @@ compileJava {
 }
 
 compileTestJava {
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         inputs.property("moduleName", moduleName)
         doFirst {
             options.compilerArgs = [
