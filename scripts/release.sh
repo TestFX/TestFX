@@ -17,9 +17,14 @@ Options:
 EOF
 }
 
-if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-  show_help
-  exit 0
+if [[ $# -gt 0 ]]; then
+  if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    show_help
+    exit 0
+  else
+    show_help
+    exit 1
+  fi
 fi
 
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
@@ -82,7 +87,7 @@ if [[ -z "$upstream" ]]; then
   exit 1
 fi
 echo "Pushing tagged release commit to remote: $upstream"
-git push "$upstream" "$newVersion"
+git push --dry-run "$upstream" "$newVersion"
 
 # The below method uses a pull request, keep it in case we change our mind.
 if false ; then
