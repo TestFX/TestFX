@@ -32,9 +32,11 @@ if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
   exit
 fi
 
-if [ -z "$TESTFX_GITHUB_API_KEY" ]; then
+if [ -z "${TESTFX_GITHUB_API_KEY-}" ]; then
   echo "\"TESTFX_GITUB_API_KEY\" environment variable not set"
   read -rp "Please enter your Github API key for TestFX: " githubApiKey
+else
+  githubApiKey="$TESTFX_GITHUB_API_KEY"
 fi
 
 currentVersion=$(git tag --list 'v*[0-9].*[0-9].*[0.9]-alpha' --sort=taggerdate | tail -n1)
@@ -43,15 +45,20 @@ echo "Current version of TestFX: $currentVersion"
 IFS='.' read -ra version_parts <<< "$currentVersion"
 IFS='-' read -ra classifier_parts <<< "$currentVersion"
 
-major=${version_parts[0]}
+major=${version_parts[0]:1}
 minor=${version_parts[1]}
-patch=${version_parts[2]}
+patch=${version_parts[2]%%-*}
 classifier=${classifier_parts[1]}
+
+echo "major: $major"
+echo "minor: $minor"
+echo "patch: $patch"
+echo "classifier: $classifier"
 
 echo "Would you like to bump the major, minor, or patch version?"
 echo "In x.y.z x = major, y = minor, z = patch"
 echo "Enter the number corresponding to the part you want to increment:"
-options=("Major" "Minor" "Patch")
+options=("Major" "Minor" "Patch");
 
 select bumpType in "${options[@]}"; do
   case $bumpType in
@@ -62,14 +69,16 @@ select bumpType in "${options[@]}"; do
   esac
 done
 
-newVersion="$major.$minor.$patch-$classifier"
+newVersion="v$major.$minor.$patch-$classifier"
 echo "The next release of TestFX will be: $newVersion"
 git checkout -b "$newVersion"-release
 echo "Bumping versions in README.md and gradle.properties..."
 sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
 sed -i -e "s/$currentVersion/$newVersion/g" README.md
 echo "Generating changelog..."
-github_changelog_generator --token "$githubApiKey" testfx/testfx --output CHANGES.md --no-issues --future-release "$newVersion"
+github_changelog_generator testfx/testfx --token "$githubApiKey" \
+                           --output CHANGES.md --no-issues \
+                           --future-release "$newVersion"
 git add .
 git commit -m "(release) TestFX $newVersion"
 # Find GPG key that has "(TestFX)" in its' name
@@ -87,7 +96,7 @@ if [[ -z "$upstream" ]]; then
   exit 1
 fi
 echo "Pushing tagged release commit to remote: $upstream"
-git push --dry-run "$upstream" "$newVersion"
+git push "$upstream" "$newVersion"
 
 # The below method uses a pull request, keep it in case we change our mind.
 if false ; then
