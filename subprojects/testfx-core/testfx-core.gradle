@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     // use correct API internally depending on which Java version is being used
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         compile project(":testfx-internal-java9")
     } else {
         compile project(":testfx-internal-java8")
@@ -35,7 +35,7 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:2.13.0"
     testCompile project(":testfx-junit")
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
     } else {
         testCompile "org.testfx:openjfx-monocle:8u76-b04"
@@ -43,7 +43,7 @@ dependencies {
 }
 
 sourceSets {
-    if (!usingJava9) {
+    if (!JavaVersion.current().isJava9Compatible()) {
         main {
             java {
                 exclude '**/module-info.java'
@@ -53,7 +53,7 @@ sourceSets {
 }
 
 compileJava {
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         inputs.property("moduleName", moduleName)
         doFirst {
             options.compilerArgs = [
@@ -76,7 +76,7 @@ compileJava {
 }
 
 compileTestJava {
-    if (usingJava9) {
+    if (JavaVersion.current().isJava9Compatible()) {
         inputs.property("moduleName", moduleName)
         doFirst {
             options.compilerArgs = [

@@ -37,7 +37,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ComboBoxMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
+    public TestRule rule = RuleChain.outerRule(new TestFXRule(2)).around(exception = ExpectedException.none());
     public ExpectedException exception;
 
     ComboBox<String> comboBox;

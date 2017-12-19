@@ -46,7 +46,7 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 public class MenuBarTest {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestFXRule testFXRule = new TestFXRule(2);
 
     FxRobot fxRobot = new FxRobot();
     Menu editMenu;
@@ -91,13 +91,15 @@ public class MenuBarTest {
         });
     }
 
+    /**
+     * When moving directly from "#fileMenu" to "#newItem" (i.e. diagonally) the {@code editMenu}
+     * is activated because of the width of {@code fileMenu}. However we detect this scenario and
+     * instead move vertically (along the y-axis) first, and then horizontally (along the x-axis).
+     *
+     * @see <a href="https://github.com/TestFX/TestFX/issues/309">Issue #309</a>
+     */
     @Test
     public void should_move_vertically_first() throws Exception {
-        // When moving directly from "#fileMenu" to "#newItem" (i.e. diagonally) the {@code editMenu}
-        // is activated because of the width of {@code fileMenu}. However we detect this scenario and
-        // instead move vertically (along the y-axis) first, and then horizontally (along the x-axis).
-        // see: https://github.com/TestFX/TestFX/issues/309
-
         // First we show that it is indeed the case that {@code editMenu} is triggered when moving directly:
         editMenu.setOnShown(event -> editMenuShownLatch.countDown());
         fxRobot.clickOn("#fileMenu").clickOn("#newItem", Motion.DIRECT);
