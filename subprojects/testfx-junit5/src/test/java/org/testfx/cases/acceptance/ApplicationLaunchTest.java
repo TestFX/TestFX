@@ -35,10 +35,6 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class ApplicationLaunchTest extends FxRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURES.
-    //---------------------------------------------------------------------------------------------
-
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
@@ -50,10 +46,6 @@ public class ApplicationLaunchTest extends FxRobot {
         }
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @BeforeEach
     void setup() throws Exception {
         ApplicationTest.launch(DemoApplication.class);
@@ -63,10 +55,6 @@ public class ApplicationLaunchTest extends FxRobot {
     void cleanup() throws Exception {
         FxToolkit.cleanupStages();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     void should_contain_button() {
