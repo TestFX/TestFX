@@ -24,39 +24,24 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "needs more tests")
 public final class ApplicationAdapter extends Application {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    private ApplicationFixture applicationFixture;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final ApplicationFixture applicationFixture;
 
     public ApplicationAdapter(ApplicationFixture applicationFixture) {
         this.applicationFixture = applicationFixture;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
-    public void init()
-              throws Exception {
+    public void init() throws Exception {
         applicationFixture.init();
     }
 
     @Override
-    public void start(Stage primaryStage)
-               throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         applicationFixture.start(primaryStage);
     }
 
     @Override
-    public void stop()
-              throws Exception {
+    public void stop() throws Exception {
         applicationFixture.stop();
     }
 

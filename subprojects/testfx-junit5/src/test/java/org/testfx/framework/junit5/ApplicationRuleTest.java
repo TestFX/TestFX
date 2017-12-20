@@ -32,7 +32,7 @@ import static org.testfx.matcher.base.NodeMatchers.hasText;
 class ApplicationRuleTest {
 
     @Start
-    void onStart(Stage stage) {
+    public void onStart(Stage stage) {
         Button button = new Button("click me!");
         button.setOnAction(actionEvent -> button.setText("clicked!"));
         stage.setScene(new Scene(new StackPane(button), 100, 100));

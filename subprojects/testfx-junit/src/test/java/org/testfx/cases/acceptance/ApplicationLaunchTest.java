@@ -40,10 +40,6 @@ public class ApplicationLaunchTest extends FxRobot {
     @Rule
     public TestFXRule testFXRule = new TestFXRule(3);
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURES.
-    //---------------------------------------------------------------------------------------------
-
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
@@ -55,10 +51,6 @@ public class ApplicationLaunchTest extends FxRobot {
         }
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Before
     public void setup() throws Exception {
         ApplicationTest.launch(DemoApplication.class);
@@ -68,10 +60,6 @@ public class ApplicationLaunchTest extends FxRobot {
     public void cleanup() throws Exception {
         FxToolkit.cleanupStages();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void should_contain_button() {

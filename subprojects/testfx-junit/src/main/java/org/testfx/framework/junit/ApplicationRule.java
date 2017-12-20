@@ -25,8 +25,7 @@ import org.junit.runners.model.Statement;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-public class ApplicationRule extends FxRobot
-        implements ApplicationFixture, TestRule {
+public class ApplicationRule extends FxRobot implements ApplicationFixture, TestRule {
 
     private final Consumer<Stage> start;
     private final Consumer<Stage> stop;

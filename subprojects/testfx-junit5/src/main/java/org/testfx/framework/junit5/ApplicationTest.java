@@ -33,33 +33,22 @@ import org.testfx.api.annotation.Unstable;
 @Unstable(reason = "might be renamed to ApplicationTestBase")
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Unstable(reason = "is missing apidocs")
-    public static void launch(Class<? extends Application> appClass,
-                              String... appArgs) throws Exception {
+    public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(appClass, appArgs);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @BeforeEach
     @Unstable(reason = "is missing apidocs")
-    public final void internalBefore()
-                              throws Exception {
+    public final void internalBefore() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     @AfterEach
     @Unstable(reason = "is missing apidocs")
-    public final void internalAfter()
-                             throws Exception {
+    public final void internalAfter() throws Exception {
         // release all keys
         release(new KeyCode[0]);
         // release all mouse buttons
@@ -69,18 +58,15 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public void init()
-            throws Exception {}
+    public void init() throws Exception {}
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public void start(Stage stage)
-                        throws Exception {}
+    public void start(Stage stage) throws Exception {}
 
     @Override
     @Unstable(reason = "is missing apidocs")
-    public void stop()
-              throws Exception {}
+    public void stop() throws Exception {}
 
     @Deprecated
     public final HostServices getHostServices() {

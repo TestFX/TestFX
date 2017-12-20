@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Tests to see if pressed keys/buttons are released after a test is run.
- *
+ * <p>
  * For keys, this prevents hanging issues (if Shortcut key is pressed) or deletion issues (if backspace/delete key
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */

@@ -72,14 +72,13 @@ public class JUnitExceptionTest extends ApplicationTest {
 
     /**
      * This test checks if the exceptions triggered by a mouse click are correctly thrown.
-     * Tests issue 155.
-     * @throws Throwable
+     *
+     * @see <a href="https://github.com/TestFX/TestFX/issues/155">Issue #155</a>
      */
     @Test
     public void exceptionOnClickTest() throws Throwable {
         // Hints for failing tests: Timing might be an issue increase also the
         // time in checkException()
-        // given:
         WaitForAsyncUtils.printException = false; // do not print expected exception to log
         exception.expectCause(instanceOf(UnsupportedOperationException.class));
         WaitForAsyncUtils.clearExceptions(); // just ensure no other test put an exception into the buffer
@@ -88,10 +87,10 @@ public class JUnitExceptionTest extends ApplicationTest {
             WaitForAsyncUtils.checkException(); // need to check Exception, as event is executed after click
             fail("checkException didn't detect Exception");
         }
-        catch (Exception e) { //clean up...
+        catch (Exception e) { // clean up...
             release(MouseButton.PRIMARY);
-            moveBy(100, 100); //otherwise the press release test fails?!
-            WaitForAsyncUtils.printException = true; // enable printing for other tests
+            moveBy(100, 100); // otherwise the press release test fails?!
+            WaitForAsyncUtils.printException = true; //  enable printing for other tests
             WaitForAsyncUtils.clearExceptions(); // just ensure no pending exceptions in buffer
             throw e;
         }

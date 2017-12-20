@@ -31,10 +31,6 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class ApplicationStartTest extends ApplicationTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public void init() throws Exception {
         FxToolkit.registerStage(Stage::new);
@@ -52,10 +48,6 @@ public class ApplicationStartTest extends ApplicationTest {
     public void stop() throws Exception {
         FxToolkit.hideStage();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void should_contain_button() {
