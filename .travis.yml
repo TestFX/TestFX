@@ -30,7 +30,7 @@ jobs:
         apt:
           packages:
             - oracle-java8-installer
-      script: ./gradlew checkstyleMain checkstyleTest spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest
+      script: ./gradlew checkstyleMain checkstyleTest license spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest
     - stage: test
      # Ubuntu Linux (trusty) / Java 8 / Headed
       os: linux
@@ -95,7 +95,7 @@ jobs:
         - secure: "McAqe7fSHacgoaf6EN2xsJtQl+7bHWJFaxt9KjLsX5An/LEqCOCVAgRQA7pVpoc3VQUw3Lq997aDGK4NyRco6SmKb+73/L6AF14W9KO7ItNX4HVq16JDEkTqlfDip+/1Jo/Z8UDoQ2J9/2HViZ4ZoZDdEP9CjGJGlfEyUaEnAQQ="
         - secure: "YzaXTwRHng74Uegz0COmH2/U6PZ4VghDeoXFog5Eds2ZSuUGG9NXBQTdCcBgTwA9KPmu1fvKhk4HqJeru4fpD3NqZ+Ks3znvXOPXgydr3SxgJUvWCJkRQljXOE5BlI07R1qVnDWwTqSDyt64ffaJo3XT0+3uOwnauJrMqexsniM="
         - secure: "eSQaOxDMfLW3V1cxtKcm0i/BesSrRw1bTi01fAjTR6RxsXP00YAylNgYBgoGRrED16kM5FkQzOf75CDCw6l7CanXky/A7quD0IMo0pkwX/q5OJWIK7NAGnV4DekDnYW0yrMTxuygR0ALMkgwT5S+CP3/1aY6BNO11LNSHgQUXiM="
-        - secure: "BXTn0eNI4ueday8ZMC4KPnbJxWy7HADRUc5pjLMC70W9j2P6T5P18zUYwXHFnRdNxAEPa3rkjCLXx3XyMezhm5twkHpUt/Hyb0kgN0CYzEm0fad23Dayn7HVdGlKh6WQnjC/VQ54k/MCHEk4F0W8ip7RrG1FpTfhpWAa3j1Tq00="  
+        - secure: "BXTn0eNI4ueday8ZMC4KPnbJxWy7HADRUc5pjLMC70W9j2P6T5P18zUYwXHFnRdNxAEPa3rkjCLXx3XyMezhm5twkHpUt/Hyb0kgN0CYzEm0fad23Dayn7HVdGlKh6WQnjC/VQ54k/MCHEk4F0W8ip7RrG1FpTfhpWAa3j1Tq00="
       if: tag =~ ^v[0-9]+.[0-9]+.[0-9]+(-alpha|-beta)?$ AND branch = master
 
 before_cache:
