@@ -87,8 +87,29 @@ public class TableViewMatchers {
     }
 
     /**
-     * Creates a matcher that matches all {@link TableView}s that have a row at the given {@code index} with
-     * all of the given cells.
+     * Creates a matcher that matches all {@link TableView}s that have a row at the given {@code index} that
+     * contains the given calues for each column of a {@code TableView}.
+     * <p>
+     * For example, given a {@code TableView} that has three columns:
+     * <pre>{@code
+     * TableColumn<RegularPolygon, String> nameColumn = new TableColumn<>("Name");
+     * TableColumn<RegularPolygon, Integer> numSidesColumn = new TableColumn<>("Number of Sides");
+     * TableColumn<RegularPolygon, Double> unitAreaColumn = new TableColumn<>("Area when Side = 1");
+     * polygonsTable.getColumns().setAll(nameColumn, numSidesColumn, unitAreaColumn);
+     * }</pre>
+     * Then to verify that such a {@code TableView}, contains, at index 3, a row for a {@code RegularPolygon}
+     * that has the name {@literal "Pentagon"}, the number of sides {@literal 5}, and a unit area of
+     * {@literal 1.720477401} one would use:
+     * <pre>{@code
+     * verifyThat("#polygonsTable", TableViewMatchers.containsRowAtIndex(3, "Pentagon", 5, 1.720477401);
+     * }</pre>
+     * Where the types of each argument, after the row index, correspond to the types of the {@code TableColumn}s
+     * which in our example is {@code (String, Integer, Double)}.
+     *
+     * @param rowIndex the row number (starting from 0) that must contains the given cell values
+     * @param cells The values or String representations of the values (e.g. the result of calling {@code toString()})
+     * contained in the row at a given index you want to verify a {@code TableView} contains - one such value for
+     * each column of that {@code TableView}.
      */
     @Factory
     public static Matcher<TableView> containsRowAtIndex(int rowIndex, Object... cells) {
@@ -108,7 +129,28 @@ public class TableViewMatchers {
     }
 
     /**
-     * Creates a matcher that matches all {@link TableView}s that have a row containing all the given cells.
+     * Creates a matcher that matches all {@link TableView}s that have at least one row that contains the given
+     * values for each column of a {@code TableView}.
+     * <p>
+     * For example, given a {@code TableView} that has three columns:
+     * <pre>{@code
+     * TableColumn<Person, String> nameColumn = new TableColumn<>("Name");
+     * TableColumn<Person, Double> bmiColumn = new TableColumn<>("Body Mass Index");
+     * TableColumn<Person, Boolean> membershipColumn = new TableColumn<>("Gym Membership Valid");
+     * fitnessTable.getColumns().setAll(nameColumn, bmiColumn, membershipColumn);
+     * }</pre>
+     * Then to verify that such a {@code TableView}, contains at least one row with a {@code Person}
+     * that has the name {@literal "Dan Anderson"}, the body mass index {@literal 28.83}, and a valid
+     * gym membership ({@literal true}) one would use:
+     * <pre>{@code
+     * verifyThat("#fitnessTable", TableViewMatchers.containsRow("Dan Anderson", 28.83, true);
+     * }</pre>
+     * Where the types of each argument correspond to the types of the {@code TableColumn}s which
+     * in our example is {@code (String, Double, Boolean)}.
+     *
+     * @param cells The values or String representations of the values (e.g. the result of calling {@code toString()})
+     * contained in the row you want to verify a {@code TableView} contains - one such value for each column of
+     * that {@code TableView}.
      */
     @Factory
     public static Matcher<TableView> containsRow(Object...cells) {
