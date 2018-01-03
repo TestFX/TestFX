@@ -43,6 +43,21 @@ dependencies {
 }
 ```
 
+### Java 9
+
+To use TestFX with Java 9 the `testfx-core` dependency must be tweaked by excluding
+`testfx-internal-java8` and adding a dependency on `testfx-internal-java9` thusly:
+
+```gradle
+testCompile('org.testfx:testfx-core:4.0.10-alpha') {
+    exclude group: 'org.testfx', module: 'testfx-internal-java8'
+}
+testRuntime 'org.testfx:testfx-internal-java9:4.0.10-alpha'
+```
+
+There are plans to make this easier in a future version of TestFX, perhaps
+by utilizing multi-release JARs.
+
 ## Maven
 
 To add a dependency on TestFX using Maven, use the following:
@@ -68,6 +83,35 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
     <scope>test</scope>
 </dependency>
 ```
+
+### Java 9
+
+To use TestFX with Java 9 the `testfx-core` dependency must be tweaked by excluding
+`testfx-internal-java8` and adding a dependency on `testfx-internal-java9` thusly:
+
+```xml
+<dependency>
+    <groupId>org.testfx</groupId>
+    <artifactId>testfx-core</artifactId>
+    <version>4.0.10-alpha</version>
+    <scope>test</scope>
+    <exclusions>
+        <exclusion>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-internal-java8</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+<dependency>
+    <groupId>org.testfx</groupId>
+    <artifactId>testfx-internal-java9</artifactId>
+    <version>4.0.10-alpha</version>
+    <scope>test</scope>
+</dependency>
+```
+
+There are plans to make this easier in a future version of TestFX, perhaps
+by utilizing multi-release JARs.
 
 ## Example (JUnit 4)
 
