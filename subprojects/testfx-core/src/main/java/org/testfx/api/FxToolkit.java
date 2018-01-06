@@ -108,10 +108,11 @@ public final class FxToolkit {
      * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getLaunchTimeoutInMillis()}
      */
     public static Stage registerPrimaryStage() throws TimeoutException {
-        Stage primaryStage = waitForLaunch(SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
-                CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
+        Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
+                SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
+                        CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
         CONTEXT.setRegisteredStage(primaryStage);
-        preventShutdownWhenLastWindowIsClosed();
+        Platform.setImplicitExit(false);
         return primaryStage;
     }
 
@@ -165,7 +166,6 @@ public final class FxToolkit {
      * @throws TimeoutException if cleanup is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
      *      or the FX Application Thread is not running
      */
-    @Unstable(reason = "is missing apidocs")
     public static void cleanupApplication(Application application) throws TimeoutException {
         if (isFXApplicationThreadRunning()) {
             waitForSetup(SERVICE.cleanupApplication(application));
@@ -211,7 +211,11 @@ public final class FxToolkit {
      * moves it to the front via {@link Stage#toFront()}, and returns once finished.
      */
     public static void showStage() throws TimeoutException {
-        setupStage(FxToolkit::showStage);
+        setupStage(stage -> {
+            stage.show();
+            stage.toBack();
+            stage.toFront();
+        });
     }
 
     /**
@@ -219,7 +223,7 @@ public final class FxToolkit {
      * and returns once finished.
      */
     public static void hideStage() throws TimeoutException {
-        setupStage(FxToolkit::hideStage);
+        setupStage(Window::hide);
     }
 
     /**
@@ -227,11 +231,11 @@ public final class FxToolkit {
      * {@link org.testfx.internal.JavaVersionAdapter#getWindows()} and returns once finished.
      */
     public static void cleanupStages() throws TimeoutException {
-        setupFixture(() -> fetchAllWindows().forEach(FxToolkit::hideWindow));
+        setupFixture(() -> Collections.unmodifiableSet(new HashSet<>(getWindows())).forEach(Window::hide));
     }
 
     /**
-     * Returns the internal context
+     * Returns the internal context.
      */
     public static FxToolkitContext toolkitContext() {
         return CONTEXT;
@@ -239,15 +243,7 @@ public final class FxToolkit {
 
     /**
      * Waits for the given future to be set before returning or times out after
-     * {@link FxToolkitContext#getLaunchTimeoutInMillis() launch timeout limit} is reached.
-     */
-    private static <T> T waitForLaunch(Future<T> future) throws TimeoutException {
-        return waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS, future);
-    }
-
-    /**
-     * Waits for the given future to be set before returning or times out after
-     * {@link FxToolkitContext#getSetupTimeoutInMillis()} setup timeout limit} is reached.
+     * {@link FxToolkitContext#getSetupTimeoutInMillis()} is reached.
      */
     private static <T> T waitForSetup(Future<T> future) throws TimeoutException {
         T ret = waitFor(CONTEXT.getSetupTimeoutInMillis(), MILLISECONDS, future);
@@ -255,32 +251,9 @@ public final class FxToolkit {
         return ret;
     }
 
-    private static void showStage(Stage stage) {
-        stage.show();
-        stage.toBack();
-        stage.toFront();
-    }
-
-    private static void hideStage(Stage stage) {
-        stage.hide();
-    }
-
-    private static void hideWindow(Window window) {
-        window.hide();
-    }
-
-    @SuppressWarnings("deprecation")
-    private static Set<Window> fetchAllWindows() {
-        return Collections.unmodifiableSet(new HashSet<>(getWindows()));
-    }
-
-    private static void preventShutdownWhenLastWindowIsClosed() {
-        Platform.setImplicitExit(false);
-    }
-
     /**
      * Detects if the JavaFx Application Thread is currently running.
-     * @return true, if the FX Application Thread is running
+     * @return {@literal true} if the FX Application Thread is running, false otherwise
      */
     public static boolean isFXApplicationThreadRunning() {
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
