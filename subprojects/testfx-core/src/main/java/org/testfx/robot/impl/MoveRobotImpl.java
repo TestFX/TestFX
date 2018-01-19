@@ -17,7 +17,6 @@
 package org.testfx.robot.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,8 +35,6 @@ import org.testfx.service.query.PointQuery;
 public class MoveRobotImpl implements MoveRobot {
 
     private static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = 1;
-    private static final long MIN_POINT_OFFSET_COUNT = 1;
-    private static final long MAX_POINT_OFFSET_COUNT = 200;
 
     private final BaseRobot baseRobot;
     private final MouseRobot mouseRobot;
@@ -82,49 +79,50 @@ public class MoveRobotImpl implements MoveRobot {
         if (motion == Motion.DEFAULT) {
             motion = Motion.DIRECT;
         }
-        double pointDistance = calculateDistanceBetween(sourcePoint, targetPoint);
-        int pointOffsetCount = (int) limitValueBetween(
-            pointDistance, MIN_POINT_OFFSET_COUNT, MAX_POINT_OFFSET_COUNT
-        );
+        final int discreteSteps = limitValueBetween((int) sourcePoint.distance(targetPoint), 1, 200);
 
-        List<Point2D> path = new ArrayList<>(pointOffsetCount);
+        List<Point2D> path = new ArrayList<>(discreteSteps);
         switch (motion) {
             case DIRECT:
-                path = interpolatePointsBetween(sourcePoint, targetPoint, pointOffsetCount);
+                path = interpolatePointsBetween(sourcePoint, targetPoint, discreteSteps);
                 break;
             case HORIZONTAL_FIRST: {
                 // ratio of the horizontal to the vertical side of the right-triangle (determines how much time should
                 // be spent traversing in each direction)
-                double percentHorizontal = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY()) /
-                        targetPoint.distance(targetPoint.getX(), sourcePoint.getY());
+                double horizontalDistance = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
+                double verticalDistance = sourcePoint.distance(sourcePoint.getX(), targetPoint.getY());
+                double percentHorizontal = horizontalDistance / (horizontalDistance + verticalDistance);
                 // the point where the horizontal path stops and the vertical path starts
                 Point2D intermediate = new Point2D(targetPoint.getX(), sourcePoint.getY());
                 path = Stream.concat(
                         interpolatePointsBetween(
-                                sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)).stream(),
+                                sourcePoint, intermediate, (int) (discreteSteps * percentHorizontal)).stream(),
                         interpolatePointsBetween(
-                                intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)).stream())
+                                intermediate, targetPoint, (int) (discreteSteps * (1 - percentHorizontal))).stream())
                         .collect(Collectors.toList());
                 break;
             }
             case VERTICAL_FIRST: {
                 // ratio of the vertical to the horizontal side of the right-triangle
-                double percentVertical = targetPoint.distance(targetPoint.getX(), sourcePoint.getY()) /
-                        sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
+                double horizontalDistance = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
+                double verticalDistance = sourcePoint.distance(sourcePoint.getX(), targetPoint.getY());
+                double percentVertical = verticalDistance / (horizontalDistance + verticalDistance);
                 // the point where the vertical path stops and the horizontal path starts
                 Point2D intermediate = new Point2D(sourcePoint.getX(), targetPoint.getY());
                 path = Stream.concat(
                         interpolatePointsBetween(
-                                sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)).stream(),
+                                sourcePoint, intermediate, (int) (discreteSteps * percentVertical)).stream(),
                         interpolatePointsBetween(
-                                intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)).stream())
+                                intermediate, targetPoint, (int) (discreteSteps * (1 - percentVertical))).stream())
                         .collect(Collectors.toList());
                 break;
             }
         }
 
-        for (Point2D point : path.stream().limit(path.size() - 1).collect(Collectors.toList())) {
-            // TODO(mike): Why is the limiting necessary?
+        // Remove the last (final) point of the path, which is the target point, because we explicitly call
+        // mouseRobot.move(targetPoint) after looping through the points of the path.
+        path.remove(path.size() - 1);
+        for (Point2D point : path) {
             mouseRobot.moveNoWait(point);
             sleepRobot.sleep(SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS);
         }
@@ -133,39 +131,35 @@ public class MoveRobotImpl implements MoveRobot {
 
     private List<Point2D> interpolatePointsBetween(Point2D sourcePoint,
                                                    Point2D targetPoint,
-                                                   int pointOffsetCount) {
-        List<Point2D> points = new ArrayList<>();
-        for (int pointOffset = 0; pointOffset <= pointOffsetCount; pointOffset++) {
-            double factor = (double) pointOffset / (double) pointOffsetCount;
-            Point2D point = interpolatePointBetween(sourcePoint, targetPoint, factor);
-            points.add(point);
+                                                   int discreteSteps) {
+        if (discreteSteps <= 0) {
+            throw new IllegalArgumentException("discreteSteps must be strictly greater (>) " +
+                    "than 0 but was: " + discreteSteps);
         }
-        return Collections.unmodifiableList(points);
+        List<Point2D> path = new ArrayList<>(discreteSteps);
+        for (int pointOffset = 0; pointOffset <= discreteSteps; pointOffset++) {
+            double factor = (double) pointOffset / (double) discreteSteps;
+            Point2D point = interpolatePointBetween(sourcePoint, targetPoint, factor);
+            path.add(point);
+        }
+        return path;
     }
 
-    private double calculateDistanceBetween(Point2D point0, Point2D point1) {
-        double x = point0.getX() - point1.getX();
-        double y = point0.getY() - point1.getY();
-        return Math.sqrt((x * x) + (y * y));
+    private int limitValueBetween(int value, int min, int max) {
+        if (min > max) {
+            throw new IllegalArgumentException(String.format(
+                    "min (%s) must be less than or equal to (>=) max (%s)", min, max));
+        }
+        return Math.min(Math.max(value, min), max);
     }
 
-    private double limitValueBetween(double value,
-                                     double minValue,
-                                     double maxValue) {
-        return Math.max(minValue, Math.min(maxValue, value));
-    }
-
-    private Point2D interpolatePointBetween(Point2D point0,
-                                            Point2D point1,
-                                            double factor) {
-        double x = interpolateValuesBetween(point0.getX(), point1.getX(), factor);
-        double y = interpolateValuesBetween(point0.getY(), point1.getY(), factor);
+    private Point2D interpolatePointBetween(Point2D point0, Point2D point1, double factor) {
+        double x = lerp(point0.getX(), point1.getX(), factor);
+        double y = lerp(point0.getY(), point1.getY(), factor);
         return new Point2D(x, y);
     }
 
-    private double interpolateValuesBetween(double value0,
-                                            double value1,
-                                            double factor) {
+    private double lerp(double value0, double value1, double factor) {
         return value0 + ((value1 - value0) * factor);
     }
 
