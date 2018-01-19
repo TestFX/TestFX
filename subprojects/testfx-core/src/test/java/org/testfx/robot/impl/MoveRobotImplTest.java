@@ -23,15 +23,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.robot.BaseRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
-import org.testfx.robot.Motion;
 import org.testfx.service.query.PointQuery;
 
 import static org.mockito.AdditionalMatchers.not;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -70,7 +70,8 @@ public class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery, Motion.DIRECT);
 
         // then:
-        verify(mouseRobot, times(199)).moveNoWait(argThat(argument -> sourcePoint.getY() != argument.getY() || targetPoint.getX() != argument.getX()));
+        verify(mouseRobot, times(199)).moveNoWait(
+                argThat(argument -> sourcePoint.getY() != argument.getY() || targetPoint.getX() != argument.getX()));
         verify(mouseRobot, times(2)).move(targetPoint);
     }
 
@@ -89,7 +90,8 @@ public class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery, Motion.HORIZONTAL_FIRST);
 
         // then:
-        verify(mouseRobot, times(199)).moveNoWait(argThat(argument -> sourcePoint.getY() == argument.getY() || targetPoint.getX() == argument.getX()));
+        verify(mouseRobot, times(199)).moveNoWait(
+                argThat(argument -> sourcePoint.getY() == argument.getY() || targetPoint.getX() == argument.getX()));
         verify(mouseRobot, times(2)).move(targetPoint);
     }
 
@@ -108,7 +110,8 @@ public class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery, Motion.VERTICAL_FIRST);
 
         // then:
-        verify(mouseRobot, times(199)).moveNoWait(argThat(argument -> sourcePoint.getX() == argument.getX() || targetPoint.getY() == argument.getY()));
+        verify(mouseRobot, times(199)).moveNoWait(
+                argThat(argument -> sourcePoint.getX() == argument.getX() || targetPoint.getY() == argument.getY()));
         verify(mouseRobot, times(2)).move(targetPoint);
     }
 
