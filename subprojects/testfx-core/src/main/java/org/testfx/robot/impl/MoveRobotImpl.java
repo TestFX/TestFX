@@ -82,42 +82,40 @@ public class MoveRobotImpl implements MoveRobot {
         if (motion == Motion.DEFAULT) {
             motion = Motion.DIRECT;
         }
-        double pointDistance = calculateDistanceBetween(sourcePoint, targetPoint);
-        int pointOffsetCount = (int) limitValueBetween(
-            pointDistance, MIN_POINT_OFFSET_COUNT, MAX_POINT_OFFSET_COUNT
+        double directDistance = sourcePoint.distance(targetPoint);
+        double horizontalDistance = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
+        double verticalDistance = sourcePoint.distance(sourcePoint.getX(), targetPoint.getY());
+
+        int totalStepsCount = (int) limitValueBetween(
+                directDistance, MIN_POINT_OFFSET_COUNT, MAX_POINT_OFFSET_COUNT
         );
 
-        List<Point2D> path = new ArrayList<>(pointOffsetCount);
+        List<Point2D> path = new ArrayList<>(totalStepsCount);
+        double percentHorizontal = horizontalDistance / (horizontalDistance +
+                verticalDistance);
+        int horizontalStepsCount = (int) (totalStepsCount * percentHorizontal);
+        int verticalStepsCount = totalStepsCount - horizontalStepsCount;
         switch (motion) {
             case DIRECT:
-                path = interpolatePointsBetween(sourcePoint, targetPoint, pointOffsetCount);
+                path = interpolatePointsBetween(sourcePoint, targetPoint, totalStepsCount);
                 break;
             case HORIZONTAL_FIRST: {
-                // ratio of the horizontal to the vertical side of the right-triangle (determines how much time should
-                // be spent traversing in each direction)
-                double percentHorizontal = sourcePoint.distance(targetPoint.getX(), sourcePoint.getY()) /
-                        targetPoint.distance(targetPoint.getX(), sourcePoint.getY());
-                // the point where the horizontal path stops and the vertical path starts
                 Point2D intermediate = new Point2D(targetPoint.getX(), sourcePoint.getY());
                 path = Stream.concat(
                         interpolatePointsBetween(
-                                sourcePoint, intermediate, (int) (pointOffsetCount * percentHorizontal)).stream(),
+                                sourcePoint, intermediate, horizontalStepsCount).stream(),
                         interpolatePointsBetween(
-                                intermediate, targetPoint, (int) (1 - pointOffsetCount * percentHorizontal)).stream())
+                                intermediate, targetPoint, verticalStepsCount).stream())
                         .collect(Collectors.toList());
                 break;
             }
             case VERTICAL_FIRST: {
-                // ratio of the vertical to the horizontal side of the right-triangle
-                double percentVertical = targetPoint.distance(targetPoint.getX(), sourcePoint.getY()) /
-                        sourcePoint.distance(targetPoint.getX(), sourcePoint.getY());
-                // the point where the vertical path stops and the horizontal path starts
                 Point2D intermediate = new Point2D(sourcePoint.getX(), targetPoint.getY());
                 path = Stream.concat(
                         interpolatePointsBetween(
-                                sourcePoint, intermediate, (int) (pointOffsetCount * percentVertical)).stream(),
+                                sourcePoint, intermediate, verticalStepsCount).stream(),
                         interpolatePointsBetween(
-                                intermediate, targetPoint, (int) (1 - pointOffsetCount * percentVertical)).stream())
+                                intermediate, targetPoint, horizontalStepsCount).stream())
                         .collect(Collectors.toList());
                 break;
             }
@@ -135,18 +133,12 @@ public class MoveRobotImpl implements MoveRobot {
                                                    Point2D targetPoint,
                                                    int pointOffsetCount) {
         List<Point2D> points = new ArrayList<>();
-        for (int pointOffset = 0; pointOffset <= pointOffsetCount; pointOffset++) {
+        for (int pointOffset = 1; pointOffset <= pointOffsetCount; pointOffset++) {
             double factor = (double) pointOffset / (double) pointOffsetCount;
             Point2D point = interpolatePointBetween(sourcePoint, targetPoint, factor);
             points.add(point);
         }
         return Collections.unmodifiableList(points);
-    }
-
-    private double calculateDistanceBetween(Point2D point0, Point2D point1) {
-        double x = point0.getX() - point1.getX();
-        double y = point0.getY() - point1.getY();
-        return Math.sqrt((x * x) + (y * y));
     }
 
     private double limitValueBetween(double value,
