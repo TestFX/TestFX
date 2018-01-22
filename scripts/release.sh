@@ -27,6 +27,16 @@ if [[ $# -gt 0 ]]; then
   fi
 fi
 
+if ! [ -x "$(command -v git)" ]; then
+  echo 'Error: git is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v ruby)" ]; then
+  echo 'Error: ruby is not installed (needed to generate changelog).' >&2
+  exit 1
+fi
+
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
   echo "You are not currently at the root of the TestFX git repository."
   exit
@@ -74,7 +84,7 @@ echo "The next release of TestFX will be: $newVersion"
 git checkout -b "$newVersion"-release
 echo "Bumping versions in README.md and gradle.properties..."
 sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
-sed -i -e "s/$currentVersion/$newVersion/g" README.md
+sed -i -e "s/${currentVersion:1}/${newVersion:1}/g" README.md
 echo "Generating changelog..."
 github_changelog_generator testfx/testfx --token "$githubApiKey" \
                            --output CHANGES.md --no-issues \
@@ -101,7 +111,7 @@ git push "$upstream" "$newVersion"
 # The below method uses a pull request, keep it in case we change our mind.
 if false ; then
   git push origin "$newVersion"-release
-  
+
   installedHub=false
   if ! [ -x "$(command -v hub)" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -115,7 +125,7 @@ if false ; then
         installedHub=true
       fi
     fi
-    
+
     if [ "$installedHub" = false ] ; then
       echo "Downloading hub (command-line Github tool)"
       wget --quiet --output-document=hub.tgz https://github.com/github/hub/releases/download/v2.3.0-pre10/hub-linux-amd64-2.3.0-pre10.tgz
