@@ -1,6 +1,37 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function cleanup {
+  EXIT_CODE=$?
+  set +e # disable termination on error
+  if [[ $EXIT_CODE != 0 ]]; then
+    # Something went wrong...
+    originMessage=$(git log -1 HEAD --pretty=format:%s)
+    if [ ! -z ${newVersion+x} ]; then
+      if [ "$originMessage" == "(release) TestFX $newVersion" ]; then
+        # Roll back the commit
+        git reset --hard HEAD^
+      else
+        # Didn't actually make a commit, so just reset local work-tree
+        git reset --hard HEAD
+      fi
+
+      # Check if we pushed this commit to upstream
+      upstreamMessage=$(git log "$upstream"/master -1 HEAD --pretty=format:%s)
+      if [ "$upstreamMessage" == "(release) TestFX $newVersion" ]; then
+        git push upstream master --force
+      fi
+
+      # Check if we tagged the commit
+      if git ls-remote --tags "$upstream" | grep \""$newVersion"\"; then
+        git push origin :"$newVersion"
+      fi
+    fi
+  fi
+  exit $EXIT_CODE
+}
+trap cleanup EXIT INT TERM # Are all three of these the right choice?
+
 # Usage info
 show_help() {
 cat << EOF
@@ -81,7 +112,6 @@ done
 
 newVersion="v$major.$minor.$patch-$classifier"
 echo "The next release of TestFX will be: $newVersion"
-git checkout -b "$newVersion"-release
 echo "Bumping versions in README.md and gradle.properties..."
 sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
 sed -i -e "s/${currentVersion:1}/${newVersion:1}/g" README.md
@@ -91,6 +121,17 @@ github_changelog_generator testfx/testfx --token "$githubApiKey" \
                            --future-release "$newVersion"
 git add .
 git commit -m "(release) TestFX $newVersion"
+upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
+if [[ -z "$upstream" ]]; then
+  echo "Could not find a git remote for the upstream TestFX repository."
+  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
+  exit 1
+fi
+echo "Pushing tagged release commit to remote: $upstream"
+git push "$upstream" master
+git fetch "$upstream"
+git rebase "$upstream"/master
+
 # Find GPG key that has "(TestFX)" in its' name
 gpgKey=$(gpg --list-keys --with-colon | grep '^pub' | grep '(TestFX)' | cut -d':' -f5)
 if [[ -z "$gpgKey" ]]; then
@@ -99,14 +140,7 @@ if [[ -z "$gpgKey" ]]; then
   exit 1
 fi
 git tag -s "$newVersion" -m \""$newVersion"\" -u "$gpgKey"
-upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
-if [[ -z "$upstream" ]]; then
-  echo "Could not find a git remote for the upstream TestFX repository."
-  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
-  exit 1
-fi
-echo "Pushing tagged release commit to remote: $upstream"
-git push "$upstream" "$newVersion"
+git push upstream "$newVersion"
 
 # The below method uses a pull request, keep it in case we change our mind.
 if false ; then
