@@ -217,6 +217,14 @@ class ClickableButtonSpec extends ApplicationSpec {
 
 Head over to our [gitter chat](https://gitter.im/TestFX/TestFX) for discussion and questions.
 
+## TestFX Legacy: Deprecated
+
+The `testfx-legacy` subproject is deprecated and no longer supported. It is highly recommended
+that you switch from using `testfx-legacy`. If you want to continue using it you should cap
+the versions of `testfx-core` and `testfx-legacy` to `4.0.8-alpha`, which was the last released
+version of `testfx-legacy`. Using a newer version of `testfx-core` with an older version of
+`testfx-legacy` will very likely break (and does with `testfx-core` versions past `4.0.10-alpha`).
+
 ## Credits
 
 Thanks to all of the [contributors of TestFX](https://github.com/TestFX/TestFX/graphs/contributors)!
