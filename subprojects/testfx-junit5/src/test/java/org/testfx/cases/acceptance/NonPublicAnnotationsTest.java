@@ -14,7 +14,7 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.framework.junit5;
+package org.testfx.cases.acceptance;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,12 +24,18 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.hasText;
 
+/**
+ * This test class makes sure that the JUnit 5 annotations can be on
+ * non-public classes and methods.
+ */
 @ExtendWith(ApplicationExtension.class)
-class ApplicationRuleTest {
+class NonPublicAnnotationsTest {
 
     @Start
     void onStart(Stage stage) {
