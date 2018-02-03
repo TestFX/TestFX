@@ -45,6 +45,7 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
         Class<?> testClass = testInstance.getClass();
         Method[] methods = testClass.getDeclaredMethods();
         for (Method method : methods) {
+            method.setAccessible(true);
             if (method.isAnnotationPresent(Init.class)) {
                 init.add(validateInitMethod(method));
             }
