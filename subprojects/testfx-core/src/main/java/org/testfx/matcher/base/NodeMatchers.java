@@ -102,6 +102,22 @@ public class NodeMatchers {
     }
 
     /**
+     * Creates a matcher that matches all focused {@link Node}s (i.e. {@link Node#isFocused()} returns true).
+     */
+    @Factory
+    public static Matcher<Node> isFocused() {
+        return baseMatcher("Node has focus", Node::isFocused);
+    }
+
+    /**
+     * Creates a matcher that matches all focused {@link Node}s (i.e. {@link Node#isFocused()} returns false).
+     */
+    @Factory
+    public static Matcher<Node> isNotFocused() {
+        return baseMatcher("Node does not have focus", node -> !node.isFocused());
+    }
+
+    /**
      * Creates a matcher that matches all {@link javafx.scene.control.Labeled}, {@link TextInputControl},
      * and {@link Text} objects that have the given {@code string}.
      */

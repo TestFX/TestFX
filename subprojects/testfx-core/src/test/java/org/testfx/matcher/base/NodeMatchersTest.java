@@ -18,6 +18,8 @@ package org.testfx.matcher.base;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,6 +38,7 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.query.NodeQuery;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -46,6 +49,9 @@ public class NodeMatchersTest extends FxRobot {
     @Rule
     public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
     public ExpectedException exception;
+
+    TextField textField;
+    TextField textField2;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -104,6 +110,76 @@ public class NodeMatchersTest extends FxRobot {
         exception.expectMessage("Expected: Node has text \"foo\"\n");
 
         assertThat(region, NodeMatchers.hasText("foo"));
+    }
+
+    @Test
+    public void isFocus() throws Exception {
+        // given:
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            return new StackPane(textField);
+        });
+
+        // when:
+        Platform.runLater(() -> textField.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+
+        // then:
+        assertThat(textField, NodeMatchers.isFocused());
+    }
+
+    @Test
+    public void isFocused_fails() throws Exception {
+        // given:
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            textField2 = new TextField("bar");
+            return new StackPane(textField, textField2);
+        });
+
+        // when:
+        Platform.runLater(() -> textField2.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // then:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Node has focus\n");
+        assertThat(textField, NodeMatchers.isFocused());
+    }
+
+    @Test
+    public void isNotFocused() throws Exception {
+        // given:
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            textField2 = new TextField("bar");
+            return new StackPane(textField, textField2);
+        });
+
+        Platform.runLater(() -> textField2.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // then:
+        assertThat(textField, NodeMatchers.isNotFocused());
+    }
+
+    @Test
+    public void isNotFocused_fails() throws Exception {
+        // given:
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            return new StackPane(textField);
+        });
+
+        // when:
+        Platform.runLater(() -> textField.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // then:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Node does not have focus\n");
+        assertThat(textField, NodeMatchers.isNotFocused());
     }
 
     @Test
