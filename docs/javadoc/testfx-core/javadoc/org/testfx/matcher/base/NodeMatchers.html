@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -180,23 +180,35 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isFocused--">isFocused</a></span>()</code>
+<div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isInvisible--">isInvisible</a></span>()</code>
 <div class="block">Creates a matcher that matches all invisible <code>Node</code>s.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isNotFocused--">isNotFocused</a></span>()</code>
+<div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isNotNull--">isNotNull</a></span>()</code>
 <div class="block">Creates a matcher that matches all non-null <code>Node</code>s.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isNull--">isNull</a></span>()</code>
 <div class="block">Creates a matcher that matches all null <code>Node</code>s.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isVisible--">isVisible</a></span>()</code>
 <div class="block">Creates a matcher that matches all visible <code>Node</code>s.</div>
@@ -294,6 +306,26 @@ public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;anything()
 <h4>isDisabled</h4>
 <pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;isDisabled()</pre>
 <div class="block">Creates a matcher that matches all disabled <code>Node</code>s (i.e. <code>Node.isDisabled()</code> returns true).</div>
+</li>
+</ul>
+<a name="isFocused--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isFocused</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;isFocused()</pre>
+<div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e. <code>Node.isFocused()</code> returns true).</div>
+</li>
+</ul>
+<a name="isNotFocused--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isNotFocused</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;isNotFocused()</pre>
+<div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e. <code>Node.isFocused()</code> returns false).</div>
 </li>
 </ul>
 <a name="hasText-java.lang.String-">
