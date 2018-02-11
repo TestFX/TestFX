@@ -16,7 +16,11 @@
  */
 package org.testfx.matcher.control;
 
+import java.util.concurrent.TimeoutException;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -30,6 +34,7 @@ import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -109,10 +114,36 @@ public class TextFlowMatchersTest extends FxRobot {
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextFlow has exactly colored text \"<LIMEGREEN>exact</LIMEGREEN>\"\n     " +
                 "but: was impossible to exactly match TextFlow containing " +
-                "colored text: \"exact\" which has color: \"33cd32\".\n" +
+                "colored text: \"exact\" which has color: \"#33cd32\".\n" +
                 "This is not a named color. The closest named color is: \"LIMEGREEN\".\n" +
                 "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
 
         assertThat(exactTextFlow, TextFlowMatchers.hasExactlyColoredText("<LIMEGREEN>exact</LIMEGREEN>"));
+    }
+
+    /**
+     * TODO: Implement a a way to test against gradients, and other types of fills - hopefully without reimplementing
+     * some adhoc version of CSS.
+     */
+    @Test
+    public void hasExactlyColoredText_gradient() throws TimeoutException {
+        // given (a TextFlow with a LinearGradient fill)
+        FxToolkit.setupFixture(() -> {
+            Text foobarText = new Text("foobar ");
+            Text quuxText = new Text("quux");
+            Stop[] stops = new Stop[] {new Stop(0, Color.BLACK), new Stop(1, Color.RED)};
+            LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+            quuxText.setFill(linearGradient);
+            textFlow = new TextFlow(foobarText, quuxText);
+        });
+
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // when (an exact color match is attempted when the text has a gradient fill), then an exception is thrown
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: TextFlow has exactly colored text \"foobar <BLACK>quux</BLACK>\"\n     " +
+                "but: was exact color matching for subclasses of javafx.scene.paint.Paint besides " +
+                "javafx.scene.paint.Color is not (yet) supported.");
+        assertThat(textFlow, TextFlowMatchers.hasExactlyColoredText("foobar <BLACK>quux</BLACK>"));
     }
 }
