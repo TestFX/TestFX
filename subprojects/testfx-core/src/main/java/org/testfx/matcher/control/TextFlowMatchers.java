@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -29,7 +31,6 @@ import org.testfx.api.annotation.Unstable;
 import org.testfx.util.ColorUtils;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
-import static org.testfx.util.ColorUtils.getClosestNamedColor;
 
 /**
  * TestFX matchers for {@link TextFlow} controls.
@@ -42,6 +43,10 @@ public class TextFlowMatchers {
     /**
      * Creates a matcher that matches all ({@link TextFlow}s whose "text" (the result of combining all of
      * its {@link Text} children's {@link Text#getText() text} together) equals the given {@code string}.
+     *
+     * @param string the text that matching {@code TextFlow}s should have
+     * @return a match if the text contained in the {@code TextFlow} has the same
+     * text as the given {@code string}
      */
     @Factory
     public static Matcher<TextFlow> hasText(String string) {
@@ -120,20 +125,25 @@ public class TextFlowMatchers {
             for (Node child : textFlow.getChildren()) {
                 if (Text.class.isAssignableFrom(child.getClass())) {
                     Text text = (Text) child;
-                    String textColor = text.getFill().toString().substring(2, 8);
-                    if (!ColorUtils.getNamedColor(textColor).isPresent()) {
-                        return "impossible to exactly match TextFlow containing colored text: \"" +
-                                ((Text) child).getText() + "\" which has color: \"" + textColor + "\".\n" +
-                                "This is not a named color. The closest named color is: \"" +
-                                getClosestNamedColor(textColor).toUpperCase(Locale.US) + "\".\nSee: " +
-                                "https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files" +
-                                "/cssref.html#typecolor";
+                    Paint fill = text.getFill();
+                    if (Color.class.isAssignableFrom(fill.getClass())) {
+                        String textColor = fill.toString().substring(2, 8);
+                        if (!ColorUtils.getNamedColor((Color) fill).isPresent()) {
+                            return "impossible to exactly match TextFlow containing colored text: \"" +
+                                    ((Text) child).getText() + "\" which has color: \"#" + textColor + "\".\n" +
+                                    "This is not a named color. The closest named color is: \"" +
+                                    ColorUtils.getClosestNamedColor(Integer.parseInt(textColor, 16)) + "\".\nSee: " +
+                                    "https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files" +
+                                    "/cssref.html#typecolor";
+                        }
+                    } else {
+                        return "exact color matching for subclasses of javafx.scene.paint.Paint besides " +
+                                "javafx.scene.paint.Color is not (yet) supported.";
                     }
                 }
             }
             return getColoredTextMarkup(textFlow, true);
-        },
-            node -> hasColoredText(node, coloredTextMarkup, true));
+        }, node -> hasColoredText(node, coloredTextMarkup, true));
     }
 
     private static String getText(TextFlow textFlow) {
@@ -164,16 +174,21 @@ public class TextFlowMatchers {
                 Text text = (Text) child;
                 final String color;
                 if (exact) {
-                    Optional<String> colorOptional = ColorUtils.getNamedColor(
-                            text.getFill().toString().substring(2, 8));
-                    if (colorOptional.isPresent()) {
-                        color = colorOptional.get().toUpperCase(Locale.US);
+                    Paint fill = text.getFill();
+                    if (Color.class.isAssignableFrom(fill.getClass())) {
+                        Optional<String> colorOptional = ColorUtils.getNamedColor(
+                                Integer.parseInt(text.getFill().toString().substring(2, 8), 16));
+                        if (colorOptional.isPresent()) {
+                            color = colorOptional.get().toUpperCase(Locale.US);
+                        } else {
+                            return null;
+                        }
                     } else {
                         return null;
                     }
                 } else {
-                    color = getClosestNamedColor(text.getFill().toString()
-                            .substring(2, 8)).toUpperCase(Locale.US);
+                    color = ColorUtils.getClosestNamedColor(Integer.parseInt(
+                            text.getFill().toString().substring(2, 8), 16));
                 }
 
                 // Instead of comparing to BLACK we should compare to the color nearest the
