@@ -79,6 +79,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#offset-javafx.scene.Node-double-double-">offset(Node, double, double)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#offset-javafx.scene.Node-javafx.geometry.Pos-double-double-">offset(Node, Pos, double, double)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#offset-javafx.scene.Scene-double-double-">offset(Scene, double, double)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#offset-javafx.stage.Window-double-double-">offset(Window, double, double)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
@@ -93,33 +95,84 @@
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Point2D-"><code>FxRobotInterface.point(Point2D)</code></a> and sets the query's offset by the given offset values.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.geometry.Point2D-javafx.geometry.Point2D-">offset(Point2D, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Point2D-"><code>FxRobotInterface.point(Point2D)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.geometry.Bounds-double-double-">offset(Bounds, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-"><code>FxRobotInterface.point(Bounds)</code></a> and sets the query's offset by the given offset values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.geometry.Bounds-javafx.geometry.Point2D-">offset(Bounds, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-"><code>FxRobotInterface.point(Bounds)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-double-double-">offset(Node, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset values.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-javafx.geometry.Point2D-">offset(Node, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-javafx.geometry.Pos-double-double-">offset(Node, Pos, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset values
+ where the offset is computed with respect to the given offset reference position.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-">offset(Node, Pos, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY) where the
+ offset is computed with respect to the given offset reference position.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Scene-double-double-">offset(Scene, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>FxRobotInterface.point(Scene)</code></a> and sets the query's offset by the given offset values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Scene-javafx.geometry.Point2D-">offset(Scene, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>FxRobotInterface.point(Scene)</code></a> and sets the query's offset by the given offset offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.stage.Window-double-double-">offset(Window, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-"><code>FxRobotInterface.point(Window)</code></a> and sets the query's offset by the given offset values.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-javafx.stage.Window-javafx.geometry.Point2D-">offset(Window, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-"><code>FxRobotInterface.point(Window)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-java.lang.String-double-double-">offset(String, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-java.lang.String-"><code>FxRobotInterface.point(String)</code></a> and sets the query's offset by the given offset values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-java.lang.String-javafx.geometry.Point2D-">offset(String, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-java.lang.String-"><code>FxRobotInterface.point(String)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-org.hamcrest.Matcher-double-double-">offset(Matcher&lt;T&gt;, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-org.hamcrest.Matcher-"><code>FxRobotInterface.point(Matcher)</code></a> and sets the query's offset by the given offset values.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-org.hamcrest.Matcher-javafx.geometry.Point2D-">offset(Matcher&lt;T&gt;, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-org.hamcrest.Matcher-"><code>FxRobotInterface.point(Matcher)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-java.util.function.Predicate-double-double-">offset(Predicate&lt;T&gt;, double, double)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
 <div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-java.util.function.Predicate-"><code>FxRobotInterface.point(Predicate)</code></a> and sets the query's offset by the given offset values.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#offset-java.util.function.Predicate-javafx.geometry.Point2D-">offset(Predicate&lt;T&gt;, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Calls <a href="../org/testfx/api/FxRobotInterface.html#point-java.util.function.Predicate-"><code>FxRobotInterface.point(Predicate)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/service/query/impl/PointQueryBase.html#onNode-javafx.scene.Node-">onNode(Node)</a></span> - Method in class org.testfx.service.query.impl.<a href="../org/testfx/service/query/impl/PointQueryBase.html" title="class in org.testfx.service.query.impl">PointQueryBase</a></dt>
 <dd>&nbsp;</dd>

@@ -716,8 +716,8 @@
 <tr class="altColor">
 <td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.geometry.Bounds-">moveTo</a></span>(javafx.geometry.Bounds&nbsp;bounds)</code>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-"><code>point(Bounds)</code></a> and returns itself
- for method chaining.</div>
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Bounds</code> and returns itself for
+ method chaining.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -763,16 +763,35 @@
 <tr class="altColor">
 <td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-">moveTo</a></span>(javafx.scene.Node&nbsp;node)</code>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>point(Node)</code></a> and returns itself
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Node</code> and returns itself
  for method chaining.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
+<td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
+<div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the center of the
+ given <code>Node</code> and returns itself for method chaining.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-javafx.geometry.Point2D-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>point(Node)</code></a>,
+ with the given offset from the center of the given <code>Node</code>, and returns itself for method chaining.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Pos&nbsp;offsetReferencePos,
+      javafx.geometry.Point2D&nbsp;offset,
+      <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
 <div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the point returned from
- <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>point(Node)</code></a> and returns itself for method chaining.</div>
+ <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>point(Node)</code></a>, with the given offset (from the <code>offsetReferencePos</code>, and returns itself for
+ method chaining.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -821,7 +840,7 @@
 <tr class="altColor">
 <td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Scene-">moveTo</a></span>(javafx.scene.Scene&nbsp;scene)</code>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>point(Scene)</code></a> and returns itself
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Scene</code> and returns itself
  for method chaining.</div>
 </td>
 </tr>
@@ -851,7 +870,7 @@
 <tr class="altColor">
 <td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.stage.Window-">moveTo</a></span>(javafx.stage.Window&nbsp;window)</code>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-"><code>point(Window)</code></a> and returns itself
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Window</code> and returns itself
  for method chaining.</div>
 </td>
 </tr>

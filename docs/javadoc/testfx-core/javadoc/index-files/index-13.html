@@ -213,7 +213,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#moveTo-javafx.geometry.Bounds-org.testfx.robot.Motion-">moveTo(Bounds, Motion)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#moveTo-javafx.scene.Node-org.testfx.robot.Motion-">moveTo(Node, Motion)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#moveTo-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo(Node, Pos, Point2D, Motion)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#moveTo-javafx.scene.Scene-org.testfx.robot.Motion-">moveTo(Scene, Motion)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>
@@ -255,8 +255,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.geometry.Bounds-">moveTo(Bounds)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-"><code>FxRobotInterface.point(Bounds)</code></a> and returns itself
- for method chaining.</div>
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Bounds</code> and returns itself for
+ method chaining.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.geometry.Bounds-org.testfx.robot.Motion-">moveTo(Bounds, Motion)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
@@ -265,17 +265,28 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-">moveTo(Node)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and returns itself
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Node</code> and returns itself
  for method chaining.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-org.testfx.robot.Motion-">moveTo(Node, Motion)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
+<div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the center of the
+ given <code>Node</code> and returns itself for method chaining.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-javafx.geometry.Point2D-">moveTo(Node, Point2D)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
+<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>,
+ with the given offset from the center of the given <code>Node</code>, and returns itself for method chaining.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo(Node, Pos, Point2D, Motion)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
+<dd>
 <div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the point returned from
- <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and returns itself for method chaining.</div>
+ <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>, with the given offset (from the <code>offsetReferencePos</code>, and returns itself for
+ method chaining.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Scene-">moveTo(Scene)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>FxRobotInterface.point(Scene)</code></a> and returns itself
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Scene</code> and returns itself
  for method chaining.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Scene-org.testfx.robot.Motion-">moveTo(Scene, Motion)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
@@ -285,7 +296,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.stage.Window-">moveTo(Window)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>
 <dd>
-<div class="block">Convenience method: Moves mouse directly to the point returned from <a href="../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-"><code>FxRobotInterface.point(Window)</code></a> and returns itself
+<div class="block">Convenience method: Moves mouse directly to the center of the given <code>Window</code> and returns itself
  for method chaining.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotInterface.html#moveTo-javafx.stage.Window-org.testfx.robot.Motion-">moveTo(Window, Motion)</a></span> - Method in interface org.testfx.api.<a href="../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></dt>

@@ -140,17 +140,33 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.geometry.Bounds-javafx.geometry.Point2D-">offset</a></span>(javafx.geometry.Bounds&nbsp;bounds,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-"><code>FxRobotInterface.point(Bounds)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#offset-org.hamcrest.Matcher-double-double-">offset</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher,
       double&nbsp;offsetX,
       double&nbsp;offsetY)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-org.hamcrest.Matcher-double-double-">offset</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher,
       double&nbsp;offsetX,
       double&nbsp;offsetY)</code>
 <div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-org.hamcrest.Matcher-"><code>FxRobotInterface.point(Matcher)</code></a> and sets the query's offset by the given offset values.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>default &lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-org.hamcrest.Matcher-javafx.geometry.Point2D-">offset</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-org.hamcrest.Matcher-"><code>FxRobotInterface.point(Matcher)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -168,6 +184,41 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-javafx.geometry.Point2D-">offset</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#offset-javafx.scene.Node-javafx.geometry.Pos-double-double-">offset</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Pos&nbsp;offsetReferencePos,
+      double&nbsp;offsetX,
+      double&nbsp;offsetY)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-javafx.geometry.Pos-double-double-">offset</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Pos&nbsp;offsetReferencePos,
+      double&nbsp;offsetX,
+      double&nbsp;offsetY)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset values
+ where the offset is computed with respect to the given offset reference position.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-">offset</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Pos&nbsp;offsetReferencePos,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY) where the
+ offset is computed with respect to the given offset reference position.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#offset-javafx.geometry.Point2D-double-double-">offset</a></span>(javafx.geometry.Point2D&nbsp;point,
       double&nbsp;offsetX,
@@ -182,17 +233,33 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.geometry.Point2D-javafx.geometry.Point2D-">offset</a></span>(javafx.geometry.Point2D&nbsp;point,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Point2D-"><code>FxRobotInterface.point(Point2D)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#offset-java.util.function.Predicate-double-double-">offset</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
       double&nbsp;offsetX,
       double&nbsp;offsetY)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-java.util.function.Predicate-double-double-">offset</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
       double&nbsp;offsetX,
       double&nbsp;offsetY)</code>
 <div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-java.util.function.Predicate-"><code>FxRobotInterface.point(Predicate)</code></a> and sets the query's offset by the given offset values.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>default &lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-java.util.function.Predicate-javafx.geometry.Point2D-">offset</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-java.util.function.Predicate-"><code>FxRobotInterface.point(Predicate)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -210,17 +277,33 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.scene.Scene-javafx.geometry.Point2D-">offset</a></span>(javafx.scene.Scene&nbsp;scene,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>FxRobotInterface.point(Scene)</code></a> and sets the query's offset by the given offset offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#offset-java.lang.String-double-double-">offset</a></span>(java.lang.String&nbsp;query,
       double&nbsp;offsetX,
       double&nbsp;offsetY)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-java.lang.String-double-double-">offset</a></span>(java.lang.String&nbsp;query,
       double&nbsp;offsetX,
       double&nbsp;offsetY)</code>
 <div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-java.lang.String-"><code>FxRobotInterface.point(String)</code></a> and sets the query's offset by the given offset values.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-java.lang.String-javafx.geometry.Point2D-">offset</a></span>(java.lang.String&nbsp;query,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-java.lang.String-"><code>FxRobotInterface.point(String)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -238,22 +321,30 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>default <a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#offset-javafx.stage.Window-javafx.geometry.Point2D-">offset</a></span>(javafx.stage.Window&nbsp;window,
+      javafx.geometry.Point2D&nbsp;offset)</code>
+<div class="block">Convenience method: Calls <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-"><code>FxRobotInterface.point(Window)</code></a> and sets the query's offset by the given offset point
+ (where the point's x-component is the offsetX, and the point's y-component is the offsetY).</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-javafx.geometry.Bounds-">point</a></span>(javafx.geometry.Bounds&nbsp;bounds)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-">point</a></span>(javafx.geometry.Bounds&nbsp;bounds)</code>
 <div class="block">Calls <a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.geometry.Bounds-"><code>PointLocator.point(Bounds)</code></a> and sets the <code>PointQuery</code>'s
  <a href="../../../../../org/testfx/service/query/PointQuery.html#getPosition--"><code>getPosition()</code></a> to <a href="../../../../../org/testfx/api/FxRobotContext.html#getPointPosition--"><code>FxRobotContext.getPointPosition()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-double-double-">point</a></span>(double&nbsp;x,
      double&nbsp;y)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-double-double-">point</a></span>(double&nbsp;x,
      double&nbsp;y)</code>
@@ -261,77 +352,77 @@
  the <code>PointQuery</code>'s <a href="../../../../../org/testfx/service/query/PointQuery.html#getPosition--"><code>getPosition()</code></a> to <a href="../../../../../org/testfx/api/FxRobotContext.html#getPointPosition--"><code>FxRobotContext.getPointPosition()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-org.hamcrest.Matcher-">point</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-org.hamcrest.Matcher-">point</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>
 <div class="block">Convenience method: Tries to find a given node via <a href="../../../../../org/testfx/api/FxRobotInterface.html#lookup-org.hamcrest.Matcher-"><code>FxRobotInterface.lookup(Matcher)</code></a> before calling <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>,
  throwing a <a href="../../../../../org/testfx/api/FxRobotException.html" title="class in org.testfx.api"><code>FxRobotException</code></a> if no node is found.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-javafx.scene.Node-">point</a></span>(javafx.scene.Node&nbsp;node)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-">point</a></span>(javafx.scene.Node&nbsp;node)</code>
 <div class="block">Calls <a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.scene.Node-"><code>PointLocator.point(Node)</code></a> and sets the <code>PointQuery</code>'s
  <a href="../../../../../org/testfx/service/query/PointQuery.html#getPosition--"><code>getPosition()</code></a> to <a href="../../../../../org/testfx/api/FxRobotContext.html#getPointPosition--"><code>FxRobotContext.getPointPosition()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-javafx.geometry.Point2D-">point</a></span>(javafx.geometry.Point2D&nbsp;point)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Point2D-">point</a></span>(javafx.geometry.Point2D&nbsp;point)</code>
 <div class="block">Calls <a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.geometry.Point2D-"><code>PointLocator.point(Point2D)</code></a> and sets the <code>PointQuery</code>'s
  <a href="../../../../../org/testfx/service/query/PointQuery.html#getPosition--"><code>getPosition()</code></a> to <a href="../../../../../org/testfx/api/FxRobotContext.html#getPointPosition--"><code>FxRobotContext.getPointPosition()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-java.util.function.Predicate-">point</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-java.util.function.Predicate-">point</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>
 <div class="block">Convenience method: Tries to find a given node via <a href="../../../../../org/testfx/api/FxRobotInterface.html#lookup-java.util.function.Predicate-"><code>FxRobotInterface.lookup(Predicate)</code></a> before calling
  <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>, throwing a <a href="../../../../../org/testfx/api/FxRobotException.html" title="class in org.testfx.api"><code>FxRobotException</code></a> if no node is found.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-javafx.scene.Scene-">point</a></span>(javafx.scene.Scene&nbsp;scene)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-">point</a></span>(javafx.scene.Scene&nbsp;scene)</code>
 <div class="block">Calls <a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.scene.Scene-"><code>PointLocator.point(Scene)</code></a> and sets the <code>PointQuery</code>'s
  <a href="../../../../../org/testfx/service/query/PointQuery.html#getPosition--"><code>getPosition()</code></a> to <a href="../../../../../org/testfx/api/FxRobotContext.html#getPointPosition--"><code>FxRobotContext.getPointPosition()</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-java.lang.String-">point</a></span>(java.lang.String&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-java.lang.String-">point</a></span>(java.lang.String&nbsp;query)</code>
 <div class="block">Convenience method: Tries to find a given node via <a href="../../../../../org/testfx/api/FxRobotInterface.html#lookup-java.lang.String-"><code>FxRobotInterface.lookup(String)</code></a> before calling <a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>,
  throwing a <a href="../../../../../org/testfx/api/FxRobotException.html" title="class in org.testfx.api"><code>FxRobotException</code></a> if no node is found.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobot.html#point-javafx.stage.Window-">point</a></span>(javafx.stage.Window&nbsp;window)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-">point</a></span>(javafx.stage.Window&nbsp;window)</code>
 <div class="block">Calls <a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.stage.Window-"><code>PointLocator.point(Window)</code></a> and sets the <code>PointQuery</code>'s
@@ -593,7 +684,9 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
-<td class="colLast"><span class="typeNameLabel">PointLocator.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.scene.Node-">point</a></span>(javafx.scene.Node&nbsp;node)</code>&nbsp;</td>
+<td class="colLast"><span class="typeNameLabel">PointLocator.</span><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/locator/PointLocator.html#point-javafx.scene.Node-">point</a></span>(javafx.scene.Node&nbsp;node)</code>
+<div class="block">Returns the center of the given <code>Node</code> in screen coordinates.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a></code></td>
@@ -709,7 +802,9 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/BoundsPointQuery.html" title="class in org.testfx.service.query.impl">BoundsPointQuery</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/BoundsPointQuery.html" title="class in org.testfx.service.query.impl">BoundsPointQuery</a></span></code>
+<div class="block">This point query implements a PointQuery within the bounds of an object.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>

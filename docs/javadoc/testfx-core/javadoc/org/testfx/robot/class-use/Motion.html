@@ -478,24 +478,37 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
-<td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-javafx.scene.Node-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
-      <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
+<td class="colFirst"><code>default <a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
-<div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the point returned from
- <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a> and returns itself for method chaining.</div>
+<div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the center of the
+ given <code>Node</code> and returns itself for method chaining.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Pos&nbsp;offsetReferencePos,
+      javafx.geometry.Point2D&nbsp;offset,
+      <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
+</tr>
 <tr class="altColor">
+<td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
+<td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Node-javafx.geometry.Pos-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Node&nbsp;node,
+      javafx.geometry.Pos&nbsp;offsetReferencePos,
+      javafx.geometry.Point2D&nbsp;offset,
+      <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
+<div class="block">Convenience method: Moves mouse using the given <code>motion</code> (see: <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot"><code>Motion</code></a> to the point returned from
+ <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>, with the given offset (from the <code>offsetReferencePos</code>, and returns itself for
+ method chaining.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo</a></span>(javafx.geometry.Point2D&nbsp;point,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.geometry.Point2D-org.testfx.robot.Motion-">moveTo</a></span>(javafx.geometry.Point2D&nbsp;point,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -503,24 +516,24 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Point2D-"><code>FxRobotInterface.point(Point2D)</code></a> and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-">moveTo</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-">moveTo</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
 <div class="block">Calls <a href="../../../../org/testfx/robot/MoveRobot.html#moveTo-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-"><code>MoveRobot.moveTo(PointQuery, Motion)</code></a> and returns itself for more method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-java.util.function.Predicate-org.testfx.robot.Motion-">moveTo</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-java.util.function.Predicate-org.testfx.robot.Motion-">moveTo</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -528,12 +541,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-java.util.function.Predicate-"><code>FxRobotInterface.point(Predicate)</code></a> and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-javafx.scene.Scene-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Scene&nbsp;scene,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.scene.Scene-org.testfx.robot.Motion-">moveTo</a></span>(javafx.scene.Scene&nbsp;scene,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -541,12 +554,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>FxRobotInterface.point(Scene)</code></a> and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-java.lang.String-org.testfx.robot.Motion-">moveTo</a></span>(java.lang.String&nbsp;query,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-java.lang.String-org.testfx.robot.Motion-">moveTo</a></span>(java.lang.String&nbsp;query,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -554,12 +567,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-java.lang.String-"><code>FxRobotInterface.point(String)</code></a> and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#moveTo-javafx.stage.Window-org.testfx.robot.Motion-">moveTo</a></span>(javafx.stage.Window&nbsp;window,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#moveTo-javafx.stage.Window-org.testfx.robot.Motion-">moveTo</a></span>(javafx.stage.Window&nbsp;window,
       <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -567,12 +580,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.stage.Window-"><code>FxRobotInterface.point(Window)</code></a> and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-javafx.geometry.Bounds-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.geometry.Bounds&nbsp;bounds,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-javafx.geometry.Bounds-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.geometry.Bounds&nbsp;bounds,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -580,13 +593,13 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.geometry.Bounds-"><code>FxRobotInterface.point(Bounds)</code></a>, clicks the <code>MouseButton.SECONDARY</code> button, and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-double-double-org.testfx.robot.Motion-">rightClickOn</a></span>(double&nbsp;x,
             double&nbsp;y,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-double-double-org.testfx.robot.Motion-">rightClickOn</a></span>(double&nbsp;x,
             double&nbsp;y,
@@ -595,12 +608,12 @@
  clicks the <code>MouseButton.SECONDARY</code> button, and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-org.hamcrest.Matcher-org.testfx.robot.Motion-">rightClickOn</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-org.hamcrest.Matcher-org.testfx.robot.Motion-">rightClickOn</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -609,12 +622,12 @@
  chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-javafx.scene.Node-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.scene.Node&nbsp;node,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-javafx.scene.Node-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.scene.Node&nbsp;node,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -622,12 +635,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Node-"><code>FxRobotInterface.point(Node)</code></a>, clicks the <code>MouseButton.SECONDARY</code> button, and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-javafx.geometry.Point2D-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.geometry.Point2D&nbsp;point,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-javafx.geometry.Point2D-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.geometry.Point2D&nbsp;point,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -636,12 +649,12 @@
  chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-">rightClickOn</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-org.testfx.service.query.PointQuery-org.testfx.robot.Motion-">rightClickOn</a></span>(<a href="../../../../org/testfx/service/query/PointQuery.html" title="interface in org.testfx.service.query">PointQuery</a>&nbsp;pointQuery,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -650,12 +663,12 @@
  chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-java.util.function.Predicate-org.testfx.robot.Motion-">rightClickOn</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-java.util.function.Predicate-org.testfx.robot.Motion-">rightClickOn</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -664,12 +677,12 @@
  chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-javafx.scene.Scene-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.scene.Scene&nbsp;scene,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-javafx.scene.Scene-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.scene.Scene&nbsp;scene,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -677,12 +690,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-javafx.scene.Scene-"><code>FxRobotInterface.point(Scene)</code></a>, clicks the <code>MouseButton.SECONDARY</code> button, and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-java.lang.String-org.testfx.robot.Motion-">rightClickOn</a></span>(java.lang.String&nbsp;query,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-java.lang.String-org.testfx.robot.Motion-">rightClickOn</a></span>(java.lang.String&nbsp;query,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
@@ -690,12 +703,12 @@
  <a href="../../../../org/testfx/api/FxRobotInterface.html#point-java.lang.String-"><code>FxRobotInterface.point(String)</code></a>, clicks the <code>MouseButton.SECONDARY</code> button, and returns itself for method chaining.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobot.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobot.html#rightClickOn-javafx.stage.Window-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.stage.Window&nbsp;window,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/api/FxRobotInterface.html" title="interface in org.testfx.api">FxRobotInterface</a></code></td>
 <td class="colLast"><span class="typeNameLabel">FxRobotInterface.</span><code><span class="memberNameLink"><a href="../../../../org/testfx/api/FxRobotInterface.html#rightClickOn-javafx.stage.Window-org.testfx.robot.Motion-">rightClickOn</a></span>(javafx.stage.Window&nbsp;window,
             <a href="../../../../org/testfx/robot/Motion.html" title="enum in org.testfx.robot">Motion</a>&nbsp;motion)</code>
