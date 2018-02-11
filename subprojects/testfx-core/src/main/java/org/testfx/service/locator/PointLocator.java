@@ -45,6 +45,7 @@ public interface PointLocator {
     PointQuery point(Point2D point);
 
     /**
+     * Returns the center of the given {@code Node} in screen coordinates.
      *
      * @param node the node
      * @return a {@link PointQuery} with the node's bounds (in terms of the screen) as the initial bounds

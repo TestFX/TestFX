@@ -41,13 +41,22 @@ public final class PointQueryUtils {
     }
 
     /**
+     * Returns the point within the given bounds computed using the given {@code positionFactors}.
+     * <p>
+     * The x-component of the returned point is computed using:
+     * <p>
+     * {@code x = bounds.x + positionFactors.x * bounds.width}
+     * <p>
+     * and analogously the y-component of the returned point is computed using:
+     * {@code y = bounds.y + positionFactors.y * bounds.height}
      *
      * @param bounds the given bounds
      * @param positionFactors a {@code Point2D} object whose x and y values represent percentages
-     *                        (0.0 = 0% and 1.0 = 100%). As an example, an x value of 0 will return
-     *                        {@link Bounds#getMinX()}, 1.0 will return {@link Bounds#getMaxX()}, and 0.5 will return
-     *                        {@code bounds.getMinX() + (bounds.getWidth() * positionFactors.getX()}.
-     * @return a point somewhere in the given bounds whose x and y values are determined by {@code positionFactors}.
+     * (0.0 = 0% and 1.0 = 100%). As an example, an x value of 0 will return {@link Bounds#getMinX()},
+     * 1.0 will return {@link Bounds#getMaxX()}, and 0.5 will return
+     * {@code bounds.getMinX() + (bounds.getWidth() * positionFactors.getX()}.
+     * @return the point somewhere within the given bounds whose x and y values are determined by the given
+     * {@code positionFactors}.
      */
     public static Point2D atPositionFactors(Bounds bounds, Point2D positionFactors) {
         double pointX = lerp(bounds.getMinX(), bounds.getWidth(), positionFactors.getX());
@@ -56,8 +65,13 @@ public final class PointQueryUtils {
     }
 
     /**
+     * Computes the width/height factors for the point defined by the given {@code position}.
+     * <p>
+     * The width factor is returned in the x component and the height factor in the y component of the point.
+     * That is, {@link Pos#TOP_LEFT} has a width and height factor of {@literal 0.0}, whereas {@link Pos#BOTTOM_RIGHT}
+     * has a width and height factor of {@literal 1.0}.
      *
-     * @param position the position
+     * @param position the position to compute width/height factors for
      * @return a {@code Point2D} that can be used as a {@code positionFactor} object in
      * {@link #atPositionFactors(Bounds, Point2D)}.
      */

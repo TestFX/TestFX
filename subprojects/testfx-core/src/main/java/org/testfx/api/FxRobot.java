@@ -351,6 +351,11 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
+    public PointQuery offset(Node node, Pos offsetReferencePos, double offsetX, double offsetY) {
+        return point(node).atPosition(offsetReferencePos).atOffset(offsetX, offsetY);
+    }
+
+    @Override
     public PointQuery offset(Scene scene, double offsetX, double offsetY) {
         return point(scene).atOffset(offsetX, offsetY);
     }
@@ -894,8 +899,8 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public FxRobot moveTo(Node node, Motion motion) {
-        return moveTo(point(node), motion);
+    public FxRobot moveTo(Node node, Pos offsetReferencePos, Point2D offset, Motion motion) {
+        return moveTo(point(node).atPosition(offsetReferencePos).atOffset(offset), motion);
     }
 
     @Override

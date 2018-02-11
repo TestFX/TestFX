@@ -296,12 +296,18 @@ public interface FxRobotInterface {
      */
     <T extends Node> PointQuery point(Predicate<T> predicate);
 
-    // public PointQuery offset(PointQuery pointQuery, double offsetX, double offsetY);
-
     /**
      * Convenience method: Calls {@link #point(Point2D)} and sets the query's offset by the given offset values.
      */
     PointQuery offset(Point2D point, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Point2D)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Point2D point, Point2D offset) {
+        return offset(point, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Bounds)} and sets the query's offset by the given offset values.
@@ -309,9 +315,40 @@ public interface FxRobotInterface {
     PointQuery offset(Bounds bounds, double offsetX, double offsetY);
 
     /**
+     * Convenience method: Calls {@link #point(Bounds)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Bounds bounds, Point2D offset) {
+        return offset(bounds, offset.getX(), offset.getY());
+    }
+
+    /**
      * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset values.
      */
     PointQuery offset(Node node, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Node node, Point2D offset) {
+        return offset(node, offset.getX(), offset.getY());
+    }
+
+    /**
+     * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset values
+     * where the offset is computed with respect to the given offset reference position.
+     */
+    PointQuery offset(Node node, Pos offsetReferencePos, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY) where the
+     * offset is computed with respect to the given offset reference position.
+     */
+    default PointQuery offset(Node node, Pos offsetReferencePos, Point2D offset) {
+        return offset(node, offsetReferencePos, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Scene)} and sets the query's offset by the given offset values.
@@ -319,9 +356,25 @@ public interface FxRobotInterface {
     PointQuery offset(Scene scene, double offsetX, double offsetY);
 
     /**
+     * Convenience method: Calls {@link #point(Scene)} and sets the query's offset by the given offset offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Scene scene, Point2D offset) {
+        return offset(scene, offset.getX(), offset.getY());
+    }
+
+    /**
      * Convenience method: Calls {@link #point(Window)} and sets the query's offset by the given offset values.
      */
     PointQuery offset(Window window, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Window)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Window window, Point2D offset) {
+        return offset(window, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(String)} and sets the query's offset by the given offset values.
@@ -329,14 +382,38 @@ public interface FxRobotInterface {
     PointQuery offset(String query, double offsetX, double offsetY);
 
     /**
+     * Convenience method: Calls {@link #point(String)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(String query, Point2D offset) {
+        return offset(query, offset.getX(), offset.getY());
+    }
+
+    /**
      * Convenience method: Calls {@link #point(Matcher)} and sets the query's offset by the given offset values.
      */
     <T extends Node> PointQuery offset(Matcher<T> matcher, double offsetX, double offsetY);
 
     /**
+     * Convenience method: Calls {@link #point(Matcher)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default <T extends Node> PointQuery offset(Matcher<T> matcher, Point2D offset) {
+        return offset(matcher, offset.getX(), offset.getY());
+    }
+
+    /**
      * Convenience method: Calls {@link #point(Predicate)} and sets the query's offset by the given offset values.
      */
     <T extends Node> PointQuery offset(Predicate<T> predicate, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Predicate)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default <T extends Node> PointQuery offset(Predicate<T> predicate, Point2D offset) {
+        return offset(predicate, offset.getX(), offset.getY());
+    }
 
     /**
      * Returns a {@link Capture} that supplies a screenshot using the given rectangle's bounds.
@@ -1093,8 +1170,8 @@ public interface FxRobotInterface {
     FxRobotInterface moveTo(Point2D point, Motion motion);
 
     /**
-     * Convenience method: Moves mouse directly to the point returned from {@link #point(Bounds)} and returns itself
-     * for method chaining.
+     * Convenience method: Moves mouse directly to the center of the given {@code Bounds} and returns itself for
+     * method chaining.
      */
     default FxRobotInterface moveTo(Bounds bounds) {
         return moveTo(bounds, Motion.DEFAULT);
@@ -1107,7 +1184,7 @@ public interface FxRobotInterface {
     FxRobotInterface moveTo(Bounds bounds, Motion motion);
 
     /**
-     * Convenience method: Moves mouse directly to the point returned from {@link #point(Node)} and returns itself
+     * Convenience method: Moves mouse directly to the center of the given {@code Node} and returns itself
      * for method chaining.
      */
     default FxRobotInterface moveTo(Node node) {
@@ -1115,13 +1192,30 @@ public interface FxRobotInterface {
     }
 
     /**
-     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
-     * {@link #point(Node)} and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the center of the
+     * given {@code Node} and returns itself for method chaining.
      */
-    FxRobotInterface moveTo(Node node, Motion motion);
+    default FxRobotInterface moveTo(Node node, Motion motion) {
+        return moveTo(node, Pos.CENTER, Point2D.ZERO, motion);
+    }
 
     /**
-     * Convenience method: Moves mouse directly to the point returned from {@link #point(Scene)} and returns itself
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Node)},
+     * with the given offset from the center of the given {@code Node}, and returns itself for method chaining.
+     */
+    default FxRobotInterface moveTo(Node node, Point2D offset) {
+        return moveTo(node, Pos.CENTER, offset, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Node)}, with the given offset (from the {@code offsetReferencePos}, and returns itself for
+     * method chaining.
+     */
+    FxRobotInterface moveTo(Node node, Pos offsetReferencePos, Point2D offset, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the center of the given {@code Scene} and returns itself
      * for method chaining.
      */
     default FxRobotInterface moveTo(Scene scene) {
@@ -1135,7 +1229,7 @@ public interface FxRobotInterface {
     FxRobotInterface moveTo(Scene scene, Motion motion);
 
     /**
-     * Convenience method: Moves mouse directly to the point returned from {@link #point(Window)} and returns itself
+     * Convenience method: Moves mouse directly to the center of the given {@code Window} and returns itself
      * for method chaining.
      */
     default FxRobotInterface moveTo(Window window) {
