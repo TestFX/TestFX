@@ -33,7 +33,21 @@ import org.testfx.util.WaitForAsyncUtils;
 @Unstable
 public class WriteRobotImpl implements WriteRobot {
 
-    private static final long SLEEP_AFTER_CHARACTER_IN_MILLIS = 25;
+    private static final int SLEEP_AFTER_CHARACTER_IN_MILLIS;
+
+    static {
+        int writeSleep;
+        try {
+            writeSleep = Integer.valueOf(System.getProperty("testfx.robot.write_sleep", "25"));
+        }
+        catch (NumberFormatException e) {
+            System.err.println("\"testfx.robot.write_sleep\" property must be a number but was: \"" +
+                    System.getProperty("testfx.robot.write_sleep") + "\".\nUsing default of \"25\" milliseconds.");
+            e.printStackTrace();
+            writeSleep = 25;
+        }
+        SLEEP_AFTER_CHARACTER_IN_MILLIS = writeSleep;
+    }
 
     private final BaseRobot baseRobot;
     private final SleepRobot sleepRobot;
@@ -56,10 +70,15 @@ public class WriteRobotImpl implements WriteRobot {
 
     @Override
     public void write(String text) {
+        write(text, SLEEP_AFTER_CHARACTER_IN_MILLIS);
+    }
+
+    @Override
+    public void write(String text, int sleepMillis) {
         Scene scene = fetchTargetWindow().getScene();
         for (char character : text.chars().mapToObj(i -> (char) i).collect(Collectors.toList())) {
             typeCharacterInScene(character, scene);
-            sleepRobot.sleep(SLEEP_AFTER_CHARACTER_IN_MILLIS);
+            sleepRobot.sleep(sleepMillis);
         }
     }
 
