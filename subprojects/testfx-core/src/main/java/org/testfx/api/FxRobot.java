@@ -508,6 +508,12 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
+    public FxRobot write(String text, int sleepMillis) {
+        context.getWriteRobot().write(text, sleepMillis);
+        return this;
+    }
+
+    @Override
     public FxRobot sleep(long milliseconds) {
         context.getSleepRobot().sleep(milliseconds);
         return this;

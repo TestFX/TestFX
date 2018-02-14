@@ -32,4 +32,13 @@ public interface WriteRobot {
      */
     void write(String text);
 
+    /**
+     * Writes the given text characters one after the other, sleeping for
+     * {@code sleepMillis} milliseconds after each typed character.
+     *
+     * @param text the text characters to write
+     * @param sleepMillis the milliseconds to sleep for after each
+     * character
+     */
+    void write(String text, int sleepMillis);
 }

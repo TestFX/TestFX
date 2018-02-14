@@ -1350,4 +1350,9 @@ public interface FxRobotInterface {
      */
     FxRobotInterface write(String text);
 
+    /**
+     * Calls {@link org.testfx.robot.WriteRobot#write(String, int)} and returns itself for more method chaining.
+     */
+    FxRobotInterface write(String text, int sleepMillis);
+
 }
