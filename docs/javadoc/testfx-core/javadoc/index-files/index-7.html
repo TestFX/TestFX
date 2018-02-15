@@ -115,10 +115,13 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotContext.html#getClickRobot--">getClickRobot()</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobotContext.html" title="class in org.testfx.api">FxRobotContext</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getClosestNamedColor-java.lang.String-">getClosestNamedColor(String)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getClosestNamedColor-java.lang.Integer-">getClosestNamedColor(Integer)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
 <dd>
-<div class="block">Get the color name of the color that is closest to the given hex color
- value (as a 6-digit hex String).</div>
+<div class="block">Returns the named color that is closest to the given hex code color value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getClosestNamedColor-javafx.scene.paint.Color-">getClosestNamedColor(Color)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
+<dd>
+<div class="block">Returns the named color that is closest to the given <code>color</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotContext.html#getDragRobot--">getDragRobot()</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobotContext.html" title="class in org.testfx.api">FxRobotContext</a></dt>
 <dd>&nbsp;</dd>
@@ -156,15 +159,19 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotContext.html#getMoveRobot--">getMoveRobot()</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobotContext.html" title="class in org.testfx.api">FxRobotContext</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getNamedColor-int-int-int-">getNamedColor(int, int, int)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
-<dd>
-<div class="block">Get the named color that has exactly the given RGB color value or
- null if no such named color exists.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getNamedColor-java.lang.String-">getNamedColor(String)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
 <dd>
-<div class="block">Get the color name of the color that is exactly equal to the given hex color
- value (as a 6-digit hex String).</div>
+<div class="block">Returns an <code>Optional</code> with a value of the named <code>Color</code> that has
+ the given <code>name</code>, if it exists.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getNamedColor-javafx.scene.paint.Color-">getNamedColor(Color)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
+<dd>
+<div class="block">Returns an <code>Optional</code> with a value of the named <code>Color</code> that is equal
+ to the given <code>color</code>, if it exists.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/util/ColorUtils.html#getNamedColor-java.lang.Integer-">getNamedColor(Integer)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/ColorUtils.html" title="class in org.testfx.util">ColorUtils</a></dt>
+<dd>
+<div class="block">Returns the named color that is exactly equal to the given hex code color value.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxAssertContext.html#getNodeFinder--">getNodeFinder()</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxAssertContext.html" title="class in org.testfx.api">FxAssertContext</a></dt>
 <dd>&nbsp;</dd>

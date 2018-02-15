@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -113,7 +113,7 @@ extends java.lang.Object</pre>
 <div class="block">Contains <code>Color</code> utility methods.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a></dd>
+<dd><a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a></dd>
 </dl>
 </li>
 </ul>
@@ -137,30 +137,40 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static double</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#calculateColorDistSq-javafx.scene.paint.Color-javafx.scene.paint.Color-">calculateColorDistSq</a></span>(javafx.scene.paint.Color&nbsp;color0,
                     javafx.scene.paint.Color&nbsp;color1)</code>
-<div class="block">Calculates the distance between two Colors.</div>
+<div class="block">Calculates and returns the distance between two <code>Color</code>s, using a simple
+ Euclidean metric.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getClosestNamedColor-java.lang.String-">getClosestNamedColor</a></span>(java.lang.String&nbsp;hexString)</code>
-<div class="block">Get the color name of the color that is closest to the given hex color
- value (as a 6-digit hex String).</div>
+<td class="colFirst"><code>static javafx.scene.paint.Color</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getClosestNamedColor-javafx.scene.paint.Color-">getClosestNamedColor</a></span>(javafx.scene.paint.Color&nbsp;color)</code>
+<div class="block">Returns the named color that is closest to the given <code>color</code>.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static java.util.Optional&lt;java.lang.String&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getNamedColor-int-int-int-">getNamedColor</a></span>(int&nbsp;r,
-             int&nbsp;g,
-             int&nbsp;b)</code>
-<div class="block">Get the named color that has exactly the given RGB color value or
- null if no such named color exists.</div>
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getClosestNamedColor-java.lang.Integer-">getClosestNamedColor</a></span>(java.lang.Integer&nbsp;hexColor)</code>
+<div class="block">Returns the named color that is closest to the given hex code color value.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>static java.util.Optional&lt;javafx.scene.paint.Color&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getNamedColor-javafx.scene.paint.Color-">getNamedColor</a></span>(javafx.scene.paint.Color&nbsp;color)</code>
+<div class="block">Returns an <code>Optional</code> with a value of the named <code>Color</code> that is equal
+ to the given <code>color</code>, if it exists.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static java.util.Optional&lt;java.lang.String&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getNamedColor-java.lang.String-">getNamedColor</a></span>(java.lang.String&nbsp;hexString)</code>
-<div class="block">Get the color name of the color that is exactly equal to the given hex color
- value (as a 6-digit hex String).</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getNamedColor-java.lang.Integer-">getNamedColor</a></span>(java.lang.Integer&nbsp;hexColor)</code>
+<div class="block">Returns the named color that is exactly equal to the given hex code color value.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>static java.util.Optional&lt;javafx.scene.paint.Color&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/ColorUtils.html#getNamedColor-java.lang.String-">getNamedColor</a></span>(java.lang.String&nbsp;name)</code>
+<div class="block">Returns an <code>Optional</code> with a value of the named <code>Color</code> that has
+ the given <code>name</code>, if it exists.</div>
 </td>
 </tr>
 </table>
@@ -185,44 +195,38 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="getClosestNamedColor-java.lang.String-">
+<a name="getClosestNamedColor-java.lang.Integer-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getClosestNamedColor</h4>
-<pre>public static&nbsp;java.lang.String&nbsp;getClosestNamedColor(java.lang.String&nbsp;hexString)</pre>
-<div class="block">Get the color name of the color that is closest to the given hex color
- value (as a 6-digit hex String).</div>
+<pre>public static&nbsp;java.lang.String&nbsp;getClosestNamedColor(java.lang.Integer&nbsp;hexColor)</pre>
+<div class="block">Returns the named color that is closest to the given hex code color value.
+ <p>
+ Only the first 6 bytes of <code>hexColor</code> are taken into account. That is two bytes
+ for each red, blue, and green component.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>hexString</code> - the String containing 6 hex-digits representing a
- color value ("000000" to "FFFFFF")</dd>
+<dd><code>hexColor</code> - the <code>Integer</code> hex color value of the named color to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the name of the color that is the closest to the given hex
- String color value</dd>
+<dd>the named color that is closest to the given <code>hexString</code> color</dd>
 </dl>
 </li>
 </ul>
-<a name="getNamedColor-int-int-int-">
+<a name="getClosestNamedColor-javafx.scene.paint.Color-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getNamedColor</h4>
-<pre>public static&nbsp;java.util.Optional&lt;java.lang.String&gt;&nbsp;getNamedColor(int&nbsp;r,
-                                                                 int&nbsp;g,
-                                                                 int&nbsp;b)</pre>
-<div class="block">Get the named color that has exactly the given RGB color value or
- null if no such named color exists.</div>
+<h4>getClosestNamedColor</h4>
+<pre>public static&nbsp;javafx.scene.paint.Color&nbsp;getClosestNamedColor(javafx.scene.paint.Color&nbsp;color)</pre>
+<div class="block">Returns the named color that is closest to the given <code>color</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>r</code> - the red component of the color (0 - 255)</dd>
-<dd><code>g</code> - the green component of the color (0 - 255)</dd>
-<dd><code>b</code> - the blue component of the color (0 - 255)</dd>
+<dd><code>color</code> - the color to find the closest named color for</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an <code>Optional&lt;String&gt;</code> that either contains the name of the color
- with the exact same color value or nothing if no such named color exists</dd>
+<dd>the named color that is closest to the given <code>color</code></dd>
 </dl>
 </li>
 </ul>
@@ -232,16 +236,55 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getNamedColor</h4>
-<pre>public static&nbsp;java.util.Optional&lt;java.lang.String&gt;&nbsp;getNamedColor(java.lang.String&nbsp;hexString)</pre>
-<div class="block">Get the color name of the color that is exactly equal to the given hex color
- value (as a 6-digit hex String).</div>
+<pre>public static&nbsp;java.util.Optional&lt;javafx.scene.paint.Color&gt;&nbsp;getNamedColor(java.lang.String&nbsp;name)</pre>
+<div class="block">Returns an <code>Optional</code> with a value of the named <code>Color</code> that has
+ the given <code>name</code>, if it exists. Otherwise returns an empty <code>Optional</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>hexString</code> - the String containing 6 hex-digits representing a
- color value ("000000" to "FFFFFF")</dd>
+<dd><code>name</code> - the name of the named <code>Color</code> to return</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>an <code>Optional&lt;String&gt;</code> that either contains the name of the color
- with the exact same color value or nothing if no such named color exists</dd>
+<dd>an <code>Optional&lt;Color&gt;</code> that either contains the named color
+ with the given <code>name</code> or nothing (i.e. an empty <code>Optional</code>
+ if no such named color exists</dd>
+</dl>
+</li>
+</ul>
+<a name="getNamedColor-javafx.scene.paint.Color-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNamedColor</h4>
+<pre>public static&nbsp;java.util.Optional&lt;javafx.scene.paint.Color&gt;&nbsp;getNamedColor(javafx.scene.paint.Color&nbsp;color)</pre>
+<div class="block">Returns an <code>Optional</code> with a value of the named <code>Color</code> that is equal
+ to the given <code>color</code>, if it exists. Otherwise returns an empty <code>Optional</code>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>color</code> - the color of the named color to return</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an <code>Optional&lt;Color&gt;</code> that either contains the named color
+ that is equal to the given <code>color</code> or nothing (i.e. an empty <code>Optional</code>)
+ if no such named color exists</dd>
+</dl>
+</li>
+</ul>
+<a name="getNamedColor-java.lang.Integer-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNamedColor</h4>
+<pre>public static&nbsp;java.util.Optional&lt;java.lang.String&gt;&nbsp;getNamedColor(java.lang.Integer&nbsp;hexColor)</pre>
+<div class="block">Returns the named color that is exactly equal to the given hex code color value.
+ <p>
+ Only the first 6 bytes of <code>hexColor</code> are taken into account. That is two bytes
+ for each red, blue, and green component.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>hexColor</code> - the <code>Integer</code> hex color value of the named color to return</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an <code>Optional&lt;String&gt;</code> that either contains the named color that equals
+ the given <code>hexColor</code> or nothing if no such named color exists</dd>
 </dl>
 </li>
 </ul>
@@ -253,7 +296,8 @@ extends java.lang.Object</pre>
 <h4>calculateColorDistSq</h4>
 <pre>public static&nbsp;double&nbsp;calculateColorDistSq(javafx.scene.paint.Color&nbsp;color0,
                                           javafx.scene.paint.Color&nbsp;color1)</pre>
-<div class="block">Calculates the distance between two Colors.</div>
+<div class="block">Calculates and returns the distance between two <code>Color</code>s, using a simple
+ Euclidean metric.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>color0</code> - the first color</dd>
