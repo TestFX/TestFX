@@ -9,6 +9,8 @@
 
 Simple and clean testing for JavaFX.
 
+TestFX requires a minimum JDK version of 8 (1.8).
+
 ## Features
 
 - A fluent and clean API.
