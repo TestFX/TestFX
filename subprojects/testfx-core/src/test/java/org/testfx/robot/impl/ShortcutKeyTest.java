@@ -25,6 +25,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
@@ -45,7 +48,7 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 public class ShortcutKeyTest extends FxRobot {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(3000));
 
     private TextField field;
     private final String pressedText = "pressed";
