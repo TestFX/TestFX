@@ -389,7 +389,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public Capture capture(Bounds bounds) {
-        Rectangle2D region = new Rectangle2D(bounds.getMinX(), bounds.getMinX(),
+        Rectangle2D region = new Rectangle2D(bounds.getMinX(), bounds.getMinY(),
                                              bounds.getWidth(), bounds.getHeight());
         Image image = context.getCaptureSupport().captureRegion(region);
         return () -> image;
