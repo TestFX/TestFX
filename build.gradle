@@ -148,7 +148,7 @@ subprojects { subproject ->
     }
 
     test {
-        reports.junitXml.setDestination(file("$projectDir/../../build/test-reports/xml"))
+        reports.html.enabled = false
         testLogging {
             // set options for log level LIFECYCLE
             events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
