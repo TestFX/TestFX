@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -165,6 +165,14 @@ implements <a href="../../../../org/testfx/robot/WriteRobot.html" title="interfa
 <div class="block">Writes the given text characters one after the other.</div>
 </td>
 </tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/robot/impl/WriteRobotImpl.html#write-java.lang.String-int-">write</a></span>(java.lang.String&nbsp;text,
+     int&nbsp;sleepMillis)</code>
+<div class="block">Writes the given text characters one after the other, sleeping for
+ <code>sleepMillis</code> milliseconds after each typed character.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -226,7 +234,7 @@ implements <a href="../../../../org/testfx/robot/WriteRobot.html" title="interfa
 <a name="write-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
 <pre>public&nbsp;void&nbsp;write(java.lang.String&nbsp;text)</pre>
@@ -237,6 +245,27 @@ implements <a href="../../../../org/testfx/robot/WriteRobot.html" title="interfa
 <dd><code><a href="../../../../org/testfx/robot/WriteRobot.html#write-java.lang.String-">write</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/WriteRobot.html" title="interface in org.testfx.robot">WriteRobot</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - the text characters to write</dd>
+</dl>
+</li>
+</ul>
+<a name="write-java.lang.String-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;write(java.lang.String&nbsp;text,
+                  int&nbsp;sleepMillis)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/robot/WriteRobot.html#write-java.lang.String-int-">WriteRobot</a></code></span></div>
+<div class="block">Writes the given text characters one after the other, sleeping for
+ <code>sleepMillis</code> milliseconds after each typed character.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../org/testfx/robot/WriteRobot.html#write-java.lang.String-int-">write</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/robot/WriteRobot.html" title="interface in org.testfx.robot">WriteRobot</a></code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>text</code> - the text characters to write</dd>
+<dd><code>sleepMillis</code> - the milliseconds to sleep for after each
+ character</dd>
 </dl>
 </li>
 </ul>

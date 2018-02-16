@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6};
+var methods = {"i0":6,"i1":6,"i2":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -135,6 +135,14 @@ var activeTableTab = "activeTableTab";
 <div class="block">Writes the given text characters one after the other.</div>
 </td>
 </tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/robot/WriteRobot.html#write-java.lang.String-int-">write</a></span>(java.lang.String&nbsp;text,
+     int&nbsp;sleepMillis)</code>
+<div class="block">Writes the given text characters one after the other, sleeping for
+ <code>sleepMillis</code> milliseconds after each typed character.</div>
+</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -167,7 +175,7 @@ var activeTableTab = "activeTableTab";
 <a name="write-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>write</h4>
 <pre>void&nbsp;write(java.lang.String&nbsp;text)</pre>
@@ -175,6 +183,24 @@ var activeTableTab = "activeTableTab";
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>text</code> - the text characters to write</dd>
+</dl>
+</li>
+</ul>
+<a name="write-java.lang.String-int-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>write</h4>
+<pre>void&nbsp;write(java.lang.String&nbsp;text,
+           int&nbsp;sleepMillis)</pre>
+<div class="block">Writes the given text characters one after the other, sleeping for
+ <code>sleepMillis</code> milliseconds after each typed character.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>text</code> - the text characters to write</dd>
+<dd><code>sleepMillis</code> - the milliseconds to sleep for after each
+ character</dd>
 </dl>
 </li>
 </ul>
