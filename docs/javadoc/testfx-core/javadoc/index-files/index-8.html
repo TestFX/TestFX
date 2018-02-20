@@ -73,9 +73,17 @@
 </a>
 <h2 class="title">H</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractParentAssert.html#hasAnyChild--">hasAnyChild()</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractParentAssert.html" title="class in org.testfx.assertions.api">AbstractParentAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Parent</code> has at least one child.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractNodeAssert.html#hasChild-java.lang.String-">hasChild(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractNodeAssert.html" title="class in org.testfx.assertions.api">AbstractNodeAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Node</code> has a specific child <code>Node</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/NodeMatchers.html#hasChild-java.lang.String-">hasChild(String)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/NodeMatchers.html" title="class in org.testfx.matcher.base">NodeMatchers</a></dt>
 <dd>
-<div class="block">Creates a matcher that matches all <code>Node</code>s that have at least one node that is found via
+<div class="block">Creates a matcher that matches all <code>Node</code>s that have at least one child node that is found via
  <a href="../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/ParentMatchers.html#hasChild--">hasChild()</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/ParentMatchers.html" title="class in org.testfx.matcher.base">ParentMatchers</a></dt>
@@ -84,12 +92,22 @@
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/NodeMatchers.html#hasChildren-int-java.lang.String-">hasChildren(int, String)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/NodeMatchers.html" title="class in org.testfx.matcher.base">NodeMatchers</a></dt>
 <dd>
-<div class="block">Creates a matcher that matches all <code>Node</code>s that have exactly <code>amount</code> nodes that are found via
- <a href="../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
+<div class="block">Creates a matcher that matches all <code>Node</code>s that have exactly <code>amount</code> child nodes that are found
+ via <a href="../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/ParentMatchers.html#hasChildren-int-">hasChildren(int)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/ParentMatchers.html" title="class in org.testfx.matcher.base">ParentMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>Parent</code>s that have exactly <code>amount</code> children.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractColorAssert.html#hasClosestNamedColor-javafx.scene.paint.Color-">hasClosestNamedColor(Color)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractColorAssert.html" title="class in org.testfx.assertions.api">AbstractColorAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Color</code> has the given <code>namedColor</code> as their
+ closest named color.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractColorAssert.html#hasClosestNamedColor-java.lang.String-">hasClosestNamedColor(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractColorAssert.html" title="class in org.testfx.assertions.api">AbstractColorAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Color</code> has the given <code>namedColor</code> as their
+ closest named color.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/ColorMatchers.html#hasClosestNamedColor-javafx.scene.paint.Color-">hasClosestNamedColor(Color)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/ColorMatchers.html" title="class in org.testfx.matcher.base">ColorMatchers</a></dt>
 <dd>
@@ -99,22 +117,61 @@
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/ColorMatchers.html#hasClosestNamedColor-java.lang.String-">hasClosestNamedColor(String)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/ColorMatchers.html" title="class in org.testfx.matcher.base">ColorMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>Color</code>s that have the given named color <code>String</code>
- their closest JavaFX named color.</div>
+ as their closest JavaFX named color.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html#hasColoredText-java.lang.String-">hasColoredText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html" title="class in org.testfx.assertions.api">AbstractTextFlowAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextFlow</code> has the given <code>coloredTextMarkup</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/TextFlowMatchers.html#hasColoredText-java.lang.String-">hasColoredText(String)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/TextFlowMatchers.html" title="class in org.testfx.matcher.control">TextFlowMatchers</a></dt>
 <dd>
 <div class="block">Allows one to verify both the content and color of the text that makes
  up a TextFlow.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractDimension2DAssert.html#hasDimension-double-double-">hasDimension(double, double)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractDimension2DAssert.html" title="class in org.testfx.assertions.api">AbstractDimension2DAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Dimension2D</code> has the given <code>width</code>
+ and <code>height</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/GeometryMatchers.html#hasDimension-double-double-">hasDimension(double, double)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/GeometryMatchers.html" title="class in org.testfx.matcher.base">GeometryMatchers</a></dt>
 <dd>
 <div class="block">Creates a <code>TypeSafeMatcher</code> that matches when a given <code>Dimension2D</code>'s width and height
  equal the given width and height.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractNodeAssert.html#hasExactlyChildren-int-java.lang.String-">hasExactlyChildren(int, String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractNodeAssert.html" title="class in org.testfx.assertions.api">AbstractNodeAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Node</code> has exactly the given <code>amount</code>
+ of children that are looked up by the given <code>query</code>, which is passed to
+ is passed to <a href="../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html#hasExactlyColoredText-java.lang.String-">hasExactlyColoredText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html" title="class in org.testfx.assertions.api">AbstractTextFlowAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextFlow</code> has exactly the given <code>coloredTextMarkup</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/TextFlowMatchers.html#hasExactlyColoredText-java.lang.String-">hasExactlyColoredText(String)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/TextFlowMatchers.html" title="class in org.testfx.matcher.control">TextFlowMatchers</a></dt>
 <dd>
 <div class="block">Allows one to verify both the content and color of the text that makes
  up a TextFlow.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractParentAssert.html#hasExactlyNumChildren-int-">hasExactlyNumChildren(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractParentAssert.html" title="class in org.testfx.assertions.api">AbstractParentAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Parent</code> has exactly the given
+ <code>amount</code> of children.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#hasExactlyNumItems-int-">hasExactlyNumItems(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> has exactly the given <code>amount</code>
+ of items.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#hasExactlyNumItems-int-">hasExactlyNumItems(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> has exactly the given <code>amount</code>
+ of items.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#hasExactlyNumRows-int-">hasExactlyNumRows(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> has exactly the given <code>amount</code>
+ of rows.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/util/NodeQueryUtils.html#hasId-java.lang.String-">hasId(String)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/NodeQueryUtils.html" title="class in org.testfx.util">NodeQueryUtils</a></dt>
 <dd>
@@ -134,37 +191,80 @@
 <div class="block"><span class="deprecationComment">Use <a href="../org/testfx/matcher/control/TableViewMatchers.html#hasNumRows-int-"><code>TableViewMatchers.hasNumRows(int amount)</code></a> instead.</span></div>
 </div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#hasListCell-java.lang.Object-">hasListCell(Object)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> contains the given list cell
+ <code>value</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ListViewMatchers.html#hasListCell-java.lang.Object-">hasListCell(Object)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ListViewMatchers.html" title="class in org.testfx.matcher.control">ListViewMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>ListView</code>s that have one cell that equals the given <code>value</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractParentAssert.html#hasNoChildren--">hasNoChildren()</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractParentAssert.html" title="class in org.testfx.assertions.api">AbstractParentAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Parent</code> has no children.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/TableViewMatchers.html#hasNumRows-int-">hasNumRows(int)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/TableViewMatchers.html" title="class in org.testfx.matcher.control">TableViewMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>TableView</code>s that have exactly <code>amount</code> rows.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#hasPlaceholder-javafx.scene.Node-">hasPlaceholder(Node)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> has the given <code>placeHolder</code>
+ node.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ListViewMatchers.html#hasPlaceholder-javafx.scene.Node-">hasPlaceholder(Node)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ListViewMatchers.html" title="class in org.testfx.matcher.control">ListViewMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches <code>ListView</code>s that have the given <code>placeHolder</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#hasSelectedItem-T-">hasSelectedItem(T)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> has the given <code>selection</code>
+ as its' selected item.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ComboBoxMatchers.html#hasSelectedItem-T-">hasSelectedItem(T)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ComboBoxMatchers.html" title="class in org.testfx.matcher.control">ComboBoxMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>ComboBox</code>es that have given <code>selection</code> as
  its selected item.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#hasTableCell-java.lang.Object-">hasTableCell(Object)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> contains the given table cell
+ <code>expectedValue</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/TableViewMatchers.html#hasTableCell-java.lang.Object-">hasTableCell(Object)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/TableViewMatchers.html" title="class in org.testfx.matcher.control">TableViewMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>TableView</code>s that has a <code>TableCell</code>
  whose value or <code>value.toString()</code> equals the given value.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/NodeMatchers.html#hasText-java.lang.String-">hasText(String)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/NodeMatchers.html" title="class in org.testfx.matcher.base">NodeMatchers</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractLabeledAssert.html#hasText-java.lang.String-">hasText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractLabeledAssert.html" title="class in org.testfx.assertions.api">AbstractLabeledAssert</a></dt>
 <dd>
-<div class="block">Creates a matcher that matches all <code>Labeled</code>, <code>TextInputControl</code>,
- and <code>Text</code> objects that have the given <code>string</code>.</div>
+<div class="block">Verifies that the actual <code>Labeled</code> has exactly the given <code>text</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/matcher/base/NodeMatchers.html#hasText-org.hamcrest.Matcher-">hasText(Matcher&lt;String&gt;)</a></span> - Static method in class org.testfx.matcher.base.<a href="../org/testfx/matcher/base/NodeMatchers.html" title="class in org.testfx.matcher.base">NodeMatchers</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractLabeledAssert.html#hasText-org.hamcrest.Matcher-">hasText(Matcher&lt;String&gt;)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractLabeledAssert.html" title="class in org.testfx.assertions.api">AbstractLabeledAssert</a></dt>
 <dd>
-<div class="block">Creates a matcher that matches all <code>Labeled</code>, <code>TextInputControl</code>,
- and <code>Text</code> objects whose <code>text</code> matches the given <code>matcher</code>.</div>
+<div class="block">Verifies that the actual <code>Labeled</code> is matched by the given <code>matcher</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextAssert.html#hasText-java.lang.String-">hasText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextAssert.html" title="class in org.testfx.assertions.api">AbstractTextAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Text</code> has exactly the given <code>text</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextAssert.html#hasText-org.hamcrest.Matcher-">hasText(Matcher&lt;String&gt;)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextAssert.html" title="class in org.testfx.assertions.api">AbstractTextAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Text</code> is matched by the given <code>matcher</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html#hasText-java.lang.String-">hasText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html" title="class in org.testfx.assertions.api">AbstractTextFlowAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextFlow</code> has exactly the given <code>text</code>
+ (the result of combining all of its text-based children's text together).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html#hasText-java.lang.String-">hasText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html" title="class in org.testfx.assertions.api">AbstractTextInputControlAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextInputControl</code> has exactly the given <code>text</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html#hasText-org.hamcrest.Matcher-">hasText(Matcher&lt;String&gt;)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html" title="class in org.testfx.assertions.api">AbstractTextInputControlAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextInputControl</code> is matched by the given <code>matcher</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/LabeledMatchers.html#hasText-java.lang.String-">hasText(String)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/LabeledMatchers.html" title="class in org.testfx.matcher.control">LabeledMatchers</a></dt>
 <dd>
@@ -201,6 +301,11 @@
 <dd>
 <div class="block">Returns a predicate that returns true if the node is a <code>Label</code>,
  <code>TextInputControl</code>, or any of their subclasses whose text equals the given <code>text</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#hasVisiblePlaceholder-javafx.scene.Node-">hasVisiblePlaceholder(Node)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> has the given <code>placeHolder</code>
+ node and that the node is visible.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ListViewMatchers.html#hasVisiblePlaceholder-javafx.scene.Node-">hasVisiblePlaceholder(Node)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ListViewMatchers.html" title="class in org.testfx.matcher.control">ListViewMatchers</a></dt>
 <dd>

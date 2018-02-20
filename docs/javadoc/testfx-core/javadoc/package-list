@@ -1,5 +1,7 @@
 org.testfx.api
 org.testfx.api.annotation
+org.testfx.assertions.api
+org.testfx.assertions.impl
 org.testfx.matcher.base
 org.testfx.matcher.control
 org.testfx.osgi

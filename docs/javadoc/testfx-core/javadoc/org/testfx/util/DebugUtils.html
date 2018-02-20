@@ -108,29 +108,30 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <hr>
 <br>
-<pre>public final class <span class="typeNameLabel">DebugUtils</span>
+<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="class was recently added")
+public final class <span class="typeNameLabel">DebugUtils</span>
 extends java.lang.Object</pre>
-<div class="block">Utility class for displaying additional info, running code, or capturing an image of the test when
+<div class="block">Utility class for displaying additional info, running code, or capturing an image of a test whenever
  a test fails using <a href="../../../org/testfx/api/FxAssert.html#verifyThat-T-org.hamcrest.Matcher-"><code>FxAssert.verifyThat(Node, Matcher)</code></a> or its related methods.
-
  <p>
-     Quickly chain things together using <a href="../../../org/testfx/util/DebugUtils.html#compose-java.util.function.Function...-"><code>compose(Function[])</code></a> or use standard handlers like
-     <a href="../../../org/testfx/util/DebugUtils.html#informedErrorMessage-java.lang.String-boolean-boolean-org.testfx.api.FxRobot-boolean-boolean-"><code>informedErrorMessage(String, boolean, boolean, FxRobot, boolean, boolean)</code></a>.
-     Any <code>indent</code> parameters in methods are there to specify what to insert to offset values.
-     Default indent value is three spaces (e.g. <code>"   "</code>).
- </p>
+ It is possible to create completely customized error messages by chaining functions together using
+ <a href="../../../org/testfx/util/DebugUtils.html#compose-java.util.function.Function...-"><code>compose(Function[])</code></a> or one can use the standard provided handlers such as
+ <a href="../../../org/testfx/util/DebugUtils.html#informedErrorMessage-org.testfx.api.FxRobot-"><code>informedErrorMessage(FxRobot)</code></a>, <a href="../../../org/testfx/util/DebugUtils.html#informedErrorMessage-org.testfx.api.FxRobot-java.lang.String-"><code>informedErrorMessage(FxRobot, String)</code></a>, etc.
+ All <code>indent</code> parameters in methods are used to specify the spacing to insert in order to
+ offset values. The default indent value is three spaces (e.g. <code>"   "</code>).
  <p>
-     When a test fails, an image of the test can be captured and saved to a PNG file. Supports a number
-     of image sizes: a screenshot, a window, an area of the screen (i.e. bounds), or an individual node.
-     Use the convenience methods prefixed by "save" (e.g. <a href="../../../org/testfx/util/DebugUtils.html#saveScreenshot-java.lang.String-"><code>saveScreenshot(String)</code></a>) to quickly capture
-     and save images. The image path will be outputted using <a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object-"><code>insertContent(String, Object)</code></a> and
-     will appear in the error's message.
-     For your own custom-built handler, use <a href="../../../org/testfx/util/DebugUtils.html#saveTestImage-java.util.function.Function-java.util.function.Supplier-java.lang.String-"><code>saveTestImage(Function, Supplier, String)</code></a>, one of the
-     "capture"-prefixed methods, and your own <code>Supplier&lt;Path&gt;</code>.
- </p>
+ When a test fails, an image of the screen at the time of failure can be captured and saved to a PNG file.
+ <code>DebugUtils</code> provides support for a number of image sizes: the full screen, a window, an area of the
+ screen (i.e. bounds), or an individual node. Use the convenience methods prefixed by "save" (e.g.
+ <a href="../../../org/testfx/util/DebugUtils.html#saveScreenshot-java.lang.String-"><code>saveScreenshot(String)</code></a>) to capture and save images. The image path will be printed using
+ <a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object-"><code>insertContent(String, Object)</code></a> and will appear in the error message. For your own custom handler, use
+ <a href="../../../org/testfx/util/DebugUtils.html#saveTestImage-java.util.function.Function-java.util.function.Supplier-java.lang.String-"><code>saveTestImage(Function, Supplier, String)</code></a>, one of the "capture"-prefixed methods, and a
+ <code>Supplier&lt;Path&gt;</code> that determines where to save the image to.
  <p>
-     This class follows the given philosophy in how to add additional information to the <code>AssertionError</code>'s
-     message:
+ This class uses the concept of combining functions together in order to add additional information
+ to the error message of an <code>AssertionError</code> thrown by a failing test.
+ <p>
+ Example:
  <pre><code>
  // Template:
  compose(
@@ -146,8 +147,7 @@ extends java.lang.Object</pre>
       insertHeader(headerText),
       // insert the specific content that falls under this header
       insertContent(contentHeading5, contentStream2),
-      insertContent(contentHeading6, contentStream3),
- );
+      insertContent(contentHeading6, contentStream3));
 
  // Example:
  compose(
@@ -155,13 +155,14 @@ extends java.lang.Object</pre>
       showKeysPressedAtTestFailure(this),
       showMouseButtonsPressedAtTestFailure(this),
       showFiredEvents(),
-      saveScreenshot()
- );
+      saveScreenshot());
 
- // The above example can be done using one method:
+ // is equivalent to:
+
  informedErrorMessage(this);
- </code></pre>
- </p></div>
+
+ // as it uses all of the default arguments.
+ </code></pre></div>
 </li>
 </ul>
 </div>
@@ -207,7 +208,7 @@ extends java.lang.Object</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>,javafx.scene.image.Image&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#captureWindow--">captureWindow</a></span>()</code>
-<div class="block">Captures the registered stage</div>
+<div class="block">Captures the registered stage.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -273,69 +274,85 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Iterable-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.lang.Iterable&lt;?&gt;&nbsp;contentIter)</code>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Iterable-java.lang.String-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.lang.Iterable&lt;?&gt;&nbsp;contentIter,
-             java.lang.String&nbsp;indent)</code>&nbsp;</td>
+             java.lang.String&nbsp;indent)</code>
+<div class="block">Inserts the heading on a newline followed by two of the given <code>indents</code> followed by the given
+ <code>contentHeading</code>.</div>
+</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.lang.Object&nbsp;content)</code>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.</div>
 </td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object:A-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.lang.Object[]&nbsp;contentArray)</code>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.</div>
 </td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object:A-java.lang.String-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.lang.Object[]&nbsp;contentArray,
-             java.lang.String&nbsp;indent)</code>&nbsp;</td>
+             java.lang.String&nbsp;indent)</code>
+<div class="block">Inserts the heading on a newline followed by two of the given indents followed by the given
+ <code>contentHeading</code>.</div>
+</td>
 </tr>
 <tr id="i20" class="altColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object-java.lang.String-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.lang.Object&nbsp;content,
-             java.lang.String&nbsp;indent)</code>&nbsp;</td>
+             java.lang.String&nbsp;indent)</code>
+<div class="block">Inserts the heading on a newline followed by two of the given <code>indents</code> followed by the given
+ <code>contentHeading</code>.</div>
+</td>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.util.stream.Stream-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.util.stream.Stream&lt;?&gt;&nbsp;contentStream)</code>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.util.stream.Stream-java.lang.String-">insertContent</a></span>(java.lang.String&nbsp;contentHeading,
              java.util.stream.Stream&lt;?&gt;&nbsp;contentStream,
-             java.lang.String&nbsp;indent)</code>&nbsp;</td>
+             java.lang.String&nbsp;indent)</code>
+<div class="block">Inserts the heading on a newline followed by two of the given indents followed by the given
+ <code>contentHeading</code>.</div>
+</td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertHeader-java.lang.String-">insertHeader</a></span>(java.lang.String&nbsp;headerText)</code>
-<div class="block">Inserts a header on a newline; useful for specifying a section in the message</div>
+<div class="block">Inserts a header on a newline followed by the default indent; useful for specifying a section
+ in the error message.</div>
 </td>
 </tr>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#insertHeader-java.lang.String-java.lang.String-">insertHeader</a></span>(java.lang.String&nbsp;headerText,
-            java.lang.String&nbsp;indent)</code>&nbsp;</td>
+            java.lang.String&nbsp;indent)</code>
+<div class="block">Inserts a header on a newline followed by the given <code>indent</code>; useful for specifying a
+ section in the error message.</div>
+</td>
 </tr>
 <tr id="i25" class="rowColor">
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#runCode-java.lang.Runnable-">runCode</a></span>(java.lang.Runnable&nbsp;runnable)</code>
-<div class="block">Ignores the StringBuilder and runs the given code block</div>
+<div class="block">Ignores the given <code>StringBuilder</code> and just runs the given code block.</div>
 </td>
 </tr>
 <tr id="i26" class="altColor">
@@ -495,7 +512,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#saveWindow-java.util.function.Supplier-java.lang.String-">saveWindow</a></span>(java.util.function.Supplier&lt;java.nio.file.Path&gt;&nbsp;capturedImagePath,
           java.lang.String&nbsp;indent)</code>
-<div class="block">Saves the captured registered stage to the supplied path</div>
+<div class="block">Saves the captured registered stage to the supplied path.</div>
 </td>
 </tr>
 <tr id="i47" class="rowColor">
@@ -511,7 +528,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/util/DebugUtils.html#saveWindow-javafx.stage.Window-java.util.function.Supplier-java.lang.String-">saveWindow</a></span>(javafx.stage.Window&nbsp;window,
           java.util.function.Supplier&lt;java.nio.file.Path&gt;&nbsp;capturedImagePath,
           java.lang.String&nbsp;indent)</code>
-<div class="block">Saves the captured window to the supplied path</div>
+<div class="block">Saves the captured window to the supplied path.</div>
 </td>
 </tr>
 <tr id="i49" class="rowColor">
@@ -597,8 +614,8 @@ extends java.lang.Object</pre>
 <h4>compose</h4>
 <pre>@SafeVarargs
 public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;compose(java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;...&nbsp;functions)</pre>
-<div class="block">Composes multiple functions together into one. The ones to run first should be the first in the array,
- and the ones to run last should be at the end of the array.</div>
+<div class="block">Composes multiple functions together into one. The functions are called in the order that they appear
+ in the array. That is, <code>functions[0]</code> is run first, <code>functions[1]</code> is run second, etc.</div>
 </li>
 </ul>
 <a name="runCode-java.lang.Runnable-">
@@ -608,7 +625,7 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <li class="blockList">
 <h4>runCode</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;runCode(java.lang.Runnable&nbsp;runnable)</pre>
-<div class="block">Ignores the StringBuilder and runs the given code block</div>
+<div class="block">Ignores the given <code>StringBuilder</code> and just runs the given code block.</div>
 </li>
 </ul>
 <a name="insertHeader-java.lang.String-">
@@ -618,7 +635,8 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <li class="blockList">
 <h4>insertHeader</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertHeader(java.lang.String&nbsp;headerText)</pre>
-<div class="block">Inserts a header on a newline; useful for specifying a section in the message</div>
+<div class="block">Inserts a header on a newline followed by the default indent; useful for specifying a section
+ in the error message.</div>
 </li>
 </ul>
 <a name="insertHeader-java.lang.String-java.lang.String-">
@@ -629,6 +647,8 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>insertHeader</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertHeader(java.lang.String&nbsp;headerText,
                                                                                                         java.lang.String&nbsp;indent)</pre>
+<div class="block">Inserts a header on a newline followed by the given <code>indent</code>; useful for specifying a
+ section in the error message.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.lang.Object-">
@@ -639,8 +659,8 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>insertContent</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.lang.Object&nbsp;content)</pre>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.
- Then, inserts a newline followed by three indents followed by the content itself.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.
+ Then, inserts a newline followed by three default indents followed by the content itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.lang.Object-java.lang.String-">
@@ -652,6 +672,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.lang.Object&nbsp;content,
                                                                                                          java.lang.String&nbsp;indent)</pre>
+<div class="block">Inserts the heading on a newline followed by two of the given <code>indents</code> followed by the given
+ <code>contentHeading</code>. Then, inserts a newline followed by three of the given <code>indents</code> followed
+ by the content itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.lang.Iterable-">
@@ -662,8 +685,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>insertContent</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.lang.Iterable&lt;?&gt;&nbsp;contentIter)</pre>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.
- Then, for each item in the list, inserts a newline followed by three indents followed by the list item itself.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.
+ Then, for each item in the given iterable, inserts a newline followed by three default indents followed by the
+ list item itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.lang.Iterable-java.lang.String-">
@@ -675,6 +699,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.lang.Iterable&lt;?&gt;&nbsp;contentIter,
                                                                                                          java.lang.String&nbsp;indent)</pre>
+<div class="block">Inserts the heading on a newline followed by two of the given <code>indents</code> followed by the given
+ <code>contentHeading</code>. Then, for each item in the given iterable, inserts a newline followed by three of
+ the given indents followed by the list item itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.lang.Object:A-">
@@ -685,8 +712,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>insertContent</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.lang.Object[]&nbsp;contentArray)</pre>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.
- Then, for each item in the array, inserts a newline followed by three indents followed by the array item itself.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.
+ Then, for each item in the given array, inserts a newline followed by three default indents followed by the
+ array item itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.lang.Object:A-java.lang.String-">
@@ -698,6 +726,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.lang.Object[]&nbsp;contentArray,
                                                                                                          java.lang.String&nbsp;indent)</pre>
+<div class="block">Inserts the heading on a newline followed by two of the given indents followed by the given
+ <code>contentHeading</code>. Then, for each item in the given array, inserts a newline followed by three of the
+ given indents followed by the array item itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.util.stream.Stream-">
@@ -708,8 +739,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>insertContent</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.util.stream.Stream&lt;?&gt;&nbsp;contentStream)</pre>
-<div class="block">Inserts the heading on a newline followed by two indents followed by the contentHeading.
- Then, for each item in the stream, inserts a newline followed by three indents followed by the next item itself.</div>
+<div class="block">Inserts the heading on a newline followed by two default indents followed by the given <code>contentHeading</code>.
+ Then, for each item in the given stream, inserts a newline followed by three default indents followed by the
+ item itself.</div>
 </li>
 </ul>
 <a name="insertContent-java.lang.String-java.util.stream.Stream-java.lang.String-">
@@ -721,6 +753,9 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;insertContent(java.lang.String&nbsp;contentHeading,
                                                                                                          java.util.stream.Stream&lt;?&gt;&nbsp;contentStream,
                                                                                                          java.lang.String&nbsp;indent)</pre>
+<div class="block">Inserts the heading on a newline followed by two of the given indents followed by the given
+ <code>contentHeading</code>. Then, for each item in the given stream, inserts a newline followed by three of
+ the given indents followed by the item itself.</div>
 </li>
 </ul>
 <a name="showKeysPressedAtTestFailure-org.testfx.api.FxRobot-">
@@ -772,7 +807,7 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>showFiredEvents</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;showFiredEvents()</pre>
 <div class="block">Via <a href="../../../org/testfx/util/DebugUtils.html#insertContent-java.lang.String-java.lang.Object-"><code>insertContent(String, Object)</code></a>: shows all events that were fired since the start of the test.
- Note: only events stored in <a href="../../../org/testfx/api/FxToolkitContext.html#getFiredEvents--"><code>FxToolkitContext.getFiredEvents()</code></a> will be shown</div>
+ Note: only events stored in <a href="../../../org/testfx/api/FxToolkitContext.html#getFiredEvents--"><code>FxToolkitContext.getFiredEvents()</code></a> will be shown.</div>
 </li>
 </ul>
 <a name="showFiredEvents-java.lang.String-">
@@ -857,7 +892,7 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <li class="blockList">
 <h4>captureWindow</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>,javafx.scene.image.Image&gt;&nbsp;captureWindow()</pre>
-<div class="block">Captures the registered stage</div>
+<div class="block">Captures the registered stage.</div>
 </li>
 </ul>
 <a name="captureWindow-javafx.stage.Window-">
@@ -1051,7 +1086,7 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <h4>saveWindow</h4>
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;saveWindow(java.util.function.Supplier&lt;java.nio.file.Path&gt;&nbsp;capturedImagePath,
                                                                                                       java.lang.String&nbsp;indent)</pre>
-<div class="block">Saves the captured registered stage to the supplied path</div>
+<div class="block">Saves the captured registered stage to the supplied path.</div>
 </li>
 </ul>
 <a name="saveWindow-javafx.stage.Window-java.lang.String-int-">
@@ -1075,7 +1110,7 @@ public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.l
 <pre>public static&nbsp;java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;saveWindow(javafx.stage.Window&nbsp;window,
                                                                                                       java.util.function.Supplier&lt;java.nio.file.Path&gt;&nbsp;capturedImagePath,
                                                                                                       java.lang.String&nbsp;indent)</pre>
-<div class="block">Saves the captured window to the supplied path</div>
+<div class="block">Saves the captured window to the supplied path.</div>
 </li>
 </ul>
 <a name="saveBounds-javafx.geometry.Bounds-">

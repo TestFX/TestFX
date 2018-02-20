@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -208,15 +208,110 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br>T</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#query--">query</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#query--">query</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Node</code> found that matches
+ this query or null if no nodes match this query.</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br>java.util.Set&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryAll--">queryAll</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryAll--">queryAll</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the <code>Set</code> of all the <code>Node</code>s that
+ match this query.</div>
+</td>
 </tr>
 <tr id="i11" class="rowColor">
+<td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br>java.util.Set&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryAllAs-java.lang.Class-">queryAllAs</a></span>(java.lang.Class&lt;T&gt;&nbsp;clazz)</code>
+<div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAll--"><code>NodeQuery.queryAll()</code></a> that executes this <code>NodeQuery</code> and returns
+ the <code>Set</code> of all the <code>Node</code>s that match this query.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br>T</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryAs-java.lang.Class-">queryAs</a></span>(java.lang.Class&lt;T&gt;&nbsp;clazz)</code>
+<div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#query--"><code>NodeQuery.query()</code></a> that executes this <code>NodeQuery</code> and returns
+ the first <code>Node</code> found that matches this query or null if no nodes
+ match this query.</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code>javafx.scene.control.Button</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryButton--">queryButton</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Button</code> found that matches
+ this query or null if no buttons match this query.</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;javafx.scene.control.ComboBox&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryComboBox--">queryComboBox</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ComboBox</code> found that matches
+ this query or null if no combo-boxes match this query.</div>
+</td>
+</tr>
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>javafx.scene.control.Labeled</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryLabeled--">queryLabeled</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Labeled</code> found that matches
+ this query or null if no labeleds match this query.</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;javafx.scene.control.ListView&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryListView--">queryListView</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ListView</code> found that matches
+ this query or null if no list views match this query.</div>
+</td>
+</tr>
+<tr id="i17" class="rowColor">
+<td class="colFirst"><code>javafx.scene.Parent</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryParent--">queryParent</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Parent</code> found that matches
+ this query or null if no parents match this query.</div>
+</td>
+</tr>
+<tr id="i18" class="altColor">
+<td class="colFirst"><code>&lt;T&gt;&nbsp;javafx.scene.control.TableView&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryTableView--">queryTableView</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TableView</code> found that matches
+ this query or null if no table views match this query.</div>
+</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>javafx.scene.text.Text</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryText--">queryText</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Text</code> found that matches
+ this query or null if no texts match this query.</div>
+</td>
+</tr>
+<tr id="i20" class="altColor">
+<td class="colFirst"><code>javafx.scene.text.TextFlow</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryTextFlow--">queryTextFlow</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextFlow</code> found that matches
+ this query or null if no text flows match this query.</div>
+</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code>javafx.scene.control.TextInputControl</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#queryTextInputControl--">queryTextInputControl</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextInputControl</code> found that matches
+ this query or null if no text input controls match this query.</div>
+</td>
+</tr>
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br>java.util.Optional&lt;T&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#tryQuery--">tryQuery</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#tryQuery--">tryQuery</a></span>()</code>
+<div class="block">Executes this <code>NodeQuery</code> and returns an <code>Optional</code> that either contains
+ the first <code>Node</code> found that matches this query or nothing (e.g.</div>
+</td>
+</tr>
+<tr id="i23" class="rowColor">
+<td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br>java.util.Optional&lt;T&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#tryQueryAs-java.lang.Class-">tryQueryAs</a></span>(java.lang.Class&lt;T&gt;&nbsp;clazz)</code>
+<div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--"><code>NodeQuery.tryQuery()</code></a> that executes this <code>NodeQuery</code> and returns an
+ <code>Optional</code> that either contains the first <code>Node</code> found that matches this query or
+ nothing (e.g.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -272,7 +367,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parentNodes</code> - the parentNodes to store</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -291,7 +386,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>parentNodes</code> - the parentNodes to store</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -311,7 +406,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>query</code> - the query to use</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -332,7 +427,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>matcher</code> - the matcher used to determine which <code>Node</code>s to keep and which to remove</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -353,7 +448,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>predicate</code> - the predicate used to determine which <code>Node</code>s to keep and which to remove.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -372,7 +467,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>function</code> - that returns the <code>Node</code>s to keep</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -393,7 +488,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>matcher</code> - that determines which <code>Node</code>s to remove</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -414,7 +509,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>predicate</code> - that indicates which <code>Node</code>s to remove</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -433,7 +528,7 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>index</code> - within the collection of <code>Node</code>s</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>itself</dd>
+<dd>itself for more method chaining</dd>
 </dl>
 </li>
 </ul>
@@ -444,13 +539,202 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <li class="blockList">
 <h4>query</h4>
 <pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;T&nbsp;query()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#query--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Node</code> found that matches
+ this query or null if no nodes match this query.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#query--">query</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - type that extends <code>Node</code></dd>
+<dd><code>T</code> - the type that extends <code>Node</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the first node found or null.</dd>
+<dd>the first node found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryButton--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryButton</h4>
+<pre>public&nbsp;javafx.scene.control.Button&nbsp;queryButton()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryButton--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Button</code> found that matches
+ this query or null if no buttons match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryButton--">queryButton</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>Button</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryComboBox--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryComboBox</h4>
+<pre>public&nbsp;&lt;T&gt;&nbsp;javafx.scene.control.ComboBox&lt;T&gt;&nbsp;queryComboBox()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryComboBox--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ComboBox</code> found that matches
+ this query or null if no combo-boxes match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryComboBox--">queryComboBox</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>ComboBox</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryLabeled--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryLabeled</h4>
+<pre>public&nbsp;javafx.scene.control.Labeled&nbsp;queryLabeled()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryLabeled--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Labeled</code> found that matches
+ this query or null if no labeleds match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryLabeled--">queryLabeled</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>Labeled</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryListView--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryListView</h4>
+<pre>public&nbsp;&lt;T&gt;&nbsp;javafx.scene.control.ListView&lt;T&gt;&nbsp;queryListView()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryListView--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ListView</code> found that matches
+ this query or null if no list views match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryListView--">queryListView</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>ListView</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryParent--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryParent</h4>
+<pre>public&nbsp;javafx.scene.Parent&nbsp;queryParent()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryParent--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Parent</code> found that matches
+ this query or null if no parents match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryParent--">queryParent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>Parent</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryTableView--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryTableView</h4>
+<pre>public&nbsp;&lt;T&gt;&nbsp;javafx.scene.control.TableView&lt;T&gt;&nbsp;queryTableView()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTableView--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TableView</code> found that matches
+ this query or null if no table views match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTableView--">queryTableView</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>TableView</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryText--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryText</h4>
+<pre>public&nbsp;javafx.scene.text.Text&nbsp;queryText()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryText--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Text</code> found that matches
+ this query or null if no texts match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryText--">queryText</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>Text</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryTextFlow--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryTextFlow</h4>
+<pre>public&nbsp;javafx.scene.text.TextFlow&nbsp;queryTextFlow()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextFlow--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextFlow</code> found that matches
+ this query or null if no text flows match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextFlow--">queryTextFlow</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>TextFlow</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryTextInputControl--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryTextInputControl</h4>
+<pre>public&nbsp;javafx.scene.control.TextInputControl&nbsp;queryTextInputControl()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextInputControl--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextInputControl</code> found that matches
+ this query or null if no text input controls match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextInputControl--">queryTextInputControl</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first <code>TextInputControl</code> found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="queryAs-java.lang.Class-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>queryAs</h4>
+<pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;T&nbsp;queryAs(java.lang.Class&lt;T&gt;&nbsp;clazz)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAs-java.lang.Class-">NodeQuery</a></code></span></div>
+<div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#query--"><code>NodeQuery.query()</code></a> that executes this <code>NodeQuery</code> and returns
+ the first <code>Node</code> found that matches this query or null if no nodes
+ match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAs-java.lang.Class-">queryAs</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type that extends <code>Node</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>clazz</code> - the concrete sub-type of <code>Node</code> that should be returned by this query
+ so as to avoid extraneous casting when used inside an "assertThat" assertion</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first node found or null</dd>
 </dl>
 </li>
 </ul>
@@ -461,11 +745,40 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <li class="blockList">
 <h4>tryQuery</h4>
 <pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;tryQuery()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns an <code>Optional</code> that either contains
+ the first <code>Node</code> found that matches this query or nothing (e.g. <code>Optional.empty()</code>
+ returns true) if no nodes match this query.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--">tryQuery</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - type that extends <code>Node</code></dd>
+<dd><code>T</code> - the type that extends <code>Node</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the first node found or null</dd>
+</dl>
+</li>
+</ul>
+<a name="tryQueryAs-java.lang.Class-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>tryQueryAs</h4>
+<pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;tryQueryAs(java.lang.Class&lt;T&gt;&nbsp;clazz)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQueryAs-java.lang.Class-">NodeQuery</a></code></span></div>
+<div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--"><code>NodeQuery.tryQuery()</code></a> that executes this <code>NodeQuery</code> and returns an
+ <code>Optional</code> that either contains the first <code>Node</code> found that matches this query or
+ nothing (e.g. <code>Optional.empty()</code> returns true) if no nodes match this query.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQueryAs-java.lang.Class-">tryQueryAs</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type that extends <code>Node</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>clazz</code> - the concrete sub-type of <code>Node</code> that should be contained in the
+ <code>Optional</code> returned by this query so as to avoid extraneous casting when used inside
+ an "assertThat" assertion</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first node found or null</dd>
 </dl>
@@ -474,17 +787,44 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <a name="queryAll--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>queryAll</h4>
 <pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;queryAll()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAll--">NodeQuery</a></code></span></div>
+<div class="block">Executes this <code>NodeQuery</code> and returns the <code>Set</code> of all the <code>Node</code>s that
+ match this query. If no nodes match this query, the empty set is returned.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAll--">queryAll</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - type that extends <code>Node</code></dd>
+<dd><code>T</code> - the type that extends <code>Node</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>all nodes found</dd>
+<dd>the set of nodes that match this query</dd>
+</dl>
+</li>
+</ul>
+<a name="queryAllAs-java.lang.Class-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>queryAllAs</h4>
+<pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;java.util.Set&lt;T&gt;&nbsp;queryAllAs(java.lang.Class&lt;T&gt;&nbsp;clazz)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAllAs-java.lang.Class-">NodeQuery</a></code></span></div>
+<div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAll--"><code>NodeQuery.queryAll()</code></a> that executes this <code>NodeQuery</code> and returns
+ the <code>Set</code> of all the <code>Node</code>s that match this query. If no nodes match this query,
+ the empty set is returned.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAllAs-java.lang.Class-">queryAllAs</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type that extends <code>Node</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>clazz</code> - the concrete sub-type of <code>Node</code> the set of which should be returned by
+ this query so as to avoid extraneous casting when used inside an "assertThat" assertion</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the set of nodes that match this query</dd>
 </dl>
 </li>
 </ul>

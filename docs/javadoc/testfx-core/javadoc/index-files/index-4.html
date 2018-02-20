@@ -75,7 +75,7 @@
 <dl>
 <dt><a href="../org/testfx/util/DebugUtils.html" title="class in org.testfx.util"><span class="typeNameLink">DebugUtils</span></a> - Class in <a href="../org/testfx/util/package-summary.html">org.testfx.util</a></dt>
 <dd>
-<div class="block">Utility class for displaying additional info, running code, or capturing an image of the test when
+<div class="block">Utility class for displaying additional info, running code, or capturing an image of a test whenever
  a test fails using <a href="../org/testfx/api/FxAssert.html#verifyThat-T-org.hamcrest.Matcher-"><code>FxAssert.verifyThat(Node, Matcher)</code></a> or its related methods.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/util/DebugUtils.html#defaultImagePath--">defaultImagePath()</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/DebugUtils.html" title="class in org.testfx.util">DebugUtils</a></dt>
@@ -90,6 +90,126 @@
 <dt><span class="memberNameLink"><a href="../org/testfx/util/DebugUtils.html#defaultImagePath-java.lang.String-int-">defaultImagePath(String, int)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/DebugUtils.html" title="class in org.testfx.util">DebugUtils</a></dt>
 <dd>
 <div class="block">Returns <code>() -&gt; Paths.get(testName + " - " photoNumber + ".png");</code></div>
+</dd>
+<dt><a href="../org/testfx/assertions/api/Dimension2DAssert.html" title="class in org.testfx.assertions.api"><span class="typeNameLink">Dimension2DAssert</span></a> - Class in <a href="../org/testfx/assertions/api/package-summary.html">org.testfx.assertions.api</a></dt>
+<dd>
+<div class="block">Assertion methods for <code>Dimension2D</code>s.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/Dimension2DAssert.html#Dimension2DAssert-javafx.geometry.Dimension2D-">Dimension2DAssert(Dimension2D)</a></span> - Constructor for class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/Dimension2DAssert.html" title="class in org.testfx.assertions.api">Dimension2DAssert</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#doesNotContainRow-java.lang.Object...-">doesNotContainRow(Object...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> does not contain the given
+ table <code>cells</code> at any row index.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#doesNotContainRowAtIndex-int-java.lang.Object...-">doesNotContainRowAtIndex(int, Object...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> does not contain the given
+ table <code>cells</code> at the given <code>rowIndex</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractNodeAssert.html#doesNotHaveChild-java.lang.String-">doesNotHaveChild(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractNodeAssert.html" title="class in org.testfx.assertions.api">AbstractNodeAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Node</code> does not have a specific child <code>Node</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractColorAssert.html#doesNotHaveClosestNamedColor-javafx.scene.paint.Color-">doesNotHaveClosestNamedColor(Color)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractColorAssert.html" title="class in org.testfx.assertions.api">AbstractColorAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Color</code> does not have the given <code>namedColor</code> as their
+ closest named color.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractColorAssert.html#doesNotHaveClosestNamedColor-java.lang.String-">doesNotHaveClosestNamedColor(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractColorAssert.html" title="class in org.testfx.assertions.api">AbstractColorAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Color</code> does not have the given <code>namedColor</code> as their
+ closest named color.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html#doesNotHaveColoredText-java.lang.String-">doesNotHaveColoredText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html" title="class in org.testfx.assertions.api">AbstractTextFlowAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextFlow</code> does not have the given <code>coloredTextMarkup</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractDimension2DAssert.html#doesNotHaveDimension-double-double-">doesNotHaveDimension(double, double)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractDimension2DAssert.html" title="class in org.testfx.assertions.api">AbstractDimension2DAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Dimension2D</code> does not have either the
+ given <code>width</code> and/or <code>height</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html#doesNotHaveExactlyColoredText-java.lang.String-">doesNotHaveExactlyColoredText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html" title="class in org.testfx.assertions.api">AbstractTextFlowAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextFlow</code> does not have exactly the given
+ <code>coloredTextMarkup</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractParentAssert.html#doesNotHaveExactlyNumChildren-int-">doesNotHaveExactlyNumChildren(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractParentAssert.html" title="class in org.testfx.assertions.api">AbstractParentAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Parent</code> does not have exactly the given
+ <code>amount</code> of children.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#doesNotHaveExactlyNumItems-int-">doesNotHaveExactlyNumItems(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> does not have exactly the
+ given <code>amount</code> of items.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#doesNotHaveExactlyNumItems-int-">doesNotHaveExactlyNumItems(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> does not have exactly the
+ given <code>amount</code> of items.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#doesNotHaveExactlyNumRows-int-">doesNotHaveExactlyNumRows(int)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> does not have exactly the given
+ <code>amount</code> of rows.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#doesNotHaveListCell-java.lang.Object-">doesNotHaveListCell(Object)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> does not contain the
+ given list cell <code>value</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#doesNotHavePlaceholder-javafx.scene.Node-">doesNotHavePlaceholder(Node)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> does not have the given
+ <code>placeHolder</code> node.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#doesNotHaveSelectedItem-T-">doesNotHaveSelectedItem(T)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> does not have the given
+ <code>selection</code> as its' selected item.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#doesNotHaveTableCell-java.lang.Object-">doesNotHaveTableCell(Object)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> does not contain the given table
+ cell <code>expectedValue</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractLabeledAssert.html#doesNotHaveText-java.lang.String-">doesNotHaveText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractLabeledAssert.html" title="class in org.testfx.assertions.api">AbstractLabeledAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Labeled</code> does not have exactly the given <code>text</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractLabeledAssert.html#doesNotHaveText-org.hamcrest.Matcher-">doesNotHaveText(Matcher&lt;String&gt;)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractLabeledAssert.html" title="class in org.testfx.assertions.api">AbstractLabeledAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Labeled</code> is not matched by the given <code>matcher</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextAssert.html#doesNotHaveText-java.lang.String-">doesNotHaveText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextAssert.html" title="class in org.testfx.assertions.api">AbstractTextAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Text</code> does not have exactly the given <code>text</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextAssert.html#doesNotHaveText-org.hamcrest.Matcher-">doesNotHaveText(Matcher&lt;String&gt;)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextAssert.html" title="class in org.testfx.assertions.api">AbstractTextAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>Text</code> is not matched by the given <code>matcher</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html#doesNotHaveText-java.lang.String-">doesNotHaveText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextFlowAssert.html" title="class in org.testfx.assertions.api">AbstractTextFlowAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextFlow</code> does not have exactly the given
+ <code>text</code> (the result of combining all of its text-based children's text together).</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html#doesNotHaveText-java.lang.String-">doesNotHaveText(String)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html" title="class in org.testfx.assertions.api">AbstractTextInputControlAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextInputControl</code> does not have exactly the
+ given <code>text</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html#doesNotHaveText-org.hamcrest.Matcher-">doesNotHaveText(Matcher&lt;String&gt;)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTextInputControlAssert.html" title="class in org.testfx.assertions.api">AbstractTextInputControlAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TextInputControl</code> is not matched by the given
+ <code>matcher</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractListViewAssert.html#doesNotHaveVisiblePlaceholder-javafx.scene.Node-">doesNotHaveVisiblePlaceholder(Node)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractListViewAssert.html" title="class in org.testfx.assertions.api">AbstractListViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ListView</code> does not have the given visible
+ <code>placeHolder</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#doubleClickOn-javafx.scene.input.MouseButton...-">doubleClickOn(MouseButton...)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>

@@ -162,7 +162,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/util/DebugUtils.html#captureWindow--">captureWindow()</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/DebugUtils.html" title="class in org.testfx.util">DebugUtils</a></dt>
 <dd>
-<div class="block">Captures the registered stage</div>
+<div class="block">Captures the registered stage.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/util/DebugUtils.html#captureWindow-javafx.stage.Window-">captureWindow(Window)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/DebugUtils.html" title="class in org.testfx.util">DebugUtils</a></dt>
 <dd>&nbsp;</dd>
@@ -348,6 +348,12 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobot.html#closeCurrentWindow--">closeCurrentWindow()</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobot.html" title="class in org.testfx.api">FxRobot</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="../org/testfx/assertions/api/ColorAssert.html" title="class in org.testfx.assertions.api"><span class="typeNameLink">ColorAssert</span></a> - Class in <a href="../org/testfx/assertions/api/package-summary.html">org.testfx.assertions.api</a></dt>
+<dd>
+<div class="block">Assertion methods for <code>Color</code>s.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/ColorAssert.html#ColorAssert-javafx.scene.paint.Color-">ColorAssert(Color)</a></span> - Constructor for class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/ColorAssert.html" title="class in org.testfx.assertions.api">ColorAssert</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="../org/testfx/service/support/ColorMatcher.html" title="interface in org.testfx.service.support"><span class="typeNameLink">ColorMatcher</span></a> - Interface in <a href="../org/testfx/service/support/package-summary.html">org.testfx.service.support</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="../org/testfx/matcher/base/ColorMatchers.html" title="class in org.testfx.matcher.base"><span class="typeNameLink">ColorMatchers</span></a> - Class in <a href="../org/testfx/matcher/base/package-summary.html">org.testfx.matcher.base</a></dt>
@@ -363,6 +369,12 @@
 <div class="block">Returns a function that returns a <code>Set</code> of all <code>Node</code>s that maps the given node by <code>function0</code>
  and then by <code>function1)</code>.</div>
 </dd>
+<dt><a href="../org/testfx/assertions/api/ComboBoxAssert.html" title="class in org.testfx.assertions.api"><span class="typeNameLink">ComboBoxAssert</span></a>&lt;<a href="../org/testfx/assertions/api/ComboBoxAssert.html" title="type parameter in ComboBoxAssert">T</a>&gt; - Class in <a href="../org/testfx/assertions/api/package-summary.html">org.testfx.assertions.api</a></dt>
+<dd>
+<div class="block">Assertion methods for <code>ComboBox</code>s.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/ComboBoxAssert.html#ComboBoxAssert-javafx.scene.control.ComboBox-">ComboBoxAssert(ComboBox&lt;T&gt;)</a></span> - Constructor for class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/ComboBoxAssert.html" title="class in org.testfx.assertions.api">ComboBoxAssert</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="../org/testfx/matcher/control/ComboBoxMatchers.html" title="class in org.testfx.matcher.control"><span class="typeNameLink">ComboBoxMatchers</span></a> - Class in <a href="../org/testfx/matcher/control/package-summary.html">org.testfx.matcher.control</a></dt>
 <dd>
 <div class="block">TestFX matchers for <code>ComboBox</code> controls.</div>
@@ -379,20 +391,40 @@
 <dd>
 <div class="block">Computes the width/height factors for the point defined by the given <code>position</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#containsExactlyItems-T...-">containsExactlyItems(T...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> contains exactly the given
+ <code>items</code> in any order.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ComboBoxMatchers.html#containsExactlyItems-T...-">containsExactlyItems(T...)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ComboBoxMatchers.html" title="class in org.testfx.matcher.control">ComboBoxMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>ComboBox</code>es that only have all of the given <code>items</code>,
  regardless of the order of their appearance.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#containsExactlyItemsInOrder-T...-">containsExactlyItemsInOrder(T...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> contains exactly the given
+ <code>items</code> in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ComboBoxMatchers.html#containsExactlyItemsInOrder-T...-">containsExactlyItemsInOrder(T...)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ComboBoxMatchers.html" title="class in org.testfx.matcher.control">ComboBoxMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>ComboBox</code>es that only have all of the given <code>items</code> in
  the exact order they are given.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#containsItems-T...-">containsItems(T...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> contains at least the given
+ <code>items</code> in any order.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ComboBoxMatchers.html#containsItems-T...-">containsItems(T...)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ComboBoxMatchers.html" title="class in org.testfx.matcher.control">ComboBoxMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>ComboBox</code>es that have all of the given <code>items</code>, regardless
  of whether it also contains other items and regardless of their order of appearance.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html#containsItemsInOrder-T...-">containsItemsInOrder(T...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractComboBoxAssert.html" title="class in org.testfx.assertions.api">AbstractComboBoxAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>ComboBox</code> contains at least the given
+ <code>items</code> in order.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/ComboBoxMatchers.html#containsItemsInOrder-T...-">containsItemsInOrder(T...)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/ComboBoxMatchers.html" title="class in org.testfx.matcher.control">ComboBoxMatchers</a></dt>
 <dd>
@@ -400,15 +432,25 @@
  the exact order they appear, regardless of whether it also contains other items before or after this
  exact sequence.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#containsRow-java.lang.Object...-">containsRow(Object...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> contains the given table <code>cells</code>
+ at any row index.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/TableViewMatchers.html#containsRow-java.lang.Object...-">containsRow(Object...)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/TableViewMatchers.html" title="class in org.testfx.matcher.control">TableViewMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>TableView</code>s that have at least one row that contains the given
  values for each column of a <code>TableView</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="../org/testfx/assertions/api/AbstractTableViewAssert.html#containsRowAtIndex-int-java.lang.Object...-">containsRowAtIndex(int, Object...)</a></span> - Method in class org.testfx.assertions.api.<a href="../org/testfx/assertions/api/AbstractTableViewAssert.html" title="class in org.testfx.assertions.api">AbstractTableViewAssert</a></dt>
+<dd>
+<div class="block">Verifies that the actual <code>TableView</code> contains the given table <code>cells</code>
+ at the given <code>rowIndex</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/matcher/control/TableViewMatchers.html#containsRowAtIndex-int-java.lang.Object...-">containsRowAtIndex(int, Object...)</a></span> - Static method in class org.testfx.matcher.control.<a href="../org/testfx/matcher/control/TableViewMatchers.html" title="class in org.testfx.matcher.control">TableViewMatchers</a></dt>
 <dd>
 <div class="block">Creates a matcher that matches all <code>TableView</code>s that have a row at the given <code>index</code> that
- contains the given calues for each column of a <code>TableView</code>.</div>
+ contains the given values for each column of a <code>TableView</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/toolkit/PrimaryStageFuture.html#create--">create()</a></span> - Static method in class org.testfx.toolkit.<a href="../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a></dt>
 <dd>&nbsp;</dd>

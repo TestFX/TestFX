@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -140,7 +140,7 @@ extends java.lang.Object</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#hasChild-java.lang.String-">hasChild</a></span>(java.lang.String&nbsp;query)</code>
-<div class="block">Creates a matcher that matches all <code>Node</code>s that have at least one node that is found via
+<div class="block">Creates a matcher that matches all <code>Node</code>s that have at least one child node that is found via
  <a href="../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
 </td>
 </tr>
@@ -148,67 +148,53 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#hasChildren-int-java.lang.String-">hasChildren</a></span>(int&nbsp;amount,
            java.lang.String&nbsp;query)</code>
-<div class="block">Creates a matcher that matches all <code>Node</code>s that have exactly <code>amount</code> nodes that are found via
- <a href="../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
+<div class="block">Creates a matcher that matches all <code>Node</code>s that have exactly <code>amount</code> child nodes that are found
+ via <a href="../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#hasText-org.hamcrest.Matcher-">hasText</a></span>(org.hamcrest.Matcher&lt;java.lang.String&gt;&nbsp;matcher)</code>
-<div class="block">Creates a matcher that matches all <code>Labeled</code>, <code>TextInputControl</code>,
- and <code>Text</code> objects whose <code>text</code> matches the given <code>matcher</code>.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#hasText-java.lang.String-">hasText</a></span>(java.lang.String&nbsp;string)</code>
-<div class="block">Creates a matcher that matches all <code>Labeled</code>, <code>TextInputControl</code>,
- and <code>Text</code> objects that have the given <code>string</code>.</div>
-</td>
-</tr>
-<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isDisabled--">isDisabled</a></span>()</code>
 <div class="block">Creates a matcher that matches all disabled <code>Node</code>s (i.e.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isEnabled--">isEnabled</a></span>()</code>
 <div class="block">Creates a matcher that matches all enabled <code>Node</code>s (i.e.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isFocused--">isFocused</a></span>()</code>
 <div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isInvisible--">isInvisible</a></span>()</code>
 <div class="block">Creates a matcher that matches all invisible <code>Node</code>s.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isNotFocused--">isNotFocused</a></span>()</code>
 <div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isNotNull--">isNotNull</a></span>()</code>
 <div class="block">Creates a matcher that matches all non-null <code>Node</code>s.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isNull--">isNull</a></span>()</code>
 <div class="block">Creates a matcher that matches all null <code>Node</code>s.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.Node&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/base/NodeMatchers.html#isVisible--">isVisible</a></span>()</code>
 <div class="block">Creates a matcher that matches all visible <code>Node</code>s.</div>
@@ -328,28 +314,6 @@ public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;anything()
 <div class="block">Creates a matcher that matches all focused <code>Node</code>s (i.e. <code>Node.isFocused()</code> returns false).</div>
 </li>
 </ul>
-<a name="hasText-java.lang.String-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hasText</h4>
-<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;hasText(java.lang.String&nbsp;string)</pre>
-<div class="block">Creates a matcher that matches all <code>Labeled</code>, <code>TextInputControl</code>,
- and <code>Text</code> objects that have the given <code>string</code>.</div>
-</li>
-</ul>
-<a name="hasText-org.hamcrest.Matcher-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hasText</h4>
-<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;hasText(org.hamcrest.Matcher&lt;java.lang.String&gt;&nbsp;matcher)</pre>
-<div class="block">Creates a matcher that matches all <code>Labeled</code>, <code>TextInputControl</code>,
- and <code>Text</code> objects whose <code>text</code> matches the given <code>matcher</code>.</div>
-</li>
-</ul>
 <a name="hasChild-java.lang.String-">
 <!--   -->
 </a>
@@ -357,7 +321,7 @@ public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;anything()
 <li class="blockList">
 <h4>hasChild</h4>
 <pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;hasChild(java.lang.String&nbsp;query)</pre>
-<div class="block">Creates a matcher that matches all <code>Node</code>s that have at least one node that is found via
+<div class="block">Creates a matcher that matches all <code>Node</code>s that have at least one child node that is found via
  <a href="../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
 </li>
 </ul>
@@ -369,8 +333,8 @@ public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;anything()
 <h4>hasChildren</h4>
 <pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.Node&gt;&nbsp;hasChildren(int&nbsp;amount,
                                                                   java.lang.String&nbsp;query)</pre>
-<div class="block">Creates a matcher that matches all <code>Node</code>s that have exactly <code>amount</code> nodes that are found via
- <a href="../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
+<div class="block">Creates a matcher that matches all <code>Node</code>s that have exactly <code>amount</code> child nodes that are found
+ via <a href="../../../../org/testfx/service/query/NodeQuery.html#lookup-java.lang.String-"><code>NodeQuery.lookup(String)</code></a>.</div>
 </li>
 </ul>
 </li>
