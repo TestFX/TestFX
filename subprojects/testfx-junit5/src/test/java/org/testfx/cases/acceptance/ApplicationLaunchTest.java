@@ -30,15 +30,18 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.assertions.api.Assertions.assertThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class ApplicationLaunchTest extends FxRobot {
 
+    static Button button;
+
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
-            Button button = new Button("click me!");
+            button = new Button("click me!");
             button.setOnAction(actionEvent -> button.setText("clicked!"));
             stage.setScene(new Scene(new StackPane(button), 100, 100));
             stage.show();
@@ -59,6 +62,8 @@ public class ApplicationLaunchTest extends FxRobot {
     @Test
     void should_contain_button() {
         // expect:
+        assertThat(lookup(".button").queryButton()).hasText("click me!");
+        assertThat(button).hasText("click me!");
         verifyThat(".button", hasText("click me!"), informedErrorMessage(this));
     }
 
@@ -68,6 +73,8 @@ public class ApplicationLaunchTest extends FxRobot {
         clickOn(".button");
 
         // then:
+        assertThat(lookup(".button").queryButton()).hasText("clicked!");
+        assertThat(button).hasText("clicked!");
         verifyThat(".button", hasText("clicked!"), informedErrorMessage(this));
     }
 
