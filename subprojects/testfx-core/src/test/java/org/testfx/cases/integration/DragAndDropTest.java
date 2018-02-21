@@ -89,7 +89,6 @@ public class DragAndDropTest extends TestCaseBase {
 
     @Test
     public void should_have_initialized_items() {
-        // expect:
         verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"), informedErrorMessage(this));
         verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"), informedErrorMessage(this));
     }

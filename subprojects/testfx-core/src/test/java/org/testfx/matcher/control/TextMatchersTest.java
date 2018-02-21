@@ -70,13 +70,11 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(foobarText, TextMatchers.hasText("foobar"));
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Text has text \"foobar\"\n     " +
                         "but: was Text with text: \"quux\"");
@@ -86,13 +84,11 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasText_matcher() {
-        // expect:
         assertThat(foobarText, TextMatchers.hasText(endsWith("bar")));
     }
 
     @Test
     public void hasText_matcher_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Text has a string ending with \"bar\"\n     " +
                         "but: was Text with text: \"quux\"");
@@ -102,7 +98,6 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasFont() {
-        // expect:
         assertThat(foobarText, TextMatchers.hasFont(Font.getDefault()));
         assumeThat("skipping: no testable fonts installed on system", fontFamily, is(notNullValue()));
         assertThat(quuxText, TextMatchers.hasFont(Font.font(fontFamily, 16)));
@@ -110,7 +105,6 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasFont_fails() {
-        // expect:
         assumeThat("skipping: no testable fonts installed on system", fontFamily, is(notNullValue()));
         exception.expect(AssertionError.class);
         exception.expectMessage(String.format("Expected: Text has font " +
@@ -123,14 +117,12 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasFontSmoothingType() {
-        // expect:
         assertThat(foobarText, TextMatchers.hasFontSmoothingType(FontSmoothingType.GRAY));
         assertThat(quuxText, TextMatchers.hasFontSmoothingType(FontSmoothingType.LCD));
     }
 
     @Test
     public void hasFontSmoothingType_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Text has font smoothing type: \"LCD\"\n     " +
                 "but: was Text with font smoothing type: \"GRAY\"");
@@ -139,13 +131,11 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasStrikethrough() {
-        // expect:
         assertThat(foobarText, TextMatchers.hasStrikethrough(true));
     }
 
     @Test
     public void hasStrikethrough_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Text has strikethrough\n     " +
                 "but: was Text without strikethrough");
@@ -154,13 +144,11 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void isUnderlined() {
-        // expect:
         assertThat(quuxText, TextMatchers.isUnderlined(true));
     }
 
     @Test
     public void isUnderlined_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Text is underlined\n     " +
                 "but: was Text without underline");

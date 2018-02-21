@@ -51,7 +51,7 @@ public class ButtonAssertTest extends FxRobot {
         // given:
         button.setCancelButton(true);
 
-        // expect:
+        // then:
         assertThat(lookup(".button").queryAs(Button.class)).isCancelButton();
         assertThat((Button) lookup(".button").query()).isCancelButton();
         assertThat(button).isCancelButton();
@@ -59,7 +59,6 @@ public class ButtonAssertTest extends FxRobot {
 
     @Test
     public void isCancelButton_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(button).isCancelButton())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Button is cancel button");
@@ -67,7 +66,6 @@ public class ButtonAssertTest extends FxRobot {
 
     @Test
     public void isNotCancelButton() {
-        // expect:
         assertThat(button).isNotCancelButton();
     }
 
@@ -76,7 +74,7 @@ public class ButtonAssertTest extends FxRobot {
         // given:
         button.setCancelButton(true);
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(button).isNotCancelButton())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Button is cancel button to be false");
@@ -87,13 +85,12 @@ public class ButtonAssertTest extends FxRobot {
         // given:
         button.setDefaultButton(true);
 
-        // expect:
+        // then:
         assertThat(button).isDefaultButton();
     }
 
     @Test
     public void isDefaultButton_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(button).isDefaultButton())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Button is default button\n");
@@ -101,7 +98,6 @@ public class ButtonAssertTest extends FxRobot {
 
     @Test
     public void isNotDefaultButton() {
-        // expect:
         assertThat(button).isNotDefaultButton();
     }
 
@@ -110,7 +106,7 @@ public class ButtonAssertTest extends FxRobot {
         // given:
         button.setDefaultButton(true);
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(button).isNotDefaultButton())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Button is default button to be false\n");

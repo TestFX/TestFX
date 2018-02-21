@@ -163,8 +163,8 @@ public class TextAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveFontSmoothingType() {
-        assertThat(foobarText).hasFontSmoothingType(FontSmoothingType.LCD);
-        assertThat(quuxText).hasFontSmoothingType(FontSmoothingType.GRAY);
+        assertThat(foobarText).doesNotHaveFontSmoothingType(FontSmoothingType.LCD);
+        assertThat(quuxText).doesNotHaveFontSmoothingType(FontSmoothingType.GRAY);
     }
 
     @Test
@@ -197,7 +197,7 @@ public class TextAssertTest extends FxRobot {
     public void doesNotHaveStrikethrough_fails() {
         assertThatThrownBy(() -> assertThat(foobarText).doesNotHaveStrikethrough())
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("Expected: Text has strikethrough to be false\n     " +
+                .hasMessage("Expected: Text does not have strikethrough\n     " +
                         "but: was Text with strikethrough");
     }
 
@@ -223,8 +223,8 @@ public class TextAssertTest extends FxRobot {
     public void isNotUnderlined_fails() {
         assertThatThrownBy(() -> assertThat(quuxText).isNotUnderlined())
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("Expected: Text is underlined to be false\n     " +
-                        "but: was Text without underline");
+                .hasMessage("Expected: Text is not underlined\n     " +
+                        "but: was Text with underline");
     }
 
     private static void findFontFamily() {

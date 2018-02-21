@@ -48,16 +48,12 @@ public class WindowMatchersTest extends FxRobot {
     @Test
     public void isNotShowing() throws Exception {
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
-
-        // expect:
         assertWithCleanup(() -> assertThat(window, WindowMatchers.isNotShowing()));
     }
 
     @Test
     public void isNotFocused() throws Exception {
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
-
-        // expect:
         assertWithCleanup(() -> assertThat(window, WindowMatchers.isNotFocused()));
     }
 
@@ -68,7 +64,6 @@ public class WindowMatchersTest extends FxRobot {
             stage.show();
             return stage;
         });
-        // expect:
         assertWithCleanup(() -> assertThat(window, WindowMatchers.isShowing()));
     }
 
@@ -91,7 +86,6 @@ public class WindowMatchersTest extends FxRobot {
             return stage;
         });
 
-        // expect:
         assertThat(window, WindowMatchers.isFocused());
     }
 }

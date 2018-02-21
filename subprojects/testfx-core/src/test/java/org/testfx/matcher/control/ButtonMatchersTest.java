@@ -60,16 +60,15 @@ public class ButtonMatchersTest extends FxRobot {
 
     @Test
     public void isCancelButton() {
-        // setup:
+        // given:
         button.setCancelButton(true);
 
-        // expect:
+        // then:
         assertThat(button, ButtonMatchers.isCancelButton());
     }
 
     @Test
     public void isCancelButton_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Button is cancel button\n");
 
@@ -78,16 +77,15 @@ public class ButtonMatchersTest extends FxRobot {
 
     @Test
     public void isDefaultButton() {
-        // setup:
+        // given:
         button.setDefaultButton(true);
 
-        // expect:
+        // then:
         assertThat(button, ButtonMatchers.isDefaultButton());
     }
 
     @Test
     public void isDefaultButton_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Button is default button\n");
 

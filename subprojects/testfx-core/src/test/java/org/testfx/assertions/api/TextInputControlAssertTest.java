@@ -49,13 +49,11 @@ public class TextInputControlAssertTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(foobarTextField).hasText("foobar");
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(quuxTextField).hasText("foobar"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextInputControl has text \"foobar\"\n     " +
@@ -64,13 +62,11 @@ public class TextInputControlAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveText() {
-        // expect:
         assertThat(foobarTextField).doesNotHaveText("minnesota");
     }
 
     @Test
     public void doesNotHaveText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(foobarTextField).doesNotHaveText("foobar"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextInputControl has text \"foobar\" to be false\n     " +
@@ -79,13 +75,11 @@ public class TextInputControlAssertTest extends FxRobot {
 
     @Test
     public void hasText_matcher() {
-        // expect:
         assertThat(foobarTextField).hasText(endsWith("bar"));
     }
 
     @Test
     public void hasText_matcher_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(quuxTextField).hasText(endsWith("bar")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextInputControl has a string ending with \"bar\"\n     " +
@@ -94,13 +88,11 @@ public class TextInputControlAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveText_matcher() {
-        // expect:
         assertThat(foobarTextField).doesNotHaveText(startsWith("fuu"));
     }
 
     @Test
     public void doesNotHaveText_matcher_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(foobarTextField).doesNotHaveText(endsWith("bar")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextInputControl has a string ending with \"bar\" to be false\n     " +

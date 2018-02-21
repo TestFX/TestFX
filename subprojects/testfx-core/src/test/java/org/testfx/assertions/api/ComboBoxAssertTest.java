@@ -52,13 +52,11 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void hasExactlyNumItems() {
-        // expect:
         assertThat(comboBox).hasExactlyNumItems(4);
     }
 
     @Test
     public void hasExactlyNumItems_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(comboBox).hasExactlyNumItems(3))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox has exactly 3 items\n     " +
@@ -67,13 +65,11 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveExactlyNumItems() {
-        // expect:
         assertThat(comboBox).doesNotHaveExactlyNumItems(5);
     }
 
     @Test
     public void doesNotHaveExactlyNumItems_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(comboBox).doesNotHaveExactlyNumItems(4))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox has exactly 4 items to be false\n     " +
@@ -96,7 +92,6 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void hasSelectedItem_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(comboBox).hasSelectedItem("bob"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox has selection \"bob\"\n     " +
@@ -105,13 +100,11 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveSelectedItem() {
-        // expect:
         assertThat(comboBox).doesNotHaveSelectedItem("dave");
     }
 
     @Test
     public void doesNotHaveSelectedItem_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(comboBox).doesNotHaveSelectedItem("alice"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox has selection \"alice\" to be false\n     " +
@@ -120,7 +113,6 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsItems() {
-        // expect:
         // in order
         assertThat(comboBox).containsItems("alice", "bob", "carol", "dave");
         // not in order
@@ -131,7 +123,6 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsItems_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(comboBox).containsItems("alice", "bob", "eric"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox contains items [alice, bob, eric]\n" +
@@ -140,7 +131,6 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsExactlyItems() {
-        // expect:
         // in order
         assertThat(comboBox).containsExactlyItems("alice", "bob", "carol", "dave");
         // not in order
@@ -149,7 +139,7 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsExactlyItems_fails() {
-        // expected (missing "dave", so should fail):
+        // missing "dave", so should fail
         assertThatThrownBy(() -> assertThat(comboBox).containsExactlyItems("alice", "bob", "carol"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox contains exactly items [alice, bob, carol]\n" +
@@ -158,7 +148,6 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsItemsInOrder() {
-        // expect:
         // in order
         assertThat(comboBox).containsItemsInOrder("alice", "bob", "carol", "dave");
         // partial (but in-order)
@@ -167,7 +156,6 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsItemsInOrder_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(comboBox).containsItemsInOrder("alice", "carol", "bob"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox contains items in order [alice, carol, bob]\n" +
@@ -176,14 +164,13 @@ public class ComboBoxAssertTest extends FxRobot {
 
     @Test
     public void containsExactlyItemsInOrder() {
-        // expect:
         // in order
         assertThat(comboBox).containsExactlyItemsInOrder("alice", "bob", "carol", "dave");
     }
 
     @Test
     public void containsExactlyItemsInOrder_fails() {
-        // expect (not in correct order, should fail):
+        // not in correct order, should fail
         assertThatThrownBy(() -> assertThat(comboBox).containsExactlyItemsInOrder("bob", "alice", "dave", "carol"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ComboBox contains exactly items in order [bob, alice, dave, carol]\n" +

@@ -41,7 +41,7 @@ public class ParentAssertTest extends FxRobot {
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(stackPane).hasAnyChild();
     }
 
@@ -50,7 +50,7 @@ public class ParentAssertTest extends FxRobot {
         // given (a StackPane with no children which is-a Parent):
         StackPane parent = FxToolkit.setupFixture(() -> new StackPane());
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(parent).hasAnyChild())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Parent has at least one child\n     " +
@@ -62,7 +62,7 @@ public class ParentAssertTest extends FxRobot {
         // given (a StackPane with no children which is-a Parent):
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane());
 
-        // expect:
+        // then:
         assertThat(stackPane).hasNoChildren();
     }
 
@@ -71,7 +71,7 @@ public class ParentAssertTest extends FxRobot {
         // given (a StackPane with 1 child which is-a Parent):
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane(new Button("lol")));
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(stackPane).hasNoChildren())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Parent has at least one child to be false\n     " +
@@ -84,7 +84,7 @@ public class ParentAssertTest extends FxRobot {
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(stackPane).hasExactlyNumChildren(3);
     }
 
@@ -93,7 +93,7 @@ public class ParentAssertTest extends FxRobot {
         // given (a StackPane with 2 children which is-a Parent):
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(stackPane).hasExactlyNumChildren(3))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Parent has exactly 3 children\n     " +
@@ -106,7 +106,7 @@ public class ParentAssertTest extends FxRobot {
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar")));
 
-        // expect:
+        // then:
         assertThat(stackPane).doesNotHaveExactlyNumChildren(3);
     }
 
@@ -116,7 +116,7 @@ public class ParentAssertTest extends FxRobot {
         StackPane stackPane = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar")));
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(stackPane).doesNotHaveExactlyNumChildren(2))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Parent has exactly 2 children to be false\n     " +
