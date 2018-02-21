@@ -16,6 +16,8 @@
  */
 package org.testfx.matcher.control;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 
 import org.junit.Before;
@@ -30,7 +32,10 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
 import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assume.assumeThat;
 
 public class TextMatchersTest extends FxRobot {
 
@@ -40,17 +45,26 @@ public class TextMatchersTest extends FxRobot {
 
     Text foobarText;
     Text quuxText;
+    static String fontFamily;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
+        findFontFamily();
     }
 
     @Before
     public void setup() throws Exception {
         FxToolkit.setupFixture(() -> {
             foobarText = new Text("foobar");
+            foobarText.setStrikethrough(true);
+            foobarText.setFontSmoothingType(FontSmoothingType.GRAY);
             quuxText = new Text("quux");
+            quuxText.setUnderline(true);
+            quuxText.setFontSmoothingType(FontSmoothingType.LCD);
+            if (fontFamily != null) {
+                quuxText.setFont(Font.font(fontFamily, 16));
+            }
         });
     }
 
@@ -86,4 +100,76 @@ public class TextMatchersTest extends FxRobot {
         assertThat(quuxText, TextMatchers.hasText(endsWith("bar")));
     }
 
+    @Test
+    public void hasFont() {
+        // expect:
+        assertThat(foobarText, TextMatchers.hasFont(Font.getDefault()));
+        assumeThat("skipping: no testable fonts installed on system", fontFamily, is(notNullValue()));
+        assertThat(quuxText, TextMatchers.hasFont(Font.font(fontFamily, 16)));
+    }
+
+    @Test
+    public void hasFont_fails() {
+        // expect:
+        assumeThat("skipping: no testable fonts installed on system", fontFamily, is(notNullValue()));
+        exception.expect(AssertionError.class);
+        exception.expectMessage(String.format("Expected: Text has font " +
+                "\"%1$s\" with family (\"%1$s\") and size (14.0)\n     " +
+                "but: was Text with font: " +
+                "\"%1$s\" with family (\"%1$s\") and size (16.0)", fontFamily));
+
+        assertThat(quuxText, TextMatchers.hasFont(Font.font(fontFamily, 14)));
+    }
+
+    @Test
+    public void hasFontSmoothingType() {
+        // expect:
+        assertThat(foobarText, TextMatchers.hasFontSmoothingType(FontSmoothingType.GRAY));
+        assertThat(quuxText, TextMatchers.hasFontSmoothingType(FontSmoothingType.LCD));
+    }
+
+    @Test
+    public void hasFontSmoothingType_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Text has font smoothing type: \"LCD\"\n     " +
+                "but: was Text with font smoothing type: \"GRAY\"");
+        assertThat(foobarText, TextMatchers.hasFontSmoothingType(FontSmoothingType.LCD));
+    }
+
+    @Test
+    public void hasStrikethrough() {
+        // expect:
+        assertThat(foobarText, TextMatchers.hasStrikethrough(true));
+    }
+
+    @Test
+    public void hasStrikethrough_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Text has strikethrough\n     " +
+                "but: was Text without strikethrough");
+        assertThat(quuxText, TextMatchers.hasStrikethrough(true));
+    }
+
+    @Test
+    public void isUnderlined() {
+        // expect:
+        assertThat(quuxText, TextMatchers.isUnderlined(true));
+    }
+
+    @Test
+    public void isUnderlined_fails() {
+        // expect:
+        exception.expect(AssertionError.class);
+        exception.expectMessage("Expected: Text is underlined\n     " +
+                "but: was Text without underline");
+        assertThat(foobarText, TextMatchers.isUnderlined(true));
+    }
+
+    private static void findFontFamily() {
+        fontFamily = Font.getFamilies().stream().filter(
+            fontFamily -> Font.getFontNames(fontFamily).size() == 1 && Font.getFontNames(fontFamily).get(0).equals(
+                    fontFamily)).findFirst().orElse(null);
+    }
 }

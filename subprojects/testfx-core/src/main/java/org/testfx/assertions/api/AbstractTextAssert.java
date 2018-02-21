@@ -16,6 +16,8 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 
 import org.hamcrest.Matcher;
@@ -75,6 +77,98 @@ public class AbstractTextAssert<SELF extends AbstractTextAssert<SELF>> extends A
      */
     public SELF doesNotHaveText(Matcher<String> matcher) {
         assertThat(actual).is(fromInverseMatcher(TextMatchers.hasText(matcher)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} has the given {@code font}.
+     *
+     * @param font the given font to compare the actual font of the text to
+     * @return this assertion object
+     */
+    public SELF hasFont(Font font) {
+        assertThat(actual).is(fromMatcher(TextMatchers.hasFont(font)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} does not have the given {@code font}.
+     *
+     * @param font the given font to compare the actual font of the text to
+     * @return this assertion object
+     */
+    public SELF doesNotHaveFont(Font font) {
+        assertThat(actual).is(fromInverseMatcher(TextMatchers.hasFont(font)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} has the given {@code smoothingType}
+     * (either {@link FontSmoothingType#GRAY} or {@link FontSmoothingType#LCD}).
+     *
+     * @param smoothingType the given font smoothing type to compare the actual font smoothing type
+     * of the text to
+     * @return this assertion object
+     */
+    public SELF hasFontSmoothingType(FontSmoothingType smoothingType) {
+        assertThat(actual).is(fromMatcher(TextMatchers.hasFontSmoothingType(smoothingType)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} does not have the given {@code smoothingType}
+     * (either {@link FontSmoothingType#GRAY} or {@link FontSmoothingType#LCD}).
+     *
+     * @param smoothingType the given font smoothing type to compare the actual font smoothing type
+     * of the text to
+     * @return this assertion object
+     */
+    public SELF doesNotHaveFontSmoothingType(FontSmoothingType smoothingType) {
+        assertThat(actual).is(fromInverseMatcher(TextMatchers.hasFontSmoothingType(smoothingType)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} has strikethrough (that is, should be drawn
+     * with a line through it).
+     *
+     * @return this assertion object
+     */
+    public SELF hasStrikethrough() {
+        assertThat(actual).is(fromMatcher(TextMatchers.hasStrikethrough(true)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} does not have strikethrough (that is, should be drawn
+     * with a line through it).
+     *
+     * @return this assertion object
+     */
+    public SELF doesNotHaveStrikethrough() {
+        assertThat(actual).is(fromMatcher(TextMatchers.hasStrikethrough(false)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} is underlined (that is, should be drawn
+     * with a line below it).
+     *
+     * @return this assertion object
+     */
+    public SELF isUnderlined() {
+        assertThat(actual).is(fromMatcher(TextMatchers.isUnderlined(true)));
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@link javafx.scene.text.Text} is not underlined (that is, should be drawn
+     * with a line below it).
+     *
+     * @return this assertion object
+     */
+    public SELF isNotUnderlined() {
+        assertThat(actual).is(fromMatcher(TextMatchers.isUnderlined(false)));
         return myself;
     }
 }
