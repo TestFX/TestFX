@@ -97,7 +97,6 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void hasTableCell() {
-        // expect:
         assertThat(tableView, TableViewMatchers.hasTableCell("alice"));
         assertThat(tableView, TableViewMatchers.hasTableCell("bob"));
     }
@@ -126,7 +125,6 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void hasTableCell_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has table cell \"foobar\"\n     " +
                 "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
@@ -163,16 +161,12 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void hasTableCell_with_toString() {
-        // expect:
         assertThat(tableView, TableViewMatchers.hasTableCell("30"));
-
-        // and:
         assertThat(tableView, TableViewMatchers.hasTableCell(31));
     }
 
     @Test
     public void hasTableCell_with_null_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         // FIXME: This works but it is nonsensical - why can't we accept null?
         exception.expectMessage("Expected: TableView has table cell \"null\"\n     " +
@@ -183,13 +177,11 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void hasNumRows() {
-        // expect:
         assertThat(tableView, TableViewMatchers.hasNumRows(4));
     }
 
     @Test
     public void hasNumRows_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has 0 rows\n     " +
                 "but: was contained 4 rows");
@@ -199,6 +191,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -218,7 +211,7 @@ public class TableViewMatchersTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, "bob", 31));
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(2, "carol", 42));
@@ -230,6 +223,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_with_empty_cells() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -247,7 +241,7 @@ public class TableViewMatchersTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "alice", 30));
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, "bob", 31));
         assertThat(tableView, TableViewMatchers.containsRowAtIndex(2, "carol", null));
@@ -258,7 +252,6 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_no_such_row_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [jerry, 29] at index 0\n     " +
                 "but: was [alice, 30] at index: 0");
@@ -268,7 +261,6 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_out_of_bounds_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [tom, 54] at index 4\n     " +
                 "but: was given out-of-bounds row index: 4 (table only has 4 rows)");
@@ -278,7 +270,6 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtNegativeIndex_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [alice, 30] at index -1\n     " +
                 "but: was given negative row index: -1");
@@ -288,7 +279,6 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_wrong_types_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [63, deedee] at index 1\n     " +
                 "but: was [bob, 31] at index: 1");
@@ -298,6 +288,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -317,7 +308,7 @@ public class TableViewMatchersTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
         assertThat(tableView, TableViewMatchers.containsRow("bob", 31));
         assertThat(tableView, TableViewMatchers.containsRow("carol", 42));
@@ -327,6 +318,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow_with_empty_cells() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -344,7 +336,7 @@ public class TableViewMatchersTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView, TableViewMatchers.containsRow("alice", 30));
         assertThat(tableView, TableViewMatchers.containsRow("bob", 31));
         assertThat(tableView, TableViewMatchers.containsRow("carol", null));
@@ -354,6 +346,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow_no_such_row_fails() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -371,7 +364,7 @@ public class TableViewMatchersTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [jerry, 29]\n     " +
                 "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
@@ -381,6 +374,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRow_wrong_types_fails() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -398,7 +392,7 @@ public class TableViewMatchersTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TableView has row: [63, deedee]\n     " +
                 "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
@@ -409,6 +403,7 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     @Ignore("Issue #449")
     public void containsRow_after_edited_cell() throws TimeoutException {
+        // given:
         TableColumn<Person, String> tableColumn0 = new TableColumn<>("name");
         tableColumn0.setEditable(true);
         tableColumn0.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -431,6 +426,7 @@ public class TableViewMatchersTest extends FxRobot {
         write("not alice!");
         press(KeyCode.ENTER);
 
+        // then:
         assertThat(tableView, TableViewMatchers.containsRow("not alice!", 30));
     }
 

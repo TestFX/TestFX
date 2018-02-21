@@ -69,13 +69,11 @@ public class TextFlowMatchersTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(textFlow, TextFlowMatchers.hasText("foobar quux"));
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextFlow has text \"foobar baaz\"\n     " +
                 "but: was TextFlow containing text: \"foobar quux\"");
@@ -90,7 +88,6 @@ public class TextFlowMatchersTest extends FxRobot {
 
     @Test
     public void hasColoredText_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextFlow has colored text \"foobar <BLUE>quux</BLUE>\"\n     " +
                 "but: was TextFlow with colored text: \"foobar <RED>quux</RED>\"");
@@ -100,7 +97,6 @@ public class TextFlowMatchersTest extends FxRobot {
 
     @Test
     public void hasColoredText_withBogusColor_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextFlow has colored text \"foobar <LALALA>quux</LALALA>\"\n     " +
                 "but: was TextFlow with colored text: \"foobar <RED>quux</RED>\"");
@@ -110,7 +106,6 @@ public class TextFlowMatchersTest extends FxRobot {
 
     @Test
     public void hasExactlyColoredText_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextFlow has exactly colored text \"<LIMEGREEN>exact</LIMEGREEN>\"\n     " +
                 "but: was impossible to exactly match TextFlow containing " +

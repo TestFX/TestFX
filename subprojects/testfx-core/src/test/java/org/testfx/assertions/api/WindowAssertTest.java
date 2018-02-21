@@ -51,7 +51,7 @@ public class WindowAssertTest extends FxRobot {
             return stage;
         });
 
-        // expect:
+        // then:
         assertThat(window).isShowing();
     }
 
@@ -60,7 +60,7 @@ public class WindowAssertTest extends FxRobot {
         // given:
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(window).isShowing())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Window is showing");
@@ -84,7 +84,7 @@ public class WindowAssertTest extends FxRobot {
             return stage;
         });
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(window).isNotShowing())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Window is not showing");
@@ -92,9 +92,10 @@ public class WindowAssertTest extends FxRobot {
 
     @Test
     public void isNotFocused() throws Exception {
+        // given:
         Window window = FxToolkit.setupFixture((Callable<Stage>) Stage::new);
 
-        // expect:
+        // then:
         assertThat(window).isNotFocused();
     }
 }

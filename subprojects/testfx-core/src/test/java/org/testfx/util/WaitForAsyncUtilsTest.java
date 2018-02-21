@@ -240,13 +240,11 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void waitFor_with_booleanCallable() throws Exception {
-        // expect:
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> true);
     }
 
     @Test
     public void waitFor_with_booleanCallable_with_sleep() throws Exception {
-        // expect:
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
             WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
             return true;
@@ -255,14 +253,12 @@ public class WaitForAsyncUtilsTest {
 
     @Test
     public void waitFor_with_booleanCallable_with_false() throws Exception {
-        // expect:
         exception.expect(TimeoutException.class);
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> false);
     }
 
     @Test
     public void waitFor_with_booleanCallable_with_exception() throws Exception {
-        // expect:
         exception.expectCause(isA(UnsupportedOperationException.class));
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
             throw new UnsupportedOperationException();

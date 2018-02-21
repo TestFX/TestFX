@@ -56,13 +56,11 @@ public class TextInputControlMatchersTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(foobarTextField, TextInputControlMatchers.hasText("foobar"));
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextInputControl has text \"foobar\"\n     " +
                         "but: was TextField with text: \"quux\"");
@@ -72,13 +70,11 @@ public class TextInputControlMatchersTest extends FxRobot {
 
     @Test
     public void hasText_matcher() {
-        // expect:
         assertThat(foobarTextField, TextInputControlMatchers.hasText(endsWith("bar")));
     }
 
     @Test
     public void hasText_matcher_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: TextInputControl has a string ending with \"bar\"\n     " +
                         "but: was TextField with text: \"quux\"");

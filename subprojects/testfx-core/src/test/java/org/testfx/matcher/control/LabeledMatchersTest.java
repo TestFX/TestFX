@@ -52,13 +52,11 @@ public class LabeledMatchersTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(foobarButton, LabeledMatchers.hasText("foobar"));
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Labeled has text \"foobar\"\n     " +
                 "but: was \"quux\"");
@@ -68,13 +66,11 @@ public class LabeledMatchersTest extends FxRobot {
 
     @Test
     public void hasText_matcher() {
-        // expect:
         assertThat(foobarButton, LabeledMatchers.hasText(endsWith("bar")));
     }
 
     @Test
     public void hasText_matcher_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Labeled has a string ending with \"bar\"\n     " +
                 "but: was \"quux\"");

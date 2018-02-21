@@ -79,7 +79,6 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void hasTableCell() {
-        // expect:
         assertThat(tableView).hasTableCell("alice");
         assertThat(tableView).hasTableCell("bob");
     }
@@ -101,14 +100,13 @@ public class TableViewAssertTest extends FxRobot {
                 }));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).hasTableCell("ALICE!");
         assertThat(tableView).hasTableCell("BOB!");
     }
 
     @Test
     public void hasTableCell_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).hasTableCell("foobar"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has table cell \"foobar\"\n     " +
@@ -133,7 +131,7 @@ public class TableViewAssertTest extends FxRobot {
                 }));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(tableView).hasTableCell("ALICE!!!"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: TableView has table cell \"ALICE!!!\"\n     ");
@@ -144,21 +142,18 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveTableCell() {
-        // expect:
         assertThat(tableView).doesNotHaveTableCell("june");
         assertThat(tableView).doesNotHaveTableCell("july");
     }
 
     @Test
     public void hasTableCell_with_toString() {
-        // expect:
         assertThat(tableView).hasTableCell("30");
         assertThat(tableView).hasTableCell(31);
     }
 
     @Test
     public void hasTableCell_with_null_fails() {
-        // expect:
         // FIXME: This works but it is nonsensical - why can't we accept null?
         assertThatThrownBy(() -> assertThat(tableView).hasTableCell(null))
                 .isExactlyInstanceOf(AssertionError.class)
@@ -183,14 +178,13 @@ public class TableViewAssertTest extends FxRobot {
                 }));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).doesNotHaveTableCell("alice");
         assertThat(tableView).doesNotHaveTableCell("bob");
     }
 
     @Test
     public void doesNotHaveTableCell_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).doesNotHaveTableCell("alice"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has table cell \"alice\" to be false\n     " +
@@ -205,13 +199,11 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void hasExactlyNumRows() {
-        // expect:
         assertThat(tableView).hasExactlyNumRows(4);
     }
 
     @Test
     public void hasExactlyNumRows_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).hasExactlyNumRows(0))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has 0 rows\n     " +
@@ -220,13 +212,11 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveExactlyNumRows() {
-        // expect:
         assertThat(tableView).doesNotHaveExactlyNumRows(5);
     }
 
     @Test
     public void doesNotHaveExactlyNumRows_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).doesNotHaveExactlyNumRows(4))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has 4 rows to be false\n     " +
@@ -235,6 +225,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -254,7 +245,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).containsRowAtIndex(0, "alice", 30);
         assertThat(tableView).containsRowAtIndex(1, "bob", 31);
         assertThat(tableView).containsRowAtIndex(2, "carol", 42);
@@ -263,6 +254,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_with_empty_cells() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -280,7 +272,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).containsRowAtIndex(0, "alice", 30);
         assertThat(tableView).containsRowAtIndex(1, "bob", 31);
         assertThat(tableView).containsRowAtIndex(2, "carol", null);
@@ -289,7 +281,6 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_no_such_row_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).containsRowAtIndex(0, "jerry", 29))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [jerry, 29] at index 0\n     " +
@@ -298,7 +289,6 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_out_of_bounds_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).containsRowAtIndex(4, "tom", 54))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [tom, 54] at index 4\n     " +
@@ -307,7 +297,6 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRowAtNegativeIndex_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).containsRowAtIndex(-1, "alice", 30))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [alice, 30] at index -1\n     " +
@@ -316,7 +305,6 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_wrong_types_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(tableView).containsRowAtIndex(1, 63, "deedee"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [63, deedee] at index 1\n     " +
@@ -325,6 +313,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotContainRowAtIndex() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -344,7 +333,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).doesNotContainRowAtIndex(0, "ebert", 49);
         assertThat(tableView).doesNotContainRowAtIndex(1, "alice", 30);
         assertThat(tableView).doesNotContainRowAtIndex(4, "granger", 49);
@@ -352,6 +341,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotContainRowAtIndex_with_empty_cells() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -369,7 +359,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).doesNotContainRowAtIndex(1, "alice", 30);
         assertThat(tableView).doesNotContainRowAtIndex(1, "bob", null);
         assertThat(tableView).doesNotContainRowAtIndex(2, null, 31);
@@ -379,6 +369,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotContainRowAtIndex_fails() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -398,6 +389,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
+        // then:
         assertThatThrownBy(() -> assertThat(tableView).doesNotContainRowAtIndex(0, "alice", 30))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [alice, 30] at index 0 to be false\n     " +
@@ -406,6 +398,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRow() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -425,7 +418,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).containsRow("alice", 30);
         assertThat(tableView).containsRow("bob", 31);
         assertThat(tableView).containsRow("carol", 42);
@@ -434,6 +427,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRow_with_empty_cells() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -451,7 +445,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).containsRow("alice", 30);
         assertThat(tableView).containsRow("bob", 31);
         assertThat(tableView).containsRow("carol", null);
@@ -460,6 +454,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRow_no_such_row_fails() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -477,7 +472,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(tableView).containsRow("jerry", 29))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [jerry, 29]\n     " +
@@ -486,6 +481,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void containsRow_wrong_types_fails() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -503,7 +499,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(tableView).containsRow(63, "deedee"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TableView has row: [63, deedee]\n     " +
@@ -512,6 +508,7 @@ public class TableViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotContainRow() {
+        // given:
         Map<String, Object> row1 = new HashMap<>(2);
         row1.put("name", "alice");
         row1.put("age", 30);
@@ -531,7 +528,7 @@ public class TableViewAssertTest extends FxRobot {
         Platform.runLater(() -> tableView.setItems(observableArrayList(row1, row2, row3, row4)));
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(tableView).doesNotContainRow("alice", 33);
         assertThat(tableView).doesNotContainRow("bobo", 31);
         assertThat(tableView).doesNotContainRow(null, 42);

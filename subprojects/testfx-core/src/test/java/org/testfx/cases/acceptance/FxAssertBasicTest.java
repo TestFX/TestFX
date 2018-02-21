@@ -51,19 +51,16 @@ public class FxAssertBasicTest extends TestCaseBase {
 
     @Test
     public void missing_is_null() {
-        // expect:
         verifyThat("#missing", isNull(), informedErrorMessage(this));
     }
 
     @Test
     public void button_is_not_null() {
-        // expect:
         verifyThat("#button", isNotNull(), informedErrorMessage(this));
     }
 
     @Test
     public void button_is_enabled() {
-        // expect:
         verifyThat("#button", isEnabled(), informedErrorMessage(this));
     }
 
@@ -78,7 +75,6 @@ public class FxAssertBasicTest extends TestCaseBase {
 
     @Test
     public void button_is_visible() {
-        // expect:
         verifyThat("#button", isVisible(), informedErrorMessage(this));
     }
 
@@ -102,7 +98,6 @@ public class FxAssertBasicTest extends TestCaseBase {
 
     @Test
     public void button_has_not_label() {
-        // expect:
         verifyThat("#button", not(hasText("clicked!")), informedErrorMessage(this));
     }
 

@@ -65,7 +65,7 @@ public class GeneralMatchersTest {
             "Node is not null", notNullNodePredicate
         );
 
-        // expect:
+        // then:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Node is not null\n" +
                                 "     but: was null");
@@ -79,7 +79,7 @@ public class GeneralMatchersTest {
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
-        // expect:
+        // then:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Parent has children\n" +
                                 "     but: was <" + notMatchingNode.toString() + ">");
@@ -100,8 +100,6 @@ public class GeneralMatchersTest {
         assertThat(nullNode, hasChildrenParentMatcher);
     }
 
-    // java.lang.ClassCastException: javafx.scene.control.Button cannot be cast to javafx.scene.control.TreeView
-
     @Test
     public void typeSafeMatcher_with_notParentNode() {
         // given:
@@ -109,7 +107,7 @@ public class GeneralMatchersTest {
             Parent.class, "has children", hasChildrenParentPredicate
         );
 
-        // expect:
+        // then:
         // TODO: Hint expected type on AssertError explicitly.
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Parent has children\n" +

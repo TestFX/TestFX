@@ -49,13 +49,11 @@ public class LabeledAssertTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(foobarButton).hasText("foobar");
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(quuxButton).hasText("foobar"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Labeled has text \"foobar\"\n     " +
@@ -64,13 +62,11 @@ public class LabeledAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveText() {
-        // expect:
         assertThat(foobarButton).doesNotHaveText("lilly pad");
     }
 
     @Test
     public void doesNotHaveText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(foobarButton).doesNotHaveText("foobar"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Labeled has text \"foobar\" to be false\n     " +
@@ -79,13 +75,11 @@ public class LabeledAssertTest extends FxRobot {
 
     @Test
     public void hasText_matcher() {
-        // expect:
         assertThat(foobarButton).hasText(endsWith("bar"));
     }
 
     @Test
     public void hasText_matcher_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(quuxButton).hasText(endsWith("bar")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Labeled has a string ending with \"bar\"\n     " +
@@ -94,13 +88,11 @@ public class LabeledAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveText_matcher() {
-        // expect:
         assertThat(foobarButton).doesNotHaveText(endsWith("baz"));
     }
 
     @Test
     public void doesNotHaveText_matcher_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(foobarButton).doesNotHaveText(startsWith("foo")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Labeled has a string starting with \"foo\" to be false\n     " +

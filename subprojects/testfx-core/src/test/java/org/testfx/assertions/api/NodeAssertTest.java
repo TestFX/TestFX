@@ -54,7 +54,7 @@ public class NodeAssertTest extends FxRobot {
         // given:
         Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
-        // expect:
+        // then:
         assertThat(button).hasText("foo");
     }
 
@@ -63,7 +63,7 @@ public class NodeAssertTest extends FxRobot {
         // given:
         Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
-        // expect:
+        // then:
         assertThat(button).doesNotHaveText("bar");
     }
 
@@ -72,7 +72,7 @@ public class NodeAssertTest extends FxRobot {
         // given:
         Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(button).doesNotHaveText("foo"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Labeled has text \"foo\" to be false\n     " +
@@ -159,11 +159,10 @@ public class NodeAssertTest extends FxRobot {
             return temp;
         });
 
-        // expect:
+        // then:
         NodeQuery query1 = from(nodes).match(LabeledMatchers.hasText("foo"));
         assertThat(query1.queryAll()).containsExactly(nodes.get(1));
 
-        // and:
         NodeQuery query2 = from(nodes).match(TextInputControlMatchers.hasText("bar"));
         assertThat(query2.queryAll()).containsExactly(nodes.get(2));
     }
@@ -174,7 +173,7 @@ public class NodeAssertTest extends FxRobot {
         Node parent = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(parent).hasChild(".button");
     }
 
@@ -183,7 +182,7 @@ public class NodeAssertTest extends FxRobot {
         // given:
         Node parent = FxToolkit.setupFixture(() -> new StackPane());
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(parent).hasChild(".button"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Node has child \".button\"\n");
@@ -195,7 +194,7 @@ public class NodeAssertTest extends FxRobot {
         Node parent = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(parent).doesNotHaveChild(".boot");
     }
 
@@ -205,7 +204,7 @@ public class NodeAssertTest extends FxRobot {
         Node parent = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(parent).doesNotHaveChild(".button"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Node has child \".button\" to be false\n");
@@ -217,7 +216,7 @@ public class NodeAssertTest extends FxRobot {
         Node parent = FxToolkit.setupFixture(() -> new StackPane(
                 new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(parent).hasExactlyChildren(2, ".button");
     }
 
@@ -226,7 +225,7 @@ public class NodeAssertTest extends FxRobot {
         // given:
         Node parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(parent).hasExactlyChildren(2, ".button"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Node has 2 children \".button\"\n");

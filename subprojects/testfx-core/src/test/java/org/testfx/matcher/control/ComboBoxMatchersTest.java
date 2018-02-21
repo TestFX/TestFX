@@ -60,13 +60,11 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void hasItems() {
-        // expect:
         assertThat(comboBox, ComboBoxMatchers.hasItems(4));
     }
 
     @Test
     public void hasItems_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox has exactly 3 items\n     " +
                 "but: was 4");
@@ -90,7 +88,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void hasSelectedItem_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox has selection \"bob\"\n     " +
                 "but: was \"alice\"");
@@ -100,7 +97,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsItems() {
-        // expect:
         // in order
         assertThat(comboBox, ComboBoxMatchers.containsItems("alice", "bob", "carol", "dave"));
         // not in order
@@ -111,7 +107,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsItems_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox contains items [alice, bob, eric]\n" +
                 "     but: was [alice, bob, carol, dave]");
@@ -121,7 +116,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsExactlyItems() {
-        // expect:
         // in order
         assertThat(comboBox, ComboBoxMatchers.containsExactlyItems("alice", "bob", "carol", "dave"));
         // not in order
@@ -130,7 +124,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsExactlyItems_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox contains exactly items [alice, bob, carol]\n" +
                 "     but: was [alice, bob, carol, dave]");
@@ -141,7 +134,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsItemsInOrder() {
-        // expect:
         // in order
         assertThat(comboBox, ComboBoxMatchers.containsItemsInOrder("alice", "bob", "carol", "dave"));
         // partial (but in-order)
@@ -150,7 +142,6 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsItemsInOrder_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox contains items in order [alice, carol, bob]\n" +
                 "     but: was [alice, bob, carol, dave]");
@@ -160,14 +151,12 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsExactlyItemsInOrder() {
-        // expect:
         // in order
         assertThat(comboBox, ComboBoxMatchers.containsExactlyItemsInOrder("alice", "bob", "carol", "dave"));
     }
 
     @Test
     public void containsExactlyItemsInOrder_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: ComboBox contains exactly items in order [bob, alice, dave, carol]\n" +
                 "     but: was [alice, bob, carol, dave]");

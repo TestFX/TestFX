@@ -42,7 +42,6 @@ public class FxToolkitBasicTest extends TestCaseBase {
 
     @Test
     public void registerPrimaryStage_should_be_callable_multiple_times() throws Exception {
-        // expect:
         FxToolkit.registerPrimaryStage();
         FxToolkit.registerPrimaryStage();
         FxToolkit.registerPrimaryStage();

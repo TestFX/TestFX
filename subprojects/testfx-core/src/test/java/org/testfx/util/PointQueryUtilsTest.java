@@ -35,7 +35,7 @@ public class PointQueryUtilsTest {
         // given:
         BoundingBox bounds = new BoundingBox(100, 1000, 200, 2000);
 
-        // expect:
+        // then:
         assertThat(atPosition(bounds, Pos.TOP_LEFT),      is(new Point2D(100, 1000)));
         assertThat(atPosition(bounds, Pos.TOP_CENTER),    is(new Point2D(200, 1000)));
         assertThat(atPosition(bounds, Pos.TOP_RIGHT),     is(new Point2D(300, 1000)));
@@ -52,7 +52,7 @@ public class PointQueryUtilsTest {
         // given:
         BoundingBox bounds = new BoundingBox(100, 1000, 200, 2000);
 
-        // expect:
+        // then:
         assertThat(atPositionFactors(bounds, new Point2D(0.0, 0.0)), is(new Point2D(100, 1000)));
         assertThat(atPositionFactors(bounds, new Point2D(0.5, 0.0)), is(new Point2D(200, 1000)));
         assertThat(atPositionFactors(bounds, new Point2D(1.0, 0.0)), is(new Point2D(300, 1000)));
@@ -66,7 +66,6 @@ public class PointQueryUtilsTest {
 
     @Test
     public void computePositionFactors_with_positions() {
-        // expect:
         assertThat(computePositionFactors(Pos.TOP_LEFT),      is(new Point2D(0.0, 0.0)));
         assertThat(computePositionFactors(Pos.TOP_CENTER),    is(new Point2D(0.5, 0.0)));
         assertThat(computePositionFactors(Pos.TOP_RIGHT),     is(new Point2D(1.0, 0.0)));

@@ -36,13 +36,11 @@ public class GeometryMatchersTest extends FxRobot {
 
     @Test
     public void hasDimension() {
-        // expect:
         assertThat(new Dimension2D(10, 20), GeometryMatchers.hasDimension(10, 20));
     }
 
     @Test
     public void hasDimension_fails() {
-        // expect:
         exception.expect(AssertionError.class);
         exception.expectMessage("Expected: Dimension2D has dimension (0.0, 0.0)\n");
 

@@ -28,13 +28,11 @@ public class Dimension2DAssertTest extends FxRobot {
 
     @Test
     public void hasDimension() {
-        // expect:
         assertThat(new Dimension2D(10, 20)).hasDimension(10, 20);
     }
 
     @Test
     public void hasDimension_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(new Dimension2D(10, 20)).hasDimension(0, 0))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Dimension2D has dimension (0.0, 0.0)\n");
@@ -42,25 +40,21 @@ public class Dimension2DAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveDimension() {
-        // expect:
         assertThat(new Dimension2D(10, 20)).doesNotHaveDimension(5, 10);
     }
 
     @Test
     public void doesNotHaveDimension_same_width() {
-        // expect:
         assertThat(new Dimension2D(10, 20)).doesNotHaveDimension(10, 21);
     }
 
     @Test
     public void doesNotHaveDimension_same_height() {
-        // expect:
         assertThat(new Dimension2D(10, 20)).doesNotHaveDimension(9, 20);
     }
 
     @Test
     public void doesNotHaveDimension_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(new Dimension2D(10, 20)).doesNotHaveDimension(10, 20))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Dimension2D has dimension (10.0, 20.0) to be false\n");

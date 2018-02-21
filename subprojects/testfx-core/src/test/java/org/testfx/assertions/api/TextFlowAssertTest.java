@@ -56,13 +56,11 @@ public class TextFlowAssertTest extends FxRobot {
 
     @Test
     public void hasText() {
-        // expect:
         assertThat(textFlow).hasText("foobar quux");
     }
 
     @Test
     public void hasText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(textFlow).hasText("foobar baaz"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextFlow has text \"foobar baaz\"\n     " +
@@ -71,13 +69,11 @@ public class TextFlowAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveText() {
-        // expect:
         assertThat(textFlow).doesNotHaveText("chess master");
     }
 
     @Test
     public void doesNotHaveText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(textFlow).doesNotHaveText("foobar quux"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextFlow has text \"foobar quux\" to be false\n     " +
@@ -91,7 +87,6 @@ public class TextFlowAssertTest extends FxRobot {
 
     @Test
     public void hasColoredText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(textFlow).hasColoredText("foobar <BLUE>quux</BLUE>"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextFlow has colored text \"foobar <BLUE>quux</BLUE>\"\n     " +
@@ -100,7 +95,6 @@ public class TextFlowAssertTest extends FxRobot {
 
     @Test
     public void hasColoredText_withBogusColor_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(textFlow).hasColoredText("foobar <LALALA>quux</LALALA>"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextFlow has colored text \"foobar <LALALA>quux</LALALA>\"\n     " +
@@ -114,7 +108,6 @@ public class TextFlowAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveColoredText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(textFlow).doesNotHaveColoredText("foobar <RED>quux</RED>"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextFlow has colored text \"foobar <RED>quux</RED>\" to be false\n     " +
@@ -123,7 +116,6 @@ public class TextFlowAssertTest extends FxRobot {
 
     @Test
     public void hasExactlyColoredText_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(exactTextFlow).hasExactlyColoredText("<LIMEGREEN>exact</LIMEGREEN>"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: TextFlow has exactly colored text \"<LIMEGREEN>exact</LIMEGREEN>\"\n     " +

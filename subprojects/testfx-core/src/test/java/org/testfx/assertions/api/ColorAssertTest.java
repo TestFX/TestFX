@@ -29,13 +29,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isColor() {
-        // expect:
         assertThat(Color.color(1, 0, 0)).isColor(Color.RED);
     }
 
     @Test
     public void isColor_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(1, 0, 0)).isColor(Color.BLACK))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color has color \"BLACK\" (#000000)\n     " +
@@ -44,13 +42,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isNotColor() {
-        // expect:
         assertThat(Color.color(1, 0, 0)).isNotColor(Color.BROWN);
     }
 
     @Test
     public void isNotColor_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(1, 0, 0)).isNotColor(Color.RED))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color has color \"RED\" (#ff0000) to be false\n     " +
@@ -59,13 +55,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isColor_colorMatcher() {
-        // expect:
         assertThat(Color.color(0.9, 0, 0)).isColor(Color.RED, new PixelMatcherRgb());
     }
 
     @Test
     public void isColor_colorMatcher_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(0.5, 0, 0)).isColor(Color.RED, new PixelMatcherRgb(0.01, 0)))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Color has color \"RED\" (#ff0000)\n     ");
@@ -73,13 +67,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isNotColor_colorMatcher() {
-        // expect:
         assertThat(Color.color(0.9, 0, 0)).isNotColor(Color.GREEN, new PixelMatcherRgb());
     }
 
     @Test
     public void isNotColor_colorMatcher_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(0.9, 0, 0)).isNotColor(Color.RED, new PixelMatcherRgb(0.6, 0)))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessageStartingWith("Expected: Color has color \"RED\" (#ff0000) to be false\n     ");
@@ -87,13 +79,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isNamedColor() {
-        // expect:
         assertThat(Color.AQUAMARINE).isColor("AQUAMARINE");
     }
 
     @Test
     public void isNamedColor_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.ANTIQUEWHITE).isColor("AQUAMARINE"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color is \"AQUAMARINE\"\n     " +
@@ -102,14 +92,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isNotNamedColor() {
-        // expect:
         assertThat(Color.AQUAMARINE).isNotColor("BLUE");
     }
 
     @Test
     public void isNotNamedColor_fails() {
-        // expect:
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.ANTIQUEWHITE).isNotColor("ANTIQUEWHITE"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color is \"ANTIQUEWHITE\" to be false\n     " +
@@ -118,7 +105,6 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isNamedColor_non_named_color_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.web("#f3b2aa")).isColor("BAGEL"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("given color name: \"BAGEL\" is not a named color\n" +
@@ -127,7 +113,6 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void isNotNamedColor_non_named_color_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.web("#f3b2aa")).isNotColor("BAGEL"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("given color name: \"BAGEL\" is not a named color\n" +
@@ -136,13 +121,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void hasClosestNamedColor_string() {
-        // expect:
         assertThat(Color.color(0.8, 0.2, 0.1)).hasClosestNamedColor("FIREBRICK");
     }
 
     @Test
     public void hasClosestNamedColor_string_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(0.6, 0.1, 0.1)).hasClosestNamedColor("GAINSBORO"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color has closest named color \"GAINSBORO\" (#dcdcdc)\n     " +
@@ -151,7 +134,6 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void hasClosestNamedColor_non_named_color_string_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(0.6, 0.1, 0.1)).hasClosestNamedColor("BETELGEUSE"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("given color name: \"BETELGEUSE\" is not a named color\n" +
@@ -160,7 +142,6 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void hasClosestNamedColor_non_named_color_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.web("#dcdcdc")).hasClosestNamedColor(Color.web("#acb2f1")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("given color: \"#acb2f1\" is not a named color\n" +
@@ -169,13 +150,11 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveClosestNamedColor() {
-        // expect:
         assertThat(Color.color(0.8, 0.2, 0.1)).doesNotHaveClosestNamedColor("YELLOW");
     }
 
     @Test
     public void doesNotHaveClosestNamedColor_string_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(0.6, 0.1, 0.1)).doesNotHaveClosestNamedColor("BROWN"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color has closest named color \"BROWN\" (#a52a2a) to be false\n     " +
@@ -184,7 +163,6 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveClosestNamedColor_color_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.color(0.6, 0.1, 0.1)).doesNotHaveClosestNamedColor(Color.BROWN))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Color has closest named color \"BROWN\" (#a52a2a) to be false\n     " +
@@ -193,7 +171,6 @@ public class ColorAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveClosestNamedColor_non_named_color_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(Color.web("#dcdcdc")).doesNotHaveClosestNamedColor(Color.web("#acb2f1")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("given color: \"#acb2f1\" is not a named color\n" +

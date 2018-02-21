@@ -54,13 +54,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void hasListCell() {
-        // expect:
         assertThat(listView).hasListCell("alice");
     }
 
     @Test
     public void hasListCell_with_null_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).hasListCell(null))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has list cell \"null\"\n     " +
@@ -69,7 +67,6 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void hasListCell_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).hasListCell("foobar"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has list cell \"foobar\"\n     " +
@@ -78,13 +75,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveListCell() {
-        // expect:
         assertThat(listView).doesNotHaveListCell("ebert");
     }
 
     @Test
     public void doesNotHaveListCell_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).doesNotHaveListCell("alice"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has list cell \"alice\" to be false\n     " +
@@ -93,13 +88,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void hasExactlyNumItems() {
-        // expect:
         assertThat(listView).hasExactlyNumItems(4);
     }
 
     @Test
     public void hasExactlyNumItems_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).hasExactlyNumItems(1))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has exactly 1 item\n     " +
@@ -108,13 +101,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotHaveExactlyNumItems() {
-        // expect:
         assertThat(listView).doesNotHaveExactlyNumItems(3);
     }
 
     @Test
     public void doesNotHaveExactlyNumItems_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).doesNotHaveExactlyNumItems(4))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has exactly 4 items to be false\n     " +
@@ -127,13 +118,12 @@ public class ListViewAssertTest extends FxRobot {
         Platform.runLater(() -> listView.getItems().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(listView).isEmpty();
     }
 
     @Test
     public void isEmpty_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).isEmpty())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView is empty (contains no items)\n     " +
@@ -145,7 +135,7 @@ public class ListViewAssertTest extends FxRobot {
         // when:
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(listView).isNotEmpty();
     }
 
@@ -155,7 +145,7 @@ public class ListViewAssertTest extends FxRobot {
         Platform.runLater(() -> listView.getItems().clear());
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(listView).isNotEmpty())
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView is empty (contains no items) to be false\n     " +
@@ -164,13 +154,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void hasPlaceholder() {
-        // expect:
         assertThat(listView).hasPlaceholder(new Label("Empty!"));
     }
 
     @Test
     public void hasPlaceholder_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).hasPlaceholder(new Label("foobar")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has labeled placeholder containing text: \"foobar\"\n     " +
@@ -179,13 +167,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void doesNotHavePlaceholder() {
-        // expect:
         assertThat(listView).doesNotHavePlaceholder(new Label("cat"));
     }
 
     @Test
     public void doesNotHavePlaceholder_fails() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).doesNotHavePlaceholder(new Label("Empty!")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has labeled placeholder containing text: \"Empty!\" to be false\n" +
@@ -194,13 +180,11 @@ public class ListViewAssertTest extends FxRobot {
 
     @Test
     public void hasVisiblePlaceholder() {
-        // expect:
         assertThat(listView).hasVisiblePlaceholder(new Label("Empty!"));
     }
 
     @Test
     public void hasVisiblePlaceholder_fails_whenPlaceHolderHasWrongText() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).hasVisiblePlaceholder(new Label("foobar")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has visible labeled placeholder containing text: \"foobar\"\n     " +
@@ -213,7 +197,7 @@ public class ListViewAssertTest extends FxRobot {
         listView.getPlaceholder().setVisible(false);
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThatThrownBy(() -> assertThat(listView).hasVisiblePlaceholder(new Label("Empty!")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has visible labeled placeholder containing text: \"Empty!\"\n     " +
@@ -226,7 +210,7 @@ public class ListViewAssertTest extends FxRobot {
         listView.getPlaceholder().setVisible(false);
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(listView).doesNotHaveVisiblePlaceholder(new Label("foobar"));
     }
 
@@ -236,13 +220,12 @@ public class ListViewAssertTest extends FxRobot {
         listView.getPlaceholder().setVisible(false);
         WaitForAsyncUtils.waitForFxEvents();
 
-        // expect:
+        // then:
         assertThat(listView).doesNotHaveVisiblePlaceholder(new Label("Empty!"));
     }
 
     @Test
     public void doesNotHaveVisiblePlaceholder_fails_same_text() {
-        // expect:
         assertThatThrownBy(() -> assertThat(listView).doesNotHaveVisiblePlaceholder(new Label("Empty!")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: ListView has visible labeled placeholder containing text: \"Empty!\" to be" +
