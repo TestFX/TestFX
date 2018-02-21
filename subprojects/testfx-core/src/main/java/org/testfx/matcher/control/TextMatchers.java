@@ -17,6 +17,9 @@
 package org.testfx.matcher.control;
 
 import java.util.Objects;
+
+import javafx.scene.text.Font;
+import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 
 import org.hamcrest.Factory;
@@ -57,6 +60,69 @@ public class TextMatchers {
         return typeSafeMatcher(Text.class, descriptionText,
             text -> text.getClass().getSimpleName() + " with text: \"" + text.getText() + "\"",
             textNode -> matcher.matches(textNode.getText()));
+    }
+
+    /**
+     * Creates a matcher that matches all {@link Text}s that have the given {@code font}.
+     *
+     * @param font the {@code Font} that matched Texts should have as their font
+     */
+    @Factory
+    public static Matcher<Text> hasFont(Font font) {
+        String descriptionText = "has font " + toText(font);
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + " with font: " + toText(textNode.getFont()),
+            textNode -> Objects.equals(font, textNode.getFont()));
+    }
+
+    /**
+     * Creates a matcher that matches all {@link Text}s that have the given {@code smoothingType}
+     * (either {@link FontSmoothingType#GRAY} or {@link FontSmoothingType#LCD}).
+     *
+     * @param smoothingType the {@code FontSmoothingType} that matched Texts should have
+     */
+    @Factory
+    public static Matcher<Text> hasFontSmoothingType(FontSmoothingType smoothingType) {
+        String descriptionText = "has font smoothing type: \"" + smoothingType + "\"";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + " with font smoothing type: \"" +
+                    textNode.getFontSmoothingType() + "\"",
+            textNode -> Objects.equals(smoothingType, textNode.getFontSmoothingType()));
+    }
+
+    /**
+     * Creates a matcher that matches all {@link Text}s that have strikethrough (that is, they
+     * should be drawn with a line through them).
+     *
+     * @param strikethrough whether or not the matched Texts should have strikethrough
+     */
+    @Factory
+    public static Matcher<Text> hasStrikethrough(boolean strikethrough) {
+        String descriptionText = (strikethrough ? "has " : "does not have ") + "strikethrough";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + (textNode.isStrikethrough() ?
+                    " with " : " without ") + "strikethrough",
+            textNode -> textNode.isStrikethrough() == strikethrough);
+    }
+
+    /**
+     * Creates a matcher that matches all {@link Text}s that are underlined (that is, they
+     * should be drawn with a line below them).
+     *
+     * @param underlined whether or not the matched Texts should be underlined
+     */
+    @Factory
+    public static Matcher<Text> isUnderlined(boolean underlined) {
+        String descriptionText = (underlined ? "is " : "is not ") + "underlined";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + (textNode.isUnderline() ?
+                    " with " : " without ") + "underline",
+            textNode -> textNode.isUnderline() == underlined);
+    }
+
+    private static String toText(Font font) {
+        return String.format("\"%s\" with family (\"%s\") and size (%.1f)", font.getName(),
+                font.getFamily(), font.getSize());
     }
 
 }
