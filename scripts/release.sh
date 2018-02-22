@@ -68,6 +68,11 @@ if ! [ -x "$(command -v ruby)" ]; then
   exit 1
 fi
 
+if [ "$(gem list -i github_changelog_generator)" != true ]; then
+  echo 'Error: github_changelog_generator is not installed).' >&2
+  echo 'Run \"[sudo] gem install github_changelog_generator\" to install it.' >&2
+fi
+
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
   echo "You are not currently at the root of the TestFX git repository."
   exit
