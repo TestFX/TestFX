@@ -85,7 +85,7 @@ else
   githubApiKey="$TESTFX_GITHUB_API_KEY"
 fi
 
-currentVersion=$(git tag --list 'v*[0-9].*[0-9].*[0.9]-alpha' --sort=taggerdate | tail -n1)
+currentVersion=$(git tag --list --sort=taggerdate | grep 'v*[0-9].*[0-9].*[0-9]' | tail -n1)
 
 echo "Current version of TestFX: $currentVersion"
 IFS='.' read -ra version_parts <<< "$currentVersion"
