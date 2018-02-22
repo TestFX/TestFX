@@ -1,10 +1,35 @@
 # Change Log
 
-## [v4.0.11-alpha](https://github.com/testfx/testfx/tree/v4.0.11-alpha) (2018-01-22)
-[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.9-alpha...v4.0.11-alpha)
+## [v4.0.12-alpha](https://github.com/testfx/testfx/tree/v4.0.12-alpha) (2018-02-22)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.11-alpha...v4.0.12-alpha)
 
 **Merged pull requests:**
 
+- \(fix\) Fix version regex in release script. [\#538](https://github.com/TestFX/TestFX/pull/538) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add a check for github\_changelog\_generator gem. [\#537](https://github.com/TestFX/TestFX/pull/537) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump AssertJ 3.8.0 -\> 3.9.1. [\#536](https://github.com/TestFX/TestFX/pull/536) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Add more matchers/assertions for Text instances. [\#535](https://github.com/TestFX/TestFX/pull/535) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add assertThat tests to junit subprojects. [\#534](https://github.com/TestFX/TestFX/pull/534) ([brcolow](https://github.com/brcolow))
+- \(fix\) Fix the region that is used to capture Bounds. [\#530](https://github.com/TestFX/TestFX/pull/530) ([psaikkonen](https://github.com/psaikkonen))
+- \(chore\) Document Java 8 minimum requirement. [\#529](https://github.com/TestFX/TestFX/pull/529) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Allow FxRobot.write\(..\) sleep time to be configured. [\#528](https://github.com/TestFX/TestFX/pull/528) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump gradle 4.4.1 =\> 4.5.1 [\#526](https://github.com/TestFX/TestFX/pull/526) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump checkstyle from 8.5 to 8.8. [\#525](https://github.com/TestFX/TestFX/pull/525) ([brcolow](https://github.com/brcolow))
+- \[WIP\] Color matchers, refactor ColorUtils. [\#524](https://github.com/TestFX/TestFX/pull/524) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Add some more offset convenience methods. [\#523](https://github.com/TestFX/TestFX/pull/523) ([brcolow](https://github.com/brcolow))
+- \(enhancement\) Add isFocused/isNotFocused to NodeMatchers. [\#522](https://github.com/TestFX/TestFX/pull/522) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add test for write\(..\). [\#521](https://github.com/TestFX/TestFX/pull/521) ([brcolow](https://github.com/brcolow))
+- \(chore\) Fix JUnit 5 README example visibility modifiers. [\#520](https://github.com/TestFX/TestFX/pull/520) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add note about testfx-legacy deprecation to README. [\#517](https://github.com/TestFX/TestFX/pull/517) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add a cleanup handler to release script. [\#514](https://github.com/TestFX/TestFX/pull/514) ([brcolow](https://github.com/brcolow))
+
+## [v4.0.11-alpha](https://github.com/testfx/testfx/tree/v4.0.11-alpha) (2018-01-23)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.10-alpha...v4.0.11-alpha)
+
+**Merged pull requests:**
+
+- \(enhancement\) Add support for AssertJ assertions. [\#532](https://github.com/TestFX/TestFX/pull/532) ([brcolow](https://github.com/brcolow))
+- \(release\) TestFX v4.0.11-alpha [\#513](https://github.com/TestFX/TestFX/pull/513) ([brcolow](https://github.com/brcolow))
 - \(chore\) Bump appveyor Java 9 version. [\#512](https://github.com/TestFX/TestFX/pull/512) ([brcolow](https://github.com/brcolow))
 - MoveRobotImpl slowness fix [\#511](https://github.com/TestFX/TestFX/pull/511) ([seggcsont](https://github.com/seggcsont))
 - \(chore\) Add GitHub issue template. [\#509](https://github.com/TestFX/TestFX/pull/509) ([brcolow](https://github.com/brcolow))
@@ -35,6 +60,12 @@
 - \(enhancement\) Simplify converting from Glass colors. [\#471](https://github.com/TestFX/TestFX/pull/471) ([brcolow](https://github.com/brcolow))
 - \(enhancement\) Continue modularization [\#470](https://github.com/TestFX/TestFX/pull/470) ([brcolow](https://github.com/brcolow))
 - Fixed Gitter link [\#469](https://github.com/TestFX/TestFX/pull/469) ([AdamCarroll](https://github.com/AdamCarroll))
+
+## [v4.0.10-alpha](https://github.com/testfx/testfx/tree/v4.0.10-alpha) (2017-11-28)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.9-alpha...v4.0.10-alpha)
+
+**Merged pull requests:**
+
 - \(release\) TestFX 4.0.10-alpha [\#468](https://github.com/TestFX/TestFX/pull/468) ([brcolow](https://github.com/brcolow))
 - \(chore\) Update junit5 to 5.1.0-M1 [\#467](https://github.com/TestFX/TestFX/pull/467) ([brcolow](https://github.com/brcolow))
 - \(chore\) Fix coveralls badge URL. [\#465](https://github.com/TestFX/TestFX/pull/465) ([brcolow](https://github.com/brcolow))

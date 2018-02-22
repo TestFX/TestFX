@@ -32,7 +32,7 @@ To add a dependency on TestFX using Gradle, use the following:
 
 ```gradle
 dependencies {
-    testCompile "org.testfx:testfx-core:4.0.11-alpha"
+    testCompile "org.testfx:testfx-core:4.0.12-alpha"
 }
 ```
 
@@ -42,7 +42,7 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
 
 ```gradle
 dependencies {
-    testCompile "org.testfx:testfx-junit:4.0.11-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.12-alpha"
 }
 ```
 
@@ -52,10 +52,10 @@ To use TestFX with Java 9 the `testfx-core` dependency must be tweaked by exclud
 `testfx-internal-java8` and adding a dependency on `testfx-internal-java9` thusly:
 
 ```gradle
-testCompile('org.testfx:testfx-core:4.0.11-alpha') {
+testCompile('org.testfx:testfx-core:4.0.12-alpha') {
     exclude group: 'org.testfx', module: 'testfx-internal-java8'
 }
-testRuntime 'org.testfx:testfx-internal-java9:4.0.11-alpha'
+testRuntime 'org.testfx:testfx-internal-java9:4.0.12-alpha'
 ```
 
 There are plans to make this easier in a future version of TestFX, perhaps
@@ -69,7 +69,7 @@ To add a dependency on TestFX using Maven, use the following:
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-core</artifactId>
-    <version>4.0.11-alpha</version>
+    <version>4.0.12-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -82,7 +82,7 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit</artifactId>
-    <version>4.0.11-alpha</version>
+    <version>4.0.12-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -96,7 +96,7 @@ To use TestFX with Java 9 the `testfx-core` dependency must be tweaked by exclud
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-core</artifactId>
-    <version>4.0.11-alpha</version>
+    <version>4.0.12-alpha</version>
     <scope>test</scope>
     <exclusions>
         <exclusion>
@@ -108,7 +108,7 @@ To use TestFX with Java 9 the `testfx-core` dependency must be tweaked by exclud
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-internal-java9</artifactId>
-    <version>4.0.11-alpha</version>
+    <version>4.0.12-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
