@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -132,14 +132,41 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#hasText-org.hamcrest.Matcher-">hasText</a></span>(org.hamcrest.Matcher&lt;java.lang.String&gt;&nbsp;matcher)</code>
-<div class="block">Creates a matcher that matches all <code>Text</code>s whose text matches the given <code>matcher</code>.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#hasFont-javafx.scene.text.Font-">hasFont</a></span>(javafx.scene.text.Font&nbsp;font)</code>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that have the given <code>font</code>.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#hasFontSmoothingType-javafx.scene.text.FontSmoothingType-">hasFontSmoothingType</a></span>(javafx.scene.text.FontSmoothingType&nbsp;smoothingType)</code>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that have the given <code>smoothingType</code>
+ (either <code>FontSmoothingType.GRAY</code> or <code>FontSmoothingType.LCD</code>).</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#hasStrikethrough-boolean-">hasStrikethrough</a></span>(boolean&nbsp;strikethrough)</code>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that have strikethrough (that is, they
+ should be drawn with a line through them).</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#hasText-org.hamcrest.Matcher-">hasText</a></span>(org.hamcrest.Matcher&lt;java.lang.String&gt;&nbsp;matcher)</code>
+<div class="block">Creates a matcher that matches all <code>Text</code>s whose text matches the given <code>matcher</code>.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#hasText-java.lang.String-">hasText</a></span>(java.lang.String&nbsp;text)</code>
 <div class="block">Creates a matcher that matches all <code>Text</code>s whose text equals the given <code>text</code>.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/TextMatchers.html#isUnderlined-boolean-">isUnderlined</a></span>(boolean&nbsp;underlined)</code>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that are underlined (that is, they
+ should be drawn with a line below them).</div>
 </td>
 </tr>
 </table>
@@ -181,7 +208,7 @@ extends java.lang.Object</pre>
 <a name="hasText-org.hamcrest.Matcher-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>hasText</h4>
 <pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;&nbsp;hasText(org.hamcrest.Matcher&lt;java.lang.String&gt;&nbsp;matcher)</pre>
@@ -189,6 +216,65 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>matcher</code> - the <code>Matcher&lt;String&gt;</code> the Texts text should match</dd>
+</dl>
+</li>
+</ul>
+<a name="hasFont-javafx.scene.text.Font-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasFont</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;&nbsp;hasFont(javafx.scene.text.Font&nbsp;font)</pre>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that have the given <code>font</code>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>font</code> - the <code>Font</code> that matched Texts should have as their font</dd>
+</dl>
+</li>
+</ul>
+<a name="hasFontSmoothingType-javafx.scene.text.FontSmoothingType-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasFontSmoothingType</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;&nbsp;hasFontSmoothingType(javafx.scene.text.FontSmoothingType&nbsp;smoothingType)</pre>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that have the given <code>smoothingType</code>
+ (either <code>FontSmoothingType.GRAY</code> or <code>FontSmoothingType.LCD</code>).</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>smoothingType</code> - the <code>FontSmoothingType</code> that matched Texts should have</dd>
+</dl>
+</li>
+</ul>
+<a name="hasStrikethrough-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasStrikethrough</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;&nbsp;hasStrikethrough(boolean&nbsp;strikethrough)</pre>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that have strikethrough (that is, they
+ should be drawn with a line through them).</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>strikethrough</code> - whether or not the matched Texts should have strikethrough</dd>
+</dl>
+</li>
+</ul>
+<a name="isUnderlined-boolean-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>isUnderlined</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.text.Text&gt;&nbsp;isUnderlined(boolean&nbsp;underlined)</pre>
+<div class="block">Creates a matcher that matches all <code>Text</code>s that are underlined (that is, they
+ should be drawn with a line below them).</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>underlined</code> - whether or not the matched Texts should be underlined</dd>
 </dl>
 </li>
 </ul>
