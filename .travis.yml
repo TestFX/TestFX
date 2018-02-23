@@ -88,6 +88,9 @@ jobs:
     # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
     # this "partial headless" testing scenario does not provide any useful information.
     - stage: deploy
+      before_install: true
+      script: true
+      after_success: true
       script: .ci/deploy.sh
       os: osx
       osx_image: xcode9
