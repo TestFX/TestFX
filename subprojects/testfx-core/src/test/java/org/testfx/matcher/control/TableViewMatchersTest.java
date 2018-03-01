@@ -49,6 +49,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -86,6 +87,7 @@ public class TableViewMatchersTest extends FxRobot {
 
             tableView.setItems(observableArrayList(row1, row2, row3, row4));
             tableColumn0 = new TableColumn<>("name");
+            tableColumn0.setId("tableColumn0");
             tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
             tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
@@ -398,6 +400,15 @@ public class TableViewMatchersTest extends FxRobot {
                 "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
 
         assertThat(tableView, TableViewMatchers.containsRow(63, "deedee"));
+    }
+
+    /**
+     * @see <a href="https://github.com/TestFX/TestFX/issues/541">Issue #541</a>
+     */
+    @Test
+    public void shouldQueryTableHeader() {
+        assertThat(lookup("#tableColumn0").query().getStyleClass(), hasItem("column-header"));
+        assertThat(lookup("#tableColumn0").tryQuery().get().getStyleClass(), hasItem("column-header"));
     }
 
     @Test

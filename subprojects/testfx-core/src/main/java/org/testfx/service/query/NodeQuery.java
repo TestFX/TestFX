@@ -117,6 +117,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@code Node} found that matches
      * this query or {@literal null} if no nodes match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @param <T> the type that extends {@code Node}
      * @return the first node found or {@literal null}
@@ -126,6 +133,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Button} found that matches
      * this query or {@literal null} if no buttons match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code Button} found or {@literal null}
      */
@@ -134,6 +148,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link ComboBox} found that matches
      * this query or {@literal null} if no combo-boxes match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code ComboBox} found or {@literal null}
      */
@@ -142,6 +163,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Labeled} found that matches
      * this query or {@literal null} if no labeleds match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code Labeled} found or {@literal null}
      */
@@ -150,6 +178,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link ListView} found that matches
      * this query or {@literal null} if no list views match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code ListView} found or {@literal null}
      */
@@ -158,6 +193,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Parent} found that matches
      * this query or {@literal null} if no parents match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code Parent} found or {@literal null}
      */
@@ -166,6 +208,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link TableView} found that matches
      * this query or {@literal null} if no table views match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code TableView} found or {@literal null}
      */
@@ -174,6 +223,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Text} found that matches
      * this query or {@literal null} if no texts match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code Text} found or {@literal null}
      */
@@ -182,6 +238,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link TextFlow} found that matches
      * this query or {@literal null} if no text flows match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code TextFlow} found or {@literal null}
      */
@@ -190,6 +253,13 @@ public interface NodeQuery {
     /**
      * Executes this {@code NodeQuery} and returns the first {@link TextInputControl} found that matches
      * this query or {@literal null} if no text input controls match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @return the first {@code TextInputControl} found or {@literal null}
      */
@@ -199,6 +269,13 @@ public interface NodeQuery {
      * Type-safe version of {@link #query()} that executes this {@code NodeQuery} and returns
      * the first {@code Node} found that matches this query or {@literal null} if no nodes
      * match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @param clazz the concrete sub-type of {@code Node} that should be returned by this query
      * so as to avoid extraneous casting when used inside an "assertThat" assertion
@@ -211,6 +288,13 @@ public interface NodeQuery {
      * Executes this {@code NodeQuery} and returns an {@code Optional} that either contains
      * the first {@code Node} found that matches this query or nothing (e.g. {@link Optional#empty()}
      * returns {@literal true}) if no nodes match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @param <T> the type that extends {@code Node}
      * @return the first node found or {@literal null}
@@ -221,6 +305,13 @@ public interface NodeQuery {
      * Type-safe version of {@link #tryQuery()} that executes this {@code NodeQuery} and returns an
      * {@code Optional} that either contains the first {@code Node} found that matches this query or
      * nothing (e.g. {@link Optional#empty()} returns {@literal true}) if no nodes match this query.
+     * <p>
+     * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
+     * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+     * version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+     * traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+     * multiple nodes matched by this query and you want a specific one it is advised not to use this
+     * method and instead narrow the query so that only one node is matched.
      *
      * @param clazz the concrete sub-type of {@code Node} that should be contained in the
      * {@code Optional} returned by this query so as to avoid extraneous casting when used inside
