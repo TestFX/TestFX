@@ -38,7 +38,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import org.hamcrest.Matcher;
-
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.NodeQueryUtils;
@@ -104,7 +103,7 @@ public class NodeQueryImpl implements NodeQuery {
     public <T> NodeQuery match(Matcher<T> matcher) {
         parentNodes = parentNodes.stream()
             .filter(NodeQueryUtils.matchesMatcher((Matcher<Node>) matcher))
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
         return this;
     }
 
@@ -113,7 +112,7 @@ public class NodeQueryImpl implements NodeQuery {
     public <T extends Node> NodeQuery match(Predicate<T> predicate) {
         parentNodes = parentNodes.stream()
             .filter((Predicate<Node>) predicate)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
         return this;
     }
 
@@ -122,80 +121,132 @@ public class NodeQueryImpl implements NodeQuery {
         parentNodes = parentNodes.stream()
             .skip(index)
             .limit(1)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> T query() {
-        return (T) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.isEmpty()) {
+            return null;
+        } else {
+            return (T) parentNodes.iterator().next();
+        }
     }
 
     @Override
     public Button queryButton() {
-        return (Button) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> Button.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (Button) parentNodes.iterator().next();
+        }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> ComboBox<T> queryComboBox() {
-        return (ComboBox<T>) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> ComboBox.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (ComboBox<T>) parentNodes.iterator().next();
+        }
     }
 
     @Override
     public Labeled queryLabeled() {
-        return (Labeled) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> Labeled.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (Labeled) parentNodes.iterator().next();
+        }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> ListView<T> queryListView() {
-        return (ListView<T>) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> ListView.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (ListView<T>) parentNodes.iterator().next();
+        }
     }
 
     @Override
     public Parent queryParent() {
-        return (Parent) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> Parent.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (Parent) parentNodes.iterator().next();
+        }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> TableView<T> queryTableView() {
-        return (TableView<T>) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> TableView.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (TableView<T>) parentNodes.iterator().next();
+        }
     }
 
     @Override
     public Text queryText() {
-        return (Text) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> Text.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (Text) parentNodes.iterator().next();
+        }
     }
 
     @Override
     public TextFlow queryTextFlow() {
-        return (TextFlow) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> TextFlow.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (TextFlow) parentNodes.iterator().next();
+        }
     }
 
     @Override
     public TextInputControl queryTextInputControl() {
-        return (TextInputControl) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> TextInputControl.class.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (TextInputControl) parentNodes.iterator().next();
+        }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> T queryAs(Class<T> clazz) {
-        return (T) parentNodes.stream().findFirst().orElse(null);
+        if (parentNodes.stream().noneMatch(node -> clazz.isAssignableFrom(node.getClass()))) {
+            return null;
+        } else {
+            return (T) parentNodes.iterator().next();
+        }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> Optional<T> tryQuery() {
-        return (Optional<T>) parentNodes.stream().findFirst();
+        if (parentNodes.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of((T) parentNodes.iterator().next());
+        }
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Node> Optional<T> tryQueryAs(Class<T> clazz) {
-        return (Optional<T>) parentNodes.stream().findFirst();
+        if (parentNodes.stream().noneMatch(node -> clazz.isAssignableFrom(node.getClass()))) {
+            return Optional.empty();
+        } else {
+            return Optional.of((T) parentNodes.iterator().next());
+        }
     }
 
     @Override
