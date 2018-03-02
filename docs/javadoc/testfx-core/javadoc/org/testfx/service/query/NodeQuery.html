@@ -461,7 +461,14 @@ var activeTableTab = "activeTableTab";
 <h4>query</h4>
 <pre>&lt;T extends javafx.scene.Node&gt;&nbsp;T&nbsp;query()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Node</code> found that matches
- this query or null if no nodes match this query.</div>
+ this query or null if no nodes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type that extends <code>Node</code></dd>
@@ -478,7 +485,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryButton</h4>
 <pre>javafx.scene.control.Button&nbsp;queryButton()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Button</code> found that matches
- this query or null if no buttons match this query.</div>
+ this query or null if no buttons match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>Button</code> found or null</dd>
@@ -493,7 +507,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryComboBox</h4>
 <pre>&lt;T&gt;&nbsp;javafx.scene.control.ComboBox&lt;T&gt;&nbsp;queryComboBox()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ComboBox</code> found that matches
- this query or null if no combo-boxes match this query.</div>
+ this query or null if no combo-boxes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>ComboBox</code> found or null</dd>
@@ -508,7 +529,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryLabeled</h4>
 <pre>javafx.scene.control.Labeled&nbsp;queryLabeled()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Labeled</code> found that matches
- this query or null if no labeleds match this query.</div>
+ this query or null if no labeleds match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>Labeled</code> found or null</dd>
@@ -523,7 +551,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryListView</h4>
 <pre>&lt;T&gt;&nbsp;javafx.scene.control.ListView&lt;T&gt;&nbsp;queryListView()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ListView</code> found that matches
- this query or null if no list views match this query.</div>
+ this query or null if no list views match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>ListView</code> found or null</dd>
@@ -538,7 +573,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryParent</h4>
 <pre>javafx.scene.Parent&nbsp;queryParent()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Parent</code> found that matches
- this query or null if no parents match this query.</div>
+ this query or null if no parents match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>Parent</code> found or null</dd>
@@ -553,7 +595,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryTableView</h4>
 <pre>&lt;T&gt;&nbsp;javafx.scene.control.TableView&lt;T&gt;&nbsp;queryTableView()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TableView</code> found that matches
- this query or null if no table views match this query.</div>
+ this query or null if no table views match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>TableView</code> found or null</dd>
@@ -568,7 +617,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryText</h4>
 <pre>javafx.scene.text.Text&nbsp;queryText()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Text</code> found that matches
- this query or null if no texts match this query.</div>
+ this query or null if no texts match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>Text</code> found or null</dd>
@@ -583,7 +639,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryTextFlow</h4>
 <pre>javafx.scene.text.TextFlow&nbsp;queryTextFlow()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextFlow</code> found that matches
- this query or null if no text flows match this query.</div>
+ this query or null if no text flows match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>TextFlow</code> found or null</dd>
@@ -598,7 +661,14 @@ var activeTableTab = "activeTableTab";
 <h4>queryTextInputControl</h4>
 <pre>javafx.scene.control.TextInputControl&nbsp;queryTextInputControl()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextInputControl</code> found that matches
- this query or null if no text input controls match this query.</div>
+ this query or null if no text input controls match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the first <code>TextInputControl</code> found or null</dd>
@@ -614,7 +684,14 @@ var activeTableTab = "activeTableTab";
 <pre>&lt;T extends javafx.scene.Node&gt;&nbsp;T&nbsp;queryAs(java.lang.Class&lt;T&gt;&nbsp;clazz)</pre>
 <div class="block">Type-safe version of <a href="../../../../org/testfx/service/query/NodeQuery.html#query--"><code>query()</code></a> that executes this <code>NodeQuery</code> and returns
  the first <code>Node</code> found that matches this query or null if no nodes
- match this query.</div>
+ match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type that extends <code>Node</code></dd>
@@ -635,7 +712,14 @@ var activeTableTab = "activeTableTab";
 <pre>&lt;T extends javafx.scene.Node&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;tryQuery()</pre>
 <div class="block">Executes this <code>NodeQuery</code> and returns an <code>Optional</code> that either contains
  the first <code>Node</code> found that matches this query or nothing (e.g. <code>Optional.empty()</code>
- returns true) if no nodes match this query.</div>
+ returns true) if no nodes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type that extends <code>Node</code></dd>
@@ -653,7 +737,14 @@ var activeTableTab = "activeTableTab";
 <pre>&lt;T extends javafx.scene.Node&gt;&nbsp;java.util.Optional&lt;T&gt;&nbsp;tryQueryAs(java.lang.Class&lt;T&gt;&nbsp;clazz)</pre>
 <div class="block">Type-safe version of <a href="../../../../org/testfx/service/query/NodeQuery.html#tryQuery--"><code>tryQuery()</code></a> that executes this <code>NodeQuery</code> and returns an
  <code>Optional</code> that either contains the first <code>Node</code> found that matches this query or
- nothing (e.g. <code>Optional.empty()</code> returns true) if no nodes match this query.</div>
+ nothing (e.g. <code>Optional.empty()</code> returns true) if no nodes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - the type that extends <code>Node</code></dd>

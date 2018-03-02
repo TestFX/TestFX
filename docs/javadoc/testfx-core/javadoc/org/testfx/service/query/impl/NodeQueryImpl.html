@@ -541,7 +541,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;T&nbsp;query()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#query--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Node</code> found that matches
- this query or null if no nodes match this query.</div>
+ this query or null if no nodes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#query--">query</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -561,7 +568,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;javafx.scene.control.Button&nbsp;queryButton()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryButton--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Button</code> found that matches
- this query or null if no buttons match this query.</div>
+ this query or null if no buttons match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryButton--">queryButton</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -579,7 +593,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;&lt;T&gt;&nbsp;javafx.scene.control.ComboBox&lt;T&gt;&nbsp;queryComboBox()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryComboBox--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ComboBox</code> found that matches
- this query or null if no combo-boxes match this query.</div>
+ this query or null if no combo-boxes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryComboBox--">queryComboBox</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -597,7 +618,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;javafx.scene.control.Labeled&nbsp;queryLabeled()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryLabeled--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Labeled</code> found that matches
- this query or null if no labeleds match this query.</div>
+ this query or null if no labeleds match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryLabeled--">queryLabeled</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -615,7 +643,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;&lt;T&gt;&nbsp;javafx.scene.control.ListView&lt;T&gt;&nbsp;queryListView()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryListView--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>ListView</code> found that matches
- this query or null if no list views match this query.</div>
+ this query or null if no list views match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryListView--">queryListView</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -633,7 +668,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;javafx.scene.Parent&nbsp;queryParent()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryParent--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Parent</code> found that matches
- this query or null if no parents match this query.</div>
+ this query or null if no parents match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryParent--">queryParent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -651,7 +693,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;&lt;T&gt;&nbsp;javafx.scene.control.TableView&lt;T&gt;&nbsp;queryTableView()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTableView--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TableView</code> found that matches
- this query or null if no table views match this query.</div>
+ this query or null if no table views match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTableView--">queryTableView</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -669,7 +718,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;javafx.scene.text.Text&nbsp;queryText()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryText--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>Text</code> found that matches
- this query or null if no texts match this query.</div>
+ this query or null if no texts match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryText--">queryText</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -687,7 +743,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;javafx.scene.text.TextFlow&nbsp;queryTextFlow()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextFlow--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextFlow</code> found that matches
- this query or null if no text flows match this query.</div>
+ this query or null if no text flows match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextFlow--">queryTextFlow</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -705,7 +768,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <pre>public&nbsp;javafx.scene.control.TextInputControl&nbsp;queryTextInputControl()</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextInputControl--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns the first <code>TextInputControl</code> found that matches
- this query or null if no text input controls match this query.</div>
+ this query or null if no text input controls match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryTextInputControl--">queryTextInputControl</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -724,7 +794,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAs-java.lang.Class-">NodeQuery</a></code></span></div>
 <div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#query--"><code>NodeQuery.query()</code></a> that executes this <code>NodeQuery</code> and returns
  the first <code>Node</code> found that matches this query or null if no nodes
- match this query.</div>
+ match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#queryAs-java.lang.Class-">queryAs</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -748,7 +825,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--">NodeQuery</a></code></span></div>
 <div class="block">Executes this <code>NodeQuery</code> and returns an <code>Optional</code> that either contains
  the first <code>Node</code> found that matches this query or nothing (e.g. <code>Optional.empty()</code>
- returns true) if no nodes match this query.</div>
+ returns true) if no nodes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--">tryQuery</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
@@ -769,7 +853,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQueryAs-java.lang.Class-">NodeQuery</a></code></span></div>
 <div class="block">Type-safe version of <a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQuery--"><code>NodeQuery.tryQuery()</code></a> that executes this <code>NodeQuery</code> and returns an
  <code>Optional</code> that either contains the first <code>Node</code> found that matches this query or
- nothing (e.g. <code>Optional.empty()</code> returns true) if no nodes match this query.</div>
+ nothing (e.g. <code>Optional.empty()</code> returns true) if no nodes match this query.
+ <p>
+ The determinism of this method relies on the determinism of <code>Node.lookupAll(String)</code>,
+ for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
+ version of JavaFX happens to return the nodes in the order in which they are encountered whilst
+ traversing the scene graph but this could change in future versions of JavaFX. Thus if there are
+ multiple nodes matched by this query and you want a specific one it is advised not to use this
+ method and instead narrow the query so that only one node is matched.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#tryQueryAs-java.lang.Class-">tryQueryAs</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
