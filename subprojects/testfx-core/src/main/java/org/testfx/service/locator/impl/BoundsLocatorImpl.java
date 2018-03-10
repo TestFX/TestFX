@@ -16,6 +16,8 @@
  */
 package org.testfx.service.locator.impl;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -27,8 +29,6 @@ import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
 
-import java.awt.Toolkit;
-import java.awt.GraphicsEnvironment;
 
 @Unstable
 public class BoundsLocatorImpl implements BoundsLocator {
@@ -39,16 +39,16 @@ public class BoundsLocatorImpl implements BoundsLocator {
         return limitToVisibleBounds(sceneBounds, node.getScene());
     }
 
-    private Double getScale(){
-        if (GraphicsEnvironment.isHeadless()){
+    private Double getScale() {
+        if (GraphicsEnvironment.isHeadless()) {
             return null;
         }
-        double width1 = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        double width2 = Screen.getPrimary().getBounds().getWidth();
-        if(width1==width2){
+        double realWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        double scaledWidth = Screen.getPrimary().getBounds().getWidth();
+        if (realWidth == scaledWidth) {
             return null;
         }
-        return width1 / width2;
+        return realWidth / scaledWidth;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class BoundsLocatorImpl implements BoundsLocator {
 
     private Bounds scale(Bounds bounds) {
         Double scale = getScale();
-        if(scale!=null) {
+        if (scale != null) {
             return new BoundingBox(bounds.getMinX() * scale,
             bounds.getMinY() * scale,
             bounds.getMinZ() * scale,
