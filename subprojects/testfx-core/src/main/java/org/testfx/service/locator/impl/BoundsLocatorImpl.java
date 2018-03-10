@@ -20,11 +20,15 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Window;
 
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
+
+import java.awt.Toolkit;
+import java.awt.GraphicsEnvironment;
 
 @Unstable
 public class BoundsLocatorImpl implements BoundsLocator {
@@ -33,6 +37,18 @@ public class BoundsLocatorImpl implements BoundsLocator {
     public Bounds boundsInSceneFor(Node node) {
         Bounds sceneBounds = node.localToScene(node.getBoundsInLocal());
         return limitToVisibleBounds(sceneBounds, node.getScene());
+    }
+
+    private Double getScale(){
+        if (GraphicsEnvironment.isHeadless()){
+            return null;
+        }
+        double width1 = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        double width2 = Screen.getPrimary().getBounds().getWidth();
+        if(width1==width2){
+            return null;
+        }
+        return width1 / width2;
     }
 
     @Override
@@ -51,6 +67,19 @@ public class BoundsLocatorImpl implements BoundsLocator {
     public Bounds boundsOnScreenFor(Node node) {
         Bounds sceneBounds = boundsInSceneFor(node);
         return boundsOnScreenFor(sceneBounds, node.getScene());
+    }
+
+    private Bounds scale(Bounds bounds) {
+        Double scale = getScale();
+        if(scale!=null) {
+            return new BoundingBox(bounds.getMinX() * scale,
+            bounds.getMinY() * scale,
+            bounds.getMinZ() * scale,
+            bounds.getWidth() * scale,
+            bounds.getHeight() * scale,
+                    bounds.getDepth());
+        }
+        return bounds;
     }
 
     @Override
@@ -72,7 +101,8 @@ public class BoundsLocatorImpl implements BoundsLocator {
     public Bounds boundsOnScreenFor(Bounds boundsInScene, Scene scene) {
         Bounds windowBounds = boundsInWindowFor(boundsInScene, scene);
         Window window = scene.getWindow();
-        return translateBounds(windowBounds, window.getX(), window.getY());
+        Bounds original = translateBounds(windowBounds, window.getX(), window.getY());
+        return scale(original);
     }
 
     private Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {
