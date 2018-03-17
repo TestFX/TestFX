@@ -13,6 +13,10 @@ environment:
       JAVA_HOME: C:\jdk9
 
     - JAVA_VERSION: "9"
+      JAVA_HOME: C:\jdk9
+      JAVA_OPTS: "-Dglass.win.uiScale=200%"
+
+    - JAVA_VERSION: "9"
       JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\jdk9
 
@@ -33,7 +37,7 @@ build_script:
       gradlew versions build --info --no-daemon
 
 test_script:
-  - gradlew check --info --no-daemon
+  - gradlew check --quiet --no-daemon
 
 after_test:
   - ps: |
