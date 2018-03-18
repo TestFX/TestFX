@@ -22,7 +22,7 @@
 apply plugin: "com.github.spotbugs"
 
 spotbugs {
-    toolVersion = "3.1.1"
+    toolVersion = "3.1.2"
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/reports/findbugs")

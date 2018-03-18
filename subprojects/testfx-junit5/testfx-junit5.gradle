@@ -22,7 +22,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0-M1'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
     }
 }
 
@@ -34,8 +34,8 @@ dependencies {
     // Removes compile warnings about missing enums.
     compile('org.apiguardian:apiguardian-api:1.0.0')
 
-    compile 'org.junit.jupiter:junit-jupiter-api:5.1.0-M1'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.1.0-M1'
+    compile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
     if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
     } else {

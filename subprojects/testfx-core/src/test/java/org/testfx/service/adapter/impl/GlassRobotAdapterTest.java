@@ -18,7 +18,9 @@ package org.testfx.service.adapter.impl;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -47,6 +49,7 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
+import org.testfx.util.BoundsQueryUtils;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -72,7 +75,7 @@ public class GlassRobotAdapterTest {
     Stage targetStage;
     Parent sceneRoot;
     Region region;
-    Point2D regionPoint;
+    Point2D regionCenter;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -98,7 +101,7 @@ public class GlassRobotAdapterTest {
         });
 
         PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
-        regionPoint = pointLocator.point(region).atPosition(Pos.CENTER).query();
+        regionCenter = pointLocator.point(region).atPosition(Pos.CENTER).query();
     }
 
     @After
@@ -145,7 +148,7 @@ public class GlassRobotAdapterTest {
         targetStage.addEventHandler(KeyEvent.KEY_PRESSED, keyEventHandler);
 
         // and:
-        robotAdapter.mouseMove(regionPoint);
+        robotAdapter.mouseMove(regionCenter);
 
         // when:
         robotAdapter.keyPress(KeyCode.A);
@@ -163,7 +166,7 @@ public class GlassRobotAdapterTest {
         targetStage.addEventHandler(KeyEvent.KEY_RELEASED, keyEventHandler);
 
         // and:
-        robotAdapter.mouseMove(regionPoint);
+        robotAdapter.mouseMove(regionCenter);
 
         // when:
         robotAdapter.keyPress(KeyCode.A);
@@ -206,7 +209,7 @@ public class GlassRobotAdapterTest {
         region.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEventHandler);
 
         // and:
-        robotAdapter.mouseMove(regionPoint);
+        robotAdapter.mouseMove(regionCenter);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
@@ -224,7 +227,7 @@ public class GlassRobotAdapterTest {
         region.addEventHandler(MouseEvent.MOUSE_RELEASED, mouseEventHandler);
 
         // and:
-        robotAdapter.mouseMove(regionPoint);
+        robotAdapter.mouseMove(regionCenter);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
@@ -241,7 +244,7 @@ public class GlassRobotAdapterTest {
         assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
 
         // when:
-        Color pixelColor = robotAdapter.getCapturePixelColor(regionPoint);
+        Color pixelColor = robotAdapter.getCapturePixelColor(regionCenter);
 
         // then:
         assertThat(pixelColor, is(Color.web("magenta")));
@@ -253,13 +256,11 @@ public class GlassRobotAdapterTest {
         assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
 
         // when:
-        Rectangle2D region = new Rectangle2D(regionPoint.getX(), regionPoint.getY(), 10, 20);
-        Image regionImage = robotAdapter.getCaptureRegion(region);
-
-        // then:
-        assertThat(regionImage.getWidth(), is(10.0));
-        assertThat(regionImage.getHeight(), is(20.0));
-        assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.web("magenta")));
+        Bounds bounds = BoundsQueryUtils.boundsOnScreen(region);
+        Image regionImage = robotAdapter.getCaptureRegion(new Rectangle2D(bounds.getMinX(), bounds.getMinY(),
+                bounds.getWidth(), bounds.getHeight()));
+        assertThat(regionImage.getPixelReader().getColor((int) regionImage.getWidth() / 2,
+                (int) regionImage.getHeight() / 2), is(Color.web("magenta")));
     }
 
     @Test

@@ -29,12 +29,12 @@ plugins {
     id 'com.jfrog.bintray' version '1.8.0'
     id 'com.github.ben-manes.versions' version '0.17.0'
     id 'com.github.kt3k.coveralls' version '2.8.2'
-    id 'com.github.spotbugs' version '1.6.0'
+    id 'com.github.spotbugs' version '1.6.1'
 }
 
 rootProject.with { project ->
     task wrapper(type: Wrapper) {
-        gradleVersion = '4.5.1'
+        gradleVersion = '4.6'
         distributionUrl = "https://services.gradle.org/distributions/" +
             "gradle-${gradleVersion}-all.zip"
     }
@@ -102,7 +102,9 @@ allprojects { project ->
 subprojects { subproject ->
     apply plugin: 'osgi'
 
-    apply from: "${rootDir}/gradle/spotbugs.gradle"
+    if (!JavaVersion.current().isJava10Compatible()) {
+      apply from: "${rootDir}/gradle/spotbugs.gradle"
+    }
     //apply(from: rootProject.file("gradle/jdepend.gradle"))
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
@@ -148,6 +150,9 @@ subprojects { subproject ->
     }
 
     test {
+        jacoco {
+            enabled = JavaVersion.current() <= JavaVersion.VERSION_1_9
+        }
         reports.html.enabled = false
         testLogging {
             // set options for log level LIFECYCLE

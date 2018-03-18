@@ -42,6 +42,7 @@ import org.testfx.service.locator.BoundsLocatorException;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testfx.util.BoundsQueryUtils.scale;
 
 public class BoundsLocatorImplTest {
 
@@ -186,7 +187,7 @@ public class BoundsLocatorImplTest {
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsInsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, equalTo(boundsWithOffset(100 + 50, 100 + 50, 100, 100, windowInsets)));
+        assertThat(bounds, equalTo(scale(boundsWithOffset(100 + 50, 100 + 50, 100, 100, windowInsets))));
     }
 
     @Test
@@ -195,9 +196,8 @@ public class BoundsLocatorImplTest {
         Bounds bounds = boundsLocator.boundsOnScreenFor(boundsPartyOutsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, not(equalTo(boundsWithOffset(100 + 550, 100 + 350, 100, 100,
-            windowInsets))));
-        assertThat(bounds, equalTo(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets)));
+        assertThat(bounds, not(equalTo(scale(boundsWithOffset(100 + 550, 100 + 350, 100, 100, windowInsets)))));
+        assertThat(bounds, equalTo(scale(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets))));
     }
 
     @Test(expected = BoundsLocatorException.class)

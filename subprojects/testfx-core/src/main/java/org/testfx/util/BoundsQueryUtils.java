@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.stage.Window;
 
 import org.testfx.api.annotation.Unstable;
+import org.testfx.internal.JavaVersionAdapter;
 
 @Unstable
 public final class BoundsQueryUtils {
@@ -141,6 +142,20 @@ public final class BoundsQueryUtils {
      */
     public static Bounds boundsOnScreen(Bounds boundsOnScreen, Rectangle2D screenRegion) {
         return translateBounds(boundsOnScreen, byOffset(screenRegion.getMinX(), screenRegion.getMinY()));
+    }
+
+    public static Bounds scale(Bounds bounds) {
+        double scaleX = JavaVersionAdapter.getScreenScaleX();
+        double scaleY = JavaVersionAdapter.getScreenScaleY();
+        if (scaleX != 1d || scaleY != 1d) {
+            return new BoundingBox(bounds.getMinX() * scaleX,
+                    bounds.getMinY() * scaleY,
+                    bounds.getMinZ(), // FIXME: Uh...what?
+                    bounds.getWidth() * scaleX,
+                    bounds.getHeight() * scaleY,
+                    bounds.getDepth());
+        }
+        return bounds;
     }
 
     private static Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {
