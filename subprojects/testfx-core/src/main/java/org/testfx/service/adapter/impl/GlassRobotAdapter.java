@@ -31,6 +31,7 @@ import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
 import org.testfx.api.annotation.Unstable;
+import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
@@ -85,7 +86,8 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void mouseMove(Point2D location) {
-        asyncFx(() -> useRobot().mouseMove((int) location.getX(), (int) location.getY()));
+        asyncFx(() -> useRobot().mouseMove((int) (location.getX() / JavaVersionAdapter.getScreenScaleX()),
+                (int) (location.getY() / JavaVersionAdapter.getScreenScaleY())));
     }
 
     @Override
@@ -107,8 +109,8 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     public Color getCapturePixelColor(Point2D location) {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             int glassColor = useRobot().getPixelColor(
-                (int) location.getX(), (int) location.getY()
-            );
+                    (int) (location.getX() / JavaVersionAdapter.getScreenScaleX()),
+                    (int) (location.getY() / JavaVersionAdapter.getScreenScaleY()));
             return convertFromGlassColor(glassColor);
         });
     }
@@ -117,9 +119,10 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     public Image getCaptureRegion(Rectangle2D region) {
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             Pixels glassPixels = useRobot().getScreenCapture(
-                (int) region.getMinX(), (int) region.getMinY(),
-                (int) region.getWidth(), (int) region.getHeight()
-            );
+                    (int) region.getMinX(), (int) region.getMinY(),
+                    (int) region.getWidth(), (int) region.getHeight(),
+                    Math.abs(JavaVersionAdapter.getScreenScaleX() - 1) <= 0.001 ||
+                            Math.abs(JavaVersionAdapter.getScreenScaleY() - 1) <= 0.001);
             return convertFromGlassPixels(glassPixels);
         });
     }

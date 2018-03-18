@@ -38,6 +38,5 @@ module org.testfx {
     requires javafx.swing;
     requires javafx.web;
     requires hamcrest.core;
-    requires org.testfx.internal;
     requires assertj.core;
 }
