@@ -1,5 +1,14 @@
 # Change Log
 
+## [v4.0.13-alpha](https://github.com/testfx/testfx/tree/v4.0.13-alpha) (2018-03-22)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.12-alpha...v4.0.13-alpha)
+
+**Merged pull requests:**
+
+- Support different UI scales \(hidpi\) [\#544](https://github.com/TestFX/TestFX/pull/544) ([brcolow](https://github.com/brcolow))
+- \(fix\) Maintain order of nodes as returned by Node.lookupAll\(..\). [\#542](https://github.com/TestFX/TestFX/pull/542) ([brcolow](https://github.com/brcolow))
+- \(fix\) Skip before\_install, script, and after\_success when deploying. [\#539](https://github.com/TestFX/TestFX/pull/539) ([brcolow](https://github.com/brcolow))
+
 ## [v4.0.12-alpha](https://github.com/testfx/testfx/tree/v4.0.12-alpha) (2018-02-22)
 [Full Changelog](https://github.com/testfx/testfx/compare/v4.0.11-alpha...v4.0.12-alpha)
 
