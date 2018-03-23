@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install latest Java 8 and Java 9
+# Install Java 8
 brew update
 brew cask reinstall caskroom/versions/java8
-brew cask reinstall java
 
-# Upload release artifacts to Bintray
-./gradlew bintray -PbintrayUsername="$BINTRAY_USERNAME" -PbintrayApiKey="$BINTRAY_API_KEY" -Dorg.gradle.java.home="$(/usr/libexec/java_home -v 8)"
+# Upload and publish release artifacts to Bintray
+./gradlew bintray \
+    -PbintrayUsername="$BINTRAY_USERNAME" \
+    -PbintrayApiKey="$BINTRAY_API_KEY" \
+    -Ppublish=true \
+    -Dorg.gradle.java.home="$(/usr/libexec/java_home -v 1.8)"
 
-# Sync bintray artifacts with Maven Central
+# Sync Bintray artifacts with Maven Central
 version=$(git tag -l --points-at HEAD) # Replace with $TRAVIS_TAG?
 declare -a subprojects=("testfx-core" "testfx-junit" "testfx-junit5" "testfx-spock")
 for subproject in "${subprojects[@]}"
