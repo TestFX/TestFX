@@ -6,7 +6,7 @@ if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
   if [[ "${TRAVIS_JAVA_VERSION}" == 8 ]]; then
     brew cask reinstall caskroom/versions/java8
   elif [[ "${TRAVIS_JAVA_VERSION}" == 9 ]]; then
-    brew cask reinstall java
+    brew cask reinstall caskroom/versions/java9
   else
       echo "TRAVIS_JAVA_VERSION environment variable not set!"
   fi
