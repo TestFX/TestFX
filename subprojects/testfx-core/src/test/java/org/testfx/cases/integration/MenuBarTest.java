@@ -74,7 +74,7 @@ public class MenuBarTest {
             saveAsItem.setId("saveAsItem");
             saveAsItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN,
                     KeyCombination.CONTROL_DOWN));
-            saveAsItem.setOnAction(event -> saveAsActionLatch.countDown());
+            saveAsItem.setOnMenuValidation(event -> saveAsActionLatch.countDown());
             fileMenu.getItems().add(saveAsItem);
 
             editMenu = new Menu("Edit");
@@ -116,7 +116,7 @@ public class MenuBarTest {
 
     @Test
     public void shortcut_accelerator() throws InterruptedException {
-        fxRobot.push(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN));
+        fxRobot.push(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN, KeyCombination.CONTROL_DOWN));
         verifyThat(saveAsActionLatch.await(3, TimeUnit.SECONDS), is(true), informedErrorMessage(fxRobot));
     }
 }
