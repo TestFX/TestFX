@@ -16,8 +16,6 @@
  */
 package org.testfx.api;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -231,7 +229,7 @@ public final class FxToolkit {
      * {@link org.testfx.internal.JavaVersionAdapter#getWindows()} and returns once finished.
      */
     public static void cleanupStages() throws TimeoutException {
-        setupFixture(() -> Collections.unmodifiableSet(new HashSet<>(getWindows())).forEach(Window::hide));
+        setupFixture(() -> getWindows().forEach(Window::hide));
     }
 
     /**
