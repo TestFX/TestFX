@@ -94,9 +94,7 @@ public final class JavaVersionAdapter {
             throw new RuntimeException("bad java version: " + currentVersion());
         }
 
-
         return windows;
-
     }
 
     public static boolean isNotVisible(Node node) {
