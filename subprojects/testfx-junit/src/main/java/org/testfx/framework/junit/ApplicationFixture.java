@@ -18,6 +18,10 @@ package org.testfx.framework.junit;
 
 import javafx.stage.Stage;
 
+/**
+ * An interface that represents a JavaFX application (something that can be initialized,
+ * started, and stopped).
+ */
 public interface ApplicationFixture {
 
     void init() throws Exception;
