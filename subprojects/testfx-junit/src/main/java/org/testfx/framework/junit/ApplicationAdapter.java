@@ -19,9 +19,10 @@ package org.testfx.framework.junit;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import org.testfx.api.annotation.Unstable;
-
-@Unstable(reason = "needs more tests")
+/**
+ * Adapter that adapts from a class implementing the {@code ApplicationFixture} interface to an actual
+ * {@code Application}.
+ */
 public final class ApplicationAdapter extends Application {
 
     private final ApplicationFixture applicationFixture;

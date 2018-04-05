@@ -42,9 +42,7 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
     }
 
     @Override
-    public void init() throws Exception {
-        // do nothing
-    }
+    public void init() throws Exception {}
 
     @Override
     public void start(Stage stage) throws Exception {
