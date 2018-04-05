@@ -105,7 +105,6 @@ subprojects { subproject ->
     if (!JavaVersion.current().isJava10Compatible()) {
       apply from: "${rootDir}/gradle/spotbugs.gradle"
     }
-    //apply(from: rootProject.file("gradle/jdepend.gradle"))
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
     apply from: "${rootDir}/gradle/publish-jar.gradle"
