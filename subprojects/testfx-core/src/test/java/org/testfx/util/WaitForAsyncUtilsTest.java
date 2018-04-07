@@ -40,7 +40,7 @@ import static org.junit.Assert.fail;
 public class WaitForAsyncUtilsTest {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(Timeout.millis(5000)).around(exception = ExpectedException.none());
+    public TestRule rule = RuleChain.outerRule(Timeout.millis(10000)).around(exception = ExpectedException.none());
     public ExpectedException exception;
 
     @Test
