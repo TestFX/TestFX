@@ -29,19 +29,12 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     @Override
     public void launch(Class<? extends Application> appClass, String... appArgs) {
-        initMacosxEmbedded();
         initMonocleHeadless();
         Application.launch(appClass, appArgs);
     }
 
-    private void initMacosxEmbedded() {
-        if (checkSystemPropertyEquals("javafx.macosx.embedded", null)) {
-            System.setProperty("javafx.macosx.embedded", "true");
-        }
-    }
-
     private void initMonocleHeadless() {
-        if (checkSystemPropertyEquals("testfx.headless", "true")) {
+        if (Objects.equals(System.getProperty("testfx.headless"), "true")) {
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();
@@ -54,10 +47,6 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
                 throw new RuntimeException(exception);
             }
         }
-    }
-
-    private boolean checkSystemPropertyEquals(String propertyName, String valueOrNull) {
-        return Objects.equals(System.getProperty(propertyName, null), valueOrNull);
     }
 
     private void assignMonoclePlatform() throws Exception {
