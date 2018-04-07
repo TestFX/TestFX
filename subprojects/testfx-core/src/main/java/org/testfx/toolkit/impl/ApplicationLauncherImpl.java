@@ -36,7 +36,7 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
     private void initMonocleHeadless() {
         if (Objects.equals(System.getProperty("testfx.headless"), "true")) {
             try {
-                assignMonoclePlatform();
+                // assignMonoclePlatform();
                 assignHeadlessPlatform();
             }
             catch (ClassNotFoundException exception) {
