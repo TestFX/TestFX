@@ -33,7 +33,7 @@ import javafx.stage.Screen;
 import javafx.stage.Window;
 
 /**
- * Provides a consistent API for Java versions 8 and above.
+ * Provides a consistent API regardless of what Java version (8+) is used.
  */
 public final class JavaVersionAdapter {
 
