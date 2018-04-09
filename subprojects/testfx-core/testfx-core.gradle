@@ -21,7 +21,18 @@ repositories {
     jcenter()
 }
 
+configurations {
+    modules
+}
+
 dependencies {
+    if (JavaVersion.current().isJava9Compatible()) {
+        // compile "org.testfx:openjfx-monocle:jdk-9+181"
+        modules "org.testfx:openjfx-monocle:jdk-9+181"
+    } else {
+        // compile "org.testfx:openjfx-monocle:8u76-b04"
+        modules "org.testfx:openjfx-monocle:8u76-b04"
+    }
     compile "org.hamcrest:hamcrest-core:1.3"
     compile "org.assertj:assertj-core:3.9.1"
     compileOnly 'org.osgi:org.osgi.core:6.0.0'
@@ -29,12 +40,20 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:2.16.0"
     testCompile project(":testfx-junit")
-    if (JavaVersion.current().isJava9Compatible()) {
-        testCompile "org.testfx:openjfx-monocle:jdk-9+181"
-    } else {
-        testCompile "org.testfx:openjfx-monocle:8u76-b04"
-    }
+
 }
+
+/*
+test {
+    // "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
+    systemProperty 'java.awt.headless', 'true'
+    systemProperty 'testfx.robot', 'glass'
+    systemProperty 'testfx.headless', 'true'
+    systemProperty 'glass.platform', 'Monocle'
+    systemProperty 'prism.order', 'sw'
+    systemProperty 'prism.text', 't2k'
+}
+*/
 
 sourceSets {
     if (!JavaVersion.current().isJava9Compatible()) {
@@ -54,6 +73,7 @@ compileJava {
                     '--module-path', classpath.asPath,
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
                     "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
+                    "--patch-module", "javafx.graphics=${configurations.modules.resolvedConfiguration.files.join(':')}",
             ]
             classpath = files()
         }
@@ -82,6 +102,7 @@ compileTestJava {
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
                     "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
                     '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+                    "--patch-module", "javafx.graphics=${configurations.modules.resolvedConfiguration.files.join(':')}",
             ]
             classpath = files()
         }
