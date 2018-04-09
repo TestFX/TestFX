@@ -27,11 +27,11 @@ configurations {
 
 dependencies {
     if (JavaVersion.current().isJava9Compatible()) {
-        // compile "org.testfx:openjfx-monocle:jdk-9+181"
         modules "org.testfx:openjfx-monocle:jdk-9+181"
+        compile configurations.modules.dependencies
     } else {
-        // compile "org.testfx:openjfx-monocle:8u76-b04"
         modules "org.testfx:openjfx-monocle:8u76-b04"
+        compile configurations.modules.dependencies
     }
     compile "org.hamcrest:hamcrest-core:1.3"
     compile "org.assertj:assertj-core:3.9.1"
@@ -45,7 +45,6 @@ dependencies {
 
 /*
 test {
-    // "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
     systemProperty 'java.awt.headless', 'true'
     systemProperty 'testfx.robot', 'glass'
     systemProperty 'testfx.headless', 'true'
@@ -73,7 +72,7 @@ compileJava {
                     '--module-path', classpath.asPath,
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
                     "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
-                    "--patch-module", "javafx.graphics=${configurations.modules.resolvedConfiguration.files.join(':')}",
+                    "--patch-module", "javafx.graphics=${configurations.modules.asPath}",
             ]
             classpath = files()
         }
