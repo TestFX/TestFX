@@ -15,9 +15,9 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// Checkstyle is a tool for checking Java source code for adherence to a Code Standard or set
-// of validation rules (best practices).
-// https://github.com/checkstyle/checkstyle
+// Checkstyle is a tool for checking Java source code for adherence to a code standard.
+// Our standard is defined in the checkstyle config file: "gradle/check/checkstyle.xml".
+// http://checkstyle.sourceforge.net/
 
 apply plugin: "checkstyle"
 

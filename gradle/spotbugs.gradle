@@ -15,10 +15,11 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// SpotBugs SpotBugs is the spiritual successor of FindBugs (a defect detection tool for Java that uses static
-// analysis to look for more than 200 bug patterns, such as null pointer dereferences, infinite recursive loops,
-// bad uses of the Java libraries and deadlocks).
+// SpotBugs: The spiritual successor of FindBugs (a defect detection tool for Java that uses static
+// analysis to look for more than 200 bug patterns, such as null pointer dereferences, infinite recursive
+// loops, bad uses of the Java libraries and deadlocks).
 // https://spotbugs.github.io/
+
 apply plugin: "com.github.spotbugs"
 
 spotbugs {
@@ -44,31 +45,38 @@ spotbugsTest {
     }
 }
 
-task checkSpotBugsReport << {
+task printSpotBugsReport << {
     def xmlReport = spotbugsMain.reports.xml
     if (!xmlReport.destination.exists()) return
     def parser = new XmlSlurper()
     parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
-    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
     def slurped = parser.parse(xmlReport.destination)
     def report = ""
     slurped['BugInstance'].eachWithIndex { bug, index ->
-        report += "${index + 1}. Found priority ${bug.@'priority'} bug: ${bug.@'type'} of category: ${bug.@'category'} "
-        report += "in the following places:"
-        bug['SourceLine'].each { place ->
-            if (place.start == place.end) {
-                report += "\n       ${place.@'classname'} at line: ${place.@'start'}"
-            } else {
-                // multi-line
-                report += "\n       ${place.@'classname'} starting at line: ${place.@'start'} to line: ${place.@'end'}"
+        report += "${index + 1}. - ${bug.@'category'}: ${bug.@'type'} (priority ${bug.@'priority'})\n"
+        if (bug['SourceLine'].isEmpty()) {
+            // Some <BugInstance>'s don't have a SourceLine (like for NM_SAME_SIMPLE_NAME_AS_SUPERCLASS).
+            bug['Class'].each { place ->
+                report += "\t${place['@classname']}\n"
+            }
+            report += "\n"
+        } else {
+            bug['SourceLine'].each { place ->
+                if (place.start == place.end) {
+                    report += "\t${place['@sourcefile'].toString().replaceAll(".java", "")}(${place['@sourcepath']}):${place.@'start'}\n\n"
+                } else {
+                    // multi-line
+                    report += "\t${place.@'classname'}:${place.@'start'} - ${place.@'end'}\n\n"
+                }
             }
         }
     }
-    if (report.length() > 1) {
-        logger.error "[SPOTBUGS]\n ${report}"
+    if (!report.isEmpty()) {
+        logger.error "\n\n--- SPOTBUGS REPORT ---\n\n${report}--- END SPOTBUGS REPORT ---"
     }
 }
 
 if (System.env.CI == "true") {
-    spotbugsMain.finalizedBy checkSpotBugsReport
+    spotbugsMain.finalizedBy printSpotBugsReport
 }
