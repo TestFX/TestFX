@@ -27,7 +27,7 @@ dependencies {
     compileOnly 'org.osgi:org.osgi.core:6.0.0'
 
     testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:2.16.0"
+    testCompile "org.mockito:mockito-core:2.18.0"
     testCompile project(":testfx-junit")
     if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
