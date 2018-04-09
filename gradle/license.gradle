@@ -15,7 +15,8 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// This plugin will scan and adapt your source files to include a provided license header.
+// The license-gradle-plugin plugin verifies that source files have a correct license header. It can also
+// update the license header by using the "licenseFormat" task.
 // https://github.com/hierynomus/license-gradle-plugin
 
 apply plugin: "license"

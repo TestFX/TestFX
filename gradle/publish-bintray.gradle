@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// This plugin allows you to publish artifacts to a repository on Bintray.
+// The gradle-bintray-plugin allows for publishing build artifacts to a Bintray repository.
 // https://github.com/bintray/gradle-bintray-plugin
 
 apply plugin: "com.jfrog.bintray"
