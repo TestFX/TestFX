@@ -189,6 +189,8 @@ public class GlassRobotAdapterTest {
 
     @Test
     public void mouseMove() {
+        assumeThat("skipping: Robot's mouseMove broken on Windows + HiDPI (JDK-8196031)",
+                System.getProperty("glass.win.uiScale", "100%"), is(equalTo("100%")));
         // given:
         robotAdapter.mouseMove(new Point2D(100, 200));
 
@@ -242,6 +244,7 @@ public class GlassRobotAdapterTest {
     public void getCapturePixelColor() {
         // given:
         assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+        assumeThat(System.getProperty("prism.order", ""), is(not(equalTo("d3d"))));
 
         // when:
         Color pixelColor = robotAdapter.getCapturePixelColor(regionCenter);
@@ -254,11 +257,14 @@ public class GlassRobotAdapterTest {
     public void getCaptureRegion() {
         // given:
         assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+        assumeThat(System.getProperty("prism.order", ""), is(not(equalTo("d3d"))));
 
         // when:
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(region);
         Image regionImage = robotAdapter.getCaptureRegion(new Rectangle2D(bounds.getMinX(), bounds.getMinY(),
                 bounds.getWidth(), bounds.getHeight()));
+
+        // then:
         assertThat(regionImage.getPixelReader().getColor((int) regionImage.getWidth() / 2,
                 (int) regionImage.getHeight() / 2), is(Color.web("magenta")));
     }
