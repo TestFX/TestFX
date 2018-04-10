@@ -1,4 +1,5 @@
 language: java
+
 sudo: false
 
 env:
@@ -80,18 +81,34 @@ jobs:
         apt:
           packages:
             - oracle-java9-installer
+    # Ubuntu Linux (trusty) / Java 10 / Headed
+    - os: linux
+      dist: trusty
+      install: . ./install-jdk.sh -F 10 -L BCL
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+      addons:
+        apt:
+          packages:
+            - gdb
     # macOS / Java 8 / Headless
     - os: osx
-      osx_image: xcode9
+      osx_image: xcode9.3
       env:
         - TRAVIS_JAVA_VERSION="8"
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
     # macOS / Java 9 / Headless
     - os: osx
-      osx_image: xcode9
+      osx_image: xcode9.3
       env:
         - TRAVIS_JAVA_VERSION="9"
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+     # macOS / Java 10 / Headless
+     - os: osx
+       osx_image: xcode9.3
+       env:
+         - TRAVIS_JAVA_VERSION="10"
+         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
     # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
     # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
     # this "partial headless" testing scenario does not provide any useful information.

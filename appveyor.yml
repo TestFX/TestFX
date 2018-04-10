@@ -6,19 +6,31 @@ environment:
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
     - JAVA_VERSION: "8"
-      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
     - JAVA_VERSION: "9"
       JAVA_HOME: C:\jdk9
 
     - JAVA_VERSION: "9"
+      _JAVA_OPTIONS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
       JAVA_HOME: C:\jdk9
-      JAVA_OPTS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
 
     - JAVA_VERSION: "9"
-      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\jdk9
+
+    - JAVA_VERSION: "10"
+      JAVA_HOME: C:\jdk10
+
+    - JAVA_VERSION: "10"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+      JAVA_HOME: C:\jdk10
+
+matrix:
+  allow_failures:
+    - JAVA_VERSION: "10"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
 
 shallow_clone: true
 
@@ -29,8 +41,11 @@ build_script:
   - ps: |
       if ($env:JAVA_VERSION -eq "9") {
         choco install jdk9 --version 9.0.4.11 -params 'installdir=C:\\jdk9'
-        refreshenv
+      } elseif ($env:JAVA_VERSION -eq "10") {
+        choco install jdk10 -params 'installdir=c:\\jdk10'
       }
+      refreshenv
+
   - cmd: |
       java -version
       gradlew --version --no-daemon
@@ -41,14 +56,26 @@ test_script:
 
 after_test:
   - ps: |
-        Write-Host -Message 'Uploading test results to AppVeyor…'
+        Write-Host 'Uploading test results to AppVeyor…'
         $wc = New-Object 'System.Net.WebClient'
         ForEach ($file in Get-ChildItem -Recurse -Include "TEST-org.testfx*Test.xml") {
             $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", $file)
         }
+
+on_finish:
+  - ps: |
+        $crashes = Get-ChildItem -Include hs_err_pid*.log -Recurse
+        Write-Output $crashes
+        ForEach ($crash in $crashes) {
+          Write-Host "Printing crash dump (${crash}):"
+          Get-Content $crash
+        }
+
 cache:
   - C:\Users\appveyor\.gradle\caches
   - C:\Users\appveyor\.gradle\wrapper -> .gradle-wrapper\gradle-wrapper.properties
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
 notifications:
   - provider: Webhook
