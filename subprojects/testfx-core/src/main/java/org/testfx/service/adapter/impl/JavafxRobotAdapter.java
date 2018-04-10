@@ -163,8 +163,7 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
         }
         ImageView imageView = new ImageView(scene.snapshot(null));
         imageView.setViewport(region);
-        Pane pane = new Pane(imageView);
-        Scene offScreenScene = new Scene(pane); // The imageView must be in an off-screen Scene to be snapshotted
+        new Scene(new Pane(imageView)); // The imageView must be in an off-screen Scene to be snapshotted
         return imageView.snapshot(null, null);
     }
 
