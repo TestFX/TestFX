@@ -7,11 +7,16 @@ if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
     brew cask reinstall caskroom/versions/java8
   elif [[ "${TRAVIS_JAVA_VERSION}" == 9 ]]; then
     brew cask reinstall caskroom/versions/java9
+  elif [[ "${TRAVIS_JAVA_VERSION}" == 10 ]]; then
+    brew cask install java
   else
       echo "TRAVIS_JAVA_VERSION environment variable not set!"
   fi
-
   brew unlink python # fixes 'run_one_line' is not defined error in backtrace
+fi
+
+if [[ "${TRAVIS_OS_NAME}" == linux ]]; then
+  wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
 fi
 
 chmod +x .ci/update_snapshot_docs.sh

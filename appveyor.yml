@@ -20,6 +20,13 @@ environment:
       JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\jdk9
 
+    - JAVA_VERSION: "10"
+      JAVA_HOME: C:\jdk10
+
+    - JAVA_VERSION: "10"
+      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+      JAVA_HOME: C:\jdk10
+
 shallow_clone: true
 
 build:
@@ -29,8 +36,11 @@ build_script:
   - ps: |
       if ($env:JAVA_VERSION -eq "9") {
         choco install jdk9 --version 9.0.4.11 -params 'installdir=C:\\jdk9'
-        refreshenv
+      } elseif ($env:JAVA_VERSION -eq "10") {
+        choco install jdk10 -params 'installdir=c:\\jdk10'
       }
+      refreshenv
+
   - cmd: |
       java -version
       gradlew --version --no-daemon
