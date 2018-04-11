@@ -26,27 +26,23 @@ configurations {
 }
 
 dependencies {
-    if (JavaVersion.current().isJava9Compatible()) {
-        patch "org.testfx:openjfx-monocle:jdk-9+181"
-    } else {
-        patch "org.testfx:openjfx-monocle:8u76-b04"
-    }
     compile "org.hamcrest:hamcrest-core:1.3"
     compile "org.assertj:assertj-core:3.9.1"
+    if (JavaVersion.current().isJava9Compatible()) {
+        compile "org.testfx:openjfx-monocle:jdk-9+181"
+        modules  "org.testfx:openjfx-monocle:jdk-9+181"
+
+    } else {
+        compile "org.testfx:openjfx-monocle:8u76-b04"
+        modules  "org.testfx:openjfx-monocle:8u76-b04"
+
+    }
     compileOnly 'org.osgi:org.osgi.core:6.0.0'
 
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:2.16.0"
     testCompile project(":testfx-junit")
 
-}
-
-javaModule.hacks {
-    if (JavaVersion.current().isJava9Compatible()) {
-        patches('org.testfx:openjfx-monocle:jdk-9+181', 'javafx.graphics')
-    } else {
-        patches('org.testfx:openjfx-monocle:8u76-b04', 'javafx.graphics')
-    }
 }
 
 /*
@@ -74,11 +70,12 @@ compileJava {
     if (JavaVersion.current().isJava9Compatible()) {
         inputs.property("moduleName", moduleName)
         doFirst {
+            System.out.println("Path: ${configurations.modules.asPath}")
             options.compilerArgs = [
                     '--module-path', classpath.asPath,
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
                     "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
-                    // "--patch-module", "javafx.graphics=${configurations.modules.asPath}",
+                    "--patch-module", "javafx.graphics=${configurations.modules.asPath}",
             ]
             classpath = files()
         }
@@ -107,7 +104,7 @@ compileTestJava {
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
                     "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
                     '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
-                    // "--patch-module", "javafx.graphics=${configurations.modules.asPath}",
+                    "--patch-module", "javafx.graphics=${configurations.modules.asPath}",
             ]
             classpath = files()
         }
