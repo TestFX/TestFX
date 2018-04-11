@@ -101,7 +101,7 @@ compileTestJava {
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",
                     "--add-exports", "javafx.graphics/com.sun.javafx.application=$moduleName",
                     '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
-                    "--patch-module", "javafx.graphics=${configurations.modules.resolvedConfiguration.files.join(':')}",
+                    "--patch-module", "javafx.graphics=${configurations.modules.asPath}",
             ]
             classpath = files()
         }
