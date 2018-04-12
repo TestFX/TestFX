@@ -6,7 +6,7 @@ environment:
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
     - JAVA_VERSION: "8"
-      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
     - JAVA_VERSION: "9"
@@ -17,7 +17,7 @@ environment:
       JAVA_OPTS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
 
     - JAVA_VERSION: "9"
-      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+      JAVA_OPTS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\jdk9
 
 shallow_clone: true

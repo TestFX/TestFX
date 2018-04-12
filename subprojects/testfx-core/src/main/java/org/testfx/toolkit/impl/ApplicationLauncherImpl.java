@@ -29,14 +29,14 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     @Override
     public void launch(Class<? extends Application> appClass, String... appArgs) {
-        initMonocleHeadless();
+        // initMonocleHeadless();
         Application.launch(appClass, appArgs);
     }
 
     private void initMonocleHeadless() {
         if (Objects.equals(System.getProperty("testfx.headless"), "true")) {
             try {
-                assignMonoclePlatform();
+                // assignMonoclePlatform();
                 assignHeadlessPlatform();
             }
             catch (ClassNotFoundException exception) {

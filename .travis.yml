@@ -42,7 +42,7 @@ jobs:
       dist: trusty
       jdk: oraclejdk8
       env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
       addons:
         apt:
           packages:
@@ -75,7 +75,7 @@ jobs:
       dist: trusty
       jdk: oraclejdk9
       env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        - _JAVA_OPTIONS="--patch-module=javafx.graphics=monocle --add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
       addons:
         apt:
           packages:
@@ -85,13 +85,13 @@ jobs:
       osx_image: xcode9
       env:
         - TRAVIS_JAVA_VERSION="8"
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
     # macOS / Java 9 / Headless
     - os: osx
       osx_image: xcode9
       env:
         - TRAVIS_JAVA_VERSION="9"
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dprism.order=sw -Dprism.text=t2k"
     # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
     # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
     # this "partial headless" testing scenario does not provide any useful information.
