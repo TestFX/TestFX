@@ -29,7 +29,7 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     @Override
     public void launch(Class<? extends Application> appClass, String... appArgs) {
-        initMonocleHeadless();
+        // initMonocleHeadless();
         Application.launch(appClass, appArgs);
     }
 
