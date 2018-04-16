@@ -150,7 +150,7 @@ public final class BoundsQueryUtils {
         if (scaleX != 1d || scaleY != 1d) {
             return new BoundingBox(bounds.getMinX() * scaleX,
                     bounds.getMinY() * scaleY,
-                    bounds.getMinZ(), // FIXME: Uh...what?
+                    bounds.getMinZ(),
                     bounds.getWidth() * scaleX,
                     bounds.getHeight() * scaleY,
                     bounds.getDepth());

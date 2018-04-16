@@ -19,6 +19,11 @@ after_success: .ci/after_success.sh
 
 jobs:
   fast_finish: true
+  allow_failures:
+    - os: linux
+      env:
+        - TRAVIS_JAVA_VERSION="10"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dprism.verbose=true"
   include:
     - stage: lint
       os: linux
@@ -30,7 +35,7 @@ jobs:
             - oracle-java8-installer
       script: ./gradlew checkstyleMain checkstyleTest license spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest
     - stage: test
-     # Ubuntu Linux (trusty) / Java 8 / Headed
+     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed
       os: linux
       dist: trusty
       jdk: oraclejdk8
@@ -38,80 +43,63 @@ jobs:
         apt:
           packages:
             - oracle-java8-installer
-    # Ubuntu Linux (trusty) / Java 8 / Headless
+    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless
     - os: linux
       dist: trusty
       jdk: oraclejdk8
       env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
       addons:
         apt:
           packages:
             - oracle-java8-installer
             - gdb
-    # Ubuntu Linux (trusty) / Java 9 / Headed
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed
     - os: linux
       dist: trusty
-      jdk: oraclejdk9
+      install: . ./install-jdk.sh -F 10 -L BCL
       env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+        - TRAVIS_JAVA_VERSION="10"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dprism.verbose=true"
       addons:
         apt:
           packages:
-            - oracle-java9-installer
             - gdb
-    # Ubuntu Linux (trusty) / Java 9 / Headed / HiDPI
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headless
     - os: linux
       dist: trusty
-      jdk: oraclejdk9
+      install: . ./install-jdk.sh -F 10 -L BCL
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
+      addons:
+        apt:
+          packages:
+            - gdb
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed / HiDPI
+    - os: linux
+      dist: trusty
+      install: . ./install-jdk.sh -F 10 -L BCL
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djdk.gtk.verbose=true -Djdk.gtk.version=3 -Dglass.gtk.uiScale=2.0 -Dprism.verbose=true"
       addons:
         apt:
           packages:
-            - oracle-java9-installer
             - gdb
-    # Ubuntu Linux (trusty) / Java 9 / Headless
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk9
-      env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
-      addons:
-        apt:
-          packages:
-            - oracle-java9-installer
-    # Ubuntu Linux (trusty) / Java 10 / Headed
-    - os: linux
-      dist: trusty
-      install: . ./install-jdk.sh -F 10 -L BCL
-      env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
-      addons:
-        apt:
-          packages:
-            - gdb
-    # macOS / Java 8 / Headless
+    # macOS / Oracle JDK 8 / Headless
     - os: osx
       osx_image: xcode9.3
       env:
         - TRAVIS_JAVA_VERSION="8"
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
-    # macOS / Java 9 / Headless
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
+     # macOS / Oracle JDK 10 / Headless
     - os: osx
       osx_image: xcode9.3
       env:
-        - TRAVIS_JAVA_VERSION="9"
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
-     # macOS / Java 10 / Headless
-     - os: osx
-       osx_image: xcode9.3
-       env:
-         - TRAVIS_JAVA_VERSION="10"
-         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        - TRAVIS_JAVA_VERSION="10"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
     # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
     # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
-    # this "partial headless" testing scenario does not provide any useful information.
+    # this "partial headless" testing scenario does not provide useful information.
     - stage: deploy
       before_install: true
       script: true

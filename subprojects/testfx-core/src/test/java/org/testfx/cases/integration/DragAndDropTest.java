@@ -33,17 +33,15 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.util.DebugUtils.informedErrorMessage;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DragAndDropTest extends TestCaseBase {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    public TestFXRule testFXRule = new TestFXRule(3);
 
-    public ListView<String> leftListView;
-    public ListView<String> rightListView;
+    ListView<String> leftListView;
+    ListView<String> rightListView;
 
     @Before
     public void setup() throws Exception {
@@ -57,7 +55,7 @@ public class DragAndDropTest extends TestCaseBase {
         FxToolkit.setupStage(Stage::show);
     }
 
-    public void setupListView(ListView<String> listView) {
+    void setupListView(ListView<String> listView) {
         listView.setOnDragDetected(event -> {
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             ClipboardContent content = new ClipboardContent();
@@ -89,8 +87,8 @@ public class DragAndDropTest extends TestCaseBase {
 
     @Test
     public void should_have_initialized_items() {
-        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"), informedErrorMessage(this));
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"), informedErrorMessage(this));
+        assertThat(leftListView.getItems()).containsExactly("L1", "L2", "L3");
+        assertThat(rightListView.getItems()).containsExactly("R1", "R2", "R3");
     }
 
     @Test
@@ -101,9 +99,9 @@ public class DragAndDropTest extends TestCaseBase {
         drop();
 
         // then:
-        verifyThat(leftListView.getItems(), hasItems("L2", "L3"), informedErrorMessage(this));
+        assertThat(leftListView.getItems()).containsExactly("L2", "L3");
         // gets added to end of ListView
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3", "L1"), informedErrorMessage(this));
+        assertThat(rightListView.getItems()).containsExactly("R1", "R2", "R3", "L1");
     }
 
     @Test
@@ -114,12 +112,12 @@ public class DragAndDropTest extends TestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3", "R3"), informedErrorMessage(this));
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2"), informedErrorMessage(this));
+        assertThat(leftListView.getItems()).containsExactly("L1", "L2", "L3", "R3");
+        assertThat(rightListView.getItems()).containsExactly("R1", "R2");
     }
 
-    @Ignore("see #383")
     @Test
+    @Ignore("see #383")
     public void should_drag_and_drop_from_left_to_left() {
         // when:
         drag("L3");
@@ -127,8 +125,8 @@ public class DragAndDropTest extends TestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"), informedErrorMessage(this));
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"), informedErrorMessage(this));
+        assertThat(leftListView.getItems()).containsExactly("L1", "L2", "L3");
+        assertThat(rightListView.getItems()).containsExactly("R1", "R2", "R3");
     }
 
 }

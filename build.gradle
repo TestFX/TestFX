@@ -34,7 +34,7 @@ plugins {
 
 rootProject.with { project ->
     task wrapper(type: Wrapper) {
-        gradleVersion = '4.6'
+        gradleVersion = '4.7'
         distributionUrl = "https://services.gradle.org/distributions/" +
             "gradle-${gradleVersion}-all.zip"
     }
