@@ -10,7 +10,8 @@ if [[ "${TRAVIS_OS_NAME}" == osx ]]; then
   elif [[ "${TRAVIS_JAVA_VERSION}" == 10 ]]; then
     brew cask install java
   else
-      echo "TRAVIS_JAVA_VERSION environment variable not set!"
+    echo "TRAVIS_JAVA_VERSION environment variable not set!"
+    exit 1
   fi
   brew unlink python # fixes 'run_one_line' is not defined error in backtrace
 fi

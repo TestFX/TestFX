@@ -54,10 +54,10 @@ public class BoundsLocatorImplTest {
     Stage primaryWindow;
     Scene primaryScene;
     Node nodeInsideOfScene;
-    Node nodePartyOutsideOfScene;
+    Node nodePartiallyOutsideOfScene;
     Node nodeOutsideOfScene;
     Bounds boundsInsideOfScene;
-    Bounds boundsPartyOutsideOfScene;
+    Bounds boundsPartiallyOutsideOfScene;
     Bounds boundsOutsideOfScene;
 
     @After
@@ -84,17 +84,14 @@ public class BoundsLocatorImplTest {
         primaryWindow.setScene(primaryScene);
 
         nodeInsideOfScene = new Rectangle(50, 50, 100, 100);
-        nodePartyOutsideOfScene = new Rectangle(550, 350, 100, 100);
+        nodePartiallyOutsideOfScene = new Rectangle(550, 350, 100, 100);
         nodeOutsideOfScene = new Rectangle(1000, 1000, 100, 100);
 
         boundsInsideOfScene = nodeInsideOfScene.getLayoutBounds();
-        boundsPartyOutsideOfScene = nodePartyOutsideOfScene.getLayoutBounds();
+        boundsPartiallyOutsideOfScene = nodePartiallyOutsideOfScene.getLayoutBounds();
         boundsOutsideOfScene = nodeOutsideOfScene.getLayoutBounds();
 
-        primarySceneRoot.getChildren().setAll(
-            nodeInsideOfScene, nodePartyOutsideOfScene, nodeOutsideOfScene
-        );
-
+        primarySceneRoot.getChildren().setAll(nodeInsideOfScene, nodePartiallyOutsideOfScene, nodeOutsideOfScene);
         primaryWindow.show();
     }
 
@@ -104,17 +101,17 @@ public class BoundsLocatorImplTest {
         Bounds bounds = boundsLocator.boundsInSceneFor(nodeInsideOfScene);
 
         // then:
-        assertThat(bounds, equalTo(bounds(50, 50, 100, 100)));
+        assertThat(bounds, equalTo(new BoundingBox(50, 50, 100, 100)));
     }
 
     @Test
     public void boundsInSceneFor_nodePartyOutsideOfScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsInSceneFor(nodePartyOutsideOfScene);
+        Bounds bounds = boundsLocator.boundsInSceneFor(nodePartiallyOutsideOfScene);
 
         // then:
-        assertThat(bounds, not(equalTo(bounds(550, 350, 100, 100))));
-        assertThat(bounds, equalTo(bounds(550, 350, 50, 50)));
+        assertThat(bounds, not(equalTo(new BoundingBox(550, 350, 100, 100))));
+        assertThat(bounds, equalTo(new BoundingBox(550, 350, 50, 50)));
     }
 
     @Test(expected = BoundsLocatorException.class)
@@ -129,29 +126,45 @@ public class BoundsLocatorImplTest {
     @Test
     public void boundsInWindowFor_primaryScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsInWindowFor(primaryScene);
+        Bounds actual = boundsLocator.boundsInWindowFor(primaryScene);
 
         // then:
-        assertThat(bounds, equalTo(boundsWithOffset(0, 0, 600, 400, windowInsets)));
+        Bounds bounds = new BoundingBox(0, 0, 600, 400);
+        assertThat(actual, equalTo(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight())));
     }
 
     @Test
     public void boundsInWindowFor_boundsInsideOfScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsInWindowFor(boundsInsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsInWindowFor(boundsInsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, equalTo(boundsWithOffset(50, 50, 100, 100, windowInsets)));
+        Bounds bounds = new BoundingBox(50, 50, 100, 100);
+        assertThat(actual, equalTo(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight())));
     }
 
     @Test
-    public void boundsInWindowFor_boundsPartyOutsideOfScene() {
+    public void boundsInWindowFor_boundsPartiallyOutsideOfScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsInWindowFor(boundsPartyOutsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsInWindowFor(boundsPartiallyOutsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, not(equalTo(boundsWithOffset(550, 350, 100, 100, windowInsets))));
-        assertThat(bounds, equalTo(boundsWithOffset(550, 350, 50, 50, windowInsets)));
+        Bounds bounds = new BoundingBox(550, 350, 100, 100);
+        assertThat(actual, not(equalTo(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight()))));
+        bounds = new BoundingBox(550, 350, 50, 50);
+        assertThat(actual, equalTo(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight())));
     }
 
     @Test(expected = BoundsLocatorException.class)
@@ -166,38 +179,58 @@ public class BoundsLocatorImplTest {
     @Test
     public void boundsOnScreenFor_primaryWindow() {
         // when:
-        Bounds bounds = boundsLocator.boundsOnScreenFor(primaryWindow);
+        Bounds actual = boundsLocator.boundsOnScreenFor(primaryWindow);
 
         // then:
-        assertThat(bounds, equalTo(boundsWithInsets(100, 100, 600, 400, windowInsets)));
+        Bounds bounds = new BoundingBox(100, 100, 600, 400);
+        assertThat(actual, equalTo(new BoundingBox(
+                bounds.getMinX(), bounds.getMinY(),
+                bounds.getWidth() + windowInsets.getLeft() + windowInsets.getRight(),
+                bounds.getHeight() + windowInsets.getTop() + windowInsets.getBottom())));
     }
 
     @Test
     public void boundsOnScreenFor_primaryScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsOnScreenFor(primaryScene);
+        Bounds actual = boundsLocator.boundsOnScreenFor(primaryScene);
 
         // then:
-        assertThat(bounds, equalTo(boundsWithOffset(100, 100, 600, 400, windowInsets)));
+        Bounds bounds = new BoundingBox(100, 100, 600, 400);
+        assertThat(actual, equalTo(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight())));
     }
 
     @Test
     public void boundsOnScreenFor_boundsInsideOfScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsOnScreenFor(boundsInsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsOnScreenFor(boundsInsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, equalTo(scale(boundsWithOffset(100 + 50, 100 + 50, 100, 100, windowInsets))));
+        Bounds bounds = new BoundingBox(100 + 50, 100 + 50, 100, 100);
+        assertThat(actual, equalTo(scale(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight()))));
     }
 
     @Test
-    public void boundsOnScreenFor_boundsPartyOutsideOfScene() {
+    public void boundsOnScreenFor_boundsPartiallyOutsideOfScene() {
         // when:
-        Bounds bounds = boundsLocator.boundsOnScreenFor(boundsPartyOutsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsOnScreenFor(boundsPartiallyOutsideOfScene, primaryScene);
 
         // then:
-        assertThat(bounds, not(equalTo(scale(boundsWithOffset(100 + 550, 100 + 350, 100, 100, windowInsets)))));
-        assertThat(bounds, equalTo(scale(boundsWithOffset(100 + 550, 100 + 350, 50, 50, windowInsets))));
+        Bounds bounds = new BoundingBox(100 + 550, 100 + 350, 100, 100);
+        assertThat(actual, not(equalTo(scale(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight())))));
+        bounds = new BoundingBox(100 + 550, 100 + 350, 50, 50);
+        assertThat(actual, equalTo(scale(new BoundingBox(
+                bounds.getMinX() + windowInsets.getLeft(),
+                bounds.getMinY() + windowInsets.getTop(),
+                bounds.getWidth(), bounds.getHeight()))));
     }
 
     @Test(expected = BoundsLocatorException.class)
@@ -207,31 +240,6 @@ public class BoundsLocatorImplTest {
 
         // then:
         assertThat(bounds, equalTo(null));
-    }
-
-    public Bounds bounds(double x, double y, double width, double height) {
-        return new BoundingBox(x, y, width, height);
-    }
-
-    public Bounds boundsWithOffset(double x, double y, double width, double height, Insets insets) {
-        Bounds bounds = bounds(x, y, width, height);
-        return withOffset(bounds, insets);
-    }
-
-    public Bounds boundsWithInsets(double x, double y, double width, double height, Insets insets) {
-        Bounds bounds = bounds(x, y, width, height);
-        return withInsets(bounds, insets);
-    }
-
-    public Bounds withOffset(Bounds bounds, Insets insets) {
-        return new BoundingBox(bounds.getMinX() + insets.getLeft(), bounds.getMinY() + insets.getTop(),
-            bounds.getWidth(), bounds.getHeight());
-    }
-
-    public Bounds withInsets(Bounds bounds, Insets insets) {
-        return new BoundingBox(bounds.getMinX(), bounds.getMinY(),
-            bounds.getWidth() + insets.getLeft() + insets.getRight(),
-            bounds.getHeight() + insets.getTop() + insets.getBottom());
     }
 
     public Insets calculateWindowInsets(Window window, Scene scene) {

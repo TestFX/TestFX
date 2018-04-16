@@ -6,29 +6,28 @@ environment:
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
     - JAVA_VERSION: "8"
+      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+      _JAVA_OPTIONS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
+
+    - JAVA_VERSION: "8"
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
-    - JAVA_VERSION: "9"
-      JAVA_HOME: C:\jdk9
+    - JAVA_VERSION: "10"
+      JAVA_HOME: C:\jdk10
 
-    - JAVA_VERSION: "9"
+    - JAVA_VERSION: "10"
+      JAVA_HOME: C:\jdk10
       _JAVA_OPTIONS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
-      JAVA_HOME: C:\jdk9
-
-    - JAVA_VERSION: "9"
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
-      JAVA_HOME: C:\jdk9
 
     - JAVA_VERSION: "10"
       JAVA_HOME: C:\jdk10
-
-    - JAVA_VERSION: "10"
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-      JAVA_HOME: C:\jdk10
 
 matrix:
   allow_failures:
+    - JAVA_VERSION: "8"
+      _JAVA_OPTIONS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
     - JAVA_VERSION: "10"
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
 
@@ -39,9 +38,7 @@ build:
 
 build_script:
   - ps: |
-      if ($env:JAVA_VERSION -eq "9") {
-        choco install jdk9 --version 9.0.4.11 -params 'installdir=C:\\jdk9'
-      } elseif ($env:JAVA_VERSION -eq "10") {
+      if ($env:JAVA_VERSION -eq "10") {
         choco install jdk10 -params 'installdir=c:\\jdk10'
       }
       refreshenv
@@ -49,26 +46,17 @@ build_script:
   - cmd: |
       java -version
       gradlew --version --no-daemon
-      gradlew versions build --no-daemon
+      gradlew versions --no-daemon
 
 test_script:
-  - gradlew check --no-daemon
+  - gradlew build --no-daemon
 
-after_test:
+on_finish:
   - ps: |
         Write-Host 'Uploading test results to AppVeyor…'
         $wc = New-Object 'System.Net.WebClient'
         ForEach ($file in Get-ChildItem -Recurse -Include "TEST-org.testfx*Test.xml") {
             $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", $file)
-        }
-
-on_finish:
-  - ps: |
-        $crashes = Get-ChildItem -Include hs_err_pid*.log -Recurse
-        Write-Output $crashes
-        ForEach ($crash in $crashes) {
-          Write-Host "Printing crash dump (${crash}):"
-          Get-Content $crash
         }
 
 cache:
