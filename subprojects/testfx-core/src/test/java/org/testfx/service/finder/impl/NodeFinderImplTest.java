@@ -241,10 +241,6 @@ public class NodeFinderImplTest {
         };
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER CLASSES.
-    //---------------------------------------------------------------------------------------------
-
     public static class WindowFinderStub implements WindowFinder {
         public Window targetWindow;
         public List<Window> windows;

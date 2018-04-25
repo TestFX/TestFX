@@ -17,6 +17,7 @@
 package org.testfx.api;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javafx.application.Application;
 import javafx.event.Event;
@@ -25,7 +26,6 @@ import javafx.stage.Stage;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.service.support.FiredEvents;
 import org.testfx.toolkit.PrimaryStageApplication;
-import org.testfx.toolkit.PrimaryStageFuture;
 
 import static java.lang.Long.parseLong;
 import static java.lang.System.getProperty;
@@ -33,7 +33,7 @@ import static java.lang.System.getProperty;
 /**
  * Stores the contextual information for {@link FxToolkit}:
  * <ul>
- *     <li>the {@link PrimaryStageFuture}</li>
+ *     <li>the primary stage future</li>
  *     <li>the {@link Application} as a {@link Class} object</li>
  *     <li>the application's arguments</li>
  *     <li>the registered {@link Stage}</li>
@@ -48,7 +48,7 @@ public class FxToolkitContext {
      * The {@link java.util.concurrent.Future Future&lt;Stage&gt;} that can run listeners when completed.
      * Default value: {@link PrimaryStageApplication#PRIMARY_STAGE_FUTURE}.
      */
-    private PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
+    private CompletableFuture<Stage> primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
 
     /**
      * The {@link Application} as a {@link Class} object to use in {@link Application#launch(Class, String...)}.
@@ -75,11 +75,11 @@ public class FxToolkitContext {
      */
     private long setupTimeoutInMillis = parseLong(getProperty("testfx.setup.timeout", "30000"));
 
-    public PrimaryStageFuture getPrimaryStageFuture() {
+    public CompletableFuture<Stage> getPrimaryStageFuture() {
         return primaryStageFuture;
     }
 
-    public void setPrimaryStageFuture(PrimaryStageFuture primaryStageFuture) {
+    public void setPrimaryStageFuture(CompletableFuture<Stage> primaryStageFuture) {
         this.primaryStageFuture = primaryStageFuture;
     }
 

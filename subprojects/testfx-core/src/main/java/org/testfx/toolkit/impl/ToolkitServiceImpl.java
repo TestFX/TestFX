@@ -17,6 +17,7 @@
 package org.testfx.toolkit.impl;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -31,7 +32,6 @@ import com.sun.javafx.application.ParametersImpl;
 import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
-import org.testfx.toolkit.PrimaryStageFuture;
 import org.testfx.toolkit.ToolkitService;
 
 import static org.testfx.util.WaitForAsyncUtils.async;
@@ -50,7 +50,7 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     @Override
-    public Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
+    public Future<Stage> setupPrimaryStage(CompletableFuture<Stage> primaryStageFuture,
                                            Class<? extends Application> applicationClass,
                                            String... applicationArgs) {
         if (!primaryStageFuture.isDone()) {

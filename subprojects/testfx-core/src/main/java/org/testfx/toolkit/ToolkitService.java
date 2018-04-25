@@ -17,6 +17,7 @@
 package org.testfx.toolkit;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -32,10 +33,10 @@ import javafx.stage.Stage;
 public interface ToolkitService {
 
     /**
-     * If the given {@link PrimaryStageFuture#isDone()}, returns that future; otherwise, launches the given application
+     * If the given {@link CompletableFuture#isDone()}, returns that future; otherwise, launches the given application
      * with its arguments.
      */
-    Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
+    Future<Stage> setupPrimaryStage(CompletableFuture<Stage> primaryStageFuture,
                                     Class<? extends Application> applicationClass,
                                     String... applicationArgs);
 

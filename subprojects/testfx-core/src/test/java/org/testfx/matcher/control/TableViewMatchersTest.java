@@ -106,18 +106,17 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     public void hasTableCell_customCellValueFactory() {
         // given:
-        Platform.runLater(() ->
-            tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty) {
-                        setText(null);
-                    } else {
-                        setText(item.toUpperCase(Locale.US).concat("!"));
-                    }
+        Platform.runLater(() -> tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.toUpperCase(Locale.US).concat("!"));
                 }
-            }));
+            }
+        }));
         WaitForAsyncUtils.waitForFxEvents();
 
         // expect:

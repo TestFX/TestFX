@@ -17,6 +17,7 @@
 package org.testfx.toolkit.impl;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -34,7 +35,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.toolkit.PrimaryStageApplication;
-import org.testfx.toolkit.PrimaryStageFuture;
 import org.testfx.toolkit.ToolkitService;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -54,7 +54,7 @@ public class ToolkitServiceImplTest {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        PrimaryStageFuture primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
+        CompletableFuture<Stage> primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
         Class<? extends Application> toolkitApplication = PrimaryStageApplication.class;
         toolkitService = new ToolkitServiceImpl(
                 new ApplicationLauncherImpl(), new ApplicationServiceImpl());

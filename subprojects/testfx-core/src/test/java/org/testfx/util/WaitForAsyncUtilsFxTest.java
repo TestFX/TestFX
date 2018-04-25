@@ -53,7 +53,6 @@ public class WaitForAsyncUtilsFxTest {
 
     /**
      * Tests that nested calls of async methods triggers an exception.
-     * @throws Throwable
      */
     @Test
     public void asyncFx_nested_callable_with_exception() throws Throwable {

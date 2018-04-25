@@ -49,7 +49,7 @@ public class WaitForAsyncUtilsTest {
         Future<String> future = WaitForAsyncUtils.async(() -> "foo");
 
         // then:
-        WaitForAsyncUtils.sleepWithException(10, MILLISECONDS);
+        Thread.sleep(10);
         assertThat(future.get(), CoreMatchers.is("foo"));
         waitForThreads(future);
     }
@@ -58,7 +58,7 @@ public class WaitForAsyncUtilsTest {
     public void async_callable_with_sleep() throws Exception {
         // when:
         Future<String> future = WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
+            Thread.sleep(50);
             return "foo";
         });
 
@@ -199,7 +199,7 @@ public class WaitForAsyncUtilsTest {
         exception.expect(TimeoutException.class);
         // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(250, MILLISECONDS);
+            Thread.sleep(250);
             return null;
         });
 
@@ -215,7 +215,7 @@ public class WaitForAsyncUtilsTest {
 
         // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(250, MILLISECONDS);
+            Thread.sleep(250);
             return null;
         });
         try {
@@ -246,7 +246,7 @@ public class WaitForAsyncUtilsTest {
     @Test
     public void waitFor_with_booleanCallable_with_sleep() throws Exception {
         WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
-            WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
+            Thread.sleep(50);
             return true;
         });
     }
@@ -272,7 +272,7 @@ public class WaitForAsyncUtilsTest {
 
         // when:
         WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
+            Thread.sleep(50);
             property.set(true);
             return null;
         });
@@ -288,7 +288,7 @@ public class WaitForAsyncUtilsTest {
 
         // when:
         WaitForAsyncUtils.async(() -> {
-            WaitForAsyncUtils.sleepWithException(50, MILLISECONDS);
+            Thread.sleep(50);
             property.set(false);
             return null;
         });
