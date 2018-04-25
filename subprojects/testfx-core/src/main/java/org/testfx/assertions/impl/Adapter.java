@@ -40,7 +40,8 @@ public class Adapter {
 
     private static <T> Condition<? super T> adaptMatcher(Matcher<? extends T> matcher, boolean invert) {
         return new Condition<T>() {
-            @Override public boolean matches(T t) {
+            @Override
+            public boolean matches(T t) {
 
                 boolean matches = matcher.matches(t);
                 if (invert) {

@@ -75,8 +75,10 @@ compileTestJava {
         doFirst {
             options.compilerArgs = [
                     '--module-path', classpath.asPath,
+                    '--add-modules', 'javafx.fxml',
                     '--add-modules', 'junit',
                     '--add-modules', 'org.testfx.junit',
+                    '--add-reads', "$moduleName=javafx.fxml",
                     '--add-reads', "$moduleName=junit",
                     '--add-reads', "$moduleName=org.testfx.junit",
                     "--add-exports", "javafx.graphics/com.sun.glass.ui=$moduleName",

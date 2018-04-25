@@ -49,17 +49,9 @@ public class CaptureSupportImpl implements CaptureSupport {
 
     private BaseRobot baseRobot;
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
     public CaptureSupportImpl(BaseRobot baseRobot) {
         this.baseRobot = baseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public Image captureNode(Node node) {
@@ -106,10 +98,6 @@ public class CaptureSupportImpl implements CaptureSupport {
                                           PixelMatcher pixelMatcher) {
         return pixelMatcher.match(image0, image1);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private void checkFileExists(Path path) {
         if (!path.toFile().isFile()) {

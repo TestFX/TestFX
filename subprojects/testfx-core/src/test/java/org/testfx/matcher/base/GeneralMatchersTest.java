@@ -16,6 +16,7 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -44,7 +45,7 @@ public class GeneralMatchersTest {
     public Node nullNode;
     public Pane notMatchingNode;
     public Button notParentNode;
-    public Predicate<Node> notNullNodePredicate = node -> node != null;
+    public Predicate<Node> notNullNodePredicate = Objects::nonNull;
     public Predicate<Parent> hasChildrenParentPredicate = parent -> parent.getChildrenUnmodifiable().size() > 0;
 
     @BeforeClass

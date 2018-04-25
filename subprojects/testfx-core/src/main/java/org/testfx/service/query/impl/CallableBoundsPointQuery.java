@@ -27,7 +27,7 @@ import org.testfx.service.query.PointQuery;
 @Unstable
 public class CallableBoundsPointQuery extends PointQueryBase {
 
-    private Callable<Bounds> callableBounds;
+    private final Callable<Bounds> callableBounds;
 
     public CallableBoundsPointQuery(Callable<Bounds> callableBounds) {
         this(callableBounds, null);

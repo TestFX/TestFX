@@ -49,13 +49,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * "FX Application Thread". Additionally, tasks may also be started on different
  * asynchronous threads.
  * <p>
- * General convention:
+ * <strong>General Convention (Method Names)</strong>
  * <ul>
- * <li>{@code async} without a suffix refers to an unknown thread in a ThreadPool
- * <li>the suffix {@code Fx} refers to the FX application thread
+ * <li>{@code async} methods without a suffix refer to some unknown thread in a thread pool.
+ * <li>Methods ending with the suffix {@code Fx} refer to the "FX application thread".
  * </ul>
  * <p>
- * <strong>Exception handling</strong>
+ * <strong>Exception Handling</strong>
  * <p>
  * As exceptions on different threads are thrown the caller is usually not aware
  * of these exceptions. Exceptions returned directly from this framework are wrapped
@@ -63,13 +63,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * <p>
  * There are two ways this class notifies the user of exceptions:
  * <ul>
- * <li>the returned {@link Future}
- * <li>the internal exception stack
+ * <li>The returned {@link Future}.
+ * <li>The internal exception stack.
  * </ul>
  * <p>
  * Usually exceptions are forwarded to the {@code Future} returned by the methods
- * of this class. When the calling thread calls {@link Future#get()} on the Future any
- * exceptions encountered during execution will be thrown. All {@code waitFor} methods
+ * of this class. When the calling thread calls {@link Future#get()} on the {@code Future}
+ * any exceptions encountered during execution will be thrown. All {@code waitFor} methods
  * acquire the value of the {@code Future} and accordingly throw the same exceptions.
  * <p>
  * The <b>internal exception stack</b> stores all unhandled exceptions thrown during
@@ -86,8 +86,8 @@ public final class WaitForAsyncUtils {
     private static final long CONDITION_SLEEP_IN_MILLIS = 10;
     private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
     private static final int SEMAPHORE_LOOPS_COUNT = 5;
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
 
-    private static ExecutorService executorService = Executors.newCachedThreadPool(new DefaultThreadFactory());
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
 
     /**
@@ -98,14 +98,14 @@ public final class WaitForAsyncUtils {
     public static boolean printException = true;
 
     /**
-     * If {@literal true} any call to the {@code async} methods will check for
-     * unhandled exceptions.
+     * If {@literal true} any call to an {@code async} method will check for
+     * the occurrence of unhandled exceptions.
      */
     public static boolean autoCheckException = true;
 
     /**
-     * If {@literal true} any call to the {@code async} methods will check for
-     * unhandled exceptions in any Thread.
+     * If {@literal true} any call to an {@code async} method will check for
+     * the occurrence of unhandled exceptions in any {@link Thread}.
      */
     public static boolean checkAllExceptions = true;
 
@@ -113,7 +113,7 @@ public final class WaitForAsyncUtils {
      * If {@literal true} exceptions will be printed when they are fetched by a caller.
      * Even when they are handled properly. This field is mainly for development debug purposes.
      */
-    public static final boolean TRACE_FETCH = false;
+    private static final boolean TRACE_FETCH = false;
 
     /*
      * Static initialization of WaitForAsyncUtils.
@@ -129,7 +129,7 @@ public final class WaitForAsyncUtils {
      * Currently it installs/removes the handler for uncaught exceptions depending on the flag
      * {@link #checkAllExceptions}.
      */
-    public static void setup() {
+    private static void setup() {
         if (checkAllExceptions) {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> registerException(e));
         } else {
@@ -138,25 +138,6 @@ public final class WaitForAsyncUtils {
     }
 
     /**
-     * Used to add an exception on the stack. Used by the global exception handler.
-     * @param throwable the throwable to add on the local exception buffer.
-     */
-    private static void registerException(Throwable throwable) {
-        if (checkAllExceptions) {
-            // Workaround for #411 see discussion in #440
-            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
-                //TODO more general version of filter after refactoring
-                return;
-            }
-            if (printException) {
-                printException(throwable, null);
-            }
-            // Add exception to stack of occurred exceptions
-            exceptions.add(new RuntimeException(throwable));
-        }
-    }
-
-    /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a
      * {@link Future} that is set on finish or error.
      * <p>
@@ -164,15 +145,15 @@ public final class WaitForAsyncUtils {
      * for exceptions or call the {@link #checkException()} method to handle exceptions
      * after the task has finished.
      *
-     * @param runnable the runnable to run
-     * @return the {@code Future} result of the runnable
+     * @param runnable the {@code Runnable} to run
+     * @return the {@code Future} result of the {@code Runnable}
      */
     public static Future<Void> async(Runnable runnable) {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
         Callable<Void> call = new ASyncFXCallable<>(runnable, true);
-        return executorService.submit(call);
+        return EXECUTOR_SERVICE.submit(call);
     }
 
     /**
@@ -183,7 +164,7 @@ public final class WaitForAsyncUtils {
      * for exceptions or call the {@link #checkException()} method to handle exceptions
      * after the task has finished.
      *
-     * @param runnable the runnable to run
+     * @param runnable the {@code Runnable} to run
      * @param throwExceptions whether or not to throw exceptions on the executing
      *      thread
      * @return the {@code Future} result of the runnable
@@ -193,7 +174,7 @@ public final class WaitForAsyncUtils {
             checkExceptionWrapped();
         }
         Callable<Void> call = new ASyncFXCallable<>(runnable, throwExceptions);
-        return executorService.submit(call);
+        return EXECUTOR_SERVICE.submit(call);
     }
 
     /**
@@ -204,16 +185,16 @@ public final class WaitForAsyncUtils {
      * for exceptions or call the {@link #checkException()} method to handle exceptions
      * after the task has finished.
      *
-     * @param callable the callable to run
-     * @param <T> the return type of the callable
-     * @return the {@code Future} result of the callable
+     * @param callable the {@code Callable} to run
+     * @param <T> the return type of the {@code Callable}
+     * @return the {@code Future} result of the {@code Callable}
      */
     public static <T> Future<T> async(Callable<T> callable) {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
         ASyncFXCallable<T> call = new ASyncFXCallable<>(callable, true);
-        executorService.submit((Runnable) call); // exception handling not guaranteed
+        EXECUTOR_SERVICE.submit((Runnable) call); // exception handling not guaranteed
         return call;
     }
 
@@ -225,18 +206,18 @@ public final class WaitForAsyncUtils {
      * for exceptions or call the {@link #checkException()} method to handle exceptions
      * after the task has finished.
      *
-     * @param callable the callable to run
+     * @param callable the {@code Callable} to run
      * @param throwExceptions whether or not to throw exceptions on the executing
      *      thread
-     * @param <T> the return type of the callable
-     * @return the {@code Future} result of the callable
+     * @param <T> the return type of the {@code Callable}
+     * @return the {@code Future} result of the {@code Callable}
      */
     public static <T> Future<T> async(Callable<T> callable, boolean throwExceptions) {
         if (autoCheckException) {
             checkExceptionWrapped();
         }
         Callable<T> call = new ASyncFXCallable<>(callable, throwExceptions);
-        return executorService.submit(call); // exception handling not guaranteed
+        return EXECUTOR_SERVICE.submit(call); // exception handling not guaranteed
     }
 
     /**
@@ -248,8 +229,8 @@ public final class WaitForAsyncUtils {
      * for exceptions or call the {@link #checkException()} method to handle
      * exceptions after the task has finished.
      *
-     * @param runnable the runnable to run
-     * @return the {@code Future} result of the runnable
+     * @param runnable the {@code Runnable} to run
+     * @return the {@code Future} result of the {@code Runnable}
      */
     public static Future<Void> asyncFx(Runnable runnable) {
         if (autoCheckException) {
@@ -269,9 +250,9 @@ public final class WaitForAsyncUtils {
      * for exceptions or call the {@link #checkException()} method to handle
      * exceptions after the task has finished.
      *
-     * @param callable the callable
-     * @param <T> the callable type
-     * @return a future
+     * @param callable the {@code Callable}
+     * @param <T> the {@code Callable} type
+     * @return the {@code Future} result of the {@code Callable}
      */
     public static <T> Future<T> asyncFx(Callable<T> callable) {
         if (autoCheckException) {
@@ -286,9 +267,9 @@ public final class WaitForAsyncUtils {
      * Waits for the given {@link Future} to be set and then returns the
      * future result of type {@code T}.
      *
-     * @param future the future to wait for to be set
-     * @param <T> the type of the future
-     * @return the result of the future
+     * @param future the {@code Future} to wait for to be set
+     * @param <T> the type of the {@code Future}
+     * @return the result of the {@code Future}
      */
     public static <T> T waitFor(Future<T> future) {
         try {
@@ -310,9 +291,9 @@ public final class WaitForAsyncUtils {
      *
      * @param timeout the timeout to wait for
      * @param timeUnit the time unit {@code timeout} is in
-     * @param future the future to wait for to be set
-     * @param <T> the type of  the future
-     * @return the result of the future
+     * @param future the {@code Future} to wait for to be set
+     * @param <T> the type of the {@code Future}
+     * @return the result of the {@code Future}
      * @throws TimeoutException if the wait timed out
      */
     public static <T> T waitFor(long timeout, TimeUnit timeUnit, Future<T> future) throws TimeoutException {
@@ -375,7 +356,7 @@ public final class WaitForAsyncUtils {
     }
 
     /**
-     * Waits for the event queue of the JavaFX Application Thread to be completed,
+     * Waits for the event queue of the "JavaFX Application Thread" to be completed,
      * as well as any new events triggered in it.
      */
     public static void waitForFxEvents() {
@@ -384,7 +365,7 @@ public final class WaitForAsyncUtils {
 
     /**
      * Waits up to {@code attemptsCount} attempts for the event queue of the
-     * JavaFX Application Thread to be completed, as well as any new events
+     * "JavaFX Application Thread" to be completed, as well as any new events
      * triggered on it.
      *
      * @param attemptsCount the number of attempts to try
@@ -404,22 +385,10 @@ public final class WaitForAsyncUtils {
      */
     public static void sleep(long duration, TimeUnit timeUnit) {
         try {
-            sleepWithException(duration, timeUnit);
+            Thread.sleep(timeUnit.toMillis(duration));
         }
         catch (InterruptedException ignore) {
         }
-    }
-
-    /**
-     * Sleeps the current thread for the given duration.
-     *
-     * @param duration the duration to sleep
-     * @param timeUnit the time unit {@code duration} is in
-     * @throws InterruptedException if any thread has interrupted the current thread. The interrupted
-     *      status of the current thread is cleared when this exception is thrown.
-     */
-    public static void sleepWithException(long duration, TimeUnit timeUnit) throws InterruptedException {
-        Thread.sleep(timeUnit.toMillis(duration));
     }
 
     /**
@@ -427,7 +396,7 @@ public final class WaitForAsyncUtils {
      * milliseconds for it to finish, otherwise times out with a {@link TimeoutException}.
      *
      * @param millis number of milliseconds to wait
-     * @param runnable the runnable to run
+     * @param runnable the {@code Runnable} to run
      */
     public static void waitForAsync(long millis, Runnable runnable) {
         // exceptions handled in wait are safe
@@ -441,9 +410,9 @@ public final class WaitForAsyncUtils {
      * {@code T}, otherwise times out with a {@link TimeoutException}.
      *
      * @param millis number of milliseconds to wait
-     * @param callable the callable to call
-     * @param <T> the type returned by the callable
-     * @return the result returned by the callable
+     * @param callable the {@code Callable} to call
+     * @param <T> the type returned by the {@code Callable}
+     * @return the result returned by the {@code Callable}
      */
     public static <T> T waitForAsync(long millis, Callable<T> callable) {
         Future<T> future = async(callable, false); //exceptions handled in wait --> safe
@@ -456,7 +425,7 @@ public final class WaitForAsyncUtils {
      * a {@link TimeoutException}.
      *
      * @param millis number of milliseconds to wait
-     * @param runnable the runnable to run
+     * @param runnable the {@code Runnable} to run
      */
     public static void waitForAsyncFx(long millis, Runnable runnable) {
         Future<Void> future = asyncFx(runnable);
@@ -469,9 +438,9 @@ public final class WaitForAsyncUtils {
      * {@code T} otherwise times out with a {@link TimeoutException}.
      *
      * @param millis number of milliseconds to wait
-     * @param callable the callable to call
-     * @param <T> the type returned by the callable
-     * @return the result returned by the callable
+     * @param callable the {@code Callable} to call
+     * @param <T> the type returned by the {@code Callable}
+     * @return the result returned by the {@code Callable}
      */
     public static <T> T waitForAsyncFx(long millis, Callable<T> callable) {
         Future<T> future = asyncFx(callable);
@@ -497,6 +466,25 @@ public final class WaitForAsyncUtils {
      */
     public static void clearExceptions() {
         exceptions.clear();
+    }
+
+    /**
+     * Used to add an exception on the stack. Used by the global exception handler.
+     * @param throwable the throwable to add on the local exception buffer.
+     */
+    private static void registerException(Throwable throwable) {
+        if (checkAllExceptions) {
+            // Workaround for #411 see discussion in #440
+            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
+                // TODO more general version of filter after refactoring
+                return;
+            }
+            if (printException) {
+                printException(throwable, null);
+            }
+            // Add exception to stack of occurred exceptions
+            exceptions.add(new RuntimeException(throwable));
+        }
     }
 
     /**
@@ -675,7 +663,7 @@ public final class WaitForAsyncUtils {
                     printException(throwable, trace);
                 }
                 exception = transformException(throwable);
-                // Add exception to stack of occured exceptions
+                // Add exception to stack of occurred exceptions
                 exceptions.add(exception);
             }
             super.setException(throwable);
