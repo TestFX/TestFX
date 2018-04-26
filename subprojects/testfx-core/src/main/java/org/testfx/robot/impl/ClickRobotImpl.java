@@ -20,7 +20,6 @@ import java.util.Objects;
 
 import javafx.scene.input.MouseButton;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -28,7 +27,6 @@ import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
-@Unstable
 public class ClickRobotImpl implements ClickRobot {
 
     private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;

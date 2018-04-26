@@ -22,7 +22,6 @@ import javafx.scene.input.MouseButton
 import javafx.stage.Stage
 import org.testfx.api.FxRobot
 import org.testfx.api.FxToolkit
-import org.testfx.api.annotation.Unstable
 import spock.lang.Specification
 
 /**
@@ -54,7 +53,6 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     @Delegate
     private final FxRobot robot = new FxRobot()
 
-    @Unstable(reason = 'is missing apidocs')
     static void launch(Class<? extends Application> appClass,
                               String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage()
@@ -69,13 +67,11 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
         internalAfter()
     }
 
-    @Unstable(reason = 'is missing apidocs')
     final void internalBefore() throws Exception {
         FxToolkit.registerPrimaryStage()
         FxToolkit.setupApplication { new ApplicationAdapter(this) }
     }
 
-    @Unstable(reason = 'is missing apidocs')
     final void internalAfter() throws Exception {
         // release all keys
         release(new KeyCode[0])
@@ -85,16 +81,13 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     }
 
     @Override
-    @Unstable(reason = 'is missing apidocs')
     void init() throws Exception {
     }
 
     @Override
-    @Unstable(reason = 'is missing apidocs')
     abstract void start(Stage stage) throws Exception
 
     @Override
-    @Unstable(reason = 'is missing apidocs')
     void stop() throws Exception {
     }
 }

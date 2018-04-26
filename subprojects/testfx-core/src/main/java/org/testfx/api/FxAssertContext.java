@@ -16,7 +16,6 @@
  */
 package org.testfx.api;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.support.CaptureSupport;
 
@@ -27,11 +26,9 @@ import org.testfx.service.support.CaptureSupport;
  *     <li>a {@link CaptureSupport}, which defaults to {@link FxServiceContext#getCaptureSupport()}</li>
  * </ul>
  */
-@Unstable(reason = "class was recently added")
 public class FxAssertContext {
 
     private NodeFinder nodeFinder = FxService.serviceContext().getNodeFinder();
-
     private CaptureSupport captureSupport = FxService.serviceContext().getCaptureSupport();
 
     public NodeFinder getNodeFinder() {

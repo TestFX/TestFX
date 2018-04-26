@@ -38,11 +38,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.NodeQueryUtils;
 
-@Unstable
 public class NodeQueryImpl implements NodeQuery {
 
     private static final String CSS_ID_SELECTOR_PREFIX = "#";

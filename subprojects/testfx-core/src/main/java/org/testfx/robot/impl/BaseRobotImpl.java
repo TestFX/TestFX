@@ -23,14 +23,12 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.adapter.RobotAdapter;
 import org.testfx.service.adapter.impl.AwtRobotAdapter;
 import org.testfx.service.adapter.impl.GlassRobotAdapter;
 import org.testfx.service.adapter.impl.JavafxRobotAdapter;
 
-@Unstable(reason = "needs more tests")
 public class BaseRobotImpl implements BaseRobot {
 
     private final RobotAdapter robotAdapter;

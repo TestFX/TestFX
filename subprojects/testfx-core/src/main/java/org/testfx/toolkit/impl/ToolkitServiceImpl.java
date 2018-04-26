@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 
 import com.sun.javafx.application.ParametersImpl;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -37,7 +36,6 @@ import org.testfx.toolkit.ToolkitService;
 import static org.testfx.util.WaitForAsyncUtils.async;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
-@Unstable
 public class ToolkitServiceImpl implements ToolkitService {
 
     private final ApplicationLauncher applicationLauncher;

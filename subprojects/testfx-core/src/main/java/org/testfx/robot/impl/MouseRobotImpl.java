@@ -25,12 +25,10 @@ import java.util.Set;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.util.WaitForAsyncUtils;
 
-@Unstable
 public class MouseRobotImpl implements MouseRobot {
 
     private final BaseRobot baseRobot;

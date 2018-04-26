@@ -34,7 +34,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
@@ -46,7 +45,6 @@ import static org.testfx.util.WaitForAsyncUtils.asyncFx;
  * of a kludge. Ideally we would use a {@code JavafxRobot} instead but such a type does
  * not exist.
  */
-@Unstable
 public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
     private Scene scene;
 

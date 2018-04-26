@@ -39,7 +39,6 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.Motion;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.finder.WindowFinder;
@@ -54,7 +53,6 @@ import org.testfx.util.WaitForAsyncUtils;
  * convenience methods, such as finding a given node, scene or window via a {@link PointQuery}, a {@link Predicate},
  * or a {@link Matcher}.
  */
-@Unstable(reason = "interface was recently added")
 public interface FxRobotInterface {
 
     /**

@@ -40,7 +40,6 @@ import org.hamcrest.Matcher;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxService;
 import org.testfx.api.FxToolkit;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.FiredEvents;
 
@@ -98,7 +97,6 @@ import org.testfx.service.support.FiredEvents;
  * // as it uses all of the default arguments.
  * }</pre>
  */
-@Unstable(reason = "class was recently added")
 public final class DebugUtils {
 
     /**

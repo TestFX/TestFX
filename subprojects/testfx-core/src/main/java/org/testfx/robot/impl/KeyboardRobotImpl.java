@@ -25,12 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.scene.input.KeyCode;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.util.WaitForAsyncUtils;
 
-@Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
 
     protected static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)

@@ -21,7 +21,6 @@ import javafx.scene.paint.Color;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.support.ColorMatcher;
 import org.testfx.util.ColorUtils;
 
@@ -33,7 +32,6 @@ public class ColorMatchers {
      * Creates a matcher that matches all {@link Color}s that are exactly equal to the given {@code color}.
      */
     @Factory
-    @Unstable(reason = "introduced in 4.0.12-alpha")
     public static Matcher<Color> isColor(Color color) {
         String descriptionText = "has color " + getColorText(color);
         return typeSafeMatcher(Color.class, descriptionText, ColorMatchers::getColorText,
@@ -52,7 +50,6 @@ public class ColorMatchers {
      * }</pre>
      */
     @Factory
-    @Unstable(reason = "introduced in 4.0.12-alpha")
     public static Matcher<Color> isColor(Color color, ColorMatcher colorMatcher) {
         String descriptionText = "has color " + getColorText(color);
         return typeSafeMatcher(Color.class, descriptionText, ColorMatchers::getColorText,
@@ -67,7 +64,6 @@ public class ColorMatchers {
      * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">JavaFX Named Colors</a>
      */
     @Factory
-    @Unstable(reason = "introduced in 4.0.12-alpha")
     public static Matcher<Color> isColor(String namedColor) {
         if (!ColorUtils.getNamedColor(namedColor).isPresent()) {
             throw new AssertionError("given color name: \"" + namedColor + "\" is not a named color\n" +
@@ -86,7 +82,6 @@ public class ColorMatchers {
      * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">JavaFX Named Colors</a>
      */
     @Factory
-    @Unstable(reason = "introduced in 4.0.12-alpha")
     public static Matcher<Color> hasClosestNamedColor(Color namedColor) {
         Optional<String> namedColorOptional = ColorUtils.getNamedColor(Integer.parseInt(
                 namedColor.toString().substring(2, 8), 16));
@@ -110,7 +105,6 @@ public class ColorMatchers {
      * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">JavaFX Named Colors</a>
      */
     @Factory
-    @Unstable(reason = "introduced in 4.0.12-alpha")
     public static Matcher<Color> hasClosestNamedColor(String namedColor) {
         Optional<Color> namedColorOptional = ColorUtils.getNamedColor(namedColor);
         if (!namedColorOptional.isPresent()) {

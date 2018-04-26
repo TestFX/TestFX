@@ -22,13 +22,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
 
 import static org.testfx.util.BoundsQueryUtils.scale;
 
-@Unstable
 public class BoundsLocatorImpl implements BoundsLocator {
 
     @Override

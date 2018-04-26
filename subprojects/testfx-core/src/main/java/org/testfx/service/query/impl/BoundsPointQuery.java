@@ -19,7 +19,6 @@ package org.testfx.service.query.impl;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.util.PointQueryUtils;
 
 /**
@@ -27,7 +26,6 @@ import org.testfx.util.PointQueryUtils;
  * <p>
  * The {@code position} ({@link javafx.geometry.Pos}) can be set to a value within the bounds.
  */
-@Unstable
 public class BoundsPointQuery extends PointQueryBase {
 
     private Bounds bounds;

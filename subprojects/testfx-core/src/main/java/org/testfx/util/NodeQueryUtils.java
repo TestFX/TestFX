@@ -39,11 +39,9 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.internal.JavaVersionAdapter.isNotVisible;
 
-@Unstable
 public final class NodeQueryUtils {
 
     private NodeQueryUtils() {}

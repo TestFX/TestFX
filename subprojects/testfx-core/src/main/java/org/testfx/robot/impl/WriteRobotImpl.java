@@ -23,14 +23,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
 import org.testfx.util.WaitForAsyncUtils;
 
-@Unstable
 public class WriteRobotImpl implements WriteRobot {
 
     private static final int SLEEP_AFTER_CHARACTER_IN_MILLIS;

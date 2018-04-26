@@ -21,12 +21,10 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.Motion;
 import org.testfx.service.query.PointQuery;
 import org.testfx.util.PointQueryUtils;
 
-@Unstable
 public abstract class PointQueryBase implements PointQuery {
 
     private Point2D position = new Point2D(0, 0);

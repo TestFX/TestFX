@@ -24,9 +24,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.testfx.api.annotation.Unstable;
 
-@Unstable(reason = "requires more testing; likely to be replaced by a builder")
 public class GeneralMatchers {
 
     private GeneralMatchers() {}

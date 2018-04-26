@@ -29,7 +29,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -89,7 +88,6 @@ import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
  * handle timeouts, provide the Application for the Toolkit launch and execute the setup
  * in the JavaFX thread. The primary Stage is constructed by the platform.
  */
-@Unstable(reason = "class was recently added")
 public final class FxToolkit {
 
     private static final ApplicationLauncher APP_LAUNCHER = new ApplicationLauncherImpl();

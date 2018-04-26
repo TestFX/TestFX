@@ -16,12 +16,9 @@
  */
 package org.testfx.api;
 
-import org.testfx.api.annotation.Unstable;
-
 /**
  * Wrapper class that holds a static {@link FxServiceContext} via {@link #serviceContext()} that is lazily created.
  */
-@Unstable(reason = "class was recently added")
 public final class FxService {
 
     private static FxServiceContext context;
@@ -30,7 +27,6 @@ public final class FxService {
         throw new UnsupportedOperationException();
     }
 
-    @Unstable(reason = "is missing apidocs")
     public static FxServiceContext serviceContext() {
         if (context == null) {
             context = new FxServiceContext();

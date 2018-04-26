@@ -23,7 +23,6 @@ import javafx.scene.Node;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
@@ -32,7 +31,6 @@ import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 /**
  * TestFX matchers for {@link Node} instances.
  */
-@Unstable(reason = "needs more tests")
 public class NodeMatchers {
 
     private NodeMatchers() {}
@@ -42,7 +40,6 @@ public class NodeMatchers {
      * returns true.
      */
     @Factory
-    @Unstable(reason = "maybe find a better method name")
     public static Matcher<Node> anything() {
         return baseMatcher("anything", node -> true);
     }

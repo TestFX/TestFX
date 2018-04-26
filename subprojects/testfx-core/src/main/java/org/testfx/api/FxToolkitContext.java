@@ -23,7 +23,6 @@ import javafx.application.Application;
 import javafx.event.Event;
 import javafx.stage.Stage;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.support.FiredEvents;
 import org.testfx.toolkit.PrimaryStageApplication;
 
@@ -41,20 +40,19 @@ import static java.lang.System.getProperty;
  *     <li>the timeout limit for setting up a component</li>
  * </ul>
  */
-@Unstable(reason = "class was recently added")
 public class FxToolkitContext {
 
     /**
      * The {@link java.util.concurrent.Future Future&lt;Stage&gt;} that can run listeners when completed.
      * Default value: {@link PrimaryStageApplication#PRIMARY_STAGE_FUTURE}.
      */
-    private CompletableFuture<Stage> primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
+    private final CompletableFuture<Stage> primaryStageFuture = PrimaryStageApplication.PRIMARY_STAGE_FUTURE;
 
     /**
      * The {@link Application} as a {@link Class} object to use in {@link Application#launch(Class, String...)}.
      * Default value: {@link PrimaryStageApplication}.
      */
-    private Class<? extends Application> applicationClass = PrimaryStageApplication.class;
+    private final Class<? extends Application> applicationClass = PrimaryStageApplication.class;
 
     /**
      * The application arguments. Default value: an empty {@code String[]}
@@ -79,16 +77,8 @@ public class FxToolkitContext {
         return primaryStageFuture;
     }
 
-    public void setPrimaryStageFuture(CompletableFuture<Stage> primaryStageFuture) {
-        this.primaryStageFuture = primaryStageFuture;
-    }
-
     public Class<? extends Application> getApplicationClass() {
         return applicationClass;
-    }
-
-    public void setApplicationClass(Class<? extends Application> applicationClass) {
-        this.applicationClass = applicationClass;
     }
 
     public String[] getApplicationArgs() {

@@ -22,7 +22,6 @@ import javafx.scene.control.ComboBox;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
@@ -42,7 +41,6 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
  * will verify that {@code fruits} contains exactly (only) the {@code String}'s
  * "Apple", "Banana", and "Cherry" in order.
  */
-@Unstable(reason = "needs more tests")
 public class ComboBoxMatchers {
 
     private ComboBoxMatchers() {}
