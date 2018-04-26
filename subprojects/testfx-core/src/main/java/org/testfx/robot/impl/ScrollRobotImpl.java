@@ -21,11 +21,9 @@ import java.util.Objects;
 import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 
-@Unstable
 public class ScrollRobotImpl implements ScrollRobot {
 
     private static final int SCROLL_ONE_UP_OR_LEFT = -1;

@@ -39,8 +39,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 
-import org.testfx.api.annotation.Unstable;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
@@ -80,7 +78,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * {@literal true}, any subsequent calls to one of the {@code async} methods will
  * throw one of those exceptions.
  */
-@Unstable
 public final class WaitForAsyncUtils {
 
     private static final long CONDITION_SLEEP_IN_MILLIS = 10;

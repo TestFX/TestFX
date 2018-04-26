@@ -39,7 +39,7 @@ build:
 build_script:
   - ps: |
       if ($env:JAVA_VERSION -eq "10") {
-        choco install jdk10 -params 'installdir=c:\\jdk10'
+        choco install jdk10 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
       }
       refreshenv
 
@@ -64,6 +64,7 @@ cache:
   - C:\Users\appveyor\.gradle\wrapper -> .gradle-wrapper\gradle-wrapper.properties
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - C:\ProgramData\chocolatey\cache -> appveyor.yml
 
 notifications:
   - provider: Webhook

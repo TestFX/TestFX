@@ -43,7 +43,6 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.Motion;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.BoundsQuery;
@@ -57,7 +56,6 @@ import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
 
-@Unstable(reason = "class was recently added")
 public class FxRobot implements FxRobotInterface {
 
     private final FxRobotContext context;
@@ -67,7 +65,6 @@ public class FxRobot implements FxRobotInterface {
      */
     public FxRobot() {
         context = new FxRobotContext();
-        context.setPointPosition(Pos.CENTER);
     }
 
     /**
@@ -245,19 +242,16 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "not yet implemented")
     public BoundsQuery bounds(String query) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    @Unstable(reason = "not yet implemented")
     public <T extends Node> BoundsQuery bounds(Matcher<T> matcher) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    @Unstable(reason = "not yet implemented")
     public <T extends Node> BoundsQuery bounds(Predicate<T> predicate) {
         throw new UnsupportedOperationException();
     }
@@ -321,7 +315,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> PointQuery point(Matcher<T> matcher) {
         NodeQuery nodeQuery = lookup(matcher);
         Node node = queryNode(nodeQuery, "the matcher \"" + matcher.toString() + "\"");
@@ -371,7 +364,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> PointQuery offset(Matcher<T> matcher, double offsetX, double offsetY) {
         return point(matcher).atOffset(offsetX, offsetY);
     }
@@ -383,22 +375,19 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public Capture capture(Rectangle2D screenRegion) {
-        Image image = context.getCaptureSupport().captureRegion(screenRegion);
-        return () -> image;
+        return () -> context.getCaptureSupport().captureRegion(screenRegion);
     }
 
     @Override
     public Capture capture(Bounds bounds) {
         Rectangle2D region = new Rectangle2D(bounds.getMinX(), bounds.getMinY(),
                                              bounds.getWidth(), bounds.getHeight());
-        Image image = context.getCaptureSupport().captureRegion(region);
-        return () -> image;
+        return () -> context.getCaptureSupport().captureRegion(region);
     }
 
     @Override
     public Capture capture(Node node) {
-        Image image = context.getCaptureSupport().captureNode(node);
-        return () -> image;
+        return () -> context.getCaptureSupport().captureNode(node);
     }
 
     @Override
@@ -408,16 +397,14 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public Capture capture(Path path) {
-        Image image = context.getCaptureSupport().loadImage(path);
-        return () -> image;
+        return () -> context.getCaptureSupport().loadImage(path);
     }
 
     @Override
     public Capture capture(URL url) {
         try {
             Path path = Paths.get(url.toURI());
-            Image image = context.getCaptureSupport().loadImage(path);
-            return () -> image;
+            return () -> context.getCaptureSupport().loadImage(path);
         }
         catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
@@ -490,7 +477,11 @@ public class FxRobot implements FxRobotInterface {
         return type(KeyCode.BACK_SPACE, amount);
     }
 
-    @Unstable(reason = "maybe extract this into a new class")
+    /**
+     * @deprecated The implementation of this method simply pushes the keys ALT+F4 which
+     * does not close the current window on all platforms.
+     */
+    @Deprecated
     public FxRobot closeCurrentWindow() {
         return push(KeyCode.ALT, KeyCode.F4).sleep(100);
     }
@@ -557,28 +548,24 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "could be renamed to accept empty arrays")
     public FxRobot press(KeyCode... keys) {
         context.getKeyboardRobot().press(keys);
         return this;
     }
 
     @Override
-    @Unstable(reason = "could be renamed to accept empty arrays")
     public FxRobot release(KeyCode... keys) {
         context.getKeyboardRobot().release(keys);
         return this;
     }
 
     @Override
-    @Unstable(reason = "could be renamed to accept empty arrays")
     public FxRobot press(MouseButton... buttons) {
         context.getMouseRobot().press(buttons);
         return this;
     }
 
     @Override
-    @Unstable(reason = "could be renamed to accept empty arrays")
     public FxRobot release(MouseButton... buttons) {
         context.getMouseRobot().release(buttons);
         return this;
@@ -644,7 +631,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot clickOn(Matcher<T> matcher, Motion motion, MouseButton... buttons) {
         return clickOn(pointOfVisibleNode(matcher), motion, buttons);
     }
@@ -700,7 +686,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot rightClickOn(Matcher<T> matcher, Motion motion) {
         return clickOn(matcher, motion, MouseButton.SECONDARY);
     }
@@ -821,7 +806,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot drag(Matcher<T> matcher, MouseButton... buttons) {
         return drag(pointOfVisibleNode(matcher), buttons);
     }
@@ -867,7 +851,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot dropTo(Matcher<T> matcher) {
         return dropTo(pointOfVisibleNode(matcher));
     }
@@ -925,7 +908,6 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    @Unstable(reason = "might change to accept all objects")
     public <T extends Node> FxRobot moveTo(Matcher<T> matcher, Motion motion) {
         return moveTo(pointOfVisibleNode(matcher), motion);
     }
@@ -956,8 +938,7 @@ public class FxRobot implements FxRobotInterface {
     private Node queryNode(NodeQuery nodeQuery, String queryDescription) {
         Optional<Node> resultNode = nodeQuery.tryQuery();
         if (!resultNode.isPresent()) {
-            String message = queryDescription + " returned no nodes.";
-            throw new FxRobotException(message);
+            throw new FxRobotException(queryDescription + " returned no nodes.");
         }
         return resultNode.get();
     }
@@ -965,14 +946,12 @@ public class FxRobot implements FxRobotInterface {
     private Node queryVisibleNode(NodeQuery nodeQuery, String queryDescription) {
         Set<Node> resultNodes = nodeQuery.queryAll();
         if (resultNodes.isEmpty()) {
-            String message = queryDescription + " returned no nodes.";
-            throw new FxRobotException(message);
+            throw new FxRobotException(queryDescription + " returned no nodes.");
         }
         Optional<Node> resultNode = from(resultNodes).match(isVisible()).tryQuery();
         if (!resultNode.isPresent()) {
-            String message = queryDescription + " returned " + resultNodes.size() + " nodes" +
-                ", but no nodes were visible.";
-            throw new FxRobotException(message);
+            throw new FxRobotException(queryDescription + " returned " + resultNodes.size() + " nodes" +
+                ", but no nodes were visible.");
         }
         return resultNode.get();
     }

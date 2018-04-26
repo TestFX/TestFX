@@ -21,10 +21,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.query.PointQuery;
 
-@Unstable
 public class CallableBoundsPointQuery extends PointQueryBase {
 
     private final Callable<Bounds> callableBounds;

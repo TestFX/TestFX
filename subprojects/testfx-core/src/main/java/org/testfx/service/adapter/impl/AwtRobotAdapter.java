@@ -34,12 +34,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
 
-@Unstable
 public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     private Robot awtRobot;

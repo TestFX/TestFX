@@ -20,14 +20,12 @@ import javafx.stage.Window;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
 
 /**
  * TestFX matchers for {@link Window} instances.
  */
-@Unstable(reason = "needs more tests")
 public class WindowMatchers {
 
     private WindowMatchers() {}

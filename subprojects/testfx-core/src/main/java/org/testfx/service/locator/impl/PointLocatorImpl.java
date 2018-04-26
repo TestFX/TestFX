@@ -23,14 +23,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.PointQuery;
 import org.testfx.service.query.impl.BoundsPointQuery;
 import org.testfx.service.query.impl.CallableBoundsPointQuery;
 
-@Unstable
 public class PointLocatorImpl implements PointLocator {
 
     private final BoundsLocator boundsLocator;

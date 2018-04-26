@@ -25,10 +25,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.internal.JavaVersionAdapter;
 
-@Unstable
 public final class BoundsQueryUtils {
 
     private BoundsQueryUtils() {}

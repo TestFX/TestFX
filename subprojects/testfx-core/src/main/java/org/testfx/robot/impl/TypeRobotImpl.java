@@ -26,12 +26,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
 
-@Unstable
 public class TypeRobotImpl implements TypeRobot {
 
     private static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS = 25;

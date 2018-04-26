@@ -27,7 +27,6 @@ import javafx.scene.text.TextFlow;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.util.ColorUtils;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -35,7 +34,6 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 /**
  * TestFX matchers for {@link TextFlow} controls.
  */
-@Unstable(reason = "needs more tests")
 public class TextFlowMatchers {
 
     private TextFlowMatchers() {}

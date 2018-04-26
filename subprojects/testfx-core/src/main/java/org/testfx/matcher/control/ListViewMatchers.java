@@ -25,7 +25,6 @@ import javafx.scene.control.ListView;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
@@ -34,7 +33,6 @@ import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 /**
  * TestFX matchers for {@link ListView} controls.
  */
-@Unstable(reason = "needs more tests")
 public class ListViewMatchers {
 
     private static final String SELECTOR_LIST_CELL = ".list-cell";

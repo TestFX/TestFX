@@ -28,26 +28,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.api.annotation.Unstable;
 
-@Unstable(reason = "might be renamed to ApplicationTestBase")
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
 
-    @Unstable(reason = "is missing apidocs")
     public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(appClass, appArgs);
     }
 
     @BeforeEach
-    @Unstable(reason = "is missing apidocs")
     public final void internalBefore() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     @AfterEach
-    @Unstable(reason = "is missing apidocs")
     public final void internalAfter() throws Exception {
         // release all keys
         release(new KeyCode[0]);
@@ -57,15 +52,12 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public void init() throws Exception {}
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public void start(Stage stage) throws Exception {}
 
     @Override
-    @Unstable(reason = "is missing apidocs")
     public void stop() throws Exception {}
 
     @Deprecated

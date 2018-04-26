@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 
 import javafx.geometry.Point2D;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -32,7 +31,6 @@ import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
-@Unstable
 public class MoveRobotImpl implements MoveRobot {
 
     private static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = 1;

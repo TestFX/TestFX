@@ -21,12 +21,10 @@ import java.util.concurrent.Future;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationService;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
-@Unstable(reason = "needs more tests")
 public class ApplicationServiceImpl implements ApplicationService {
 
     @Override

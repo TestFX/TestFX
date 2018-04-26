@@ -21,14 +21,12 @@ import javafx.scene.control.TextInputControl;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
  * TestFX matchers for {@link TextInputControl} controls.
  */
-@Unstable(reason = "needs more tests")
 public class TextInputControlMatchers {
 
     private TextInputControlMatchers() {}

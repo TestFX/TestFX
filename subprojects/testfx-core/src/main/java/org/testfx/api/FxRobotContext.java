@@ -18,7 +18,6 @@ package org.testfx.api;
 
 import javafx.geometry.Pos;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.DragRobot;
@@ -52,62 +51,50 @@ import org.testfx.service.support.impl.CaptureSupportImpl;
  * Stores the robot implementations, the window and node finders, position calculators, and capture support for
  * {@link FxRobot}.
  */
-@Unstable(reason = "class was recently added")
 public class FxRobotContext {
 
-    private WindowFinder windowFinder;
-    private NodeFinder nodeFinder;
+    private final WindowFinder windowFinder;
+    private final NodeFinder nodeFinder;
+    private final BoundsLocator boundsLocator;
+    private final PointLocator pointLocator;
+    private final BaseRobot baseRobot;
+    private final MouseRobot mouseRobot;
+    private final KeyboardRobot keyboardRobot;
+    private final MoveRobot moveRobot;
+    private final SleepRobot sleepRobot;
+    private final ClickRobot clickRobot;
+    private final DragRobot dragRobot;
+    private final ScrollRobot scrollRobot;
+    private final TypeRobot typeRobot;
+    private final WriteRobot writeRobot;
+    private final CaptureSupport captureSupport;
     private Pos pointPosition;
-    private BoundsLocator boundsLocator;
-    private PointLocator pointLocator;
-    private BaseRobot baseRobot;
-    private MouseRobot mouseRobot;
-    private KeyboardRobot keyboardRobot;
-    private MoveRobot moveRobot;
-    private SleepRobot sleepRobot;
-    private ClickRobot clickRobot;
-    private DragRobot dragRobot;
-    private ScrollRobot scrollRobot;
-    private TypeRobot typeRobot;
-    private WriteRobot writeRobot;
-    private CaptureSupport captureSupport;
 
     public FxRobotContext() {
         windowFinder = FxService.serviceContext().getWindowFinder();
         nodeFinder = FxService.serviceContext().getNodeFinder();
-
         boundsLocator = new BoundsLocatorImpl();
         pointLocator = new PointLocatorImpl(boundsLocator);
-
         baseRobot = new BaseRobotImpl();
         keyboardRobot = new KeyboardRobotImpl(baseRobot);
         mouseRobot = new MouseRobotImpl(baseRobot);
         sleepRobot = new SleepRobotImpl();
-
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
         writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
         moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
         clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
         scrollRobot = new ScrollRobotImpl(mouseRobot);
-
         captureSupport = new CaptureSupportImpl(baseRobot);
+        pointPosition = Pos.CENTER;
     }
 
     public WindowFinder getWindowFinder() {
         return windowFinder;
     }
 
-    public void setWindowFinder(WindowFinder windowFinder) {
-        this.windowFinder = windowFinder;
-    }
-
     public NodeFinder getNodeFinder() {
         return nodeFinder;
-    }
-
-    public void setNodeFinder(NodeFinder nodeFinder) {
-        this.nodeFinder = nodeFinder;
     }
 
     public Pos getPointPosition() {
@@ -122,104 +109,52 @@ public class FxRobotContext {
         return boundsLocator;
     }
 
-    public void setBoundsLocator(BoundsLocator boundsLocator) {
-        this.boundsLocator = boundsLocator;
-    }
-
     public PointLocator getPointLocator() {
         return pointLocator;
-    }
-
-    public void setPointLocator(PointLocator pointLocator) {
-        this.pointLocator = pointLocator;
     }
 
     public BaseRobot getBaseRobot() {
         return baseRobot;
     }
 
-    public void setBaseRobot(BaseRobot baseRobot) {
-        this.baseRobot = baseRobot;
-    }
-
     public MouseRobot getMouseRobot() {
         return mouseRobot;
-    }
-
-    public void setMouseRobot(MouseRobot mouseRobot) {
-        this.mouseRobot = mouseRobot;
     }
 
     public KeyboardRobot getKeyboardRobot() {
         return keyboardRobot;
     }
 
-    public void setKeyboardRobot(KeyboardRobot keyboardRobot) {
-        this.keyboardRobot = keyboardRobot;
-    }
-
     public MoveRobot getMoveRobot() {
         return moveRobot;
-    }
-
-    public void setMoveRobot(MoveRobot moveRobot) {
-        this.moveRobot = moveRobot;
     }
 
     public SleepRobot getSleepRobot() {
         return sleepRobot;
     }
 
-    public void setSleepRobot(SleepRobot sleepRobot) {
-        this.sleepRobot = sleepRobot;
-    }
-
     public ClickRobot getClickRobot() {
         return clickRobot;
-    }
-
-    public void setClickRobot(ClickRobot clickRobot) {
-        this.clickRobot = clickRobot;
     }
 
     public DragRobot getDragRobot() {
         return dragRobot;
     }
 
-    public void setDragRobot(DragRobot dragRobot) {
-        this.dragRobot = dragRobot;
-    }
-
     public ScrollRobot getScrollRobot() {
         return scrollRobot;
-    }
-
-    public void setScrollRobot(ScrollRobot scrollRobot) {
-        this.scrollRobot = scrollRobot;
     }
 
     public TypeRobot getTypeRobot() {
         return typeRobot;
     }
 
-    public void setTypeRobot(TypeRobot typeRobot) {
-        this.typeRobot = typeRobot;
-    }
-
     public WriteRobot getWriteRobot() {
         return writeRobot;
     }
 
-    public void setWriteRobot(WriteRobot writeRobot) {
-        this.writeRobot = writeRobot;
-    }
-
     public CaptureSupport getCaptureSupport() {
         return captureSupport;
-    }
-
-    public void setCaptureSupport(CaptureSupport captureSupport) {
-        this.captureSupport = captureSupport;
     }
 
 }

@@ -33,7 +33,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 import javax.imageio.ImageIO;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcher;
@@ -42,7 +41,6 @@ import org.testfx.service.support.PixelMatcherResult;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
-@Unstable(reason = "needs more tests")
 public class CaptureSupportImpl implements CaptureSupport {
 
     public static final String PNG_IMAGE_FORMAT = "png";

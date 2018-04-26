@@ -16,7 +16,6 @@
  */
 package org.testfx.api;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.finder.NodeFinder;
@@ -36,47 +35,27 @@ import org.testfx.service.support.impl.CaptureSupportImpl;
  *     <li>{@link CaptureSupport}</li>
  * </ul>
  */
-@Unstable(reason = "class was recently added")
 public class FxServiceContext {
 
-    private WindowFinder windowFinder = new WindowFinderImpl();
-
-    private NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
-
-    private BaseRobot baseRobot = new BaseRobotImpl();
-
-    private CaptureSupport captureSupport = new CaptureSupportImpl(baseRobot);
+    private final WindowFinder windowFinder = new WindowFinderImpl();
+    private final NodeFinder nodeFinder = new NodeFinderImpl(windowFinder);
+    private final BaseRobot baseRobot = new BaseRobotImpl();
+    private final CaptureSupport captureSupport = new CaptureSupportImpl(baseRobot);
 
     public WindowFinder getWindowFinder() {
         return windowFinder;
-    }
-
-    public void setWindowFinder(WindowFinder windowFinder) {
-        this.windowFinder = windowFinder;
     }
 
     public NodeFinder getNodeFinder() {
         return nodeFinder;
     }
 
-    public void setNodeFinder(NodeFinder nodeFinder) {
-        this.nodeFinder = nodeFinder;
-    }
-
     public BaseRobot getBaseRobot() {
         return baseRobot;
     }
 
-    public void setBaseRobot(BaseRobot baseRobot) {
-        this.baseRobot = baseRobot;
-    }
-
     public CaptureSupport getCaptureSupport() {
         return captureSupport;
-    }
-
-    public void setCaptureSupport(CaptureSupport captureSupport) {
-        this.captureSupport = captureSupport;
     }
 
 }

@@ -25,14 +25,12 @@ import javafx.scene.Scene;
 import javafx.stage.Window;
 
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.impl.NodeQueryImpl;
 import org.testfx.util.NodeQueryUtils;
 
-@Unstable
 public class NodeFinderImpl implements NodeFinder {
 
     private final WindowFinder windowFinder;
