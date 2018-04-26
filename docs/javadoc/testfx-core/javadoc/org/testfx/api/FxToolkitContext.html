@@ -113,7 +113,7 @@ public class <span class="typeNameLabel">FxToolkitContext</span>
 extends java.lang.Object</pre>
 <div class="block">Stores the contextual information for <a href="../../../org/testfx/api/FxToolkit.html" title="class in org.testfx.api"><code>FxToolkit</code></a>:
  <ul>
-     <li>the <a href="../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit"><code>PrimaryStageFuture</code></a></li>
+     <li>the primary stage future</li>
      <li>the <code>Application</code> as a <code>Class</code> object</li>
      <li>the application's arguments</li>
      <li>the registered <code>Stage</code></li>
@@ -172,7 +172,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#getLaunchTimeoutInMillis--">getLaunchTimeoutInMillis</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code><a href="../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a></code></td>
+<td class="colFirst"><code>java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#getPrimaryStageFuture--">getPrimaryStageFuture</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -197,7 +197,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setPrimaryStageFuture-org.testfx.toolkit.PrimaryStageFuture-">setPrimaryStageFuture</a></span>(<a href="../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a>&nbsp;primaryStageFuture)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setPrimaryStageFuture-java.util.concurrent.CompletableFuture-">setPrimaryStageFuture</a></span>(java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;primaryStageFuture)</code>&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -252,16 +252,16 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getPrimaryStageFuture</h4>
-<pre>public&nbsp;<a href="../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a>&nbsp;getPrimaryStageFuture()</pre>
+<pre>public&nbsp;java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;getPrimaryStageFuture()</pre>
 </li>
 </ul>
-<a name="setPrimaryStageFuture-org.testfx.toolkit.PrimaryStageFuture-">
+<a name="setPrimaryStageFuture-java.util.concurrent.CompletableFuture-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setPrimaryStageFuture</h4>
-<pre>public&nbsp;void&nbsp;setPrimaryStageFuture(<a href="../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a>&nbsp;primaryStageFuture)</pre>
+<pre>public&nbsp;void&nbsp;setPrimaryStageFuture(java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;primaryStageFuture)</pre>
 </li>
 </ul>
 <a name="getApplicationClass--">

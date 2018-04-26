@@ -323,7 +323,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotContext.html#setPointPosition-javafx.geometry.Pos-">setPointPosition(Pos)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobotContext.html" title="class in org.testfx.api">FxRobotContext</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/api/FxToolkitContext.html#setPrimaryStageFuture-org.testfx.toolkit.PrimaryStageFuture-">setPrimaryStageFuture(PrimaryStageFuture)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxToolkitContext.html" title="class in org.testfx.api">FxToolkitContext</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/api/FxToolkitContext.html#setPrimaryStageFuture-java.util.concurrent.CompletableFuture-">setPrimaryStageFuture(CompletableFuture&lt;Stage&gt;)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxToolkitContext.html" title="class in org.testfx.api">FxToolkitContext</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxToolkitContext.html#setRegisteredStage-javafx.stage.Stage-">setRegisteredStage(Stage)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxToolkitContext.html" title="class in org.testfx.api">FxToolkitContext</a></dt>
 <dd>&nbsp;</dd>
@@ -335,10 +335,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxRobotContext.html#setTypeRobot-org.testfx.robot.TypeRobot-">setTypeRobot(TypeRobot)</a></span> - Method in class org.testfx.api.<a href="../org/testfx/api/FxRobotContext.html" title="class in org.testfx.api">FxRobotContext</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/util/WaitForAsyncUtils.html#setup--">setup()</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/WaitForAsyncUtils.html" title="class in org.testfx.util">WaitForAsyncUtils</a></dt>
-<dd>
-<div class="block">Needs to be called to setup WaitForAsyncUtils before the first use.</div>
-</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/api/FxToolkit.html#setupApplication-java.lang.Class-java.lang.String...-">setupApplication(Class&lt;? extends Application&gt;, String...)</a></span> - Static method in class org.testfx.api.<a href="../org/testfx/api/FxToolkit.html" title="class in org.testfx.api">FxToolkit</a></dt>
 <dd>
 <div class="block">Sets up the given application with its given arguments and returns that application once finished.</div>
@@ -381,9 +377,9 @@
 <dd>
 <div class="block">Runs the given callable on the <code>JavaFX Application Thread</code>.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/toolkit/impl/ToolkitServiceImpl.html#setupPrimaryStage-org.testfx.toolkit.PrimaryStageFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage(PrimaryStageFuture, Class&lt;? extends Application&gt;, String...)</a></span> - Method in class org.testfx.toolkit.impl.<a href="../org/testfx/toolkit/impl/ToolkitServiceImpl.html" title="class in org.testfx.toolkit.impl">ToolkitServiceImpl</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/toolkit/impl/ToolkitServiceImpl.html#setupPrimaryStage-java.util.concurrent.CompletableFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage(CompletableFuture&lt;Stage&gt;, Class&lt;? extends Application&gt;, String...)</a></span> - Method in class org.testfx.toolkit.impl.<a href="../org/testfx/toolkit/impl/ToolkitServiceImpl.html" title="class in org.testfx.toolkit.impl">ToolkitServiceImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/toolkit/ToolkitService.html#setupPrimaryStage-org.testfx.toolkit.PrimaryStageFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage(PrimaryStageFuture, Class&lt;? extends Application&gt;, String...)</a></span> - Method in interface org.testfx.toolkit.<a href="../org/testfx/toolkit/ToolkitService.html" title="interface in org.testfx.toolkit">ToolkitService</a></dt>
+<dt><span class="memberNameLink"><a href="../org/testfx/toolkit/ToolkitService.html#setupPrimaryStage-java.util.concurrent.CompletableFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage(CompletableFuture&lt;Stage&gt;, Class&lt;? extends Application&gt;, String...)</a></span> - Method in interface org.testfx.toolkit.<a href="../org/testfx/toolkit/ToolkitService.html" title="interface in org.testfx.toolkit">ToolkitService</a></dt>
 <dd>
 <div class="block">If the given <code>CompletableFuture.isDone()</code>, returns that future; otherwise, launches the given application
  with its arguments.</div>
@@ -499,10 +495,6 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="../org/testfx/robot/impl/SleepRobotImpl.html#SleepRobotImpl--">SleepRobotImpl()</a></span> - Constructor for class org.testfx.robot.impl.<a href="../org/testfx/robot/impl/SleepRobotImpl.html" title="class in org.testfx.robot.impl">SleepRobotImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="../org/testfx/util/WaitForAsyncUtils.html#sleepWithException-long-java.util.concurrent.TimeUnit-">sleepWithException(long, TimeUnit)</a></span> - Static method in class org.testfx.util.<a href="../org/testfx/util/WaitForAsyncUtils.html" title="class in org.testfx.util">WaitForAsyncUtils</a></dt>
-<dd>
-<div class="block">Sleeps the current thread for the given duration.</div>
-</dd>
 <dt><a href="../org/testfx/api/annotation/Stable.html" title="annotation in org.testfx.api.annotation"><span class="typeNameLink">Stable</span></a> - Annotation Type in <a href="../org/testfx/api/annotation/package-summary.html">org.testfx.api.annotation</a></dt>
 <dd>
 <div class="block">Functionality that is considered stable and might only be changed or removed in major releases.</div>

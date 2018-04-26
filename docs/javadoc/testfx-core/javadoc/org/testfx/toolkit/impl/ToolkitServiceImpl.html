@@ -190,7 +190,7 @@ implements <a href="../../../../org/testfx/toolkit/ToolkitService.html" title="i
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.util.concurrent.Future&lt;javafx.stage.Stage&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/toolkit/impl/ToolkitServiceImpl.html#setupPrimaryStage-org.testfx.toolkit.PrimaryStageFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage</a></span>(<a href="../../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a>&nbsp;primaryStageFuture,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/toolkit/impl/ToolkitServiceImpl.html#setupPrimaryStage-java.util.concurrent.CompletableFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage</a></span>(java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;primaryStageFuture,
                  java.lang.Class&lt;? extends javafx.application.Application&gt;&nbsp;applicationClass,
                  java.lang.String...&nbsp;applicationArgs)</code>
 <div class="block">If the given <code>CompletableFuture.isDone()</code>, returns that future; otherwise, launches the given application
@@ -262,21 +262,21 @@ implements <a href="../../../../org/testfx/toolkit/ToolkitService.html" title="i
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="setupPrimaryStage-org.testfx.toolkit.PrimaryStageFuture-java.lang.Class-java.lang.String...-">
+<a name="setupPrimaryStage-java.util.concurrent.CompletableFuture-java.lang.Class-java.lang.String...-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setupPrimaryStage</h4>
-<pre>public&nbsp;java.util.concurrent.Future&lt;javafx.stage.Stage&gt;&nbsp;setupPrimaryStage(<a href="../../../../org/testfx/toolkit/PrimaryStageFuture.html" title="class in org.testfx.toolkit">PrimaryStageFuture</a>&nbsp;primaryStageFuture,
+<pre>public&nbsp;java.util.concurrent.Future&lt;javafx.stage.Stage&gt;&nbsp;setupPrimaryStage(java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;primaryStageFuture,
                                                                          java.lang.Class&lt;? extends javafx.application.Application&gt;&nbsp;applicationClass,
                                                                          java.lang.String...&nbsp;applicationArgs)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/toolkit/ToolkitService.html#setupPrimaryStage-org.testfx.toolkit.PrimaryStageFuture-java.lang.Class-java.lang.String...-">ToolkitService</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../org/testfx/toolkit/ToolkitService.html#setupPrimaryStage-java.util.concurrent.CompletableFuture-java.lang.Class-java.lang.String...-">ToolkitService</a></code></span></div>
 <div class="block">If the given <code>CompletableFuture.isDone()</code>, returns that future; otherwise, launches the given application
  with its arguments.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../org/testfx/toolkit/ToolkitService.html#setupPrimaryStage-org.testfx.toolkit.PrimaryStageFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/toolkit/ToolkitService.html" title="interface in org.testfx.toolkit">ToolkitService</a></code></dd>
+<dd><code><a href="../../../../org/testfx/toolkit/ToolkitService.html#setupPrimaryStage-java.util.concurrent.CompletableFuture-java.lang.Class-java.lang.String...-">setupPrimaryStage</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../org/testfx/toolkit/ToolkitService.html" title="interface in org.testfx.toolkit">ToolkitService</a></code></dd>
 </dl>
 </li>
 </ul>
