@@ -1,5 +1,4 @@
 org.testfx.api
-org.testfx.api.annotation
 org.testfx.assertions.api
 org.testfx.assertions.impl
 org.testfx.internal

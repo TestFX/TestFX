@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -108,8 +108,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="class was recently added")
-public class <span class="typeNameLabel">FxServiceContext</span>
+<pre>public class <span class="typeNameLabel">FxServiceContext</span>
 extends java.lang.Object</pre>
 <div class="block">Stores the following objects:
  <ul>
@@ -169,22 +168,6 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#getWindowFinder--">getWindowFinder</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setBaseRobot-org.testfx.robot.BaseRobot-">setBaseRobot</a></span>(<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;baseRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setCaptureSupport-org.testfx.service.support.CaptureSupport-">setCaptureSupport</a></span>(<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;captureSupport)</code>&nbsp;</td>
-</tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setNodeFinder-org.testfx.service.finder.NodeFinder-">setNodeFinder</a></span>(<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;nodeFinder)</code>&nbsp;</td>
-</tr>
-<tr id="i7" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxServiceContext.html#setWindowFinder-org.testfx.service.finder.WindowFinder-">setWindowFinder</a></span>(<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;windowFinder)</code>&nbsp;</td>
-</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -233,15 +216,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;getWindowFinder()</pre>
 </li>
 </ul>
-<a name="setWindowFinder-org.testfx.service.finder.WindowFinder-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setWindowFinder</h4>
-<pre>public&nbsp;void&nbsp;setWindowFinder(<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;windowFinder)</pre>
-</li>
-</ul>
 <a name="getNodeFinder--">
 <!--   -->
 </a>
@@ -249,15 +223,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getNodeFinder</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;getNodeFinder()</pre>
-</li>
-</ul>
-<a name="setNodeFinder-org.testfx.service.finder.NodeFinder-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setNodeFinder</h4>
-<pre>public&nbsp;void&nbsp;setNodeFinder(<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;nodeFinder)</pre>
 </li>
 </ul>
 <a name="getBaseRobot--">
@@ -269,31 +234,13 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;getBaseRobot()</pre>
 </li>
 </ul>
-<a name="setBaseRobot-org.testfx.robot.BaseRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setBaseRobot</h4>
-<pre>public&nbsp;void&nbsp;setBaseRobot(<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;baseRobot)</pre>
-</li>
-</ul>
 <a name="getCaptureSupport--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getCaptureSupport</h4>
-<pre>public&nbsp;<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;getCaptureSupport()</pre>
-</li>
-</ul>
-<a name="setCaptureSupport-org.testfx.service.support.CaptureSupport-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>setCaptureSupport</h4>
-<pre>public&nbsp;void&nbsp;setCaptureSupport(<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;captureSupport)</pre>
+<h4>getCaptureSupport</h4>
+<pre>public&nbsp;<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;getCaptureSupport()</pre>
 </li>
 </ul>
 </li>

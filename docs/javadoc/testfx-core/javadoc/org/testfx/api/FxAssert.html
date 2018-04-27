@@ -108,8 +108,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="method signatures need fine-tuning")
-public final class <span class="typeNameLabel">FxAssert</span>
+<pre>public final class <span class="typeNameLabel">FxAssert</span>
 extends java.lang.Object</pre>
 <div class="block">All TestFX tests should use <a href="../../../org/testfx/api/FxAssert.html#verifyThat-T-org.hamcrest.Matcher-java.util.function.Function-"><code>verifyThat(Node, Matcher, Function)</code></a> when writing tests,
  so that the developer can use <a href="../../../org/testfx/util/DebugUtils.html" title="class in org.testfx.util"><code>DebugUtils</code></a> to provide additional info
@@ -310,9 +309,8 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might be removed due to complications with generics")
-public static&nbsp;&lt;T&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;value,
-                                                                                                                              org.hamcrest.Matcher&lt;? super T&gt;&nbsp;matcher)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;value,
+                                  org.hamcrest.Matcher&lt;? super T&gt;&nbsp;matcher)</pre>
 </li>
 </ul>
 <a name="verifyThat-java.lang.Object-org.hamcrest.Matcher-java.util.function.Function-">
@@ -323,10 +321,9 @@ public static&nbsp;&lt;T&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;value,
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might be removed due to complications with generics")
-public static&nbsp;&lt;T&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;value,
-                                                                                                                              org.hamcrest.Matcher&lt;? super T&gt;&nbsp;matcher,
-                                                                                                                              java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;value,
+                                  org.hamcrest.Matcher&lt;? super T&gt;&nbsp;matcher,
+                                  java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThat-javafx.scene.Node-org.hamcrest.Matcher-">
@@ -337,9 +334,8 @@ public static&nbsp;&lt;T&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;value,
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
-                                                                                                   org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
+                                                            org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher)</pre>
 </li>
 </ul>
 <a name="verifyThat-javafx.scene.Node-org.hamcrest.Matcher-java.util.function.Function-">
@@ -350,10 +346,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
-                                                                                                   org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher,
-                                                                                                   java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
+                                                            org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher,
+                                                            java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThatIter-java.lang.Iterable-org.hamcrest.Matcher-">
@@ -362,9 +357,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThatIter</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change to simplify iterable handling")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.Iterable&lt;T&gt;&nbsp;nodes,
-                                                                                                                                                   org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.Iterable&lt;T&gt;&nbsp;nodes,
+                                                                org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher)</pre>
 </li>
 </ul>
 <a name="verifyThatIter-java.lang.Iterable-org.hamcrest.Matcher-java.util.function.Function-">
@@ -373,10 +367,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThatIter</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change to simplify iterable handling")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.Iterable&lt;T&gt;&nbsp;nodes,
-                                                                                                                                                   org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher,
-                                                                                                                                                   java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.Iterable&lt;T&gt;&nbsp;nodes,
+                                                                org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher,
+                                                                java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThat-java.lang.String-org.hamcrest.Matcher-">
@@ -385,9 +378,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
-                                                                                                   org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
+                                                            org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher)</pre>
 </li>
 </ul>
 <a name="verifyThat-java.lang.String-org.hamcrest.Matcher-java.util.function.Function-">
@@ -396,10 +388,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
-                                                                                                   org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher,
-                                                                                                   java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
+                                                            org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher,
+                                                            java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThatIter-java.lang.String-org.hamcrest.Matcher-">
@@ -408,9 +399,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThatIter</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change to simplify iterable handling")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.String&nbsp;nodeQuery,
-                                                                                                                                                   org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.String&nbsp;nodeQuery,
+                                                                org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher)</pre>
 </li>
 </ul>
 <a name="verifyThatIter-java.lang.String-org.hamcrest.Matcher-java.util.function.Function-">
@@ -419,10 +409,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThatIter</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change to simplify iterable handling")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.String&nbsp;nodeQuery,
-                                                                                                                                                   org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher,
-                                                                                                                                                   java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(java.lang.String&nbsp;nodeQuery,
+                                                                org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher,
+                                                                java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThat-org.testfx.service.query.NodeQuery-org.hamcrest.Matcher-">
@@ -431,9 +420,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
-                                                                                                   org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
+                                                            org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher)</pre>
 </li>
 </ul>
 <a name="verifyThat-org.testfx.service.query.NodeQuery-org.hamcrest.Matcher-java.util.function.Function-">
@@ -442,10 +430,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
-                                                                                                   org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher,
-                                                                                                   java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
+                                                            org.hamcrest.Matcher&lt;T&gt;&nbsp;nodeMatcher,
+                                                            java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThatIter-org.testfx.service.query.NodeQuery-org.hamcrest.Matcher-">
@@ -454,9 +441,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThatIter</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change to simplify iterable handling")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
-                                                                                                                                                   org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
+                                                                org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher)</pre>
 </li>
 </ul>
 <a name="verifyThatIter-org.testfx.service.query.NodeQuery-org.hamcrest.Matcher-java.util.function.Function-">
@@ -465,10 +451,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThatIter</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change to simplify iterable handling")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
-                                                                                                                                                   org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher,
-                                                                                                                                                   java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThatIter(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
+                                                                org.hamcrest.Matcher&lt;java.lang.Iterable&lt;T&gt;&gt;&nbsp;nodesMatcher,
+                                                                java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThat-javafx.scene.Node-java.util.function.Predicate-">
@@ -479,9 +464,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change if typing causes trouble")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
-                                                                                                                                          java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
+                                                            java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate)</pre>
 </li>
 </ul>
 <a name="verifyThat-javafx.scene.Node-java.util.function.Predicate-java.util.function.Function-">
@@ -492,10 +476,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change if typing causes trouble")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
-                                                                                                                                          java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate,
-                                                                                                                                          java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(T&nbsp;node,
+                                                            java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate,
+                                                            java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThat-java.lang.String-java.util.function.Predicate-">
@@ -504,9 +487,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change if typing causes trouble")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
-                                                                                                                                          java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
+                                                            java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate)</pre>
 </li>
 </ul>
 <a name="verifyThat-java.lang.String-java.util.function.Predicate-java.util.function.Function-">
@@ -515,10 +497,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change if typing causes trouble")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
-                                                                                                                                          java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate,
-                                                                                                                                          java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(java.lang.String&nbsp;nodeQuery,
+                                                            java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate,
+                                                            java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="verifyThat-org.testfx.service.query.NodeQuery-java.util.function.Predicate-">
@@ -527,9 +508,8 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change if typing causes trouble")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
-                                                                                                                                          java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
+                                                            java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate)</pre>
 </li>
 </ul>
 <a name="verifyThat-org.testfx.service.query.NodeQuery-java.util.function.Predicate-java.util.function.Function-">
@@ -538,10 +518,9 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockList">
 <li class="blockList">
 <h4>verifyThat</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs; might change if typing causes trouble")
-public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
-                                                                                                                                          java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate,
-                                                                                                                                          java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
+<pre>public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat(<a href="../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;nodeQuery,
+                                                            java.util.function.Predicate&lt;T&gt;&nbsp;nodePredicate,
+                                                            java.util.function.Function&lt;java.lang.StringBuilder,java.lang.StringBuilder&gt;&nbsp;errorMessageMapper)</pre>
 </li>
 </ul>
 <a name="assertContext--">
@@ -550,8 +529,7 @@ public static&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;void&nbsp;verifyThat
 <ul class="blockListLast">
 <li class="blockList">
 <h4>assertContext</h4>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="is missing apidocs")
-public static&nbsp;<a href="../../../org/testfx/api/FxAssertContext.html" title="class in org.testfx.api">FxAssertContext</a>&nbsp;assertContext()</pre>
+<pre>public static&nbsp;<a href="../../../org/testfx/api/FxAssertContext.html" title="class in org.testfx.api">FxAssertContext</a>&nbsp;assertContext()</pre>
 </li>
 </ul>
 </li>

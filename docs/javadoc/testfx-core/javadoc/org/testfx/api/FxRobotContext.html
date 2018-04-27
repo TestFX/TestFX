@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -108,8 +108,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="class was recently added")
-public class <span class="typeNameLabel">FxRobotContext</span>
+<pre>public class <span class="typeNameLabel">FxRobotContext</span>
 extends java.lang.Object</pre>
 <div class="block">Stores the robot implementations, the window and node finders, position calculators, and capture support for
  <a href="../../../org/testfx/api/FxRobot.html" title="class in org.testfx.api"><code>FxRobot</code></a>.</div>
@@ -214,67 +213,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setBaseRobot-org.testfx.robot.BaseRobot-">setBaseRobot</a></span>(<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;baseRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i17" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setBoundsLocator-org.testfx.service.locator.BoundsLocator-">setBoundsLocator</a></span>(<a href="../../../org/testfx/service/locator/BoundsLocator.html" title="interface in org.testfx.service.locator">BoundsLocator</a>&nbsp;boundsLocator)</code>&nbsp;</td>
-</tr>
-<tr id="i18" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setCaptureSupport-org.testfx.service.support.CaptureSupport-">setCaptureSupport</a></span>(<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;captureSupport)</code>&nbsp;</td>
-</tr>
-<tr id="i19" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setClickRobot-org.testfx.robot.ClickRobot-">setClickRobot</a></span>(<a href="../../../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a>&nbsp;clickRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i20" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setDragRobot-org.testfx.robot.DragRobot-">setDragRobot</a></span>(<a href="../../../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a>&nbsp;dragRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i21" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setKeyboardRobot-org.testfx.robot.KeyboardRobot-">setKeyboardRobot</a></span>(<a href="../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a>&nbsp;keyboardRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i22" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setMouseRobot-org.testfx.robot.MouseRobot-">setMouseRobot</a></span>(<a href="../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a>&nbsp;mouseRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i23" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setMoveRobot-org.testfx.robot.MoveRobot-">setMoveRobot</a></span>(<a href="../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a>&nbsp;moveRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i24" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setNodeFinder-org.testfx.service.finder.NodeFinder-">setNodeFinder</a></span>(<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;nodeFinder)</code>&nbsp;</td>
-</tr>
-<tr id="i25" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setPointLocator-org.testfx.service.locator.PointLocator-">setPointLocator</a></span>(<a href="../../../org/testfx/service/locator/PointLocator.html" title="interface in org.testfx.service.locator">PointLocator</a>&nbsp;pointLocator)</code>&nbsp;</td>
-</tr>
-<tr id="i26" class="altColor">
-<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setPointPosition-javafx.geometry.Pos-">setPointPosition</a></span>(javafx.geometry.Pos&nbsp;pointPosition)</code>&nbsp;</td>
-</tr>
-<tr id="i27" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setScrollRobot-org.testfx.robot.ScrollRobot-">setScrollRobot</a></span>(<a href="../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a>&nbsp;scrollRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i28" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setSleepRobot-org.testfx.robot.SleepRobot-">setSleepRobot</a></span>(<a href="../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a>&nbsp;sleepRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i29" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setTypeRobot-org.testfx.robot.TypeRobot-">setTypeRobot</a></span>(<a href="../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a>&nbsp;typeRobot)</code>&nbsp;</td>
-</tr>
-<tr id="i30" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setWindowFinder-org.testfx.service.finder.WindowFinder-">setWindowFinder</a></span>(<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;windowFinder)</code>&nbsp;</td>
-</tr>
-<tr id="i31" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxRobotContext.html#setWriteRobot-org.testfx.robot.WriteRobot-">setWriteRobot</a></span>(<a href="../../../org/testfx/robot/WriteRobot.html" title="interface in org.testfx.robot">WriteRobot</a>&nbsp;writeRobot)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -324,15 +263,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;getWindowFinder()</pre>
 </li>
 </ul>
-<a name="setWindowFinder-org.testfx.service.finder.WindowFinder-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setWindowFinder</h4>
-<pre>public&nbsp;void&nbsp;setWindowFinder(<a href="../../../org/testfx/service/finder/WindowFinder.html" title="interface in org.testfx.service.finder">WindowFinder</a>&nbsp;windowFinder)</pre>
-</li>
-</ul>
 <a name="getNodeFinder--">
 <!--   -->
 </a>
@@ -340,15 +270,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getNodeFinder</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;getNodeFinder()</pre>
-</li>
-</ul>
-<a name="setNodeFinder-org.testfx.service.finder.NodeFinder-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setNodeFinder</h4>
-<pre>public&nbsp;void&nbsp;setNodeFinder(<a href="../../../org/testfx/service/finder/NodeFinder.html" title="interface in org.testfx.service.finder">NodeFinder</a>&nbsp;nodeFinder)</pre>
 </li>
 </ul>
 <a name="getPointPosition--">
@@ -378,15 +299,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/service/locator/BoundsLocator.html" title="interface in org.testfx.service.locator">BoundsLocator</a>&nbsp;getBoundsLocator()</pre>
 </li>
 </ul>
-<a name="setBoundsLocator-org.testfx.service.locator.BoundsLocator-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setBoundsLocator</h4>
-<pre>public&nbsp;void&nbsp;setBoundsLocator(<a href="../../../org/testfx/service/locator/BoundsLocator.html" title="interface in org.testfx.service.locator">BoundsLocator</a>&nbsp;boundsLocator)</pre>
-</li>
-</ul>
 <a name="getPointLocator--">
 <!--   -->
 </a>
@@ -394,15 +306,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getPointLocator</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/service/locator/PointLocator.html" title="interface in org.testfx.service.locator">PointLocator</a>&nbsp;getPointLocator()</pre>
-</li>
-</ul>
-<a name="setPointLocator-org.testfx.service.locator.PointLocator-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setPointLocator</h4>
-<pre>public&nbsp;void&nbsp;setPointLocator(<a href="../../../org/testfx/service/locator/PointLocator.html" title="interface in org.testfx.service.locator">PointLocator</a>&nbsp;pointLocator)</pre>
 </li>
 </ul>
 <a name="getBaseRobot--">
@@ -414,15 +317,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;getBaseRobot()</pre>
 </li>
 </ul>
-<a name="setBaseRobot-org.testfx.robot.BaseRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setBaseRobot</h4>
-<pre>public&nbsp;void&nbsp;setBaseRobot(<a href="../../../org/testfx/robot/BaseRobot.html" title="interface in org.testfx.robot">BaseRobot</a>&nbsp;baseRobot)</pre>
-</li>
-</ul>
 <a name="getMouseRobot--">
 <!--   -->
 </a>
@@ -430,15 +324,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getMouseRobot</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a>&nbsp;getMouseRobot()</pre>
-</li>
-</ul>
-<a name="setMouseRobot-org.testfx.robot.MouseRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setMouseRobot</h4>
-<pre>public&nbsp;void&nbsp;setMouseRobot(<a href="../../../org/testfx/robot/MouseRobot.html" title="interface in org.testfx.robot">MouseRobot</a>&nbsp;mouseRobot)</pre>
 </li>
 </ul>
 <a name="getKeyboardRobot--">
@@ -450,15 +335,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a>&nbsp;getKeyboardRobot()</pre>
 </li>
 </ul>
-<a name="setKeyboardRobot-org.testfx.robot.KeyboardRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setKeyboardRobot</h4>
-<pre>public&nbsp;void&nbsp;setKeyboardRobot(<a href="../../../org/testfx/robot/KeyboardRobot.html" title="interface in org.testfx.robot">KeyboardRobot</a>&nbsp;keyboardRobot)</pre>
-</li>
-</ul>
 <a name="getMoveRobot--">
 <!--   -->
 </a>
@@ -466,15 +342,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getMoveRobot</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a>&nbsp;getMoveRobot()</pre>
-</li>
-</ul>
-<a name="setMoveRobot-org.testfx.robot.MoveRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setMoveRobot</h4>
-<pre>public&nbsp;void&nbsp;setMoveRobot(<a href="../../../org/testfx/robot/MoveRobot.html" title="interface in org.testfx.robot">MoveRobot</a>&nbsp;moveRobot)</pre>
 </li>
 </ul>
 <a name="getSleepRobot--">
@@ -486,15 +353,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a>&nbsp;getSleepRobot()</pre>
 </li>
 </ul>
-<a name="setSleepRobot-org.testfx.robot.SleepRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setSleepRobot</h4>
-<pre>public&nbsp;void&nbsp;setSleepRobot(<a href="../../../org/testfx/robot/SleepRobot.html" title="interface in org.testfx.robot">SleepRobot</a>&nbsp;sleepRobot)</pre>
-</li>
-</ul>
 <a name="getClickRobot--">
 <!--   -->
 </a>
@@ -502,15 +360,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getClickRobot</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a>&nbsp;getClickRobot()</pre>
-</li>
-</ul>
-<a name="setClickRobot-org.testfx.robot.ClickRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setClickRobot</h4>
-<pre>public&nbsp;void&nbsp;setClickRobot(<a href="../../../org/testfx/robot/ClickRobot.html" title="interface in org.testfx.robot">ClickRobot</a>&nbsp;clickRobot)</pre>
 </li>
 </ul>
 <a name="getDragRobot--">
@@ -522,15 +371,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a>&nbsp;getDragRobot()</pre>
 </li>
 </ul>
-<a name="setDragRobot-org.testfx.robot.DragRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setDragRobot</h4>
-<pre>public&nbsp;void&nbsp;setDragRobot(<a href="../../../org/testfx/robot/DragRobot.html" title="interface in org.testfx.robot">DragRobot</a>&nbsp;dragRobot)</pre>
-</li>
-</ul>
 <a name="getScrollRobot--">
 <!--   -->
 </a>
@@ -538,15 +378,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getScrollRobot</h4>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a>&nbsp;getScrollRobot()</pre>
-</li>
-</ul>
-<a name="setScrollRobot-org.testfx.robot.ScrollRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setScrollRobot</h4>
-<pre>public&nbsp;void&nbsp;setScrollRobot(<a href="../../../org/testfx/robot/ScrollRobot.html" title="interface in org.testfx.robot">ScrollRobot</a>&nbsp;scrollRobot)</pre>
 </li>
 </ul>
 <a name="getTypeRobot--">
@@ -558,15 +389,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a>&nbsp;getTypeRobot()</pre>
 </li>
 </ul>
-<a name="setTypeRobot-org.testfx.robot.TypeRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setTypeRobot</h4>
-<pre>public&nbsp;void&nbsp;setTypeRobot(<a href="../../../org/testfx/robot/TypeRobot.html" title="interface in org.testfx.robot">TypeRobot</a>&nbsp;typeRobot)</pre>
-</li>
-</ul>
 <a name="getWriteRobot--">
 <!--   -->
 </a>
@@ -576,31 +398,13 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;<a href="../../../org/testfx/robot/WriteRobot.html" title="interface in org.testfx.robot">WriteRobot</a>&nbsp;getWriteRobot()</pre>
 </li>
 </ul>
-<a name="setWriteRobot-org.testfx.robot.WriteRobot-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setWriteRobot</h4>
-<pre>public&nbsp;void&nbsp;setWriteRobot(<a href="../../../org/testfx/robot/WriteRobot.html" title="interface in org.testfx.robot">WriteRobot</a>&nbsp;writeRobot)</pre>
-</li>
-</ul>
 <a name="getCaptureSupport--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getCaptureSupport</h4>
-<pre>public&nbsp;<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;getCaptureSupport()</pre>
-</li>
-</ul>
-<a name="setCaptureSupport-org.testfx.service.support.CaptureSupport-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>setCaptureSupport</h4>
-<pre>public&nbsp;void&nbsp;setCaptureSupport(<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;captureSupport)</pre>
+<h4>getCaptureSupport</h4>
+<pre>public&nbsp;<a href="../../../org/testfx/service/support/CaptureSupport.html" title="interface in org.testfx.service.support">CaptureSupport</a>&nbsp;getCaptureSupport()</pre>
 </li>
 </ul>
 </li>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -108,8 +108,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <hr>
 <br>
-<pre><a href="../../../org/testfx/api/annotation/Unstable.html" title="annotation in org.testfx.api.annotation">@Unstable</a>(<a href="../../../org/testfx/api/annotation/Unstable.html#reason--">reason</a>="class was recently added")
-public class <span class="typeNameLabel">FxToolkitContext</span>
+<pre>public class <span class="typeNameLabel">FxToolkitContext</span>
 extends java.lang.Object</pre>
 <div class="block">Stores the contextual information for <a href="../../../org/testfx/api/FxToolkit.html" title="class in org.testfx.api"><code>FxToolkit</code></a>:
  <ul>
@@ -189,21 +188,13 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setApplicationClass-java.lang.Class-">setApplicationClass</a></span>(java.lang.Class&lt;? extends javafx.application.Application&gt;&nbsp;applicationClass)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setLaunchTimeoutInMillis-long-">setLaunchTimeoutInMillis</a></span>(long&nbsp;launchTimeoutInMillis)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setLaunchTimeoutInMillis-long-">setLaunchTimeoutInMillis</a></span>(long&nbsp;launchTimeoutInMillis)</code>&nbsp;</td>
-</tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setPrimaryStageFuture-java.util.concurrent.CompletableFuture-">setPrimaryStageFuture</a></span>(java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;primaryStageFuture)</code>&nbsp;</td>
-</tr>
-<tr id="i11" class="rowColor">
-<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setRegisteredStage-javafx.stage.Stage-">setRegisteredStage</a></span>(javafx.stage.Stage&nbsp;registeredStage)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/testfx/api/FxToolkitContext.html#setSetupTimeoutInMillis-long-">setSetupTimeoutInMillis</a></span>(long&nbsp;setupTimeoutInMillis)</code>&nbsp;</td>
 </tr>
@@ -255,15 +246,6 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;getPrimaryStageFuture()</pre>
 </li>
 </ul>
-<a name="setPrimaryStageFuture-java.util.concurrent.CompletableFuture-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setPrimaryStageFuture</h4>
-<pre>public&nbsp;void&nbsp;setPrimaryStageFuture(java.util.concurrent.CompletableFuture&lt;javafx.stage.Stage&gt;&nbsp;primaryStageFuture)</pre>
-</li>
-</ul>
 <a name="getApplicationClass--">
 <!--   -->
 </a>
@@ -271,15 +253,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getApplicationClass</h4>
 <pre>public&nbsp;java.lang.Class&lt;? extends javafx.application.Application&gt;&nbsp;getApplicationClass()</pre>
-</li>
-</ul>
-<a name="setApplicationClass-java.lang.Class-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setApplicationClass</h4>
-<pre>public&nbsp;void&nbsp;setApplicationClass(java.lang.Class&lt;? extends javafx.application.Application&gt;&nbsp;applicationClass)</pre>
 </li>
 </ul>
 <a name="getApplicationArgs--">
