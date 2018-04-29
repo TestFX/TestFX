@@ -48,7 +48,10 @@ public class ScreenTest extends TestCaseBase {
     @Test
     public void screen_test() throws InterruptedException {
         CountDownLatch screenLatch = new CountDownLatch(1);
-        Platform.runLater(() -> System.out.println(Screen.getScreens()));
+        Platform.runLater(() -> {
+            System.out.println(Screen.getScreens());
+            screenLatch.countDown();
+        });
         screenLatch.await();
     }
 }
