@@ -7,7 +7,7 @@ env:
   - secure: XxAYzDEO8Vga/0KfvrMgm4d7VkOky2uHCeJvVR4vMBrMd7bpLE8AtT6Qy99NI/FQdbFu60AAyGJjiXoAZ9gqCvrt8fKGz8vyuyvYlQFVruw0UJ9UPCPazUaE5s/85vuwv7fW2asKlc3ZPHskWqUpzMUi/rSt5rjfB0Had5arbSo=
 
 before_script:
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16; fi
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99 && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24 -screen 1 1280x1024x24; fi
 
 before_install: .ci/before_install.sh
 
