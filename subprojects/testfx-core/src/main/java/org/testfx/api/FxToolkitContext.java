@@ -25,10 +25,6 @@ import javafx.stage.Stage;
 
 import org.testfx.service.support.FiredEvents;
 import org.testfx.toolkit.PrimaryStageApplication;
-
-import static java.lang.Long.parseLong;
-import static java.lang.System.getProperty;
-
 /**
  * Stores the contextual information for {@link FxToolkit}:
  * <ul>
@@ -66,12 +62,12 @@ public class FxToolkitContext {
     /**
      * The number of milliseconds before timing out launch-related components. Default value: 60,000 (1 minute)
      */
-    private long launchTimeoutInMillis = parseLong(getProperty("testfx.launch.timeout", "60000"));
+    private long launchTimeoutInMillis = Long.getLong("testfx.launch.timeout", 60000);
 
     /**
      * The number of milliseconds before timing out setup-related components. Default value: 30,000 (30 seconds)
      */
-    private long setupTimeoutInMillis = parseLong(getProperty("testfx.setup.timeout", "30000"));
+    private long setupTimeoutInMillis = Long.getLong("testfx.setup.timeout", 30000);
 
     public CompletableFuture<Stage> getPrimaryStageFuture() {
         return primaryStageFuture;
