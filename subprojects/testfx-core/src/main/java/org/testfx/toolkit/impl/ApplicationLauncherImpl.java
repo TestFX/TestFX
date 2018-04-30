@@ -27,12 +27,12 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     @Override
     public void launch(Class<? extends Application> appClass, String... appArgs) {
-        initMonocleHeadless();
+        // initMonocleHeadless();
         Application.launch(appClass, appArgs);
     }
 
     private void initMonocleHeadless() {
-        if (Objects.equals(System.getProperty("testfx.headless"), "true")) {
+        if (Boolean.parseBoolean("testfx.headless")) {
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();
