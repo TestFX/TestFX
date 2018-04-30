@@ -18,7 +18,6 @@ package org.testfx.toolkit.impl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.Objects;
 import javafx.application.Application;
 
 import org.testfx.toolkit.ApplicationLauncher;
@@ -32,7 +31,7 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
     }
 
     private void initMonocleHeadless() {
-        if (Objects.equals(System.getProperty("testfx.headless"), "true")) {
+        if (Boolean.getBoolean("testfx.headless")) {
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();

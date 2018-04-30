@@ -36,7 +36,7 @@ public class WriteRobotImpl implements WriteRobot {
     static {
         int writeSleep;
         try {
-            writeSleep = Integer.parseInt(System.getProperty("testfx.robot.write_sleep", "25"));
+            writeSleep = Integer.getInteger("testfx.robot.write_sleep", 25);
         }
         catch (NumberFormatException e) {
             System.err.println("\"testfx.robot.write_sleep\" property must be a number but was: \"" +
