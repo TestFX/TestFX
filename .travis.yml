@@ -48,7 +48,7 @@ jobs:
       dist: trusty
       jdk: oraclejdk8
       env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dmonocle.platform.traceConfig=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
       addons:
         apt:
           packages:
