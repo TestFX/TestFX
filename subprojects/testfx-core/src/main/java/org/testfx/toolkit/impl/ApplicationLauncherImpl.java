@@ -18,7 +18,6 @@ package org.testfx.toolkit.impl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.Objects;
 import javafx.application.Application;
 
 import org.testfx.toolkit.ApplicationLauncher;
