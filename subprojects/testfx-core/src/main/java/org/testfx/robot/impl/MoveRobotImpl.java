@@ -46,7 +46,7 @@ public class MoveRobotImpl implements MoveRobot {
             System.err.println("\"testfx.robot.move_max_count\" property must be a number but was: \"" +
                     System.getProperty("testfx.robot.move_max_count") + "\".\nUsing default of \"200\".");
             e.printStackTrace();
-            offsetCount= 200;
+            maxOffsetCount= 200;
         }
         MAX_POINT_OFFSET_COUNT = maxOffsetCount;
     }
