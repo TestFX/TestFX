@@ -35,8 +35,22 @@ public class MoveRobotImpl implements MoveRobot {
 
     private static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = 1;
     private static final long MIN_POINT_OFFSET_COUNT = 1;
-    private static final long MAX_POINT_OFFSET_COUNT = 200;
+    private static final long MAX_POINT_OFFSET_COUNT;
 
+    static {
+        int maxOffsetCount;
+        try {
+            maxOffsetCount = Integer.getInteger("testfx.robot.move_max_count", 200);
+        }
+        catch (NumberFormatException e) {
+            System.err.println("\"testfx.robot.move_max_count\" property must be a number but was: \"" +
+                    System.getProperty("testfx.robot.move_max_count") + "\".\nUsing default of \"200\".");
+            e.printStackTrace();
+            offsetCount= 200;
+        }
+        MAX_POINT_OFFSET_COUNT = maxOffsetCount;
+    }
+    
     private final BaseRobot baseRobot;
     private final MouseRobot mouseRobot;
     private final SleepRobot sleepRobot;
