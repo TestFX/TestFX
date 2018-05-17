@@ -89,18 +89,18 @@ public interface NodeQuery {
     NodeQuery lookup(Function<Node, Set<Node>> function);
 
     /**
-     * Sifts through stored nodes and removes all {@code Node}s that match the given matcher.
+     * Sifts through stored nodes and keeps only those {@code Node}s that match the given matcher.
      *
-     * @param matcher that determines which {@code Node}s to remove
+     * @param matcher that determines which {@code Node}s to keep
      * @param <T> matcher type
      * @return itself for more method chaining
      */
     <T> NodeQuery match(Matcher<T> matcher);
 
     /**
-     * Sifts through stored nodes and removes all {@code Node}s that pass the given predicate.
+     * Sifts through stored nodes and keeps only those {@code Node}s that pass the given predicate.
      *
-     * @param predicate that indicates which {@code Node}s to remove
+     * @param predicate that indicates which {@code Node}s to keep
      * @param <T> predicate type
      * @return itself for more method chaining
      */
