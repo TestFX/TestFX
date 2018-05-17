@@ -190,13 +190,13 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>&lt;T&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#match-org.hamcrest.Matcher-">match</a></span>(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</code>
-<div class="block">Sifts through stored nodes and removes all <code>Node</code>s that match the given matcher.</div>
+<div class="block">Sifts through stored nodes and keeps only those <code>Node</code>s that match the given matcher.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>&lt;T extends javafx.scene.Node&gt;<br><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/query/impl/NodeQueryImpl.html#match-java.util.function.Predicate-">match</a></span>(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</code>
-<div class="block">Sifts through stored nodes and removes all <code>Node</code>s that pass the given predicate.</div>
+<div class="block">Sifts through stored nodes and keeps only those <code>Node</code>s that pass the given predicate.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -478,14 +478,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <h4>match</h4>
 <pre>public&nbsp;&lt;T&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;match(org.hamcrest.Matcher&lt;T&gt;&nbsp;matcher)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#match-org.hamcrest.Matcher-">NodeQuery</a></code></span></div>
-<div class="block">Sifts through stored nodes and removes all <code>Node</code>s that match the given matcher.</div>
+<div class="block">Sifts through stored nodes and keeps only those <code>Node</code>s that match the given matcher.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#match-org.hamcrest.Matcher-">match</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - matcher type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>matcher</code> - that determines which <code>Node</code>s to remove</dd>
+<dd><code>matcher</code> - that determines which <code>Node</code>s to keep</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>itself for more method chaining</dd>
 </dl>
@@ -499,14 +499,14 @@ implements <a href="../../../../../org/testfx/service/query/NodeQuery.html" titl
 <h4>match</h4>
 <pre>public&nbsp;&lt;T extends javafx.scene.Node&gt;&nbsp;<a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a>&nbsp;match(java.util.function.Predicate&lt;T&gt;&nbsp;predicate)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html#match-java.util.function.Predicate-">NodeQuery</a></code></span></div>
-<div class="block">Sifts through stored nodes and removes all <code>Node</code>s that pass the given predicate.</div>
+<div class="block">Sifts through stored nodes and keeps only those <code>Node</code>s that pass the given predicate.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/query/NodeQuery.html#match-java.util.function.Predicate-">match</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/query/NodeQuery.html" title="interface in org.testfx.service.query">NodeQuery</a></code></dd>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
 <dd><code>T</code> - predicate type</dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>predicate</code> - that indicates which <code>Node</code>s to remove</dd>
+<dd><code>predicate</code> - that indicates which <code>Node</code>s to keep</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>itself for more method chaining</dd>
 </dl>
