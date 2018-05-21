@@ -27,15 +27,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 import org.hamcrest.Matcher;
 import org.testfx.service.query.NodeQuery;
@@ -130,90 +121,6 @@ public class NodeQueryImpl implements NodeQuery {
             return null;
         } else {
             return (T) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    public Button queryButton() {
-        if (parentNodes.stream().noneMatch(node -> Button.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (Button) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> ComboBox<T> queryComboBox() {
-        if (parentNodes.stream().noneMatch(node -> ComboBox.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (ComboBox<T>) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    public Labeled queryLabeled() {
-        if (parentNodes.stream().noneMatch(node -> Labeled.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (Labeled) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> ListView<T> queryListView() {
-        if (parentNodes.stream().noneMatch(node -> ListView.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (ListView<T>) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    public Parent queryParent() {
-        if (parentNodes.stream().noneMatch(node -> Parent.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (Parent) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> TableView<T> queryTableView() {
-        if (parentNodes.stream().noneMatch(node -> TableView.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (TableView<T>) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    public Text queryText() {
-        if (parentNodes.stream().noneMatch(node -> Text.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (Text) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    public TextFlow queryTextFlow() {
-        if (parentNodes.stream().noneMatch(node -> TextFlow.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (TextFlow) parentNodes.iterator().next();
-        }
-    }
-
-    @Override
-    public TextInputControl queryTextInputControl() {
-        if (parentNodes.stream().noneMatch(node -> TextInputControl.class.isAssignableFrom(node.getClass()))) {
-            return null;
-        } else {
-            return (TextInputControl) parentNodes.iterator().next();
         }
     }
 
