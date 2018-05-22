@@ -116,7 +116,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@code Node} found that matches
-     * this query or {@literal null} if no nodes match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -126,13 +126,14 @@ public interface NodeQuery {
      * method and instead narrow the query so that only one node is matched.
      *
      * @param <T> the type that extends {@code Node}
-     * @return the first node found or {@literal null}
+     * @return the first node found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code TextFlow} nodes match this query
      */
     <T extends Node> T query();
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Button} found that matches
-     * this query or {@literal null} if no buttons match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -141,8 +142,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code Button} found or {@literal null} if the query does not match any
-     * {@code Button} nodes
+     * @return the first {@code Button} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code Button} nodes match this query
      */
     default Button queryButton() {
         return queryAs(Button.class);
@@ -150,7 +151,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link ComboBox} found that matches
-     * this query or {@literal null} if no combo-boxes match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -159,8 +160,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code ComboBox} found or {@literal null} if the query does not match any
-     * {@code ComboBox} nodes
+     * @return the first {@code ComboBox} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code ComboBox} nodes match this query
      */
     @SuppressWarnings("unchecked")
     default <T> ComboBox<T> queryComboBox() {
@@ -169,7 +170,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Labeled} found that matches
-     * this query or {@literal null} if no labeleds match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -178,8 +179,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code Labeled} found or {@literal null} if the query does not match any
-     * {@code Labeled} nodes
+     * @return the first {@code Labeled} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code Labeled} nodes match this query
      */
     default Labeled queryLabeled() {
         return queryAs(Labeled.class);
@@ -187,7 +188,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link ListView} found that matches
-     * this query or {@literal null} if no list views match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -196,8 +197,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code ListView} found or {@literal null} if the query does not match any
-     * {@code ListView} nodes
+     * @return the first {@code ListView} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code ListView} nodes match this query
      */
     @SuppressWarnings("unchecked")
     default <T> ListView<T> queryListView() {
@@ -206,7 +207,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Parent} found that matches
-     * this query or {@literal null} if no parents match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -215,8 +216,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code Parent} found or {@literal null}if the query does not match any
-     * {@code Parent} nodes
+     * @return the first {@code Parent} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code Parent} nodes match this query
      */
     default Parent queryParent() {
         return queryAs(Parent.class);
@@ -224,7 +225,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link TableView} found that matches
-     * this query or {@literal null} if no table views match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -233,8 +234,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code TableView} found or {@literal null} if the query does not match any
-     * {@code TableView} nodes
+     * @return the first {@code TableView} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code TableView} nodes match this query
      */
     @SuppressWarnings("unchecked")
     default <T> TableView<T> queryTableView() {
@@ -243,7 +244,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link Text} found that matches
-     * this query or {@literal null} if no texts match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -252,8 +253,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code Text} found or {@literal null} if the query does not match
-     * any {@code Text} nodes
+     * @return the first {@code Text} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code Text} nodes match this query
      */
     default Text queryText() {
         return queryAs(Text.class);
@@ -261,7 +262,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link TextFlow} found that matches
-     * this query or {@literal null} if no text flows match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -270,8 +271,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code TextFlow} found or {@literal null} if the query does not match
-     * any {@code TextFlow} nodes
+     * @return the first {@code TextFlow} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code TextFlow} nodes match this query
      */
     default TextFlow queryTextFlow() {
         return queryAs(TextFlow.class);
@@ -279,7 +280,7 @@ public interface NodeQuery {
 
     /**
      * Executes this {@code NodeQuery} and returns the first {@link TextInputControl} found that matches
-     * this query or {@literal null} if no text input controls match this query.
+     * this query. If no nodes match this query then an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -288,8 +289,8 @@ public interface NodeQuery {
      * multiple nodes matched by this query and you want a specific one it is advised not to use this
      * method and instead narrow the query so that only one node is matched.
      *
-     * @return the first {@code TextInputControl} found or {@literal null} if the query does not match
-     * any {@code TextInputControl} nodes
+     * @return the first {@code TextInputControl} found that matches this query, if any
+     * @throws EmptyNodeQueryException if no {@code TextInputControl} nodes match this query
      */
     default TextInputControl queryTextInputControl() {
         return queryAs(TextInputControl.class);
@@ -297,8 +298,8 @@ public interface NodeQuery {
 
     /**
      * Type-safe version of {@link #query()} that executes this {@code NodeQuery} and returns
-     * the first {@code Node} found that matches this query or {@literal null} if no nodes
-     * match this query.
+     * the first {@code Node} found that matches this query. If no nodes match this query then
+     * an {@link EmptyNodeQueryException} is thrown.
      * <p>
      * The determinism of this method relies on the determinism of {@link Node#lookupAll(String)},
      * for which the JavaDocs specifically state that the result is unordered. The current (9.0.4)
@@ -310,7 +311,8 @@ public interface NodeQuery {
      * @param clazz the concrete sub-type of {@code Node} that should be returned by this query
      * so as to avoid extraneous casting when used inside an "assertThat" assertion
      * @param <T> the type that extends {@code Node}
-     * @return the first node found or {@literal null} if the query does not match any nodes
+     * @return the first node found that matches this query, if any
+     * @throws EmptyNodeQueryException if no nodes match this query
      */
     <T extends Node> T queryAs(Class<T> clazz);
 
