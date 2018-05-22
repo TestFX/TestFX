@@ -39,13 +39,14 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxRobotException;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.service.query.EmptyNodeQueryException;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NodeAndPointQueryTest {
@@ -99,12 +100,12 @@ public class NodeAndPointQueryTest {
     }
 
     @Test
-    public void node_queryFirst_returns_null() {
+    public void node_queryFirst_empty_query_throws_exception() {
         // when:
         NodeQuery query = fx.lookup(".missing");
 
         // then:
-        assertThat(query.query(), nullValue());
+        assertThatThrownBy(query::query).isExactlyInstanceOf(EmptyNodeQueryException.class);
     }
 
     @Test

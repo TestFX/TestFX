@@ -32,11 +32,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.service.query.EmptyNodeQueryException;
 import org.testfx.service.query.NodeQuery;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.testfx.util.NodeQueryUtils.bySelector;
 import static org.testfx.util.NodeQueryUtils.combine;
@@ -93,13 +94,10 @@ public class NodeQueryImplTest {
     }
 
     @Test
-    public void query_null() {
-        // when:
-        Node result = nodeQuery
-            .query();
-
-        // then:
-        assertThat(result, is(nullValue()));
+    public void empty_query_throws_exception() {
+        assertThatThrownBy(() -> nodeQuery.query())
+                .isExactlyInstanceOf(EmptyNodeQueryException.class)
+                .hasMessageContaining("the empty NodeQuery");
     }
 
     @Test
