@@ -28,25 +28,23 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeneralMatchersTest {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
-    public Node nullNode;
-    public Pane notMatchingNode;
-    public Button notParentNode;
-    public Predicate<Node> notNullNodePredicate = Objects::nonNull;
-    public Predicate<Parent> hasChildrenParentPredicate = parent -> parent.getChildrenUnmodifiable().size() > 0;
+    Node nullNode;
+    Pane notMatchingNode;
+    Button notParentNode;
+    Predicate<Node> notNullNodePredicate = Objects::nonNull;
+    Predicate<Parent> hasChildrenParentPredicate = parent -> parent.getChildrenUnmodifiable().size() > 0;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -67,10 +65,10 @@ public class GeneralMatchersTest {
         );
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node is not null\n" +
-                                "     but: was null");
-        assertThat(nullNode, notNullNodeMatcher);
+        assertThatThrownBy(() -> assertThat(nullNode, notNullNodeMatcher))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Node is not null\n" +
+                        "     but: was null");
     }
 
     @Test
@@ -81,10 +79,10 @@ public class GeneralMatchersTest {
         );
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has children\n" +
-                                "     but: was <" + notMatchingNode.toString() + ">");
-        assertThat(notMatchingNode, hasChildrenParentMatcher);
+        assertThatThrownBy(() -> assertThat(notMatchingNode, hasChildrenParentMatcher))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Parent has children\n" +
+                        "     but: was <" + notMatchingNode.toString() + ">");
     }
 
     @Test
@@ -95,10 +93,10 @@ public class GeneralMatchersTest {
         );
 
         // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has children\n" +
-                                "     but: was null");
-        assertThat(nullNode, hasChildrenParentMatcher);
+        assertThatThrownBy(() -> assertThat(nullNode, hasChildrenParentMatcher))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Parent has children\n" +
+                        "     but: was null");
     }
 
     @Test
@@ -110,10 +108,10 @@ public class GeneralMatchersTest {
 
         // then:
         // TODO: Hint expected type on AssertError explicitly.
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has children\n" +
-                                "     but: was <" + notParentNode.toString() + ">");
-        assertThat(notParentNode, hasChildrenParentMatcher);
+        assertThatThrownBy(() -> assertThat(notParentNode, hasChildrenParentMatcher))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Parent has children\n" +
+                        "     but: was <" + notParentNode.toString() + ">");
     }
 
 }

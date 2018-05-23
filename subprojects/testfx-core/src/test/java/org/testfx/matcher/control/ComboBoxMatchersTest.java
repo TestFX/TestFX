@@ -24,21 +24,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ComboBoxMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule(2)).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule(2);
 
     ComboBox<String> comboBox;
 
@@ -65,11 +63,10 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void hasItems_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox has exactly 3 items\n     " +
-                "but: was 4");
-
-        assertThat(comboBox, ComboBoxMatchers.hasItems(3));
+        assertThatThrownBy(() -> assertThat(comboBox, ComboBoxMatchers.hasItems(3)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ComboBox has exactly 3 items\n     " +
+                        "but: was 4");
     }
 
     @Test
@@ -88,11 +85,10 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void hasSelectedItem_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox has selection \"bob\"\n     " +
-                "but: was \"alice\"");
-
-        assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob"));
+        assertThatThrownBy(() -> assertThat(comboBox, ComboBoxMatchers.hasSelectedItem("bob")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ComboBox has selection \"bob\"\n     " +
+                        "but: was \"alice\"");
     }
 
     @Test
@@ -107,11 +103,10 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsItems_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains items [alice, bob, eric]\n" +
-                "     but: was [alice, bob, carol, dave]");
-
-        assertThat(comboBox, ComboBoxMatchers.containsItems("alice", "bob", "eric"));
+        assertThatThrownBy(() -> assertThat(comboBox, ComboBoxMatchers.containsItems("alice", "bob", "eric")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ComboBox contains items [alice, bob, eric]\n" +
+                        "     but: was [alice, bob, carol, dave]");
     }
 
     @Test
@@ -124,12 +119,11 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsExactlyItems_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains exactly items [alice, bob, carol]\n" +
-                "     but: was [alice, bob, carol, dave]");
-
         // missing "dave", so should fail
-        assertThat(comboBox, ComboBoxMatchers.containsExactlyItems("alice", "bob", "carol"));
+        assertThatThrownBy(() -> assertThat(comboBox, ComboBoxMatchers.containsExactlyItems("alice", "bob", "carol")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ComboBox contains exactly items [alice, bob, carol]\n" +
+                        "     but: was [alice, bob, carol, dave]");
     }
 
     @Test
@@ -142,11 +136,10 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsItemsInOrder_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains items in order [alice, carol, bob]\n" +
-                "     but: was [alice, bob, carol, dave]");
-
-        assertThat(comboBox, ComboBoxMatchers.containsItemsInOrder("alice", "carol", "bob"));
+        assertThatThrownBy(() -> assertThat(comboBox, ComboBoxMatchers.containsItemsInOrder("alice", "carol", "bob")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ComboBox contains items in order [alice, carol, bob]\n" +
+                        "     but: was [alice, bob, carol, dave]");
     }
 
     @Test
@@ -157,12 +150,12 @@ public class ComboBoxMatchersTest extends FxRobot {
 
     @Test
     public void containsExactlyItemsInOrder_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ComboBox contains exactly items in order [bob, alice, dave, carol]\n" +
-                "     but: was [alice, bob, carol, dave]");
-
         // not in correct order, should fail
-        assertThat(comboBox, ComboBoxMatchers.containsExactlyItemsInOrder("bob", "alice", "dave", "carol"));
+        assertThatThrownBy(() -> assertThat(comboBox,
+                ComboBoxMatchers.containsExactlyItemsInOrder("bob", "alice", "dave", "carol")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ComboBox contains exactly items in order [bob, alice, dave, carol]\n" +
+                        "     but: was [alice, bob, carol, dave]");
     }
 
 }

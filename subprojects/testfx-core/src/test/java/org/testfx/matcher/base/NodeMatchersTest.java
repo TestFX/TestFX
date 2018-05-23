@@ -30,8 +30,6 @@ import javafx.scene.layout.StackPane;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -41,6 +39,7 @@ import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.util.WaitForAsyncUtils;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
@@ -48,8 +47,7 @@ import static org.hamcrest.core.IsCollectionContaining.hasItem;
 public class NodeMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     TextField textField;
     TextField textField2;
@@ -103,9 +101,9 @@ public class NodeMatchersTest extends FxRobot {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has focus\n");
-        assertThat(textField, NodeMatchers.isFocused());
+        assertThatThrownBy(() -> assertThat(textField, NodeMatchers.isFocused()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node has focus\n");
     }
 
     @Test
@@ -137,9 +135,9 @@ public class NodeMatchersTest extends FxRobot {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node does not have focus\n");
-        assertThat(textField, NodeMatchers.isNotFocused());
+        assertThatThrownBy(() -> assertThat(textField, NodeMatchers.isNotFocused()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node does not have focus\n");
     }
 
     @Test
@@ -177,10 +175,9 @@ public class NodeMatchersTest extends FxRobot {
         Node parent = FxToolkit.setupFixture(() -> new StackPane());
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has child \".button\"\n");
-
-        assertThat(parent, NodeMatchers.hasChild(".button"));
+        assertThatThrownBy(() -> assertThat(parent, NodeMatchers.hasChild(".button")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node has child \".button\"\n");
     }
 
     @Test
@@ -199,10 +196,9 @@ public class NodeMatchersTest extends FxRobot {
         Node parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has 2 children \".button\"\n");
-
-        assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
+        assertThatThrownBy(() -> assertThat(parent, NodeMatchers.hasChildren(2, ".button")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node has 2 children \".button\"\n");
     }
 
 }

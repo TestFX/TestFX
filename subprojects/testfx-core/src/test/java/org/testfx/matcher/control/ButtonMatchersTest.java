@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
@@ -31,16 +30,13 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ButtonMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule())
-            .around(exception = ExpectedException.none())
-            .around(Timeout.millis(3000));
-
-    public ExpectedException exception;
+    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(3000));
 
     Button button;
 
@@ -69,10 +65,9 @@ public class ButtonMatchersTest extends FxRobot {
 
     @Test
     public void isCancelButton_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Button is cancel button\n");
-
-        assertThat(button, ButtonMatchers.isCancelButton());
+        assertThatThrownBy(() -> assertThat(button, ButtonMatchers.isCancelButton()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Button is cancel button\n");
     }
 
     @Test
@@ -86,9 +81,8 @@ public class ButtonMatchersTest extends FxRobot {
 
     @Test
     public void isDefaultButton_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Button is default button\n");
-
-        assertThat(button, ButtonMatchers.isDefaultButton());
+        assertThatThrownBy(() -> assertThat(button, ButtonMatchers.isDefaultButton()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Button is default button\n");
     }
 }

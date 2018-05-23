@@ -18,18 +18,14 @@ package org.testfx.matcher.base;
 
 import javafx.scene.paint.Color;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.testfx.api.FxRobot;
 import org.testfx.service.support.impl.PixelMatcherRgb;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ColorMatchersTest extends FxRobot {
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void isColor() {
@@ -38,11 +34,10 @@ public class ColorMatchersTest extends FxRobot {
 
     @Test
     public void isColor_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Color has color \"BLACK\" (#000000)\n     " +
-                "but: was \"RED\" (#ff0000)");
-
-        assertThat(Color.color(1, 0, 0), ColorMatchers.isColor(Color.BLACK));
+        assertThatThrownBy(() -> assertThat(Color.color(1, 0, 0), ColorMatchers.isColor(Color.BLACK)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Color has color \"BLACK\" (#000000)\n     " +
+                        "but: was \"RED\" (#ff0000)");
     }
 
     @Test
@@ -52,10 +47,10 @@ public class ColorMatchersTest extends FxRobot {
 
     @Test
     public void isColor_colorMatcher_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Color has color \"RED\" (#ff0000)\n     ");
-
-        assertThat(Color.color(0.5, 0, 0), ColorMatchers.isColor(Color.RED, new PixelMatcherRgb(0.01, 0)));
+        assertThatThrownBy(() -> assertThat(Color.color(0.5, 0, 0), ColorMatchers.isColor(
+                Color.RED, new PixelMatcherRgb(0.01, 0))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Color has color \"RED\" (#ff0000)\n     ");
     }
 
     @Test
@@ -65,18 +60,18 @@ public class ColorMatchersTest extends FxRobot {
 
     @Test
     public void isNamedColor_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Color is \"AQUAMARINE\"\n     " +
-                "but: was \"ANTIQUEWHITE\" (#faebd7)");
-        assertThat(Color.ANTIQUEWHITE, ColorMatchers.isColor("AQUAMARINE"));
+        assertThatThrownBy(() -> assertThat(Color.ANTIQUEWHITE, ColorMatchers.isColor("AQUAMARINE")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Color is \"AQUAMARINE\"\n     " +
+                        "but: was \"ANTIQUEWHITE\" (#faebd7)");
     }
 
     @Test
     public void isNamedColor_non_named_color_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("given color name: \"BAGEL\" is not a named color\n" +
-                "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
-        assertThat(Color.web("#f3b2aa"), ColorMatchers.isColor("BAGEL"));
+        assertThatThrownBy(() -> assertThat(Color.web("#f3b2aa"), ColorMatchers.isColor("BAGEL")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("given color name: \"BAGEL\" is not a named color\n" +
+                        "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
     }
 
     @Test
@@ -86,18 +81,19 @@ public class ColorMatchersTest extends FxRobot {
 
     @Test
     public void hasClosestNamedColor_color_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Color has closest named color \"GAINSBORO\" (#dcdcdc)\n     " +
-                "but: was \"#fbfbfb\" which has closest named color: \"SNOW\"");
-        assertThat(Color.web("#fbfbfb"), ColorMatchers.hasClosestNamedColor(Color.GAINSBORO));
+        assertThatThrownBy(() -> assertThat(Color.web("#fbfbfb"), ColorMatchers.hasClosestNamedColor(Color.GAINSBORO)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Color has closest named color \"GAINSBORO\" (#dcdcdc)\n     " +
+                        "but: was \"#fbfbfb\" which has closest named color: \"SNOW\"");
     }
 
     @Test
     public void hasClosestNamedColor_non_named_color_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("given color: \"#acb2f1\" is not a named color\n" +
-                "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
-        assertThat(Color.web("#dcdcdc"), ColorMatchers.hasClosestNamedColor(Color.web("#acb2f1")));
+        assertThatThrownBy(() -> assertThat(Color.web("#dcdcdc"),
+                ColorMatchers.hasClosestNamedColor(Color.web("#acb2f1"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("given color: \"#acb2f1\" is not a named color\n" +
+                        "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
     }
 
     @Test
@@ -107,17 +103,19 @@ public class ColorMatchersTest extends FxRobot {
 
     @Test
     public void hasClosestNamedColor_string_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Color has closest named color \"GAINSBORO\" (#dcdcdc)\n     " +
-                "but: was \"#991a1a\" which has closest named color: \"BROWN\"");
-        assertThat(Color.color(0.6, 0.1, 0.1), ColorMatchers.hasClosestNamedColor("GAINSBORO"));
+        assertThatThrownBy(() -> assertThat(Color.color(0.6, 0.1, 0.1),
+                ColorMatchers.hasClosestNamedColor("GAINSBORO")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Color has closest named color \"GAINSBORO\" (#dcdcdc)\n     " +
+                        "but: was \"#991a1a\" which has closest named color: \"BROWN\"");
     }
 
     @Test
     public void hasClosestNamedColor_non_named_color_string_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("given color name: \"BETELGEUSE\" is not a named color\n" +
-                "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
-        assertThat(Color.color(0.6, 0.1, 0.1), ColorMatchers.hasClosestNamedColor("BETELGEUSE"));
+        assertThatThrownBy(() -> assertThat(Color.color(0.6, 0.1, 0.1),
+                ColorMatchers.hasClosestNamedColor("BETELGEUSE")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("given color name: \"BETELGEUSE\" is not a named color\n" +
+                        "See: https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor");
     }
 }

@@ -25,8 +25,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -34,13 +32,13 @@ import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ListViewMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     ListView<String> listView;
 
@@ -67,20 +65,18 @@ public class ListViewMatchersTest extends FxRobot {
 
     @Test
     public void hasListCell_with_null_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has list cell \"null\"\n     " +
-                "but: was [alice, bob, carol, dave]");
-
-        assertThat(listView, ListViewMatchers.hasListCell(null));
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasListCell(null)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView has list cell \"null\"\n     " +
+                        "but: was [alice, bob, carol, dave]");
     }
 
     @Test
     public void hasListCell_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has list cell \"foobar\"\n     " +
-                "but: was [alice, bob, carol, dave]");
-
-        assertThat(listView, ListViewMatchers.hasListCell("foobar"));
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasListCell("foobar")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView has list cell \"foobar\"\n     " +
+                        "but: was [alice, bob, carol, dave]");
     }
 
     @Test
@@ -90,11 +86,10 @@ public class ListViewMatchersTest extends FxRobot {
 
     @Test
     public void hasItems_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has exactly 0 items\n     " +
-                "but: was 4");
-
-        assertThat(listView, ListViewMatchers.hasItems(0));
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasItems(0)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView has exactly 0 items\n     " +
+                        "but: was 4");
     }
 
     @Test
@@ -109,10 +104,10 @@ public class ListViewMatchersTest extends FxRobot {
 
     @Test
     public void isEmpty_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView is empty (contains no items)\n     " +
-                "but: was contains 4 items");
-        assertThat(listView, ListViewMatchers.isEmpty());
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.isEmpty()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView is empty (contains no items)\n     " +
+                        "but: was contains 4 items");
     }
 
     @Test
@@ -122,11 +117,10 @@ public class ListViewMatchersTest extends FxRobot {
 
     @Test
     public void hasPlaceholder_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has labeled placeholder containing text: \"foobar\"\n     " +
-                "but: was labeled placeholder containing text: \"Empty!\"");
-
-        assertThat(listView, ListViewMatchers.hasPlaceholder(new Label("foobar")));
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasPlaceholder(new Label("foobar"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView has labeled placeholder containing text: \"foobar\"\n     " +
+                        "but: was labeled placeholder containing text: \"Empty!\"");
     }
 
     @Test
@@ -136,11 +130,10 @@ public class ListViewMatchersTest extends FxRobot {
 
     @Test
     public void hasVisiblePlaceholder_fails_whenPlaceHolderHasWrongText() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has visible labeled placeholder containing text: \"foobar\"\n" +
-                "     but: was visible labeled placeholder containing text: \"Empty!\"");
-
-        assertThat(listView, ListViewMatchers.hasVisiblePlaceholder(new Label("foobar")));
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasVisiblePlaceholder(new Label("foobar"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView has visible labeled placeholder containing text: \"foobar\"\n" +
+                        "     but: was visible labeled placeholder containing text: \"Empty!\"");
     }
 
     @Test
@@ -150,10 +143,9 @@ public class ListViewMatchersTest extends FxRobot {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: ListView has visible labeled placeholder containing text: \"Empty!\"\n" +
-                "     but: was invisible labeled placeholder containing text: \"Empty!\"");
-
-        assertThat(listView, ListViewMatchers.hasVisiblePlaceholder(new Label("Empty!")));
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasVisiblePlaceholder(new Label("Empty!"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: ListView has visible labeled placeholder containing text: \"Empty!\"\n" +
+                        "     but: was invisible labeled placeholder containing text: \"Empty!\"");
     }
 }

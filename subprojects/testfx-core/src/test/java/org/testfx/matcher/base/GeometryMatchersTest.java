@@ -20,19 +20,17 @@ import javafx.geometry.Dimension2D;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeometryMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     @Test
     public void hasDimension() {
@@ -41,10 +39,9 @@ public class GeometryMatchersTest extends FxRobot {
 
     @Test
     public void hasDimension_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Dimension2D has dimension (0.0, 0.0)\n");
-
-        assertThat(new Dimension2D(10, 20), GeometryMatchers.hasDimension(0, 0));
+        assertThatThrownBy(() -> assertThat(new Dimension2D(10, 20), GeometryMatchers.hasDimension(0, 0)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Dimension2D has dimension (0.0, 0.0)\n");
     }
 
 }

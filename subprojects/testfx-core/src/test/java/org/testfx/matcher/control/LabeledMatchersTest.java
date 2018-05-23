@@ -20,19 +20,15 @@ import javafx.scene.control.Button;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LabeledMatchersTest extends FxRobot {
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     Button foobarButton;
     Button quuxButton;
@@ -57,11 +53,10 @@ public class LabeledMatchersTest extends FxRobot {
 
     @Test
     public void hasText_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Labeled has text \"foobar\"\n     " +
-                "but: was \"quux\"");
-
-        assertThat(quuxButton, LabeledMatchers.hasText("foobar"));
+        assertThatThrownBy(() -> assertThat(quuxButton, LabeledMatchers.hasText("foobar")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Labeled has text \"foobar\"\n     " +
+                        "but: was \"quux\"");
     }
 
     @Test
@@ -71,11 +66,10 @@ public class LabeledMatchersTest extends FxRobot {
 
     @Test
     public void hasText_matcher_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Labeled has a string ending with \"bar\"\n     " +
-                "but: was \"quux\"");
-
-        assertThat(quuxButton, LabeledMatchers.hasText(endsWith("bar")));
+        assertThatThrownBy(() -> assertThat(quuxButton, LabeledMatchers.hasText(endsWith("bar"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Labeled has a string ending with \"bar\"\n     " +
+                        "but: was \"quux\"");
     }
 
 }

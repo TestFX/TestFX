@@ -26,13 +26,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.hamcrest.CoreMatchers.isA;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -40,8 +38,7 @@ import static org.junit.Assert.fail;
 public class WaitForAsyncUtilsTest {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(Timeout.millis(10000)).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = Timeout.millis(10000);
 
     @Test
     public void async_callable() throws Exception {
@@ -73,7 +70,6 @@ public class WaitForAsyncUtilsTest {
     public void async_callable_with_exception() throws Throwable {
         // given:
         WaitForAsyncUtils.printException = false;
-        exception.expect(UnsupportedOperationException.class);
         Callable<Void> callable = () -> {
             throw new UnsupportedOperationException();
         };
@@ -84,17 +80,11 @@ public class WaitForAsyncUtilsTest {
 
         // then:
         waitForException(future);
-        try {
+        assertThatThrownBy(() -> {
             WaitForAsyncUtils.checkException();
-            fail("checkException didn't detect Exception");
-        }
-        catch (Throwable e) {
-            if (!(e.getCause() instanceof UnsupportedOperationException)) {
-                throw e;
-            }
-        }
-        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
-        waitForThreads(future);
+            WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+            waitForThreads(future);
+        }).isExactlyInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test
@@ -195,8 +185,7 @@ public class WaitForAsyncUtilsTest {
     }
 
     @Test
-    public void waitFor_with_future_with_sleep() throws Exception {
-        exception.expect(TimeoutException.class);
+    public void waitFor_with_future_with_sleep() {
         // when:
         Future<Void> future = WaitForAsyncUtils.async(() -> {
             Thread.sleep(250);
@@ -204,12 +193,13 @@ public class WaitForAsyncUtilsTest {
         });
 
         // then:
-        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);
+        assertThatThrownBy(() -> WaitForAsyncUtils.waitFor(50, MILLISECONDS, future))
+                .isExactlyInstanceOf(TimeoutException.class);
         waitForThreads(future);
     }
 
     @Test
-    public void waitFor_with_future_cancelled() throws Throwable {
+    public void waitFor_with_future_cancelled() {
         // given:
         WaitForAsyncUtils.printException = false;
 
@@ -232,10 +222,10 @@ public class WaitForAsyncUtilsTest {
             fail("checkException didn't detect Exception");
         }
         catch (Throwable ignore) {
-
         }
-        exception.expect(CancellationException.class);
-        WaitForAsyncUtils.waitFor(50, MILLISECONDS, future);  // check cancellation
+
+        assertThatThrownBy(() -> WaitForAsyncUtils.waitFor(50, MILLISECONDS, future))
+                .isExactlyInstanceOf(CancellationException.class);
     }
 
     @Test
@@ -252,17 +242,16 @@ public class WaitForAsyncUtilsTest {
     }
 
     @Test
-    public void waitFor_with_booleanCallable_with_false() throws Exception {
-        exception.expect(TimeoutException.class);
-        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> false);
+    public void waitFor_with_booleanCallable_with_false() {
+        assertThatThrownBy(() -> WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> false))
+                .isExactlyInstanceOf(TimeoutException.class);
     }
 
     @Test
-    public void waitFor_with_booleanCallable_with_exception() throws Exception {
-        exception.expectCause(isA(UnsupportedOperationException.class));
-        WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
+    public void waitFor_with_booleanCallable_with_exception() {
+        assertThatThrownBy(() -> WaitForAsyncUtils.waitFor(250, MILLISECONDS, () -> {
             throw new UnsupportedOperationException();
-        });
+        })).hasCauseExactlyInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test
@@ -282,7 +271,7 @@ public class WaitForAsyncUtilsTest {
     }
 
     @Test
-    public void waitFor_with_booleanValue_with_false() throws Exception {
+    public void waitFor_with_booleanValue_with_false() {
         // given:
         BooleanProperty property = new SimpleBooleanProperty(false);
 
@@ -294,8 +283,8 @@ public class WaitForAsyncUtilsTest {
         });
 
         // then:
-        exception.expect(TimeoutException.class);
-        WaitForAsyncUtils.waitFor(250, MILLISECONDS, property);
+        assertThatThrownBy(() -> WaitForAsyncUtils.waitFor(250, MILLISECONDS, property))
+                .isExactlyInstanceOf(TimeoutException.class);
     }
 
     @Test
