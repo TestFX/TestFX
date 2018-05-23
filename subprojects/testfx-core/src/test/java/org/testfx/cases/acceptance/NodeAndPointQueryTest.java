@@ -32,8 +32,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxRobotException;
@@ -52,13 +50,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class NodeAndPointQueryTest {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
-    public FxRobot fx = new FxRobot();
-    public Button button0;
-    public Button button1;
-    public Label label0;
+    FxRobot fx = new FxRobot();
+    Button button0;
+    Button button1;
+    Label label0;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -128,10 +125,9 @@ public class NodeAndPointQueryTest {
 
     @Test
     public void point_query_throws_exception() {
-        exception.expect(FxRobotException.class);
-        exception.expectMessage("the query \".missing\" returned no nodes.");
-
-        fx.point(".missing");
+        assertThatThrownBy(() -> fx.point(".missing"))
+                .isExactlyInstanceOf(FxRobotException.class)
+                .hasMessage("the query \".missing\" returned no nodes.");
     }
 
     @Test
@@ -146,18 +142,16 @@ public class NodeAndPointQueryTest {
 
     @Test
     public void moveTo_throws_exception() {
-        exception.expect(FxRobotException.class);
-        exception.expectMessage("the query \".missing\" returned no nodes.");
-
-        fx.moveTo(".missing").clickOn();
+        assertThatThrownBy(() -> fx.moveTo(".missing").clickOn())
+                .isExactlyInstanceOf(FxRobotException.class)
+                .hasMessage("the query \".missing\" returned no nodes.");
     }
 
     @Test
     public void moveTo_throws_exception_2() {
-        exception.expect(FxRobotException.class);
-        exception.expectMessage("the query \".label\" returned 1 nodes, but no nodes were visible.");
-
-        fx.moveTo(".label").clickOn();
+        assertThatThrownBy(() -> fx.moveTo(".label").clickOn())
+                .isExactlyInstanceOf(FxRobotException.class)
+                .hasMessage("the query \".label\" returned 1 nodes, but no nodes were visible.");
     }
 
 }

@@ -24,13 +24,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -40,8 +39,7 @@ import static org.junit.Assume.assumeThat;
 public class TextMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     Text foobarText;
     Text quuxText;
@@ -75,11 +73,10 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasText_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has text \"foobar\"\n     " +
+        assertThatThrownBy(() -> assertThat(quuxText, TextMatchers.hasText("foobar")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Text has text \"foobar\"\n     " +
                         "but: was Text with text: \"quux\"");
-
-        assertThat(quuxText, TextMatchers.hasText("foobar"));
     }
 
     @Test
@@ -89,11 +86,10 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasText_matcher_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has a string ending with \"bar\"\n     " +
+        assertThatThrownBy(() -> assertThat(quuxText, TextMatchers.hasText(endsWith("bar"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Text has a string ending with \"bar\"\n     " +
                         "but: was Text with text: \"quux\"");
-
-        assertThat(quuxText, TextMatchers.hasText(endsWith("bar")));
     }
 
     @Test
@@ -106,13 +102,12 @@ public class TextMatchersTest extends FxRobot {
     @Test
     public void hasFont_fails() {
         assumeThat("skipping: no testable fonts installed on system", fontFamily, is(notNullValue()));
-        exception.expect(AssertionError.class);
-        exception.expectMessage(String.format("Expected: Text has font " +
-                "\"%1$s\" with family (\"%1$s\") and size (14.0)\n     " +
-                "but: was Text with font: " +
-                "\"%1$s\" with family (\"%1$s\") and size (16.0)", fontFamily));
-
-        assertThat(quuxText, TextMatchers.hasFont(Font.font(fontFamily, 14)));
+        assertThatThrownBy(() -> assertThat(quuxText, TextMatchers.hasFont(Font.font(fontFamily, 14))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage(String.format("\nExpected: Text has font " +
+                        "\"%1$s\" with family (\"%1$s\") and size (14.0)\n     " +
+                        "but: was Text with font: " +
+                        "\"%1$s\" with family (\"%1$s\") and size (16.0)", fontFamily));
     }
 
     @Test
@@ -123,10 +118,10 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasFontSmoothingType_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has font smoothing type: \"LCD\"\n     " +
-                "but: was Text with font smoothing type: \"GRAY\"");
-        assertThat(foobarText, TextMatchers.hasFontSmoothingType(FontSmoothingType.LCD));
+        assertThatThrownBy(() -> assertThat(foobarText, TextMatchers.hasFontSmoothingType(FontSmoothingType.LCD)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Text has font smoothing type: \"LCD\"\n     " +
+                        "but: was Text with font smoothing type: \"GRAY\"");
     }
 
     @Test
@@ -136,10 +131,10 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void hasStrikethrough_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text has strikethrough\n     " +
-                "but: was Text without strikethrough");
-        assertThat(quuxText, TextMatchers.hasStrikethrough(true));
+        assertThatThrownBy(() -> assertThat(quuxText, TextMatchers.hasStrikethrough(true)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Text has strikethrough\n     " +
+                        "but: was Text without strikethrough");
     }
 
     @Test
@@ -149,10 +144,10 @@ public class TextMatchersTest extends FxRobot {
 
     @Test
     public void isUnderlined_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Text is underlined\n     " +
-                "but: was Text without underline");
-        assertThat(foobarText, TextMatchers.isUnderlined(true));
+        assertThatThrownBy(() -> assertThat(foobarText, TextMatchers.isUnderlined(true)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Text is underlined\n     " +
+                        "but: was Text without underline");
     }
 
     private static void findFontFamily() {

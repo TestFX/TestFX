@@ -24,19 +24,17 @@ import javafx.scene.layout.StackPane;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ParentMatchersTest {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -59,11 +57,10 @@ public class ParentMatchersTest {
         Parent parent = FxToolkit.setupFixture(() -> new StackPane());
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has at least one child\n     " +
-                "but: was empty (contained no children)");
-
-        assertThat(parent, ParentMatchers.hasChild());
+        assertThatThrownBy(() -> assertThat(parent, ParentMatchers.hasChild()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Parent has at least one child\n     " +
+                        "but: was empty (contained no children)");
     }
 
     @Test
@@ -82,11 +79,10 @@ public class ParentMatchersTest {
         Parent parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
         // then:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Parent has exactly 3 children\n     " +
-                "but: was [Label, Button] (which has 2 children)");
-
-        assertThat(parent, ParentMatchers.hasChildren(3));
+        assertThatThrownBy(() -> assertThat(parent, ParentMatchers.hasChildren(3)))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: Parent has exactly 3 children\n     " +
+                        "but: was [Label, Button] (which has 2 children)");
     }
 
 }

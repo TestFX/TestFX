@@ -22,21 +22,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TextInputControlMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     TextField foobarTextField;
     TextField quuxTextField;
@@ -61,11 +59,10 @@ public class TextInputControlMatchersTest extends FxRobot {
 
     @Test
     public void hasText_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextInputControl has text \"foobar\"\n     " +
+        assertThatThrownBy(() -> assertThat(quuxTextField, TextInputControlMatchers.hasText("foobar")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: TextInputControl has text \"foobar\"\n     " +
                         "but: was TextField with text: \"quux\"");
-
-        assertThat(quuxTextField, TextInputControlMatchers.hasText("foobar"));
     }
 
     @Test
@@ -75,11 +72,10 @@ public class TextInputControlMatchersTest extends FxRobot {
 
     @Test
     public void hasText_matcher_fails() {
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: TextInputControl has a string ending with \"bar\"\n     " +
+        assertThatThrownBy(() -> assertThat(quuxTextField, TextInputControlMatchers.hasText(endsWith("bar"))))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessage("\nExpected: TextInputControl has a string ending with \"bar\"\n     " +
                         "but: was TextField with text: \"quux\"");
-
-        assertThat(quuxTextField, TextInputControlMatchers.hasText(endsWith("bar")));
     }
 
 }
