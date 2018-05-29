@@ -55,7 +55,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TableViewMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = new TestFXRule();
+    public TestRule rule = new TestFXRule(2);
 
     TableView<Map> tableView;
     TableColumn<Map, String> tableColumn0;

@@ -17,7 +17,7 @@
 package org.testfx.internal;
 
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
+import java.awt.Rectangle;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -119,7 +119,9 @@ public final class JavaVersionAdapter {
             if (GraphicsEnvironment.isHeadless()) {
                 return 1d;
             }
-            double realWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+            Rectangle primaryScreenRect = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .getDefaultScreenDevice().getDefaultConfiguration().getBounds();
+            double realWidth = primaryScreenRect.getWidth();
             double scaledWidth = Screen.getPrimary().getBounds().getWidth();
             if (Math.abs(realWidth - scaledWidth) <= 0.001) {
                 return 1d;
@@ -142,7 +144,9 @@ public final class JavaVersionAdapter {
             if (GraphicsEnvironment.isHeadless()) {
                 return 1d;
             }
-            double realHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+            Rectangle primaryScreenRect = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .getDefaultScreenDevice().getDefaultConfiguration().getBounds();
+            double realHeight = primaryScreenRect.getHeight();
             double scaledHeight = Screen.getPrimary().getBounds().getHeight();
             if (Math.abs(realHeight - scaledHeight) <= 0.001) {
                 return 1d;
