@@ -75,6 +75,8 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
 ## Example: JUnit 4 with Hamcrest Matchers
 
 ```java
+import org.testfx.framework.junit.ApplicationTest;
+
 public class DesktopPaneTest extends ApplicationTest {
 
     DesktopPane desktopPane;
@@ -106,6 +108,8 @@ public class DesktopPaneTest extends ApplicationTest {
 ## Example: JUnit 4 with AssertJ Assertions
 
 ```java
+import org.testfx.framework.junit.ApplicationTest;
+
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 public class DesktopPaneTest extends ApplicationTest {
@@ -143,6 +147,8 @@ public class DesktopPaneTest extends ApplicationTest {
 ## Example: JUnit 5 with Hamcrest Matchers
 
 ```java
+import org.testfx.framework.junit5.ApplicationTest;
+
 @ExtendWith(ApplicationExtension.class)
 class ClickableButtonTest {
 
@@ -174,6 +180,8 @@ class ClickableButtonTest {
 ## Example: JUnit 5 with AssertJ Assertions
 
 ```java
+import org.testfx.framework.junit5.ApplicationTest;
+
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 @ExtendWith(ApplicationExtension.class)
@@ -222,6 +230,8 @@ class ClickableButtonTest {
 ## Example: Spock with Hamcrest Matchers
 
 ```java
+import org.testfx.framework.spock.ApplicationSpec;
+
 class ClickableButtonSpec extends ApplicationSpec {
     @Override
     void init() throws Exception {
