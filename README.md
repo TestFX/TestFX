@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-Next add a dependency corresponmding to the testing framework you are using in
+Next add a dependency corresponding to the testing framework you are using in
 your project. TestFX supports JUnit 4, JUnit 5, and Spock. For example if
 you are using JUnit 4 in your project you would add a dependency on `testfx-junit`:
 
