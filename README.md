@@ -207,7 +207,7 @@ class ClickableButtonTest {
         // or (lookup by css class):
         assertThat(lookup(".button").queryAs(Button.class)).hasText("click me!");
         // or (query specific type):
-        assertThat(lookup(".button").queryButton()).hasText("click me!');
+        assertThat(lookup(".button").queryButton()).hasText("click me!");
     }
 
     @Test
