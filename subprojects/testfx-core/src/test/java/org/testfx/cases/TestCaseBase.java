@@ -16,6 +16,13 @@
  */
 package org.testfx.cases;
 
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 import org.junit.BeforeClass;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -25,6 +32,25 @@ public abstract class TestCaseBase extends FxRobot {
     @BeforeClass
     public static void baseSetupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
+
+        // Provide some background component for the basic test, that can fetch
+        // some key and mouse events.
+        // See issue #593 (https://github.com/TestFX/TestFX/issues/593).
+        FxToolkit.setupStage(stage -> {
+            Region region = new Region();
+            String bg = "-fx-background-color: magenta;";
+            region.setStyle(bg);
+
+            VBox box = new VBox(region);
+            box.setPadding(new Insets(10));
+            box.setSpacing(10);
+            VBox.setVgrow(region, Priority.ALWAYS);
+
+            StackPane sceneRoot = new StackPane(box);
+            Scene scene = new Scene(sceneRoot, 300, 100);
+            stage.setScene(scene);
+            stage.show();
+        });
     }
 
 }
