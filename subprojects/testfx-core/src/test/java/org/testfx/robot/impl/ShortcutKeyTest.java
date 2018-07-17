@@ -43,7 +43,6 @@ import static javafx.scene.input.KeyCode.SHORTCUT;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.robot.impl.KeyboardRobotImpl.OS_SHORTCUT;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 /**
@@ -71,8 +70,12 @@ public class ShortcutKeyTest extends FxRobot {
             box = new VBox();
             field = new TextField(initialText);
             field.setOnKeyPressed(e -> {
-                System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
-                if (e.getCode() == OS_SHORTCUT && e.isShortcutDown()) { // e.isShortcutDown()
+                // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
+                // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
+                if (((e.getCode() == KeyCode.CONTROL)  || 
+                        (e.getCode() == KeyCode.META) || 
+                        (e.getCode() == KeyCode.COMMAND)
+                        ) && e.isShortcutDown()) {
                     field.setText(pressedText);
                 } else {
                     field.setText(e.getCode().toString());
@@ -80,7 +83,10 @@ public class ShortcutKeyTest extends FxRobot {
                 e.consume();
             });
             field.setOnKeyReleased(e -> {
-                if (e.getCode() == OS_SHORTCUT && !e.isShortcutDown()) {
+                if (((e.getCode() == KeyCode.CONTROL)  || 
+                        (e.getCode() == KeyCode.META) || 
+                        (e.getCode() == KeyCode.COMMAND)
+                        ) && !e.isShortcutDown()) {
                     field.setText(releasedText);
                 } else {
                     field.setText(e.getCode().toString());
