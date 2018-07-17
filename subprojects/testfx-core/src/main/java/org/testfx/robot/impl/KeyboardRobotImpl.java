@@ -35,7 +35,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     * This key is sent depending on the platform via the Robot to Java.
     */
     private static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)
-            .startsWith("mac") ? KeyCode.META : KeyCode.CONTROL;
+            .startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
 
     private final BaseRobot baseRobot;
     private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();

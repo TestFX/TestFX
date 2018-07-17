@@ -63,11 +63,17 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public void keyPress(KeyCode key) {
+        if (key == KeyCode.COMMAND) {
+            key = KeyCode.META;
+        }
         useRobot().keyPress(convertToKeyCodeId(key));
     }
 
     @Override
     public void keyRelease(KeyCode key) {
+        if (key == KeyCode.COMMAND) {
+            key = KeyCode.META;
+        }
         useRobot().keyRelease(convertToKeyCodeId(key));
     }
 
