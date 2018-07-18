@@ -8,7 +8,7 @@ env:
 
 before_script:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16; fi
-
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
 before_install: .ci/before_install.sh
 
 install: true
@@ -29,20 +29,12 @@ jobs:
       os: linux
       dist: trusty
       jdk: oraclejdk8
-      addons:
-        apt:
-          packages:
-            - oracle-java8-installer
       script: ./gradlew checkstyleMain checkstyleTest license spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest
     - stage: test
      # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed
       os: linux
       dist: trusty
       jdk: oraclejdk8
-      addons:
-        apt:
-          packages:
-            - oracle-java8-installer
     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless
     - os: linux
       dist: trusty
@@ -52,12 +44,11 @@ jobs:
       addons:
         apt:
           packages:
-            - oracle-java8-installer
             - gdb
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed
     - os: linux
       dist: trusty
-      install: . ./install-jdk.sh -F 10 -L BCL
+      script: source install-jdk.sh -F 10 -L BCL
       env:
         - TRAVIS_JAVA_VERSION="10"
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dprism.verbose=true"
@@ -68,7 +59,7 @@ jobs:
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headless
     - os: linux
       dist: trusty
-      install: . ./install-jdk.sh -F 10 -L BCL
+      script: source install-jdk.sh -F 10 -L BCL
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
       addons:
@@ -78,7 +69,7 @@ jobs:
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed / HiDPI
     - os: linux
       dist: trusty
-      install: . ./install-jdk.sh -F 10 -L BCL
+      script: source install-jdk.sh -F 10 -L BCL
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djdk.gtk.verbose=true -Djdk.gtk.version=3 -Dglass.gtk.uiScale=2.0 -Dprism.verbose=true"
       addons:
@@ -87,13 +78,13 @@ jobs:
             - gdb
     # macOS / Oracle JDK 8 / Headless
     - os: osx
-      osx_image: xcode9.3
+      osx_image: xcode9.4
       env:
         - TRAVIS_JAVA_VERSION="8"
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
      # macOS / Oracle JDK 10 / Headless
     - os: osx
-      osx_image: xcode9.3
+      osx_image: xcode9.4
       env:
         - TRAVIS_JAVA_VERSION="10"
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
