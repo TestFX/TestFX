@@ -152,7 +152,7 @@ public class PointLocatorImplTest {
         // then:
         assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(windowBounds)));
     }
-
+ 
     @Test
     public void pointFor_Window_atOffset_afterChange() {
         // given:

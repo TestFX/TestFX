@@ -515,7 +515,7 @@ public class FxRobot implements FxRobotInterface {
         context.getSleepRobot().sleep(duration, timeUnit);
         return this;
     }
-
+ 
     @Override
     @Deprecated
     public FxRobot scroll(int amount) {
