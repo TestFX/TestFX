@@ -16,9 +16,6 @@
  */
 package org.testfx.cases.integration;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.awt.Robot;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -45,6 +42,8 @@ import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MouseWheelTest extends TestCaseBase {
 
