@@ -35,6 +35,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -214,6 +215,9 @@ public final class NodeQueryUtils {
         }
         else if (node instanceof TextInputControl) {
             return Objects.equals(((TextInputControl) node).getText(), text);
+        }
+        else if (node instanceof Text) {
+            return Objects.equals(((Text) node).getText(), text);
         }
         return false;
     }
