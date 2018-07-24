@@ -50,7 +50,7 @@ public class MoveRobotImpl implements MoveRobot {
         }
         MAX_POINT_OFFSET_COUNT = maxOffsetCount;
     }
-    
+
     private final BaseRobot baseRobot;
     private final MouseRobot mouseRobot;
     private final SleepRobot sleepRobot;

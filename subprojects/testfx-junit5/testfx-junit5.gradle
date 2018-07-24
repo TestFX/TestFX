@@ -27,8 +27,8 @@ dependencies {
     // Removes compile warnings about missing enums.
     compile('org.apiguardian:apiguardian-api:1.0.0')
 
-    compile 'org.junit.jupiter:junit-jupiter-api:5.2.0-M1'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0-M1'
+    compile 'org.junit.jupiter:junit-jupiter-api:5.3.0-M1'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.0-M1'
     if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
     } else {

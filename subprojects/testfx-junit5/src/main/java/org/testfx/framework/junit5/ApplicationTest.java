@@ -48,6 +48,7 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
         release(new KeyCode[0]);
         // release all mouse buttons
         release(new MouseButton[0]);
+        FxToolkit.cleanupStages();
         FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
 

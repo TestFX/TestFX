@@ -16,15 +16,18 @@
  */
 package org.testfx.service.locator.impl;
 
+import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import javafx.beans.InvalidationListener;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -36,15 +39,36 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
+import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
 import static org.testfx.util.BoundsQueryUtils.scale;
 
+/**
+ * Tests that {@link BoundsLocator} correctly computes the scene, window,
+ * and screen bounds for nodes. These bounds must be correct regardless of
+ * the DPI scaling.
+ */
 public class BoundsLocatorImplTest {
+
+    private static final double WINDOW_TRANSLATE_X = 100;
+    private static final double WINDOW_TRANSLATE_Y = 100;
+    private static final double INSIDE_SCENE_X = 50;
+    private static final double INSIDE_SCENE_Y = 50;
+    private static final double INSIDE_SCENE_WIDTH = 100;
+    private static final double INSIDE_SCENE_HEIGHT = 100;
+    private static final double PARTIAL_OUTSIDE_SCENE_WIDTH = 100;
+    private static final double PARTIAL_OUTSIDE_SCENE_HEIGHT = 100;
+
+    private static double sceneWidth = 600;
+    private static double sceneHeight = 400;
+    private static double partialOutsideSceneX = 550;
+    private static double partialOutsideSceneY = 350;
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
@@ -56,9 +80,7 @@ public class BoundsLocatorImplTest {
     Node nodeInsideOfScene;
     Node nodePartiallyOutsideOfScene;
     Node nodeOutsideOfScene;
-    Bounds boundsInsideOfScene;
-    Bounds boundsPartiallyOutsideOfScene;
-    Bounds boundsOutsideOfScene;
+    boolean waitForNewSize;
 
     @After
     public void cleanupSpec() throws TimeoutException {
@@ -66,32 +88,73 @@ public class BoundsLocatorImplTest {
     }
 
     @Before
-    public void setup() throws TimeoutException {
+    public void setup() throws TimeoutException, InterruptedException {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setupScene(() -> new Scene(new Region(), sceneWidth, sceneHeight));
         FxToolkit.setupFixture(this::setupStages);
+        if (waitForNewSize) {
+            Thread.sleep(5000);
+        }
         boundsLocator = new BoundsLocatorImpl();
         windowInsets = calculateWindowInsets(primaryWindow, primaryScene);
     }
 
-    public void setupStages() {
-        Pane primarySceneRoot = new AnchorPane();
-        primaryScene = new Scene(primarySceneRoot, 600, 400);
-
+    private void setupStages() {
         primaryWindow = new Stage();
-        primaryWindow.setX(100);
-        primaryWindow.setY(100);
+        CountDownLatch setSceneLatch = new CountDownLatch(1);
+        InvalidationListener invalidationListener = observable -> setSceneLatch.countDown();
+        primaryWindow.sceneProperty().addListener(observable -> {
+            setSceneLatch.countDown();
+            primaryWindow.sceneProperty().removeListener(invalidationListener);
+        });
+        nodeInsideOfScene = new Rectangle(INSIDE_SCENE_X, INSIDE_SCENE_Y, INSIDE_SCENE_WIDTH, INSIDE_SCENE_HEIGHT);
+        nodePartiallyOutsideOfScene = new Rectangle(partialOutsideSceneX, partialOutsideSceneY,
+                PARTIAL_OUTSIDE_SCENE_WIDTH, PARTIAL_OUTSIDE_SCENE_HEIGHT);
+        nodeOutsideOfScene = new Rectangle(sceneWidth + 300, sceneHeight + 300, 100, 100);
+        AnchorPane nodeContainer = new AnchorPane(nodeInsideOfScene, nodePartiallyOutsideOfScene, nodeOutsideOfScene);
+        primaryScene = new Scene(nodeContainer, sceneWidth, sceneHeight);
+
+        // On Windows + AWT Robot + HiDPI the scene size changes from (600, 400) to (506, 366.5) - WHY!?
+        // The scene size changing also makes the "partial" outside bounds tests fail because they are
+        // totally outside the bounds, no longer partially.
+        if (System.getProperty("os.name").toLowerCase(Locale.US).startsWith("win") &&
+                System.getProperty("testfx.robot", "awt").toLowerCase(Locale.US).equals("awt") &&
+                (JavaVersionAdapter.getScreenScaleX() != 1d || JavaVersionAdapter.getScreenScaleY() != 1d)) {
+            primaryScene.widthProperty().addListener(
+                (observable, oldVal, newVal) -> {
+                    waitForNewSize = true;
+                    partialOutsideSceneX = partialOutsideSceneX - (oldVal.doubleValue() - newVal.doubleValue());
+                    nodeContainer.getChildren().remove(nodePartiallyOutsideOfScene);
+                    nodePartiallyOutsideOfScene = new Rectangle(partialOutsideSceneX,
+                            nodePartiallyOutsideOfScene.getBoundsInLocal().getMinY(), PARTIAL_OUTSIDE_SCENE_WIDTH,
+                            nodePartiallyOutsideOfScene.getBoundsInLocal().getHeight());
+                    nodeContainer.getChildren().add(1, nodePartiallyOutsideOfScene);
+                    sceneWidth = newVal.doubleValue();
+                });
+            primaryScene.heightProperty().addListener(
+                (observable, oldVal, newVal) -> {
+                    waitForNewSize = true;
+                    partialOutsideSceneY = partialOutsideSceneY -
+                            (oldVal.doubleValue() - newVal.doubleValue());
+                    nodeContainer.getChildren().remove(nodePartiallyOutsideOfScene);
+                    nodePartiallyOutsideOfScene = new Rectangle(
+                            nodePartiallyOutsideOfScene.getBoundsInLocal().getMinX(), partialOutsideSceneY,
+                            nodePartiallyOutsideOfScene.getBoundsInLocal().getWidth(), PARTIAL_OUTSIDE_SCENE_HEIGHT);
+                    nodeContainer.getChildren().add(1, nodePartiallyOutsideOfScene);
+                    sceneHeight = newVal.doubleValue();
+                });
+        }
+        primaryWindow.setX(WINDOW_TRANSLATE_X);
+        primaryWindow.setY(WINDOW_TRANSLATE_X);
         primaryWindow.setScene(primaryScene);
-
-        nodeInsideOfScene = new Rectangle(50, 50, 100, 100);
-        nodePartiallyOutsideOfScene = new Rectangle(550, 350, 100, 100);
-        nodeOutsideOfScene = new Rectangle(1000, 1000, 100, 100);
-
-        boundsInsideOfScene = nodeInsideOfScene.getLayoutBounds();
-        boundsPartiallyOutsideOfScene = nodePartiallyOutsideOfScene.getLayoutBounds();
-        boundsOutsideOfScene = nodeOutsideOfScene.getLayoutBounds();
-
-        primarySceneRoot.getChildren().setAll(nodeInsideOfScene, nodePartiallyOutsideOfScene, nodeOutsideOfScene);
+        try {
+            if (!setSceneLatch.await(10, TimeUnit.SECONDS)) {
+                fail("Timeout while waiting for scene to be set on stage.");
+            }
+        }
+        catch (Exception ex) {
+            fail("Unexpected exception: " + ex);
+        }
         primaryWindow.show();
     }
 
@@ -101,26 +164,25 @@ public class BoundsLocatorImplTest {
         Bounds bounds = boundsLocator.boundsInSceneFor(nodeInsideOfScene);
 
         // then:
-        assertThat(bounds, equalTo(new BoundingBox(50, 50, 100, 100)));
+        assertThat(bounds, equalTo(new BoundingBox(INSIDE_SCENE_X, INSIDE_SCENE_Y,
+                INSIDE_SCENE_WIDTH, INSIDE_SCENE_HEIGHT)));
     }
 
     @Test
-    public void boundsInSceneFor_nodePartyOutsideOfScene() {
+    public void boundsInSceneFor_nodePartiallyOutsideOfScene() {
         // when:
         Bounds bounds = boundsLocator.boundsInSceneFor(nodePartiallyOutsideOfScene);
 
         // then:
-        assertThat(bounds, not(equalTo(new BoundingBox(550, 350, 100, 100))));
-        assertThat(bounds, equalTo(new BoundingBox(550, 350, 50, 50)));
+        assertThat(bounds, equalTo(new BoundingBox(partialOutsideSceneX, partialOutsideSceneY,
+                (partialOutsideSceneX + PARTIAL_OUTSIDE_SCENE_WIDTH) - sceneWidth,
+                (partialOutsideSceneY + PARTIAL_OUTSIDE_SCENE_HEIGHT) - sceneHeight)));
     }
 
-    @Test(expected = BoundsLocatorException.class)
+    @Test
     public void boundsInSceneFor_nodeOutsideOfScene() {
-        // when:
-        Bounds bounds = boundsLocator.boundsInSceneFor(nodeOutsideOfScene);
-
-        // then:
-        assertThat(bounds, equalTo(null));
+        assertThatThrownBy(() -> boundsLocator.boundsInSceneFor(nodeOutsideOfScene))
+                .isExactlyInstanceOf(BoundsLocatorException.class);
     }
 
     @Test
@@ -129,51 +191,37 @@ public class BoundsLocatorImplTest {
         Bounds actual = boundsLocator.boundsInWindowFor(primaryScene);
 
         // then:
-        Bounds bounds = new BoundingBox(0, 0, 600, 400);
-        assertThat(actual, equalTo(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight())));
+        assertThat(actual, equalTo(new BoundingBox(windowInsets.getLeft(),
+                windowInsets.getTop(), sceneWidth, sceneHeight)));
     }
 
     @Test
     public void boundsInWindowFor_boundsInsideOfScene() {
         // when:
-        Bounds actual = boundsLocator.boundsInWindowFor(boundsInsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsInWindowFor(nodeInsideOfScene.getLayoutBounds(), primaryScene);
 
         // then:
-        Bounds bounds = new BoundingBox(50, 50, 100, 100);
-        assertThat(actual, equalTo(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight())));
+        assertThat(actual, equalTo(new BoundingBox(INSIDE_SCENE_X + windowInsets.getLeft(),
+                INSIDE_SCENE_Y + windowInsets.getTop(),
+                INSIDE_SCENE_WIDTH, INSIDE_SCENE_HEIGHT)));
     }
 
     @Test
     public void boundsInWindowFor_boundsPartiallyOutsideOfScene() {
         // when:
-        Bounds actual = boundsLocator.boundsInWindowFor(boundsPartiallyOutsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsInWindowFor(nodePartiallyOutsideOfScene.getLayoutBounds(), primaryScene);
 
         // then:
-        Bounds bounds = new BoundingBox(550, 350, 100, 100);
-        assertThat(actual, not(equalTo(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight()))));
-        bounds = new BoundingBox(550, 350, 50, 50);
         assertThat(actual, equalTo(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight())));
+                partialOutsideSceneX + windowInsets.getLeft(), partialOutsideSceneY + windowInsets.getTop(),
+                (partialOutsideSceneX + PARTIAL_OUTSIDE_SCENE_WIDTH) - sceneWidth,
+                (partialOutsideSceneY + PARTIAL_OUTSIDE_SCENE_HEIGHT) - sceneHeight)));
     }
 
-    @Test(expected = BoundsLocatorException.class)
+    @Test
     public void boundsInWindowFor_boundsOutsideOfScene() {
-        // when:
-        Bounds bounds = boundsLocator.boundsInWindowFor(boundsOutsideOfScene, primaryScene);
-
-        // then:
-        assertThat(bounds, equalTo(null));
+        assertThatThrownBy(() ->  boundsLocator.boundsInWindowFor(nodeOutsideOfScene.getLayoutBounds(), primaryScene))
+                .isExactlyInstanceOf(BoundsLocatorException.class);
     }
 
     @Test
@@ -182,11 +230,10 @@ public class BoundsLocatorImplTest {
         Bounds actual = boundsLocator.boundsOnScreenFor(primaryWindow);
 
         // then:
-        Bounds bounds = new BoundingBox(100, 100, 600, 400);
         assertThat(actual, equalTo(new BoundingBox(
-                bounds.getMinX(), bounds.getMinY(),
-                bounds.getWidth() + windowInsets.getLeft() + windowInsets.getRight(),
-                bounds.getHeight() + windowInsets.getTop() + windowInsets.getBottom())));
+                WINDOW_TRANSLATE_X, WINDOW_TRANSLATE_Y,
+                sceneWidth + windowInsets.getLeft() + windowInsets.getRight(),
+                sceneHeight + windowInsets.getTop() + windowInsets.getBottom())));
     }
 
     @Test
@@ -195,59 +242,59 @@ public class BoundsLocatorImplTest {
         Bounds actual = boundsLocator.boundsOnScreenFor(primaryScene);
 
         // then:
-        Bounds bounds = new BoundingBox(100, 100, 600, 400);
-        assertThat(actual, equalTo(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight())));
+        assertThat(actual, equalTo(new BoundingBox(WINDOW_TRANSLATE_X + windowInsets.getLeft(),
+                WINDOW_TRANSLATE_Y + windowInsets.getTop(),
+                sceneWidth, sceneHeight)));
     }
 
     @Test
     public void boundsOnScreenFor_boundsInsideOfScene() {
-        // when:
-        Bounds actual = boundsLocator.boundsOnScreenFor(boundsInsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsOnScreenFor(nodeInsideOfScene.getLayoutBounds(), primaryScene);
 
         // then:
-        Bounds bounds = new BoundingBox(100 + 50, 100 + 50, 100, 100);
-        assertThat(actual, equalTo(scale(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight()))));
+        assertThat(actual, equalTo(scaleIfNecessary(new BoundingBox(
+                WINDOW_TRANSLATE_X + INSIDE_SCENE_X + windowInsets.getLeft(),
+                WINDOW_TRANSLATE_Y + INSIDE_SCENE_Y + windowInsets.getTop(),
+                INSIDE_SCENE_WIDTH, INSIDE_SCENE_HEIGHT))));
     }
 
     @Test
     public void boundsOnScreenFor_boundsPartiallyOutsideOfScene() {
         // when:
-        Bounds actual = boundsLocator.boundsOnScreenFor(boundsPartiallyOutsideOfScene, primaryScene);
+        Bounds actual = boundsLocator.boundsOnScreenFor(nodePartiallyOutsideOfScene.getLayoutBounds(), primaryScene);
 
         // then:
-        Bounds bounds = new BoundingBox(100 + 550, 100 + 350, 100, 100);
-        assertThat(actual, not(equalTo(scale(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight())))));
-        bounds = new BoundingBox(100 + 550, 100 + 350, 50, 50);
-        assertThat(actual, equalTo(scale(new BoundingBox(
-                bounds.getMinX() + windowInsets.getLeft(),
-                bounds.getMinY() + windowInsets.getTop(),
-                bounds.getWidth(), bounds.getHeight()))));
+        assertThat(actual, equalTo(scaleIfNecessary(new BoundingBox(
+                WINDOW_TRANSLATE_X + partialOutsideSceneX + windowInsets.getLeft(),
+                WINDOW_TRANSLATE_Y + partialOutsideSceneY + windowInsets.getTop(),
+                (partialOutsideSceneX + PARTIAL_OUTSIDE_SCENE_WIDTH) - sceneWidth,
+                (partialOutsideSceneY + PARTIAL_OUTSIDE_SCENE_HEIGHT) - sceneHeight))));
     }
 
-    @Test(expected = BoundsLocatorException.class)
+    @Test
     public void boundsOnScreenFor_boundsOutsideOfScene() {
-        // when:
-        Bounds bounds = boundsLocator.boundsOnScreenFor(boundsOutsideOfScene, primaryScene);
-
-        // then:
-        assertThat(bounds, equalTo(null));
+        assertThatThrownBy(() -> boundsLocator.boundsOnScreenFor(nodeOutsideOfScene.getLayoutBounds(), primaryScene))
+                .isExactlyInstanceOf(BoundsLocatorException.class);
     }
 
-    public Insets calculateWindowInsets(Window window, Scene scene) {
+    private static Insets calculateWindowInsets(Window window, Scene scene) {
         double left = scene.getX();
         double top = scene.getY();
         double right = window.getWidth() - scene.getWidth() - scene.getX();
         double bottom = window.getHeight() - scene.getHeight() - scene.getY();
         return new Insets(top, right, bottom, left);
+    }
+
+    private static Bounds scaleIfNecessary(Bounds bounds) {
+        if (System.getProperty("testfx.robot", "awt").equalsIgnoreCase("glass")) {
+            return scale(bounds);
+        } else {
+            if ((JavaVersionAdapter.getScreenScaleX() != 1 || JavaVersionAdapter.getScreenScaleY() != 1) ||
+                    System.getProperty("os.name").toLowerCase(Locale.US).contains("nux")) {
+                return scale(bounds);
+            }
+        }
+        return bounds;
     }
 
 }
