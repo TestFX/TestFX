@@ -111,8 +111,6 @@ public class AwtRobotAdapterTest {
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
 
-    // ROBOT.
-
     @Test
     public void robotCreate() {
         // when:
@@ -142,8 +140,6 @@ public class AwtRobotAdapterTest {
         // then:
         assertThat(robotAdapter.getRobotInstance(), nullValue());
     }
-
-    // KEY.
 
     @Test
     @SuppressWarnings("unchecked")
@@ -181,8 +177,6 @@ public class AwtRobotAdapterTest {
         WaitForAsyncUtils.waitForFxEvents();
         verify(keyEventHandler, times(1)).handle(any());
     }
-
-    // MOUSE.
 
     @Test
     public void getMouseLocation() {
@@ -245,8 +239,6 @@ public class AwtRobotAdapterTest {
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
-    // CAPTURE.
-
     @Test
     public void getCapturePixelColor() {
         // given:
@@ -273,8 +265,6 @@ public class AwtRobotAdapterTest {
         assertThat(regionImage.getHeight(), is(20.0));
         assertThat(regionImage.getPixelReader().getColor(5, 10), is(Color.web("magenta")));
     }
-
-    // TIMER.
 
     @Test
     public void timerWaitForIdle() {

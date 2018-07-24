@@ -32,6 +32,9 @@ public class ApplicationLauncherImpl implements ApplicationLauncher {
 
     private void initMonocleHeadless() {
         if (Boolean.getBoolean("testfx.headless")) {
+            if (Boolean.getBoolean("testfx.verbose")) {
+                System.out.println("testfx: headless mode requested");
+            }
             try {
                 assignMonoclePlatform();
                 assignHeadlessPlatform();

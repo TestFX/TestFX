@@ -24,21 +24,23 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 import org.testfx.framework.junit.TestFXRule;
-import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public class DragAndDropTest extends TestCaseBase {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule(3);
+    public TestRule rule = RuleChain.outerRule(new TestFXRule(3)).around(Timeout.millis(5000));
 
     ListView<String> leftListView;
     ListView<String> rightListView;
@@ -109,24 +111,25 @@ public class DragAndDropTest extends TestCaseBase {
         // when:
         drag("R3");
         dropTo("L2");
-        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        assertThat(leftListView.getItems()).containsExactly("L1", "L2", "L3", "R3");
-        assertThat(rightListView.getItems()).containsExactly("R1", "R2");
+        assertThat(waitForAsyncFx(5000, () -> leftListView.getItems()))
+                .containsExactly("L1", "L2", "L3", "R3");
+        assertThat(waitForAsyncFx(5000, () -> rightListView.getItems()))
+                .containsExactly("R1", "R2");
     }
 
     @Test
-    @Ignore("see #383")
     public void should_drag_and_drop_from_left_to_left() {
         // when:
         drag("L3");
         dropTo("L2");
-        WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        assertThat(leftListView.getItems()).containsExactly("L1", "L2", "L3");
-        assertThat(rightListView.getItems()).containsExactly("R1", "R2", "R3");
+        assertThat(waitForAsyncFx(5000, () -> leftListView.getItems()))
+                .containsExactly("L1", "L2", "L3");
+        assertThat(waitForAsyncFx(5000, () -> rightListView.getItems()))
+                .containsExactly("R1", "R2", "R3");
     }
 
 }

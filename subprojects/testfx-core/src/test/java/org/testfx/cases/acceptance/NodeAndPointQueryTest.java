@@ -19,17 +19,19 @@ package org.testfx.cases.acceptance;
 import java.util.Collections;
 import java.util.HashSet;
 
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -46,6 +48,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public class NodeAndPointQueryTest {
 
@@ -66,7 +69,9 @@ public class NodeAndPointQueryTest {
     public void setup() throws Exception {
         FxToolkit.setupStage(stage -> {
             button0 = new Button("click me!");
-            button0.setOnAction(actionEvent -> button0.setText("clicked!"));
+            button0.setOnAction(actionEvent -> {
+                Platform.runLater(() -> button0.setText("clicked!"));
+            });
             button1 = new Button("button");
             label0 = new Label("label");
             label0.setVisible(false);
@@ -131,13 +136,15 @@ public class NodeAndPointQueryTest {
     }
 
     @Test
-    @Ignore("flaky")
     public void moveTo() {
         // when:
-        fx.moveTo(".button").clickOn();
+        fx.moveTo(".button");
+        fx.press(MouseButton.PRIMARY);
+        fx.release(MouseButton.PRIMARY);
 
         // then:
-        assertThat(button0.getText(), is("clicked!"));
+        Assertions.assertThat(waitForAsyncFx(5000, () -> fx.lookup(".button").queryButton().getText()))
+                .isEqualTo("clicked!");
     }
 
     @Test

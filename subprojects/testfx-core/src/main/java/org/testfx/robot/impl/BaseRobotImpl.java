@@ -35,13 +35,20 @@ public class BaseRobotImpl implements BaseRobot {
     private final JavafxRobotAdapter javafxRobotAdapter;
 
     public BaseRobotImpl() {
+        boolean verbose = Boolean.getBoolean("testfx.verbose");
         // Default to awt if "testfx.robot" is not explicitly set.
         String robotAdapterName = System.getProperty("testfx.robot", "awt");
         switch (robotAdapterName) {
             case "awt":
+                if (verbose) {
+                    System.out.println("testfx: initializing AWT robot");
+                }
                 robotAdapter = new AwtRobotAdapter();
                 break;
             case "glass":
+                if (verbose) {
+                    System.out.println("testfx: initializing Glass robot");
+                }
                 robotAdapter = new GlassRobotAdapter();
                 break;
             default:

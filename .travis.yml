@@ -9,6 +9,7 @@ env:
 before_script:
   - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16; fi
   - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+
 before_install: .ci/before_install.sh
 
 install: true
@@ -29,53 +30,74 @@ jobs:
       os: linux
       dist: trusty
       jdk: oraclejdk8
-      script: ./gradlew checkstyleMain checkstyleTest license spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest
+      script: ./gradlew checkstyleMain checkstyleTest spotbugsMain spotbugsTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest # license
     - stage: test
-     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed
+     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (AWT Robot)
       os: linux
       dist: trusty
       jdk: oraclejdk8
+    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot)
+    - os: linux
+      dist: trusty
+      jdk: oraclejdk8
+      env:
+        - _JAVA_OPTIONS="-Dtestfx.robot=glass"
+    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot) / HiDPI
+    - os: linux
+      dist: trusty
+      jdk: oraclejdk8
+      env:
+        - _JAVA_OPTIONS="-Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless
     - os: linux
       dist: trusty
       jdk: oraclejdk8
       env:
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
-      addons:
-        apt:
-          packages:
-            - gdb
-    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed
+    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless / HiDPI
     - os: linux
       dist: trusty
-      script: source install-jdk.sh -F 10 -L BCL
+      jdk: oraclejdk8
+      env:
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true -Dglass.gtk.uiScale=2.0"
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (AWT Robot)
+    - os: linux
+      dist: trusty
+      install: source install-jdk.sh -F 10 -L BCL
       env:
         - TRAVIS_JAVA_VERSION="10"
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dprism.verbose=true"
-      addons:
-        apt:
-          packages:
-            - gdb
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (Glass Robot)
+    - os: linux
+      dist: trusty
+      install: source install-jdk.sh -F 10 -L BCL
+      env:
+        - TRAVIS_JAVA_VERSION="10"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dtestfx.verbose=true -Dtestfx.robot=glass -Dprism.verbose=true"
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headless
     - os: linux
       dist: trusty
-      script: source install-jdk.sh -F 10 -L BCL
+      install: source install-jdk.sh -F 10 -L BCL
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
-      addons:
-        apt:
-          packages:
-            - gdb
-    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed / HiDPI
+   # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (AWT Robot) / HiDPI
     - os: linux
       dist: trusty
-      script: source install-jdk.sh -F 10 -L BCL
+      install: source install-jdk.sh -F 10 -L BCL
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djdk.gtk.verbose=true -Djdk.gtk.version=3 -Dglass.gtk.uiScale=2.0 -Dprism.verbose=true"
-      addons:
-        apt:
-          packages:
-            - gdb
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (Glass Robot) / HiDPI
+    - os: linux
+      dist: trusty
+      install: source install-jdk.sh -F 10 -L BCL
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dtestfx.robot=glass -Djdk.gtk.verbose=true -Djdk.gtk.version=3 -Dglass.gtk.uiScale=2.0 -Dprism.verbose=true"
+    # Ubuntu Linux (trusty) / Oracle JDK 10 / Headless / HiDPI
+    - os: linux
+      dist: trusty
+      install: source install-jdk.sh -F 10 -L BCL
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true -Dglass.gtk.uiScale=2.0"
     # macOS / Oracle JDK 8 / Headless
     - os: osx
       osx_image: xcode9.4

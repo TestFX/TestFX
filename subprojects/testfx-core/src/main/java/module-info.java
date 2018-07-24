@@ -35,5 +35,5 @@ module org.testfx {
     requires javafx.graphics;
     requires javafx.swing;
     requires hamcrest.core;
-    requires assertj.core;
+    requires org.assertj.core;
 }

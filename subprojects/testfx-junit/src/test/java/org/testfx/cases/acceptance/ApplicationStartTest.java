@@ -16,9 +16,13 @@
  */
 package org.testfx.cases.acceptance;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import javafx.beans.InvalidationListener;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.Rule;
@@ -27,6 +31,7 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.framework.junit.TestFXRule;
 
+import static org.junit.Assert.fail;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
@@ -34,7 +39,8 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 public class ApplicationStartTest extends ApplicationTest {
 
     @Rule
-    public TestFXRule testFXRule = new TestFXRule(3);
+    public TestFXRule testFXRule = new TestFXRule();
+    CountDownLatch setButtonTextLatch;
 
     @Override
     public void init() throws Exception {
@@ -43,9 +49,27 @@ public class ApplicationStartTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) {
+        CountDownLatch setSceneLatch = new CountDownLatch(1);
+        setButtonTextLatch = new CountDownLatch(1);
+        InvalidationListener invalidationListener = observable -> setSceneLatch.countDown();
+        stage.sceneProperty().addListener(observable -> {
+            setSceneLatch.countDown();
+            stage.sceneProperty().removeListener(invalidationListener);
+        });
         Button button = new Button("click me!");
-        button.setOnAction(actionEvent -> button.setText("clicked!"));
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        button.setOnAction(actionEvent -> {
+            button.setText("clicked!");
+            setButtonTextLatch.countDown();
+        });
+        stage.setScene(new Scene(button, 100, 100));
+        try {
+            if (!setSceneLatch.await(10, TimeUnit.SECONDS)) {
+                fail("Timeout while waiting for scene to be set on stage.");
+            }
+        }
+        catch (Exception ex) {
+            fail("Unexpected exception: " + ex);
+        }
         stage.show();
     }
 
@@ -63,7 +87,9 @@ public class ApplicationStartTest extends ApplicationTest {
     @Test
     public void should_click_on_button() {
         // when:
-        clickOn(".button");
+        moveTo(".button");
+        press(MouseButton.PRIMARY);
+        release(MouseButton.PRIMARY);
 
         // then:
         verifyThat(".button", hasText("clicked!"), informedErrorMessage(this));

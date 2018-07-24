@@ -30,18 +30,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.scene.input.KeyCode.SHORTCUT;
-
 import static org.hamcrest.CoreMatchers.equalTo;
-
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
@@ -52,7 +48,7 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 public class ShortcutKeyTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(3000));
+    public TestRule rule = new TestFXRule();
 
     private VBox box;
     private TextField field;
@@ -72,8 +68,8 @@ public class ShortcutKeyTest extends FxRobot {
             field.setOnKeyPressed(e -> {
                 // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
                 // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
-                if (((e.getCode() == KeyCode.CONTROL)  || 
-                        (e.getCode() == KeyCode.META) || 
+                if (((e.getCode() == KeyCode.CONTROL)  ||
+                        (e.getCode() == KeyCode.META) ||
                         (e.getCode() == KeyCode.COMMAND)
                         ) && e.isShortcutDown()) {
                     field.setText(pressedText);
@@ -85,8 +81,8 @@ public class ShortcutKeyTest extends FxRobot {
             field.setOnKeyReleased(e -> {
                 // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
                 // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
-                if (((e.getCode() == KeyCode.CONTROL)  || 
-                        (e.getCode() == KeyCode.META) || 
+                if (((e.getCode() == KeyCode.CONTROL)  ||
+                        (e.getCode() == KeyCode.META) ||
                         (e.getCode() == KeyCode.COMMAND)
                         ) && !e.isShortcutDown()) {
                     field.setText(releasedText);
@@ -141,18 +137,16 @@ public class ShortcutKeyTest extends FxRobot {
         // then:
         verifyThat(field.getText(), equalTo(releasedText), informedErrorMessage(this));
     }
-    
+
     /**
      * Test that the KeyCombinations do work (copy paste)
      */
     @Test
     public void shortcut_keyCode_copy_paste() {
-        //given:
+        // given:
         verifyThat(field1.getText(), equalTo(initialText), informedErrorMessage(this));
         verifyThat(field2.getText(), equalTo(emptyText), informedErrorMessage(this));
 
-
-        //when:
         clickOn(field1, MouseButton.PRIMARY);
         clickOn(field1, MouseButton.PRIMARY);
         robotContext().getTypeRobot().push(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN));
@@ -160,10 +154,8 @@ public class ShortcutKeyTest extends FxRobot {
         clickOn(field2, MouseButton.PRIMARY);
         field2.requestFocus();
         robotContext().getTypeRobot().push(new KeyCodeCombination(KeyCode.V, KeyCombination.SHORTCUT_DOWN));
-        
-        //then:
+
+        // then:
         verifyThat(field2.getText(), equalTo(initialText), informedErrorMessage(this));
-        
     }
-    
 }
