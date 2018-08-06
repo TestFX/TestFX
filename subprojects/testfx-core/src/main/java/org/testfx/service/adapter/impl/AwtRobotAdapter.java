@@ -62,11 +62,6 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     }
 
     @Override
-    public Robot getRobotInstance() {
-        return awtRobot;
-    }
-
-    @Override
     public void keyPress(KeyCode key) {
         if (key == KeyCode.COMMAND) {
             key = KeyCode.META;
@@ -118,12 +113,12 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     }
 
     @Override
-    public Image getCaptureRegion(Rectangle2D region) { 
+    public Image getCaptureRegion(Rectangle2D region) {
         final Rectangle2D scaled = scaleRect(region);
         Rectangle awtRectangle = new Rectangle(
                 (int) scaled.getMinX(), (int) scaled.getMinY(),
                 (int) scaled.getWidth(), (int) scaled.getHeight());
-        
+
         BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
         BufferedImage out;
         if (scaleRequired()) {
@@ -134,7 +129,7 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
             out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             AffineTransform at = new AffineTransform();
             at.scale(scaleX, scaleY);
-            AffineTransformOp scaleOp = 
+            AffineTransformOp scaleOp =
                 new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
             out = scaleOp.filter(awtBufferedImage, out);
         } else {
@@ -142,7 +137,7 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         }
         return SwingFXUtils.toFXImage(out, null);
     }
-    
+
 
     public Image getCaptureRegionRaw(Rectangle2D region) {
         final Rectangle2D scaled = scaleRect(region);
@@ -177,8 +172,8 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
             default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by awt robot");
         }
     }
-    
-    
+
+
 
     // scale
     protected Rectangle2D scaleRect(Rectangle2D rect) {
@@ -199,14 +194,14 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         double factorY = JavaVersionAdapter.getScreenScaleY();
         return new Point2D(pt.getX() / factorX, pt.getY() / factorY);
     }
-    
+
     protected boolean scaleRequired() {
         // MacOS Awt is not covered by the build server.
         // Do not remove, if not testing on a headed mac with java 10 or above.
-        return PlatformAdapter.getOs() != OS.mac &&
+        return PlatformAdapter.getOs() != OS.MAC &&
             // just prevent unnecessary transforms...
             JavaVersionAdapter.getScreenScaleX() != 1.0 && JavaVersionAdapter.getScreenScaleY() != 1.0;
     }
-    
+
 
 }

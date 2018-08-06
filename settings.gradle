@@ -17,7 +17,7 @@
 
 rootProject.name = "TestFX"
 
-// Projects that work on Java 8 and 9
+// Projects that work on Java 9+
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-junit5"

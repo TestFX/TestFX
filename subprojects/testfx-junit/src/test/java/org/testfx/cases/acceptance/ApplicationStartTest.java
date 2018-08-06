@@ -18,6 +18,7 @@ package org.testfx.cases.acceptance;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javafx.beans.InvalidationListener;
 import javafx.scene.Scene;
@@ -74,17 +75,17 @@ public class ApplicationStartTest extends ApplicationTest {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() throws TimeoutException {
         FxToolkit.hideStage();
     }
 
-    @Test
+    @Test(timeout = 3000)
     public void should_contain_button() {
         // expect:
         verifyThat(".button", hasText("click me!"), informedErrorMessage(this));
     }
 
-    @Test
+    @Test(timeout = 3000)
     public void should_click_on_button() {
         // when:
         moveTo(".button");

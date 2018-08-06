@@ -32,7 +32,6 @@ module org.testfx {
 
     requires java.desktop;
     requires javafx.controls;
-    requires javafx.graphics;
     requires javafx.swing;
     requires hamcrest.core;
     requires org.assertj.core;

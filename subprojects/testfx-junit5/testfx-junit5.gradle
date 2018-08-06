@@ -17,6 +17,10 @@
 ext.pomDescription = 'TestFX JUnit5'
 ext.moduleName = 'org.testfx.junit5'
 
+repositories {
+    jcenter()
+}
+
 test {
   useJUnitPlatform()
 }
@@ -27,9 +31,15 @@ dependencies {
     // Removes compile warnings about missing enums.
     compile('org.apiguardian:apiguardian-api:1.0.0')
 
-    compile 'org.junit.jupiter:junit-jupiter-api:5.3.0-M1'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.0-M1'
-    if (JavaVersion.current().isJava9Compatible()) {
+    compile 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+
+    if (JavaVersion.current().isJava11Compatible()) {
+        testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+    } else if (JavaVersion.current().isJava10Compatible() &&
+            System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
+        testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+    } else if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
     } else {
         testCompile "org.testfx:openjfx-monocle:8u76-b04"

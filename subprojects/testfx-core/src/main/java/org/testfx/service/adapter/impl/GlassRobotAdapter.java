@@ -16,213 +16,90 @@
  */
 package org.testfx.service.adapter.impl;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import javafx.geometry.Point2D;
+import java.lang.reflect.InvocationTargetException;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 
-import com.sun.glass.ui.Application;
-import com.sun.glass.ui.Pixels;
-import com.sun.glass.ui.Robot;
-
-import org.testfx.internal.JavaVersionAdapter;
-import org.testfx.internal.PlatformAdapter;
-import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.service.adapter.RobotAdapter;
 
-import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
-public class GlassRobotAdapter implements RobotAdapter<Robot> {
+public abstract class GlassRobotAdapter implements RobotAdapter {
 
-    private static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
-    private static final int BYTE_BUFFER_BYTES_PER_COMPONENT = 1;
-    private static final int INT_BUFFER_BYTES_PER_COMPONENT = 4;
+    protected static final int RETRIEVAL_TIMEOUT_IN_MILLIS = 10000;
+    protected Object glassRobot;
+    private static boolean publicRobot;
 
-    private Robot glassRobot;
+    static {
+        try {
+            // Whether or not we should use the public robot is not as simple as checking
+            // the JDK version because, for example, OpenJDK 10 does not ship with JavaFX
+            // and since we include OpenJFX as a dependency on 10+ only the public robot
+            // API will be available. So we simply check to see if the old class exists
+            // assuming that if it doesn't the new one must (if it doesn't, we can't create
+            // a Glass robot.
+            Class.forName("com.sun.glass.ui.Robot");
+            publicRobot = false;
+        }
+        catch (ClassNotFoundException e) {
+            try {
+                Class.forName("javafx.scene.robot.Robot");
+                publicRobot = true;
+            }
+            catch (ClassNotFoundException e1) {
+                throw new RuntimeException("neither \"com.sun.glass.ui.Robot\" nor \"javafx.scene.robot.Robot\" " +
+                        "could be found - please report this issue on https://github.com/TestFX/TestFX/issues with " +
+                        "JDK version information (\"java -version\").");
+            }
+        }
+    }
 
-    @Override
-    public void robotCreate() {
-        waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
-            () -> glassRobot = Application.GetApplication().createRobot());
+    public static GlassRobotAdapter createGlassRobot() {
+        if (publicRobot) {
+            return new PublicGlassRobotAdapter();
+        }
+        else {
+            return new PrivateGlassRobotAdapter();
+        }
     }
 
     @Override
-    public void robotDestroy() {
+    public final void robotDestroy() {
         if (glassRobot != null) {
             waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-                glassRobot.destroy();
+                try {
+                    getRobot().getClass().getMethod("destroy").invoke(glassRobot);
+                }
+                catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
                 glassRobot = null;
             });
         }
     }
 
     @Override
-    public Robot getRobotInstance() {
-        return glassRobot;
+    public final void mouseWheel(int wheelAmount) {
+        asyncFx(() -> getRobot().getClass().getMethod("mouseWheel", int.class).invoke(getRobot(), wheelAmount));
     }
 
     @Override
-    public void keyPress(KeyCode key) {
-        asyncFx(() -> useRobot().keyPress(convertToKeyCodeId(key)));
+    public final Image getCaptureRegion(Rectangle2D region) {
+        return getScreenCapture(region, false);
     }
 
-    @Override
-    public void keyRelease(KeyCode key) {
-        asyncFx(() -> useRobot().keyRelease(convertToKeyCodeId(key)));
+    public final Image getCaptureRegionRaw(Rectangle2D region) {
+        return getScreenCapture(region, true);
     }
 
-    @Override
-    public Point2D getMouseLocation() {
-        // note the current (10.0.2) behavior below is quite inconsistent (no scaling on
-        // set, but scaling on read) this might change in the future
-        // please keep backwards compatibility to the last version with this behavior in
-        // this case
-        if (PlatformAdapter.getOs() == OS.unix &&
-                Integer.parseInt(JavaVersionAdapter.currentVersion().getMajorVersion()) > 8) {
-            return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
-                () -> new Point2D(useRobot().getMouseX() / JavaVersionAdapter.getScreenScaleX(),
-                useRobot().getMouseY() / JavaVersionAdapter.getScreenScaleY()));
-        }
-        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
-            () -> scaleInverseRect(new Point2D(useRobot().getMouseX(), useRobot().getMouseY())));
-    }
-
-    @Override
-    public void mouseMove(Point2D location) {
-        final Rectangle2D scaled = scaleRect(new Rectangle2D(location.getX(), location.getY(), 0, 0));
-        asyncFx(() -> useRobot().mouseMove((int) (scaled.getMinX()),
-                (int) (scaled.getMinY())));
-    }
-
-    @Override
-    public void mousePress(MouseButton button) {
-        asyncFx(() -> useRobot().mousePress(convertToButtonId(button)));
-    }
-
-    @Override
-    public void mouseRelease(MouseButton button) {
-        asyncFx(() -> useRobot().mouseRelease(convertToButtonId(button)));
-    }
-
-    @Override
-    public void mouseWheel(int wheelAmount) {
-        asyncFx(() -> useRobot().mouseWheel(wheelAmount));
-    }
-
-    @Override
-    public Color getCapturePixelColor(Point2D location) { 
-        final Rectangle2D scaled = scaleRect(new Rectangle2D(location.getX(), location.getY(), 0, 0));
-        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            int glassColor = useRobot().getPixelColor(
-                    (int) (scaled.getMinX()),
-                    (int) (scaled.getMinY()));
-            return convertFromGlassColor(glassColor);
-        });
-    }
-
-    @Override
-    public Image getCaptureRegion(Rectangle2D region) {
-        final Rectangle2D scaled = scaleRect(
-                new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
-        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            Pixels glassPixels = useRobot().getScreenCapture(
-                    (int) scaled.getMinX(), (int) scaled.getMinY(),
-                    (int) scaled.getWidth(), (int) scaled.getHeight(),
-                    false);
-            return convertFromGlassPixels(glassPixels);
-        });
-    }
-    
-    public Image getCaptureRegionRaw(Rectangle2D region) {
-        final Rectangle2D scaled = scaleRect(
-                new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
-        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-            Pixels glassPixels = useRobot().getScreenCapture(
-                    (int) scaled.getMinX(), (int) scaled.getMinY(),
-                    (int) scaled.getWidth(), (int) scaled.getHeight(),
-                    true);
-            return convertFromGlassPixels(glassPixels);
-        });
-    }
-
-    private Robot useRobot() {
+    protected final Object getRobot() {
         if (glassRobot == null) {
             robotCreate();
         }
         return glassRobot;
     }
 
-    private int convertToButtonId(MouseButton button) {
-        switch (button) {
-            case PRIMARY: return Robot.MOUSE_LEFT_BTN;
-            case SECONDARY: return Robot.MOUSE_RIGHT_BTN;
-            case MIDDLE: return Robot.MOUSE_MIDDLE_BTN;
-            default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by GlassRobot");
-        }
-    }
-
-    private Color convertFromGlassColor(int color) {
-        int alpha = (color >> 24) & 0xFF;
-        int red   = (color >> 16) & 0xFF;
-        int green = (color >>  8) & 0xFF;
-        int blue  =  color        & 0xFF;
-        return new Color(red / 255d, green / 255d, blue / 255d, alpha / 255d);
-    }
-
-    private Image convertFromGlassPixels(Pixels glassPixels) {
-        int width = glassPixels.getWidth();
-        int height = glassPixels.getHeight();
-        WritableImage image = new WritableImage(width, height);
-
-        int bytesPerComponent = glassPixels.getBytesPerComponent();
-        if (bytesPerComponent == INT_BUFFER_BYTES_PER_COMPONENT) {
-            IntBuffer intBuffer = (IntBuffer) glassPixels.getPixels();
-            writeIntBufferToImage(intBuffer, image);
-        }
-        else if (bytesPerComponent == BYTE_BUFFER_BYTES_PER_COMPONENT) {
-            ByteBuffer byteBuffer = (ByteBuffer) glassPixels.getPixels();
-            writeByteBufferToImage(byteBuffer, image);
-        }
-
-        return image;
-    }
-
-    private void writeIntBufferToImage(IntBuffer intBuffer, WritableImage image) {
-        PixelWriter pixelWriter = image.getPixelWriter();
-        double width = image.getWidth();
-        double height = image.getHeight();
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int argb = intBuffer.get();
-                pixelWriter.setArgb(x, y, argb);
-            }
-        }
-    }
-
-    private void writeByteBufferToImage(ByteBuffer byteBuffer, WritableImage image) {
-        // Note: Would love to know if screen captures are ever written this way by any
-        // Glass robot implementation in OpenJFX.
-        throw new UnsupportedOperationException("writing from byte buffer is not supported");
-    }
-    
-    // scale
-    protected Rectangle2D scaleRect(Rectangle2D rect) { 
-        //no scaling at all for currently tested environments
-        return rect;
-    }
-
-    protected Point2D scaleInverseRect(Point2D pt) { 
-        //no scaling at all for currently tested environments
-        return pt;
-    }
+    protected abstract Image getScreenCapture(Rectangle2D region, boolean raw);
 
 }

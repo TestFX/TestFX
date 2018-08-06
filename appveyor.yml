@@ -14,7 +14,7 @@ environment:
     # Java 8 / AWT Robot / HiDPI
     - JAVA_VERSION: "8"
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      _JAVA_OPTIONS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
+      _JAVA_OPTIONS: "-Dglass.win.uiScale=200%"
 
     # Java 8 / Glass Robot / HiDPI (deadlock?)
     # - JAVA_VERSION: "8"
@@ -48,14 +48,33 @@ environment:
     # Java 10 / Headless (fails because of JDK-8201539)
     - JAVA_VERSION: "10"
       JAVA_HOME: C:\jdk10
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true -Dprism.debug=true"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+
+    # Java 10 / AWT Robot
+    - JAVA_VERSION: "11"
+      JAVA_HOME: C:\jdk11
+
+    # Java 11 / Glass Robot (deadlock?)
+    # - JAVA_VERSION: "11"
+    #  JAVA_HOME: C:\jdk11
+    #  _JAVA_OPTIONS: "-Dtestfx.robot=glass"
+
+    # Java 11 / AWT Robot / HiDPI
+    - JAVA_VERSION: "11"
+      JAVA_HOME: C:\jdk11
+      _JAVA_OPTIONS: "-Dglass.win.uiScale=200%"
+
+    # Java 11 / Headless (fails because of JDK-8201539)
+    - JAVA_VERSION: "11"
+      JAVA_HOME: C:\jdk11
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
 
 matrix:
   allow_failures:
-    - JAVA_VERSION: "8"
-      _JAVA_OPTIONS: "-Dprism.verbose=true -Dglass.win.uiScale=200%"
     - JAVA_VERSION: "10"
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true -Dprism.debug=true"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+    - JAVA_VERSION: "11"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
 
 shallow_clone: true
 
@@ -64,7 +83,16 @@ build:
 
 build_script:
   - ps: |
-      if ($env:JAVA_VERSION -eq "10") {
+      if ($env:JAVA_VERSION -eq "11") {
+        $client = New-Object net.webclient
+        $client.DownloadFile('http://jdk.java.net/11/', 'C:\Users\appveyor\openjdk11.html')
+        $openJdk11 = cat C:\Users\appveyor\openjdk11.html | where { $_ -match "href.*https://download.java.net.*jdk11.*windows-x64.*zip\`"" } | %{ $_ -replace "^.*https:", "https:" } | %{ $_ -replace ".zip\`".*$", ".zip" }
+        echo "Download boot JDK from: $openJdk11"
+        $client.DownloadFile($openJdk11, 'C:\Users\appveyor\openjdk11.zip')
+        Expand-Archive -Path 'C:\Users\appveyor\openjdk11.zip' -DestinationPath 'C:\Users\appveyor\openjdk11'
+        Copy-Item -Path 'C:\Users\appveyor\openjdk11\*\' -Destination 'C:\jdk11' -Recurse -Force
+      }
+      elseif ($env:JAVA_VERSION -eq "10") {
         choco install jdk10 --version 10.0.2 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
       }
       refreshenv
@@ -84,7 +112,9 @@ on_failure:
         $screenCapturesArchive = 'screen_captures.zip'
         Get-ChildItem -Include @("*.png") -Recurse | Where {$_.Name -match '.*testfx-test\ -\ \d+\.png'} | Copy-Item -Destination (New-Item -Type directory -Force $screenCaptures) -Force
         Compress-Archive -Path $($screenCaptures + '*') -DestinationPath $screenCapturesArchive -CompressionLevel Optimal
-        Push-AppveyorArtifact $screenCapturesArchive -Verbose
+        if (Test-Path $screenCapturesArchive) {
+          Push-AppveyorArtifact $screenCapturesArchive -Verbose
+        }
 
 on_finish:
   - ps: |

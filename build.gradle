@@ -25,18 +25,18 @@ buildscript {
 }
 
 plugins {
-    // id 'com.github.hierynomus.license' version '0.14.0'
+    id 'com.github.hierynomus.license' version '0.14.0'
     id 'com.jfrog.bintray' version '1.8.4'
     id 'com.github.ben-manes.versions' version '0.20.0'
     id 'com.github.kt3k.coveralls' version '2.8.2'
-    id 'com.github.spotbugs' version '1.6.2'
+    id 'com.github.spotbugs' version '1.6.3'
 }
 
 rootProject.with { project ->
-    task wrapper(type: Wrapper) {
-        gradleVersion = '4.7'
+    wrapper {
+        gradleVersion = '4.10.2'
         distributionUrl = "https://services.gradle.org/distributions/" +
-            "gradle-${gradleVersion}-all.zip"
+            "gradle-${gradleVersion}-bin.zip"
     }
 
     task versions {
@@ -45,7 +45,7 @@ rootProject.with { project ->
         doLast {
             println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
             println "JAVA_HOME:      ${System.env.JAVA_HOME}"
-            println "Java version:   ${System.env.JAVA_VERSION}"
+            println "Java version:   ${JavaVersion.current()}"
             println "Gradle version: ${gradle.gradleVersion}"
             println "Groovy version: ${GroovySystem.version}"
             println "Subprojects:    ${rootProject.childProjects.keySet()}"
@@ -56,12 +56,6 @@ rootProject.with { project ->
         def buildTimeAndDate = new Date()
         buildDate = buildTimeAndDate.format("yyyy-MM-dd")
         buildTime = buildTimeAndDate.format("HH:mm:ss.SSSZ")
-
-        if (JavaVersion.current().isJava9Compatible()) {
-            javaSourceCompat = JavaVersion.current().toString().substring(2) // Turns "1.x" in to "x"
-        } else {
-            javaSourceCompat = JavaVersion.current().toString()
-        }
 
         if (JavaVersion.current().isJava9Compatible()) {
             javadocLinks = [
@@ -92,9 +86,6 @@ allprojects { project ->
         if (project.hasProperty("useMavenLocal")) {
             mavenLocal()
         }
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
         jcenter()
     }
 }
@@ -102,12 +93,9 @@ allprojects { project ->
 subprojects { subproject ->
     apply plugin: 'osgi'
 
-    if (!JavaVersion.current().isJava10Compatible()) {
-      apply from: "${rootDir}/gradle/spotbugs.gradle"
-    }
+    apply from: "${rootDir}/gradle/spotbugs.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
-    // https://github.com/hierynomus/license-gradle-plugin/issues/157
-    // apply from: "${rootDir}/gradle/license.gradle"
+    apply from: "${rootDir}/gradle/license.gradle"
     apply from: "${rootDir}/gradle/publish-jar.gradle"
     apply from: "${rootDir}/gradle/publish-maven.gradle"
     apply from: "${rootDir}/gradle/publish-bintray.gradle"
@@ -138,8 +126,14 @@ subprojects { subproject ->
         javadocJar
     }
 
-    sourceCompatibility = javaSourceCompat
-    targetCompatibility = javaSourceCompat
+    // Gradle defaults to using the source/target compatbility of the
+    // JVM running gradle. This works for our use-case as long as we
+    // make sure to upload releases built on Java 8 to Maven Central.
+    if (JavaVersion.current().isJava11Compatible()) {
+        // Hold at 10 till https://github.com/gradle/gradle/issues/5120
+        sourceCompatibility = '10'
+        targetCompatibility = '10'
+    }
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
@@ -150,26 +144,17 @@ subprojects { subproject ->
     }
 
     test {
-        jacoco {
-            enabled = JavaVersion.current() <= JavaVersion.VERSION_1_9
-        }
         reports.html.enabled = false
         testLogging {
             // set options for log level LIFECYCLE
-            events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
-                TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT
+            events TestLogEvent.STARTED, TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED, TestLogEvent.FAILED,
+                TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
             showExceptions true
             exceptionFormat TestExceptionFormat.FULL
             showCauses true
             showStackTraces true
 
-            // set options for log level DEBUG and INFO
-            debug {
-                events TestLogEvent.STARTED, TestLogEvent.PASSED,
-                    TestLogEvent.SKIPPED, TestLogEvent.FAILED,
-                    TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
-            }
-            info.events = debug.events
             def travisTuple
             def failedTestSummary = "\n\nFAILED TESTS SUMMARY: \n\n"
             afterTest { desc, result ->

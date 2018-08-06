@@ -53,8 +53,6 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeThat;
@@ -109,36 +107,6 @@ public class AwtRobotAdapterTest {
     public void cleanup() {
         robotAdapter.keyRelease(KeyCode.A);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
-    }
-
-    @Test
-    public void robotCreate() {
-        // when:
-        robotAdapter.robotCreate();
-
-        // then:
-        assertThat(robotAdapter.getRobotInstance(), notNullValue());
-    }
-
-    @Test
-    public void robotDestroy_initialized_robot() {
-        // given:
-        robotAdapter.robotCreate();
-
-        // when:
-        robotAdapter.robotDestroy();
-
-        // then:
-        assertThat(robotAdapter.getRobotInstance(), nullValue());
-    }
-
-    @Test
-    public void robotDestroy_uninitialized_robot() {
-        // when:
-        robotAdapter.robotDestroy();
-
-        // then:
-        assertThat(robotAdapter.getRobotInstance(), nullValue());
     }
 
     @Test
