@@ -117,15 +117,15 @@ done
 
 newVersion="v$major.$minor.$patch-$classifier"
 echo "The next release of TestFX will be: $newVersion"
-echo "Bumping versions in README.md and gradle.properties..."
+echo "Bumping version in gradle.properties to ${newVersion:1}"
 sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
+echo "Replacing ${currentVersion:1} with ${newVersion:1} in README.md..."
 sed -i -e "s/${currentVersion:1}/${newVersion:1}/g" README.md
 echo "Generating changelog..."
 github_changelog_generator testfx/testfx --token "$githubApiKey" \
                            --output CHANGES.md --no-issues \
                            --future-release "$newVersion"
-git add .
-git commit -m "(release) TestFX $newVersion"
+git commit -am "(release) TestFX $newVersion"
 upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
 if [[ -z "$upstream" ]]; then
   echo "Could not find a git remote for the upstream TestFX repository."

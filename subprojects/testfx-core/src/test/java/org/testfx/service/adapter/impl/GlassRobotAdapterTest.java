@@ -37,6 +37,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import org.junit.After;
@@ -55,8 +56,6 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assume.assumeThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -84,7 +83,7 @@ public class GlassRobotAdapterTest {
 
     @Before
     public void setup() throws Exception {
-        robotAdapter = new GlassRobotAdapter();
+        robotAdapter = GlassRobotAdapter.createGlassRobot();
         targetStage = FxToolkit.setupStage(stage -> {
             region = new Region();
             region.setStyle("-fx-background-color: magenta;");
@@ -108,36 +107,6 @@ public class GlassRobotAdapterTest {
     public void cleanup() {
         robotAdapter.keyRelease(KeyCode.A);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
-    }
-
-    @Test
-    public void robotCreate() {
-        // when:
-        robotAdapter.robotCreate();
-
-        // then:
-        assertThat(robotAdapter.getRobotInstance(), notNullValue());
-    }
-
-    @Test
-    public void robotDestroy_initialized_robot() {
-        // given:
-        robotAdapter.robotCreate();
-
-        // when:
-        robotAdapter.robotDestroy();
-
-        // then:
-        assertThat(robotAdapter.getRobotInstance(), nullValue());
-    }
-
-    @Test
-    public void robotDestroy_uninitialized_robot() {
-        // when:
-        robotAdapter.robotDestroy();
-
-        // then:
-        assertThat(robotAdapter.getRobotInstance(), nullValue());
     }
 
     @Test
@@ -263,6 +232,8 @@ public class GlassRobotAdapterTest {
 
         // when:
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(region);
+        System.out.println("getCaptureRegion, primary screen width = " + Screen.getPrimary().getBounds().getWidth() +
+                ", height = " + Screen.getPrimary().getBounds().getHeight());
         Image regionImage = robotAdapter.getCaptureRegion(new Rectangle2D(bounds.getMinX(), bounds.getMinY(),
                 bounds.getWidth(), bounds.getHeight()));
 

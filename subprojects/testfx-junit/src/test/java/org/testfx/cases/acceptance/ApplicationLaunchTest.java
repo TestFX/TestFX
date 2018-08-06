@@ -16,6 +16,8 @@
  */
 package org.testfx.cases.acceptance;
 
+import java.util.concurrent.TimeoutException;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -60,11 +62,11 @@ public class ApplicationLaunchTest extends FxRobot {
     }
 
     @After
-    public void cleanup() throws Exception {
+    public void cleanup() throws TimeoutException {
         FxToolkit.cleanupStages();
     }
 
-    @Test
+    @Test(timeout = 3000)
     public void should_contain_button() {
         // expect:
         assertThat(lookup(".button").queryButton()).hasText("click me!");
@@ -72,7 +74,7 @@ public class ApplicationLaunchTest extends FxRobot {
         verifyThat(".button", hasText("click me!"), informedErrorMessage(this));
     }
 
-    @Test
+    @Test(timeout = 3000)
     public void should_click_on_button() {
         // when:
         clickOn(".button");

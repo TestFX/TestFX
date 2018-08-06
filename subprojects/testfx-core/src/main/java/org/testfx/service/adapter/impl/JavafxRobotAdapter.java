@@ -77,11 +77,6 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
     }
 
     @Override
-    public JavafxRobotAdapter getRobotInstance() {
-        return null;
-    }
-
-    @Override
     public void keyPress(KeyCode key) {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
                 KeyEvent.KEY_PRESSED, key, "")));

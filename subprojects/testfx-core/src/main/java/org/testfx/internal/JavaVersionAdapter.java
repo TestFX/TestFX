@@ -253,6 +253,10 @@ public final class JavaVersionAdapter {
             return this.compareTo(VERSION_1_9) >= 0;
         }
 
+        public boolean isJava11Compatible() {
+            return this.compareTo(VERSION_11) >= 0;
+        }
+
         @Override
         public String toString() {
             return versionName;

@@ -3,9 +3,9 @@ set -uo pipefail
 
 ulimit -c unlimited -S
 
-./gradlew versions build jacocoRootReport coveralls --stacktrace --debug
+./gradlew versions build jacocoRootReport coveralls --stacktrace
 
-# Print core dumps when JVM crashes.
+# Print core dumps if JVM crashes.
 RESULT=$?
 if [[ ${RESULT} -ne 0 ]]; then
   JVMCRASH="$(find . -name "hs_err_pid*.log" -type f -print | head -n 1)"

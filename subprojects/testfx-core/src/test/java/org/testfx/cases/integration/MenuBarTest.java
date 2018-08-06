@@ -16,6 +16,7 @@
  */
 package org.testfx.cases.integration;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +44,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
@@ -103,6 +105,8 @@ public class MenuBarTest {
      */
     @Test
     public void should_move_vertically_first() throws Exception {
+        assumeFalse("skipping: Fails on HIDPI + AWT Robot", isHiDpiAwt());
+
         // First we show that it is indeed the case that {@code editMenu} is triggered when moving directly:
         editMenu.setOnShown(event -> editMenuShownLatch.countDown());
         fxRobot.clickOn("#fileMenu");
@@ -119,5 +123,10 @@ public class MenuBarTest {
                 informedErrorMessage(fxRobot));
         fxRobot.clickOn("#newItem");
         verifyThat(newMenuShownLatch.await(3, TimeUnit.SECONDS), is(true), informedErrorMessage(fxRobot));
+    }
+
+    private static boolean isHiDpiAwt() {
+        return System.getProperty("glass.win.uiScale", "100%").equals("200%") &&
+                System.getProperty("testfx.robot", "awt").toLowerCase(Locale.US).equals("awt");
     }
 }

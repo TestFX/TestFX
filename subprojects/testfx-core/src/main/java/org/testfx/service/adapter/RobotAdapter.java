@@ -27,15 +27,15 @@ import javafx.scene.paint.Color;
  * The common interface for all RobotAdapters.<br>
  * These are the minimum set of functions required from a robot to provide the
  * full functionality use in the higher level api.
- * 
+ *
  * <h2>Threading</h2>
  * The caller of the Adapter usually doesn't run on the FX-Application Thread.
- * If required, the implementation of this class will schedule the actions on the 
+ * If required, the implementation of this class will schedule the actions on the
  * FX-Application Thread.
  *
- * @param <T> the type of the implementing robot class
  */
 public interface RobotAdapter<T> {
+
     /**
      * Creates a robot.
      */
@@ -47,16 +47,9 @@ public interface RobotAdapter<T> {
     void robotDestroy();
 
     /**
-     * Gets a instance of this Robot
-     * 
-     * @return a instance of this robot
-     */
-    T getRobotInstance();
-
-    /**
      * Function used to make the robot press a key. The key must be a physical
      * existing key on the keyboard.
-     * 
+     *
      * @param key the key to press (must exist on a keyboard)
      */
     void keyPress(KeyCode key);
@@ -64,35 +57,35 @@ public interface RobotAdapter<T> {
     /**
      * Function used to make the robot release a key. The key must be a physical
      * existing key on the keyboard.
-     * 
+     *
      * @param key the key to press (must exist on a keyboard)
      */
     void keyRelease(KeyCode key);
 
     /**
      * Returns the current position of the cursor in JavaFx coordinates
-     * 
+     *
      * @return the current position of the mouse cursor
      */
     Point2D getMouseLocation();
 
     /**
      * Moves the mouse cursor to the given position in JavaFx coordinates
-     * 
+     *
      * @param location the location in JavaFx coordinates to move the cursor to
      */
     void mouseMove(Point2D location);
 
     /**
      * Makes the robot press a mouse button.
-     * 
+     *
      * @param button the button to press
      */
     void mousePress(MouseButton button);
 
     /**
      * Makes the robot release a mouse button.
-     * 
+     *
      * @param button the button to release
      */
     void mouseRelease(MouseButton button);
@@ -101,7 +94,7 @@ public interface RobotAdapter<T> {
      * Makes the robot to simulate a action of the mouse wheel.<br>
      * Negative values indicate movement up/away from the user, positive values
      * indicate movement down/towards the user.
-     * 
+     *
      * @param wheelAmount the amount to scroll
      */
     void mouseWheel(int wheelAmount);
@@ -110,7 +103,7 @@ public interface RobotAdapter<T> {
      * Gets the color of a pixel at the given JavaFx coordinates. The returned Color
      * is in the JavaFx color space. //TODO Due to technical reasons, there might be
      * a deviation in color.
-     * 
+     *
      * @param location of the pixel in JavaFx coordinates, to retrieve the color for
      * @return the Color of the given Pixel in the JavaFx color space
      */
@@ -119,7 +112,7 @@ public interface RobotAdapter<T> {
     /**
      * Captures a region of the screen. The returned Image is in the JavaFx color
      * space. //TODO Due to technical reasons, there might be a deviation.
-     * 
+     *
      * @param region the region to capture in JavaFx coordinates
      * @return a image of the region
      */
