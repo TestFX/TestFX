@@ -118,7 +118,8 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Image getCaptureRegion(Rectangle2D region) {
-        final Rectangle2D scaled = scaleRect(new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
+        final Rectangle2D scaled = scaleRect(
+                new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             Pixels glassPixels = useRobot().getScreenCapture(
                     (int) scaled.getMinX(), (int) scaled.getMinY(),
@@ -129,7 +130,8 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     }
     
     public Image getCaptureRegionRaw(Rectangle2D region) {
-        final Rectangle2D scaled = scaleRect(new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
+        final Rectangle2D scaled = scaleRect(
+                new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             Pixels glassPixels = useRobot().getScreenCapture(
                     (int) scaled.getMinX(), (int) scaled.getMinY(),
