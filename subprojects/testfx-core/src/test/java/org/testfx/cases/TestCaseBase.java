@@ -18,19 +18,26 @@ package org.testfx.cases;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
 public abstract class TestCaseBase extends FxRobot {
 
-    @BeforeClass
-    public static void baseSetupSpec() throws Exception {
+    protected Stage blockStage;
+    
+    @Before
+    public void baseSetupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
 
         // Provide some background component for the basic test, that can fetch
@@ -52,5 +59,20 @@ public abstract class TestCaseBase extends FxRobot {
             stage.show();
         });
     }
+    
+    @After
+    public final void tearDown() throws Throwable {
+        if (blockStage != null) {
+            interact(() -> blockStage.close());
+        }
+        // release all keys
+        release(new KeyCode[0]);
+        // release all mouse buttons
+        release(new MouseButton[0]);
+        FxToolkit.cleanupStages();
+        WaitForAsyncUtils.checkException();
+    }
 
+    
+    
 }

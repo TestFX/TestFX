@@ -30,7 +30,10 @@ import javafx.scene.paint.Color;
 import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
+
 import org.testfx.internal.JavaVersionAdapter;
+import org.testfx.internal.PlatformAdapter;
+import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
@@ -78,14 +81,25 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Point2D getMouseLocation() {
+        // note the current (10.0.2) behavior below is quite inconsistent (no scaling on
+        // set, but scaling on read) this might change in the future
+        // please keep backwards compatibility to the last version with this behavior in
+        // this case
+        if (PlatformAdapter.getOs() == OS.unix &&
+                Integer.parseInt(JavaVersionAdapter.currentVersion().getMajorVersion()) > 8) {
+            return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
+                () -> new Point2D(useRobot().getMouseX() / JavaVersionAdapter.getScreenScaleX(),
+                useRobot().getMouseY() / JavaVersionAdapter.getScreenScaleY()));
+        }
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
-            () -> new Point2D(useRobot().getMouseX(), useRobot().getMouseY()));
+            () -> scaleInverseRect(new Point2D(useRobot().getMouseX(), useRobot().getMouseY())));
     }
 
     @Override
     public void mouseMove(Point2D location) {
-        asyncFx(() -> useRobot().mouseMove((int) (location.getX() / JavaVersionAdapter.getScreenScaleX()),
-                (int) (location.getY() / JavaVersionAdapter.getScreenScaleY())));
+        final Rectangle2D scaled = scaleRect(new Rectangle2D(location.getX(), location.getY(), 0, 0));
+        asyncFx(() -> useRobot().mouseMove((int) (scaled.getMinX()),
+                (int) (scaled.getMinY())));
     }
 
     @Override
@@ -104,23 +118,37 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     }
 
     @Override
-    public Color getCapturePixelColor(Point2D location) {
+    public Color getCapturePixelColor(Point2D location) { 
+        final Rectangle2D scaled = scaleRect(new Rectangle2D(location.getX(), location.getY(), 0, 0));
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             int glassColor = useRobot().getPixelColor(
-                    (int) (location.getX() / JavaVersionAdapter.getScreenScaleX()),
-                    (int) (location.getY() / JavaVersionAdapter.getScreenScaleY()));
+                    (int) (scaled.getMinX()),
+                    (int) (scaled.getMinY()));
             return convertFromGlassColor(glassColor);
         });
     }
 
     @Override
     public Image getCaptureRegion(Rectangle2D region) {
+        final Rectangle2D scaled = scaleRect(
+                new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
             Pixels glassPixels = useRobot().getScreenCapture(
-                    (int) region.getMinX(), (int) region.getMinY(),
-                    (int) region.getWidth(), (int) region.getHeight(),
-                    Math.abs(JavaVersionAdapter.getScreenScaleX() - 1) <= 0.001 ||
-                            Math.abs(JavaVersionAdapter.getScreenScaleY() - 1) <= 0.001);
+                    (int) scaled.getMinX(), (int) scaled.getMinY(),
+                    (int) scaled.getWidth(), (int) scaled.getHeight(),
+                    false);
+            return convertFromGlassPixels(glassPixels);
+        });
+    }
+    
+    public Image getCaptureRegionRaw(Rectangle2D region) {
+        final Rectangle2D scaled = scaleRect(
+                new Rectangle2D(region.getMinX(), region.getMinY(), region.getWidth(), region.getHeight()));
+        return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
+            Pixels glassPixels = useRobot().getScreenCapture(
+                    (int) scaled.getMinX(), (int) scaled.getMinY(),
+                    (int) scaled.getWidth(), (int) scaled.getHeight(),
+                    true);
             return convertFromGlassPixels(glassPixels);
         });
     }
@@ -184,6 +212,17 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
         // Note: Would love to know if screen captures are ever written this way by any
         // Glass robot implementation in OpenJFX.
         throw new UnsupportedOperationException("writing from byte buffer is not supported");
+    }
+    
+    // scale
+    protected Rectangle2D scaleRect(Rectangle2D rect) { 
+        //no scaling at all for currently tested environments
+        return rect;
+    }
+
+    protected Point2D scaleInverseRect(Point2D pt) { 
+        //no scaling at all for currently tested environments
+        return pt;
     }
 
 }

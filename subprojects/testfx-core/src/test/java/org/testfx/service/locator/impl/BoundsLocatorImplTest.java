@@ -47,7 +47,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
-import static org.testfx.util.BoundsQueryUtils.scale;
 
 /**
  * Tests that {@link BoundsLocator} correctly computes the scene, window,
@@ -252,10 +251,10 @@ public class BoundsLocatorImplTest {
         Bounds actual = boundsLocator.boundsOnScreenFor(nodeInsideOfScene.getLayoutBounds(), primaryScene);
 
         // then:
-        assertThat(actual, equalTo(scaleIfNecessary(new BoundingBox(
+        assertThat(actual, equalTo(new BoundingBox(
                 WINDOW_TRANSLATE_X + INSIDE_SCENE_X + windowInsets.getLeft(),
                 WINDOW_TRANSLATE_Y + INSIDE_SCENE_Y + windowInsets.getTop(),
-                INSIDE_SCENE_WIDTH, INSIDE_SCENE_HEIGHT))));
+                INSIDE_SCENE_WIDTH, INSIDE_SCENE_HEIGHT)));
     }
 
     @Test
@@ -264,11 +263,11 @@ public class BoundsLocatorImplTest {
         Bounds actual = boundsLocator.boundsOnScreenFor(nodePartiallyOutsideOfScene.getLayoutBounds(), primaryScene);
 
         // then:
-        assertThat(actual, equalTo(scaleIfNecessary(new BoundingBox(
+        assertThat(actual, equalTo(new BoundingBox(
                 WINDOW_TRANSLATE_X + partialOutsideSceneX + windowInsets.getLeft(),
                 WINDOW_TRANSLATE_Y + partialOutsideSceneY + windowInsets.getTop(),
                 (partialOutsideSceneX + PARTIAL_OUTSIDE_SCENE_WIDTH) - sceneWidth,
-                (partialOutsideSceneY + PARTIAL_OUTSIDE_SCENE_HEIGHT) - sceneHeight))));
+                (partialOutsideSceneY + PARTIAL_OUTSIDE_SCENE_HEIGHT) - sceneHeight)));
     }
 
     @Test
@@ -285,16 +284,5 @@ public class BoundsLocatorImplTest {
         return new Insets(top, right, bottom, left);
     }
 
-    private static Bounds scaleIfNecessary(Bounds bounds) {
-        if (System.getProperty("testfx.robot", "awt").equalsIgnoreCase("glass")) {
-            return scale(bounds);
-        } else {
-            if ((JavaVersionAdapter.getScreenScaleX() != 1 || JavaVersionAdapter.getScreenScaleY() != 1) ||
-                    System.getProperty("os.name").toLowerCase(Locale.US).contains("nux")) {
-                return scale(bounds);
-            }
-        }
-        return bounds;
-    }
 
 }

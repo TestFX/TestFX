@@ -196,6 +196,8 @@ public class GlassRobotAdapterTest {
 
         // when:
         WaitForAsyncUtils.waitForFxEvents();
+        // note: if this test fails in the future on HDPI Unix with Java > 10 see
+        // comment in GlassRobotAdapter.getMouseLocation()
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:

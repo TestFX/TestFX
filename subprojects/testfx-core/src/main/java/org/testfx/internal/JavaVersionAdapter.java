@@ -181,7 +181,7 @@ public final class JavaVersionAdapter {
      * See the License for the specific language governing permissions and
      * limitations under the License.
      */
-    private static JavaVersion currentVersion() {
+    public static JavaVersion currentVersion() {
         if (currentJavaVersion == null) {
             currentJavaVersion = toVersion(System.getProperty("java.version"));
         }
@@ -228,7 +228,7 @@ public final class JavaVersionAdapter {
      * Before 9: http://www.oracle.com/technetwork/java/javase/versioning-naming-139433.html
      * 9+: http://openjdk.java.net/jeps/223
      */
-    private enum JavaVersion {
+    public enum JavaVersion {
         VERSION_1_1, VERSION_1_2, VERSION_1_3, VERSION_1_4,
         VERSION_1_5, VERSION_1_6, VERSION_1_7, VERSION_1_8,
         VERSION_1_9, VERSION_1_10, VERSION_11, VERSION_HIGHER;

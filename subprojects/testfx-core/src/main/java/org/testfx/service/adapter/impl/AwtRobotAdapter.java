@@ -24,6 +24,8 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -34,6 +36,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
+import org.testfx.internal.JavaVersionAdapter;
+import org.testfx.internal.PlatformAdapter;
+import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
@@ -80,12 +85,13 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     @Override
     public Point2D getMouseLocation() {
         Point awtPoint = MouseInfo.getPointerInfo().getLocation();
-        return new Point2D(awtPoint.getX(), awtPoint.getY());
+        return scaleInverseRect(new Point2D(awtPoint.getX(), awtPoint.getY()));
     }
 
     @Override
     public void mouseMove(Point2D location) {
-        useRobot().mouseMove((int) location.getX(), (int) location.getY());
+        final Rectangle2D scaled = scaleRect(new Rectangle2D(location.getX(), location.getY(), 0, 0));
+        useRobot().mouseMove((int) scaled.getMinX(), (int) scaled.getMinY());
     }
 
     @Override
@@ -105,16 +111,44 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Color getCapturePixelColor(Point2D location) {
-        Rectangle2D region = new Rectangle2D(location.getX(), location.getY(), 1, 1);
+        //captureRegion does scaling already
+        final Rectangle2D region = new Rectangle2D(location.getX(), location.getY(), 2, 2);
         Image image = getCaptureRegion(region);
         return image.getPixelReader().getColor(0, 0);
     }
 
     @Override
-    public Image getCaptureRegion(Rectangle2D region) {
+    public Image getCaptureRegion(Rectangle2D region) { 
+        final Rectangle2D scaled = scaleRect(region);
         Rectangle awtRectangle = new Rectangle(
-                (int) region.getMinX(), (int) region.getMinY(),
-                (int) region.getWidth(), (int) region.getHeight());
+                (int) scaled.getMinX(), (int) scaled.getMinY(),
+                (int) scaled.getWidth(), (int) scaled.getHeight());
+        
+        BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
+        BufferedImage out;
+        if (scaleRequired()) {
+            double scaleX = region.getWidth() / scaled.getWidth();
+            double scaleY = region.getHeight() / scaled.getHeight();
+            int w = (int)(awtBufferedImage.getWidth() * scaleX);
+            int h = (int)(awtBufferedImage.getHeight() * scaleY);
+            out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            AffineTransform at = new AffineTransform();
+            at.scale(scaleX, scaleY);
+            AffineTransformOp scaleOp = 
+                new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+            out = scaleOp.filter(awtBufferedImage, out);
+        } else {
+            out = awtBufferedImage;
+        }
+        return SwingFXUtils.toFXImage(out, null);
+    }
+    
+
+    public Image getCaptureRegionRaw(Rectangle2D region) {
+        final Rectangle2D scaled = scaleRect(region);
+        Rectangle awtRectangle = new Rectangle(
+                (int) scaled.getMinX(), (int) scaled.getMinY(),
+                (int) scaled.getWidth(), (int) scaled.getHeight());
         BufferedImage awtBufferedImage = useRobot().createScreenCapture(awtRectangle);
         return SwingFXUtils.toFXImage(awtBufferedImage, null);
     }
@@ -143,5 +177,36 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
             default: throw new IllegalArgumentException("MouseButton: " + button + " not supported by awt robot");
         }
     }
+    
+    
+
+    // scale
+    protected Rectangle2D scaleRect(Rectangle2D rect) {
+        if (!scaleRequired()) {
+            return rect;
+        }
+        double factorX = JavaVersionAdapter.getScreenScaleX();
+        double factorY = JavaVersionAdapter.getScreenScaleY();
+        return new Rectangle2D(rect.getMinX() * factorX, rect.getMinY() * factorY, rect.getWidth() * factorX,
+                rect.getHeight() * factorY);
+    }
+
+    protected Point2D scaleInverseRect(Point2D pt) {
+        if (!scaleRequired()) {
+            return pt;
+        }
+        double factorX = JavaVersionAdapter.getScreenScaleX();
+        double factorY = JavaVersionAdapter.getScreenScaleY();
+        return new Point2D(pt.getX() / factorX, pt.getY() / factorY);
+    }
+    
+    protected boolean scaleRequired() {
+        // MacOS Awt is not covered by the build server.
+        // Do not remove, if not testing on a headed mac with java 10 or above.
+        return PlatformAdapter.getOs() != OS.mac &&
+            // just prevent unnecessary transforms...
+            JavaVersionAdapter.getScreenScaleX() != 1.0 && JavaVersionAdapter.getScreenScaleY() != 1.0;
+    }
+    
 
 }
