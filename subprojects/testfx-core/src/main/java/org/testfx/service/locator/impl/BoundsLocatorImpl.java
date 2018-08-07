@@ -16,19 +16,14 @@
  */
 package org.testfx.service.locator.impl;
 
-import java.util.Locale;
-
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
-
-import static org.testfx.util.BoundsQueryUtils.scale;
 
 public class BoundsLocatorImpl implements BoundsLocator {
 
@@ -75,17 +70,7 @@ public class BoundsLocatorImpl implements BoundsLocator {
     public Bounds boundsOnScreenFor(Bounds boundsInScene, Scene scene) {
         Bounds windowBounds = boundsInWindowFor(boundsInScene, scene);
         Window window = scene.getWindow();
-        if (System.getProperty("testfx.robot", "awt").equalsIgnoreCase("glass")) {
-            return scale(translateBounds(windowBounds, window.getX(), window.getY()));
-        } else {
-            if (JavaVersionAdapter.getScreenScaleX() != 1 || JavaVersionAdapter.getScreenScaleY() != 1) {
-                if (System.getProperty("os.name").toLowerCase(Locale.US).contains("nux") ||
-                        System.getProperty("os.name").toLowerCase(Locale.US).startsWith("win")) {
-                    return scale(translateBounds(windowBounds, window.getX(), window.getY()));
-                }
-            }
-            return translateBounds(windowBounds, window.getX(), window.getY());
-        }
+        return translateBounds(windowBounds, window.getX(), window.getY());
     }
 
     private Bounds limitToVisibleBounds(Bounds boundsInScene, Scene scene) {

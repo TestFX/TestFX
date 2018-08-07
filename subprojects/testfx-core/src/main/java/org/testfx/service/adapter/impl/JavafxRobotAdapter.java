@@ -81,11 +81,13 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
         return null;
     }
 
+    @Override
     public void keyPress(KeyCode key) {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
                 KeyEvent.KEY_PRESSED, key, "")));
     }
 
+    @Override
     public void keyRelease(KeyCode key) {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createKeyEvent(
                 KeyEvent.KEY_RELEASED, key, "")));
@@ -97,10 +99,12 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
                 KeyEvent.KEY_TYPED, key, character)));
     }
 
+    @Override
     public Point2D getMouseLocation() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void mouseMove(Point2D location) {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createMouseEvent(MouseEvent.MOUSE_MOVED,
                 (int) location.getX(), (int) location.getY(), lastButtonPressed, 0)));
@@ -124,10 +128,12 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
                 sceneMouseX, sceneMouseY, button, clickCount)));
     }
 
+    @Override
     public void mousePress(MouseButton button) {
         mousePress(button, 1);
     }
 
+    @Override
     public void mouseRelease(MouseButton button) {
         mouseRelease(button, 1);
     }
@@ -141,10 +147,12 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
                 sceneMouseX, sceneMouseY, button, 0)));
     }
 
+    @Override
     public void mouseWheel(int wheelAmount) {
         asyncFx(() -> Event.fireEvent(getEventTarget(scene), createScrollEvent(wheelAmount)));
     }
 
+    @Override
     public Color getCapturePixelColor(Point2D location) {
         if (!Platform.isFxApplicationThread()) {
             throw new RuntimeException("JavafxRobotAdapter#getCapturePixelColor(..) must be called on JavaFX " +
@@ -154,6 +162,7 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
         return snapshot.getPixelReader().getColor((int) location.getX(), (int) location.getY());
     }
 
+    @Override
     public Image getCaptureRegion(Rectangle2D region) {
         if (!Platform.isFxApplicationThread()) {
             throw new RuntimeException("JavafxRobotAdapter#getCaptureRegion(..) must be called on JavaFX " +
