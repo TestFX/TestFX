@@ -27,12 +27,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.cases.TestCaseBase;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
@@ -44,7 +43,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 
-public class NodeMatchersTest extends FxRobot {
+public class NodeMatchersTest extends TestCaseBase {
 
     @Rule
     public TestRule rule = new TestFXRule();
@@ -52,10 +51,6 @@ public class NodeMatchersTest extends FxRobot {
     TextField textField;
     TextField textField2;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
 
     @Test
     public void anything() throws Exception {
@@ -84,6 +79,7 @@ public class NodeMatchersTest extends FxRobot {
 
 
         // then:
+        textField.isFocused();
         assertThat(textField, NodeMatchers.isFocused());
     }
 
