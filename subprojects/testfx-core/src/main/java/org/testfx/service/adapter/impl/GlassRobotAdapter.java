@@ -204,7 +204,8 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     
     // scale
     protected Rectangle2D scaleRect(Rectangle2D rect) {
-        if (PlatformAdapter.getOs() == PlatformAdapter.OS.mac) {
+        if (PlatformAdapter.getOs() == PlatformAdapter.OS.mac ||
+                PlatformAdapter.getOs() == PlatformAdapter.OS.windows) {
             return rect;
         }
         double factorX = JavaVersionAdapter.getScreenScaleX();
@@ -214,7 +215,8 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     }
 
     protected Point2D scaleInverseRect(Point2D pt) {
-        if (PlatformAdapter.getOs() == PlatformAdapter.OS.mac) {
+        if (PlatformAdapter.getOs() == PlatformAdapter.OS.mac ||
+                PlatformAdapter.getOs() == PlatformAdapter.OS.windows) {
             return pt;
         }
         double factorX = JavaVersionAdapter.getScreenScaleX();
