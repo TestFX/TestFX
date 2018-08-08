@@ -66,6 +66,8 @@ public class HDPIContractTest extends FxRobot {
     GlassRobotAdapter glassAdapter;
     
     private long waitBetween = 200;
+    
+    private final boolean verbose = true;
 
     @Before
     public void setupHDPI() throws Exception {
@@ -103,8 +105,8 @@ public class HDPIContractTest extends FxRobot {
             this.stage.show();
         });
         initRobots();
-        System.out.println("JavaVersion: " + System.getProperty("java.version"));
-        System.out.println("Java scaling x=" + JavaVersionAdapter.getScreenScaleX() + 
+        log("JavaVersion: " + System.getProperty("java.version"));
+        log("Java scaling x=" + JavaVersionAdapter.getScreenScaleX() + 
                 "Java scaling y=" + JavaVersionAdapter.getScreenScaleY());
     }
     
@@ -120,13 +122,13 @@ public class HDPIContractTest extends FxRobot {
             awtAdapter = new AwtRobotAdapter();
         } 
         catch (Exception e) {
-            System.out.println("AwtRobotAdapter seems to be not supported on this Platform");
+            log("AwtRobotAdapter seems to be not supported on this Platform");
         }
         try {
             glassAdapter = new GlassRobotAdapter();
         } 
         catch (Exception e) {
-            System.out.println("GlassRobotAdapter seems to be not supported on this Platform");
+            log("GlassRobotAdapter seems to be not supported on this Platform");
         }
     }
 
@@ -137,9 +139,11 @@ public class HDPIContractTest extends FxRobot {
     public void mouseLocationAdapterTest(RobotAdapter<?> adapter) {
         Point2D testPt = new Point2D(100, 100);
         adapter.mouseMove(testPt);
-        sleep(waitBetween); //ensure there are no timing issues
+        sleep(waitBetween); // ensure there are no timing issues
+        // note: if this test fails in the future on HDPI Unix with Java > 10 see
+        // comment in GlassRobotAdapter.getMouseLocation()
         Point2D readPt = adapter.getMouseLocation();
-        System.out.println("TestMouse for " + adapter.getClass().getSimpleName() + " is " + readPt);
+        log("TestMouse for " + adapter.getClass().getSimpleName() + " is " + readPt);
         assertThat("Move and read back failed for " + adapter.getClass().getSimpleName(), readPt, equalTo(testPt));
     }
 
@@ -149,7 +153,7 @@ public class HDPIContractTest extends FxRobot {
             mouseLocationAdapterTest(awtAdapter);
         } 
         catch (Exception e) {
-            System.out.println(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -159,7 +163,7 @@ public class HDPIContractTest extends FxRobot {
             mouseLocationAdapterTest(glassAdapter);
         } 
         catch (Exception e) {
-            System.out.println(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -174,12 +178,12 @@ public class HDPIContractTest extends FxRobot {
             stage.setX(0);
             stage.setY(0);
         });
-        sleep(1000); // TODO#608 just for debugging sleep really long...
+        sleep(1000);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
         Bounds bounds = locator.boundsOnScreenFor(root);
-        System.out.println("Top left window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
+        log("Top left window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
 
         // checking correct bounds
         // interesting feature on mac: 
@@ -214,7 +218,7 @@ public class HDPIContractTest extends FxRobot {
             adapter.mouseRelease(MouseButton.PRIMARY);
             WaitForAsyncUtils.waitForFxEvents();
             sleep(waitBetween); //ensure there are no timing issues
-            System.out.println("TopLeft Click " + adapter.getClass().getSimpleName() + ": " +
+            log("TopLeft Click " + adapter.getClass().getSimpleName() + ": " +
                     Mockito.mockingDetails(topLeftEvent).getInvocations().size());
     
             adapter.mouseMove(new Point2D(bounds.getMaxX() - 2.5, bounds.getMinY() + 2.5));
@@ -226,7 +230,7 @@ public class HDPIContractTest extends FxRobot {
             adapter.mouseRelease(MouseButton.PRIMARY);
             WaitForAsyncUtils.waitForFxEvents();
             sleep(waitBetween); //ensure there are no timing issues
-            System.out.println("TopRight Click " + adapter.getClass().getSimpleName() + ": " +
+            log("TopRight Click " + adapter.getClass().getSimpleName() + ": " +
                     Mockito.mockingDetails(topRightEvent).getInvocations().size());
         }
 
@@ -239,7 +243,7 @@ public class HDPIContractTest extends FxRobot {
         adapter.mouseRelease(MouseButton.PRIMARY);
         WaitForAsyncUtils.waitForFxEvents();
         sleep(waitBetween); //ensure there are no timing issues
-        System.out.println("BottomLeft Click " + adapter.getClass().getSimpleName() + ": " +
+        log("BottomLeft Click " + adapter.getClass().getSimpleName() + ": " +
                 Mockito.mockingDetails(bottomLeftEvent).getInvocations().size());
 
         adapter.mouseMove(new Point2D(bounds.getMaxX() - 2.5, bounds.getMaxY() - 2.5));
@@ -251,7 +255,7 @@ public class HDPIContractTest extends FxRobot {
         adapter.mouseRelease(MouseButton.PRIMARY);
         WaitForAsyncUtils.waitForFxEvents();
         sleep(waitBetween); //ensure there are no timing issues
-        System.out.println("BottomRight Click " + adapter.getClass().getSimpleName() + ": " +
+        log("BottomRight Click " + adapter.getClass().getSimpleName() + ": " +
                 Mockito.mockingDetails(bottomRightEvent).getInvocations().size());
 
         // checking mouse has hit
@@ -269,7 +273,7 @@ public class HDPIContractTest extends FxRobot {
             nullOffsetAdapterTest(awtAdapter);
         } 
         catch (Exception e) {
-            System.out.println(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -279,7 +283,7 @@ public class HDPIContractTest extends FxRobot {
             nullOffsetAdapterTest(glassAdapter);
         } 
         catch (Exception e) {
-            System.out.println(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -292,12 +296,12 @@ public class HDPIContractTest extends FxRobot {
      * to the translation of the window.
      */
     public void defaultOffsetAdapterTest(RobotAdapter<?> adapter) {
-        sleep(1000); // TODO#608 just for debugging sleep really long...
+        sleep(1000);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
         Bounds bounds = locator.boundsOnScreenFor(root);
-        System.out.println("Default window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
+        log("Default window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
 
         // checking correct bounds (x,y) is unknown...
         assertThat("Width doesn't match", bounds.getWidth(), equalTo(100.0));
@@ -322,7 +326,7 @@ public class HDPIContractTest extends FxRobot {
         adapter.mouseRelease(MouseButton.PRIMARY);
         WaitForAsyncUtils.waitForFxEvents();
         sleep(waitBetween); //ensure there are no timing issues
-        System.out.println("TopLeft Click " + adapter.getClass().getSimpleName() + ": " +
+        log("TopLeft Click " + adapter.getClass().getSimpleName() + ": " +
                 Mockito.mockingDetails(topLeftEvent).getInvocations().size());
 
         adapter.mouseMove(new Point2D(bounds.getMaxX() - 2.5, bounds.getMinY() + 2.5));
@@ -334,7 +338,7 @@ public class HDPIContractTest extends FxRobot {
         adapter.mouseRelease(MouseButton.PRIMARY);
         WaitForAsyncUtils.waitForFxEvents();
         sleep(waitBetween); //ensure there are no timing issues
-        System.out.println("TopRight Click " + adapter.getClass().getSimpleName() + ": " +
+        log("TopRight Click " + adapter.getClass().getSimpleName() + ": " +
                 Mockito.mockingDetails(topRightEvent).getInvocations().size());
 
         adapter.mouseMove(new Point2D(bounds.getMinX() + 2.5, bounds.getMaxY() - 2.5));
@@ -346,7 +350,7 @@ public class HDPIContractTest extends FxRobot {
         adapter.mouseRelease(MouseButton.PRIMARY);
         WaitForAsyncUtils.waitForFxEvents();
         sleep(waitBetween); //ensure there are no timing issues
-        System.out.println("BottomLeft Click " + adapter.getClass().getSimpleName() + ": " +
+        log("BottomLeft Click " + adapter.getClass().getSimpleName() + ": " +
                 Mockito.mockingDetails(bottomLeftEvent).getInvocations().size());
 
         adapter.mouseMove(new Point2D(bounds.getMaxX() - 2.5, bounds.getMaxY() - 2.5));
@@ -358,7 +362,7 @@ public class HDPIContractTest extends FxRobot {
         adapter.mouseRelease(MouseButton.PRIMARY);
         WaitForAsyncUtils.waitForFxEvents();
         sleep(waitBetween); //ensure there are no timing issues
-        System.out.println("BottomRight Click " + adapter.getClass().getSimpleName() + ": " +
+        log("BottomRight Click " + adapter.getClass().getSimpleName() + ": " +
                 Mockito.mockingDetails(bottomRightEvent).getInvocations().size());
 
         // checking mouse has hit
@@ -374,7 +378,7 @@ public class HDPIContractTest extends FxRobot {
             defaultOffsetAdapterTest(awtAdapter);
         } 
         catch (Exception e) {
-            System.out.println(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -384,7 +388,7 @@ public class HDPIContractTest extends FxRobot {
             defaultOffsetAdapterTest(glassAdapter);
         } 
         catch (Exception e) {
-            System.out.println(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -394,12 +398,12 @@ public class HDPIContractTest extends FxRobot {
      * minimize error in case of color profiles. And uses a high threshold.
      */
     public void capturePixelColorAdapterTest(RobotAdapter<?> adapter) {
-        sleep(1000); // TODO#608 just for debugging sleep really long...
+        sleep(1000);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
         Bounds bounds = locator.boundsOnScreenFor(root);
-        System.out.println("CapturePixel window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
+        log("CapturePixel window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
 
         // checking correct bounds (x,y) is unknown...
         assertThat("Width doesn't match", bounds.getWidth(), equalTo(100.0));
@@ -434,7 +438,7 @@ public class HDPIContractTest extends FxRobot {
             capturePixelColorAdapterTest(awtAdapter);
         } 
         catch (Exception e) {
-            System.out.println(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -444,13 +448,9 @@ public class HDPIContractTest extends FxRobot {
             capturePixelColorAdapterTest(glassAdapter);
         } 
         catch (Exception e) {
-            System.out.println(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
-
-    // open issue:
-
-    // TODO#608 check sizes of screen shots (done in CaptureSupportImpl)?
 
     /**
      * Just verifies, that grabPixelColor also uses the right coordinates.
@@ -458,12 +458,12 @@ public class HDPIContractTest extends FxRobot {
      * minimize error in case of color profiles. And uses a high threshold.
      */
     public void captureRegionAdapterTest(RobotAdapter<?> adapter) {
-        sleep(1000); // TODO#608 just for debugging sleep really long...
+        sleep(1000);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
         Bounds bounds = locator.boundsOnScreenFor(root);
-        System.out.println("CaptureRegion window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
+        log("CaptureRegion window bounds for " + adapter.getClass().getSimpleName() + " is " + bounds);
 
         // checking correct bounds (x,y) is unknown...
         assertThat("Width doesn't match", bounds.getWidth(), equalTo(100.0));
@@ -511,7 +511,7 @@ public class HDPIContractTest extends FxRobot {
             captureRegionAdapterTest(awtAdapter);
         } 
         catch (Exception e) {
-            System.out.println(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -521,7 +521,7 @@ public class HDPIContractTest extends FxRobot {
             captureRegionAdapterTest(glassAdapter);
         } 
         catch (Exception e) {
-            System.out.println(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
     
@@ -539,12 +539,12 @@ public class HDPIContractTest extends FxRobot {
             stage.setHeight(400);
         });
         interact(() -> root.getChildren().clear());
-        sleep(1000); // TODO#608 just for debugging sleep really long...
+        sleep(1000);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
         Bounds bounds = locator.boundsOnScreenFor(root);
-        System.out.println(awtAdapter.getClass().getSimpleName() + ": Click offset window bounds for " +
+        log(awtAdapter.getClass().getSimpleName() + ": Click offset window bounds for " +
                 adapter.getClass().getSimpleName() + " is " + bounds);
         
         assumeThat("If the bounds have an offset at the top left edge, this test provides no additional information",
@@ -573,7 +573,7 @@ public class HDPIContractTest extends FxRobot {
         verify(rootEvent, times(1)).handle(ev.capture()); //can't output coordinates
         // if hit check 
         MouseEvent mEv = ev.getAllValues().get(0);
-        System.out.println(awtAdapter.getClass().getSimpleName() + ": ClickOffset landed on " +
+        log(awtAdapter.getClass().getSimpleName() + ": ClickOffset landed on " +
                 adapter.getClass().getSimpleName() + ": " + Mockito.mockingDetails(rootEvent).printInvocations());
         assertTrue(awtAdapter.getClass().getSimpleName() + ": Expected click to be at x 50.0, but was at " + mEv.getX(),
                 Math.abs(mEv.getX() - 50.0) < 1.0);
@@ -590,7 +590,7 @@ public class HDPIContractTest extends FxRobot {
             throw e;
         }
         catch (Exception e) {
-            System.out.println(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(awtAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
 
@@ -603,9 +603,15 @@ public class HDPIContractTest extends FxRobot {
             throw e;
         }
         catch (Exception e) {
-            System.out.println(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
+            log(glassAdapter.getClass().getSimpleName() + " seems to be not supported on this Platform");
         }
     }
     
+    
+    protected void log(String message) {
+        if (verbose) {
+            System.out.println(message);
+        }
+    }
 
 }

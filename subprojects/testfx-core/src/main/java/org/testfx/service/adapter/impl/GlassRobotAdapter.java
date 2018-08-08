@@ -30,6 +30,10 @@ import javafx.scene.paint.Color;
 import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
+
+import org.testfx.internal.JavaVersionAdapter;
+import org.testfx.internal.PlatformAdapter;
+import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
@@ -77,6 +81,16 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Point2D getMouseLocation() {
+        // note the current (10.0.2) behavior below is quite inconsistent (no scaling on
+        // set, but scaling on read) this might change in the future
+        // please keep backwards compatibility to the last version with this behavior in
+        // this case
+        if (PlatformAdapter.getOs() == OS.unix &&
+                Integer.parseInt(JavaVersionAdapter.currentVersion().getMajorVersion()) > 8) {
+            return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
+                () -> new Point2D(useRobot().getMouseX() / JavaVersionAdapter.getScreenScaleX(),
+                useRobot().getMouseY() / JavaVersionAdapter.getScreenScaleY()));
+        }
         return waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS,
             () -> scaleInverseRect(new Point2D(useRobot().getMouseX(), useRobot().getMouseY())));
     }
