@@ -407,24 +407,24 @@ public class HDPIContractTest extends FxRobot {
 
 
         Color c = adapter.getCapturePixelColor(new Point2D(bounds.getMinX() + 2.5, bounds.getMinY() + 2.5));
-        assertTrue(c.getRed() < 16.0 / 255.0);
-        assertTrue(c.getGreen() < 16.0 / 255.0);
-        assertTrue(c.getBlue() < 16.0 / 255.0);
+        assertTrue("TopLeft color doesn't match " + c, c.getRed() < 16.0 / 255.0);
+        assertTrue("TopLeft color doesn't match " + c, c.getGreen() < 16.0 / 255.0);
+        assertTrue("TopLeft color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
 
         c = adapter.getCapturePixelColor(new Point2D(bounds.getMaxX() - 2.5, bounds.getMinY() + 2.5));
-        assertTrue(c.getRed() < 16.0 / 255.0);
-        assertTrue(c.getGreen() < 16.0 / 255.0);
-        assertTrue(c.getBlue() < 16.0 / 255.0);
+        assertTrue("TopRight color doesn't match " + c, c.getRed() < 16.0 / 255.0);
+        assertTrue("TopRight color doesn't match " + c, c.getGreen() < 16.0 / 255.0);
+        assertTrue("TopRight color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
 
         c = adapter.getCapturePixelColor(new Point2D(bounds.getMinX() + 2.5, bounds.getMaxY() - 2.5));
-        assertTrue(c.getRed() < 16.0 / 255.0);
-        assertTrue(c.getGreen() < 16.0 / 255.0);
-        assertTrue(c.getBlue() < 16.0 / 255.0);
+        assertTrue("BottomLeft color doesn't match " + c, c.getRed() < 16.0 / 255.0);
+        assertTrue("BottomLeft color doesn't match " + c, c.getGreen() < 16.0 / 255.0);
+        assertTrue("BottomLeft color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
 
         c = adapter.getCapturePixelColor(new Point2D(bounds.getMaxX() - 2.5, bounds.getMaxY() - 2.5));
-        assertTrue(c.getRed() < 16.0 / 255.0);
-        assertTrue(c.getGreen() < 16.0 / 255.0);
-        assertTrue(c.getBlue() < 16.0 / 255.0);
+        assertTrue("BottomRight color doesn't match " + c, c.getRed() < 16.0 / 255.0);
+        assertTrue("BottomRight color doesn't match " + c, c.getGreen() < 16.0 / 255.0);
+        assertTrue("BottomRight color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
 
     }
 

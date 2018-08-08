@@ -30,8 +30,6 @@ import javafx.scene.paint.Color;
 import com.sun.glass.ui.Application;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Robot;
-import org.testfx.internal.JavaVersionAdapter;
-import org.testfx.internal.PlatformAdapter;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
@@ -203,25 +201,14 @@ public class GlassRobotAdapter implements RobotAdapter<Robot> {
     }
     
     // scale
-    protected Rectangle2D scaleRect(Rectangle2D rect) {
-        if (PlatformAdapter.getOs() == PlatformAdapter.OS.mac ||
-                PlatformAdapter.getOs() == PlatformAdapter.OS.windows) {
-            return rect;
-        }
-        double factorX = JavaVersionAdapter.getScreenScaleX();
-        double factorY = JavaVersionAdapter.getScreenScaleY();
-        return new Rectangle2D(rect.getMinX() * factorX, rect.getMinY() * factorY, rect.getWidth() * factorX,
-                rect.getHeight() * factorY);
+    protected Rectangle2D scaleRect(Rectangle2D rect) { 
+        //no scaling at all for currently tested environments
+        return rect;
     }
 
-    protected Point2D scaleInverseRect(Point2D pt) {
-        if (PlatformAdapter.getOs() == PlatformAdapter.OS.mac ||
-                PlatformAdapter.getOs() == PlatformAdapter.OS.windows) {
-            return pt;
-        }
-        double factorX = JavaVersionAdapter.getScreenScaleX();
-        double factorY = JavaVersionAdapter.getScreenScaleY();
-        return new Point2D(pt.getX() / factorX, pt.getY() / factorY);
+    protected Point2D scaleInverseRect(Point2D pt) { 
+        //no scaling at all for currently tested environments
+        return pt;
     }
 
 }

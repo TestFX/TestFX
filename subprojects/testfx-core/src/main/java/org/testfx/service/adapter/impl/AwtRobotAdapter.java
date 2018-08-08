@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 
 import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.internal.PlatformAdapter;
+import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.internal.JavaVersionAdapter.convertToKeyCodeId;
@@ -110,8 +111,8 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
 
     @Override
     public Color getCapturePixelColor(Point2D location) {
-        final Rectangle2D scaled = scaleRect(new Rectangle2D(location.getX(), location.getY(), 0, 0));
-        Rectangle2D region = new Rectangle2D(scaled.getMinX(), scaled.getMinY(), 1, 1);
+        //captureRegion does scaling already
+        final Rectangle2D region = new Rectangle2D(location.getX(), location.getY(), 2, 2);
         Image image = getCaptureRegion(region);
         return image.getPixelReader().getColor(0, 0);
     }
@@ -200,10 +201,11 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
     }
     
     protected boolean scaleRequired() {
-        return !(PlatformAdapter.getOs() == PlatformAdapter.OS.mac ||
-                PlatformAdapter.getOs() == PlatformAdapter.OS.unix) &&
-                // just prevent unnecessary transforms...
-                (JavaVersionAdapter.getScreenScaleX() != 1.0 && JavaVersionAdapter.getScreenScaleY() != 1.0);
+        // MacOS Awt is not covered by the build server.
+        // Do not remove, if not testing on a headed mac with java 10 or above.
+        return PlatformAdapter.getOs() != OS.mac &&
+            // just prevent unnecessary transforms...
+            JavaVersionAdapter.getScreenScaleX() != 1.0 && JavaVersionAdapter.getScreenScaleY() != 1.0;
     }
     
 
