@@ -67,7 +67,7 @@ public class HDPIContractTest extends FxRobot {
     
     private long waitBetween = 200;
     
-    private final boolean verbose = true;
+    private final boolean verbose = false;
 
     @Before
     public void setupHDPI() throws Exception {
