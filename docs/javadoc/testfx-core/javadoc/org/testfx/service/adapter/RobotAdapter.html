@@ -99,12 +99,24 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - the type of the implementing robot class</dd>
+</dl>
+<dl>
 <dt>All Known Implementing Classes:</dt>
 <dd><a href="../../../../org/testfx/service/adapter/impl/AwtRobotAdapter.html" title="class in org.testfx.service.adapter.impl">AwtRobotAdapter</a>, <a href="../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html" title="class in org.testfx.service.adapter.impl">GlassRobotAdapter</a>, <a href="../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public interface <span class="typeNameLabel">RobotAdapter&lt;T&gt;</span></pre>
+<div class="block">The common interface for all RobotAdapters.<br>
+ These are the minimum set of functions required from a robot to provide the
+ full functionality use in the higher level api.
+ 
+ <h2>Threading</h2>
+ The caller of the Adapter usually doesn't run on the FX-Application Thread.
+ If required, the implementation of this class will schedule the actions on the 
+ FX-Application Thread.</div>
 </li>
 </ul>
 </div>
@@ -125,51 +137,77 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>javafx.scene.paint.Color</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></span>(javafx.geometry.Point2D&nbsp;location)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
+<div class="block">Gets the color of a pixel at the given JavaFx coordinates.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>javafx.scene.image.Image</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>
+<div class="block">Captures a region of the screen.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>javafx.geometry.Point2D</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getMouseLocation--">getMouseLocation</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getMouseLocation--">getMouseLocation</a></span>()</code>
+<div class="block">Returns the current position of the cursor in JavaFx coordinates</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../org/testfx/service/adapter/RobotAdapter.html" title="type parameter in RobotAdapter">T</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getRobotInstance--">getRobotInstance</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getRobotInstance--">getRobotInstance</a></span>()</code>
+<div class="block">Gets a instance of this Robot</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>
+<div class="block">Function used to make the robot press a key.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>
+<div class="block">Function used to make the robot release a key.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></span>(javafx.geometry.Point2D&nbsp;location)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
+<div class="block">Moves the mouse cursor to the given position in JavaFx coordinates</div>
+</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>
+<div class="block">Makes the robot press a mouse button.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>
+<div class="block">Makes the robot release a mouse button.</div>
+</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseWheel-int-">mouseWheel</a></span>(int&nbsp;wheelAmount)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseWheel-int-">mouseWheel</a></span>(int&nbsp;wheelAmount)</code>
+<div class="block">Makes the robot to simulate a action of the mouse wheel.<br>
+ Negative values indicate movement up/away from the user, positive values
+ indicate movement down/towards the user.</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#robotCreate--">robotCreate</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#robotCreate--">robotCreate</a></span>()</code>
+<div class="block">Creates a robot.</div>
+</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#robotDestroy--">robotDestroy</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#robotDestroy--">robotDestroy</a></span>()</code>
+<div class="block">Destroys the robot</div>
+</td>
 </tr>
 </table>
 </li>
@@ -193,6 +231,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>robotCreate</h4>
 <pre>void&nbsp;robotCreate()</pre>
+<div class="block">Creates a robot.</div>
 </li>
 </ul>
 <a name="robotDestroy--">
@@ -202,6 +241,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>robotDestroy</h4>
 <pre>void&nbsp;robotDestroy()</pre>
+<div class="block">Destroys the robot</div>
 </li>
 </ul>
 <a name="getRobotInstance--">
@@ -211,6 +251,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getRobotInstance</h4>
 <pre><a href="../../../../org/testfx/service/adapter/RobotAdapter.html" title="type parameter in RobotAdapter">T</a>&nbsp;getRobotInstance()</pre>
+<div class="block">Gets a instance of this Robot</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a instance of this robot</dd>
+</dl>
 </li>
 </ul>
 <a name="keyPress-javafx.scene.input.KeyCode-">
@@ -220,6 +265,12 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>keyPress</h4>
 <pre>void&nbsp;keyPress(javafx.scene.input.KeyCode&nbsp;key)</pre>
+<div class="block">Function used to make the robot press a key. The key must be a physical
+ existing key on the keyboard.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key to press (must exist on a keyboard)</dd>
+</dl>
 </li>
 </ul>
 <a name="keyRelease-javafx.scene.input.KeyCode-">
@@ -229,6 +280,12 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>keyRelease</h4>
 <pre>void&nbsp;keyRelease(javafx.scene.input.KeyCode&nbsp;key)</pre>
+<div class="block">Function used to make the robot release a key. The key must be a physical
+ existing key on the keyboard.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key to press (must exist on a keyboard)</dd>
+</dl>
 </li>
 </ul>
 <a name="getMouseLocation--">
@@ -238,6 +295,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getMouseLocation</h4>
 <pre>javafx.geometry.Point2D&nbsp;getMouseLocation()</pre>
+<div class="block">Returns the current position of the cursor in JavaFx coordinates</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the current position of the mouse cursor</dd>
+</dl>
 </li>
 </ul>
 <a name="mouseMove-javafx.geometry.Point2D-">
@@ -247,6 +309,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>mouseMove</h4>
 <pre>void&nbsp;mouseMove(javafx.geometry.Point2D&nbsp;location)</pre>
+<div class="block">Moves the mouse cursor to the given position in JavaFx coordinates</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>location</code> - the location in JavaFx coordinates to move the cursor to</dd>
+</dl>
 </li>
 </ul>
 <a name="mousePress-javafx.scene.input.MouseButton-">
@@ -256,6 +323,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>mousePress</h4>
 <pre>void&nbsp;mousePress(javafx.scene.input.MouseButton&nbsp;button)</pre>
+<div class="block">Makes the robot press a mouse button.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>button</code> - the button to press</dd>
+</dl>
 </li>
 </ul>
 <a name="mouseRelease-javafx.scene.input.MouseButton-">
@@ -265,6 +337,11 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>mouseRelease</h4>
 <pre>void&nbsp;mouseRelease(javafx.scene.input.MouseButton&nbsp;button)</pre>
+<div class="block">Makes the robot release a mouse button.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>button</code> - the button to release</dd>
+</dl>
 </li>
 </ul>
 <a name="mouseWheel-int-">
@@ -274,6 +351,13 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>mouseWheel</h4>
 <pre>void&nbsp;mouseWheel(int&nbsp;wheelAmount)</pre>
+<div class="block">Makes the robot to simulate a action of the mouse wheel.<br>
+ Negative values indicate movement up/away from the user, positive values
+ indicate movement down/towards the user.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>wheelAmount</code> - the amount to scroll</dd>
+</dl>
 </li>
 </ul>
 <a name="getCapturePixelColor-javafx.geometry.Point2D-">
@@ -283,6 +367,15 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getCapturePixelColor</h4>
 <pre>javafx.scene.paint.Color&nbsp;getCapturePixelColor(javafx.geometry.Point2D&nbsp;location)</pre>
+<div class="block">Gets the color of a pixel at the given JavaFx coordinates. The returned Color
+ is in the JavaFx color space. //TODO Due to technical reasons, there might be
+ a deviation in color.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>location</code> - of the pixel in JavaFx coordinates, to retrieve the color for</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the Color of the given Pixel in the JavaFx color space</dd>
+</dl>
 </li>
 </ul>
 <a name="getCaptureRegion-javafx.geometry.Rectangle2D-">
@@ -292,6 +385,14 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getCaptureRegion</h4>
 <pre>javafx.scene.image.Image&nbsp;getCaptureRegion(javafx.geometry.Rectangle2D&nbsp;region)</pre>
+<div class="block">Captures a region of the screen. The returned Image is in the JavaFx color
+ space. //TODO Due to technical reasons, there might be a deviation.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>region</code> - the region to capture in JavaFx coordinates</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a image of the region</dd>
+</dl>
 </li>
 </ul>
 </li>

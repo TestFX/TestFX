@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -152,51 +152,89 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>javafx.scene.paint.Color</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></span>(javafx.geometry.Point2D&nbsp;location)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
+<div class="block">Gets the color of a pixel at the given JavaFx coordinates.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>javafx.scene.image.Image</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>
+<div class="block">Captures a region of the screen.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>javafx.geometry.Point2D</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getMouseLocation--">getMouseLocation</a></span>()</code>&nbsp;</td>
+<td class="colFirst"><code>javafx.scene.image.Image</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getCaptureRegionRaw-javafx.geometry.Rectangle2D-">getCaptureRegionRaw</a></span>(javafx.geometry.Rectangle2D&nbsp;region)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>com.sun.glass.ui.Robot</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getRobotInstance--">getRobotInstance</a></span>()</code>&nbsp;</td>
+<td class="colFirst"><code>javafx.geometry.Point2D</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getMouseLocation--">getMouseLocation</a></span>()</code>
+<div class="block">Returns the current position of the cursor in JavaFx coordinates</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+<td class="colFirst"><code>com.sun.glass.ui.Robot</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#getRobotInstance--">getRobotInstance</a></span>()</code>
+<div class="block">Gets a instance of this Robot</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>
+<div class="block">Function used to make the robot press a key.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></span>(javafx.geometry.Point2D&nbsp;location)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>
+<div class="block">Function used to make the robot release a key.</div>
+</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
+<div class="block">Moves the mouse cursor to the given position in JavaFx coordinates</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>
+<div class="block">Makes the robot press a mouse button.</div>
+</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mouseWheel-int-">mouseWheel</a></span>(int&nbsp;wheelAmount)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>
+<div class="block">Makes the robot release a mouse button.</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#robotCreate--">robotCreate</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#mouseWheel-int-">mouseWheel</a></span>(int&nbsp;wheelAmount)</code>
+<div class="block">Makes the robot to simulate a action of the mouse wheel.<br>
+ Negative values indicate movement up/away from the user, positive values
+ indicate movement down/towards the user.</div>
+</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#robotDestroy--">robotDestroy</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#robotCreate--">robotCreate</a></span>()</code>
+<div class="block">Creates a robot.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#robotDestroy--">robotDestroy</a></span>()</code>
+<div class="block">Destroys the robot</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code>protected javafx.geometry.Point2D</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#scaleInverseRect-javafx.geometry.Point2D-">scaleInverseRect</a></span>(javafx.geometry.Point2D&nbsp;pt)</code>&nbsp;</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>protected javafx.geometry.Rectangle2D</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html#scaleRect-javafx.geometry.Rectangle2D-">scaleRect</a></span>(javafx.geometry.Rectangle2D&nbsp;rect)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -244,6 +282,8 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>robotCreate</h4>
 <pre>public&nbsp;void&nbsp;robotCreate()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#robotCreate--">RobotAdapter</a></code></span></div>
+<div class="block">Creates a robot.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#robotCreate--">robotCreate</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
@@ -257,6 +297,8 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>robotDestroy</h4>
 <pre>public&nbsp;void&nbsp;robotDestroy()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#robotDestroy--">RobotAdapter</a></code></span></div>
+<div class="block">Destroys the robot</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#robotDestroy--">robotDestroy</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
@@ -270,9 +312,13 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>getRobotInstance</h4>
 <pre>public&nbsp;com.sun.glass.ui.Robot&nbsp;getRobotInstance()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getRobotInstance--">RobotAdapter</a></code></span></div>
+<div class="block">Gets a instance of this Robot</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getRobotInstance--">getRobotInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a instance of this robot</dd>
 </dl>
 </li>
 </ul>
@@ -283,9 +329,14 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>keyPress</h4>
 <pre>public&nbsp;void&nbsp;keyPress(javafx.scene.input.KeyCode&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">RobotAdapter</a></code></span></div>
+<div class="block">Function used to make the robot press a key. The key must be a physical
+ existing key on the keyboard.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key to press (must exist on a keyboard)</dd>
 </dl>
 </li>
 </ul>
@@ -296,9 +347,14 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>keyRelease</h4>
 <pre>public&nbsp;void&nbsp;keyRelease(javafx.scene.input.KeyCode&nbsp;key)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">RobotAdapter</a></code></span></div>
+<div class="block">Function used to make the robot release a key. The key must be a physical
+ existing key on the keyboard.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - the key to press (must exist on a keyboard)</dd>
 </dl>
 </li>
 </ul>
@@ -309,9 +365,13 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>getMouseLocation</h4>
 <pre>public&nbsp;javafx.geometry.Point2D&nbsp;getMouseLocation()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getMouseLocation--">RobotAdapter</a></code></span></div>
+<div class="block">Returns the current position of the cursor in JavaFx coordinates</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getMouseLocation--">getMouseLocation</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the current position of the mouse cursor</dd>
 </dl>
 </li>
 </ul>
@@ -322,9 +382,13 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>mouseMove</h4>
 <pre>public&nbsp;void&nbsp;mouseMove(javafx.geometry.Point2D&nbsp;location)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseMove-javafx.geometry.Point2D-">RobotAdapter</a></code></span></div>
+<div class="block">Moves the mouse cursor to the given position in JavaFx coordinates</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>location</code> - the location in JavaFx coordinates to move the cursor to</dd>
 </dl>
 </li>
 </ul>
@@ -335,9 +399,13 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>mousePress</h4>
 <pre>public&nbsp;void&nbsp;mousePress(javafx.scene.input.MouseButton&nbsp;button)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">RobotAdapter</a></code></span></div>
+<div class="block">Makes the robot press a mouse button.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>button</code> - the button to press</dd>
 </dl>
 </li>
 </ul>
@@ -348,9 +416,13 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>mouseRelease</h4>
 <pre>public&nbsp;void&nbsp;mouseRelease(javafx.scene.input.MouseButton&nbsp;button)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">RobotAdapter</a></code></span></div>
+<div class="block">Makes the robot release a mouse button.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>button</code> - the button to release</dd>
 </dl>
 </li>
 </ul>
@@ -361,9 +433,15 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>mouseWheel</h4>
 <pre>public&nbsp;void&nbsp;mouseWheel(int&nbsp;wheelAmount)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseWheel-int-">RobotAdapter</a></code></span></div>
+<div class="block">Makes the robot to simulate a action of the mouse wheel.<br>
+ Negative values indicate movement up/away from the user, positive values
+ indicate movement down/towards the user.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#mouseWheel-int-">mouseWheel</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>wheelAmount</code> - the amount to scroll</dd>
 </dl>
 </li>
 </ul>
@@ -374,23 +452,65 @@ implements <a href="../../../../../org/testfx/service/adapter/RobotAdapter.html"
 <li class="blockList">
 <h4>getCapturePixelColor</h4>
 <pre>public&nbsp;javafx.scene.paint.Color&nbsp;getCapturePixelColor(javafx.geometry.Point2D&nbsp;location)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">RobotAdapter</a></code></span></div>
+<div class="block">Gets the color of a pixel at the given JavaFx coordinates. The returned Color
+ is in the JavaFx color space. //TODO Due to technical reasons, there might be
+ a deviation in color.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getCapturePixelColor-javafx.geometry.Point2D-">getCapturePixelColor</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>location</code> - of the pixel in JavaFx coordinates, to retrieve the color for</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the Color of the given Pixel in the JavaFx color space</dd>
 </dl>
 </li>
 </ul>
 <a name="getCaptureRegion-javafx.geometry.Rectangle2D-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getCaptureRegion</h4>
 <pre>public&nbsp;javafx.scene.image.Image&nbsp;getCaptureRegion(javafx.geometry.Rectangle2D&nbsp;region)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">RobotAdapter</a></code></span></div>
+<div class="block">Captures a region of the screen. The returned Image is in the JavaFx color
+ space. //TODO Due to technical reasons, there might be a deviation.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html#getCaptureRegion-javafx.geometry.Rectangle2D-">getCaptureRegion</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/testfx/service/adapter/RobotAdapter.html" title="interface in org.testfx.service.adapter">RobotAdapter</a>&lt;com.sun.glass.ui.Robot&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>region</code> - the region to capture in JavaFx coordinates</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a image of the region</dd>
 </dl>
+</li>
+</ul>
+<a name="getCaptureRegionRaw-javafx.geometry.Rectangle2D-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCaptureRegionRaw</h4>
+<pre>public&nbsp;javafx.scene.image.Image&nbsp;getCaptureRegionRaw(javafx.geometry.Rectangle2D&nbsp;region)</pre>
+</li>
+</ul>
+<a name="scaleRect-javafx.geometry.Rectangle2D-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>scaleRect</h4>
+<pre>protected&nbsp;javafx.geometry.Rectangle2D&nbsp;scaleRect(javafx.geometry.Rectangle2D&nbsp;rect)</pre>
+</li>
+</ul>
+<a name="scaleInverseRect-javafx.geometry.Point2D-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>scaleInverseRect</h4>
+<pre>protected&nbsp;javafx.geometry.Point2D&nbsp;scaleInverseRect(javafx.geometry.Point2D&nbsp;pt)</pre>
 </li>
 </ul>
 </li>
