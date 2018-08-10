@@ -105,9 +105,9 @@ public class TextMatchersTest extends FxRobot {
         assertThatThrownBy(() -> assertThat(quuxText, TextMatchers.hasFont(Font.font(fontFamily, 14))))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage(String.format("\nExpected: Text has font " +
-                        "\"%1$s\" with family (\"%1$s\") and size (14.0)\n     " +
+                        "\"%1$s\" with family (\"%1$s\") and size (%2$.1f)\n     " +
                         "but: was Text with font: " +
-                        "\"%1$s\" with family (\"%1$s\") and size (16.0)", fontFamily));
+                        "\"%1$s\" with family (\"%1$s\") and size (%3$.1f)", fontFamily, 14.0, 16.0));
     }
 
     @Test
