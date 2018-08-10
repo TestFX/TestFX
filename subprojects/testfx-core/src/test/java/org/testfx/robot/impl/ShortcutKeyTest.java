@@ -36,7 +36,6 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.TestFXRule;
 import org.testfx.util.WaitForAsyncUtils;
 
-import static javafx.scene.input.KeyCode.SHORTCUT;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
@@ -105,11 +104,11 @@ public class ShortcutKeyTest extends FxRobot {
     @After
     public void cleanup() {
         // prevent hanging if test fails
-        release(SHORTCUT, KeyCode.A, KeyCode.C, KeyCode.V);
+        release(new KeyCode[0]);
     }
 
     /**
-     * Verifies that that the correct key is received and that the method KeyEvent.isShortcutDown works.
+     * Verifies that the correct key is received and that the method KeyEvent.isShortcutDown works.
      */
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_pressed() {
@@ -121,7 +120,7 @@ public class ShortcutKeyTest extends FxRobot {
     }
 
     /**
-     * Verifies that that the correct key is received and that the method KeyEvent.isShortcutDown works.
+     * Verifies that the correct key is received and that the method KeyEvent.isShortcutDown works.
      */
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() { //fix 589, 590
