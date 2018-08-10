@@ -65,7 +65,7 @@ public class TypeRobotImplTest {
         typeRobot.push(A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).press(eq(A));
         verify(keyboardRobot, times(1)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -76,7 +76,7 @@ public class TypeRobotImplTest {
         typeRobot.push(ALT, A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
+        verify(keyboardRobot, times(1)).press(eq(ALT), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -87,7 +87,7 @@ public class TypeRobotImplTest {
         typeRobot.push(COMMAND, B);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(COMMAND), eq(B));
+        verify(keyboardRobot, times(1)).press(eq(COMMAND), eq(B));
         verify(keyboardRobot, times(1)).release(eq(B), eq(COMMAND));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -98,7 +98,7 @@ public class TypeRobotImplTest {
         typeRobot.push(new KeyCodeCombination(A, ALT_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
+        verify(keyboardRobot, times(1)).press(eq(ALT), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -109,7 +109,7 @@ public class TypeRobotImplTest {
         typeRobot.push(new KeyCodeCombination(A, SHIFT_DOWN, CONTROL_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(SHIFT), eq(CONTROL), eq(A));
+        verify(keyboardRobot, times(1)).press(eq(SHIFT), eq(CONTROL), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(CONTROL), eq(SHIFT));
         verifyNoMoreInteractions(keyboardRobot);
     }
