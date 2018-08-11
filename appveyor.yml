@@ -5,7 +5,7 @@ environment:
     # Java 10 / Headless (fails because of JDK-8201539)
     - JAVA_VERSION: "10"
       JAVA_HOME: C:\jdk10
-      _JAVA_OPTIONS: "-Dtestfx.robot=glass -Dprism.order=sw"
+      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=d3d -Dprism.verbose=true -Dprism.debug=true"
 
 matrix:
   allow_failures:
