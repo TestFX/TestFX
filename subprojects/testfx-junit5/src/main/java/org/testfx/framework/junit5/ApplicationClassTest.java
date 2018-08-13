@@ -90,9 +90,10 @@ public abstract class ApplicationClassTest<T extends Application> extends Applic
         String[] args = null;
         Map<String, String[]> test2args = getTestArgsMap();
         if (test2args != null) {
-            if (test2args.containsKey(testInfo.getTestMethod().orElseThrow().getName())) {
+            String testId = testInfo.getTestMethod().map(m -> m.getName()).orElse(null);
+            if (testId != null && test2args.containsKey(testId)) {
                 // may also be null (intentionally)
-                args = test2args.get(testInfo.getTestMethod().orElseThrow().getName()); 
+                args = test2args.get(testId); 
                                                                                         
             } else {
                 args = getDefaultArgs();
