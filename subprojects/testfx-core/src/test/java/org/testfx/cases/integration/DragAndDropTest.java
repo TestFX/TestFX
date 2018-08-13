@@ -16,45 +16,34 @@
  */
 package org.testfx.cases.integration;
 
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
-import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
-public class DragAndDropTest extends TestCaseBase {
+public class DragAndDropTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule(3)).around(Timeout.millis(5000));
 
     ListView<String> leftListView;
     ListView<String> rightListView;
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            leftListView = new ListView<>(observableArrayList("L1", "L2", "L3"));
-            rightListView = new ListView<>(observableArrayList("R1", "R2", "R3"));
-            setupListView(leftListView);
-            setupListView(rightListView);
-            return new HBox(leftListView, rightListView);
-        });
-        FxToolkit.setupStage(Stage::show);
+    
+    @Override
+    public Node createComponent() {
+        leftListView = new ListView<>(observableArrayList("L1", "L2", "L3"));
+        rightListView = new ListView<>(observableArrayList("R1", "R2", "R3"));
+        setupListView(leftListView);
+        setupListView(rightListView);
+        return new HBox(leftListView, rightListView);
     }
 
     void setupListView(ListView<String> listView) {

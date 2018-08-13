@@ -16,8 +16,10 @@
  */
 package org.testfx.framework.junit5;
 
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.junit.jupiter.api.Disabled;
@@ -37,11 +39,16 @@ class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Pane p = new Pane();
+        p.setPrefSize(300, 300);
+        Scene s = new Scene(p);
+        stage.setScene(s);
         stage.show();
     }
 
     @Test
     void b_When_a_test_forgets_to_release_keys() {
+        moveTo(getTestStage()); //no clicking/typing on the background
         press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT);
     }
 
@@ -52,6 +59,7 @@ class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Test
     void e_When_a_test_forgets_to_release_buttons() {
+        moveTo(getTestStage()); //no clicking/typing on the background
         press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE);
     }
 

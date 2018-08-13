@@ -25,6 +25,10 @@ import org.junit.runners.model.Statement;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+/**
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
+ */
+@Deprecated
 public class ApplicationRule extends FxRobot implements ApplicationFixture, TestRule {
 
     private final Consumer<Stage> start;

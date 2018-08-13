@@ -20,7 +20,6 @@ import java.util.concurrent.TimeoutException;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -88,10 +87,7 @@ public class JUnitExceptionTest extends ApplicationTest {
             fail("checkException didn't detect Exception");
         }
         catch (Exception e) { // clean up...
-            release(MouseButton.PRIMARY);
-            moveBy(100, 100); // otherwise the press release test fails?!
             WaitForAsyncUtils.printException = true; //  enable printing for other tests
-            WaitForAsyncUtils.clearExceptions(); // just ensure no pending exceptions in buffer
             throw e;
         }
     }

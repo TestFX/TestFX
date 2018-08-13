@@ -33,12 +33,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.BoundsLocatorException;
@@ -53,7 +51,7 @@ import static org.junit.Assert.fail;
  * and screen bounds for nodes. These bounds must be correct regardless of
  * the DPI scaling.
  */
-public class BoundsLocatorImplTest {
+public class BoundsLocatorImplTest extends InternalTestCaseBase {
 
     private static final double WINDOW_TRANSLATE_X = 100;
     private static final double WINDOW_TRANSLATE_Y = 100;
@@ -69,9 +67,6 @@ public class BoundsLocatorImplTest {
     private static double partialOutsideSceneX = 550;
     private static double partialOutsideSceneY = 350;
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
-
     BoundsLocator boundsLocator;
     Insets windowInsets;
     Stage primaryWindow;
@@ -81,16 +76,16 @@ public class BoundsLocatorImplTest {
     Node nodeOutsideOfScene;
     boolean waitForNewSize;
 
-    @After
-    public void cleanupSpec() throws TimeoutException {
-        FxToolkit.setupFixture(() -> primaryWindow.close());
-    }
 
+    @Override
+    public Node createComponent() {
+        Region reg = new Region();
+        reg.setPrefSize(sceneWidth, sceneHeight);
+        setupStages();
+        return reg;
+    }
     @Before
     public void setup() throws TimeoutException, InterruptedException {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), sceneWidth, sceneHeight));
-        FxToolkit.setupFixture(this::setupStages);
         if (waitForNewSize) {
             Thread.sleep(5000);
         }

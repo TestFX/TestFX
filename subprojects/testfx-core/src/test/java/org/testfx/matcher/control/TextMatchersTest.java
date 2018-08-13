@@ -22,12 +22,8 @@ import javafx.scene.text.Text;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalContainerTest;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
@@ -36,10 +32,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assume.assumeThat;
 
-public class TextMatchersTest extends FxRobot {
-
-    @Rule
-    public TestRule rule = new TestFXRule();
+public class TextMatchersTest extends InternalContainerTest {
 
     Text foobarText;
     Text quuxText;
@@ -47,23 +40,21 @@ public class TextMatchersTest extends FxRobot {
 
     @BeforeClass
     public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
         findFontFamily();
     }
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            foobarText = new Text("foobar");
-            foobarText.setStrikethrough(true);
-            foobarText.setFontSmoothingType(FontSmoothingType.GRAY);
-            quuxText = new Text("quux");
-            quuxText.setUnderline(true);
-            quuxText.setFontSmoothingType(FontSmoothingType.LCD);
-            if (fontFamily != null) {
-                quuxText.setFont(Font.font(fontFamily, 16));
-            }
-        });
+        foobarText = new Text("foobar");
+        foobarText.setStrikethrough(true);
+        foobarText.setFontSmoothingType(FontSmoothingType.GRAY);
+        quuxText = new Text("quux");
+        quuxText.setUnderline(true);
+        quuxText.setFontSmoothingType(FontSmoothingType.LCD);
+        if (fontFamily != null) {
+            quuxText.setFont(Font.font(fontFamily, 16));
+        }
+        addAll(foobarText, quuxText);
     }
 
     @Test

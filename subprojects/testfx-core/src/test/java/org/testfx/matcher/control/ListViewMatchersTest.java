@@ -17,45 +17,30 @@
 package org.testfx.matcher.control;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ListViewMatchersTest extends FxRobot {
+public class ListViewMatchersTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = new TestFXRule();
 
     ListView<String> listView;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            listView = new ListView<>();
-            listView.setItems(observableArrayList("alice", "bob", "carol", "dave"));
-            listView.setPlaceholder(new Label("Empty!"));
-            return new StackPane(listView);
-        });
-        FxToolkit.showStage();
+    
+    @Override
+    public Node createComponent() {
+        listView = new ListView<>();
+        listView.setItems(observableArrayList("alice", "bob", "carol", "dave"));
+        listView.setPlaceholder(new Label("Empty!"));
+        return listView;
     }
 
     @Test

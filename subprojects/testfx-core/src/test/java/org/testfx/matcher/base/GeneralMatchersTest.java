@@ -17,28 +17,24 @@
 package org.testfx.matcher.base;
 
 import java.util.Objects;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class GeneralMatchersTest {
+public class GeneralMatchersTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = new TestFXRule();
 
     Node nullNode;
     Pane notMatchingNode;
@@ -46,16 +42,19 @@ public class GeneralMatchersTest {
     Predicate<Node> notNullNodePredicate = Objects::nonNull;
     Predicate<Parent> hasChildrenParentPredicate = parent -> parent.getChildrenUnmodifiable().size() > 0;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    
+    @Override
+    public Node createComponent() {
+        try {
+            notMatchingNode = FxToolkit.setupFixture(() -> new Pane());
+            notParentNode = FxToolkit.setupFixture(() -> new Button());
+        } 
+        catch (TimeoutException e) {
+            throw new RuntimeException("Exception during initialization", e);
+        }
+        return new VBox();
     }
-
-    @Before
-    public void setup() throws Exception {
-        notMatchingNode = FxToolkit.setupFixture(() -> new Pane());
-        notParentNode = FxToolkit.setupFixture(() -> new Button());
-    }
+    
 
     @Test
     public void baseMatcher_with_nullNode() {

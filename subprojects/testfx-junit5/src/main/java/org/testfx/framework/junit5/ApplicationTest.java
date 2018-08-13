@@ -20,36 +20,55 @@ import javafx.application.Application;
 import javafx.application.Application.Parameters;
 import javafx.application.HostServices;
 import javafx.application.Preloader.PreloaderNotification;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.testcase.api.TestCaseBase;
 
-public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
+
+/**
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
+ */
+public abstract class ApplicationTest extends TestCaseBase implements ApplicationFixture {
+
+    private Stage testStage;
 
     public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(appClass, appArgs);
     }
 
+
+    @BeforeAll
+    public static void internalBeforeAll() throws Throwable {
+        TestCaseBase.beforeAll();
+    }
+
+    @AfterAll
+    public static void internalAfterAll() throws Throwable {
+        TestCaseBase.afterAll();
+    }
+
     @BeforeEach
-    public final void internalBefore() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    public final void internalBefore() throws Throwable {
+        super.beforeTest();
+        testStage = FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     @AfterEach
-    public final void internalAfter() throws Exception {
-        // release all keys
-        release(new KeyCode[0]);
-        // release all mouse buttons
-        release(new MouseButton[0]);
-        FxToolkit.cleanupStages();
+    public final void internalAfter() throws Throwable {
+        super.afterTest();
         FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+    }
+
+    @Override
+    public Stage getTestStage() {
+        return testStage;
     }
 
     @Override

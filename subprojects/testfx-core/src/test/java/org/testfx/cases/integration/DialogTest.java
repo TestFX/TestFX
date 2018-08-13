@@ -16,50 +16,48 @@
  */
 package org.testfx.cases.integration;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
-import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class DialogTest extends TestCaseBase {
+public class DialogTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            Button openDialogButton = new Button("Open Dialog");
-            openDialogButton.setId("openDialog");
-            openDialogButton.setOnAction(event -> {
-                Dialog<Boolean> dialog = new Dialog<>();
-                dialog.setTitle("Dialog A");
-                dialog.setHeaderText("Dialog A: Header Text");
-                Button dialogAButton = new Button("Dialog A");
-                dialog.getDialogPane().setContent(new StackPane(dialogAButton));
-                dialog.show();
-            });
-            StackPane root = new StackPane(openDialogButton);
-            root.setPrefSize(500, 500);
-            return new StackPane(root);
+    @Override
+    public Node createComponent() {
+        Button openDialogButton = new Button("Open Dialog");
+        openDialogButton.setId("openDialog");
+        openDialogButton.setOnAction(event -> {
+            Dialog<Boolean> dialog = new Dialog<>();
+            dialog.setTitle("Dialog A");
+            dialog.setHeaderText("Dialog A: Header Text");
+            Button dialogAButton = new Button("Dialog A");
+            dialog.getDialogPane().setContent(new StackPane(dialogAButton));
+            dialog.show();
         });
-        FxToolkit.setupStage(Stage::show);
+        StackPane root = new StackPane(openDialogButton);
+        root.setPrefSize(500, 500);
+        return new StackPane(root);
     }
+    
 
     @Test
-    @Ignore
+    @Ignore("Flaky")
     public void should_lookup_dialog() {
         clickOn("#openDialog");
+        //target window hits the right window (always)
+        /*robotContext().getWindowFinder().targetWindow("Dialog A");
+        Window w=robotContext().getWindowFinder().targetWindow();
+        String s=((Stage)w).getTitle();
+        System.out.println(s); */
         assertThat(targetWindow("Dialog A").lookup(".button").queryButton()).hasText("Dialog A");
     }
+    
 }

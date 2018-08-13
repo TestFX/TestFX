@@ -19,9 +19,8 @@ package org.testfx.robot.impl;
 import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -37,10 +36,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public class ClickRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class ClickRobotImplTest extends InternalTestCaseBase {
 
     ClickRobot clickRobot;
     MouseRobot mouseRobot;

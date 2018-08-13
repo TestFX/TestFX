@@ -19,9 +19,8 @@ package org.testfx.robot.impl;
 import javafx.geometry.Point2D;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -37,10 +36,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class MoveRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class MoveRobotImplTest extends InternalTestCaseBase {
 
     private MoveRobot moveRobot;
     private BaseRobot baseRobot;

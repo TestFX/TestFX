@@ -16,39 +16,25 @@
  */
 package org.testfx.cases.issue;
 
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
-public class WriteHeadlessTest extends TestCaseBase {
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class WriteHeadlessTest extends InternalTestCaseBase {
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            TextField textField = new TextField();
-            textField.setId("name");
-            return new HBox(textField);
-        });
-        FxToolkit.setupStage(Stage::show);
+    @Override
+    public Node createComponent() {
+        TextField textField = new TextField();
+        textField.setId("name");
+        return new HBox(textField);
     }
 
     @Test

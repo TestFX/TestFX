@@ -28,7 +28,6 @@ import org.testfx.robot.ScrollRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
 import org.testfx.robot.WriteRobot;
-import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.robot.impl.ClickRobotImpl;
 import org.testfx.robot.impl.DragRobotImpl;
 import org.testfx.robot.impl.KeyboardRobotImpl;
@@ -45,7 +44,6 @@ import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
 import org.testfx.service.support.CaptureSupport;
-import org.testfx.service.support.impl.CaptureSupportImpl;
 
 /**
  * Stores the robot implementations, the window and node finders, position calculators, and capture support for
@@ -53,13 +51,13 @@ import org.testfx.service.support.impl.CaptureSupportImpl;
  */
 public class FxRobotContext {
 
-    private final WindowFinder windowFinder;
-    private final NodeFinder nodeFinder;
+    //private final WindowFinder windowFinder;
+    //private final NodeFinder nodeFinder;
     private final BoundsLocator boundsLocator;
     private final PointLocator pointLocator;
-    private final BaseRobot baseRobot;
-    private final MouseRobot mouseRobot;
-    private final KeyboardRobot keyboardRobot;
+    //private static BaseRobot baseRobot;
+    private static MouseRobot mouseRobot; //treat as final!
+    private static KeyboardRobot keyboardRobot; //treat as final!
     private final MoveRobot moveRobot;
     private final SleepRobot sleepRobot;
     private final ClickRobot clickRobot;
@@ -67,34 +65,39 @@ public class FxRobotContext {
     private final ScrollRobot scrollRobot;
     private final TypeRobot typeRobot;
     private final WriteRobot writeRobot;
-    private final CaptureSupport captureSupport;
+    //private final CaptureSupport captureSupport;
+    
+    
     private Pos pointPosition;
 
     public FxRobotContext() {
-        windowFinder = FxService.serviceContext().getWindowFinder();
-        nodeFinder = FxService.serviceContext().getNodeFinder();
         boundsLocator = new BoundsLocatorImpl();
         pointLocator = new PointLocatorImpl(boundsLocator);
-        baseRobot = new BaseRobotImpl();
-        keyboardRobot = new KeyboardRobotImpl(baseRobot);
-        mouseRobot = new MouseRobotImpl(baseRobot);
+        
+        // KeyBoard and MouseRobot must preserve state for cleanup
+        if (mouseRobot == null) {
+            mouseRobot = new MouseRobotImpl(getBaseRobot());
+        }
+        if (keyboardRobot == null) {
+            keyboardRobot = new KeyboardRobotImpl(getBaseRobot());
+        }
+        
         sleepRobot = new SleepRobotImpl();
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
-        writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
-        moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
+        writeRobot = new WriteRobotImpl(getBaseRobot(), sleepRobot, getWindowFinder());
+        moveRobot = new MoveRobotImpl(getBaseRobot(), mouseRobot, sleepRobot);
         clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
         scrollRobot = new ScrollRobotImpl(mouseRobot);
-        captureSupport = new CaptureSupportImpl(baseRobot);
         pointPosition = Pos.CENTER;
     }
 
     public WindowFinder getWindowFinder() {
-        return windowFinder;
+        return FxService.serviceContext().getWindowFinder();
     }
 
     public NodeFinder getNodeFinder() {
-        return nodeFinder;
+        return FxService.serviceContext().getNodeFinder();
     }
 
     public Pos getPointPosition() {
@@ -114,7 +117,7 @@ public class FxRobotContext {
     }
 
     public BaseRobot getBaseRobot() {
-        return baseRobot;
+        return FxService.serviceContext().getBaseRobot();
     }
 
     public MouseRobot getMouseRobot() {
@@ -154,7 +157,7 @@ public class FxRobotContext {
     }
 
     public CaptureSupport getCaptureSupport() {
-        return captureSupport;
+        return FxService.serviceContext().getCaptureSupport();
     }
 
 }

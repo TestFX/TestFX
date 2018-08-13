@@ -16,22 +16,16 @@
  */
 package org.testfx.cases.acceptance;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.service.query.EmptyNodeQueryException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.api.FxToolkit.setupApplication;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isInvisible;
@@ -40,14 +34,16 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
-public class FxAssertBasicTest extends TestCaseBase {
+public class FxAssertBasicTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule(3);
-
-    @Before
-    public void setup() throws Exception {
-        setupApplication(DemoApplication.class);
+    
+    @Override
+    public Node createComponent() {
+        Button button = new Button("click me!");
+        button.setId("button");
+        button.setOnAction(actionEvent -> button.setText("clicked!"));
+        button.setPrefSize(600, 400);
+        return button;
     }
 
     @Test
@@ -103,17 +99,4 @@ public class FxAssertBasicTest extends TestCaseBase {
         verifyThat("#button", not(hasText("clicked!")), informedErrorMessage(this));
     }
 
-    public static class DemoApplication extends Application {
-        @Override
-        public void start(Stage stage) {
-            Button button = new Button("click me!");
-            button.setId("button");
-            button.setOnAction(actionEvent -> button.setText("clicked!"));
-            Scene scene = new Scene(button, 600, 400);
-            stage.setScene(scene);
-            stage.setTitle(getClass().getSimpleName());
-            stage.show();
-            stage.setAlwaysOnTop(true);
-        }
-    }
 }

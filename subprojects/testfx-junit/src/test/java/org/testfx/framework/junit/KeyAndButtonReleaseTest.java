@@ -16,8 +16,10 @@
  */
 package org.testfx.framework.junit;
 
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.junit.FixMethodOrder;
@@ -38,26 +40,34 @@ public class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Pane p = new Pane();
+        p.setPrefSize(300, 300);
+        Scene s = new Scene(p);
+        stage.setScene(s);
         stage.show();
     }
 
     @Test
     public void b_When_a_test_forgets_to_release_keys() {
+        //do not type/click on background
+        moveTo(getTestStage());
         press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT);
     }
 
     @Test
-    public void c_Then_keys_are_not_pressed() {
+    public void c_Then_keys_are_not_pressed() { //not a valid test, if a new robot is used!
         assertThat(robotContext().getKeyboardRobot().getPressedKeys().isEmpty(), is(true));
     }
 
     @Test
     public void e_When_a_test_forgets_to_release_buttons() {
+        //do not type/click on background
+        moveTo(getTestStage());
         press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE);
     }
 
     @Test
-    public void f_Then_buttons_are_not_pressed() {
+    public void f_Then_buttons_are_not_pressed() { //not a valid test, if a new robot is used!
         assertThat(robotContext().getMouseRobot().getPressedButtons().isEmpty(), is(true));
     }
 }

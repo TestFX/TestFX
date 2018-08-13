@@ -22,16 +22,13 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BoundsPointQueryTest {
+public class BoundsPointQueryTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
 
     Bounds bounds;
 

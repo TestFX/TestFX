@@ -20,9 +20,8 @@ import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 
@@ -31,10 +30,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class ScrollRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class ScrollRobotImplTest extends InternalTestCaseBase {
 
     ScrollRobot scrollRobot;
     MouseRobot mouseRobot;

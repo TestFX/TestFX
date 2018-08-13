@@ -23,10 +23,9 @@ import javafx.stage.Stage;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
@@ -38,10 +37,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class WriteRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class WriteRobotImplTest extends InternalTestCaseBase {
 
     WriteRobot writeRobot;
     Stage stage;
@@ -50,16 +46,9 @@ public class WriteRobotImplTest {
     SleepRobot sleepRobot;
     WindowFinder windowFinder;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
 
     @Before
     public void setup() throws Exception {
-        stage = FxToolkit.registerStage(Stage::new);
-        scene = FxToolkit.setupScene(() -> new Scene(new Region()));
-
         baseRobot = mock(BaseRobot.class);
         sleepRobot = mock(SleepRobot.class);
         windowFinder = mock(WindowFinder.class);

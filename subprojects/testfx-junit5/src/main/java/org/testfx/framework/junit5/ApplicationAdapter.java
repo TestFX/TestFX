@@ -19,6 +19,10 @@ package org.testfx.framework.junit5;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * Adapter that adapts from a class implementing the {@code ApplicationFixture} interface to an actual
+ * {@code Application}.
+ */
 public final class ApplicationAdapter extends Application {
 
     private final ApplicationFixture applicationFixture;

@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -30,13 +30,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.Motion;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -46,53 +42,45 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.DebugUtils.informedErrorMessage;
 
-public class MenuBarTest {
+public class MenuBarTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule(2);
 
     FxRobot fxRobot = new FxRobot();
     Menu editMenu;
     CountDownLatch newMenuShownLatch = new CountDownLatch(1);
     CountDownLatch editMenuShownLatch = new CountDownLatch(1);
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    
+    @Override
+    public Node createComponent() {
+        Menu fileMenu = new Menu("File");
+        fileMenu.setId("fileMenu");
+
+        MenuItem newItem = new MenuItem("New");
+        newItem.setId("newItem");
+        newItem.setOnAction(actionEvent -> newMenuShownLatch.countDown());
+        fileMenu.getItems().add(newItem);
+
+        MenuItem saveAsItem = new MenuItem("Save As..............................");
+        saveAsItem.setId("saveAsItem");
+        saveAsItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN,
+                KeyCombination.CONTROL_DOWN));
+        fileMenu.getItems().add(saveAsItem);
+
+        editMenu = new Menu("Edit");
+        editMenu.setId("editMenu");
+
+        MenuItem cutItem = new MenuItem("cut");
+        cutItem.setId("cutItem");
+        editMenu.getItems().add(cutItem);
+
+        MenuBar menuBar = new MenuBar(fileMenu, editMenu);
+        StackPane pane = new StackPane(new VBox(menuBar));
+        pane.setAlignment(Pos.CENTER);
+        pane.setPrefSize(300, 400);
+        return pane;
     }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupStage(stage -> {
-            Menu fileMenu = new Menu("File");
-            fileMenu.setId("fileMenu");
-
-            MenuItem newItem = new MenuItem("New");
-            newItem.setId("newItem");
-            newItem.setOnAction(actionEvent -> newMenuShownLatch.countDown());
-            fileMenu.getItems().add(newItem);
-
-            MenuItem saveAsItem = new MenuItem("Save As..............................");
-            saveAsItem.setId("saveAsItem");
-            saveAsItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN,
-                    KeyCombination.CONTROL_DOWN));
-            fileMenu.getItems().add(saveAsItem);
-
-            editMenu = new Menu("Edit");
-            editMenu.setId("editMenu");
-
-            MenuItem cutItem = new MenuItem("cut");
-            cutItem.setId("cutItem");
-            editMenu.getItems().add(cutItem);
-
-            MenuBar menuBar = new MenuBar(fileMenu, editMenu);
-            StackPane pane = new StackPane(new VBox(menuBar));
-            pane.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(pane, 300, 400);
-            stage.setScene(scene);
-            stage.show();
-        });
-    }
+    
 
     /**
      * When moving directly from "#fileMenu" to "#newItem" (i.e. diagonally) the {@code editMenu}

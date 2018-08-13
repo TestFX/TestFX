@@ -25,6 +25,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -42,10 +43,11 @@ import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
+import org.testfx.internal.PlatformAdapter;
+import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.locator.impl.BoundsLocatorImpl;
 import org.testfx.service.locator.impl.PointLocatorImpl;
@@ -64,51 +66,36 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
-import static org.testfx.util.WaitForAsyncUtils.sleep;
 
-public class GlassRobotAdapterTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class GlassRobotAdapterTest extends InternalTestCaseBase {
 
     GlassRobotAdapter robotAdapter;
-    Stage targetStage;
     Parent sceneRoot;
     Region region;
     Point2D regionCenter;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
 
+    @Override
+    public Node createComponent() {
+        region = new Region();
+        region.setStyle("-fx-background-color: magenta;");
+
+        VBox box = new VBox(region);
+        box.setPadding(new Insets(10));
+        box.setSpacing(10);
+        VBox.setVgrow(region, Priority.ALWAYS);
+        box.setPrefSize(300, 100);
+
+        sceneRoot = new StackPane(box);
+        return sceneRoot;
+    }
     @Before
     public void setup() throws Exception {
         robotAdapter = new GlassRobotAdapter();
-        targetStage = FxToolkit.setupStage(stage -> {
-            region = new Region();
-            region.setStyle("-fx-background-color: magenta;");
-
-            VBox box = new VBox(region);
-            box.setPadding(new Insets(10));
-            box.setSpacing(10);
-            VBox.setVgrow(region, Priority.ALWAYS);
-
-            sceneRoot = new StackPane(box);
-            Scene scene = new Scene(sceneRoot, 300, 100);
-            stage.setScene(scene);
-            stage.show();
-        });
-
         PointLocator pointLocator = new PointLocatorImpl(new BoundsLocatorImpl());
         regionCenter = pointLocator.point(region).atPosition(Pos.CENTER).query();
     }
 
-    @After
-    public void cleanup() {
-        robotAdapter.keyRelease(KeyCode.A);
-        robotAdapter.mouseRelease(MouseButton.PRIMARY);
-    }
 
     @Test
     public void robotCreate() {
@@ -145,7 +132,7 @@ public class GlassRobotAdapterTest {
     public void keyPress() {
         // given:
         EventHandler<KeyEvent> keyEventHandler = mock(EventHandler.class);
-        targetStage.addEventHandler(KeyEvent.KEY_PRESSED, keyEventHandler);
+        getTestStage().addEventHandler(KeyEvent.KEY_PRESSED, keyEventHandler);
 
         // and:
         robotAdapter.mouseMove(regionCenter);
@@ -163,7 +150,7 @@ public class GlassRobotAdapterTest {
     public void keyRelease() {
         // given:
         EventHandler<KeyEvent> keyEventHandler = mock(EventHandler.class);
-        targetStage.addEventHandler(KeyEvent.KEY_RELEASED, keyEventHandler);
+        getTestStage().addEventHandler(KeyEvent.KEY_RELEASED, keyEventHandler);
 
         // and:
         robotAdapter.mouseMove(regionCenter);
@@ -245,7 +232,7 @@ public class GlassRobotAdapterTest {
     @Test
     public void getCapturePixelColor() {
         // given:
-        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+        assumeThat(PlatformAdapter.getOs(), is(not(OS.mac)));
         assumeThat(System.getProperty("prism.order", ""), is(not(equalTo("d3d"))));
 
         // when:
@@ -258,7 +245,7 @@ public class GlassRobotAdapterTest {
     @Test
     public void getCaptureRegion() {
         // given:
-        assumeThat(System.getenv("TRAVIS_OS_NAME"), is(not(equalTo("osx"))));
+        assumeThat(PlatformAdapter.getOs(), is(not(OS.mac)));
         assumeThat(System.getProperty("prism.order", ""), is(not(equalTo("d3d"))));
 
         // when:

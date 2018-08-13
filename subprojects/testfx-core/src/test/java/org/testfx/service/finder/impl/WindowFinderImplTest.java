@@ -17,27 +17,20 @@
 package org.testfx.service.finder.impl;
 
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WindowFinderImplTest {
+public class WindowFinderImplTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
 
     Stage window;
     Stage windowInWindow;
@@ -46,18 +39,13 @@ public class WindowFinderImplTest {
     Scene scene;
     WindowFinderImpl windowFinder;
 
-    @After
-    public void cleanup() throws TimeoutException {
-        FxToolkit.setupFixture(this::cleanupStages);
-    }
-
-    @Before
-    public void setup() throws TimeoutException {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.showStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(this::setupStages);
+    @Override
+    public Node createComponent() {
+    	Region reg=new Region();
+    	reg.setPrefSize(600, 400);
+    	setupStages();
         windowFinder = new WindowFinderImpl();
+        return reg;
     }
 
     public void setupStages() {
@@ -91,7 +79,7 @@ public class WindowFinderImplTest {
     }
 
     @Test
-    public void listWindows() {
+    public void listWindowsTest() {
         // TODO: Assert that ordering of windows is correct.
         // when:
         List<Window> windows = windowFinder.listWindows();
@@ -104,7 +92,7 @@ public class WindowFinderImplTest {
     }
 
     @Test
-    public void listTargetWindows() {
+    public void listTargetWindowsTest() {
         // TODO: Assert that ordering of windows is correct.
         // when:
         List<Window> orderedWindows = windowFinder.listTargetWindows();
@@ -128,7 +116,7 @@ public class WindowFinderImplTest {
     @Test
     public void targetWindow_windowIndex() {
         // when:
-        windowFinder.targetWindow(1);
+        windowFinder.targetWindow(0); //windows are created before main stage
 
         // then:
         assertThat(windowFinder.targetWindow(), CoreMatchers.is(window));
@@ -156,10 +144,11 @@ public class WindowFinderImplTest {
     public void window_windowIndex() {
         // TODO: Assert that it throws an exception of index is out of range.
         // expect:
-        assertThat(windowFinder.window(1), CoreMatchers.is(window));
-        assertThat(windowFinder.window(2), CoreMatchers.is(windowInWindow));
-        assertThat(windowFinder.window(3), CoreMatchers.is(windowInWindowInWindow));
-        assertThat(windowFinder.window(4), CoreMatchers.is(otherWindow));
+        //windows are created before main stage
+        assertThat(windowFinder.window(0), CoreMatchers.is(window));
+        assertThat(windowFinder.window(1), CoreMatchers.is(windowInWindow));
+        assertThat(windowFinder.window(2), CoreMatchers.is(windowInWindowInWindow));
+        assertThat(windowFinder.window(3), CoreMatchers.is(otherWindow));
     }
 
     @Test

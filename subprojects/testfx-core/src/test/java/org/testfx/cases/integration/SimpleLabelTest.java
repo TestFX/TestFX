@@ -16,29 +16,21 @@
  */
 package org.testfx.cases.integration;
 
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
-public class SimpleLabelTest extends TestCaseBase {
+public class SimpleLabelTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupStage(stage -> {
-            Scene scene = new Scene(new StackPane(new Label("SimpleLabelTest")), 300, 100);
-            stage.setScene(scene);
-            stage.show();
-        });
+    @Override
+    public Node createComponent() {
+        StackPane p = new StackPane(new Label("SimpleLabelTest"));
+        p.setPrefSize(300, 100);
+        return p;
     }
 
     @Test

@@ -18,6 +18,12 @@ package org.testfx.framework.junit5;
 
 import javafx.stage.Stage;
 
+/**
+ * An interface that represents a JavaFX application (something that can be initialized,
+ * started, and stopped).
+ * 
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
+ */
 public interface ApplicationFixture {
 
     void init() throws Exception;
@@ -25,4 +31,5 @@ public interface ApplicationFixture {
     void start(Stage stage) throws Exception;
 
     void stop() throws Exception;
+
 }

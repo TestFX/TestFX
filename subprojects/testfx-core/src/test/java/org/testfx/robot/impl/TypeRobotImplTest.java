@@ -19,9 +19,8 @@ package org.testfx.robot.impl;
 import javafx.scene.input.KeyCodeCombination;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
@@ -43,10 +42,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class TypeRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class TypeRobotImplTest extends InternalTestCaseBase {
 
     TypeRobot typeRobot;
     KeyboardRobot keyboardRobot;

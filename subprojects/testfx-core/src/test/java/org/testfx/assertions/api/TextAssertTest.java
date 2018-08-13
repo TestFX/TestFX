@@ -16,15 +16,14 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
@@ -34,32 +33,28 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assume.assumeThat;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class TextAssertTest extends FxRobot {
+public class TextAssertTest extends InternalTestCaseBase {
 
     Text foobarText;
     Text quuxText;
     static String fontFamily;
-
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        findFontFamily();
+    
+    @Override
+    public Node createComponent() {
+        foobarText = new Text("foobar");
+        foobarText.setStrikethrough(true);
+        foobarText.setFontSmoothingType(FontSmoothingType.GRAY);
+        quuxText = new Text("quux");
+        quuxText.setUnderline(true);
+        quuxText.setFontSmoothingType(FontSmoothingType.LCD);
+        if (fontFamily != null) {
+            quuxText.setFont(Font.font(fontFamily, 16));
+        }
+        VBox parent = new VBox();
+        parent.getChildren().addAll(foobarText, quuxText);
+        return parent;
     }
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            foobarText = new Text("foobar");
-            foobarText.setStrikethrough(true);
-            foobarText.setFontSmoothingType(FontSmoothingType.GRAY);
-            quuxText = new Text("quux");
-            quuxText.setUnderline(true);
-            quuxText.setFontSmoothingType(FontSmoothingType.LCD);
-            if (fontFamily != null) {
-                quuxText.setFont(Font.font(fontFamily, 16));
-            }
-        });
-    }
 
     @Test
     public void hasText() {

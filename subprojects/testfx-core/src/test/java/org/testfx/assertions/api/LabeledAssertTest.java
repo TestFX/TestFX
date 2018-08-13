@@ -16,36 +16,33 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class LabeledAssertTest extends FxRobot {
+public class LabeledAssertTest extends InternalTestCaseBase {
 
     Button foobarButton;
     Button quuxButton;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    
+    @Override
+    public Node createComponent() {
+        VBox box = new VBox();
+        foobarButton = new Button("foobar");
+        quuxButton = new Button("quux");
+        box.getChildren().addAll(foobarButton, quuxButton);
+        return box;
     }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            foobarButton = new Button("foobar");
-            quuxButton = new Button("quux");
-        });
-    }
+    
 
     @Test
     public void hasText() {

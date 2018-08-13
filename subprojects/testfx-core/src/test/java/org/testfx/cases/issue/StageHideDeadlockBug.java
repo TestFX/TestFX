@@ -25,14 +25,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
 
 @Ignore
-public class StageHideDeadlockBug extends TestCaseBase {
+public class StageHideDeadlockBug extends FxRobot {
 
     @BeforeClass
-    public static void setupSpec() {
+    public static void setupSpec() throws Exception {
+        FxToolkit.registerPrimaryStage();
         //FxToolkit.setupFixture(() -> new Stage().show());
     }
 

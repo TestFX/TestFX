@@ -139,18 +139,27 @@ public final class FxToolkit {
      *
      * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
      */
-    public static Application setupApplication(Class<? extends Application> applicationClass, String... applicationArgs)
+    public static <T extends Application> T setupApplication(Class<T> applicationClass, String... applicationArgs)
             throws TimeoutException {
         return waitForSetup(SERVICE.setupApplication(CONTEXT::getRegisteredStage, applicationClass, applicationArgs));
     }
 
     /**
      * Sets up the supplied application and returns that application once finished.
+     * 
+     * @param applicationSupplier a supplier that creates an instance of the
+     *                            Application
+     * @param applicationArgs     optional list of the arguments, the application
+     *                            should be launched with
+     * @return the Application after it has been launched
      *
-     * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
+     * @throws TimeoutException if execution is not finished before
+     *                          {@link FxToolkitContext#getSetupTimeoutInMillis()}
      */
-    public static Application setupApplication(Supplier<Application> applicationSupplier) throws TimeoutException {
-        return waitForSetup(SERVICE.setupApplication(CONTEXT::getRegisteredStage, applicationSupplier));
+    public static <T extends Application> T setupApplication(Supplier<T> applicationSupplier, String... applicationArgs)
+            throws TimeoutException {
+        return waitForSetup(
+                SERVICE.setupApplication(CONTEXT::getRegisteredStage, applicationSupplier, applicationArgs));
     }
 
     /**
