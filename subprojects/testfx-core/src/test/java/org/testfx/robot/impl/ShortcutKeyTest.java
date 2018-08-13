@@ -83,7 +83,7 @@ public class ShortcutKeyTest extends InternalTestCaseBase {
     }
 
     /**
-     * Verifies that that the correct key is received and that the method KeyEvent.isShortcutDown works.
+     * Verifies that the correct key is received and that the method KeyEvent.isShortcutDown works.
      */
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_pressed() {
@@ -95,7 +95,7 @@ public class ShortcutKeyTest extends InternalTestCaseBase {
     }
 
     /**
-     * Verifies that that the correct key is received and that the method KeyEvent.isShortcutDown works.
+     * Verifies that the correct key is received and that the method KeyEvent.isShortcutDown works.
      */
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() { //fix 589, 590

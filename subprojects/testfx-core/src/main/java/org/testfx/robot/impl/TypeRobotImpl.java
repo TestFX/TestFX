@@ -79,7 +79,7 @@ public class TypeRobotImpl implements TypeRobot {
         List<KeyCode> keyCodesForwards = Arrays.asList(keyCodeCombination);
         List<KeyCode> keyCodesBackwards = new ArrayList<>(keyCodesForwards);
         Collections.reverse(keyCodesBackwards);
-        keyboardRobot.pressNoWait(keyCodesForwards.toArray(new KeyCode[0]));
+        keyboardRobot.press(keyCodesForwards.toArray(new KeyCode[0]));
         keyboardRobot.release(keyCodesBackwards.toArray(new KeyCode[0]));
     }
 
