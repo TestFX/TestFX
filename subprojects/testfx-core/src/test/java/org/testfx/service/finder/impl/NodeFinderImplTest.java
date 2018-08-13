@@ -70,7 +70,7 @@ public class NodeFinderImplTest extends InternalTestCaseBase {
 
     @Override
     public Node createComponent() {
-        Region reg=new Region();
+        Region reg = new Region();
         reg.setPrefSize(600, 400);
         setupStages();
         windowFinder = new WindowFinderStub();

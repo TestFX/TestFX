@@ -41,9 +41,9 @@ public class WindowFinderImplTest extends InternalTestCaseBase {
 
     @Override
     public Node createComponent() {
-    	Region reg=new Region();
-    	reg.setPrefSize(600, 400);
-    	setupStages();
+        Region reg = new Region();
+        reg.setPrefSize(600, 400);
+        setupStages();
         windowFinder = new WindowFinderImpl();
         return reg;
     }

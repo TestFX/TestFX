@@ -16,15 +16,10 @@
  */
 package org.testfx.robot.impl;
 
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
@@ -40,8 +35,6 @@ import static org.mockito.Mockito.verify;
 public class WriteRobotImplTest extends InternalTestCaseBase {
 
     WriteRobot writeRobot;
-    Stage stage;
-    Scene scene;
     BaseRobot baseRobot;
     SleepRobot sleepRobot;
     WindowFinder windowFinder;
@@ -58,40 +51,40 @@ public class WriteRobotImplTest extends InternalTestCaseBase {
     @Test
     public void write_char() {
         // given:
-        given(windowFinder.targetWindow()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(getTestStage());
 
         // when:
         writeRobot.write('a');
 
         // then:
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("a"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.UNDEFINED), eq("a"));
     }
 
     @Test
     public void write_char_with_whitespace() {
         // given:
-        given(windowFinder.targetWindow()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(getTestStage());
 
         // when:
         writeRobot.write('\t');
         writeRobot.write('\n');
 
         // then:
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.TAB), eq("\t"));
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.ENTER), eq("\n"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.TAB), eq("\t"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.ENTER), eq("\n"));
     }
 
     @Test
     public void write_string() {
         // given:
-        given(windowFinder.targetWindow()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(getTestStage());
 
         // when:
         writeRobot.write("ae");
 
         // then:
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("a"));
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("e"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.UNDEFINED), eq("a"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.UNDEFINED), eq("e"));
     }
 
 }

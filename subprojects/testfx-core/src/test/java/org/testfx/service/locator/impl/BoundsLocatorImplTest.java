@@ -35,7 +35,6 @@ import javafx.stage.Window;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.service.locator.BoundsLocator;

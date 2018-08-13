@@ -79,6 +79,18 @@ public class ComponentTestBaseTest {
         assertThat("Node still exists after closing", test.lookup("#button").tryQuery().orElse(null), nullValue());
     }
 
+    @Test
+    public void asNull() throws Throwable {
+        //only requirement: shall not die
+        ComponentTestNull test = new ComponentTestNull();
+        ComponentTestBase.beforeAll();
+        test.beforeTest();
+        
+        test.afterTest();
+        ComponentTestBase.afterAll();
+    }
+    
+
     // Tests should start at a defined position, regardless of the position of the
     // test before
     @Test
@@ -230,6 +242,16 @@ public class ComponentTestBaseTest {
         @Override
         public TestComponent createComponent() {
             return new TestComponent();
+        }
+
+    }
+    
+
+    private class ComponentTestNull extends ComponentTestBase<TestComponent> {
+
+        @Override
+        public TestComponent createComponent() {
+            return null;
         }
 
     }

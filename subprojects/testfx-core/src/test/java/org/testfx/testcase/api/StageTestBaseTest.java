@@ -23,7 +23,7 @@ public class StageTestBaseTest {
     public void a1_dirtyTest() throws Throwable {
         // given
         StageTest test = new StageTest();
-        ComponentTestBase.beforeAll();
+        StageTestBase.beforeAll();
         test.beforeTest();
 
         // when
@@ -32,7 +32,7 @@ public class StageTestBaseTest {
         test.press(MouseButton.PRIMARY);
 
         test.afterTest();
-        ComponentTestBase.afterAll();
+        StageTestBase.afterAll();
     }
 
     @Test
@@ -47,17 +47,17 @@ public class StageTestBaseTest {
         assertFalse("Buttons were not cleared", testAfter.getTestStage().getTestBox().btnEvent.isPrimaryButtonDown());
 
         testAfter.afterTest();
-        ComponentTestBase.afterAll();
+        StageTestBase.afterAll();
     }
 
     @Test
     public void asParentTest() throws Throwable {
         StageTest test = new StageTest();
-        ComponentTestBase.beforeAll();
+        StageTestBase.beforeAll();
         test.beforeTest();
         assertThat("Node doesn't exist after opening", test.lookup("#button").query(), notNullValue());
         test.afterTest();
-        ComponentTestBase.afterAll();
+        StageTestBase.afterAll();
         assertThat("Node still exists after closing", test.lookup("#button").tryQuery().orElse(null), nullValue());
     }
 
@@ -67,7 +67,7 @@ public class StageTestBaseTest {
     public void isolationTest() throws Throwable {
         // given
         StageTest test = new StageTest();
-        ComponentTestBase.beforeAll();
+        StageTestBase.beforeAll();
         test.beforeTest();
         final double x = test.getTestStage().getX();
         final double y = test.getTestStage().getY();
@@ -77,22 +77,22 @@ public class StageTestBaseTest {
         test.getTestStage().setY(0);
         test.sleep(200);
         test.afterTest();
-        ComponentTestBase.afterAll();
+        StageTestBase.afterAll();
         test = new StageTest();
-        ComponentTestBase.beforeAll();
+        StageTestBase.beforeAll();
         test.beforeTest();
 
         // then
         assertThat("X of test changed", test.getTestStage().getX(), equalTo(x));
         assertThat("Y of test changed", test.getTestStage().getY(), equalTo(y));
         test.afterTest();
-        ComponentTestBase.afterAll();
+        StageTestBase.afterAll();
     }
 
     @Test
     public void stageTest() throws Throwable {
         StageTest test = new StageTest();
-        ComponentTestBase.beforeAll();
+        StageTestBase.beforeAll();
         test.beforeTest();
 
         Node n = test.lookup("#button").query();
@@ -100,7 +100,7 @@ public class StageTestBaseTest {
         assertThat("Returned stage not correct", test.getTestStage(), equalTo(s));
 
         test.afterTest();
-        ComponentTestBase.afterAll();
+        StageTestBase.afterAll();
     }
 
     private class StageTest extends StageTestBase<TestStage> {
