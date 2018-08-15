@@ -53,13 +53,13 @@ jobs:
       dist: trusty
       jdk: oraclejdk8
       env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless / HiDPI
     - os: linux
       dist: trusty
       jdk: oraclejdk8
       env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true -Dglass.gtk.uiScale=2.0"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true -Dglass.gtk.uiScale=2.0"
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (AWT Robot)
     - os: linux
       dist: trusty
@@ -103,7 +103,7 @@ jobs:
       osx_image: xcode9.4
       env:
         - TRAVIS_JAVA_VERSION="8"
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dprism.verbose=true"
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
      # macOS / Oracle JDK 10 / Headless
     - os: osx
       osx_image: xcode9.4
