@@ -133,8 +133,9 @@ public class MoveRobotImpl implements MoveRobot {
             }
         }
 
-        for (Point2D point : path.stream().limit(path.size() - 1).collect(Collectors.toList())) {
-            // TODO(mike): Why is the limiting necessary?
+        for (int i = 0; i < path.size() - 1; i++) {
+            // using path.size() - 1 because the last element is always equal to the targetPoint
+            Point2D point = path.get(i);
             mouseRobot.moveNoWait(point);
             sleepRobot.sleep(SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS);
         }
