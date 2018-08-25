@@ -54,7 +54,9 @@ public abstract class ApplicationClassTestBase<T extends Application> extends Te
 
     /**
      * Creates a instance of the application under test for use in the next test and
-     * returns it.
+     * returns it.<br> 
+     * This function may be called on the Fx-Application-Thread, so do
+     * not use any methods that are waiting for Fx-Events (e.g. Robot functions).
      * 
      * @return a instance of the application under test
      */

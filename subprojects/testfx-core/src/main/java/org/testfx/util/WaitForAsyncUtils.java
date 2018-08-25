@@ -29,11 +29,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -80,9 +80,10 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  */
 public final class WaitForAsyncUtils {
 
-    private static final long CONDITION_SLEEP_IN_MILLIS = 10;
-    private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
-    private static final int SEMAPHORE_LOOPS_COUNT = 5;
+    static final long CONDITION_SLEEP_IN_MILLIS = 10;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
+    static final int SEMAPHORE_LOOPS_COUNT = 5;
+    static final long FX_TIMEOUT_CONDITION = 1000;
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
 
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
@@ -368,10 +369,12 @@ public final class WaitForAsyncUtils {
      * @param attemptsCount the number of attempts to try
      */
     public static void waitForFxEvents(int attemptsCount) {
-        for (int attempt = 0; attempt < attemptsCount; attempt++) {
-            blockFxThreadWithSemaphore();
-            sleep(SEMAPHORE_SLEEP_IN_MILLIS, MILLISECONDS);
+        if(Platform.isFxApplicationThread()) {
+            throw new RuntimeException("Waiting for FxEvents on the Fx-Thread is just not possible. "
+                    +"Call the root on the test Thread!");
         }
+        FxConditionWaiter waiter=new FxConditionWaiter(new FxEventCounter(attemptsCount));
+        waiter.waitFor();
     }
 
     /**
@@ -547,14 +550,62 @@ public final class WaitForAsyncUtils {
             throw new RuntimeException(exception);
         }
     }
-
-    private static void blockFxThreadWithSemaphore() {
-        Semaphore semaphore = new Semaphore(0);
-        runOnFxThread(semaphore::release);
-        try {
-            semaphore.acquire();
+    
+    
+    private static class FxEventCounter implements BooleanSupplier{
+        int n=1;
+        public FxEventCounter(int n) {
+            this.n=n;
         }
-        catch (InterruptedException ignore) {
+        @Override
+        public boolean getAsBoolean() {
+            --n;
+            return n<=0;
+        }
+    }
+
+    /**
+     * Waits for a condition on the Fx-Thread to become true.
+     * The condition is evaluated periodically on the Fx-Thread with <code>SEMAPHORE_SLEEP_IN_MILLIS<code> ms delay between calls.
+     * The
+     */
+    private static class FxConditionWaiter implements Runnable{
+        BooleanSupplier fxCondition=null;
+        boolean done = false; //boolean access is atomic
+        boolean running=false;
+        long startMS;
+        public FxConditionWaiter(BooleanSupplier fxCondition) {
+            this.fxCondition = fxCondition;
+        }
+        @Override
+        public void run() {
+            if(fxCondition==null || fxCondition.getAsBoolean()) {
+                done=true;
+            }
+            running=false;
+        }
+        public void waitFor() {
+            startMS=System.currentTimeMillis();
+            while(!done) {
+                try {
+                    if(SEMAPHORE_SLEEP_IN_MILLIS>0) {
+                        Thread.sleep(SEMAPHORE_SLEEP_IN_MILLIS);
+                    }
+                    if(System.currentTimeMillis() - startMS > FX_TIMEOUT_CONDITION) {
+                        throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." + 
+                                " Operation took longer than "+FX_TIMEOUT_CONDITION+" ms");
+                    }
+                    if(!running) {
+                        running=true;
+                        Platform.runLater(this);
+                    } else {
+                        Thread.yield();
+                    }
+                }
+                catch(InterruptedException e) {
+                    return; // Interrupt requested
+                }
+            }
         }
     }
 

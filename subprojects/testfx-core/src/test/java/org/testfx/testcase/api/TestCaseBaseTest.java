@@ -31,8 +31,9 @@ public class TestCaseBaseTest {
 
         // when
         // simulate a test that had some exceptions
-        // otherwise we may not have multiple exceptions in the queue
+        // turn off autoExceptions, otherwise we may not have multiple exceptions in the queue
         WaitForAsyncUtils.autoCheckException = false;
+        WaitForAsyncUtils.printException = false;
         WaitForAsyncUtils.async(() -> {
             throw new Exception("FirstException");
         });
@@ -59,6 +60,7 @@ public class TestCaseBaseTest {
             return;
         } 
         finally {
+            WaitForAsyncUtils.printException = true;
             WaitForAsyncUtils.autoCheckException = true;
         }
         fail("Expected an exception");
@@ -73,8 +75,9 @@ public class TestCaseBaseTest {
 
         // when
         // simulate a test that has some exceptions
-        // otherwise we may not have multiple exceptions in the queue
+        // turn off autoExceptions, otherwise we may not have multiple exceptions in the queue
         WaitForAsyncUtils.autoCheckException = false;
+        WaitForAsyncUtils.printException = false;
         WaitForAsyncUtils.async(() -> {
             throw new Exception("FirstException");
         });
@@ -101,6 +104,7 @@ public class TestCaseBaseTest {
             return;
         } 
         finally {
+            WaitForAsyncUtils.printException = true;
             WaitForAsyncUtils.autoCheckException = true;
         }
         fail("Expected an exception");

@@ -17,17 +17,14 @@
 package org.testfx.matcher.base;
 
 import java.util.Objects;
-import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
 import org.hamcrest.Matcher;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
 import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -45,13 +42,8 @@ public class GeneralMatchersTest extends InternalTestCaseBase {
     
     @Override
     public Node createComponent() {
-        try {
-            notMatchingNode = FxToolkit.setupFixture(() -> new Pane());
-            notParentNode = FxToolkit.setupFixture(() -> new Button());
-        } 
-        catch (TimeoutException e) {
-            throw new RuntimeException("Exception during initialization", e);
-        }
+        notMatchingNode = new Pane();
+        notParentNode = new Button(); // does only have no children when not shown!
         return new VBox();
     }
     

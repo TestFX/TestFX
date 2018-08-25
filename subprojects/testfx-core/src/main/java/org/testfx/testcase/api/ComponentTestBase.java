@@ -51,7 +51,9 @@ public abstract class ComponentTestBase<T extends Node> extends TestCaseBase {
 
     /**
      * Creates a instance of the component under test for use in the next test and
-     * returns it.
+     * returns it.<br> 
+     * This function may be called on the Fx-Application-Thread, so do
+     * not use any methods that are waiting for Fx-Events (e.g. Robot functions).
      * 
      * @return a instance of the component under test
      */
@@ -97,9 +99,9 @@ public abstract class ComponentTestBase<T extends Node> extends TestCaseBase {
             testStage.setScene(testScene);
             testStage.show();
             testStage.toFront();
-            moveTo(getTestStage());
             return testStage;
         });
+        moveTo(getTestStage());
     }
 
     @Override
