@@ -88,7 +88,7 @@ public final class WaitForAsyncUtils {
     static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
     static final int SEMAPHORE_LOOPS_COUNT = 5;
     static final int PULSE_LOOPS_COUNT = 2;
-    static final long FX_TIMEOUT_CONDITION = 9000;
+    static final long FX_TIMEOUT_CONDITION = 5000;
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
 
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
@@ -569,7 +569,7 @@ public final class WaitForAsyncUtils {
         public boolean getAsBoolean() {
             if (n != 0) {
                 --n;
-                // System.out.println("event counter "+n);
+                System.out.println("event counter " + n);
             }
             return n <= 0;
         }
@@ -585,7 +585,7 @@ public final class WaitForAsyncUtils {
         public FxRenderCounter(int n) {
             Platform.runLater(() -> {
                 List<Window> windows = JavaVersionAdapter.getWindows();
-                // System.out.println("number of windows "+windows.size());
+                System.out.println("number of windows " + windows.size());
                 counter = new int[windows.size()];
                 listners = new Runnable[windows.size()];
                 window = new Window[windows.size()];
@@ -596,7 +596,7 @@ public final class WaitForAsyncUtils {
                     window[tmp] = w;
                     final Runnable r = () -> {
                         --counter[tmp]; // write access only from call back --> safe
-                        // System.out.println("Rendered counter["+tmp+"] to " + counter[tmp]);
+                        System.out.println("Rendered counter[" + tmp + "] to " + counter[tmp]);
                         if (counter[tmp] < 1) {
                             System.out.println("Last frame took " + (System.currentTimeMillis() - times[tmp]) + " ms");
                             JavaVersionAdapter.removePulseListener(w, listners[tmp]);
@@ -604,6 +604,7 @@ public final class WaitForAsyncUtils {
                         times[tmp] = System.currentTimeMillis();
                     };
                     if (JavaVersionAdapter.addPulseListener(w, r)) {
+                        System.out.println("Adding pulse listener (" + tmp + ")");
                         counter[tmp] = n;
                         listners[tmp] = r;
                     } else {
@@ -672,7 +673,7 @@ public final class WaitForAsyncUtils {
         }
 
         public void waitFor() {
-            //System.out.println("----- waitFor ------");
+            System.out.println("----- waitFor ------");
             startMS = System.currentTimeMillis();
             while (!done) {
                 try {
@@ -685,6 +686,8 @@ public final class WaitForAsyncUtils {
                     }
                     if (!running) {
                         //System.out.println("Test set running true");
+                        System.out.println("Enque next query on FX (" + 
+                            (System.currentTimeMillis() - startMS) + " ms");
                         running = true;
                         Platform.runLater(this);
                     } else {
