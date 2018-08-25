@@ -41,6 +41,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.stage.Window;
 
+import org.testfx.api.FxToolkit;
 import org.testfx.internal.JavaVersionAdapter;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -90,6 +91,8 @@ public final class WaitForAsyncUtils {
     static final int PULSE_LOOPS_COUNT = 2;
     static final long FX_TIMEOUT_CONDITION = 5000;
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
+    
+    public static boolean debugTestTiming;
 
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
 
@@ -569,7 +572,9 @@ public final class WaitForAsyncUtils {
         public boolean getAsBoolean() {
             if (n != 0) {
                 --n;
-                System.out.println("event counter " + n);
+                if (debugTestTiming) {
+                    System.out.println("event counter " + n);
+                }
             }
             return n <= 0;
         }
@@ -585,7 +590,9 @@ public final class WaitForAsyncUtils {
         public FxRenderCounter(int n) {
             Platform.runLater(() -> {
                 List<Window> windows = JavaVersionAdapter.getWindows();
-                System.out.println("number of windows " + windows.size());
+                if (debugTestTiming) {
+                    System.out.println("number of windows " + windows.size());
+                }
                 counter = new int[windows.size()];
                 listners = new Runnable[windows.size()];
                 window = new Window[windows.size()];
@@ -596,15 +603,22 @@ public final class WaitForAsyncUtils {
                     window[tmp] = w;
                     final Runnable r = () -> {
                         --counter[tmp]; // write access only from call back --> safe
-                        System.out.println("Rendered counter[" + tmp + "] to " + counter[tmp]);
+                        if (debugTestTiming) {
+                            System.out.println("Rendered counter[" + tmp + "] to " + counter[tmp]);
+                        }
                         if (counter[tmp] < 1) {
-                            System.out.println("Last frame took " + (System.currentTimeMillis() - times[tmp]) + " ms");
+                            if (debugTestTiming) {
+                                System.out.println("Last frame took " + 
+                                        (System.currentTimeMillis() - times[tmp]) + " ms");
+                            }
                             JavaVersionAdapter.removePulseListener(w, listners[tmp]);
                         }
                         times[tmp] = System.currentTimeMillis();
                     };
                     if (JavaVersionAdapter.addPulseListener(w, r)) {
-                        System.out.println("Adding pulse listener (" + tmp + ")");
+                        if (debugTestTiming) {
+                            System.out.println("Adding pulse listener (" + tmp + ")");
+                        }
                         counter[tmp] = n;
                         listners[tmp] = r;
                     } else {
@@ -655,6 +669,9 @@ public final class WaitForAsyncUtils {
 
         @Override
         public void run() {
+            if (debugTestTiming) {
+                System.out.println("Check wait conditions on Fx-Thread");
+            }
             if (fxCondition == null) {
                 done = true;
             } else {
@@ -673,7 +690,9 @@ public final class WaitForAsyncUtils {
         }
 
         public void waitFor() {
-            System.out.println("----- waitFor ------");
+            if (debugTestTiming) {
+                System.out.println("----- waitFor ------");
+            }
             startMS = System.currentTimeMillis();
             while (!done) {
                 try {
@@ -686,9 +705,13 @@ public final class WaitForAsyncUtils {
                     }
                     if (!running) {
                         //System.out.println("Test set running true");
-                        System.out.println("Enque next query on FX (" + 
-                            (System.currentTimeMillis() - startMS) + " ms");
+
+                        if (debugTestTiming) {
+                            System.out.println("Enque next query on FX (" + 
+                                    (System.currentTimeMillis() - startMS) + " ms)");
+                        }
                         running = true;
+                        System.out.println("Fx running " + FxToolkit.isFXApplicationThreadRunning());
                         Platform.runLater(this);
                     } else {
                         //System.out.println("Running was true -> yield");
@@ -700,7 +723,9 @@ public final class WaitForAsyncUtils {
                     return; // Interrupt requested
                 }
             }
-            System.out.println("Waiting for events took " + (System.currentTimeMillis() - startMS) + " ms");
+            if (debugTestTiming) {
+                System.out.println("Waiting for events took " + (System.currentTimeMillis() - startMS) + " ms");
+            }
         }
     }
 

@@ -24,8 +24,10 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.cases.InternalTestCaseBase;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -76,6 +78,11 @@ public class WindowFinderImplTest extends InternalTestCaseBase {
         windowInWindow.close();
         windowInWindowInWindow.close();
         otherWindow.close();
+    }
+    
+    @BeforeClass
+    public static void b() {
+        WaitForAsyncUtils.debugTestTiming = true;
     }
 
     @Test
