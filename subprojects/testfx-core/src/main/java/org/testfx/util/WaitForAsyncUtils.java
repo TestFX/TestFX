@@ -369,11 +369,11 @@ public final class WaitForAsyncUtils {
      * @param attemptsCount the number of attempts to try
      */
     public static void waitForFxEvents(int attemptsCount) {
-        if(Platform.isFxApplicationThread()) {
-            throw new RuntimeException("Waiting for FxEvents on the Fx-Thread is just not possible. "
-                    +"Call the root on the test Thread!");
+        if (Platform.isFxApplicationThread()) {
+            throw new RuntimeException("Waiting for FxEvents on the Fx-Thread is just not possible. " +
+                    "Call the root on the test Thread!");
         }
-        FxConditionWaiter waiter=new FxConditionWaiter(new FxEventCounter(attemptsCount));
+        FxConditionWaiter waiter = new FxConditionWaiter(new FxEventCounter(attemptsCount));
         waiter.waitFor();
     }
 
@@ -552,57 +552,62 @@ public final class WaitForAsyncUtils {
     }
     
     
-    private static class FxEventCounter implements BooleanSupplier{
-        int n=1;
+    private static class FxEventCounter implements BooleanSupplier {
+        int n = 1;
+
         public FxEventCounter(int n) {
-            this.n=n;
+            this.n = n;
         }
+
         @Override
         public boolean getAsBoolean() {
             --n;
-            return n<=0;
+            return n <= 0;
         }
     }
 
     /**
-     * Waits for a condition on the Fx-Thread to become true.
-     * The condition is evaluated periodically on the Fx-Thread with <code>SEMAPHORE_SLEEP_IN_MILLIS<code> ms delay between calls.
-     * The
+     * Waits for a condition on the Fx-Thread to become true. The condition is
+     * evaluated periodically on the Fx-Thread with
+     * <code>SEMAPHORE_SLEEP_IN_MILLIS</code> ms delay between calls.
      */
-    private static class FxConditionWaiter implements Runnable{
-        BooleanSupplier fxCondition=null;
-        boolean done = false; //boolean access is atomic
-        boolean running=false;
+    private static class FxConditionWaiter implements Runnable {
+        BooleanSupplier fxCondition;
+        boolean done; // boolean access is atomic
+        boolean running;
         long startMS;
+
         public FxConditionWaiter(BooleanSupplier fxCondition) {
             this.fxCondition = fxCondition;
         }
+
         @Override
         public void run() {
-            if(fxCondition==null || fxCondition.getAsBoolean()) {
-                done=true;
+            if (fxCondition == null || fxCondition.getAsBoolean()) {
+                done = true;
             }
-            running=false;
+            running = false;
         }
+
         public void waitFor() {
-            startMS=System.currentTimeMillis();
-            while(!done) {
+            startMS = System.currentTimeMillis();
+            while (!done) {
                 try {
-                    if(SEMAPHORE_SLEEP_IN_MILLIS>0) {
+                    if (SEMAPHORE_SLEEP_IN_MILLIS > 0) {
                         Thread.sleep(SEMAPHORE_SLEEP_IN_MILLIS);
                     }
-                    if(System.currentTimeMillis() - startMS > FX_TIMEOUT_CONDITION) {
-                        throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." + 
-                                " Operation took longer than "+FX_TIMEOUT_CONDITION+" ms");
+                    if (System.currentTimeMillis() - startMS > FX_TIMEOUT_CONDITION) {
+                        throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
+                                " Operation took longer than " + FX_TIMEOUT_CONDITION + " ms");
                     }
-                    if(!running) {
-                        running=true;
+                    if (!running) {
+                        running = true;
                         Platform.runLater(this);
                     } else {
                         Thread.yield();
                     }
-                }
-                catch(InterruptedException e) {
+                } 
+                catch (InterruptedException e) {
                     return; // Interrupt requested
                 }
             }

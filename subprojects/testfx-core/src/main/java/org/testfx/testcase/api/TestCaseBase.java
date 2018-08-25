@@ -27,11 +27,11 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
      */
     public static void beforeAll() throws Throwable {
         // Used to start JavaFx, if not running
-        if(!FxToolkit.isFXApplicationThreadRunning()) {
+        if (!FxToolkit.isFXApplicationThreadRunning()) {
             FxToolkit.registerPrimaryStage();
         }
         // Verify it is up and running
-        if(!FxToolkit.isFXApplicationThreadRunning()) {
+        if (!FxToolkit.isFXApplicationThreadRunning()) {
             throw new RuntimeException("Failed to initialize Toolkit");
         }
     }
