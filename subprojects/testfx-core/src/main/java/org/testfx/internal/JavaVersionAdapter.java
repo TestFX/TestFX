@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -102,8 +103,11 @@ public final class JavaVersionAdapter {
         if (currentVersion().isJava9Compatible()) {
             Scene s = window.getScene();
             if (s != null) {
-                s.addPostLayoutPulseListener(afterPulse);
-                return true;
+                try {
+                    Scene.class.getMethod("addPostLayoutPulseListener", Runnable.class).invoke(s, afterPulse);
+                    return true;
+                }
+                catch (Exception ignore) { }
             }
         }
         return false;
@@ -113,9 +117,23 @@ public final class JavaVersionAdapter {
         if (currentVersion().isJava9Compatible()) {
             Scene s = window.getScene();
             if (s != null) {
-                s.removePostLayoutPulseListener(afterPulse);
-                return true;
+                try {
+                    Scene.class.getMethod("removePostLayoutPulseListener", Runnable.class).invoke(s, afterPulse);
+                    return true;
+                }
+                catch (Exception ignore) { }
             }
+        }
+        return false;
+    }
+    
+    public static boolean requestPulse() {
+        if (currentVersion().isJava9Compatible()) {
+            try {
+                Platform.class.getMethod("requestNextPulse").invoke(null);
+                return true;
+            } 
+            catch (Exception ignore) { }
         }
         return false;
     }

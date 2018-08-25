@@ -630,7 +630,7 @@ public final class WaitForAsyncUtils {
                 }
             }
             if (!ret) {
-                Platform.requestNextPulse(); // force rendering
+                JavaVersionAdapter.requestPulse(); // force rendering
             }
             // System.out.println("FxRenderCounter done="+ret);
             return ret;
