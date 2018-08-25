@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Screen;
 import javafx.stage.Window;
@@ -95,6 +96,28 @@ public final class JavaVersionAdapter {
         }
 
         return windows;
+    }
+    
+    public static boolean addPulseListener(Window window, Runnable afterPulse) {
+        if (currentVersion().isJava9Compatible()) {
+            Scene s = window.getScene();
+            if (s != null) {
+                s.addPostLayoutPulseListener(afterPulse);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean removePulseListener(Window window, Runnable afterPulse) {
+        if (currentVersion().isJava9Compatible()) {
+            Scene s = window.getScene();
+            if (s != null) {
+                s.removePostLayoutPulseListener(afterPulse);
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isNotVisible(Node node) {

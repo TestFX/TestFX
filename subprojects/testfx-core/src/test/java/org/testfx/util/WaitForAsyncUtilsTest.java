@@ -308,7 +308,11 @@ public class WaitForAsyncUtilsTest {
         // when
         WaitForAsyncUtils.waitForFxEvents();
         // then
-        assertTrue("WaitForFxEvents didn't wait long enough", System.currentTimeMillis() > time +
+        assertTrue(
+                "WaitForFxEvents didn't wait long enough. Waited " + (System.currentTimeMillis() - time) +
+                        " ms, Expected at least " +
+                        (WaitForAsyncUtils.SEMAPHORE_LOOPS_COUNT * WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS) + " ms",
+                System.currentTimeMillis() > time +
                 (WaitForAsyncUtils.SEMAPHORE_LOOPS_COUNT * WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS));
     }
 
@@ -341,13 +345,12 @@ public class WaitForAsyncUtilsTest {
         // when
         try {
             int n = 10;
-            if (WaitForAsyncUtils.CONDITION_SLEEP_IN_MILLIS > 0) {
-                n += WaitForAsyncUtils.FX_TIMEOUT_CONDITION / WaitForAsyncUtils.CONDITION_SLEEP_IN_MILLIS;
-            } else {
-                // assume yield takes at least 1 ms
-                n += WaitForAsyncUtils.CONDITION_SLEEP_IN_MILLIS;
+            if (WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS > 0) {
+                n += WaitForAsyncUtils.FX_TIMEOUT_CONDITION / WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS;
+            } else { // may not use pulses (Java8 support)
+                n = 10000000;
             }
-            WaitForAsyncUtils.waitForFxEvents(n);
+            WaitForAsyncUtils.waitForFxEvents(n, 1);
             // then
             WaitForAsyncUtils.checkException();
             fail("No exception when waiting for Fx-Events on Fx-Thread, this operation is not possible...");

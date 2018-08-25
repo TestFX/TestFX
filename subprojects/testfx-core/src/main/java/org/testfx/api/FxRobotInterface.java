@@ -494,9 +494,9 @@ public interface FxRobotInterface {
     FxRobotInterface interrupt();
 
     /**
-     * Calls {@link WaitForAsyncUtils#waitForFxEvents(int)} and returns itself for method chaining.
+     * Calls {@link WaitForAsyncUtils#waitForFxEvents(int, int)} and returns itself for method chaining.
      */
-    FxRobotInterface interrupt(int attemptsCount);
+    FxRobotInterface interrupt(int fxLoops, int pulseLoops);
 
     /**
      * Calls {@link org.testfx.robot.SleepRobot#sleep(long)} and returns itself for more method chaining.

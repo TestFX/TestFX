@@ -443,8 +443,8 @@ public class FxRobot implements FxRobotInterface {
     }
 
     @Override
-    public FxRobot interrupt(int attemptsCount) {
-        waitForFxEvents(attemptsCount);
+    public FxRobot interrupt(int fxLoops, int pulseLoops) {
+        waitForFxEvents(fxLoops, pulseLoops);
         return this;
     }
 
