@@ -87,10 +87,10 @@ public class ComponentTestBaseTest {
         try {
             test.beforeTest();
         }
-        catch(Exception e) {
+        catch (Exception e) {
             //Some platforms do not initialize this component
-            if(e.getMessage().indexOf("Coordinates of stage are NaN") == -1) {
-                throw(e);
+            if (e.getMessage().indexOf("Coordinates of stage are NaN") == -1) {
+                throw e;
             }
         }
         

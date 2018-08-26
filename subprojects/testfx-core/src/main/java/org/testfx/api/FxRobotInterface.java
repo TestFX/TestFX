@@ -500,7 +500,8 @@ public interface FxRobotInterface {
     FxRobotInterface interrupt(int fxLoops, int pulseLoops);
 
     /**
-     * Calls {@link WaitForAsyncUtils#waitForFxCondition(long, TimeUnit, BooleanSupplier...)} and returns itself for method chaining.
+     * Calls {@link WaitForAsyncUtils#waitForFxCondition(long, TimeUnit, BooleanSupplier...)} and returns itself 
+     * for method chaining.
      */
     FxRobotInterface interrupt(long timeout, TimeUnit timeUnit, BooleanSupplier... fxConditions);
 

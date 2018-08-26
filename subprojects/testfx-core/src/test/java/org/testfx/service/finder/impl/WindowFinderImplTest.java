@@ -25,10 +25,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.cases.InternalTestCaseBase;
-import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

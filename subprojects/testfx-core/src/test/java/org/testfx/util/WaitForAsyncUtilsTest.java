@@ -373,31 +373,31 @@ public class WaitForAsyncUtilsTest {
     
     @Test
     public void waitForFxConditionTest() {
-        //when
-        FxCondition c=new FxCondition(200);
+        // when
+        FxCondition c = new FxCondition(200);
         Platform.runLater(c);
-        assertTrue("Initilal condition is true!",!c.run);
-        //when
+        assertTrue("Initilal condition is true!", !c.run);
+        // when
         WaitForAsyncUtils.waitForFxCondition(1, TimeUnit.SECONDS, () -> c.run);
-        //then
-        assertTrue("Final condition is false!",c.run);
+        // then
+        assertTrue("Final condition is false!", c.run);
     }
 
     @Test
     public void waitForFxConditionTimeoutTest() {
-        //when
-        FxCondition c=new FxCondition(5000);
+        // when
+        FxCondition c = new FxCondition(5000);
         Platform.runLater(c);
-        assertTrue("Initilal condition is true!",!c.run);
+        assertTrue("Initilal condition is true!", !c.run);
         WaitForAsyncUtils.printException = false; // do not pollute output
         try {
-            //when
+            // when
             WaitForAsyncUtils.waitForFxCondition(1, TimeUnit.SECONDS, () -> c.run);
-            //then
+            // then
             fail("Expected Timeout");
-        }
-        catch(Exception ignore) {
-            
+        } 
+        catch (Exception ignore) {
+
         } 
         finally {
             WaitForAsyncUtils.printException = true;

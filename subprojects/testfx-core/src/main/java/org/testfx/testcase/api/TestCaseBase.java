@@ -98,10 +98,12 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
             // check size of stage (preventing successive failures...)
             double x = 0;
             try {
-                x = WaitForAsyncUtils.asyncFx(() -> {return s.getX();}).get(500, TimeUnit.MILLISECONDS);
+                x = WaitForAsyncUtils.asyncFx(() -> { 
+                    return s.getX(); }
+                        ).get(500, TimeUnit.MILLISECONDS);
             }
-            catch(Exception e) {
-                throw new RuntimeException("Failed to get stage coordinates",e);
+            catch (Exception e) {
+                throw new RuntimeException("Failed to get stage coordinates", e);
             }
             if (Double.isNaN(x)) {
                 throw new RuntimeException("Coordinates of stage are NaN. " + 
