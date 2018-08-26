@@ -21,8 +21,7 @@ import org.testfx.testcase.api.ComponentTestBase;
  */
 public abstract class InternalJUnitTest<T extends Node> extends ComponentTestBase<T> {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(10000));
+    @Rule public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(10000));
 
     @BeforeClass
     public static void beforeClass() throws Throwable {

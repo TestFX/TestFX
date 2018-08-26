@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.Callable;
@@ -41,7 +42,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.stage.Window;
 
-import org.testfx.api.FxToolkit;
 import org.testfx.internal.JavaVersionAdapter;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -361,6 +361,9 @@ public final class WaitForAsyncUtils {
         booleanValue.removeListener(changeListener);
     }
 
+    //TODO#615 waitForFxConditions()...
+    
+    
     /**
      * Waits for the event queue of the "JavaFX Application Thread" to be completed,
      * as well as any new events triggered in it.
@@ -378,8 +381,10 @@ public final class WaitForAsyncUtils {
      */
     public static void waitForFxEvents(int attemptsCount, int pulses) {
         if (Platform.isFxApplicationThread()) {
-            throw new RuntimeException("Waiting for FxEvents on the Fx-Thread is just not possible. " +
-                    "Call the root on the test Thread!");
+            throw new RuntimeException(
+                    "Waiting for events on the 'JavaFX Application Thread' is not possible (nor advisable). " +
+                    "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
+                    "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
         FxConditionWaiter waiter = new FxConditionWaiter(
             new FxEventCounter(attemptsCount), new FxRenderCounter(pulses));
@@ -483,11 +488,7 @@ public final class WaitForAsyncUtils {
      */
     private static void registerException(Throwable throwable) {
         if (checkAllExceptions) {
-            // Workaround for #411 see discussion in #440
-            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
-                // TODO more general version of filter after refactoring
-                return;
-            }
+            // TODO more general version of filter after refactoring
             if (printException) {
                 printException(throwable, null);
             }
@@ -580,13 +581,19 @@ public final class WaitForAsyncUtils {
         }
     }
 
+    /**
+     * This class counts the pulses on the Fx-Thread. A pulse is actually triggered,
+     * when the scene graph is updated, just before the actual rendering happens.<br>
+     * All methods except the constructor have to be called only on the Fx-Thread.
+     */
     private static class FxRenderCounter implements BooleanSupplier {
         int[] counter;
         Runnable[] listners;
         Window[] window;
-        long[] times; // TODO debug only
+        long[] times; // TODO#615 debug only
         transient boolean initialized;
 
+        //TODO#615 ensure that components just added to show are rendered too
         public FxRenderCounter(int n) {
             Platform.runLater(() -> {
                 List<Window> windows = JavaVersionAdapter.getWindows();
@@ -645,6 +652,12 @@ public final class WaitForAsyncUtils {
                 }
             }
             if (!ret) {
+                // trigger pulse hangs in awt headless mode during clean up...
+                if (debugTestTiming) {
+                    for (Window w : window) {
+                        System.out.println("Window visibility: " + w.isShowing());
+                    }
+                }
                 JavaVersionAdapter.requestPulse(); // force rendering
             }
             // System.out.println("FxRenderCounter done="+ret);
@@ -657,10 +670,8 @@ public final class WaitForAsyncUtils {
      * evaluated periodically on the Fx-Thread with
      * <code>SEMAPHORE_SLEEP_IN_MILLIS</code> ms delay between calls.
      */
-    private static class FxConditionWaiter implements Runnable {
+    private static class FxConditionWaiter implements Callable<Boolean> {
         final BooleanSupplier[] fxCondition;
-        transient boolean done; // boolean access is atomic
-        transient boolean running;
         long startMS;
 
         public FxConditionWaiter(BooleanSupplier... fxCondition) {
@@ -668,7 +679,8 @@ public final class WaitForAsyncUtils {
         }
 
         @Override
-        public void run() {
+        public Boolean call() throws Exception {
+            boolean done = false;
             if (debugTestTiming) {
                 System.out.println("Check wait conditions on Fx-Thread");
             }
@@ -684,18 +696,21 @@ public final class WaitForAsyncUtils {
                 }
                 done = tmpDone;
             }
-            //System.out.println("FxConditionWaiter done="+done);
-            //System.out.println("Fx set running false");
-            running = false;
+            // System.out.println("FxConditionWaiter done="+done);
+            // System.out.println("Fx set running false");
+            return done;
         }
 
         public void waitFor() {
             if (debugTestTiming) {
                 System.out.println("----- waitFor ------");
             }
+
             startMS = System.currentTimeMillis();
+            boolean done = false;
             while (!done) {
                 try {
+                    // any exception will be thrown up the tree
                     if (SEMAPHORE_SLEEP_IN_MILLIS > 0) {
                         Thread.sleep(SEMAPHORE_SLEEP_IN_MILLIS);
                     }
@@ -703,24 +718,36 @@ public final class WaitForAsyncUtils {
                         throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
                                 " Operation took longer than " + FX_TIMEOUT_CONDITION + " ms");
                     }
-                    if (!running) {
-                        //System.out.println("Test set running true");
-
-                        if (debugTestTiming) {
-                            System.out.println("Enque next query on FX (" + 
-                                    (System.currentTimeMillis() - startMS) + " ms)");
-                        }
-                        running = true;
-                        System.out.println("Fx running " + FxToolkit.isFXApplicationThreadRunning());
-                        Platform.runLater(this);
-                    } else {
-                        //System.out.println("Running was true -> yield");
-                        Thread.yield();
-                    }
+                    ASyncFXCallable<Boolean> call = new ASyncFXCallable<>(this, true);
+                    runOnFxThread(call);
+                    long timeout = FX_TIMEOUT_CONDITION - (System.currentTimeMillis() - startMS);
+                    timeout = Math.max(1, timeout);
+                    done = call.get(timeout, TimeUnit.MILLISECONDS);
                 } 
                 catch (InterruptedException e) {
                     System.err.println("WaitForAsyncUtils -> Interrupt was requested while waiting");
+                    // StackTrace on Fx-Thread
+                    Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
+                    for (Thread t : traces.keySet()) {
+                        if (t.getName().indexOf("Application") > -1) {
+                            System.err.println("----- Thread info " + t.getName() + "-----");
+                            System.err.println("State: " + t.getState());
+                            StackTraceElement[] trace = traces.get(t);
+                            for (StackTraceElement se : trace) {
+                                System.err.println(se);
+                            }
+                        }
+                    }
+                    System.err.flush();
                     return; // Interrupt requested
+                } 
+                catch (Exception e) {
+                    if (debugTestTiming) {
+                        System.out.println("Exception during waitForFx");
+                        e.printStackTrace();
+                    }
+                    throw new RuntimeException("Exception during waiting for contdition to become true on Fx-Thread",
+                            e);
                 }
             }
             if (debugTestTiming) {
@@ -889,6 +916,9 @@ public final class WaitForAsyncUtils {
                 if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
+                }
+                if (TRACE_FETCH) {
+                    printException(e, Thread.currentThread().getStackTrace());
                 }
                 throw e;
             }
