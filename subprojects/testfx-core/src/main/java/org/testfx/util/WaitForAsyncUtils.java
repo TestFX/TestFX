@@ -361,7 +361,24 @@ public final class WaitForAsyncUtils {
         booleanValue.removeListener(changeListener);
     }
 
-    //TODO#615 waitForFxConditions()...
+    /**
+     * Waits for the given condition to become true. The conditions are evaluated on the Fx-Thread, so
+     * GUI-Parameters can be accessed safely. The method will return, when all of the given conditions are true,
+     * or the defined timeout has elapsed.
+     * @param timeout the timeout to wait for
+     * @param timeUnit the time unit {@code timeout} is in
+     * @param conditions the conditions to wait for as BooleanSuppliers
+     */
+    public static void waitForFxCondition(long timeout, TimeUnit timeUnit, BooleanSupplier... conditions) {
+        if (Platform.isFxApplicationThread()) {
+            throw new RuntimeException(
+                    "Waiting for events on the 'JavaFX Application Thread' is not possible (nor advisable). " +
+                    "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
+                    "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
+        }
+        FxConditionWaiter waiter = new FxConditionWaiter(timeUnit.toMillis(timeout), conditions);
+        waiter.waitFor();
+    }
     
     
     /**
@@ -386,7 +403,7 @@ public final class WaitForAsyncUtils {
                     "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
                     "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
-        FxConditionWaiter waiter = new FxConditionWaiter(
+        FxConditionWaiter waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION,
             new FxEventCounter(attemptsCount), new FxRenderCounter(pulses));
         waiter.waitFor();
     }
@@ -673,9 +690,11 @@ public final class WaitForAsyncUtils {
     private static class FxConditionWaiter implements Callable<Boolean> {
         final BooleanSupplier[] fxCondition;
         long startMS;
+        final long timeoutMS; 
 
-        public FxConditionWaiter(BooleanSupplier... fxCondition) {
+        public FxConditionWaiter(long timeoutMS, BooleanSupplier... fxCondition) {
             this.fxCondition = fxCondition;
+            this.timeoutMS = timeoutMS;
         }
 
         @Override
@@ -709,18 +728,18 @@ public final class WaitForAsyncUtils {
             startMS = System.currentTimeMillis();
             boolean done = false;
             while (!done) {
+                if (System.currentTimeMillis() - startMS > timeoutMS) {
+                    throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
+                            " Operation took longer than " + timeoutMS + " ms");
+                }
                 try {
                     // any exception will be thrown up the tree
                     if (SEMAPHORE_SLEEP_IN_MILLIS > 0) {
                         Thread.sleep(SEMAPHORE_SLEEP_IN_MILLIS);
                     }
-                    if (System.currentTimeMillis() - startMS > FX_TIMEOUT_CONDITION) {
-                        throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
-                                " Operation took longer than " + FX_TIMEOUT_CONDITION + " ms");
-                    }
                     ASyncFXCallable<Boolean> call = new ASyncFXCallable<>(this, true);
                     runOnFxThread(call);
-                    long timeout = FX_TIMEOUT_CONDITION - (System.currentTimeMillis() - startMS);
+                    long timeout = timeoutMS - (System.currentTimeMillis() - startMS);
                     timeout = Math.max(1, timeout);
                     done = call.get(timeout, TimeUnit.MILLISECONDS);
                 } 
@@ -741,6 +760,10 @@ public final class WaitForAsyncUtils {
                     System.err.flush();
                     return; // Interrupt requested
                 } 
+                catch (TimeoutException e) {
+                	throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
+                            " Operation took longer than " + timeoutMS + " ms");
+                }
                 catch (Exception e) {
                     if (debugTestTiming) {
                         System.out.println("Exception during waitForFx");

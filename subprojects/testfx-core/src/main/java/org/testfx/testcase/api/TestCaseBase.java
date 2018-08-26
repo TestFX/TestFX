@@ -1,7 +1,10 @@
 package org.testfx.testcase.api;
 
+import java.util.concurrent.TimeUnit;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
@@ -78,6 +81,34 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
         catch (Throwable e) {
             WaitForAsyncUtils.clearExceptions(); // There might be more exceptions on the stack
             throw e; // make test fail
+        }
+    }
+    
+    /**
+     * This method will initialize the given stage. It will provide consistent initial
+     * conditions for each test.   It will wait until the stage is visible and place the
+     * mouse pointer to the center of the stage.
+     * @param s the main stage of the test to initialize
+     */
+    protected void initStage(Stage s) {
+        //there are some flaws with the
+        if (s != null) {
+            interrupt(1, TimeUnit.SECONDS, () -> s.isShowing());
+            interrupt(); // wait for events after stage is showing
+            // check size of stage (preventing successive failures...)
+            double x = 0;
+            try {
+                x = WaitForAsyncUtils.asyncFx(() -> {return s.getX();}).get(500, TimeUnit.MILLISECONDS);
+            }
+            catch(Exception e) {
+                throw new RuntimeException("Failed to get stage coordinates",e);
+            }
+            if (Double.isNaN(x)) {
+                throw new RuntimeException("Coordinates of stage are NaN. " + 
+                        "Most probable reason for this is, that your stage has no size. " +
+                        "Try to set preferred size of your component.");
+            }
+            moveTo(getTestStage());
         }
     }
 

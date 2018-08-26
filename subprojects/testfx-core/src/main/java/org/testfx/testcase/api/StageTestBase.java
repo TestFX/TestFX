@@ -42,7 +42,7 @@ public abstract class StageTestBase<T extends Stage> extends TestCaseBase {
             testStage.toFront();
             return testStage;
         });
-        moveTo(getTestStage());
+        initStage(getTestStage());
     }
 
     @Override

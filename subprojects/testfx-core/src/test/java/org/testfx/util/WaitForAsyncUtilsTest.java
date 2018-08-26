@@ -19,7 +19,10 @@ package org.testfx.util;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -328,7 +331,8 @@ public class WaitForAsyncUtilsTest {
             fail("No exception when waiting for Fx-Events on Fx-Thread, this operation is not possible...");
         } 
         catch (Throwable e) {
-            if (e.getMessage() == null || e.getMessage().indexOf("Waiting for FxEvents on the Fx-Thread") == -1) {
+            if (e.getMessage() == null || e.getMessage().indexOf(
+                    "Waiting for events on the 'JavaFX Application Thread' is not possible") == -1) {
                 fail("Wrong exception returned: " + e.getClass() + " message: " + e.getMessage());
                 e.printStackTrace();
             }
@@ -365,6 +369,58 @@ public class WaitForAsyncUtilsTest {
         finally {
             WaitForAsyncUtils.printException = true;
         }
+    }
+    
+    @Test
+    public void waitForFxConditionTest() {
+        //when
+        FxCondition c=new FxCondition(200);
+        Platform.runLater(c);
+        assertTrue("Initilal condition is true!",!c.run);
+        //when
+        WaitForAsyncUtils.waitForFxCondition(1, TimeUnit.SECONDS, () -> c.run);
+        //then
+        assertTrue("Final condition is false!",c.run);
+    }
+
+    @Test
+    public void waitForFxConditionTimeoutTest() {
+        //when
+        FxCondition c=new FxCondition(5000);
+        Platform.runLater(c);
+        assertTrue("Initilal condition is true!",!c.run);
+        WaitForAsyncUtils.printException = false; // do not pollute output
+        try {
+            //when
+            WaitForAsyncUtils.waitForFxCondition(1, TimeUnit.SECONDS, () -> c.run);
+            //then
+            fail("Expected Timeout");
+        }
+        catch(Exception ignore) {
+            
+        } 
+        finally {
+            WaitForAsyncUtils.printException = true;
+        }
+    }
+    
+    private class FxCondition implements Runnable {
+        public transient boolean run;
+        public final long sleep;
+        public FxCondition(long sleep) {
+            this.sleep = sleep;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(sleep);
+            } 
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            run = true;
+        }
+        
     }
 
     void waitForException(Future<?> f) throws InterruptedException {

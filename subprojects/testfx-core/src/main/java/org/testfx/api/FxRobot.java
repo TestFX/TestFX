@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
@@ -50,6 +51,7 @@ import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
 import org.testfx.service.support.Capture;
 import org.testfx.util.BoundsQueryUtils;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.testfx.util.NodeQueryUtils.isVisible;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
@@ -448,6 +450,12 @@ public class FxRobot implements FxRobotInterface {
         return this;
     }
 
+    @Override
+    public FxRobot interrupt(long timeout, TimeUnit timeUnit, BooleanSupplier... fxConditions) {
+        WaitForAsyncUtils.waitForFxCondition(timeout, timeUnit, fxConditions);
+        return this;
+    }
+    
     @Override
     public FxRobot push(KeyCode... combination) {
         context.getTypeRobot().push(combination);

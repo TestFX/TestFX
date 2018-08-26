@@ -43,7 +43,7 @@ public abstract class ApplicationClassTestBase<T extends Application> extends Te
         testStage = FxToolkit.registerPrimaryStage();
         application = FxToolkit.setupApplication(() -> createApplication(), getArguments());
         interact(() -> testStage.toFront());
-        moveTo(getTestStage());
+        initStage(getTestStage());
     }
 
     @Override

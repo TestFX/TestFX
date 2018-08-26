@@ -45,7 +45,9 @@ public class GeneralMatchersTest extends InternalTestCaseBase {
     public Node createComponent() {
         notMatchingNode = new Pane();
         notParentNode = new Button(); // does only have no children when not shown!
-        return new VBox();
+        VBox box = new VBox();
+        box.setPrefSize(10, 10); // popup in the middle
+        return box;
     }
     
 

@@ -81,12 +81,6 @@ public class WindowFinderImplTest extends InternalTestCaseBase {
         otherWindow.show();
     }
 
-    
-    @BeforeClass
-    public static void b() {
-        WaitForAsyncUtils.debugTestTiming = true;
-    }
-
     @Test
     public void listWindowsTest() {
         // TODO: Assert that ordering of windows is correct.

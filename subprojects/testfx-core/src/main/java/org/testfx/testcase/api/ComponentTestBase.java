@@ -101,7 +101,7 @@ public abstract class ComponentTestBase<T extends Node> extends TestCaseBase {
             testStage.toFront();
             return testStage;
         });
-        moveTo(getTestStage());
+        initStage(getTestStage());
     }
 
     @Override
