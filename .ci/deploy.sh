@@ -5,8 +5,16 @@ set -euo pipefail
 brew update
 brew cask reinstall caskroom/versions/java8
 
-# Upload and publish release artifacts to Bintray
-./gradlew bintrayPublish \
+# Upload and publish release artifacts to Bintray.
+# We call "bintrayUpload" task for each sub-project
+# so that gradle-bintray-plugin does not complain
+# about the root project missing config (this used
+# to be a silent error, but is now not so and fails
+# the build).
+./gradlew :testfx-core:bintrayUpload \
+    :testfx-junit:bintrayUpload \
+    :testfx-junit5:bintrayUpload \
+    :testfx-spock:bintrayUpload \
     -PbintrayUsername="$BINTRAY_USERNAME" \
     -PbintrayApiKey="$BINTRAY_API_KEY" \
     -Ppublish=true \
