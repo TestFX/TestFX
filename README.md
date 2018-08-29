@@ -32,7 +32,7 @@ To add a dependency on TestFX using Gradle, use the following:
 
 ```gradle
 dependencies {
-    testCompile "org.testfx:testfx-core:4.0.13-alpha"
+    testCompile "org.testfx:testfx-core:4.0.14-alpha"
 }
 ```
 
@@ -42,7 +42,7 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
 
 ```gradle
 dependencies {
-    testCompile "org.testfx:testfx-junit:4.0.13-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.14-alpha"
 }
 ```
 
@@ -54,7 +54,7 @@ To add a dependency on TestFX using Maven, use the following:
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-core</artifactId>
-    <version>4.0.13-alpha</version>
+    <version>4.0.14-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -67,7 +67,7 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit</artifactId>
-    <version>4.0.13-alpha</version>
+    <version>4.0.14-alpha</version>
     <scope>test</scope>
 </dependency>
 ```

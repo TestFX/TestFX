@@ -6,7 +6,7 @@ brew update
 brew cask reinstall caskroom/versions/java8
 
 # Upload and publish release artifacts to Bintray
-./gradlew bintray \
+./gradlew bintrayPublish \
     -PbintrayUsername="$BINTRAY_USERNAME" \
     -PbintrayApiKey="$BINTRAY_API_KEY" \
     -Ppublish=true \
