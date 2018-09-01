@@ -1,5 +1,6 @@
 package org.testfx.util;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -46,6 +47,17 @@ public class WaitForInputEvent extends WaitForAsyncUtils.ConditionWaiter {
      */
     public static WaitForInputEvent ofEvent(long timeoutMS, Predicate<Event> matcher, boolean throwTimeout) {
         return new WaitForInputEvent(timeoutMS, f -> f.hasEvent(matcher), throwTimeout);
+    }
+    /**
+     * Creates a instance that waits until the list of all collected events matches the given predicate.
+     * May be used for example to count the number of events of a specific type etc.. 
+     * @param timeoutMS the timeout in milliseconds
+     * @param matcher the matcher to wait for
+     * @param throwTimeout if true, a exception will be thrown if a timeout occurred
+     * @return the instance of the waiter
+     */
+    public static WaitForInputEvent ofList(long timeoutMS, Predicate<List<Event>> matcher, boolean throwTimeout) {
+        return new WaitForInputEvent(timeoutMS, f -> matcher.test(f.getEvents()), throwTimeout);
     }
 
     /**

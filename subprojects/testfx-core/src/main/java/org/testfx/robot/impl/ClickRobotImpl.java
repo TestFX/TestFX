@@ -55,9 +55,9 @@ public class ClickRobotImpl implements ClickRobot {
     public void clickOn(MouseButton... buttons) {
         WaitForInputEvent w = null;
         if (verify) {
-            w = WaitForInputEvent.ofStream(CLICK_TO, s -> s.filter(e -> e instanceof MouseEvent && 
+            w = WaitForInputEvent.ofList(CLICK_TO, l -> l.stream().filter(e -> e instanceof MouseEvent && 
                 ((MouseEvent)e).getEventType().equals(MouseEvent.MOUSE_CLICKED)).count() >= buttons.length &&
-                s.filter(e -> e instanceof MouseEvent && 
+                l.stream().filter(e -> e instanceof MouseEvent && 
                 ((MouseEvent)e).getEventType().equals(MouseEvent.MOUSE_RELEASED)).count() >= buttons.length, 
                 true);
         }
@@ -86,11 +86,11 @@ public class ClickRobotImpl implements ClickRobot {
     public void doubleClickOn(MouseButton... buttons) {
         WaitForInputEvent w = null;
         if (verify) {
-            w = WaitForInputEvent.ofStream(CLICK_TO, 
-                s -> s.filter(e -> e instanceof MouseEvent && ((MouseEvent)e).getEventType()
+            w = WaitForInputEvent.ofList(CLICK_TO, 
+                l -> l.stream().filter(e -> e instanceof MouseEvent && ((MouseEvent)e).getEventType()
                     .equals(MouseEvent.MOUSE_CLICKED) && 
                     ((MouseEvent)e).getClickCount() >= 2).count() >= buttons.length &&
-                s.filter(e -> e instanceof MouseEvent && 
+                l.stream().filter(e -> e instanceof MouseEvent && 
                     ((MouseEvent)e).getEventType().equals(MouseEvent.MOUSE_RELEASED)).count() >= 
                     2 * buttons.length, true);
         }

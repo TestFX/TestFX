@@ -71,9 +71,11 @@ public class WriteRobotImpl implements WriteRobot {
     public void write(char character) {
         WaitForInputEvent w = null;
         if (verify) {
-            w = WaitForInputEvent.ofStream(CHAR_TO,
-                s -> s.filter(e -> e instanceof KeyEvent && ((KeyEvent) e).getEventType().equals(KeyEvent.KEY_TYPED))
-                .count() >= 1, true);
+            w = WaitForInputEvent.ofList(CHAR_TO,
+                l -> l.stream().filter(e -> e instanceof KeyEvent && 
+                    ((KeyEvent) e).getEventType().equals(KeyEvent.KEY_TYPED)).count() >= 1 &&
+                l.stream().filter(e -> e instanceof KeyEvent && 
+                    ((KeyEvent) e).getEventType().equals(KeyEvent.KEY_RELEASED)).count() >= 1, true);
         }
         Scene scene = fetchTargetWindow().getScene();
         typeCharacterInScene(character, scene);
