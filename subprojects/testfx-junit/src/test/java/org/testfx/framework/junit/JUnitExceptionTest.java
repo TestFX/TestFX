@@ -87,8 +87,10 @@ public class JUnitExceptionTest extends ApplicationTest {
             fail("checkException didn't detect Exception");
         }
         catch (Exception e) { // clean up...
-            WaitForAsyncUtils.printException = true; //  enable printing for other tests
             throw e;
+        }
+        finally {
+            WaitForAsyncUtils.printException = true; //  enable printing for other tests
         }
     }
 
