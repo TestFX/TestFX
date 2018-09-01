@@ -34,7 +34,7 @@ public class ClickRobotImpl implements ClickRobot {
 
     static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT = 50;
     static long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT;
-    static final long CLICK_TO_DEFAULT = 500;
+    static final long CLICK_TO_DEFAULT = 1000;
     static long CLICK_TO = CLICK_TO_DEFAULT;
     static boolean verify = true;
 
@@ -68,7 +68,7 @@ public class ClickRobotImpl implements ClickRobot {
                 w.waitFor();
             }
             catch (Exception e) {
-                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("Waiting for mouse click failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
             }
         }
@@ -104,7 +104,7 @@ public class ClickRobotImpl implements ClickRobot {
                 w.waitFor();
             }
             catch (Exception e) {
-                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("Waiting for mouse double click failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
             }
         }

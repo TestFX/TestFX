@@ -44,6 +44,7 @@ public class JUnitExceptionTest extends ApplicationTest {
     @Rule
     public TestRule rule = RuleChain.outerRule(Timeout.millis(10000)).around(exception = ExpectedException.none());
     public ExpectedException exception;
+    Button button;
 
     @BeforeClass
     public static void setUpClass() {
@@ -59,6 +60,7 @@ public class JUnitExceptionTest extends ApplicationTest {
     public void start(Stage primaryStage) {
         Button button = new Button("Throws Exception");
         button.setOnAction(e ->  {
+            System.out.println("Throw an exception");
             throw new UnsupportedOperationException("Something Went Wrong: Notice me");
         });
         StackPane root = new StackPane(button);
@@ -82,7 +84,7 @@ public class JUnitExceptionTest extends ApplicationTest {
         exception.expectCause(instanceOf(UnsupportedOperationException.class));
         WaitForAsyncUtils.clearExceptions(); // just ensure no other test put an exception into the buffer
         try {
-            clickOn("Throws Exception"); // does already handle all the async stuff...
+            clickOn(button); // does already handle all the async stuff...
             WaitForAsyncUtils.checkException(); // need to check Exception, as event is executed after click
             fail("checkException didn't detect Exception");
         }
