@@ -1,6 +1,42 @@
 # Change Log
 
-## [v4.0.13-alpha](https://github.com/testfx/testfx/tree/v4.0.13-alpha) (2018-03-22)
+## [v4.0.14-alpha](https://github.com/testfx/testfx/tree/v4.0.14-alpha) (2018-08-29)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.13-alpha...v4.0.14-alpha)
+
+**Merged pull requests:**
+
+- \(fix\) Remove call to limit\(-1\) in MoveRobotImpl.moveMouseStepwiseBetween [\#620](https://github.com/TestFX/TestFX/pull/620) ([Clashsoft](https://github.com/Clashsoft))
+- \(fix\) KeyCombination on Mac with Java10 and AwtRobotAdapter [\#613](https://github.com/TestFX/TestFX/pull/613) ([Ortner](https://github.com/Ortner))
+- \(test\) Fix Locale in text matchers [\#611](https://github.com/TestFX/TestFX/pull/611) ([Ortner](https://github.com/Ortner))
+- \(fix\) Refactor/cleanup of HiDPI handling code. [\#609](https://github.com/TestFX/TestFX/pull/609) ([brcolow](https://github.com/brcolow))
+- \(fix\) Make sure AWT and Glass robots work in HiDPI and normal DPI. [\#602](https://github.com/TestFX/TestFX/pull/602) ([brcolow](https://github.com/brcolow))
+- \(fix\) Add Text class case to NodeQueryUtils.hasNodeText\(..\). [\#600](https://github.com/TestFX/TestFX/pull/600) ([brcolow](https://github.com/brcolow))
+- \(fix\) typing of characters in the background [\#598](https://github.com/TestFX/TestFX/pull/598) ([brcolow](https://github.com/brcolow))
+- \(chore\) Bump Appveyor Java 10 version. [\#595](https://github.com/TestFX/TestFX/pull/595) ([brcolow](https://github.com/brcolow))
+- 589 shortcut [\#591](https://github.com/TestFX/TestFX/pull/591) ([Ortner](https://github.com/Ortner))
+- Fix misclosed string messing up syntax highlight on README.md [\#588](https://github.com/TestFX/TestFX/pull/588) ([oowekyala](https://github.com/oowekyala))
+- Spelling correction [\#585](https://github.com/TestFX/TestFX/pull/585) ([david-arteaga](https://github.com/david-arteaga))
+- Add new matcher for MenuItem elements with tests [\#584](https://github.com/TestFX/TestFX/pull/584) ([Alexilmarranen](https://github.com/Alexilmarranen))
+- Try and fix hiDPI for multi-monitor. [\#580](https://github.com/TestFX/TestFX/pull/580) ([brcolow](https://github.com/brcolow))
+- \(fix\) Add imports to test classes in README. [\#579](https://github.com/TestFX/TestFX/pull/579) ([brcolow](https://github.com/brcolow))
+- \(fix\) Refactor queryAsX methods to be defaults. [\#578](https://github.com/TestFX/TestFX/pull/578) ([brcolow](https://github.com/brcolow))
+- \(doc\) Reword doc to match behaviour. [\#576](https://github.com/TestFX/TestFX/pull/576) ([scolej](https://github.com/scolej))
+- Made cursor interpolation calculation variable settable using system params [\#575](https://github.com/TestFX/TestFX/pull/575) ([adamlb94](https://github.com/adamlb94))
+- \(fix\) Use Long.getLong, Integer.getInteger, and Boolean.getBoolean fo… [\#572](https://github.com/TestFX/TestFX/pull/572) ([brcolow](https://github.com/brcolow))
+- \(fix\) Remove @Unstable and @Stable annotations. [\#569](https://github.com/TestFX/TestFX/pull/569) ([brcolow](https://github.com/brcolow))
+- \(chore\) Fix some code style issues. [\#567](https://github.com/TestFX/TestFX/pull/567) ([brcolow](https://github.com/brcolow))
+- \(fix\) Get Java 10 working on CI. [\#560](https://github.com/TestFX/TestFX/pull/560) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add Java 10 builds to Appveyor and Travis CI. [\#558](https://github.com/TestFX/TestFX/pull/558) ([brcolow](https://github.com/brcolow))
+- \(chore\) Cleanup Spotbugs gradle log summary. [\#557](https://github.com/TestFX/TestFX/pull/557) ([brcolow](https://github.com/brcolow))
+- \(fix\) Try and double the timeout for WaitForAsyncUtilsTest. [\#555](https://github.com/TestFX/TestFX/pull/555) ([brcolow](https://github.com/brcolow))
+- \(fix\) Remove usage of 'javafx.macosx.embedded' property. [\#554](https://github.com/TestFX/TestFX/pull/554) ([brcolow](https://github.com/brcolow))
+- \(chore\) Remove jdepend from build.gradle, bump gradle plugins. [\#552](https://github.com/TestFX/TestFX/pull/552) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add Javadocs to testfx-junit subproject. [\#551](https://github.com/TestFX/TestFX/pull/551) ([brcolow](https://github.com/brcolow))
+- \(fix\) Operate on getWindows, without any wrapping. [\#550](https://github.com/TestFX/TestFX/pull/550) ([brcolow](https://github.com/brcolow))
+- \(fix\) Explicitly install Java 9 on travis macOS. [\#547](https://github.com/TestFX/TestFX/pull/547) ([brcolow](https://github.com/brcolow))
+- \(fix\) Publish the Bintray artifacts on deploy. [\#545](https://github.com/TestFX/TestFX/pull/545) ([brcolow](https://github.com/brcolow))
+
+## [v4.0.13-alpha](https://github.com/testfx/testfx/tree/v4.0.13-alpha) (2018-03-23)
 [Full Changelog](https://github.com/testfx/testfx/compare/v4.0.12-alpha...v4.0.13-alpha)
 
 **Merged pull requests:**

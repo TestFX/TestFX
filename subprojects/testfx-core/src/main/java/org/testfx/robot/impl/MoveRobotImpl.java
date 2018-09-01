@@ -138,6 +138,7 @@ public class MoveRobotImpl implements MoveRobot {
             }
         }
         for (int i = 0; i < path.size() - 1; i++) {
+            // using path.size() - 1 because the last element is always equal to the targetPoint
             Point2D point = path.get(i);
             mouseRobot.moveNoWait(point);
             // check that each point is reached by the robot, but do not wait for events
