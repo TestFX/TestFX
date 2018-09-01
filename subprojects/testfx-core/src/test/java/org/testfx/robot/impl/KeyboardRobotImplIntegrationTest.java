@@ -61,6 +61,7 @@ public class KeyboardRobotImplIntegrationTest extends InternalTestCaseBase {
         // given:
         clickOn(area, MouseButton.PRIMARY);
         FiredEvents events = FiredEvents.beginStoringFiredEvents();
+        long t = System.currentTimeMillis();
 
         // when:
         keyboardRobot.press(A);
@@ -68,8 +69,35 @@ public class KeyboardRobotImplIntegrationTest extends InternalTestCaseBase {
 
         // then:
         try {
+            t = System.currentTimeMillis() - t;
             assertTrue("Returned before event",
                     events.hasEvent(e -> e instanceof KeyEvent && ((KeyEvent) e).getCode() == KeyCode.A));
+            assertTrue("Delay too short " + t, t > 450);
+            assertTrue("Delay too long " + t, t < 1500);
+        } 
+        finally {
+            events.stopStoringFiredEvents();
+        }
+    }
+
+    @Test
+    public void delayedPressDelTest() {
+        // given:
+        clickOn(area, MouseButton.PRIMARY);
+        FiredEvents events = FiredEvents.beginStoringFiredEvents();
+        long t = System.currentTimeMillis();
+
+        // when:
+        keyboardRobot.press(KeyCode.BACK_SPACE);
+        // sleep(2000);
+
+        // then:
+        try {
+            t = System.currentTimeMillis() - t;
+            assertTrue("Returned before event",
+                    events.hasEvent(e -> e instanceof KeyEvent && ((KeyEvent) e).getCode() == KeyCode.BACK_SPACE));
+            assertTrue("Delay too short " + t, t > 450);
+            assertTrue("Delay too long " + t, t < 1500);
         } 
         finally {
             events.stopStoringFiredEvents();
@@ -82,6 +110,7 @@ public class KeyboardRobotImplIntegrationTest extends InternalTestCaseBase {
         clickOn(area, MouseButton.PRIMARY);
         keyboardRobot.press(A);
         FiredEvents events = FiredEvents.beginStoringFiredEvents();
+        long t = System.currentTimeMillis();
 
         // when:
         keyboardRobot.release(A); // needs to be pressed before
@@ -89,10 +118,13 @@ public class KeyboardRobotImplIntegrationTest extends InternalTestCaseBase {
 
         // then:
         try {
+            t = System.currentTimeMillis() - t;
             assertTrue("Returned before event",
                 events.hasEvent(e -> e instanceof KeyEvent && ((KeyEvent) e).getCode() == KeyCode.A));
             assertTrue("Not enough events " + events.getEvents().size(), events.hasEvents(
                 s -> s.filter(e -> (e instanceof KeyEvent) && ((KeyEvent) e).getCode() == KeyCode.A).count() >= 1));
+            assertTrue("Delay too short " + t, t > 450);
+            assertTrue("Delay too long " + t, t < 1500);
         } 
         finally {
             events.stopStoringFiredEvents();

@@ -42,7 +42,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     private static final KeyCode OS_SPECIFIC_SHORTCUT = PlatformAdapter.getOs() == OS.mac ? KeyCode.COMMAND :
             KeyCode.CONTROL;
 
-    static final long KEYBOARD_DEFAULT_TO = 250;
+    static final long KEYBOARD_DEFAULT_TO = 500;
     /**
      * The expected worst case time in ms, between the call to the Robot function and the corresponding event
      * showing up in the JavaFx Event Thread.

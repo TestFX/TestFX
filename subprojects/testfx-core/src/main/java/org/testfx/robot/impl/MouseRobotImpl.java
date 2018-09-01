@@ -38,7 +38,7 @@ public class MouseRobotImpl implements MouseRobot {
 
     private final BaseRobot baseRobot;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
-    static final long MOUSE_TO_DEFAULT = 250;
+    static final long MOUSE_TO_DEFAULT = 500;
     static long MOUSE_TO = MOUSE_TO_DEFAULT;
     static boolean verify = true;
 

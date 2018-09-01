@@ -405,9 +405,9 @@ public class TableViewMatchersTest extends InternalTestCaseBase {
         WaitForAsyncUtils.waitForFxEvents();
         clickOn("alice");
         clickOn("alice");
-        press(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
         write("not alice!");
-        press(KeyCode.ENTER);
+        push(KeyCode.ENTER);
 
         // then:
         assertThat(tableView, TableViewMatchers.containsRow("not alice!", 30));

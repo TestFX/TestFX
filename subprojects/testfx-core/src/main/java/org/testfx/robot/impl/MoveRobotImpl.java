@@ -36,7 +36,7 @@ public class MoveRobotImpl implements MoveRobot {
 
     static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEFAULT = 1;
     static long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEFAULT;
-    private static final long MOVE_TO = 100;
+    private static final long MOVE_TO = 500;
     private static final long MOVE_VERIFY_PX = 10;
     private static final long MIN_POINT_OFFSET_COUNT = 1;
     private static final long MAX_POINT_OFFSET_COUNT;

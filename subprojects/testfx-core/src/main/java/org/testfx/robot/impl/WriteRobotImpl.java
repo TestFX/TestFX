@@ -35,7 +35,7 @@ public class WriteRobotImpl implements WriteRobot {
 
     static final int SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT = 25;
     static int SLEEP_AFTER_CHARACTER_IN_MILLIS = SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT;
-    static final int CHAR_TO_DEFAULT = 250;
+    static final int CHAR_TO_DEFAULT = 500;
     static int CHAR_TO = CHAR_TO_DEFAULT;
     static boolean verify = true;
     static boolean debug;

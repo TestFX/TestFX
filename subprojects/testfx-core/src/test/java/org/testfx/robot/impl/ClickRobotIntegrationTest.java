@@ -57,9 +57,10 @@ public class ClickRobotIntegrationTest extends InternalTestCaseBase {
             clickRobot.clickOn(MouseButton.PRIMARY);
 
             // then:
+            t = System.currentTimeMillis() - t;
             assertThat(area.getText(), equalTo("clicked 1"));
-            assertTrue("Delay wasn't long enough " + (System.currentTimeMillis() - t),
-                    System.currentTimeMillis() - t > 500);
+            assertTrue("Delay wasn't long enough " + t, t > 500);
+            assertTrue("Delay was too long enough " + t, t < 1500);
         } 
         finally {
             e.stopStoringFiredEvents();
@@ -78,7 +79,8 @@ public class ClickRobotIntegrationTest extends InternalTestCaseBase {
             clickRobot.clickOn(MouseButton.PRIMARY);
 
             // then:
-            assertTrue("Delay was too long " + (System.currentTimeMillis() - t), System.currentTimeMillis() - t < 450);
+            t = System.currentTimeMillis() - t;
+            assertTrue("Delay was too long " + t, t < 450);
         } 
         finally {
             sleep(1000); // wait for events to happen...
@@ -97,9 +99,10 @@ public class ClickRobotIntegrationTest extends InternalTestCaseBase {
             clickRobot.doubleClickOn(MouseButton.PRIMARY);
 
             // then:
+            t = System.currentTimeMillis() - t;
             assertThat(area.getText(), equalTo("clicked 2"));
-            assertTrue("Delay wasn't long enough " + (System.currentTimeMillis() - t),
-                    System.currentTimeMillis() - t > 500);
+            assertTrue("Delay wasn't long enough " + t, t > 500);
+            assertTrue("Delay was too long enough " + t, t < 1500);
         } 
         finally {
             e.stopStoringFiredEvents();
@@ -118,7 +121,8 @@ public class ClickRobotIntegrationTest extends InternalTestCaseBase {
             clickRobot.doubleClickOn(MouseButton.PRIMARY);
 
             // then:
-            assertTrue("Delay was too long " + (System.currentTimeMillis() - t), System.currentTimeMillis() - t < 450);
+            t = System.currentTimeMillis() - t;
+            assertTrue("Delay was too long " + t, t < 450);
         } 
         finally {
             sleep(1000); // wait for events to happen...

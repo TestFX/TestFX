@@ -34,7 +34,7 @@ public class ClickRobotImpl implements ClickRobot {
 
     static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT = 50;
     static long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT;
-    static final long CLICK_TO_DEFAULT = 250;
+    static final long CLICK_TO_DEFAULT = 500;
     static long CLICK_TO = CLICK_TO_DEFAULT;
     static boolean verify = true;
 

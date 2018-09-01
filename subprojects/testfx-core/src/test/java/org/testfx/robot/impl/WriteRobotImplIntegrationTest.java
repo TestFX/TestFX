@@ -59,9 +59,10 @@ public class WriteRobotImplIntegrationTest extends InternalTestCaseBase {
             writeRobot.write('A');
 
             // then:
+            t = System.currentTimeMillis() - t;
             assertThat(area.getText(), equalTo("A"));
-            assertTrue("Delay wasn't long enough " + (System.currentTimeMillis() - t),
-                    System.currentTimeMillis() - t > 500);
+            assertTrue("Delay wasn't long enough " + t, t > 500);
+            assertTrue("Delay was too long enough " + t, t < 1500);
         } 
         finally {
             e.stopStoringFiredEvents();
@@ -81,7 +82,8 @@ public class WriteRobotImplIntegrationTest extends InternalTestCaseBase {
             writeRobot.write('A');
 
             // then:
-            assertTrue("Delay was too long " + (System.currentTimeMillis() - t), System.currentTimeMillis() - t < 450);
+            t = System.currentTimeMillis() - t;
+            assertTrue("Delay was too long " + t, t < 450);
         } 
         finally {
             sleep(1000); // wait for events to happen...
@@ -102,9 +104,10 @@ public class WriteRobotImplIntegrationTest extends InternalTestCaseBase {
             writeRobot.write(test);
 
             // then:
+            t = System.currentTimeMillis() - t;
             assertThat(area.getText(), equalTo(test));
-            assertTrue("Delay wasn't long enough " + (System.currentTimeMillis() - t),
-                    System.currentTimeMillis() - t > 500);
+            assertTrue("Delay wasn't long enough " + t, t > 500);
+            assertTrue("Delay too long " + t, t < 1000);
         } 
         finally {
             e.stopStoringFiredEvents();
@@ -125,7 +128,8 @@ public class WriteRobotImplIntegrationTest extends InternalTestCaseBase {
             writeRobot.write(test);
 
             // then:
-            assertTrue("Delay was too long " + (System.currentTimeMillis() - t), System.currentTimeMillis() - t < 450);
+            t = System.currentTimeMillis() - t;
+            assertTrue("Delay was too long " + t, t < 450);
         } 
         finally {
             sleep(1000); // wait for events to happen...
