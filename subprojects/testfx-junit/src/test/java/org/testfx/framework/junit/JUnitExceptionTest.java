@@ -16,21 +16,14 @@
  */
 package org.testfx.framework.junit;
 
-import java.util.concurrent.TimeoutException;
-
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
-import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -39,36 +32,21 @@ import static org.junit.Assert.fail;
 /**
  * This class tests exception handling of the GUI within the JUnit framework.
  */
-public class JUnitExceptionTest extends ApplicationTest {
+public class JUnitExceptionTest extends ComponentTest<Button> {
 
     @Rule
     public TestRule rule = RuleChain.outerRule(Timeout.millis(10000)).around(exception = ExpectedException.none());
     public ExpectedException exception;
-    Button button;
-
-    @BeforeClass
-    public static void setUpClass() {
-        try {
-            FxToolkit.registerPrimaryStage();
-        }
-        catch (TimeoutException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
+    
     @Override
-    public void start(Stage primaryStage) {
+    public Button createComponent() {
         Button button = new Button("Throws Exception");
         button.setOnAction(e ->  {
             System.out.println("Throw an exception");
             throw new UnsupportedOperationException("Something Went Wrong: Notice me");
         });
-        StackPane root = new StackPane(button);
-
-        Scene scene = new Scene(root, 200, 150);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Hello World");
-        primaryStage.show();
+        return button;
     }
 
     /**
@@ -84,7 +62,7 @@ public class JUnitExceptionTest extends ApplicationTest {
         exception.expectCause(instanceOf(UnsupportedOperationException.class));
         WaitForAsyncUtils.clearExceptions(); // just ensure no other test put an exception into the buffer
         try {
-            clickOn(button); // does already handle all the async stuff...
+            clickOn(getComponent()); // does already handle all the async stuff...
             WaitForAsyncUtils.checkException(); // need to check Exception, as event is executed after click
             fail("checkException didn't detect Exception");
         }

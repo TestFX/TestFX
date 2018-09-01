@@ -16,11 +16,9 @@
  */
 package org.testfx.framework.junit;
 
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -36,15 +34,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class KeyAndButtonReleaseTest extends ApplicationTest {
+public class KeyAndButtonReleaseTest extends ComponentTest<Pane> {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public Pane createComponent() {
         Pane p = new Pane();
         p.setPrefSize(300, 300);
-        Scene s = new Scene(p);
-        stage.setScene(s);
-        stage.show();
+        return p;
     }
 
     @Test
