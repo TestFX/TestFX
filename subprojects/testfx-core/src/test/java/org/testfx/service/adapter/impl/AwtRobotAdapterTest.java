@@ -68,6 +68,7 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
     Parent sceneRoot;
     Region region;
     Point2D regionPoint;
+    static final long SLEEP = 100;
 
     @BeforeClass
     public static void beforeClass() throws Exception { //shadow super
@@ -138,13 +139,21 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionPoint);
+        try {
+            WaitForAsyncUtils.waitForFxEvents(); 
+            sleep(SLEEP);
 
-        // when:
-        robotAdapter.keyPress(KeyCode.A);
-
-        // then:
-        WaitForAsyncUtils.waitForFxEvents();
-        verify(keyEventHandler, times(1)).handle(any());
+            // when:
+            robotAdapter.keyPress(KeyCode.A);
+    
+            // then:
+            WaitForAsyncUtils.waitForFxEvents(); 
+            sleep(SLEEP);
+            verify(keyEventHandler, times(1)).handle(any());
+        }
+        finally {
+            robotAdapter.keyRelease(KeyCode.A);
+        }
     }
 
     @Test
@@ -156,13 +165,18 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionPoint);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.keyPress(KeyCode.A);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         robotAdapter.keyRelease(KeyCode.A);
 
         // then:
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         verify(keyEventHandler, times(1)).handle(any());
     }
 
@@ -180,9 +194,10 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
     public void mouseMove() {
         // given:
         robotAdapter.mouseMove(new Point2D(100, 200));
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
-        WaitForAsyncUtils.waitForFxEvents();
         Point2D mouseLocation = robotAdapter.getMouseLocation();
 
         // then:
@@ -199,13 +214,21 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionPoint);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
-
-        // then:
-        WaitForAsyncUtils.waitForFxEvents();
-        verify(mouseEventHandler, times(1)).handle(any());
+        try {
+    
+            // then:
+            WaitForAsyncUtils.waitForFxEvents(); 
+            sleep(SLEEP);
+            verify(mouseEventHandler, times(1)).handle(any());
+        }
+        finally {
+            robotAdapter.mouseRelease(MouseButton.PRIMARY);
+        }
     }
 
     @Test
@@ -217,13 +240,18 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionPoint);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
 
         // then:
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
@@ -262,7 +290,8 @@ public class AwtRobotAdapterTest extends InternalTestCaseBase {
             sleep(100, TimeUnit.MILLISECONDS);
             asyncFx(() -> reachedStatement.set(true));
         });
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // then:
         assertThat(reachedStatement.get(), is(true));

@@ -19,6 +19,7 @@ package org.testfx.robot.impl;
 import java.util.Objects;
 
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.Motion;
@@ -26,10 +27,16 @@ import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
+import org.testfx.util.WaitForAsyncUtils;
+import org.testfx.util.WaitForInputEvent;
 
 public class ClickRobotImpl implements ClickRobot {
 
-    private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;
+    static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT = 50;
+    static long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT;
+    static final long CLICK_TO_DEFAULT = 250;
+    static long CLICK_TO = CLICK_TO_DEFAULT;
+    static boolean verify = true;
 
     private final MouseRobot mouseRobot;
     private final MoveRobot moveRobot;
@@ -46,8 +53,24 @@ public class ClickRobotImpl implements ClickRobot {
 
     @Override
     public void clickOn(MouseButton... buttons) {
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofStream(CLICK_TO, s -> s.filter(e -> e instanceof MouseEvent && 
+                ((MouseEvent)e).getEventType().equals(MouseEvent.MOUSE_CLICKED)).count() >= buttons.length, true);
+        }
         mouseRobot.pressNoWait(buttons);
-        mouseRobot.release(buttons);
+        mouseRobot.releaseNoWait(buttons);
+        if (verify) {
+            try {
+                w.waitFor();
+            }
+            catch (Exception e) {
+                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("The event may have occured outside of the test application!");
+            }
+        }
+        WaitForAsyncUtils.waitForFxEvents();
+        
     }
 
     @Override
@@ -58,17 +81,33 @@ public class ClickRobotImpl implements ClickRobot {
 
     @Override
     public void doubleClickOn(MouseButton... buttons) {
-        clickOn(buttons);
-        clickOn(buttons);
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofEvent(CLICK_TO, e -> e instanceof MouseEvent && 
+                ((MouseEvent)e).getClickCount() >= 2, true);
+        }
+        mouseRobot.pressNoWait(buttons);
+        mouseRobot.releaseNoWait(buttons);
+        mouseRobot.pressNoWait(buttons);
+        mouseRobot.releaseNoWait(buttons);
+
+        if (verify) {
+            try {
+                w.waitFor();
+            }
+            catch (Exception e) {
+                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("The event may have occured outside of the test application!");
+            }
+        }
+        WaitForAsyncUtils.waitForFxEvents();
         sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }
 
     @Override
     public void doubleClickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons) {
         moveRobot.moveTo(pointQuery, motion);
-        clickOn(buttons);
-        clickOn(buttons);
-        sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
+        doubleClickOn(buttons);
     }
 
 }

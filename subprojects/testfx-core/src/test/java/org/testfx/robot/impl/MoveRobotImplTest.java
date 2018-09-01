@@ -18,9 +18,10 @@ package org.testfx.robot.impl;
 
 import javafx.geometry.Point2D;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -36,7 +37,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class MoveRobotImplTest extends InternalTestCaseBase {
+public class MoveRobotImplTest {
 
     private MoveRobot moveRobot;
     private BaseRobot baseRobot;
@@ -49,6 +50,17 @@ public class MoveRobotImplTest extends InternalTestCaseBase {
         mouseRobot = mock(MouseRobot.class);
         sleepRobot = mock(SleepRobot.class);
         moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
+    }
+
+    @BeforeClass
+    public static void setupAll() {
+        // verification requires real robots -> Integration test
+        MoveRobotImpl.verify = false;
+    }
+    
+    @AfterClass
+    public static void resetAll() {
+        MoveRobotImpl.verify = true;
     }
 
     @Test

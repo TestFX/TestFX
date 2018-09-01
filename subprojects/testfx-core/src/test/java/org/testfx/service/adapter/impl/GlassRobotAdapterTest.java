@@ -68,6 +68,7 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
     Parent sceneRoot;
     Region region;
     Point2D regionCenter;
+    static final long SLEEP = 100;
 
 
     @Override
@@ -131,13 +132,21 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionCenter);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.keyPress(KeyCode.A);
+        try {
 
-        // then:
-        WaitForAsyncUtils.waitForFxEvents();
-        verify(keyEventHandler, times(1)).handle(any());
+            // then:
+            WaitForAsyncUtils.waitForFxEvents(); 
+            sleep(SLEEP);
+            verify(keyEventHandler, times(1)).handle(any());
+        }
+        finally {
+            robotAdapter.keyRelease(KeyCode.A);
+        }
     }
 
     @Test
@@ -149,13 +158,18 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionCenter);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.keyPress(KeyCode.A);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         robotAdapter.keyRelease(KeyCode.A);
 
         // then:
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         verify(keyEventHandler, times(1)).handle(any());
     }
 
@@ -177,7 +191,8 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
         robotAdapter.mouseMove(new Point2D(100, 200));
 
         // when:
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         // note: if this test fails in the future on HDPI Unix with Java > 10 see
         // comment in GlassRobotAdapter.getMouseLocation()
         Point2D mouseLocation = robotAdapter.getMouseLocation();
@@ -196,13 +211,21 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionCenter);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
+        try {
 
-        // then:
-        WaitForAsyncUtils.waitForFxEvents();
-        verify(mouseEventHandler, times(1)).handle(any());
+            // then:
+            WaitForAsyncUtils.waitForFxEvents(); 
+            sleep(SLEEP);
+            verify(mouseEventHandler, times(1)).handle(any());
+        }
+        finally {
+            robotAdapter.mouseRelease(MouseButton.PRIMARY);
+        }
     }
 
     @Test
@@ -214,13 +237,18 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
 
         // and:
         robotAdapter.mouseMove(regionCenter);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // when:
         robotAdapter.mousePress(MouseButton.PRIMARY);
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         robotAdapter.mouseRelease(MouseButton.PRIMARY);
 
         // then:
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
         verify(mouseEventHandler, times(1)).handle(any());
     }
 
@@ -261,7 +289,8 @@ public class GlassRobotAdapterTest extends InternalTestCaseBase {
             sleep(100, TimeUnit.MILLISECONDS);
             asyncFx(() -> reachedStatement.set(true));
         });
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents(); 
+        sleep(SLEEP);
 
         // then:
         assertThat(reachedStatement.get(), is(true));

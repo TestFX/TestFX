@@ -376,7 +376,7 @@ public final class WaitForAsyncUtils {
                     "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
                     "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
-        FxConditionWaiter waiter = new FxConditionWaiter(timeUnit.toMillis(timeout), conditions);
+        FxConditionWaiter waiter = new FxConditionWaiter(timeUnit.toMillis(timeout), 0, conditions);
         waiter.waitFor();
     }
     
@@ -403,7 +403,7 @@ public final class WaitForAsyncUtils {
                     "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
                     "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
-        FxConditionWaiter waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION,
+        FxConditionWaiter waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS,
             new FxEventCounter(attemptsCount), new FxRenderCounter(pulses));
         waiter.waitFor();
     }
@@ -687,22 +687,26 @@ public final class WaitForAsyncUtils {
      * evaluated periodically on the Fx-Thread with
      * <code>SEMAPHORE_SLEEP_IN_MILLIS</code> ms delay between calls.
      */
-    private static class FxConditionWaiter implements Callable<Boolean> {
+    static class FxConditionWaiter extends ConditionWaiter {
         final BooleanSupplier[] fxCondition;
-        long startMS;
-        final long timeoutMS; 
 
-        public FxConditionWaiter(long timeoutMS, BooleanSupplier... fxCondition) {
+        public FxConditionWaiter(long timeoutMS, long sleepMS, BooleanSupplier... fxCondition) {
+            super(timeoutMS, sleepMS);
             this.fxCondition = fxCondition;
-            this.timeoutMS = timeoutMS;
         }
 
         @Override
         public Boolean call() throws Exception {
-            boolean done = false;
             if (debugTestTiming) {
                 System.out.println("Check wait conditions on Fx-Thread");
             }
+            boolean done = checkCondition();
+            return done;
+        }
+        
+        @Override
+        protected boolean checkCondition() {
+            boolean done = false;
             if (fxCondition == null) {
                 done = true;
             } else {
@@ -715,27 +719,80 @@ public final class WaitForAsyncUtils {
                 }
                 done = tmpDone;
             }
-            // System.out.println("FxConditionWaiter done="+done);
-            // System.out.println("Fx set running false");
             return done;
         }
+        
+        
+        @Override
+        protected void onInterrupted() {
+            System.err.println("WaitForAsyncUtils -> Interrupt was requested while waiting");
+            // StackTrace on Fx-Thread
+            Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
+            for (Thread t : traces.keySet()) {
+                if (t.getName().indexOf("Application") > -1) {
+                    System.err.println("----- Thread info " + t.getName() + "-----");
+                    System.err.println("State: " + t.getState());
+                    StackTraceElement[] trace = traces.get(t);
+                    for (StackTraceElement se : trace) {
+                        System.err.println(se);
+                    }
+                }
+            }
+            System.err.flush();
+        }
+        
+        @Override
+        protected void onTimeout() {
+            throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
+                    " Operation took longer than " + timeoutMS + " ms");
+        }
+    }
+    
+    abstract static class ConditionWaiter implements Callable<Boolean> {
+        long startMS;
+        final long timeoutMS; 
+        final long sleepMS; 
 
+        public ConditionWaiter(long timeoutMS, long sleepMS) {
+            this.timeoutMS = timeoutMS;
+            this.sleepMS = sleepMS;
+        }
+
+        @Override
+        public Boolean call() throws Exception {
+            if (debugTestTiming) {
+                System.out.println("Check wait conditions on Fx-Thread " + this.getClass().getSimpleName());
+            }
+            boolean done = checkCondition();
+            return done;
+        }
+        
+        /**
+         * This method will be called on the Fx Thread, to evaluate, if the condition the instance is waiting for
+         * is true.
+         * @return true, if the condition the instance waits for is true
+         */
+        protected abstract boolean checkCondition();
+
+        /**
+         * Waits for the condition to become true on the JavaFx Application Thread.
+         */
         public void waitFor() {
             if (debugTestTiming) {
-                System.out.println("----- waitFor ------");
+                System.out.println("----- waitFor ------ " + this.getClass().getSimpleName());
             }
 
             startMS = System.currentTimeMillis();
             boolean done = false;
             while (!done) {
                 if (System.currentTimeMillis() - startMS > timeoutMS) {
-                    throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
-                            " Operation took longer than " + timeoutMS + " ms");
+                    onTimeout();
+                    return;
                 }
                 try {
                     // any exception will be thrown up the tree
-                    if (SEMAPHORE_SLEEP_IN_MILLIS > 0) {
-                        Thread.sleep(SEMAPHORE_SLEEP_IN_MILLIS);
+                    if (sleepMS > 0) {
+                        Thread.sleep(sleepMS);
                     }
                     ASyncFXCallable<Boolean> call = new ASyncFXCallable<>(this, true);
                     runOnFxThread(call);
@@ -744,29 +801,16 @@ public final class WaitForAsyncUtils {
                     done = call.get(timeout, TimeUnit.MILLISECONDS);
                 } 
                 catch (InterruptedException e) {
-                    System.err.println("WaitForAsyncUtils -> Interrupt was requested while waiting");
-                    // StackTrace on Fx-Thread
-                    Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
-                    for (Thread t : traces.keySet()) {
-                        if (t.getName().indexOf("Application") > -1) {
-                            System.err.println("----- Thread info " + t.getName() + "-----");
-                            System.err.println("State: " + t.getState());
-                            StackTraceElement[] trace = traces.get(t);
-                            for (StackTraceElement se : trace) {
-                                System.err.println(se);
-                            }
-                        }
-                    }
-                    System.err.flush();
+                    onInterrupted();
                     return; // Interrupt requested
                 } 
                 catch (TimeoutException e) {
-                    throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
-                            " Operation took longer than " + timeoutMS + " ms");
+                    onTimeout();
+                    return;
                 }
                 catch (Exception e) {
                     if (debugTestTiming) {
-                        System.out.println("Exception during waitForFx");
+                        System.out.println("Exception during waitForFx " + this.getClass().getSimpleName());
                         e.printStackTrace();
                     }
                     throw new RuntimeException("Exception during waiting for contdition to become true on Fx-Thread",
@@ -774,9 +818,20 @@ public final class WaitForAsyncUtils {
                 }
             }
             if (debugTestTiming) {
-                System.out.println("Waiting for events took " + (System.currentTimeMillis() - startMS) + " ms");
+                System.out.println("Waiting for events took " + (System.currentTimeMillis() - startMS) + " ms " +
+                        this.getClass().getSimpleName());
             }
         }
+        
+        /**
+         * This method is called, if a interrupt occurred during waiting
+         */
+        protected abstract void onInterrupted();
+        /**
+         * This method is called, if a timeout occurred during waiting
+         */
+        protected abstract void onTimeout();
+        
     }
 
     private static void printException(Throwable e, StackTraceElement[] trace) {

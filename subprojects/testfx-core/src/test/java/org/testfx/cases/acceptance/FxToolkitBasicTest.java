@@ -18,7 +18,9 @@ package org.testfx.cases.acceptance;
 
 import javafx.stage.Stage;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -26,6 +28,7 @@ import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestFXRule;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -48,6 +51,15 @@ public class FxToolkitBasicTest extends FxRobot {
     @AfterClass
     public static void cleanupSpec() throws Exception {
         FxToolkit.cleanupStages();
+    }
+    
+    @Before
+    public void init() throws Throwable {
+        WaitForAsyncUtils.checkException();
+    }
+    @After
+    public void close() throws Throwable {
+        WaitForAsyncUtils.checkException();
     }
 
     @Test

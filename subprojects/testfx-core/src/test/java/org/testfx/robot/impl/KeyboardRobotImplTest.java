@@ -16,7 +16,9 @@
  */
 package org.testfx.robot.impl;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
@@ -37,6 +39,15 @@ public class KeyboardRobotImplTest extends InternalTestCaseBase {
 
     KeyboardRobot keyboardRobot;
     BaseRobot baseRobot;
+    
+    @BeforeClass
+    public static void setupAll() {
+        KeyboardRobotImpl.verify = false;
+    }
+    @AfterClass
+    public static void resetAll() {
+        KeyboardRobotImpl.verify = true;
+    }
 
     @Before
     public void setup() {

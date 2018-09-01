@@ -32,7 +32,8 @@ import org.testfx.robot.TypeRobot;
 
 public class TypeRobotImpl implements TypeRobot {
 
-    private static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS = 25;
+    static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEFAULT = 25;
+    static long SLEEP_AFTER_KEY_CODE_IN_MILLIS = SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEFAULT;
 
     private final KeyboardRobot keyboardRobot;
     private final SleepRobot sleepRobot;
@@ -58,7 +59,9 @@ public class TypeRobotImpl implements TypeRobot {
     public void type(KeyCode... keys) {
         for (KeyCode keyCode : keys) {
             pushKeyCode(keyCode);
-            sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            if (SLEEP_AFTER_KEY_CODE_IN_MILLIS > 0) {
+                sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            }
         }
     }
 
@@ -66,12 +69,14 @@ public class TypeRobotImpl implements TypeRobot {
     public void type(KeyCode key, int times) {
         for (int index = 0; index < times; index++) {
             pushKeyCode(key);
-            sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            if (SLEEP_AFTER_KEY_CODE_IN_MILLIS > 0) {
+                sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            }
         }
     }
 
     private void pushKeyCode(KeyCode keyCode) {
-        keyboardRobot.pressNoWait(keyCode);
+        keyboardRobot.press(keyCode);
         keyboardRobot.release(keyCode);
     }
 

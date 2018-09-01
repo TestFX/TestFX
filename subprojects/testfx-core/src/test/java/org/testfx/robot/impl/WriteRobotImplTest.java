@@ -16,9 +16,13 @@
  */
 package org.testfx.robot.impl;
 
+import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
@@ -38,14 +42,32 @@ public class WriteRobotImplTest extends InternalTestCaseBase {
     BaseRobot baseRobot;
     SleepRobot sleepRobot;
     WindowFinder windowFinder;
+    TextArea area;
 
+    @BeforeClass
+    public static void setupAll() {
+        WriteRobotImpl.verify = false;
+    }
+    @AfterClass
+    public static void resetAll() {
+        WriteRobotImpl.verify = true;
+    }
 
     @Before
     public void setup() throws Exception {
+    }
+    
+    @Override
+    public Node createComponent() {
         baseRobot = mock(BaseRobot.class);
         sleepRobot = mock(SleepRobot.class);
         windowFinder = mock(WindowFinder.class);
         writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
+        area = new TextArea();
+        area.setPrefColumnCount(100);
+        area.setPrefRowCount(20);
+        area.setId("text");
+        return area;
     }
 
     @Test

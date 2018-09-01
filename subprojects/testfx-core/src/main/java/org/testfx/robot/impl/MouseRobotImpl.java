@@ -22,17 +22,25 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.util.WaitForAsyncUtils;
+import org.testfx.util.WaitForInputEvent;
 
 public class MouseRobotImpl implements MouseRobot {
 
     private final BaseRobot baseRobot;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
+    static final long MOUSE_TO_DEFAULT = 250;
+    static long MOUSE_TO = MOUSE_TO_DEFAULT;
+    static boolean verify = true;
 
     public MouseRobotImpl(BaseRobot baseRobot) {
         Objects.requireNonNull(baseRobot, "baseRobot must not be null");
@@ -41,7 +49,21 @@ public class MouseRobotImpl implements MouseRobot {
  
     @Override
     public void press(MouseButton... buttons) {
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofStream(MOUSE_TO, s -> s.filter(e -> e instanceof MouseEvent && 
+                ((MouseEvent)e).getEventType().equals(MouseEvent.MOUSE_PRESSED)).count() >= buttons.length, true);
+        }
         pressNoWait(buttons);
+        if (verify) {
+            try {
+                w.waitFor();
+            }
+            catch (Exception e) {
+                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("The event may have occured outside of the test application!");
+            }
+        }
         WaitForAsyncUtils.waitForFxEvents();
     }
 
@@ -57,7 +79,25 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void release(MouseButton... buttons) {
+        if ((buttons == null || buttons.length == 0) && pressedButtons.size() == 0) {
+            return;
+        }
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofStream(MOUSE_TO, s -> s.filter(e -> e instanceof MouseEvent && 
+                ((MouseEvent)e).getEventType().equals(MouseEvent.MOUSE_RELEASED)).count() >= 
+                ((buttons == null || buttons.length == 0) ? pressedButtons.size() : buttons.length), true);
+        }
         releaseNoWait(buttons);
+        if (verify) {
+            try {
+                w.waitFor();
+            }
+            catch (Exception e) {
+                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("The event may have occured outside of the test application!");
+            }
+        }
         WaitForAsyncUtils.waitForFxEvents();
     }
 
@@ -74,6 +114,22 @@ public class MouseRobotImpl implements MouseRobot {
     @Override
     public void move(Point2D location) {
         moveNoWait(location);
+        if (verify) {
+            try {
+                WaitForAsyncUtils.waitForFxCondition(MOUSE_TO, TimeUnit.MILLISECONDS, () -> {
+                    Point2D loc = baseRobot.retrieveMouse();
+                    // account for rounding in robot...
+                    //System.out.println("To " + location + " Current " + loc);
+                    return loc.getX() <= location.getX() + 1.0 && loc.getX() >= location.getX() - 1.0 &&
+                            loc.getY() <= location.getY() + 1.0 && loc.getY() >= location.getY() - 1.0;
+                });
+            }
+            catch (Exception e) {
+                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("The event may have occured outside of the test application!");
+            }
+        }
+        // not guaranteed to have arrived at JavaFx Event Queue...
         WaitForAsyncUtils.waitForFxEvents();
     }
 
@@ -84,7 +140,20 @@ public class MouseRobotImpl implements MouseRobot {
 
     @Override
     public void scroll(int wheelAmount) {
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofEvent(MOUSE_TO, e -> e instanceof ScrollEvent, true);
+        }
         scrollNoWait(wheelAmount);
+        if (verify) {
+            try {
+                w.waitFor();
+            }
+            catch (Exception e) {
+                System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
+                System.err.println("The event may have occured outside of the test application!");
+            }
+        }
         WaitForAsyncUtils.waitForFxEvents();
     }
 

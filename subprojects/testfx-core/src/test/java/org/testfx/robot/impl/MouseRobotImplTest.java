@@ -18,7 +18,9 @@ package org.testfx.robot.impl;
 
 import javafx.scene.input.MouseButton;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
@@ -35,6 +37,15 @@ public class MouseRobotImplTest extends InternalTestCaseBase {
 
     MouseRobot mouseRobot;
     BaseRobot baseRobot;
+    
+    @BeforeClass
+    public static void setupAll() {
+        MouseRobotImpl.verify = false;
+    }
+    @AfterClass
+    public static void resetAll() {
+        MouseRobotImpl.verify = true;
+    }
 
     @Before
     public void setup() {

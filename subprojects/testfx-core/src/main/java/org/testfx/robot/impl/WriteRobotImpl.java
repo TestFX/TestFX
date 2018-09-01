@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Window;
 
 import org.testfx.robot.BaseRobot;
@@ -28,15 +29,21 @@ import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
 import org.testfx.util.WaitForAsyncUtils;
+import org.testfx.util.WaitForInputEvent;
 
 public class WriteRobotImpl implements WriteRobot {
 
-    private static final int SLEEP_AFTER_CHARACTER_IN_MILLIS;
+    static final int SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT = 25;
+    static int SLEEP_AFTER_CHARACTER_IN_MILLIS = SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT;
+    static final int CHAR_TO_DEFAULT = 250;
+    static int CHAR_TO = CHAR_TO_DEFAULT;
+    static boolean verify = true;
+    static boolean debug;
 
     static {
         int writeSleep;
         try {
-            writeSleep = Integer.getInteger("testfx.robot.write_sleep", 25);
+            writeSleep = Integer.getInteger("testfx.robot.write_sleep", SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT);
         }
         catch (NumberFormatException e) {
             System.err.println("\"testfx.robot.write_sleep\" property must be a number but was: \"" +
@@ -62,8 +69,23 @@ public class WriteRobotImpl implements WriteRobot {
 
     @Override
     public void write(char character) {
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofStream(CHAR_TO,
+                s -> s.filter(e -> e instanceof KeyEvent && ((KeyEvent) e).getEventType().equals(KeyEvent.KEY_TYPED))
+                .count() >= 1, true);
+        }
         Scene scene = fetchTargetWindow().getScene();
         typeCharacterInScene(character, scene);
+        if (verify) {
+            try {
+                w.waitFor();
+            } 
+            catch (Exception e) {
+                System.err.println("Waiting for writing keys failed. Timing may be corrupted in this test.");
+                System.err.println("The key may have been typed outside of the test application!");
+            }
+        }
     }
 
     @Override
@@ -74,10 +96,28 @@ public class WriteRobotImpl implements WriteRobot {
     @Override
     public void write(String text, int sleepMillis) {
         Scene scene = fetchTargetWindow().getScene();
+        WaitForInputEvent w = null;
+        if (verify) {
+            w = WaitForInputEvent.ofStream(text.length() * CHAR_TO,
+                s -> s.filter(e -> e instanceof KeyEvent && ((KeyEvent) e).getEventType().equals(KeyEvent.KEY_TYPED))
+                .count() >= text.length(), true);
+        }
         for (char character : text.chars().mapToObj(i -> (char) i).collect(Collectors.toList())) {
             typeCharacterInScene(character, scene);
-            sleepRobot.sleep(sleepMillis);
+            if (sleepMillis > 0) {
+                sleepRobot.sleep(sleepMillis);
+            }
         }
+        if (verify) {
+            try {
+                w.waitFor();
+            } 
+            catch (Exception e) {
+                System.err.println("Waiting for writing keys failed. Timing may be corrupted in this test.");
+                System.err.println("The key may have been typed outside of the test application!");
+            }
+        }
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     private Window fetchTargetWindow() {

@@ -18,25 +18,40 @@ package org.testfx.robot.impl;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
+import org.testfx.internal.PlatformAdapter;
+import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.util.WaitForAsyncUtils;
+import org.testfx.util.WaitForInputEvent;
 
 public class KeyboardRobotImpl implements KeyboardRobot {
 
     /**
-    * This key is sent depending on the platform via the Robot to Java.
-    */
-    private static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)
-            .startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
+     * This key is sent depending on the platform via the Robot to Java.
+     */
+    private static final KeyCode OS_SPECIFIC_SHORTCUT = PlatformAdapter.getOs() == OS.mac ? KeyCode.COMMAND :
+            KeyCode.CONTROL;
 
+    static final long KEYBOARD_DEFAULT_TO = 250;
+    /**
+     * The expected worst case time in ms, between the call to the Robot function and the corresponding event
+     * showing up in the JavaFx Event Thread.
+     */
+    static long KEYBOARD_TO = KEYBOARD_DEFAULT_TO;
+    static boolean verify = true;
+    
+    static boolean debugKeys;
+    
     private final BaseRobot baseRobot;
     private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();
 
@@ -48,7 +63,15 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     @Override
     public void press(KeyCode... keys) {
         Arrays.asList(keys).forEach(k -> {
+            WaitForInputEvent w = null;
+            if (verify) {
+                w = WaitForInputEvent.ofEvent(KEYBOARD_TO, e -> verfiyKey(e, KeyEvent.KEY_PRESSED, k),
+                    true);
+            }
             pressKey(k);
+            if (verify) {
+                waitForKey(w, k);
+            }
             WaitForAsyncUtils.waitForFxEvents();
         });
     }
@@ -62,12 +85,28 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     public void release(KeyCode... keys) {
         if (keys.length == 0) {
             pressedKeys.forEach(k -> {
+                WaitForInputEvent w = null;
+                if (verify) {
+                    w = WaitForInputEvent.ofEvent(KEYBOARD_TO,
+                        e -> verfiyKey(e, KeyEvent.KEY_RELEASED, k), true);
+                }
                 releaseKey(k);
+                if (!pressedKeys.contains(OS_SPECIFIC_SHORTCUT) && verify) {
+                    waitForKey(w, k);
+                }
                 WaitForAsyncUtils.waitForFxEvents();
             });
         } else {
             Arrays.asList(keys).forEach(k -> {
+                WaitForInputEvent w = null;
+                if (verify) {
+                    w = WaitForInputEvent.ofEvent(KEYBOARD_TO,
+                        e -> verfiyKey(e, KeyEvent.KEY_RELEASED, k), true);
+                }
                 releaseKey(k);
+                if (!pressedKeys.contains(OS_SPECIFIC_SHORTCUT) && verify) {
+                    waitForKey(w, k);
+                }
                 WaitForAsyncUtils.waitForFxEvents();
             });
         }
@@ -90,6 +129,9 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     private void pressKey(KeyCode keyCode) {
         KeyCode realKeyCode = keyCode == KeyCode.SHORTCUT ? OS_SPECIFIC_SHORTCUT : keyCode;
+        if (debugKeys) {
+            System.out.println("PressKey " + keyCode.name());
+        }
         if (pressedKeys.add(realKeyCode)) {
             baseRobot.pressKeyboard(realKeyCode);
         }
@@ -97,9 +139,30 @@ public class KeyboardRobotImpl implements KeyboardRobot {
 
     private void releaseKey(KeyCode keyCode) {
         KeyCode realKeyCode = keyCode == KeyCode.SHORTCUT ? OS_SPECIFIC_SHORTCUT : keyCode;
+        if (debugKeys) {
+            System.out.println("ReleaseKey " + keyCode.name());
+        }
         if (pressedKeys.remove(realKeyCode)) {
             baseRobot.releaseKeyboard(realKeyCode);
         }
+    }
+
+    private void waitForKey(WaitForInputEvent w, KeyCode code) {
+        try {
+            w.waitFor();
+        } 
+        catch (Exception e) {
+            System.err.println("Waiting for key " + code.getName() + " failed. Timing may be corrupted in this test.");
+            System.err.println("The key may have been typed outside of the test application!");
+        }
+    }
+
+    private boolean verfiyKey(Event e, EventType<KeyEvent> type, KeyCode code) {
+        boolean ret = e instanceof KeyEvent && ((KeyEvent) e).getEventType().equals(type);
+        if (ret && debugKeys) {
+            System.out.println("Verified key " + code.getName() + " " + type);
+        }
+        return ret;
     }
 
 }

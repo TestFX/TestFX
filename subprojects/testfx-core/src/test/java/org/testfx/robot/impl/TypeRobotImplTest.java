@@ -116,7 +116,7 @@ public class TypeRobotImplTest extends InternalTestCaseBase {
         typeRobot.type(A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).press(eq(A));
         verify(keyboardRobot, times(1)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -127,9 +127,9 @@ public class TypeRobotImplTest extends InternalTestCaseBase {
         typeRobot.type(A, B);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).press(eq(A));
         verify(keyboardRobot, times(1)).release(eq(A));
-        verify(keyboardRobot, times(1)).pressNoWait(eq(B));
+        verify(keyboardRobot, times(1)).press(eq(B));
         verify(keyboardRobot, times(1)).release(eq(B));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -140,7 +140,7 @@ public class TypeRobotImplTest extends InternalTestCaseBase {
         typeRobot.type(A, 5);
 
         // then:
-        verify(keyboardRobot, times(5)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(5)).press(eq(A));
         verify(keyboardRobot, times(5)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }

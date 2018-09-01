@@ -110,7 +110,8 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
                         "Most probable reason for this is, that your stage has no size. " +
                         "Try to set preferred size of your component.");
             }
-            moveTo(getTestStage());
+            // Jump to initial coordinates
+            robotContext().getMouseRobot().move(point(getTestStage()).query());
         }
     }
 

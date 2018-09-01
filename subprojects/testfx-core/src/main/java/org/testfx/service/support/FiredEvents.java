@@ -19,11 +19,19 @@ package org.testfx.service.support;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import org.testfx.internal.JavaVersionAdapter;
+import org.testfx.util.WaitForAsyncUtils;
 
 /**
  * Stores a list of events that have been fired since the start of a test; useful for debugging.
@@ -32,25 +40,71 @@ import javafx.stage.Stage;
  */
 public final class FiredEvents {
 
-    public static FiredEvents beginStoringFiredEventsOf(Stage stage) {
+    public static FiredEvents beginStoringFiredEventsOf(Stage... stage) {
         return new FiredEvents(stage);
     }
-
-    private final List<Event> events = new LinkedList<>();
-    private final Runnable removeListener;
-
-    private FiredEvents(Stage stage) {
-        if (stage == null) {
-            removeListener = null;
-        } else {
-            EventHandler<Event> addFiredEvent = events::add;
-            stage.addEventFilter(EventType.ROOT, addFiredEvent);
-            removeListener = () -> stage.removeEventFilter(EventType.ROOT, addFiredEvent);
+    
+    /**
+     * Returns a FiredEvents instance, that collects all events of all top level UI-Components.<br>
+     * Currently only stages are supported.
+     * @return FiredEvents instance, that collects all events of all top level UI-Components
+     */
+    public static FiredEvents beginStoringFiredEvents() {
+        // Should query stages only on Fx-Thread, may throw concurrent modification otherwise?
+        Future<Stage[]> future = WaitForAsyncUtils.asyncFx(() -> {
+            List<Window> windows = JavaVersionAdapter.getWindows();
+            return (Stage[]) windows.stream().filter(w -> w instanceof Stage)
+                    .map(w -> (Stage)w).collect(Collectors.toList()).toArray(new Stage[0]);
+        });
+        try {
+            return new FiredEvents(future.get());
         }
+        catch (Exception e) {
+            throw new RuntimeException("Failed to get current stages", e);
+        }
+    }
+
+    // should also be queried only on Fx-Thread
+    private final List<Event> events = new LinkedList<>();
+    private final EventHandler<Event> addFiredEvent;
+    private final Stage[] stages;
+
+    private FiredEvents(Stage... stage) {
+        stages = stage;
+        if (stage == null) {
+            addFiredEvent = null;
+        } else {
+            addFiredEvent = events::add;
+            WaitForAsyncUtils.asyncFx(() -> {
+                for (Stage s : stage) {
+                    if (s != null) {
+                        s.addEventFilter(EventType.ROOT, addFiredEvent);
+                    }
+                }
+            });
+        }
+        
     }
 
     public final List<Event> getEvents() {
         return Collections.unmodifiableList(events);
+    }
+    
+    /**
+     * Checks if a event that matches the given predicate is in the list of Events
+     * @param eventMatcher the predicate each event will be tested for
+     * @return true if any element in the list matches the given predicate
+     */
+    public final boolean hasEvent(Predicate<Event> eventMatcher) {
+        return events.stream().anyMatch(eventMatcher);
+    }
+    /**
+     * Checks if the event list matches the given predicate
+     * @param eventMatcher the predicate events will be tested for
+     * @return true if the matcher is true for the event stream
+     */
+    public final boolean hasEvents(Predicate<Stream<Event>> eventMatcher) {
+        return eventMatcher.test(events.stream());
     }
 
     public final void clearEvents() {
@@ -58,8 +112,14 @@ public final class FiredEvents {
     }
 
     public final void stopStoringFiredEvents() {
-        if (removeListener != null) {
-            removeListener.run();
+        if (addFiredEvent != null) {
+            WaitForAsyncUtils.asyncFx(() -> {
+                for (Stage s : stages) {
+                    if (s != null) {
+                        s.removeEventFilter(EventType.ROOT, addFiredEvent);
+                    }
+                }
+            });
         }
     }
 
