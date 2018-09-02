@@ -39,9 +39,33 @@ public class MouseRobotImpl implements MouseRobot {
     private final BaseRobot baseRobot;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
     static final long MOUSE_TO_DEFAULT = 500;
+    static final long MOUSE_TO_AGGRESSIVE = 100;
+    static final long MOUSE_TO_DEBUG = 1000;
     static long MOUSE_TO = MOUSE_TO_DEFAULT;
     static boolean verify = true;
 
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        MOUSE_TO = MOUSE_TO_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        MOUSE_TO = MOUSE_TO_AGGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        MOUSE_TO = MOUSE_TO_DEBUG;
+    }
+    
     public MouseRobotImpl(BaseRobot baseRobot) {
         Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;

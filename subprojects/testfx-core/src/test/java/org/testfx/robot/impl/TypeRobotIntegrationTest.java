@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testfx.api.FxTiming;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.service.finder.WindowFinder;
 
@@ -30,8 +31,7 @@ public class TypeRobotIntegrationTest extends InternalTestCaseBase {
 
     @AfterClass
     public static void tearDown() {
-        KeyboardRobotImpl.KEYBOARD_TO = KeyboardRobotImpl.KEYBOARD_DEFAULT_TO;
-        TypeRobotImpl.SLEEP_AFTER_KEY_CODE_IN_MILLIS = TypeRobotImpl.SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEFAULT;
+        FxTiming.reset();
     }
 
     @Before

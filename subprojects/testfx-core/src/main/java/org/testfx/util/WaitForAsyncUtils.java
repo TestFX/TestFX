@@ -85,11 +85,33 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  */
 public final class WaitForAsyncUtils {
 
-    static final long CONDITION_SLEEP_IN_MILLIS = 10;
-    static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
-    static final int SEMAPHORE_LOOPS_COUNT = 5;
-    static final int PULSE_LOOPS_COUNT = 2;
-    static final long FX_TIMEOUT_CONDITION = 5000;
+    //// default iming constants ////
+    static final long CONDITION_SLEEP_IN_MILLIS_DEFAULT = 10;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS_DEFAULT = 10;
+    static final int SEMAPHORE_LOOPS_COUNT_DEFAULT = 5;
+    static final int PULSE_LOOPS_COUNT_DEFAULT = 2;
+    static final long FX_TIMEOUT_CONDITION_DEFAULT = 5000;
+    
+
+    static final long CONDITION_SLEEP_IN_MILLIS_AGRESSIVE = 0;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS_AGRESSIVE = 0;
+    static final int SEMAPHORE_LOOPS_COUNT_AGRESSIVE = 2;
+    static final int PULSE_LOOPS_COUNT_AGRESSIVE = 1;
+    static final long FX_TIMEOUT_CONDITION_AGRESSIVE = 5000;
+
+    static final long CONDITION_SLEEP_IN_MILLIS_DEBUG = 10;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS_DEBUG = 10;
+    static final int SEMAPHORE_LOOPS_COUNT_DEBUG = 10;
+    static final int PULSE_LOOPS_COUNT_DEBUG = 5;
+    static final long FX_TIMEOUT_CONDITION_DEBUG = 5000;
+    
+    static long CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_DEFAULT;
+    static long SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_DEFAULT;
+    static int SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_DEFAULT;
+    static int PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_DEFAULT;
+    static long FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_DEFAULT;
+    
+    
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
     
     public static boolean debugTestTiming;
@@ -142,6 +164,40 @@ public final class WaitForAsyncUtils {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
         }
     }
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_DEFAULT;
+        SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_DEFAULT;
+        SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_DEFAULT;
+        PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_DEFAULT;
+        FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_AGRESSIVE;
+        SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_AGRESSIVE;
+        SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_AGRESSIVE;
+        PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_AGRESSIVE;
+        FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_AGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_DEBUG;
+        SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_DEBUG;
+        SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_DEBUG;
+        PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_DEBUG;
+        FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_DEBUG;
+    }
+    
 
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a
@@ -403,8 +459,19 @@ public final class WaitForAsyncUtils {
                     "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
                     "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
-        FxConditionWaiter waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS,
-            new FxEventCounter(attemptsCount), new FxRenderCounter(pulses));
+        FxConditionWaiter waiter = null;
+        if (pulses > 0 && attemptsCount > 0) {
+            waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS,
+                new FxEventCounter(attemptsCount), new FxRenderCounter(pulses));
+        } else if (attemptsCount > 0) {
+            waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS, 
+                new FxEventCounter(attemptsCount));
+        } else if (pulses > 0) {
+            waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS, 
+                new FxRenderCounter(pulses));
+        } else {
+            return; // nothing to wait for...
+        }
         waiter.waitFor();
     }
 

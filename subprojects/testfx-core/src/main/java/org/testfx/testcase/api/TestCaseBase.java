@@ -7,6 +7,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.testfx.api.FxRobot;
+import org.testfx.api.FxTiming;
 import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -22,6 +23,11 @@ import org.testfx.util.WaitForAsyncUtils;
  *
  */
 public abstract class TestCaseBase extends FxRobot implements TestCase {
+    
+    static {
+        //ensure class is loaded
+        FxTiming.init();
+    }
 
     /**
      * The static initializer, that must be called before any test is executed.

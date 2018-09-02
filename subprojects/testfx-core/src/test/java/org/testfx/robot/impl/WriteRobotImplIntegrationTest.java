@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxService;
+import org.testfx.api.FxTiming;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.FiredEvents;
@@ -42,9 +43,8 @@ public class WriteRobotImplIntegrationTest extends InternalTestCaseBase {
 
     @AfterClass
     public static void tearDown() {
-        WriteRobotImpl.SLEEP_AFTER_CHARACTER_IN_MILLIS = WriteRobotImpl.SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT;
+        FxTiming.reset();
         WriteRobotImpl.debug = false;
-        WriteRobotImpl.CHAR_TO = WriteRobotImpl.CHAR_TO_DEFAULT;
     }
 
     @Test

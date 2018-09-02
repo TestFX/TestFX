@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testfx.api.FxTiming;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MoveRobot;
@@ -42,7 +43,7 @@ public class MoveRobotImplIntegrationTest extends InternalTestCaseBase {
     
     @AfterClass
     public static void resetAll() {
-        MoveRobotImpl.SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = MoveRobotImpl.SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEFAULT;
+        FxTiming.reset();
     }
 
     @Test

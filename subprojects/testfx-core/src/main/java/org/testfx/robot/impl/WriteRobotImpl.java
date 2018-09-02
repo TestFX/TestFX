@@ -33,8 +33,11 @@ import org.testfx.util.WaitForInputEvent;
 
 public class WriteRobotImpl implements WriteRobot {
 
-    static final int SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT = 25;
+    static int SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT = 25;
+    static final int SLEEP_AFTER_CHARACTER_IN_MILLIS_AGGRESSIVE = 0;
+    static final int SLEEP_AFTER_CHARACTER_IN_MILLIS_DEBUG = 50;
     static int SLEEP_AFTER_CHARACTER_IN_MILLIS = SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT;
+
     static final int CHAR_TO_DEFAULT = 500;
     static int CHAR_TO = CHAR_TO_DEFAULT;
     static boolean verify = true;
@@ -47,11 +50,35 @@ public class WriteRobotImpl implements WriteRobot {
         }
         catch (NumberFormatException e) {
             System.err.println("\"testfx.robot.write_sleep\" property must be a number but was: \"" +
-                    System.getProperty("testfx.robot.write_sleep") + "\".\nUsing default of \"25\" milliseconds.");
+                    System.getProperty("testfx.robot.write_sleep") + "\".\nUsing default of \"" + 
+                    SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT + "\" milliseconds.");
             e.printStackTrace();
             writeSleep = 25;
         }
+        SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT = writeSleep;
         SLEEP_AFTER_CHARACTER_IN_MILLIS = writeSleep;
+    }
+
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        SLEEP_AFTER_CHARACTER_IN_MILLIS = SLEEP_AFTER_CHARACTER_IN_MILLIS_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        SLEEP_AFTER_CHARACTER_IN_MILLIS = SLEEP_AFTER_CHARACTER_IN_MILLIS_AGGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        SLEEP_AFTER_CHARACTER_IN_MILLIS = SLEEP_AFTER_CHARACTER_IN_MILLIS_DEBUG;
     }
 
     private final BaseRobot baseRobot;

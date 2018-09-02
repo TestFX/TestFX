@@ -35,7 +35,15 @@ import org.testfx.util.WaitForAsyncUtils;
 public class MoveRobotImpl implements MoveRobot {
 
     static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEFAULT = 1;
+    static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_AGGRESSIVE = 0;
+    static final long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEBUG = 2;
     static long SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEFAULT;
+    
+    static final int YIELD_AFTER_DEFAULT = 1;
+    static final int YIELD_AFTER_AGGRESSIVE = 10;
+    static final int YIELD_AFTER_DEBUG = 1;
+    static int YIELD_AFTER = YIELD_AFTER_DEFAULT;
+    
     private static final long MOVE_TO = 500;
     private static final long MOVE_VERIFY_PX = 10;
     private static final long MIN_POINT_OFFSET_COUNT = 1;
@@ -60,6 +68,31 @@ public class MoveRobotImpl implements MoveRobot {
     private final MouseRobot mouseRobot;
     private final SleepRobot sleepRobot;
 
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEFAULT;
+        YIELD_AFTER = YIELD_AFTER_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_AGGRESSIVE;
+        YIELD_AFTER = YIELD_AFTER_AGGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS = SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS_DEBUG;
+        YIELD_AFTER = YIELD_AFTER_DEBUG;
+    }
+    
     public MoveRobotImpl(BaseRobot baseRobot, MouseRobot mouseRobot, SleepRobot sleepRobot) {
         this.baseRobot = baseRobot;
         this.mouseRobot = mouseRobot;
@@ -152,7 +185,9 @@ public class MoveRobotImpl implements MoveRobot {
                 }
             }
             // assure that JavaFx has some time to enqueue at least some events
-            WaitForAsyncUtils.asyncFx(() -> {});
+            if (i % YIELD_AFTER == 0) {
+                WaitForAsyncUtils.asyncFx(() -> {});
+            }
             if (SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS > 0) {
                 sleepRobot.sleep(SLEEP_AFTER_MOVEMENT_STEP_IN_MILLIS);
             }

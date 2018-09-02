@@ -11,6 +11,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxService;
+import org.testfx.api.FxTiming;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.FiredEvents;
@@ -44,7 +45,7 @@ public class KeyboardRobotImplIntegrationTest extends InternalTestCaseBase {
     
     @AfterClass
     public static void tearDown() {
-        KeyboardRobotImpl.KEYBOARD_TO = KeyboardRobotImpl.KEYBOARD_DEFAULT_TO;
+        FxTiming.reset();
         KeyboardRobotImpl.debugKeys = false;
     }
 

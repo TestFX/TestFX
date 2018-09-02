@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.api.FxService;
+import org.testfx.api.FxTiming;
 import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.support.FiredEvents;
@@ -42,8 +43,7 @@ public class ClickRobotIntegrationTest extends InternalTestCaseBase {
 
     @AfterClass
     public static void tearDown() {
-        ClickRobotImpl.CLICK_TO = ClickRobotImpl.CLICK_TO_DEFAULT;
-        ClickRobotImpl.SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = ClickRobotImpl.SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT;
+        FxTiming.reset();
     }
 
     @Test

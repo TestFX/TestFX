@@ -42,12 +42,14 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     private static final KeyCode OS_SPECIFIC_SHORTCUT = PlatformAdapter.getOs() == OS.mac ? KeyCode.COMMAND :
             KeyCode.CONTROL;
 
-    static final long KEYBOARD_DEFAULT_TO = 500;
+    static final long KEYBOARD_TO_DEFAULT = 500;
+    static final long KEYBOARD_TO_AGGRESSIVE = 100;
+    static final long KEYBOARD_TO_DEBUG = 1000;
     /**
      * The expected worst case time in ms, between the call to the Robot function and the corresponding event
      * showing up in the JavaFx Event Thread.
      */
-    static long KEYBOARD_TO = KEYBOARD_DEFAULT_TO;
+    static long KEYBOARD_TO = KEYBOARD_TO_DEFAULT;
     static boolean verify = true;
     
     static boolean debugKeys;
@@ -55,6 +57,31 @@ public class KeyboardRobotImpl implements KeyboardRobot {
     private final BaseRobot baseRobot;
     private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();
 
+    
+
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        KEYBOARD_TO = KEYBOARD_TO_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        KEYBOARD_TO = KEYBOARD_TO_AGGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        KEYBOARD_TO = KEYBOARD_TO_DEBUG;
+    }
+    
+    
     public KeyboardRobotImpl(BaseRobot baseRobot) {
         Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;

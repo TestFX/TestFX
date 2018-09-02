@@ -33,14 +33,45 @@ import org.testfx.util.WaitForInputEvent;
 public class ClickRobotImpl implements ClickRobot {
 
     static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT = 50;
+    static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_AGGRESSIVE = 0;
+    static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEBUG = 100;
     static long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT;
-    static final long CLICK_TO_DEFAULT = 1000;
+    static final long CLICK_TO_DEFAULT = 500;
+    static final long CLICK_TO_AGGRESSIVE = 100;
+    static final long CLICK_TO_DEBUG = 1000;
     static long CLICK_TO = CLICK_TO_DEFAULT;
     static boolean verify = true;
 
     private final MouseRobot mouseRobot;
     private final MoveRobot moveRobot;
     private final SleepRobot sleepRobot;
+    
+    
+
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEFAULT;
+        CLICK_TO = CLICK_TO_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_AGGRESSIVE;
+        CLICK_TO = CLICK_TO_AGGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS_DEBUG;
+        CLICK_TO = CLICK_TO_DEBUG;
+    }
 
     public ClickRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot, SleepRobot sleepRobot) {
         Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
