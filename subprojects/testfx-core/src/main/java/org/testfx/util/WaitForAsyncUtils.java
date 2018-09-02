@@ -849,7 +849,7 @@ public final class WaitForAsyncUtils {
          */
         public void waitFor() {
             if (debugTestTiming) {
-                System.out.println("----- waitFor ------ " + this.getClass().getSimpleName());
+                System.out.println("----- waitFor ------ (" + this.getClass().getSimpleName() + ")");
             }
 
             startMS = System.currentTimeMillis();
@@ -875,6 +875,9 @@ public final class WaitForAsyncUtils {
                     return; // Interrupt requested
                 } 
                 catch (TimeoutException e) {
+                    if (debugTestTiming) {
+                        System.out.println("Timeout after " + (System.currentTimeMillis() - startMS) + "ms");
+                    }
                     onTimeout();
                     return;
                 }
