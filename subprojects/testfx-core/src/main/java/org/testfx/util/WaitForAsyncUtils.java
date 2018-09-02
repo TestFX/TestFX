@@ -698,7 +698,7 @@ public final class WaitForAsyncUtils {
                             System.out.println("Rendered counter[" + tmp + "] to " + counter[tmp]);
                         }
                         if (counter[tmp] < 1) {
-                            if (debugTestTiming) {
+                            if (debugTestTiming && times[tmp] != 0l) {
                                 System.out.println("Last frame took " + 
                                         (System.currentTimeMillis() - times[tmp]) + " ms");
                             }
@@ -713,6 +713,9 @@ public final class WaitForAsyncUtils {
                         counter[tmp] = n;
                         listners[tmp] = r;
                     } else {
+                        if (debugTestTiming) {
+                            System.out.println("Can not add pulse listener (" + tmp + ")");
+                        }
                         counter[tmp] = 0;
                     }
                 }

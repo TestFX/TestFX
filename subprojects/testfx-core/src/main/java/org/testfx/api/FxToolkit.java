@@ -118,8 +118,8 @@ public final class FxToolkit {
      *
      * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getSetupTimeoutInMillis()}
      */
-    public static Stage registerStage(Supplier<Stage> stageSupplier) throws TimeoutException {
-        Stage stage = setupFixture(stageSupplier::get);
+    public static <T extends Stage> T registerStage(Supplier<T> stageSupplier) throws TimeoutException {
+        T stage = setupFixture(stageSupplier::get);
         CONTEXT.setRegisteredStage(stage);
         return stage;
     }

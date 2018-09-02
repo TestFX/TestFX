@@ -25,9 +25,9 @@ public class FxTiming {
         String timing = System.getProperty("testfx.timing");
         if (timing == null || timing.toLowerCase().equals("default")) {
             setDefaultTiming();
-        } else if (timing.toLowerCase().equals("aggressive")){
+        } else if (timing.toLowerCase().equals("aggressive")) {
             setAggressiveTiming();
-        } else if (timing.toLowerCase().equals("debug")){
+        } else if (timing.toLowerCase().equals("debug")) {
             setDebugTiming();
         } else {
             System.err.println("Unknown value of testfx.timing: " + timing + ". Using default timing");

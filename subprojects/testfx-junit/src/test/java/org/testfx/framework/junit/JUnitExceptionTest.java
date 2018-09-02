@@ -18,6 +18,8 @@ package org.testfx.framework.junit;
 
 import javafx.scene.control.Button;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -39,6 +41,15 @@ public class JUnitExceptionTest extends ComponentTest<Button> {
     public ExpectedException exception;
     
     
+    @BeforeClass
+    public static void initAll() {
+        WaitForAsyncUtils.debugTestTiming = true;
+    }
+    @AfterClass
+    public static void downAll() {
+        WaitForAsyncUtils.debugTestTiming = false;
+    }
+    
     @Override
     public Button createComponent() {
         Button button = new Button("Throws Exception");
@@ -56,6 +67,7 @@ public class JUnitExceptionTest extends ComponentTest<Button> {
      */
     @Test
     public void exceptionOnClickTest() throws Throwable {
+        sleep(1000);
         // Hints for failing tests: Timing might be an issue increase also the
         // time in checkException()
         WaitForAsyncUtils.printException = false; // do not print expected exception to log

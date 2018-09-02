@@ -97,10 +97,10 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
      * @param s the main stage of the test to initialize
      */
     protected void initStage(Stage s) {
-        //there are some flaws with the
         if (s != null) {
+            interrupt(1, TimeUnit.SECONDS, () -> s.getScene() != null);
+            // only sets the property on the FxThread (stage may not be really shown/rendered yet)
             interrupt(1, TimeUnit.SECONDS, () -> s.isShowing());
-            interrupt(); // wait for events after stage is showing
             // check size of stage (preventing successive failures...)
             double x = 0;
             try {
@@ -118,6 +118,8 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
             }
             // Jump to initial coordinates
             robotContext().getMouseRobot().move(point(getTestStage()).query());
+        } else {
+            throw new RuntimeException("Initial Stage may not be null!");
         }
     }
 

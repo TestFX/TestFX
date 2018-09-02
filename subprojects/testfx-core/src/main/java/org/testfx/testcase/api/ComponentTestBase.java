@@ -80,10 +80,10 @@ public abstract class ComponentTestBase<T extends Node> extends TestCaseBase {
     @Override
     public void beforeTest() throws Throwable {
         super.beforeTest();
-        FxToolkit.registerStage(() -> {
-            testStage = new Stage();
-            testStage.centerOnScreen();
-            testStage.initStyle(StageStyle.UNDECORATED);
+        testStage = FxToolkit.registerStage(() -> {
+            Stage s = new Stage();
+            s.centerOnScreen();
+            s.initStyle(StageStyle.UNDECORATED);
             component = createComponent();
             Parent content = null;
             if (component instanceof Parent) {
@@ -96,10 +96,10 @@ public abstract class ComponentTestBase<T extends Node> extends TestCaseBase {
             }
 
             testScene = new Scene(content);
-            testStage.setScene(testScene);
-            testStage.show();
-            testStage.toFront();
-            return testStage;
+            s.setScene(testScene);
+            s.show();
+            s.toFront();
+            return s;
         });
         initStage(getTestStage());
     }

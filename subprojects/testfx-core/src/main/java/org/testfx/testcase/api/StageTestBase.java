@@ -35,12 +35,12 @@ public abstract class StageTestBase<T extends Stage> extends TestCaseBase {
     @Override
     public void beforeTest() throws Throwable {
         super.beforeTest();
-        FxToolkit.registerStage(() -> {
-            testStage = createStage();
-            testStage.initStyle(StageStyle.UNDECORATED);
-            testStage.show();
-            testStage.toFront();
-            return testStage;
+        testStage = FxToolkit.registerStage(() -> {
+            T s = createStage();
+            s.initStyle(StageStyle.UNDECORATED);
+            s.show();
+            s.toFront();
+            return s;
         });
         initStage(getTestStage());
     }
