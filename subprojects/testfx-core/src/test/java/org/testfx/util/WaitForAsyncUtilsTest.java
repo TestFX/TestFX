@@ -361,6 +361,7 @@ public class WaitForAsyncUtilsTest {
         } 
         catch (Throwable e) {
             if (e.getMessage() == null ||
+                    !(e instanceof TestFxTimeoutException) ||
                     e.getMessage().indexOf("Timelimit for waiting for Fx-Thread exceeded") == -1) {
                 fail("Wrong exception returned: " + e.getClass() + " message: " + e.getMessage());
                 e.printStackTrace();

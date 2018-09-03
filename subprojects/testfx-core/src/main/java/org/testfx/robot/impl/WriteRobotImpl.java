@@ -28,6 +28,7 @@ import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
 import org.testfx.service.finder.WindowFinder;
+import org.testfx.util.TestFxTimeoutException;
 import org.testfx.util.WaitForAsyncUtils;
 import org.testfx.util.WaitForInputEvent;
 
@@ -110,7 +111,7 @@ public class WriteRobotImpl implements WriteRobot {
             try {
                 w.waitFor();
             } 
-            catch (Exception e) {
+            catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for writing keys failed. Timing may be corrupted in this test.");
                 System.err.println("The key may have been typed outside of the test application!");
             }
@@ -141,7 +142,7 @@ public class WriteRobotImpl implements WriteRobot {
             try {
                 w.waitFor();
             } 
-            catch (Exception e) {
+            catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for writing keys failed. Timing may be corrupted in this test.");
                 System.err.println("The key may have been typed outside of the test application!");
             }

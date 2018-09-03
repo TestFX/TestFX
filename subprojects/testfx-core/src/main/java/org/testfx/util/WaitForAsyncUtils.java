@@ -813,7 +813,7 @@ public final class WaitForAsyncUtils {
         
         @Override
         protected void onTimeout() {
-            throw new RuntimeException("Timelimit for waiting for Fx-Thread exceeded." +
+            throw new TestFxTimeoutException("Timelimit for waiting for Fx-Thread exceeded." +
                     " Operation took longer than " + timeoutMS + " ms");
         }
     }

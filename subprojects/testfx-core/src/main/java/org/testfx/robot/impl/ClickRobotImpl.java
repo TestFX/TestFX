@@ -27,6 +27,7 @@ import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
+import org.testfx.util.TestFxTimeoutException;
 import org.testfx.util.WaitForAsyncUtils;
 import org.testfx.util.WaitForInputEvent;
 
@@ -98,7 +99,7 @@ public class ClickRobotImpl implements ClickRobot {
             try {
                 w.waitFor();
             }
-            catch (Exception e) {
+            catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for mouse click failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
                 //TODO#615 remove debugging only
@@ -136,7 +137,7 @@ public class ClickRobotImpl implements ClickRobot {
             try {
                 w.waitFor();
             }
-            catch (Exception e) {
+            catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for mouse double click failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
             }

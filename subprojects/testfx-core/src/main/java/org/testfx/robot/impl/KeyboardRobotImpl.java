@@ -31,6 +31,7 @@ import org.testfx.internal.PlatformAdapter;
 import org.testfx.internal.PlatformAdapter.OS;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
+import org.testfx.util.TestFxTimeoutException;
 import org.testfx.util.WaitForAsyncUtils;
 import org.testfx.util.WaitForInputEvent;
 
@@ -178,7 +179,7 @@ public class KeyboardRobotImpl implements KeyboardRobot {
         try {
             w.waitFor();
         } 
-        catch (Exception e) {
+        catch (TestFxTimeoutException e) {
             System.err.println("Waiting for key " + code.getName() + " failed. Timing may be corrupted in this test.");
             System.err.println("The key may have been typed outside of the test application!");
         }

@@ -31,6 +31,7 @@ import javafx.scene.input.ScrollEvent;
 
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
+import org.testfx.util.TestFxTimeoutException;
 import org.testfx.util.WaitForAsyncUtils;
 import org.testfx.util.WaitForInputEvent;
 
@@ -83,7 +84,7 @@ public class MouseRobotImpl implements MouseRobot {
             try {
                 w.waitFor();
             }
-            catch (Exception e) {
+            catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
             }
@@ -117,7 +118,7 @@ public class MouseRobotImpl implements MouseRobot {
             try {
                 w.waitFor();
             }
-            catch (Exception e) {
+            catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for mouse failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
             }

@@ -54,7 +54,7 @@ public class WaitForInputEventTest extends InternalTestCaseBase {
             // then
             fail("Waiting for events didn't timeout");
         } 
-        catch (Exception e) {
+        catch (TestFxTimeoutException e) {
             if (e.getMessage().indexOf("Waiting for InputEvents timed out") == -1) {
                 throw e;
             }

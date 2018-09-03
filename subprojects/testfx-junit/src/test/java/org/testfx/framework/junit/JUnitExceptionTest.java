@@ -67,7 +67,7 @@ public class JUnitExceptionTest extends ComponentTest<Button> {
      */
     @Test
     public void exceptionOnClickTest() throws Throwable {
-        sleep(1000);
+        sleep(1000); //TODO#615 remove
         // Hints for failing tests: Timing might be an issue increase also the
         // time in checkException()
         WaitForAsyncUtils.printException = false; // do not print expected exception to log

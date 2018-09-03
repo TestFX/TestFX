@@ -97,7 +97,7 @@ public class WaitForInputEvent extends WaitForAsyncUtils.ConditionWaiter {
     @Override
     protected void onTimeout() {
         if (throwTimeout) {
-            throw new RuntimeException("Waiting for InputEvents timed out");
+            throw new TestFxTimeoutException("Waiting for InputEvents timed out");
         }
     }
     @Override
