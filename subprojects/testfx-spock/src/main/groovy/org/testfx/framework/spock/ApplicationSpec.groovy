@@ -22,6 +22,7 @@ import javafx.scene.input.MouseButton
 import javafx.stage.Stage
 import org.testfx.api.FxRobot
 import org.testfx.api.FxToolkit
+import org.testfx.util.WaitForAsyncUtils;
 import spock.lang.Specification
 
 /**
@@ -77,7 +78,15 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
         release(new KeyCode[0])
         // release all mouse buttons
         release(new MouseButton[0])
+        FxToolkit.cleanupStages()
         FxToolkit.cleanupApplication(new ApplicationAdapter(this))
+        try {
+            WaitForAsyncUtils.checkException()
+        } 
+        catch (Throwable e) {
+            WaitForAsyncUtils.clearExceptions() // There might be more exceptions on the stack
+            throw new RuntimeException("Exception in a previous test!", e) // make test fail
+        }
     }
 
     @Override

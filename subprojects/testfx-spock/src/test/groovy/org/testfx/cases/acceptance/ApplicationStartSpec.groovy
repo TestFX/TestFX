@@ -47,7 +47,11 @@ class ApplicationStartSpec extends ApplicationSpec {
 
     @Override
     void stop() throws Exception {
-        FxToolkit.hideStage()
+    	// the stop method is called on the Fx application thread.
+    	// FxToolkit hideStage is not designed to be run on this thread.
+    	// It tries to wait until the stage is closed, blocking the thread
+    	// -> internal after already calls cleanUpApplication
+        //FxToolkit.hideStage()
     }
 
     def "should contain button"() {
