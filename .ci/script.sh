@@ -3,7 +3,7 @@ set -uo pipefail
 
 ulimit -c unlimited -S
 
-./gradlew versions build jacocoRootReport coveralls --stacktrace --debug
+./gradlew versions build jacocoRootReport coveralls
 
 # Print core dumps when JVM crashes.
 RESULT=$?
