@@ -92,35 +92,52 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
     
     /**
      * This method will initialize the given stage. It will provide consistent initial
-     * conditions for each test.   It will wait until the stage is visible and place the
+     * conditions for each test. It will wait until the stage is visible and place the
      * mouse pointer to the center of the stage.
      * @param s the main stage of the test to initialize
      */
     protected void initStage(Stage s) {
-        if (s != null) {
-            interrupt(1, TimeUnit.SECONDS, () -> s.getScene() != null);
-            // only sets the property on the FxThread (stage may not be really shown/rendered yet)
-            interrupt(1, TimeUnit.SECONDS, () -> s.isShowing());
-            // check size of stage (preventing successive failures...)
-            double x = 0;
-            try {
-                x = WaitForAsyncUtils.asyncFx(() -> { 
-                    return s.getX(); }
-                        ).get(500, TimeUnit.MILLISECONDS);
-            }
-            catch (Exception e) {
-                throw new RuntimeException("Failed to get stage coordinates", e);
-            }
-            if (Double.isNaN(x)) {
-                throw new RuntimeException("Coordinates of stage are NaN. " + 
-                        "Most probable reason for this is, that your stage has no size. " +
-                        "Try to set preferred size of your component.");
-            }
-            // Jump to initial coordinates
-            robotContext().getMouseRobot().move(point(getTestStage()).query());
-        } else {
+        if (s == null) {
             throw new RuntimeException("Initial Stage may not be null!");
         }
+        // init stage and wait for stage to be shown.
+        // there is no proper way to verify, that the stage is on screen, but installing a listner
+        // the isShowing property is set immediately in the call of show...
+        if (!s.isShowing()) {
+            StageListener show = new StageListener(s);
+            interact(() -> {
+                s.centerOnScreen();
+                s.show();
+                s.toFront();
+            });
+            WaitForAsyncUtils.waitForFxCondition(1000, TimeUnit.MILLISECONDS, () -> show.isVisible());
+        } else {
+            //TODO#615 Application: User code calls show in start usually...
+            //need to wait really long, as we may not verify transition...
+            //WaitForAsyncUtils.waitForFxEvents(attemptsCount, pulses);
+            
+
+            // alternative only for Java9+: wait for pulses to stop or wait some render cycles
+            //WaitForAsyncUtils.waitForFxCondition(1000, TimeUnit.MILLISECONDS, () -> s.isShowing());
+            //Showing is set -> waitForFxEvents should wait for the stage to be rendered, but we may increase timeout
+        }
+        double x = 0;
+        try {
+            x = WaitForAsyncUtils.asyncFx(() -> { 
+                return s.getX(); }
+                    ).get(500, TimeUnit.MILLISECONDS);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Failed to get stage coordinates", e);
+        }
+        if (Double.isNaN(x)) {
+            throw new RuntimeException("Coordinates of stage are NaN. " + 
+                    "Most probable reason for this is, that your stage has no size. " +
+                    "Try to set preferred size of your component.");
+        }
+        WaitForAsyncUtils.waitForFxEvents();
+        // Jump to initial coordinates
+        robotContext().getMouseRobot().move(point(getTestStage()).query());
     }
 
 }

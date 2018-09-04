@@ -19,7 +19,6 @@ package org.testfx.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
@@ -40,9 +39,6 @@ import java.util.function.BooleanSupplier;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.stage.Window;
-
-import org.testfx.internal.JavaVersionAdapter;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -444,15 +440,20 @@ public final class WaitForAsyncUtils {
     public static void waitForFxEvents() {
         waitForFxEvents(SEMAPHORE_LOOPS_COUNT, PULSE_LOOPS_COUNT);
     }
+    public static void waitForFxEvents(int attemptsCount, int pulses) {
+        waitForFxEvents(attemptsCount, SEMAPHORE_SLEEP_IN_MILLIS, pulses, FX_TIMEOUT_CONDITION);
+    }
 
     /**
      * Waits up to {@code attemptsCount} attempts for the event queue of the
      * "JavaFX Application Thread" to be completed, as well as any new events
      * triggered on it.
      *
-     * @param attemptsCount the number of attempts to try
+     * @param attemptsCount number of events to enqueue to the JavaFx Application Thread
+     * @param fxSleep the time to sleep between the events
+     * @param pulses the number of rendering pulses to wait for
      */
-    public static void waitForFxEvents(int attemptsCount, int pulses) {
+    public static void waitForFxEvents(int attemptsCount, long fxSleep, int pulses, long timeout) {
         if (Platform.isFxApplicationThread()) {
             throw new RuntimeException(
                     "Waiting for events on the 'JavaFX Application Thread' is not possible (nor advisable). " +
@@ -461,14 +462,14 @@ public final class WaitForAsyncUtils {
         }
         FxConditionWaiter waiter = null;
         if (pulses > 0 && attemptsCount > 0) {
-            waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS,
-                new FxEventCounter(attemptsCount), new FxRenderCounter(pulses));
+            waiter = new FxConditionWaiter(timeout, fxSleep,
+                new FxEventCounter(attemptsCount), new FxRenderCondition(pulses));
         } else if (attemptsCount > 0) {
-            waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS, 
+            waiter = new FxConditionWaiter(timeout, fxSleep, 
                 new FxEventCounter(attemptsCount));
         } else if (pulses > 0) {
-            waiter = new FxConditionWaiter(FX_TIMEOUT_CONDITION, SEMAPHORE_SLEEP_IN_MILLIS, 
-                new FxRenderCounter(pulses));
+            waiter = new FxConditionWaiter(timeout, fxSleep, 
+                new FxRenderCondition(pulses));
         } else {
             return; // nothing to wait for...
         }
@@ -665,92 +666,6 @@ public final class WaitForAsyncUtils {
         }
     }
 
-    /**
-     * This class counts the pulses on the Fx-Thread. A pulse is actually triggered,
-     * when the scene graph is updated, just before the actual rendering happens.<br>
-     * All methods except the constructor have to be called only on the Fx-Thread.
-     */
-    private static class FxRenderCounter implements BooleanSupplier {
-        int[] counter;
-        Runnable[] listners;
-        Window[] window;
-        long[] times; // TODO#615 debug only
-        transient boolean initialized;
-
-        //TODO#615 ensure that components just added to show are rendered too
-        public FxRenderCounter(int n) {
-            Platform.runLater(() -> {
-                List<Window> windows = JavaVersionAdapter.getWindows();
-                if (debugTestTiming) {
-                    System.out.println("number of windows " + windows.size());
-                }
-                counter = new int[windows.size()];
-                listners = new Runnable[windows.size()];
-                window = new Window[windows.size()];
-                times = new long[windows.size()];
-                for (int i = 0; i < windows.size(); i++) {
-                    final int tmp = i;
-                    Window w = windows.get(tmp);
-                    window[tmp] = w;
-                    final Runnable r = () -> {
-                        --counter[tmp]; // write access only from call back --> safe
-                        if (debugTestTiming) {
-                            System.out.println("Rendered counter[" + tmp + "] to " + counter[tmp]);
-                        }
-                        if (counter[tmp] < 1) {
-                            if (debugTestTiming && times[tmp] != 0l) {
-                                System.out.println("Last frame took " + 
-                                        (System.currentTimeMillis() - times[tmp]) + " ms");
-                            }
-                            JavaVersionAdapter.removePulseListener(w, listners[tmp]);
-                        }
-                        times[tmp] = System.currentTimeMillis();
-                    };
-                    if (JavaVersionAdapter.addPulseListener(w, r)) {
-                        if (debugTestTiming) {
-                            System.out.println("Adding pulse listener (" + tmp + ")");
-                        }
-                        counter[tmp] = n;
-                        listners[tmp] = r;
-                    } else {
-                        if (debugTestTiming) {
-                            System.out.println("Can not add pulse listener (" + tmp + ")");
-                        }
-                        counter[tmp] = 0;
-                    }
-                }
-                initialized = true;
-            });
-        }
-
-        @Override
-        public boolean getAsBoolean() {
-            if (!initialized) {
-                return false;
-            }
-            if (counter == null || counter.length == 0) {
-                return true;
-            }
-            boolean ret = true;
-            for (int i = 0; i < counter.length; i++) {
-                // System.out.println("Render counter["+i+"] is " + counter[i]);
-                if (counter[i] > 0 && window[i].isShowing()) {
-                    ret = false;
-                }
-            }
-            if (!ret) {
-                // trigger pulse hangs in awt headless mode during clean up...
-                if (debugTestTiming) {
-                    for (Window w : window) {
-                        System.out.println("Window visibility: " + w.isShowing());
-                    }
-                }
-                JavaVersionAdapter.requestPulse(); // force rendering
-            }
-            // System.out.println("FxRenderCounter done="+ret);
-            return ret;
-        }
-    }
 
     /**
      * Waits for a condition on the Fx-Thread to become true. The condition is

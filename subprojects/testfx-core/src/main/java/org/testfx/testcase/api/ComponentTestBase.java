@@ -97,8 +97,6 @@ public abstract class ComponentTestBase<T extends Node> extends TestCaseBase {
 
             testScene = new Scene(content);
             s.setScene(testScene);
-            s.show();
-            s.toFront();
             return s;
         });
         initStage(getTestStage());

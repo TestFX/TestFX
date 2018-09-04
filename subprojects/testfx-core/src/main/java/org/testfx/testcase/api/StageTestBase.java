@@ -38,8 +38,6 @@ public abstract class StageTestBase<T extends Stage> extends TestCaseBase {
         testStage = FxToolkit.registerStage(() -> {
             T s = createStage();
             s.initStyle(StageStyle.UNDECORATED);
-            s.show();
-            s.toFront();
             return s;
         });
         initStage(getTestStage());

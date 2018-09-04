@@ -102,8 +102,6 @@ public class ClickRobotImpl implements ClickRobot {
             catch (TestFxTimeoutException e) {
                 System.err.println("Waiting for mouse click failed. Timing may be corrupted in this test.");
                 System.err.println("The event may have occured outside of the test application!");
-                //TODO#615 remove debugging only
-                e.printStackTrace();
             }
         }
         WaitForAsyncUtils.waitForFxEvents();
