@@ -28,6 +28,8 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
         //ensure class is loaded
         FxTiming.init();
     }
+    
+    public static long stageTimeoutMS = 2000;
 
     /**
      * The static initializer, that must be called before any test is executed.
@@ -110,7 +112,7 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
                 s.show();
                 s.toFront();
             });
-            WaitForAsyncUtils.waitForFxCondition(1000, TimeUnit.MILLISECONDS, () -> show.isVisible());
+            WaitForAsyncUtils.waitForFxCondition(stageTimeoutMS, TimeUnit.MILLISECONDS, () -> show.isVisible());
         } else {
             //TODO#615 Application: User code calls show in start usually...
             //need to wait really long, as we may not verify transition...
@@ -125,7 +127,7 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
         try {
             x = WaitForAsyncUtils.asyncFx(() -> { 
                 return s.getX(); }
-                    ).get(500, TimeUnit.MILLISECONDS);
+                    ).get(stageTimeoutMS, TimeUnit.MILLISECONDS);
         }
         catch (Exception e) {
             throw new RuntimeException("Failed to get stage coordinates", e);

@@ -40,8 +40,8 @@ import org.testfx.util.WaitForAsyncUtils;
  */
 public final class FiredEvents {
 
-    public static FiredEvents beginStoringFiredEventsOf(Stage... stage) {
-        return new FiredEvents(stage);
+    public static FiredEvents beginStoringFiredEventsOf(Window... window) {
+        return new FiredEvents(window);
     }
     
     /**
@@ -51,10 +51,10 @@ public final class FiredEvents {
      */
     public static FiredEvents beginStoringFiredEvents() {
         // Should query stages only on Fx-Thread, may throw concurrent modification otherwise?
-        Future<Stage[]> future = WaitForAsyncUtils.asyncFx(() -> {
+        Future<Window[]> future = WaitForAsyncUtils.asyncFx(() -> {
             List<Window> windows = JavaVersionAdapter.getWindows();
-            return (Stage[]) windows.stream().filter(w -> w instanceof Stage)
-                    .map(w -> (Stage)w).collect(Collectors.toList()).toArray(new Stage[0]);
+            return windows.stream().filter(w -> w instanceof Window)
+                    .map(w -> (Window)w).collect(Collectors.toList()).toArray(new Window[0]);
         });
         try {
             return new FiredEvents(future.get());
@@ -67,18 +67,18 @@ public final class FiredEvents {
     // should also be queried only on Fx-Thread
     private final List<Event> events = new LinkedList<>();
     private final EventHandler<Event> addFiredEvent;
-    private final Stage[] stages;
+    private final Window[] windows;
 
-    private FiredEvents(Stage... stage) {
-        stages = stage;
-        if (stage == null) {
+    private FiredEvents(Window... stage) {
+        windows = stage;
+        if (windows == null) {
             addFiredEvent = null;
         } else {
             addFiredEvent = events::add;
             WaitForAsyncUtils.asyncFx(() -> {
-                for (Stage s : stage) {
-                    if (s != null) {
-                        s.addEventFilter(EventType.ROOT, addFiredEvent);
+                for (Window w : windows) {
+                    if (w != null) {
+                        w.addEventFilter(EventType.ROOT, addFiredEvent);
                     }
                 }
             });
@@ -114,9 +114,9 @@ public final class FiredEvents {
     public final void stopStoringFiredEvents() {
         if (addFiredEvent != null) {
             WaitForAsyncUtils.asyncFx(() -> {
-                for (Stage s : stages) {
-                    if (s != null) {
-                        s.removeEventFilter(EventType.ROOT, addFiredEvent);
+                for (Window w : windows) {
+                    if (w != null) {
+                        w.removeEventFilter(EventType.ROOT, addFiredEvent);
                     }
                 }
             });
