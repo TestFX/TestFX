@@ -9,7 +9,7 @@ public class StageListener {
     
     public StageListener(Stage s) {
         s.setOnShown(e -> visible = true);
-        s.setOnHidden(e -> visible = false);
+        //s.setOnHidden(e -> visible = false);
     }
     
     public boolean isVisible() {
