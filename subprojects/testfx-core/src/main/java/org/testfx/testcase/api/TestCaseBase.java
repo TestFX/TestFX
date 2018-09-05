@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxTiming;
 import org.testfx.api.FxToolkit;
+import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.util.WaitForAsyncUtils;
 
 /**
@@ -111,6 +112,7 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
                 s.centerOnScreen();
                 s.show();
                 s.toFront();
+                JavaVersionAdapter.requestPulse();
             });
             WaitForAsyncUtils.debugTestTiming = true;
             WaitForAsyncUtils.waitForFxCondition(stageTimeoutMS, TimeUnit.MILLISECONDS, () -> show.isVisible());
