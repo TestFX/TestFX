@@ -428,7 +428,8 @@ public final class WaitForAsyncUtils {
                     "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
                     "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
-        FxConditionWaiter waiter = new FxConditionWaiter(timeUnit.toMillis(timeout), 0, conditions);
+        //TODO#615 reduce sleep to 0
+        FxConditionWaiter waiter = new FxConditionWaiter(timeUnit.toMillis(timeout), 10, conditions);
         waiter.waitFor();
     }
     
@@ -686,6 +687,9 @@ public final class WaitForAsyncUtils {
                 System.out.println("Check wait conditions on Fx-Thread");
             }
             boolean done = checkCondition();
+            if (debugTestTiming) {
+                System.out.println("Is " + done);
+            }
             return done;
         }
         
@@ -728,6 +732,21 @@ public final class WaitForAsyncUtils {
         
         @Override
         protected void onTimeout() {
+            // StackTrace on Fx-Thread
+            //TODO#615 remove trace
+            System.err.println("Fx Thread state at Timeout");
+            Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
+            for (Thread t : traces.keySet()) {
+                if (t.getName().indexOf("Application") > -1) {
+                    System.err.println("----- Thread info " + t.getName() + "-----");
+                    System.err.println("State: " + t.getState());
+                    StackTraceElement[] trace = traces.get(t);
+                    for (StackTraceElement se : trace) {
+                        System.err.println(se);
+                    }
+                }
+            }
+            System.err.flush();
             throw new TestFxTimeoutException("Timelimit for waiting for Fx-Thread exceeded." +
                     " Operation took longer than " + timeoutMS + " ms");
         }

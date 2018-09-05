@@ -112,7 +112,9 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
                 s.show();
                 s.toFront();
             });
+            WaitForAsyncUtils.debugTestTiming = true;
             WaitForAsyncUtils.waitForFxCondition(stageTimeoutMS, TimeUnit.MILLISECONDS, () -> show.isVisible());
+            WaitForAsyncUtils.debugTestTiming = false;
         } else {
             //TODO#615 Application: User code calls show in start usually...
             //need to wait really long, as we may not verify transition...
@@ -137,7 +139,7 @@ public abstract class TestCaseBase extends FxRobot implements TestCase {
                     "Most probable reason for this is, that your stage has no size. " +
                     "Try to set preferred size of your component.");
         }
-        WaitForAsyncUtils.waitForFxEvents();
+        WaitForAsyncUtils.waitForFxEvents();  //TODO#615 shouldn't be necessary 
         // Jump to initial coordinates
         robotContext().getMouseRobot().move(point(getTestStage()).query());
     }
