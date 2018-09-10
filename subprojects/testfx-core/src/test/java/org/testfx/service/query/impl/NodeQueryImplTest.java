@@ -21,17 +21,12 @@ import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.service.query.EmptyNodeQueryException;
 import org.testfx.service.query.NodeQuery;
 
@@ -44,13 +39,9 @@ import static org.testfx.util.NodeQueryUtils.combine;
 import static org.testfx.util.NodeQueryUtils.hasId;
 import static org.testfx.util.NodeQueryUtils.rootOfScene;
 
-public class NodeQueryImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class NodeQueryImplTest extends InternalTestCaseBase {
 
     NodeQuery nodeQuery;
-    Scene scene;
 
     @FXML Pane labels;
     @FXML Label label0;
@@ -60,27 +51,21 @@ public class NodeQueryImplTest {
     @FXML Button button1;
     @FXML Button button2;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws Exception {
+    
+    @Override
+    public Node createComponent() {
         nodeQuery = new NodeQueryImpl();
-
-        FxToolkit.setupStage(stage -> {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("res/nodeQueryImpl.fxml"));
-            loader.setController(this);
-            try {
-                scene = new Scene(loader.load());
-            }
-            catch (Exception exception) {
-                throw new RuntimeException(exception);
-            }
-        });
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("res/nodeQueryImpl.fxml"));
+        loader.setController(this);
+        try {
+            return loader.load();
+        }
+        catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
+
 
     @Test
     public void query() {
@@ -212,7 +197,7 @@ public class NodeQueryImplTest {
     public void lookup() {
         // when:
         Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
+            .from(rootOfScene(getTestScene()))
             .lookup(bySelector(".label"))
             .queryAll();
 
@@ -224,7 +209,7 @@ public class NodeQueryImplTest {
     public void lookup_lookup() {
         // when:
         Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
+            .from(rootOfScene(getTestScene()))
             .lookup(bySelector("#labels"))
             .lookup(bySelector(".label"))
             .queryAll();
@@ -237,7 +222,7 @@ public class NodeQueryImplTest {
     public void lookup_combine() {
         // when:
         Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
+            .from(rootOfScene(getTestScene()))
             .lookup(combine(bySelector(".label"), bySelector(".button")))
             .queryAll();
 
@@ -262,7 +247,7 @@ public class NodeQueryImplTest {
     public void lookup_selectAt_lookup_selectAt() {
         // when:
         Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
+            .from(rootOfScene(getTestScene()))
             .lookup(bySelector("#labels"))
             .nth(0)
             .lookup(bySelector(".label"))
@@ -290,7 +275,7 @@ public class NodeQueryImplTest {
     public void lookup_selectAt_lookup_selectAt_with_indices_out_of_bounds() {
         // when:
         Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
+            .from(rootOfScene(getTestScene()))
             .lookup(bySelector("#labels"))
             .nth(0)
             .lookup(bySelector(".label"))
@@ -305,7 +290,7 @@ public class NodeQueryImplTest {
     public void lookup_select() {
         // when:
         Set<Node> result = nodeQuery
-            .from(rootOfScene(scene))
+            .from(rootOfScene(getTestScene()))
             .lookup(bySelector(".button"))
             .match(hasId("button1"))
             .queryAll();

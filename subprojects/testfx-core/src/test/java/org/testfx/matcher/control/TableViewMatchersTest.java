@@ -26,6 +26,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Node;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,15 +36,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -52,47 +47,36 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TableViewMatchersTest extends FxRobot {
-
-    @Rule
-    public TestRule rule = new TestFXRule(2);
+public class TableViewMatchersTest extends InternalTestCaseBase {
 
     TableView<Map> tableView;
     TableColumn<Map, String> tableColumn0;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
+    @Override
+    public Node createComponent() {
+        tableView = new TableView<>();
+        Map<String, Object> row1 = new HashMap<>(2);
+        row1.put("name", "alice");
+        row1.put("age", 30);
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            tableView = new TableView<>();
-            Map<String, Object> row1 = new HashMap<>(2);
-            row1.put("name", "alice");
-            row1.put("age", 30);
+        Map<String, Object> row2 = new HashMap<>(2);
+        row2.put("name", "bob");
+        row2.put("age", 31);
 
-            Map<String, Object> row2 = new HashMap<>(2);
-            row2.put("name", "bob");
-            row2.put("age", 31);
+        Map<String, Object> row3 = new HashMap<>(1);
+        row3.put("name", "carol");
 
-            Map<String, Object> row3 = new HashMap<>(1);
-            row3.put("name", "carol");
+        Map<String, Object> row4 = new HashMap<>(1);
+        row4.put("name", "dave");
 
-            Map<String, Object> row4 = new HashMap<>(1);
-            row4.put("name", "dave");
-
-            tableView.setItems(observableArrayList(row1, row2, row3, row4));
-            tableColumn0 = new TableColumn<>("name");
-            tableColumn0.setId("tableColumn0");
-            tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
-            TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
-            tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
-            tableView.getColumns().setAll(tableColumn0, tableColumn1);
-            return new StackPane(tableView);
-        });
-        FxToolkit.showStage();
+        tableView.setItems(observableArrayList(row1, row2, row3, row4));
+        tableColumn0 = new TableColumn<>("name");
+        tableColumn0.setId("tableColumn0");
+        tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
+        TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
+        tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
+        tableView.getColumns().setAll(tableColumn0, tableColumn1);
+        return tableView;
     }
 
     @Test
@@ -400,7 +384,7 @@ public class TableViewMatchersTest extends FxRobot {
     }
 
     @Test
-    @Ignore("Issue #449")
+    //@Ignore("Issue #449")
     public void containsRow_after_edited_cell() throws TimeoutException {
         // given:
         TableColumn<Person, String> tableColumn0 = new TableColumn<>("name");
@@ -421,9 +405,9 @@ public class TableViewMatchersTest extends FxRobot {
         WaitForAsyncUtils.waitForFxEvents();
         clickOn("alice");
         clickOn("alice");
-        press(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
         write("not alice!");
-        press(KeyCode.ENTER);
+        push(KeyCode.ENTER);
 
         // then:
         assertThat(tableView, TableViewMatchers.containsRow("not alice!", 30));

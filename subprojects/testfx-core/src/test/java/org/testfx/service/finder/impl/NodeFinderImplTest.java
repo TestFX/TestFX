@@ -18,7 +18,6 @@ package org.testfx.service.finder.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.scene.Node;
@@ -35,15 +34,8 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.service.finder.WindowFinder;
 
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -51,11 +43,8 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class NodeFinderImplTest {
+public class NodeFinderImplTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
 
     Stage window;
     Stage otherWindow;
@@ -79,22 +68,18 @@ public class NodeFinderImplTest {
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
 
-    @After
-    public void cleanup() throws TimeoutException {
-        FxToolkit.setupFixture(this::cleanupStages);
-    }
-
-    @Before
-    public void setup() throws TimeoutException {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(this::setupStages);
+    @Override
+    public Node createComponent() {
+        Region reg = new Region();
+        reg.setPrefSize(600, 400);
+        setupStages();
         windowFinder = new WindowFinderStub();
         windowFinder.windows = new ArrayList<>();
         windowFinder.windows.add(window);
         windowFinder.windows.add(otherWindow);
         windowFinder.windows.add(twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
+        return reg;
     }
 
     public void setupStages() {
@@ -143,11 +128,6 @@ public class NodeFinderImplTest {
         twinWindow.show();
     }
 
-    public void cleanupStages() {
-        window.close();
-        otherWindow.close();
-        twinWindow.close();
-    }
 
     @Test
     public void node_string_cssQuery() {

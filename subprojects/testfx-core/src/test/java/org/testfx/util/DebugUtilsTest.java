@@ -20,21 +20,15 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.junit.After;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.service.support.FiredEvents;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -50,21 +44,14 @@ import static org.testfx.util.DebugUtils.showFiredEvents;
 import static org.testfx.util.DebugUtils.showKeysPressedAtTestFailure;
 import static org.testfx.util.DebugUtils.showMouseButtonsPressedAtTestFailure;
 
-public class DebugUtilsTest extends TestCaseBase {
+public class DebugUtilsTest extends InternalTestCaseBase {
 
     private static final String INDENT = " ";
 
     private static final MouseButton MOUSE_BUTTON = MouseButton.PRIMARY;
     private static final KeyCode KEY = KeyCode.A;
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
 
-    @After
-    public void cleanup() {
-        release(KEY);
-        release(MOUSE_BUTTON);
-    }
 
     @Test
     public void composingMessageWithNoArgs() {
@@ -127,7 +114,7 @@ public class DebugUtilsTest extends TestCaseBase {
     @Test
     public void showPressedMouseButtonsInErrorMessage() {
         // given:
-        Stage stage = FxToolkit.toolkitContext().getRegisteredStage();
+        Stage stage =  getTestStage();
         moveTo(stage).moveBy(10, 10).press(MOUSE_BUTTON);
 
         // when:
@@ -140,7 +127,7 @@ public class DebugUtilsTest extends TestCaseBase {
     @Test
     public void showPressedKeysInErrorMessage() {
         // given:
-        Stage stage = FxToolkit.toolkitContext().getRegisteredStage();
+        Stage stage =  getTestStage();
         moveTo(stage).moveBy(10, 10).press(KEY);
 
         // when:
@@ -153,8 +140,8 @@ public class DebugUtilsTest extends TestCaseBase {
     @Test
     public void showFiredEventsInErrorMessage() throws TimeoutException {
         // given:
-        Stage stage = FxToolkit.setupStage(stage0 -> stage0.setScene(new Scene(new Region(), 300, 300)));
-        interact(stage::show);
+        Stage stage = getTestStage();
+        
         moveTo(stage).moveBy(20, 20);
 
         // and:

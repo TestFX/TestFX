@@ -18,26 +18,48 @@ package org.testfx.cases.acceptance;
 
 import javafx.stage.Stage;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.TestFXRule;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.testfx.api.FxAssert.verifyThat;
 
-public class FxToolkitBasicTest extends TestCaseBase {
+
+//Testing Toolkit, so not using the InternalTestCaseBase
+public class FxToolkitBasicTest extends FxRobot {
 
     @Rule
     public TestFXRule testFXRule = new TestFXRule();
+    
+    @BeforeClass
+    public static void setupSpec() throws Exception {
+        //need to fire up toolkit as tests are random order and some require the toolkit to be up
+        // e.g. registerStage_should_return_the_stage
+        FxToolkit.registerPrimaryStage(); 
+    }
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
         FxToolkit.cleanupStages();
+    }
+    
+    @Before
+    public void init() throws Throwable {
+        WaitForAsyncUtils.checkException();
+    }
+    @After
+    public void close() throws Throwable {
+        WaitForAsyncUtils.checkException();
     }
 
     @Test

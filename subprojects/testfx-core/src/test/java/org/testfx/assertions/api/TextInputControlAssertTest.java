@@ -16,36 +16,32 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class TextInputControlAssertTest extends FxRobot {
+public class TextInputControlAssertTest extends InternalTestCaseBase {
 
     TextField foobarTextField;
     TextField quuxTextField;
-
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    
+    @Override
+    public Node createComponent() {
+        VBox parent = new VBox();
+        foobarTextField = new TextField("foobar");
+        quuxTextField = new TextField("quux");
+        parent.getChildren().addAll(foobarTextField, quuxTextField);
+        return parent;
     }
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            foobarTextField = new TextField("foobar");
-            quuxTextField = new TextField("quux");
-        });
-    }
 
     @Test
     public void hasText() {

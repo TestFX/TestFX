@@ -32,6 +32,9 @@ import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
+/**
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
+ */
 public class ApplicationExtension extends FxRobot implements BeforeEachCallback, AfterEachCallback,
         TestInstancePostProcessor, ParameterResolver {
 

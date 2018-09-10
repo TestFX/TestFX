@@ -21,8 +21,7 @@ import java.util.HashSet;
 
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
@@ -30,15 +29,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxRobotException;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.service.query.EmptyNodeQueryException;
 import org.testfx.service.query.NodeQuery;
 import org.testfx.service.query.PointQuery;
@@ -50,37 +44,27 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
-public class NodeAndPointQueryTest {
+public class NodeAndPointQueryTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = new TestFXRule();
 
     FxRobot fx = new FxRobot();
     Button button0;
     Button button1;
     Label label0;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupStage(stage -> {
-            button0 = new Button("click me!");
-            button0.setOnAction(actionEvent -> {
-                Platform.runLater(() -> button0.setText("clicked!"));
-            });
-            button1 = new Button("button");
-            label0 = new Label("label");
-            label0.setVisible(false);
-            StackPane pane = new StackPane(new VBox(button0, button1, label0));
-            pane.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(pane, 300, 300);
-            stage.setScene(scene);
-            stage.show();
+    
+    @Override
+    public Node createComponent() {
+        button0 = new Button("click me!");
+        button0.setOnAction(actionEvent -> {
+            Platform.runLater(() -> button0.setText("clicked!"));
         });
+        button1 = new Button("button");
+        label0 = new Label("label");
+        label0.setVisible(false);
+        StackPane pane = new StackPane(new VBox(button0, button1, label0));
+        pane.setPrefSize(300, 300);
+        return pane;
     }
 
     @Test

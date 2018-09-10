@@ -16,42 +16,37 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class TextFlowAssertTest extends FxRobot {
+public class TextFlowAssertTest extends InternalTestCaseBase {
 
     TextFlow textFlow;
     TextFlow exactTextFlow;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
+    @Override
+    public Node createComponent() {
+        Text foobarText = new Text("foobar ");
+        Text quuxText = new Text("quux");
+        quuxText.setFill(Color.RED);
+        textFlow = new TextFlow(foobarText, quuxText);
 
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            Text foobarText = new Text("foobar ");
-            Text quuxText = new Text("quux");
-            quuxText.setFill(Color.RED);
-            textFlow = new TextFlow(foobarText, quuxText);
-
-            Text exactText = new Text("exact");
-            // set the fill to the closest color to, but not exactly, LimeGreen (50, 205, 50)
-            exactText.setFill(Color.rgb(51, 205, 50));
-            exactTextFlow = new TextFlow(exactText);
-        });
+        Text exactText = new Text("exact");
+        // set the fill to the closest color to, but not exactly, LimeGreen (50, 205, 50)
+        exactText.setFill(Color.rgb(51, 205, 50));
+        exactTextFlow = new TextFlow(exactText);
+        VBox parent = new VBox();
+        parent.getChildren().addAll(textFlow, exactTextFlow);
+        return parent;
     }
 
     @Test

@@ -20,21 +20,16 @@ import javafx.scene.control.TextField;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalContainerTest;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TextInputControlMatchersTest extends FxRobot {
+public class TextInputControlMatchersTest extends InternalContainerTest {
 
-    @Rule
-    public TestRule rule = new TestFXRule();
 
     TextField foobarTextField;
     TextField quuxTextField;
@@ -46,10 +41,9 @@ public class TextInputControlMatchersTest extends FxRobot {
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            foobarTextField = new TextField("foobar");
-            quuxTextField = new TextField("quux");
-        });
+        foobarTextField = new TextField("foobar");
+        quuxTextField = new TextField("quux");
+        addAll(foobarTextField, quuxTextField);
     }
 
     @Test

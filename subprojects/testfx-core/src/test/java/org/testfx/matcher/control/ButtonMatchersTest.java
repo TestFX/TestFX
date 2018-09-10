@@ -16,42 +16,25 @@
  */
 package org.testfx.matcher.control;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ButtonMatchersTest extends FxRobot {
+public class ButtonMatchersTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(3000));
 
     Button button;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            button = new Button();
-            return new StackPane(button);
-        });
-        FxToolkit.showStage();
+    
+    @Override
+    public Node createComponent() {
+        button = new Button();
+        return button;
     }
 
     @Test

@@ -26,21 +26,15 @@ import javafx.scene.text.TextFlow;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalContainerTest;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TextFlowMatchersTest extends FxRobot {
-
-    @Rule
-    public TestRule rule = new TestFXRule();
+public class TextFlowMatchersTest extends InternalContainerTest {
 
     TextFlow textFlow;
     TextFlow exactTextFlow;
@@ -52,17 +46,16 @@ public class TextFlowMatchersTest extends FxRobot {
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            Text foobarText = new Text("foobar ");
-            Text quuxText = new Text("quux");
-            quuxText.setFill(Color.RED);
-            textFlow = new TextFlow(foobarText, quuxText);
+        Text foobarText = new Text("foobar ");
+        Text quuxText = new Text("quux");
+        quuxText.setFill(Color.RED);
+        textFlow = new TextFlow(foobarText, quuxText);
 
-            Text exactText = new Text("exact");
-            // set the fill to the closest color to, but not exactly, LimeGreen (50, 205, 50)
-            exactText.setFill(Color.rgb(51, 205, 50));
-            exactTextFlow = new TextFlow(exactText);
-        });
+        Text exactText = new Text("exact");
+        // set the fill to the closest color to, but not exactly, LimeGreen (50, 205, 50)
+        exactText.setFill(Color.rgb(51, 205, 50));
+        exactTextFlow = new TextFlow(exactText);
+        addAll(textFlow, exactTextFlow);
     }
 
     @Test

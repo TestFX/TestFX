@@ -25,11 +25,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.framework.junit.TestFXRule;
 
 import static org.junit.Assert.fail;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -38,14 +35,10 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 public class ApplicationStartTest extends ApplicationTest {
 
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+    //@Rule
+    //public TestFXRule testFXRule = new TestFXRule();
     CountDownLatch setButtonTextLatch;
 
-    @Override
-    public void init() throws Exception {
-        FxToolkit.registerStage(Stage::new);
-    }
 
     @Override
     public void start(Stage stage) {
@@ -73,10 +66,6 @@ public class ApplicationStartTest extends ApplicationTest {
         stage.show();
     }
 
-    @Override
-    public void stop() throws Exception {
-        FxToolkit.hideStage();
-    }
 
     @Test
     public void should_contain_button() {

@@ -22,7 +22,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.testfx.api.FxRobot;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.TestFXRule;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;

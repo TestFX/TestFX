@@ -16,22 +16,20 @@
  */
 package org.testfx.cases.issue;
 
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 @Ignore
-public class GlassRobotClipboardBug {
+public class GlassRobotClipboardBug extends InternalTestCaseBase {
 
     public static FxRobot fx;
 
@@ -43,27 +41,19 @@ public class GlassRobotClipboardBug {
     }
     */
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        fx = new FxRobot();
-    }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            ListView<String> listView = new ListView<>();
-            listView.getItems().addAll("item.1", "item.2", "item.3");
-            listView.setOnDragDetected(event -> {
-                ClipboardContent content = new ClipboardContent();
-                content.putString("item.1"); // <-- BUG
-                Dragboard dragboard = listView.startDragAndDrop(TransferMode.MOVE);
-                dragboard.setContent(content);
-                event.consume();
-            });
-            return new HBox(listView);
+    
+    @Override
+    public Node createComponent() {
+        ListView<String> listView = new ListView<>();
+        listView.getItems().addAll("item.1", "item.2", "item.3");
+        listView.setOnDragDetected(event -> {
+            ClipboardContent content = new ClipboardContent();
+            content.putString("item.1"); // <-- BUG
+            Dragboard dragboard = listView.startDragAndDrop(TransferMode.MOVE);
+            dragboard.setContent(content);
+            event.consume();
         });
-        FxToolkit.setupStage(Stage::show);
+        return new HBox(listView);
     }
 
     @Test(timeout = 2000)

@@ -19,6 +19,7 @@ package org.testfx.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.Callable;
@@ -29,11 +30,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -80,10 +81,36 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  */
 public final class WaitForAsyncUtils {
 
-    private static final long CONDITION_SLEEP_IN_MILLIS = 10;
-    private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
-    private static final int SEMAPHORE_LOOPS_COUNT = 5;
+    //// default iming constants ////
+    static final long CONDITION_SLEEP_IN_MILLIS_DEFAULT = 10;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS_DEFAULT = 10;
+    static final int SEMAPHORE_LOOPS_COUNT_DEFAULT = 5;
+    static final int PULSE_LOOPS_COUNT_DEFAULT = 2;
+    static final long FX_TIMEOUT_CONDITION_DEFAULT = 5000;
+    
+
+    static final long CONDITION_SLEEP_IN_MILLIS_AGRESSIVE = 0;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS_AGRESSIVE = 0;
+    static final int SEMAPHORE_LOOPS_COUNT_AGRESSIVE = 2;
+    static final int PULSE_LOOPS_COUNT_AGRESSIVE = 1;
+    static final long FX_TIMEOUT_CONDITION_AGRESSIVE = 5000;
+
+    static final long CONDITION_SLEEP_IN_MILLIS_DEBUG = 10;
+    static final long SEMAPHORE_SLEEP_IN_MILLIS_DEBUG = 10;
+    static final int SEMAPHORE_LOOPS_COUNT_DEBUG = 10;
+    static final int PULSE_LOOPS_COUNT_DEBUG = 5;
+    static final long FX_TIMEOUT_CONDITION_DEBUG = 5000;
+    
+    static long CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_DEFAULT;
+    static long SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_DEFAULT;
+    static int SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_DEFAULT;
+    static int PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_DEFAULT;
+    static long FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_DEFAULT;
+    
+    
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
+    
+    public static boolean debugTestTiming;
 
     private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
 
@@ -133,6 +160,40 @@ public final class WaitForAsyncUtils {
             Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
         }
     }
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_DEFAULT;
+        SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_DEFAULT;
+        SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_DEFAULT;
+        PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_DEFAULT;
+        FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_AGRESSIVE;
+        SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_AGRESSIVE;
+        SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_AGRESSIVE;
+        PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_AGRESSIVE;
+        FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_AGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        CONDITION_SLEEP_IN_MILLIS = CONDITION_SLEEP_IN_MILLIS_DEBUG;
+        SEMAPHORE_SLEEP_IN_MILLIS = SEMAPHORE_SLEEP_IN_MILLIS_DEBUG;
+        SEMAPHORE_LOOPS_COUNT = SEMAPHORE_LOOPS_COUNT_DEBUG;
+        PULSE_LOOPS_COUNT = PULSE_LOOPS_COUNT_DEBUG;
+        FX_TIMEOUT_CONDITION = FX_TIMEOUT_CONDITION_DEBUG;
+    }
+    
 
     /**
      * Runs the given {@link Runnable} on a new {@link Thread} and returns a
@@ -353,11 +414,35 @@ public final class WaitForAsyncUtils {
     }
 
     /**
+     * Waits for the given condition to become true. The conditions are evaluated on the Fx-Thread, so
+     * GUI-Parameters can be accessed safely. The method will return, when all of the given conditions are true,
+     * or the defined timeout has elapsed.
+     * @param timeout the timeout to wait for
+     * @param timeUnit the time unit {@code timeout} is in
+     * @param conditions the conditions to wait for as BooleanSuppliers
+     */
+    public static void waitForFxCondition(long timeout, TimeUnit timeUnit, BooleanSupplier... conditions) {
+        if (Platform.isFxApplicationThread()) {
+            throw new RuntimeException(
+                    "Waiting for events on the 'JavaFX Application Thread' is not possible (nor advisable). " +
+                    "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
+                    "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
+        }
+        //TODO#615 reduce sleep to 0
+        FxConditionWaiter waiter = new FxConditionWaiter(timeUnit.toMillis(timeout), 10, conditions);
+        waiter.waitFor();
+    }
+    
+    
+    /**
      * Waits for the event queue of the "JavaFX Application Thread" to be completed,
      * as well as any new events triggered in it.
      */
     public static void waitForFxEvents() {
-        waitForFxEvents(SEMAPHORE_LOOPS_COUNT);
+        waitForFxEvents(SEMAPHORE_LOOPS_COUNT, PULSE_LOOPS_COUNT);
+    }
+    public static void waitForFxEvents(int attemptsCount, int pulses) {
+        waitForFxEvents(attemptsCount, SEMAPHORE_SLEEP_IN_MILLIS, pulses, FX_TIMEOUT_CONDITION);
     }
 
     /**
@@ -365,13 +450,31 @@ public final class WaitForAsyncUtils {
      * "JavaFX Application Thread" to be completed, as well as any new events
      * triggered on it.
      *
-     * @param attemptsCount the number of attempts to try
+     * @param attemptsCount number of events to enqueue to the JavaFx Application Thread
+     * @param fxSleep the time to sleep between the events
+     * @param pulses the number of rendering pulses to wait for
      */
-    public static void waitForFxEvents(int attemptsCount) {
-        for (int attempt = 0; attempt < attemptsCount; attempt++) {
-            blockFxThreadWithSemaphore();
-            sleep(SEMAPHORE_SLEEP_IN_MILLIS, MILLISECONDS);
+    public static void waitForFxEvents(int attemptsCount, long fxSleep, int pulses, long timeout) {
+        if (Platform.isFxApplicationThread()) {
+            throw new RuntimeException(
+                    "Waiting for events on the 'JavaFX Application Thread' is not possible (nor advisable). " +
+                    "Instead, call 'waitForFxEvents' on a test thread (or any other background thread). " +
+                    "See stacktrace(s) below to find the bad call to 'waitForFxEvents'");
         }
+        FxConditionWaiter waiter = null;
+        if (pulses > 0 && attemptsCount > 0) {
+            waiter = new FxConditionWaiter(timeout, fxSleep,
+                new FxEventCounter(attemptsCount), new FxRenderCondition(pulses));
+        } else if (attemptsCount > 0) {
+            waiter = new FxConditionWaiter(timeout, fxSleep, 
+                new FxEventCounter(attemptsCount));
+        } else if (pulses > 0) {
+            waiter = new FxConditionWaiter(timeout, fxSleep, 
+                new FxRenderCondition(pulses));
+        } else {
+            return; // nothing to wait for...
+        }
+        waiter.waitFor();
     }
 
     /**
@@ -471,11 +574,7 @@ public final class WaitForAsyncUtils {
      */
     private static void registerException(Throwable throwable) {
         if (checkAllExceptions) {
-            // Workaround for #411 see discussion in #440
-            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
-                // TODO more general version of filter after refactoring
-                return;
-            }
+            // TODO more general version of filter after refactoring
             if (printException) {
                 printException(throwable, null);
             }
@@ -547,15 +646,199 @@ public final class WaitForAsyncUtils {
             throw new RuntimeException(exception);
         }
     }
+    
+    
+    private static class FxEventCounter implements BooleanSupplier {
+        int n = 1;
 
-    private static void blockFxThreadWithSemaphore() {
-        Semaphore semaphore = new Semaphore(0);
-        runOnFxThread(semaphore::release);
-        try {
-            semaphore.acquire();
+        public FxEventCounter(int n) {
+            this.n = n;
         }
-        catch (InterruptedException ignore) {
+
+        @Override
+        public boolean getAsBoolean() {
+            if (n != 0) {
+                --n;
+                if (debugTestTiming) {
+                    System.out.println("event counter " + n);
+                }
+            }
+            return n <= 0;
         }
+    }
+
+
+    /**
+     * Waits for a condition on the Fx-Thread to become true. The condition is
+     * evaluated periodically on the Fx-Thread with
+     * <code>SEMAPHORE_SLEEP_IN_MILLIS</code> ms delay between calls.
+     */
+    static class FxConditionWaiter extends ConditionWaiter {
+        final BooleanSupplier[] fxCondition;
+
+        public FxConditionWaiter(long timeoutMS, long sleepMS, BooleanSupplier... fxCondition) {
+            super(timeoutMS, sleepMS);
+            this.fxCondition = fxCondition;
+        }
+
+        @Override
+        public Boolean call() throws Exception {
+            if (debugTestTiming) {
+                System.out.println("Check wait conditions on Fx-Thread");
+            }
+            boolean done = checkCondition();
+            if (debugTestTiming) {
+                System.out.println("Is " + done);
+            }
+            return done;
+        }
+        
+        @Override
+        protected boolean checkCondition() {
+            boolean done = false;
+            if (fxCondition == null) {
+                done = true;
+            } else {
+                boolean tmpDone = true;
+                for (int i = 0; i < fxCondition.length; i++) {
+                    if (!fxCondition[i].getAsBoolean()) {
+                        tmpDone = false;
+                        break;
+                    }
+                }
+                done = tmpDone;
+            }
+            return done;
+        }
+        
+        
+        @Override
+        protected void onInterrupted() {
+            System.err.println("WaitForAsyncUtils -> Interrupt was requested while waiting");
+            // StackTrace on Fx-Thread
+            Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
+            for (Thread t : traces.keySet()) {
+                if (t.getName().indexOf("Application") > -1) {
+                    System.err.println("----- Thread info " + t.getName() + "-----");
+                    System.err.println("State: " + t.getState());
+                    StackTraceElement[] trace = traces.get(t);
+                    for (StackTraceElement se : trace) {
+                        System.err.println(se);
+                    }
+                }
+            }
+            System.err.flush();
+        }
+        
+        @Override
+        protected void onTimeout() {
+            // StackTrace on Fx-Thread
+            //TODO#615 remove trace
+            System.err.println("Fx Thread state at Timeout");
+            Map<Thread, StackTraceElement[]> traces = Thread.getAllStackTraces();
+            for (Thread t : traces.keySet()) {
+                if (t.getName().indexOf("Application") > -1) {
+                    System.err.println("----- Thread info " + t.getName() + "-----");
+                    System.err.println("State: " + t.getState());
+                    StackTraceElement[] trace = traces.get(t);
+                    for (StackTraceElement se : trace) {
+                        System.err.println(se);
+                    }
+                }
+            }
+            System.err.flush();
+            throw new TestFxTimeoutException("Timelimit for waiting for Fx-Thread exceeded." +
+                    " Operation took longer than " + timeoutMS + " ms");
+        }
+    }
+    
+    abstract static class ConditionWaiter implements Callable<Boolean> {
+        long startMS;
+        final long timeoutMS; 
+        final long sleepMS; 
+
+        public ConditionWaiter(long timeoutMS, long sleepMS) {
+            this.timeoutMS = timeoutMS;
+            this.sleepMS = sleepMS;
+        }
+
+        @Override
+        public Boolean call() throws Exception {
+            if (debugTestTiming) {
+                System.out.println("Check wait conditions on Fx-Thread " + this.getClass().getSimpleName());
+            }
+            boolean done = checkCondition();
+            return done;
+        }
+        
+        /**
+         * This method will be called on the Fx Thread, to evaluate, if the condition the instance is waiting for
+         * is true.
+         * @return true, if the condition the instance waits for is true
+         */
+        protected abstract boolean checkCondition();
+
+        /**
+         * Waits for the condition to become true on the JavaFx Application Thread.
+         */
+        public void waitFor() {
+            if (debugTestTiming) {
+                System.out.println("----- waitFor ------ (" + this.getClass().getSimpleName() + ")");
+            }
+
+            startMS = System.currentTimeMillis();
+            boolean done = false;
+            while (!done) {
+                if (System.currentTimeMillis() - startMS > timeoutMS) {
+                    onTimeout();
+                    return;
+                }
+                try {
+                    // any exception will be thrown up the tree
+                    if (sleepMS > 0) {
+                        Thread.sleep(sleepMS);
+                    }
+                    ASyncFXCallable<Boolean> call = new ASyncFXCallable<>(this, true);
+                    runOnFxThread(call);
+                    long timeout = timeoutMS - (System.currentTimeMillis() - startMS);
+                    timeout = Math.max(1, timeout);
+                    done = call.get(timeout, TimeUnit.MILLISECONDS);
+                } 
+                catch (InterruptedException e) {
+                    onInterrupted();
+                    return; // Interrupt requested
+                } 
+                catch (TimeoutException e) {
+                    if (debugTestTiming) {
+                        System.out.println("Timeout after " + (System.currentTimeMillis() - startMS) + "ms");
+                    }
+                    onTimeout();
+                    return;
+                }
+                catch (Exception e) {
+                    if (debugTestTiming) {
+                        System.out.println("Exception during waitForFx " + this.getClass().getSimpleName());
+                        e.printStackTrace();
+                    }
+                    throw new RuntimeException("Exception during waiting for contdition to become true on Fx-Thread",
+                            e);
+                }
+            }
+            if (debugTestTiming) {
+                System.out.println("Waiting for events took " + (System.currentTimeMillis() - startMS) + " ms " +
+                        this.getClass().getSimpleName());
+            }
+        }
+        
+        /**
+         * This method is called, if a interrupt occurred during waiting
+         */
+        protected abstract void onInterrupted();
+        /**
+         * This method is called, if a timeout occurred during waiting
+         */
+        protected abstract void onTimeout();
+        
     }
 
     private static void printException(Throwable e, StackTraceElement[] trace) {
@@ -718,6 +1001,9 @@ public final class WaitForAsyncUtils {
                 if (exception != null) {
                     exceptions.remove(exception);
                     exception = null;
+                }
+                if (TRACE_FETCH) {
+                    printException(e, Thread.currentThread().getStackTrace());
                 }
                 throw e;
             }

@@ -28,7 +28,6 @@ dependencies {
 
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:2.21.0"
-    testCompile project(":testfx-junit")
     if (JavaVersion.current().isJava9Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-9+181"
     } else {
@@ -77,7 +76,6 @@ compileTestJava {
                     '--module-path', classpath.asPath,
                     '--add-modules', 'javafx.fxml',
                     '--add-modules', 'junit',
-                    '--add-modules', 'org.testfx.junit',
                     '--add-reads', "$moduleName=javafx.fxml",
                     '--add-reads', "$moduleName=junit",
                     '--add-reads', "$moduleName=org.testfx.junit",

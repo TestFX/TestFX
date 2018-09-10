@@ -72,10 +72,6 @@ class ApplicationStartTest extends ApplicationTest {
         stage.show();
     }
 
-    @Override
-    public void stop() throws Exception {
-        FxToolkit.hideStage();
-    }
 
     @Test
     void should_contain_button() {

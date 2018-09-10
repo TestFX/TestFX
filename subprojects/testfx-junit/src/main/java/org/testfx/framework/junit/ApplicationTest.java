@@ -18,14 +18,15 @@ package org.testfx.framework.junit;
 
 import javafx.application.Application;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.testcase.api.TestCaseBase;
 
 /**
  * The base class that your JUnit test classes should extend from that interact with and/or verify the
@@ -72,29 +73,42 @@ import org.testfx.api.FxToolkit;
  *     }
  * }
  * }</pre>
+ * 
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
  */
-public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
+@Deprecated
+public abstract class ApplicationTest extends TestCaseBase implements ApplicationFixture {
+
+    private Stage testStage;
 
     public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(appClass, appArgs);
     }
 
+    @BeforeClass
+    public static void internalBeforeAll() throws Throwable {
+        TestCaseBase.beforeAll();
+    }
+
+    @AfterClass
+    public static void internalAfterAll() throws Throwable {
+        TestCaseBase.afterAll();
+    }
+
     @Before
-    public final void internalBefore() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    public final void internalBefore() throws Throwable {
+        super.beforeTest();
+        testStage = FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     @After
-    public final void internalAfter() throws Exception {
-        // release all keys
-        release(new KeyCode[0]);
-        // release all mouse buttons
-        release(new MouseButton[0]);
-        FxToolkit.cleanupStages();
+    public final void internalAfter() throws Throwable {
+        super.afterTest();
         FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
+
 
     @Override
     public void init() throws Exception {}
@@ -104,4 +118,10 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
 
     @Override
     public void stop() throws Exception {}
+
+    @Override
+    public Stage getTestStage() {
+        return testStage;
+    }
+
 }

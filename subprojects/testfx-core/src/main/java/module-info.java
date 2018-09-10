@@ -24,6 +24,7 @@ module org.testfx {
     exports org.testfx.service.locator;
     exports org.testfx.service.query;
     exports org.testfx.service.support;
+    exports org.testfx.testcase.api;
     exports org.testfx.osgi;
     exports org.testfx.osgi.service;
     exports org.testfx.robot;

@@ -16,17 +16,15 @@
  */
 package org.testfx.robot.impl;
 
-import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.WriteRobot;
@@ -38,71 +36,77 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class WriteRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class WriteRobotImplTest extends InternalTestCaseBase {
 
     WriteRobot writeRobot;
-    Stage stage;
-    Scene scene;
     BaseRobot baseRobot;
     SleepRobot sleepRobot;
     WindowFinder windowFinder;
+    TextArea area;
 
     @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    public static void setupAll() {
+        WriteRobotImpl.verify = false;
+    }
+    @AfterClass
+    public static void resetAll() {
+        WriteRobotImpl.verify = true;
     }
 
     @Before
     public void setup() throws Exception {
-        stage = FxToolkit.registerStage(Stage::new);
-        scene = FxToolkit.setupScene(() -> new Scene(new Region()));
-
+    }
+    
+    @Override
+    public Node createComponent() {
         baseRobot = mock(BaseRobot.class);
         sleepRobot = mock(SleepRobot.class);
         windowFinder = mock(WindowFinder.class);
         writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
+        area = new TextArea();
+        area.setPrefColumnCount(100);
+        area.setPrefRowCount(20);
+        area.setId("text");
+        return area;
     }
 
     @Test
     public void write_char() {
         // given:
-        given(windowFinder.targetWindow()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(getTestStage());
 
         // when:
         writeRobot.write('a');
 
         // then:
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("a"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.UNDEFINED), eq("a"));
     }
 
     @Test
     public void write_char_with_whitespace() {
         // given:
-        given(windowFinder.targetWindow()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(getTestStage());
 
         // when:
         writeRobot.write('\t');
         writeRobot.write('\n');
 
         // then:
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.TAB), eq("\t"));
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.ENTER), eq("\n"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.TAB), eq("\t"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.ENTER), eq("\n"));
     }
 
     @Test
     public void write_string() {
         // given:
-        given(windowFinder.targetWindow()).willReturn(stage);
+        given(windowFinder.targetWindow()).willReturn(getTestStage());
 
         // when:
         writeRobot.write("ae");
 
         // then:
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("a"));
-        verify(baseRobot, times(1)).typeKeyboard(eq(scene), eq(KeyCode.UNDEFINED), eq("e"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.UNDEFINED), eq("a"));
+        verify(baseRobot, times(1)).typeKeyboard(eq(getTestScene()), eq(KeyCode.UNDEFINED), eq("e"));
     }
 
 }

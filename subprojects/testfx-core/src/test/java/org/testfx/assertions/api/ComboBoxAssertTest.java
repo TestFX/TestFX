@@ -16,38 +16,29 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class ComboBoxAssertTest extends FxRobot {
+public class ComboBoxAssertTest extends InternalTestCaseBase {
 
     ComboBox<String> comboBox;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            comboBox = new ComboBox<>();
-            comboBox.setItems(observableArrayList("alice", "bob", "carol", "dave"));
-            comboBox.getSelectionModel().selectFirst();
-            return new StackPane(comboBox);
-        });
-        FxToolkit.showStage();
+    
+    @Override
+    public Node createComponent() {
+        comboBox = new ComboBox<>();
+        comboBox.setItems(observableArrayList("alice", "bob", "carol", "dave"));
+        comboBox.getSelectionModel().selectFirst();
+        return new StackPane(comboBox);
     }
 
     @Test

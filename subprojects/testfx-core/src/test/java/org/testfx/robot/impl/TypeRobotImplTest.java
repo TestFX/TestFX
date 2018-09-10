@@ -19,9 +19,8 @@ package org.testfx.robot.impl;
 import javafx.scene.input.KeyCodeCombination;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
@@ -43,10 +42,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class TypeRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class TypeRobotImplTest extends InternalTestCaseBase {
 
     TypeRobot typeRobot;
     KeyboardRobot keyboardRobot;
@@ -120,7 +116,7 @@ public class TypeRobotImplTest {
         typeRobot.type(A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).press(eq(A));
         verify(keyboardRobot, times(1)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -131,9 +127,9 @@ public class TypeRobotImplTest {
         typeRobot.type(A, B);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).press(eq(A));
         verify(keyboardRobot, times(1)).release(eq(A));
-        verify(keyboardRobot, times(1)).pressNoWait(eq(B));
+        verify(keyboardRobot, times(1)).press(eq(B));
         verify(keyboardRobot, times(1)).release(eq(B));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -144,7 +140,7 @@ public class TypeRobotImplTest {
         typeRobot.type(A, 5);
 
         // then:
-        verify(keyboardRobot, times(5)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(5)).press(eq(A));
         verify(keyboardRobot, times(5)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }

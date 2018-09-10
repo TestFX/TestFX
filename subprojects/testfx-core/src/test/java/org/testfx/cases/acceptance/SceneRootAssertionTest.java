@@ -16,35 +16,26 @@
  */
 package org.testfx.cases.acceptance;
 
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
-public class SceneRootAssertionTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class SceneRootAssertionTest extends InternalTestCaseBase {
 
     StackPane stackPane;
     Label label;
-
-    @Before
-    public void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupSceneRoot(() -> {
-            label = new Label("foobar");
-            stackPane = new StackPane(label);
-            return stackPane;
-        });
-        FxToolkit.showStage();
+    
+    @Override
+    public Node createComponent() {
+        label = new Label("foobar");
+        stackPane = new StackPane(label);
+        return stackPane;
     }
 
     @Test

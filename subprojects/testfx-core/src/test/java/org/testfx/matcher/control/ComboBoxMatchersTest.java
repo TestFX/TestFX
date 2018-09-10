@@ -16,45 +16,32 @@
  */
 package org.testfx.matcher.control;
 
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ComboBoxMatchersTest extends FxRobot {
+public class ComboBoxMatchersTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = new TestFXRule(2);
 
     ComboBox<String> comboBox;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    
+    @Override
+    public Node createComponent() {
+        comboBox = new ComboBox<>();
+        comboBox.setItems(observableArrayList("alice", "bob", "carol", "dave"));
+        comboBox.getSelectionModel().selectFirst();
+        return comboBox;
     }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            comboBox = new ComboBox<>();
-            comboBox.setItems(observableArrayList("alice", "bob", "carol", "dave"));
-            comboBox.getSelectionModel().selectFirst();
-            return new StackPane(comboBox);
-        });
-        FxToolkit.showStage();
-    }
+    
+    
 
     @Test
     public void hasItems() {

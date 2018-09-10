@@ -51,7 +51,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.TestFXRule;
 
 import static org.testfx.api.FxAssert.verifyThat;
 

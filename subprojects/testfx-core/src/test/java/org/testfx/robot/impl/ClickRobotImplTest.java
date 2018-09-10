@@ -18,10 +18,11 @@ package org.testfx.robot.impl;
 
 import javafx.scene.input.MouseButton;
 
+import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.ClickRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
@@ -37,15 +38,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public class ClickRobotImplTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class ClickRobotImplTest extends InternalTestCaseBase {
 
     ClickRobot clickRobot;
     MouseRobot mouseRobot;
     MoveRobot moveRobot;
     SleepRobot sleepRobot;
+    
+    @BeforeClass
+    public static void setupAll() {
+        ClickRobotImpl.verify = false;
+    }
+    @AfterClass
+    public static void resetAll() {
+        ClickRobotImpl.verify = true;
+    }
 
     @Before
     public void setup() {
@@ -62,7 +69,7 @@ public class ClickRobotImplTest {
 
         // then:
         verify(mouseRobot, times(1)).pressNoWait(eq(MouseButton.PRIMARY));
-        verify(mouseRobot, times(1)).release(eq(MouseButton.PRIMARY));
+        verify(mouseRobot, times(1)).releaseNoWait(eq(MouseButton.PRIMARY));
         verifyNoMoreInteractions(mouseRobot);
         verifyZeroInteractions(moveRobot, sleepRobot);
     }
@@ -76,7 +83,7 @@ public class ClickRobotImplTest {
         verify(mouseRobot, times(1)).pressNoWait(
             eq(MouseButton.PRIMARY), eq(MouseButton.SECONDARY)
         );
-        verify(mouseRobot, times(1)).release(
+        verify(mouseRobot, times(1)).releaseNoWait(
             eq(MouseButton.PRIMARY), eq(MouseButton.SECONDARY)
         );
         verifyNoMoreInteractions(mouseRobot);
@@ -94,7 +101,7 @@ public class ClickRobotImplTest {
         // then:
         verify(moveRobot, times(1)).moveTo(eq(pointQuery), eq(Motion.DEFAULT));
         verify(mouseRobot, times(1)).pressNoWait(eq(MouseButton.PRIMARY));
-        verify(mouseRobot, times(1)).release(eq(MouseButton.PRIMARY));
+        verify(mouseRobot, times(1)).releaseNoWait(eq(MouseButton.PRIMARY));
         verifyNoMoreInteractions(moveRobot, mouseRobot);
         verifyZeroInteractions(sleepRobot);
     }
@@ -106,7 +113,7 @@ public class ClickRobotImplTest {
 
         // then:
         verify(mouseRobot, times(2)).pressNoWait(eq(MouseButton.PRIMARY));
-        verify(mouseRobot, times(2)).release(eq(MouseButton.PRIMARY));
+        verify(mouseRobot, times(2)).releaseNoWait(eq(MouseButton.PRIMARY));
         verify(sleepRobot, times(1)).sleep(anyLong());
         verifyNoMoreInteractions(mouseRobot, sleepRobot);
         verifyZeroInteractions(moveRobot);
@@ -121,7 +128,7 @@ public class ClickRobotImplTest {
         verify(mouseRobot, times(2)).pressNoWait(
             eq(MouseButton.PRIMARY), eq(MouseButton.SECONDARY)
         );
-        verify(mouseRobot, times(2)).release(
+        verify(mouseRobot, times(2)).releaseNoWait(
             eq(MouseButton.PRIMARY), eq(MouseButton.SECONDARY)
         );
         verify(sleepRobot, times(1)).sleep(anyLong());
@@ -140,7 +147,7 @@ public class ClickRobotImplTest {
         // then:
         verify(moveRobot, times(1)).moveTo(eq(pointQuery), eq(Motion.DEFAULT));
         verify(mouseRobot, times(2)).pressNoWait(eq(MouseButton.PRIMARY));
-        verify(mouseRobot, times(2)).release(eq(MouseButton.PRIMARY));
+        verify(mouseRobot, times(2)).releaseNoWait(eq(MouseButton.PRIMARY));
         verify(sleepRobot, times(1)).sleep(anyLong());
         verifyNoMoreInteractions(moveRobot, mouseRobot, sleepRobot);
     }

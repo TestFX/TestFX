@@ -16,9 +16,7 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.concurrent.TimeoutException;
-
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -26,15 +24,8 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
-import org.testfx.util.WaitForAsyncUtils;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -44,10 +35,7 @@ import static org.testfx.util.DebugUtils.informedErrorMessage;
  * Tests whether pressing {@code KeyCode.SHORTCUT} will convert into the OS-specific KeyCode (i.e.
  * {@code KeyCode.COMMAND} for Macs and {@code KeyCode.CONTROL} for everything else).
  */
-public class ShortcutKeyTest extends FxRobot {
-
-    @Rule
-    public TestRule rule = new TestFXRule();
+public class ShortcutKeyTest extends InternalTestCaseBase {
 
     private VBox box;
     private TextField field;
@@ -58,53 +46,40 @@ public class ShortcutKeyTest extends FxRobot {
     private final String releasedText = "released";
     private final String emptyText = "";
 
-    @Before
-    public void setup() throws TimeoutException {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupStage(stage -> {
-            box = new VBox();
-            field = new TextField(initialText);
-            field.setOnKeyPressed(e -> {
-                // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
-                // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
-                if (((e.getCode() == KeyCode.CONTROL)  ||
-                        (e.getCode() == KeyCode.META) ||
-                        (e.getCode() == KeyCode.COMMAND)
-                        ) && e.isShortcutDown()) {
-                    field.setText(pressedText);
-                } else {
-                    field.setText(e.getCode().toString());
-                }
-                e.consume();
-            });
-            field.setOnKeyReleased(e -> {
-                // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
-                // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
-                if (((e.getCode() == KeyCode.CONTROL)  ||
-                        (e.getCode() == KeyCode.META) ||
-                        (e.getCode() == KeyCode.COMMAND)
-                        ) && !e.isShortcutDown()) {
-                    field.setText(releasedText);
-                } else {
-                    field.setText(e.getCode().toString());
-                }
-                e.consume();
-            });
-            field1 = new TextField(initialText);
-            field2 = new TextField(emptyText);
-            box.getChildren().addAll(field, field1, field2);
-            stage.setScene(new Scene(box));
-            stage.show();
-            field.requestFocus();
+    @Override
+    public Node createComponent() {
+        box = new VBox();
+        field = new TextField(initialText);
+        field.setOnKeyPressed(e -> {
+            // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
+            // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
+            if (((e.getCode() == KeyCode.CONTROL)  ||
+                    (e.getCode() == KeyCode.META) ||
+                    (e.getCode() == KeyCode.COMMAND)
+                    ) && e.isShortcutDown()) {
+                field.setText(pressedText);
+            } else {
+                field.setText(e.getCode().toString());
+            }
+            e.consume();
         });
-
-        WaitForAsyncUtils.waitForFxEvents();
-    }
-
-    @After
-    public void cleanup() {
-        // prevent hanging if test fails
-        release(new KeyCode[0]);
+        field.setOnKeyReleased(e -> {
+            // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
+            // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
+            if (((e.getCode() == KeyCode.CONTROL)  ||
+                    (e.getCode() == KeyCode.META) ||
+                    (e.getCode() == KeyCode.COMMAND)
+                    ) && !e.isShortcutDown()) {
+                field.setText(releasedText);
+            } else {
+                field.setText(e.getCode().toString());
+            }
+            e.consume();
+        });
+        field1 = new TextField(initialText);
+        field2 = new TextField(emptyText);
+        box.getChildren().addAll(field, field1, field2);
+        return box;
     }
 
     /**

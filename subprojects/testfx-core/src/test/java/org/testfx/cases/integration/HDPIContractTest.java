@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseButton;
@@ -13,17 +13,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import org.junit.After;
 import org.junit.AssumptionViolatedException;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.internal.JavaVersionAdapter;
 import org.testfx.internal.PlatformAdapter;
 import org.testfx.internal.PlatformAdapter.OS;
@@ -51,11 +46,9 @@ import static org.mockito.Mockito.verify;
  * </ul>
  * 
  */
-public class HDPIContractTest extends FxRobot {
+public class HDPIContractTest extends InternalTestCaseBase {
 
     List<RobotAdapter<?>> adapters;
-    Stage stage;
-    Scene scene;
     Pane root;
     Rectangle topLeft;
     Rectangle topRight;
@@ -66,55 +59,39 @@ public class HDPIContractTest extends FxRobot {
     GlassRobotAdapter glassAdapter;
     
     private long waitBetween = 200;
+    private long waitStage = 200;
     
     private final boolean verbose = false;
+    
+    @Override
+    public Node createComponent() {
+        root = new Pane();
+        String bg = "-fx-background-color: magenta;";
+        root.setStyle(bg);
 
-    @Before
-    public void setupHDPI() throws Exception {
-        FxToolkit.registerPrimaryStage();
+        bg = "-fx-background-color: black;";
+        topLeft = new Rectangle(0, 0, 5, 5);
+        topLeft.setStyle(bg);
+        root.getChildren().add(topLeft);
 
-        // Provide some background component for the basic test, that can fetch
-        // some key and mouse events.
-        // See issue #593 (https://github.com/TestFX/TestFX/issues/593).
-        FxToolkit.setupStage(stage -> {
-            this.stage = new Stage(); //don't mess up the primary stage!
-            this.stage.initStyle(StageStyle.UNDECORATED);
-            root = new Pane();
-            String bg = "-fx-background-color: magenta;";
-            root.setStyle(bg);
+        topRight = new Rectangle(95, 0, 5, 5);
+        topRight.setStyle(bg);
+        root.getChildren().add(topRight);
 
-            bg = "-fx-background-color: black;";
-            topLeft = new Rectangle(0, 0, 5, 5);
-            topLeft.setStyle(bg);
-            root.getChildren().add(topLeft);
+        bottomLeft = new Rectangle(0, 95, 5, 5);
+        bottomLeft.setStyle(bg);
+        root.getChildren().add(bottomLeft);
 
-            topRight = new Rectangle(95, 0, 5, 5);
-            topRight.setStyle(bg);
-            root.getChildren().add(topRight);
+        bottomRight = new Rectangle(95, 95, 5, 5);
+        bottomRight.setStyle(bg);
+        root.getChildren().add(bottomRight);
 
-            bottomLeft = new Rectangle(0, 95, 5, 5);
-            bottomLeft.setStyle(bg);
-            root.getChildren().add(bottomLeft);
-
-            bottomRight = new Rectangle(95, 95, 5, 5);
-            bottomRight.setStyle(bg);
-            root.getChildren().add(bottomRight);
-
-            scene = new Scene(root);
-            this.stage.setScene(scene);
-            this.stage.show();
-        });
         initRobots();
         log("JavaVersion: " + System.getProperty("java.version"));
         log("Java scaling x=" + JavaVersionAdapter.getScreenScaleX() + 
                 "Java scaling y=" + JavaVersionAdapter.getScreenScaleY());
-    }
-    
-    @After
-    public void tearDownHDPI() throws Throwable {
-        interact(() -> stage.close());
-        WaitForAsyncUtils.waitForFxEvents();
-        WaitForAsyncUtils.checkException();
+        
+        return root;
     }
 
     public void initRobots() {
@@ -175,10 +152,10 @@ public class HDPIContractTest extends FxRobot {
      */
     public void nullOffsetAdapterTest(RobotAdapter<?> adapter) {
         interact(() -> {
-            stage.setX(0);
-            stage.setY(0);
+            getTestStage().setX(0);
+            getTestStage().setY(0);
         });
-        sleep(1000);
+        sleep(waitStage);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
@@ -296,7 +273,7 @@ public class HDPIContractTest extends FxRobot {
      * to the translation of the window.
      */
     public void defaultOffsetAdapterTest(RobotAdapter<?> adapter) {
-        sleep(1000);
+        sleep(waitStage);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
@@ -398,7 +375,7 @@ public class HDPIContractTest extends FxRobot {
      * minimize error in case of color profiles. And uses a high threshold.
      */
     public void capturePixelColorAdapterTest(RobotAdapter<?> adapter) {
-        sleep(1000);
+        sleep(waitStage);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
@@ -458,7 +435,7 @@ public class HDPIContractTest extends FxRobot {
      * minimize error in case of color profiles. And uses a high threshold.
      */
     public void captureRegionAdapterTest(RobotAdapter<?> adapter) {
-        sleep(1000);
+        sleep(waitStage);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();
@@ -533,13 +510,13 @@ public class HDPIContractTest extends FxRobot {
      */
     public void clickOffsetAdapterTest(RobotAdapter<?> adapter) {
         interact(() -> {
-            stage.setX(0);
-            stage.setY(0);
-            stage.setWidth(400);
-            stage.setHeight(400);
+            getTestStage().setX(0);
+            getTestStage().setY(0);
+            getTestStage().setWidth(400);
+            getTestStage().setHeight(400);
         });
         interact(() -> root.getChildren().clear());
-        sleep(1000);
+        sleep(waitStage);
 
         // Checking that bounds are in JavaFx-Coordinates
         BoundsLocatorImpl locator = new BoundsLocatorImpl();

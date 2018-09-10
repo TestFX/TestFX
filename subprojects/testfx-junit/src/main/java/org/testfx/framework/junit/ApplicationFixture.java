@@ -21,7 +21,9 @@ import javafx.stage.Stage;
 /**
  * An interface that represents a JavaFX application (something that can be initialized,
  * started, and stopped).
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
  */
+@Deprecated
 public interface ApplicationFixture {
 
     void init() throws Exception;

@@ -32,11 +32,38 @@ import org.testfx.robot.TypeRobot;
 
 public class TypeRobotImpl implements TypeRobot {
 
-    private static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS = 25;
+    static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEFAULT = 25;
+    static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS_AGGRESSIVE = 0;
+    static final long SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEBUG = 50;
+    static long SLEEP_AFTER_KEY_CODE_IN_MILLIS = SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEFAULT;
 
     private final KeyboardRobot keyboardRobot;
     private final SleepRobot sleepRobot;
 
+
+    /**
+     * Sets all timing relevant values to the defined default values
+     */
+    public static void setDefaultTiming() {
+        SLEEP_AFTER_KEY_CODE_IN_MILLIS = SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEFAULT;
+    }
+    /**
+     * Sets all timing relevant values to be very fast. Timing may not be guaranteed in all cases,
+     * violations may occur. This setup shouldn't generally be used. It is mainly used for testing. 
+     */
+    public static void setAggressiveTiming() {
+        SLEEP_AFTER_KEY_CODE_IN_MILLIS = SLEEP_AFTER_KEY_CODE_IN_MILLIS_AGGRESSIVE;
+    }
+    /**
+     * Sets all timing relevant values to a value, that allows the user to follow the test
+     * on screen for debugging. This option may also be used to identify timing issues in 
+     * a test
+     */
+    public static void setDebugTiming() {
+        SLEEP_AFTER_KEY_CODE_IN_MILLIS = SLEEP_AFTER_KEY_CODE_IN_MILLIS_DEBUG;
+    }
+    
+    
     public TypeRobotImpl(KeyboardRobot keyboardRobot, SleepRobot sleepRobot) {
         Objects.requireNonNull(keyboardRobot, "keyboardRobot must not be null");
         Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
@@ -58,7 +85,9 @@ public class TypeRobotImpl implements TypeRobot {
     public void type(KeyCode... keys) {
         for (KeyCode keyCode : keys) {
             pushKeyCode(keyCode);
-            sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            if (SLEEP_AFTER_KEY_CODE_IN_MILLIS > 0) {
+                sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            }
         }
     }
 
@@ -66,12 +95,14 @@ public class TypeRobotImpl implements TypeRobot {
     public void type(KeyCode key, int times) {
         for (int index = 0; index < times; index++) {
             pushKeyCode(key);
-            sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            if (SLEEP_AFTER_KEY_CODE_IN_MILLIS > 0) {
+                sleepRobot.sleep(SLEEP_AFTER_KEY_CODE_IN_MILLIS);
+            }
         }
     }
 
     private void pushKeyCode(KeyCode keyCode) {
-        keyboardRobot.pressNoWait(keyCode);
+        keyboardRobot.press(keyCode);
         keyboardRobot.release(keyCode);
     }
 

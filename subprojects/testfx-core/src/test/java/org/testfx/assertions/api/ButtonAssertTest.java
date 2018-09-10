@@ -16,34 +16,25 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class ButtonAssertTest extends FxRobot {
+public class ButtonAssertTest extends InternalTestCaseBase {
 
     Button button;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    @Before
-    public void setup() throws Exception {
-        FxToolkit.setupSceneRoot(() -> {
-            button = new Button();
-            return new StackPane(button);
-        });
-        FxToolkit.showStage();
+    
+    @Override
+    public Node createComponent() {
+        button = new Button();
+        return new StackPane(button);
     }
 
     @Test

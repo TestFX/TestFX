@@ -14,7 +14,7 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.framework.junit;
+package org.testfx.cases;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -27,7 +27,7 @@ import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
 
 /**
- * Optional JUit rule that can be used to ensure the JavaFX platform has
+ * Optional JUnit rule that can be used to ensure the JavaFX platform has
  * been initialized before UI tests are run. The rule can also be used
  * for retrying flaky tests.
  * <p>
@@ -93,11 +93,11 @@ public class TestFXRule extends TestWatcher {
     protected void starting(Description description) {
         if (!initialized) {
             Callable<Boolean> waitForFXThread = () -> {
-                for (int i = 0; i < WAIT_MILLIS / 250; i++) {
+                for (int i = 0; i < WAIT_MILLIS / 50; i++) {
                     if (FxToolkit.isFXApplicationThreadRunning()) {
                         return true;
                     } else {
-                        Thread.sleep(250);
+                        Thread.sleep(50);
                     }
                 }
                 return false;

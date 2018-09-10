@@ -19,31 +19,24 @@ package org.testfx.matcher.control;
 import javafx.scene.control.Button;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalContainerTest;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class LabeledMatchersTest extends FxRobot {
+public class LabeledMatchersTest extends InternalContainerTest {
 
     Button foobarButton;
     Button quuxButton;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupFixture(() -> {
-            foobarButton = new Button("foobar");
-            quuxButton = new Button("quux");
-        });
+        foobarButton = new Button("foobar");
+        quuxButton = new Button("quux");
+        addAll(foobarButton, quuxButton);
     }
 
     @Test

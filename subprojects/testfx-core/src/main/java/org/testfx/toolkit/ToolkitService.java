@@ -76,16 +76,16 @@ public interface ToolkitService {
      * Creates, initializes, and starts the given applicationClass and returns a {@link Future} whose
      * {@link Future#get()} returns the created application.
      */
-    Future<Application> setupApplication(Supplier<Stage> stageSupplier,
-                                         Class<? extends Application> applicationClass,
+    <T extends Application> Future<T> setupApplication(Supplier<Stage> stageSupplier,
+                                         Class<T> applicationClass,
                                          String... applicationArgs);
 
     /**
      * Creates, initializes, and starts the supplied application and returns a {@link Future} whose
      * {@link Future#get()} returns the created application.
      */
-    Future<Application> setupApplication(Supplier<Stage> stageSupplier,
-                                         Supplier<Application> applicationSupplier,
+    <T extends Application> Future<T> setupApplication(Supplier<Stage> stageSupplier,
+                                         Supplier<T> applicationSupplier,
                                          String... applicationArgs);
 
     /**

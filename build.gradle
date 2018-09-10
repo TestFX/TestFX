@@ -154,10 +154,11 @@ subprojects { subproject ->
             enabled = JavaVersion.current() <= JavaVersion.VERSION_1_9
         }
         reports.html.enabled = false
+        //systemProperty "testfx.timing", "aggressive"
         testLogging {
             // set options for log level LIFECYCLE
             events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
-                TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT
+                TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
             showExceptions true
             exceptionFormat TestExceptionFormat.FULL
             showCauses true

@@ -18,7 +18,7 @@ package org.testfx.framework.junit;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -34,30 +34,36 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class KeyAndButtonReleaseTest extends ApplicationTest {
+public class KeyAndButtonReleaseTest extends ComponentTest<Pane> {
 
     @Override
-    public void start(Stage stage) throws Exception {
-        stage.show();
+    public Pane createComponent() {
+        Pane p = new Pane();
+        p.setPrefSize(300, 300);
+        return p;
     }
 
     @Test
     public void b_When_a_test_forgets_to_release_keys() {
+        //do not type/click on background
+        moveTo(getTestStage());
         press(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.ALT);
     }
 
     @Test
-    public void c_Then_keys_are_not_pressed() {
+    public void c_Then_keys_are_not_pressed() { //not a valid test, if a new robot is used!
         assertThat(robotContext().getKeyboardRobot().getPressedKeys().isEmpty(), is(true));
     }
 
     @Test
     public void e_When_a_test_forgets_to_release_buttons() {
+        //do not type/click on background
+        moveTo(getTestStage());
         press(MouseButton.PRIMARY, MouseButton.SECONDARY, MouseButton.MIDDLE);
     }
 
     @Test
-    public void f_Then_buttons_are_not_pressed() {
+    public void f_Then_buttons_are_not_pressed() { //not a valid test, if a new robot is used!
         assertThat(robotContext().getMouseRobot().getPressedButtons().isEmpty(), is(true));
     }
 }

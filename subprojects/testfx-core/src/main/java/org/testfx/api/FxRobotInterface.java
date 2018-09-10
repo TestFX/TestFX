@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.geometry.Bounds;
@@ -494,9 +495,15 @@ public interface FxRobotInterface {
     FxRobotInterface interrupt();
 
     /**
-     * Calls {@link WaitForAsyncUtils#waitForFxEvents(int)} and returns itself for method chaining.
+     * Calls {@link WaitForAsyncUtils#waitForFxEvents(int, int)} and returns itself for method chaining.
      */
-    FxRobotInterface interrupt(int attemptsCount);
+    FxRobotInterface interrupt(int fxLoops, int pulseLoops);
+
+    /**
+     * Calls {@link WaitForAsyncUtils#waitForFxCondition(long, TimeUnit, BooleanSupplier...)} and returns itself 
+     * for method chaining.
+     */
+    FxRobotInterface interrupt(long timeout, TimeUnit timeUnit, BooleanSupplier... fxConditions);
 
     /**
      * Calls {@link org.testfx.robot.SleepRobot#sleep(long)} and returns itself for more method chaining.

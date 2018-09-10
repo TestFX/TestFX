@@ -19,15 +19,20 @@ package org.testfx.util;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
+import org.testfx.api.FxToolkit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -37,8 +42,13 @@ import static org.junit.Assert.fail;
 
 public class WaitForAsyncUtilsTest {
 
-    @Rule
-    public TestRule rule = Timeout.millis(10000);
+    @Rule public TestRule rule = Timeout.millis(10000);
+    
+    @BeforeClass
+    public static void fireUpFx() throws Exception {
+        FxToolkit.registerPrimaryStage();
+    }
+    
 
     @Test
     public void async_callable() throws Exception {
@@ -292,6 +302,126 @@ public class WaitForAsyncUtilsTest {
         final Future<Thread> future = WaitForAsyncUtils.async(Thread::currentThread);
         final Thread thread = future.get();
         assertThat(thread.isDaemon(), CoreMatchers.is(true));
+    }
+    
+    @Test
+    public void waitForFxEventsTest() {
+        // given
+        long time = System.currentTimeMillis();
+        // when
+        WaitForAsyncUtils.waitForFxEvents();
+        // then
+        assertTrue(
+                "WaitForFxEvents didn't wait long enough. Waited " + (System.currentTimeMillis() - time) +
+                        " ms, Expected at least " +
+                        (WaitForAsyncUtils.SEMAPHORE_LOOPS_COUNT * WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS) + " ms",
+                System.currentTimeMillis() > time +
+                (WaitForAsyncUtils.SEMAPHORE_LOOPS_COUNT * WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS));
+    }
+
+    @Test
+    public void waitForFxEventsOnFxThreadTest() {
+        // given
+        WaitForAsyncUtils.printException = false; // do not pollute output
+        // when
+        try {
+            WaitForAsyncUtils.asyncFx(() -> WaitForAsyncUtils.waitForFxEvents());
+            // then
+            WaitForAsyncUtils.checkException();
+            fail("No exception when waiting for Fx-Events on Fx-Thread, this operation is not possible...");
+        } 
+        catch (Throwable e) {
+            if (e.getMessage() == null || e.getMessage().indexOf(
+                    "Waiting for events on the 'JavaFX Application Thread' is not possible") == -1) {
+                fail("Wrong exception returned: " + e.getClass() + " message: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } 
+        finally {
+            WaitForAsyncUtils.printException = true;
+        }
+    }
+
+    @Test
+    public void waitForFxEventsTimeoutTest() {
+        // given
+        WaitForAsyncUtils.printException = false; // do not pollute output
+        // when
+        try {
+            int n = 10;
+            if (WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS > 0) {
+                n += WaitForAsyncUtils.FX_TIMEOUT_CONDITION / WaitForAsyncUtils.SEMAPHORE_SLEEP_IN_MILLIS;
+            } else { // may not use pulses (Java8 support)
+                n = 10000000;
+            }
+            WaitForAsyncUtils.waitForFxEvents(n, 1);
+            // then
+            WaitForAsyncUtils.checkException();
+            fail("No exception when waiting for Fx-Events on Fx-Thread, this operation is not possible...");
+        } 
+        catch (Throwable e) {
+            if (e.getMessage() == null ||
+                    !(e instanceof TestFxTimeoutException) ||
+                    e.getMessage().indexOf("Timelimit for waiting for Fx-Thread exceeded") == -1) {
+                fail("Wrong exception returned: " + e.getClass() + " message: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } 
+        finally {
+            WaitForAsyncUtils.printException = true;
+        }
+    }
+    
+    @Test
+    public void waitForFxConditionTest() {
+        // when
+        FxCondition c = new FxCondition(200);
+        Platform.runLater(c);
+        assertTrue("Initilal condition is true!", !c.run);
+        // when
+        WaitForAsyncUtils.waitForFxCondition(1, TimeUnit.SECONDS, () -> c.run);
+        // then
+        assertTrue("Final condition is false!", c.run);
+    }
+
+    @Test
+    public void waitForFxConditionTimeoutTest() {
+        // when
+        FxCondition c = new FxCondition(5000);
+        Platform.runLater(c);
+        assertTrue("Initilal condition is true!", !c.run);
+        WaitForAsyncUtils.printException = false; // do not pollute output
+        try {
+            // when
+            WaitForAsyncUtils.waitForFxCondition(1, TimeUnit.SECONDS, () -> c.run);
+            // then
+            fail("Expected Timeout");
+        } 
+        catch (Exception ignore) {
+
+        } 
+        finally {
+            WaitForAsyncUtils.printException = true;
+        }
+    }
+    
+    private class FxCondition implements Runnable {
+        public transient boolean run;
+        public final long sleep;
+        public FxCondition(long sleep) {
+            this.sleep = sleep;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(sleep);
+            } 
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            run = true;
+        }
+        
     }
 
     void waitForException(Future<?> f) throws InterruptedException {

@@ -16,13 +16,11 @@
  */
 package org.testfx.robot.impl;
 
+import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
-import org.junit.rules.Timeout;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
 
@@ -36,13 +34,20 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class KeyboardRobotImplTest {
+public class KeyboardRobotImplTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(3000));
 
     KeyboardRobot keyboardRobot;
     BaseRobot baseRobot;
+    
+    @BeforeClass
+    public static void setupAll() {
+        KeyboardRobotImpl.verify = false;
+    }
+    @AfterClass
+    public static void resetAll() {
+        KeyboardRobotImpl.verify = true;
+    }
 
     @Before
     public void setup() {

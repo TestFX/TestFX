@@ -22,15 +22,14 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.service.query.NodeQuery;
@@ -39,10 +38,25 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class NodeAssertTest extends FxRobot {
+public class NodeAssertTest extends InternalTestCaseBase {
 
+    VBox parent;
     TextField textField;
     TextField textField2;
+    Button fooBtn;
+    Button bazBtn;
+    
+    
+    @Override
+    public Node createComponent() {
+        parent = new VBox();
+        textField = new TextField("foo");
+        textField2 = new TextField("bar");
+        fooBtn = new Button("foo");
+        bazBtn = new Button("baz");
+        parent.getChildren().addAll(textField, textField2, fooBtn, bazBtn);
+        return parent;
+    }
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -52,28 +66,25 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void hasText_with_button() throws Exception {
         // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
         // then:
-        assertThat(button).hasText("foo");
+        assertThat(fooBtn).hasText("foo");
     }
 
     @Test
     public void doesNotHaveText_with_button() throws Exception {
         // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
         // then:
-        assertThat(button).doesNotHaveText("bar");
+        assertThat(fooBtn).doesNotHaveText("bar");
     }
 
     @Test
     public void doesNotHaveText_with_button_fails() throws Exception {
         // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
 
         // then:
-        assertThatThrownBy(() -> assertThat(button).doesNotHaveText("foo"))
+        assertThatThrownBy(() -> assertThat(fooBtn).doesNotHaveText("foo"))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("Expected: Labeled has text \"foo\" to be false\n     " +
                         "but: was \"foo\"");
@@ -82,10 +93,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void isFocused() throws Exception {
         // given:
-        FxToolkit.setupSceneRoot(() -> {
-            textField = new TextField("foo");
-            return new StackPane(textField);
-        });
 
         // when:
         Platform.runLater(() -> textField.requestFocus());
@@ -98,11 +105,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void isFocused_fails() throws Exception {
         // given:
-        FxToolkit.setupSceneRoot(() -> {
-            textField = new TextField("foo");
-            textField2 = new TextField("bar");
-            return new StackPane(textField, textField2);
-        });
 
         // when:
         Platform.runLater(() -> textField2.requestFocus());
@@ -117,11 +119,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void isNotFocused() throws Exception {
         // given:
-        FxToolkit.setupSceneRoot(() -> {
-            textField = new TextField("foo");
-            textField2 = new TextField("bar");
-            return new StackPane(textField, textField2);
-        });
 
         Platform.runLater(() -> textField2.requestFocus());
         WaitForAsyncUtils.waitForFxEvents();
@@ -133,10 +130,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void isNotFocused_fails() throws Exception {
         // given:
-        FxToolkit.setupSceneRoot(() -> {
-            textField = new TextField("foo");
-            return new StackPane(textField);
-        });
 
         // when:
         Platform.runLater(() -> textField.requestFocus());
@@ -170,8 +163,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void hasChild() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(
-                new Label("foo"), new Button("bar"), new Button("baz")));
 
         // then:
         assertThat(parent).hasChild(".button");
@@ -180,7 +171,7 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void hasChild_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane());
+        interact(() -> parent.getChildren().clear());
 
         // then:
         assertThatThrownBy(() -> assertThat(parent).hasChild(".button"))
@@ -191,8 +182,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void doesNotHaveChild() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(
-                new Label("foo"), new Button("bar"), new Button("baz")));
 
         // then:
         assertThat(parent).doesNotHaveChild(".boot");
@@ -201,8 +190,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void doesNotHaveChild_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(
-                new Label("foo"), new Button("bar"), new Button("baz")));
 
         // then:
         assertThatThrownBy(() -> assertThat(parent).doesNotHaveChild(".button"))
@@ -213,8 +200,6 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void hasChildren() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(
-                new Label("foo"), new Button("bar"), new Button("baz")));
 
         // then:
         assertThat(parent).hasExactlyChildren(2, ".button");
@@ -223,11 +208,10 @@ public class NodeAssertTest extends FxRobot {
     @Test
     public void hasChildren_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
         // then:
-        assertThatThrownBy(() -> assertThat(parent).hasExactlyChildren(2, ".button"))
+        assertThatThrownBy(() -> assertThat(parent).hasExactlyChildren(3, ".button"))
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessageStartingWith("Expected: Node has 2 children \".button\"\n");
+                .hasMessageStartingWith("Expected: Node has 3 children \".button\"\n");
     }
 }

@@ -23,29 +23,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcherResult;
@@ -55,45 +45,42 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testfx.api.FxAssert.verifyThat;
 
-public class CaptureSupportImplTest extends FxRobot {
+public class CaptureSupportImplTest extends InternalTestCaseBase {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(testFolder = new TemporaryFolder());
-    public TemporaryFolder testFolder;
+    public TemporaryFolder testFolder = new TemporaryFolder();
 
     CaptureSupport capturer;
-    Stage primaryStage;
-
-    public static class LoginDialog extends Application {
-        @Override
-        public void start(Stage stage) throws Exception {
-            String fxmlDocument = "res/acme-login.fxml";
-            Node fxmlHierarchy = FXMLLoader.load(getClass().getResource(fxmlDocument));
-
-            Pane rootPane = new StackPane();
-            rootPane.getChildren().add(fxmlHierarchy);
-
-            Scene scene = new Scene(rootPane);
-            stage.setScene(scene);
-            stage.show();
+    
+    @Override
+    public Node createComponent() {
+        String fxmlDocument = "res/acme-login.fxml";
+        try {
+            return FXMLLoader.load(getClass().getResource(fxmlDocument));
+        } 
+        catch (IOException e) {
+            throw new RuntimeException("Exception during initialization", e);
         }
     }
 
     @Before
     public void setup() throws Exception {
-        primaryStage = FxToolkit.registerPrimaryStage();
+        testFolder.create();
         capturer = new CaptureSupportImpl(new BaseRobotImpl());
-        FxToolkit.setupApplication(LoginDialog.class);
+    }
+    
+    @After
+    public void tearDown() {
+        testFolder.delete();
     }
 
     @Test
     public void capture_node() {
         // when:
-        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+        Image image = capturer.captureNode(getTestScene().getRoot());
 
         // then:
-        assertThat(image.getWidth(), equalTo(primaryStage.getScene().getWidth()));
-        assertThat(image.getHeight(), equalTo(primaryStage.getScene().getHeight()));
+        assertThat(image.getWidth(), equalTo(getTestScene().getWidth()));
+        assertThat(image.getHeight(), equalTo(getTestScene().getHeight()));
     }
 
     @Test
@@ -119,7 +106,7 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void save_image() throws IOException {
         // when:
-        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+        Image image = capturer.captureNode(getTestScene().getRoot());
         Path actualImagePath = testFolder.newFile("acme-login-actual.png").toPath();
         capturer.saveImage(image, actualImagePath);
 
@@ -148,12 +135,12 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void match_images_from_scene() throws IOException {
         // given:
-        interact(() -> primaryStage.getScene().lookup("#loginButton").requestFocus());
-        Image image0 = capturer.captureNode(primaryStage.getScene().getRoot());
+        interact(() -> getTestScene().lookup("#loginButton").requestFocus());
+        Image image0 = capturer.captureNode(getTestScene().getRoot());
 
         // and:
-        interact(() -> primaryStage.getScene().lookup("#username").requestFocus());
-        Image image1 = capturer.captureNode(primaryStage.getScene().getRoot());
+        interact(() -> getTestScene().lookup("#username").requestFocus());
+        Image image1 = capturer.captureNode(getTestScene().getRoot());
 
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();

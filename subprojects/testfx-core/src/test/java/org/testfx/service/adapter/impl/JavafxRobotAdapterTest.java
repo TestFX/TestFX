@@ -28,8 +28,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -40,15 +40,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.cases.InternalTestCaseBase;
 import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -60,13 +55,9 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeThat;
 import static org.testfx.api.FxAssert.verifyThat;
 
-public class JavafxRobotAdapterTest {
-
-    @Rule
-    public TestFXRule testFXRule = new TestFXRule();
+public class JavafxRobotAdapterTest extends InternalTestCaseBase {
 
     JavafxRobotAdapter robotAdapter;
-    Stage targetStage;
     Parent sceneRoot;
     Region region;
     TextField textField;
@@ -75,44 +66,34 @@ public class JavafxRobotAdapterTest {
     Point2D textFieldPoint;
     Point2D textAreaPoint;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
+    
+    @Override
+    public Node createComponent() {
+        region = new Region();
+        region.setStyle("-fx-background-color: magenta;");
+        textField = new TextField();
+        textArea = new TextArea();
+        textArea.setPrefRowCount(6);
+
+        VBox box = new VBox(region, textField, textArea);
+        box.setPadding(new Insets(10));
+        box.setSpacing(10);
+        VBox.setVgrow(region, Priority.ALWAYS);
+        box.setPrefSize(300, 300);
+
+        sceneRoot = new StackPane(box);
+        return sceneRoot;
     }
 
     @Before
     public void setup() throws Exception {
-        targetStage = FxToolkit.setupStage(stage -> {
-            region = new Region();
-            region.setStyle("-fx-background-color: magenta;");
-            textField = new TextField();
-            textArea = new TextArea();
-            textArea.setPrefRowCount(6);
-
-            VBox box = new VBox(region, textField, textArea);
-            box.setPadding(new Insets(10));
-            box.setSpacing(10);
-            VBox.setVgrow(region, Priority.ALWAYS);
-
-            sceneRoot = new StackPane(box);
-            Scene scene = new Scene(sceneRoot, 300, 300);
-            stage.setScene(scene);
-            stage.show();
-        });
-
         robotAdapter = new JavafxRobotAdapter();
-        robotAdapter.robotCreate(targetStage.getScene());
+        robotAdapter.robotCreate(getTestStage().getScene());
 
         // Points are set to bounds in scene
         regionPoint = pointInCenterFor(region.localToScene(region.getBoundsInLocal()));
         textFieldPoint = pointInCenterFor(textField.localToScene(textField.getBoundsInLocal()));
         textAreaPoint = pointInCenterFor(textArea.localToScene(textArea.getBoundsInLocal()));
-    }
-
-    @After
-    public void cleanup() {
-        robotAdapter.keyRelease(KeyCode.A);
-        robotAdapter.mouseRelease(MouseButton.PRIMARY);
     }
 
     @Test

@@ -22,7 +22,10 @@ import javafx.stage.Stage;
 /**
  * Adapter that adapts from a class implementing the {@code ApplicationFixture} interface to an actual
  * {@code Application}.
+ * 
+ * @deprecated Use {@link ComponentTest}, {@link StageTest} or {@link ApplicationClassTest}
  */
+@Deprecated
 public final class ApplicationAdapter extends Application {
 
     private final ApplicationFixture applicationFixture;

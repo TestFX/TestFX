@@ -104,11 +104,11 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     @Override
-    public Future<Application> setupApplication(Supplier<Stage> stageSupplier,
-                                                Class<? extends Application> applicationClass,
+    public <T extends Application> Future<T> setupApplication(Supplier<Stage> stageSupplier,
+                                                Class<T> applicationClass,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = asyncFx(() -> createApplication(applicationClass)).get();
+            T application = asyncFx(() -> createApplication(applicationClass)).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -117,11 +117,11 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     @Override
-    public Future<Application> setupApplication(Supplier<Stage> stageSupplier,
-                                                Supplier<Application> applicationSupplier,
+    public <T extends Application> Future<T> setupApplication(Supplier<Stage> stageSupplier,
+                                                Supplier<T> applicationSupplier,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = asyncFx(applicationSupplier::get).get();
+            T application = asyncFx(applicationSupplier::get).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -134,7 +134,7 @@ public class ToolkitServiceImpl implements ToolkitService {
         return applicationService.stop(application);
     }
 
-    private Application createApplication(Class<? extends Application> applicationClass) throws Exception {
+    private <T extends Application> T createApplication(Class<T> applicationClass) throws Exception {
         return applicationClass.getDeclaredConstructor().newInstance();
     }
 
