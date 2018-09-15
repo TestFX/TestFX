@@ -54,6 +54,7 @@ public class MenuBarTest {
     FxRobot fxRobot = new FxRobot();
     Menu editMenu;
     CountDownLatch newMenuShownLatch = new CountDownLatch(1);
+    CountDownLatch saveAsActionLatch = new CountDownLatch(1);
     CountDownLatch editMenuShownLatch = new CountDownLatch(1);
 
     @BeforeClass
@@ -74,8 +75,8 @@ public class MenuBarTest {
 
             MenuItem saveAsItem = new MenuItem("Save As..............................");
             saveAsItem.setId("saveAsItem");
-            saveAsItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN,
-                    KeyCombination.CONTROL_DOWN));
+            saveAsItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN));
+            saveAsItem.setOnMenuValidation(event -> saveAsActionLatch.countDown());
             fileMenu.getItems().add(saveAsItem);
 
             editMenu = new Menu("Edit");
@@ -102,7 +103,7 @@ public class MenuBarTest {
      * @see <a href="https://github.com/TestFX/TestFX/issues/309">Issue #309</a>
      */
     @Test
-    public void should_move_vertically_first() throws Exception {
+    public void should_move_vertically_first() throws InterruptedException {
         // First we show that it is indeed the case that {@code editMenu} is triggered when moving directly:
         editMenu.setOnShown(event -> editMenuShownLatch.countDown());
         fxRobot.clickOn("#fileMenu");
@@ -119,5 +120,11 @@ public class MenuBarTest {
                 informedErrorMessage(fxRobot));
         fxRobot.clickOn("#newItem");
         verifyThat(newMenuShownLatch.await(3, TimeUnit.SECONDS), is(true), informedErrorMessage(fxRobot));
+    }
+
+    @Test
+    public void shortcut_accelerator() throws InterruptedException {
+        fxRobot.push(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN));
+        verifyThat(saveAsActionLatch.await(3, TimeUnit.SECONDS), is(true), informedErrorMessage(fxRobot));
     }
 }
