@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -99,10 +99,6 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <dl>
-<dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - the type of the implementing robot class</dd>
-</dl>
-<dl>
 <dt>All Known Implementing Classes:</dt>
 <dd><a href="../../../../org/testfx/service/adapter/impl/AwtRobotAdapter.html" title="class in org.testfx.service.adapter.impl">AwtRobotAdapter</a>, <a href="../../../../org/testfx/service/adapter/impl/GlassRobotAdapter.html" title="class in org.testfx.service.adapter.impl">GlassRobotAdapter</a>, <a href="../../../../org/testfx/service/adapter/impl/JavafxRobotAdapter.html" title="class in org.testfx.service.adapter.impl">JavafxRobotAdapter</a></dd>
 </dl>
@@ -112,10 +108,10 @@ var activeTableTab = "activeTableTab";
 <div class="block">The common interface for all RobotAdapters.<br>
  These are the minimum set of functions required from a robot to provide the
  full functionality use in the higher level api.
- 
+
  <h2>Threading</h2>
  The caller of the Adapter usually doesn't run on the FX-Application Thread.
- If required, the implementation of this class will schedule the actions on the 
+ If required, the implementation of this class will schedule the actions on the
  FX-Application Thread.</div>
 </li>
 </ul>
@@ -154,42 +150,36 @@ var activeTableTab = "activeTableTab";
 </td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code><a href="../../../../org/testfx/service/adapter/RobotAdapter.html" title="type parameter in RobotAdapter">T</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#getRobotInstance--">getRobotInstance</a></span>()</code>
-<div class="block">Gets a instance of this Robot</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#keyPress-javafx.scene.input.KeyCode-">keyPress</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>
 <div class="block">Function used to make the robot press a key.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#keyRelease-javafx.scene.input.KeyCode-">keyRelease</a></span>(javafx.scene.input.KeyCode&nbsp;key)</code>
 <div class="block">Function used to make the robot release a key.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseMove-javafx.geometry.Point2D-">mouseMove</a></span>(javafx.geometry.Point2D&nbsp;location)</code>
 <div class="block">Moves the mouse cursor to the given position in JavaFx coordinates</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mousePress-javafx.scene.input.MouseButton-">mousePress</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>
 <div class="block">Makes the robot press a mouse button.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseRelease-javafx.scene.input.MouseButton-">mouseRelease</a></span>(javafx.scene.input.MouseButton&nbsp;button)</code>
 <div class="block">Makes the robot release a mouse button.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#mouseWheel-int-">mouseWheel</a></span>(int&nbsp;wheelAmount)</code>
 <div class="block">Makes the robot to simulate a action of the mouse wheel.<br>
@@ -197,13 +187,13 @@ var activeTableTab = "activeTableTab";
  indicate movement down/towards the user.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#robotCreate--">robotCreate</a></span>()</code>
 <div class="block">Creates a robot.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/service/adapter/RobotAdapter.html#robotDestroy--">robotDestroy</a></span>()</code>
 <div class="block">Destroys the robot</div>
@@ -242,20 +232,6 @@ var activeTableTab = "activeTableTab";
 <h4>robotDestroy</h4>
 <pre>void&nbsp;robotDestroy()</pre>
 <div class="block">Destroys the robot</div>
-</li>
-</ul>
-<a name="getRobotInstance--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getRobotInstance</h4>
-<pre><a href="../../../../org/testfx/service/adapter/RobotAdapter.html" title="type parameter in RobotAdapter">T</a>&nbsp;getRobotInstance()</pre>
-<div class="block">Gets a instance of this Robot</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a instance of this robot</dd>
-</dl>
 </li>
 </ul>
 <a name="keyPress-javafx.scene.input.KeyCode-">
