@@ -23,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 
-import org.testfx.internal.PlatformAdapter;
 import org.testfx.robot.BaseRobot;
 import org.testfx.service.adapter.RobotAdapter;
 import org.testfx.service.adapter.impl.AwtRobotAdapter;
@@ -37,14 +36,8 @@ public class BaseRobotImpl implements BaseRobot {
 
     public BaseRobotImpl() {
         boolean verbose = Boolean.getBoolean("testfx.verbose");
-        // Default to "glass" if "testfx.robot" is not explicitly set on macOS or Linux, otherwise
-        // default to "awt" (on Windows).
-        String defaultRobot = "awt";
-        if (PlatformAdapter.getOs() == PlatformAdapter.OS.UNIX ||
-                PlatformAdapter.getOs() == PlatformAdapter.OS.MAC) {
-            defaultRobot = "glass";
-        }
-        String robotAdapterName = System.getProperty("testfx.robot", defaultRobot);
+        // Default to "glass" if "testfx.robot" is not explicitly set.
+        String robotAdapterName = System.getProperty("testfx.robot", "glass");
         switch (robotAdapterName) {
             case "awt":
                 if (verbose) {
