@@ -52,7 +52,8 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         if (GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance()) {
             throw new RuntimeException("can not create awt robot as environment is headless");
         }
-        Toolkit.getDefaultToolkit(); // initializes awt toolkit
+        // Initialize AWT toolkit.
+        Toolkit.getDefaultToolkit();
         awtRobot = createAwtRobot();
     }
 
@@ -173,10 +174,7 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         }
     }
 
-
-
-    // scale
-    protected Rectangle2D scaleRect(Rectangle2D rect) {
+    private Rectangle2D scaleRect(Rectangle2D rect) {
         if (!scaleRequired()) {
             return rect;
         }
@@ -186,7 +184,7 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
                 rect.getHeight() * factorY);
     }
 
-    protected Point2D scaleInverseRect(Point2D pt) {
+    private Point2D scaleInverseRect(Point2D pt) {
         if (!scaleRequired()) {
             return pt;
         }
@@ -195,12 +193,21 @@ public class AwtRobotAdapter implements RobotAdapter<Robot> {
         return new Point2D(pt.getX() / factorX, pt.getY() / factorY);
     }
 
-    protected boolean scaleRequired() {
-        // MacOS Awt is not covered by the build server.
-        // Do not remove, if not testing on a headed mac with java 10 or above.
-        return PlatformAdapter.getOs() != OS.MAC &&
-            // just prevent unnecessary transforms...
-            JavaVersionAdapter.getScreenScaleX() != 1.0 && JavaVersionAdapter.getScreenScaleY() != 1.0;
+    private boolean scaleRequired() {
+        if (JavaVersionAdapter.getScreenScaleX() == 1.0 && JavaVersionAdapter.getScreenScaleY() == 1.0) {
+            // Just to prevent unnecessary computations.
+            return false;
+        } else {
+            if (Boolean.getBoolean("testfx.awt.scale")) {
+                return true;
+            }
+            if (PlatformAdapter.getOs() == OS.WINDOWS) {
+                return false;
+            }
+            // Do not remove, if not testing on headed macOS with Java 10+. Beware: macOS with AWT robot is
+            // not covered by CI builds!
+            return PlatformAdapter.getOs() != OS.MAC;
+        }
     }
 
 
