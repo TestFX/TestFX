@@ -52,6 +52,10 @@ class PublicGlassRobotAdapter extends GlassRobotAdapter {
         }
     }
 
+    public void robotDestroy() {
+        // NO-OP, destroy() was removed from public robot API pending https://bugs.openjdk.java.net/browse/JDK-8207373.
+    }
+
     @Override
     public void keyPress(KeyCode key) {
         asyncFx(() -> getRobot().getClass().getMethod("keyPress", KeyCode.class).invoke(getRobot(), key));
