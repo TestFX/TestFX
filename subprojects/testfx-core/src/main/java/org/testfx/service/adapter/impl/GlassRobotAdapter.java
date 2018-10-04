@@ -16,14 +16,12 @@
  */
 package org.testfx.service.adapter.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
 import org.testfx.service.adapter.RobotAdapter;
 
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
-import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public abstract class GlassRobotAdapter implements RobotAdapter {
 
@@ -61,21 +59,6 @@ public abstract class GlassRobotAdapter implements RobotAdapter {
         }
         else {
             return new PrivateGlassRobotAdapter();
-        }
-    }
-
-    @Override
-    public final void robotDestroy() {
-        if (glassRobot != null) {
-            waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
-                try {
-                    getRobot().getClass().getMethod("destroy").invoke(glassRobot);
-                }
-                catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    throw new RuntimeException(e);
-                }
-                glassRobot = null;
-            });
         }
     }
 

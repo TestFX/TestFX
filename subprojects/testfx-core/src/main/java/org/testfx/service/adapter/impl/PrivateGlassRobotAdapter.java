@@ -60,6 +60,21 @@ class PrivateGlassRobotAdapter extends GlassRobotAdapter {
     }
 
     @Override
+    public void robotDestroy() {
+        if (glassRobot != null) {
+            waitForAsyncFx(RETRIEVAL_TIMEOUT_IN_MILLIS, () -> {
+                try {
+                    getRobot().getClass().getMethod("destroy").invoke(glassRobot);
+                }
+                catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
+                glassRobot = null;
+            });
+        }
+    }
+
+    @Override
     public void keyPress(KeyCode key) {
         asyncFx(() -> getRobot().getClass().getMethod("keyPress", int.class)
                 .invoke(getRobot(), convertToKeyCodeId(key)));
