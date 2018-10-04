@@ -30,6 +30,8 @@ jobs:
       os: linux
       dist: trusty
       jdk: oraclejdk8
+      env:
+        - _JAVA_OPTIONS="-Dtestfx.robot=awt"
     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot)
     - os: linux
       dist: trusty
@@ -59,13 +61,13 @@ jobs:
       dist: trusty
       jdk: oraclejdk10
       env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dtestfx.robot=awt"
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (Glass Robot)
     - os: linux
       dist: trusty
       jdk: oraclejdk10
       env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dtestfx.verbose=true -Dtestfx.robot=glass"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dtestfx.robot=glass"
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headless
     - os: linux
       dist: trusty
@@ -77,7 +79,7 @@ jobs:
       dist: trusty
       jdk: oraclejdk10
       env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Djdk.gtk.verbose=true -Djdk.gtk.version=3 -Dglass.gtk.uiScale=2.0"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED -Dtestfx.robot=awt -Djdk.gtk.verbose=true -Djdk.gtk.version=3 -Dglass.gtk.uiScale=2.0"
     # Ubuntu Linux (trusty) / Oracle JDK 10 / Headed (Glass Robot) / HiDPI
     - os: linux
       dist: trusty
@@ -101,7 +103,7 @@ jobs:
       dist: trusty
       jdk: oraclejdk11
       env:
-        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dnet.bytebuddy.experimental=true"
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt"
     # Ubuntu Linux (trusty) / Oracle JDK 11 / Headed (Glass Robot) / HiDPI
     - os: linux
       dist: trusty
