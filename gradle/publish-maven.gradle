@@ -82,10 +82,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            afterEvaluate {
-                artifact sourceJar
-                artifact javadocJar
-            }
+            artifact sourceJar
+            artifact javadocJar
             pom.withXml {
                 asNode().children().last() + pomConfig
                 asNode().appendNode("description", project.pomDescription)
