@@ -1,5 +1,15 @@
 # Change Log
 
+## [v4.0.15-alpha](https://github.com/testfx/testfx/tree/v4.0.15-alpha) (2018-10-08)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.14-alpha...v4.0.15-alpha)
+
+**Merged pull requests:**
+
+- \(fix\) Public glass robot API no longer has destroy method. [\#627](https://github.com/TestFX/TestFX/pull/627) ([brcolow](https://github.com/brcolow))
+- \(chore\) Explicitly set testfx.robot for CI builds. [\#626](https://github.com/TestFX/TestFX/pull/626) ([brcolow](https://github.com/brcolow))
+- Make glass robot default on all platforms. [\#625](https://github.com/TestFX/TestFX/pull/625) ([brcolow](https://github.com/brcolow))
+- \(fix\) Auto-deploy via Travis - bintray fix. [\#621](https://github.com/TestFX/TestFX/pull/621) ([brcolow](https://github.com/brcolow))
+
 ## [v4.0.14-alpha](https://github.com/testfx/testfx/tree/v4.0.14-alpha) (2018-08-29)
 [Full Changelog](https://github.com/testfx/testfx/compare/v4.0.13-alpha...v4.0.14-alpha)
 
@@ -9,6 +19,7 @@
 - \(fix\) KeyCombination on Mac with Java10 and AwtRobotAdapter [\#613](https://github.com/TestFX/TestFX/pull/613) ([Ortner](https://github.com/Ortner))
 - \(test\) Fix Locale in text matchers [\#611](https://github.com/TestFX/TestFX/pull/611) ([Ortner](https://github.com/Ortner))
 - \(fix\) Refactor/cleanup of HiDPI handling code. [\#609](https://github.com/TestFX/TestFX/pull/609) ([brcolow](https://github.com/brcolow))
+- \[enhancement\] Support Java\(FX\) 11. [\#606](https://github.com/TestFX/TestFX/pull/606) ([brcolow](https://github.com/brcolow))
 - \(fix\) Make sure AWT and Glass robots work in HiDPI and normal DPI. [\#602](https://github.com/TestFX/TestFX/pull/602) ([brcolow](https://github.com/brcolow))
 - \(fix\) Add Text class case to NodeQueryUtils.hasNodeText\(..\). [\#600](https://github.com/TestFX/TestFX/pull/600) ([brcolow](https://github.com/brcolow))
 - \(fix\) typing of characters in the background [\#598](https://github.com/TestFX/TestFX/pull/598) ([brcolow](https://github.com/brcolow))
