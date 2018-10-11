@@ -16,6 +16,7 @@
  */
 package org.testfx.assertions.api;
 
+import javafx.css.Styleable;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -23,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.paint.Color;
@@ -79,7 +81,7 @@ public class Assertions extends org.assertj.core.api.Assertions {
     }
 
     /**
-     * Create assertion for {@link Button}.
+     * Create assertion for {@link Labeled}.
      *
      * @param actual the actual value
      * @return the created assertion object
@@ -100,7 +102,17 @@ public class Assertions extends org.assertj.core.api.Assertions {
     }
 
     /**
-     * Create assertion for {@link Button}.
+     * Create assertion for {@link MenuItem}.
+     *
+     * @param actual the actual value
+     * @return the created assertion object
+     */
+    public static MenuItemAssert assertThat(MenuItem actual) {
+        return new MenuItemAssert(actual);
+    }
+
+    /**
+     * Create assertion for {@link Node}.
      *
      * @param actual the actual value
      * @return the created assertion object
@@ -117,6 +129,16 @@ public class Assertions extends org.assertj.core.api.Assertions {
      */
     public static ParentAssert assertThat(Parent actual) {
         return new ParentAssert(actual);
+    }
+
+    /**
+     * Create assertion for {@link Styleable}.
+     *
+     * @param actual the actual value
+     * @return the created assertion object
+     */
+    public static StyleableAssert assertThat(Styleable actual) {
+        return new StyleableAssert(actual);
     }
 
     /**
