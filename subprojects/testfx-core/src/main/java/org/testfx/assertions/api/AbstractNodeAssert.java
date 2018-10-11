@@ -18,7 +18,6 @@ package org.testfx.assertions.api;
 
 import javafx.scene.Node;
 
-import org.assertj.core.api.AbstractAssert;
 import org.testfx.matcher.base.NodeMatchers;
 
 import static org.testfx.assertions.api.Assertions.assertThat;
@@ -28,7 +27,7 @@ import static org.testfx.assertions.impl.Adapter.fromMatcher;
 /**
  * Base class for all {@link javafx.scene.Node} assertions.
  */
-public class AbstractNodeAssert<SELF extends AbstractNodeAssert<SELF>> extends AbstractAssert<SELF, Node> {
+public class AbstractNodeAssert<SELF extends AbstractNodeAssert<SELF>> extends AbstractStyleableAssert<SELF> {
 
     protected AbstractNodeAssert(Node actual, Class<?> selfType) {
         super(actual, selfType);
