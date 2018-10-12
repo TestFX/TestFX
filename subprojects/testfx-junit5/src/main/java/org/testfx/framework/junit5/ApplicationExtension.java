@@ -21,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -31,6 +33,8 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+
+import org.testfx.util.WaitForAsyncUtils;
 
 public class ApplicationExtension extends FxRobot implements BeforeEachCallback, AfterEachCallback,
         TestInstancePostProcessor, ParameterResolver {
@@ -84,6 +88,12 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
         FxToolkit.cleanupApplication(new ApplicationAdapter(applicationFixture));
+        // Cleaning the remaining UI events (e.g. a mouse press that is still waiting for a mouse release)
+        // Not cleaning these events may have side-effects on the next UI tests
+        release(new KeyCode[0]);
+        release(new MouseButton[0]);
+        // Required to wait for the end of the UI events processing
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     private Method validateInitMethod(Method initMethod) {
