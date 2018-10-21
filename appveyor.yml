@@ -27,32 +27,7 @@ environment:
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
-    # Java 10 / AWT Robot
-    - JAVA_VERSION: "10"
-      JAVA_HOME: C:\jdk10
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt"
-
-    # Java 10 / Glass Robot (deadlock?)
-    # - JAVA_VERSION: "10"
-    #  JAVA_HOME: C:\jdk10
-    #  _JAVA_OPTIONS: "-Dtestfx.robot=glass"
-
-    # Java 10 / Glass Robot / HiDPI (deadlock?)
-    # - JAVA_VERSION: "10"
-    #  JAVA_HOME: C:\jdk10
-    #  _JAVA_OPTIONS: "-Dprism.verbose=true -Dtestfx.robot=glass -Dglass.win.uiScale=200%"
-
-    # Java 10 / AWT Robot / HiDPI
-    - JAVA_VERSION: "10"
-      JAVA_HOME: C:\jdk10
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
-
-    # Java 10 / Headless (fails because of JDK-8201539)
-    - JAVA_VERSION: "10"
-      JAVA_HOME: C:\jdk10
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-
-    # Java 10 / AWT Robot
+    # Java 11 / AWT Robot
     - JAVA_VERSION: "11"
       JAVA_HOME: C:\jdk11
       _JAVA_OPTIONS: "-Dtestfx.robot=awt"
@@ -74,8 +49,6 @@ environment:
 
 matrix:
   allow_failures:
-    - JAVA_VERSION: "10"
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
     - JAVA_VERSION: "11"
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
 
