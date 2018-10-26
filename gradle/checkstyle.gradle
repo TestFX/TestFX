@@ -25,7 +25,7 @@ checkstyle {
     configFile = rootProject.file("gradle/check/checkstyle.xml")
     showViolations = true
     ignoreFailures = false
-    toolVersion = "8.9"
+    toolVersion = "8.14"
 }
 
 // Decrease verbosity (printing of XSL style sheets, etc.)
