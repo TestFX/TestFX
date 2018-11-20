@@ -108,6 +108,24 @@ public class ListViewMatchers {
             node -> hasVisiblePlaceholder(node, placeHolder));
     }
 
+
+    /**
+     * Creates a matcher that matches {@link ListView}s that have the given <em>value</em> within their selection.
+     *
+     * @param value the value placeHolder {@code T} the matched ListView's should have
+     */
+    @Factory
+    public static Matcher<ListView> hasSelectedRow(Object value) {
+        String descriptionText = String.format("has selection \"%s\"", value);
+        return typeSafeMatcher(ListView.class, descriptionText,
+                listView -> "\"" + listView.getSelectionModel().getSelectedItems().toString() + "\"",
+                listView -> hasSelectedItem(listView, value));
+    }
+
+    private static boolean hasSelectedItem(ListView<?> listView, Object value) {
+        return listView.getSelectionModel().getSelectedItems().contains(value);
+    }
+
     private static boolean hasListCell(ListView listView, Object value) {
         NodeFinder nodeFinder = FxAssert.assertContext().getNodeFinder();
         NodeQuery nodeQuery = nodeFinder.from(listView);
