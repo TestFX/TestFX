@@ -148,4 +148,16 @@ public class ListViewMatchersTest extends FxRobot {
                 .hasMessage("\nExpected: ListView has visible labeled placeholder containing text: \"Empty!\"\n" +
                         "     but: was invisible labeled placeholder containing text: \"Empty!\"");
     }
+
+    @Test
+    public void hasSelectedRow() {
+        listView.getSelectionModel().select(0);
+        assertThat(listView, ListViewMatchers.hasSelectedRow("alice"));
+    }
+
+    @Test
+    public void hasSelectedRow_fails() {
+        assertThatThrownBy(() -> assertThat(listView, ListViewMatchers.hasSelectedRow("peter")))
+                .isExactlyInstanceOf(AssertionError.class);
+    }
 }
