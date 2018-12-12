@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -149,11 +149,17 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.control.ListView&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/ListViewMatchers.html#hasSelectedRow-java.lang.Object-">hasSelectedRow</a></span>(java.lang.Object&nbsp;value)</code>
+<div class="block">Creates a matcher that matches <code>ListView</code>s that have the given <em>value</em> within their selection.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.control.ListView&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/ListViewMatchers.html#hasVisiblePlaceholder-javafx.scene.Node-">hasVisiblePlaceholder</a></span>(javafx.scene.Node&nbsp;placeHolder)</code>
 <div class="block">Creates a matcher that matches <code>ListView</code>s that have the given <em>visible</em> <code>placeHolder</code>.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static org.hamcrest.Matcher&lt;javafx.scene.control.ListView&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../org/testfx/matcher/control/ListViewMatchers.html#isEmpty--">isEmpty</a></span>()</code>
 <div class="block">Creates a matcher that matches all <code>ListView</code>s that have no items (i.e.</div>
@@ -240,7 +246,7 @@ extends java.lang.Object</pre>
 <a name="hasVisiblePlaceholder-javafx.scene.Node-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>hasVisiblePlaceholder</h4>
 <pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.control.ListView&gt;&nbsp;hasVisiblePlaceholder(javafx.scene.Node&nbsp;placeHolder)</pre>
@@ -251,6 +257,20 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>placeHolder</code> - the visible placeHolder <code>Node</code> the matched ListView's should have</dd>
+</dl>
+</li>
+</ul>
+<a name="hasSelectedRow-java.lang.Object-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>hasSelectedRow</h4>
+<pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.control.ListView&gt;&nbsp;hasSelectedRow(java.lang.Object&nbsp;value)</pre>
+<div class="block">Creates a matcher that matches <code>ListView</code>s that have the given <em>value</em> within their selection.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - the value placeHolder <code>T</code> the matched ListView's should have</dd>
 </dl>
 </li>
 </ul>
