@@ -98,10 +98,10 @@ jobs:
       jdk: openjdk10
       env:
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
-    # macOS / OpenJDK 11 / Headless
+    # macOS / OpenJDK 12 / Headless
     - os: osx
       osx_image: xcode9.4
-      jdk: openjdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
     # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
@@ -109,7 +109,6 @@ jobs:
     # this "partial headless" testing scenario does not provide useful information.
     - stage: deploy
       before_install: true
-      script: true
       after_success: true
       script: .ci/deploy.sh
       os: osx

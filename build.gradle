@@ -57,15 +57,15 @@ rootProject.with { project ->
         buildDate = buildTimeAndDate.format("yyyy-MM-dd")
         buildTime = buildTimeAndDate.format("HH:mm:ss.SSSZ")
 
-        if (JavaVersion.current().isJava9Compatible()) {
-            javadocLinks = [
-                    "https://docs.oracle.com/javase/9/docs/api"
-            ]
+        if (JavaVersion.current().isJava11Compatible()) {
+            javadocLinks = ["https://docs.oracle.com/en/java/javase/11/docs/api"]
+        } else if (JavaVersion.current().isJava10Compatible()) {
+            javadocLinks = ["https://docs.oracle.com/javase/10/docs/api"]
+        } else if (JavaVersion.current().isJava9Compatible()) {
+            javadocLinks = ["https://docs.oracle.com/javase/9/docs/api"]
         } else {
-            javadocLinks = [
-                    "http://docs.oracle.com/javase/8/docs/api/",
-                    "http://docs.oracle.com/javase/8/javafx/api/"
-            ]
+            javadocLinks = ["http://docs.oracle.com/javase/8/docs/api/",
+                            "http://docs.oracle.com/javase/8/javafx/api/"]
         }
     }
 }
@@ -126,7 +126,7 @@ subprojects { subproject ->
         javadocJar
     }
 
-    // Gradle defaults to using the source/target compatbility of the
+    // Gradle defaults to using the source/target compatibility of the
     // JVM running gradle. This works for our use-case as long as we
     // make sure to upload releases built on Java 8 to Maven Central.
     if (JavaVersion.current().isJava11Compatible()) {
