@@ -37,7 +37,7 @@ dependencies {
 ```
 
 ### Java 11
-Beginning with Java 11, JavaFX is not part of the JDK anymore. It has been extracted to its own project: (OpenJFX)[https://openjfx.io]. This means, extra dependencies must be added to your project, in case you are using Java 11.
+Beginning with Java 11, JavaFX is not part of the JDK anymore. It has been extracted to its own project: [OpenJFX](https://openjfx.io). This means, extra dependencies must be added to your project, in case you are using Java 11.
 
 ## JUnit and Spock
 Next add a dependency corresponding to the testing framework you are using in
@@ -105,7 +105,7 @@ In order to use JavaFX API, you need to include the appropriate dependencies, e.
 </dependency>
 ```
 
-Have a look at [Maven Central org.openjfx](https://mvnrepository.com/search?q=org.openjfx) for an overview of available modules.
+Have a look at [Maven Central's org.openjfx](https://mvnrepository.com/search?q=org.openjfx) entry for an overview of available modules.
 
 ## JUnit and Spock
 Next add a dependency corresponding to the testing framework you are using in
@@ -150,7 +150,7 @@ your project. TestFX supports JUnit 4, JUnit 5, and Spock.
 TestFX brings along a couple of custom Hamcrest matchers in package `org.testfx.matcher.*`.
 
 ### AssertJ based Assertions
-TestFX uses its own AssertJ based assertion implementation class: `from org.testfx.assertions.api.Assertions`.
+TestFX uses its own AssertJ based assertion implementation class: `org.testfx.assertions.api.Assertions`.
 
 #### JUnit 4 with Hamcrest Matchers
 
@@ -507,7 +507,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-	- $HOME/.m2
+    - $HOME/.m2
 ```
 
 Your TestFX tests should now run as part of your Travis CI build.
