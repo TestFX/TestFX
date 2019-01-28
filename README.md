@@ -36,13 +36,34 @@ dependencies {
 }
 ```
 
+### Java 11
+Beginning with Java 11, JavaFX is not part of the JDK anymore. It has been extracted to its own project: (OpenJFX)[https://openjfx.io]. This means, extra dependencies must be added to your project, in case you are using Java 11.
+
+## JUnit and Spock
 Next add a dependency corresponding to the testing framework you are using in
-your project. TestFX supports JUnit 4, JUnit 5, and Spock. For example if
-you are using JUnit 4 in your project you would add a dependency on `testfx-junit`:
+your project. TestFX supports JUnit 4, JUnit 5, and Spock.
+
+### JUnit 4
 
 ```gradle
 dependencies {
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
+}
+```
+
+### JUnit 5
+
+```gradle
+dependencies {
+    testCompile "org.testfx:testfx-junit5:4.0.15-alpha"
+}
+```
+
+### Spock
+
+```gradle
+dependencies {
+    testCompile "org.testfx:testfx-spock:4.0.15-alpha"
 }
 ```
 
@@ -59,9 +80,38 @@ To add a dependency on TestFX using Maven, use the following:
 </dependency>
 ```
 
+### Java 11
+Beginning with Java 11, JavaFX is not part of the JDK anymore. It has been extracted to its own project: [OpenJFX](https://openjfx.io). This means, extra dependencies must be added to your project, in case you are using Java 11.
+
+You may start with:
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-base</artifactId>
+    <version>11.0.2</version>
+</dependency>
+```
+
+In order to use JavaFX API, you need to include the appropriate dependencies, e. g.:
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-controls</artifactId>
+    <version>11.0.2</version>
+</dependency>
+```
+
+Have a look at [Maven Central org.openjfx](https://mvnrepository.com/search?q=org.openjfx) for an overview of available modules.
+
+## JUnit and Spock
 Next add a dependency corresponding to the testing framework you are using in
-your project. TestFX supports JUnit 4, JUnit 5, and Spock. For example if
-you are using JUnit 4 in your project you would add a dependency on `testfx-junit`:
+your project. TestFX supports JUnit 4, JUnit 5, and Spock.
+
+### JUnit 4
 
 ```xml
 <dependency>
@@ -72,126 +122,156 @@ you are using JUnit 4 in your project you would add a dependency on `testfx-juni
 </dependency>
 ```
 
+### JUnit 5
+
+```xml
+<dependency>
+    <groupId>org.testfx</groupId>
+    <artifactId>testfx-junit5</artifactId>
+    <version>4.0.15-alpha</version>
+    <scope>test</scope>
+</dependency>
+```
+
+### Spock
+
+```xml
+<dependency>
+    <groupId>org.testfx</groupId>
+    <artifactId>testfx-spock</artifactId>
+    <version>4.0.15-alpha</version>
+    <scope>test</scope>
+</dependency>
+```
+
 ## Examples
-### JUnit 4 with Hamcrest Matchers
+
+### Hamcrest Matchers
+TestFX brings along a couple of custom Hamcrest matchers in package `org.testfx.matcher.*`.
+
+### AssertJ based Assertions
+TestFX uses its own AssertJ based assertion implementation class: `from org.testfx.assertions.api.Assertions`.
+
+#### JUnit 4 with Hamcrest Matchers
 
 ```java
+import org.junit.Test;
+import org.testfx.api.FxAssert;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.control.LabeledMatchers;
 
-public class DesktopPaneTest extends ApplicationTest {
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-    DesktopPane desktopPane;
+public class ClickableButtonTest_JUnit4Hamcrest extends ApplicationTest {
 
+    private Button button;
+
+    /**
+     * Will be called with {@code @Before} semantics, i. e. before each test method.
+     */
     @Override
     public void start(Stage stage) {
-        desktopPane = new DesktopPane();
-        desktopPane.setId("desktop");
-        Scene scene = new Scene(desktopPane, 800, 600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @Test
-    public void should_drag_file_into_trashcan() {
-        // given:
-        rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
-        write("myTextfile.txt").push(KeyCode.ENTER);
-
-        // when:
-        drag(".file").dropTo("#trash-can");
-
-        // then:
-        verifyThat("#desktop", hasChildren(0, ".file"));
-    }
-}
-```
-
-### JUnit 4 with AssertJ Assertions
-
-```java
-import org.testfx.framework.junit.ApplicationTest;
-
-import static org.testfx.assertions.api.Assertions.assertThat;
-
-public class DesktopPaneTest extends ApplicationTest {
-
-    DesktopPane desktopPane;
-
-    @Override
-    public void start(Stage stage) {
-        desktopPane = new DesktopPane();
-        desktopPane.setId("desktop");
-        Scene scene = new Scene(desktopPane, 800, 600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @Test
-    public void should_drag_file_into_trashcan() {
-        // given:
-        rightClickOn("#desktop").moveTo("New").clickOn("Text Document");
-        write("myTextfile.txt").push(KeyCode.ENTER);
-
-        // when:
-        drag(".file").dropTo("#trash-can");
-
-        // then:
-        assertThat(desktopPane).hasChildren(0, ".file");
-        // or (lookup by css id):
-        assertThat(lookup("#desktop").queryAs(DesktopPane.class)).hasChildren(0, ".file");
-        // or (look up css class):
-        assertThat(lookup(".desktop-pane").queryAs(DesktopPane.class)).hasChildren(0, ".file");
-    }
-}
-```
-
-### JUnit 5 with Hamcrest Matchers
-
-```java
-import org.testfx.framework.junit5.ApplicationTest;
-
-@ExtendWith(ApplicationExtension.class)
-class ClickableButtonTest {
-
-    @Start
-    void onStart(Stage stage) {
-        Button button = new Button("click me!");
+        button = new Button("click me!");
         button.setOnAction(actionEvent -> button.setText("clicked!"));
         stage.setScene(new Scene(new StackPane(button), 100, 100));
         stage.show();
     }
 
     @Test
-    void should_contain_button() {
-        // expect:
-        verifyThat(".button", hasText("click me!"));
+    public void should_contain_button_with_text() {
+        FxAssert.verifyThat(".button", LabeledMatchers.hasText("click me!"));
     }
 
     @Test
-    void should_click_on_button(FxRobot robot) {
+    public void when_button_is_clicked_text_changes() {
         // when:
-        robot.clickOn(".button");
+        clickOn(".button");
 
         // then:
-        verifyThat(".button", hasText("clicked!"));
+        FxAssert.verifyThat(".button", LabeledMatchers.hasText("clicked!"));
     }
 }
 ```
 
-### JUnit 5 with AssertJ Assertions
+#### JUnit 4 with AssertJ based Assertions 
 
 ```java
-import org.testfx.framework.junit5.ApplicationTest;
+import org.junit.Test;
+import org.testfx.assertions.api.Assertions;
+import org.testfx.framework.junit.ApplicationTest;
 
-import static org.testfx.assertions.api.Assertions.assertThat;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+public class ClickableButtonTest_JUnit4AssertJ extends ApplicationTest {
+
+    private Button button;
+
+    /**
+     * Will be called with {@code @Before} semantics, i. e. before each test method.
+     */
+    @Override
+    public void start(Stage stage) {
+        button = new Button("click me!");
+        button.setOnAction(actionEvent -> button.setText("clicked!"));
+        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        stage.show();
+    }
+
+    @Test
+    public void should_contain_button_with_text() {
+        Assertions.assertThat(button).hasText("click me!");
+    }
+
+    @Test
+    public void when_button_is_clicked_text_changes() {
+        // when:
+        clickOn(".button");
+
+        // then:
+        Assertions.assertThat(button).hasText("clicked!");
+    }
+}
+```
+
+### JUnit 5 
+TestFX uses [JUnit5's new extension mechanism](https://junit.org/junit5/docs/current/user-guide/#extensions) via `org.junit.jupiter.api.extension.ExtendWith`. By using this, implementors are not forced anymore to inherit from `ApplicationTest` and are free to choose their own super classes. 
+  
+It does also make use of [JUnit5's new dependency injection mechanism](https://junit.org/junit5/docs/current/user-guide/#writing-tests-dependency-injection). By using this, test methods have access to the `FxRobot` instance that must be used in order to execute actions within the UI.
+
+##### JUnit 5 with Hamcrest Matchers
+
+```java
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.api.FxAssert;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.control.LabeledMatchers;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
-class ClickableButtonTest {
+class ClickableButtonTest_JUnit5Hamcrest {
 
-    Button button;
+    private Button button;
 
+    /**
+     * Will be called with {@code @Before} semantics, i. e. before each test method.
+     *
+     * @param stage - Will be injected by the test runner.
+     */
     @Start
-    void onStart(Stage stage) {
+    private void start(Stage stage) {
         button = new Button("click me!");
         button.setId("myButton");
         button.setOnAction(actionEvent -> button.setText("clicked!"));
@@ -199,31 +279,100 @@ class ClickableButtonTest {
         stage.show();
     }
 
+    /**
+     * @param robot - Will be injected by the test runner.
+     */
     @Test
-    void should_contain_button() {
-        // expect:
-        assertThat(button).hasText("click me!");
+    void should_contain_button_with_text(FxRobot robot) {
+        FxAssert.verifyThat(button, LabeledMatchers.hasText("click me!"));
         // or (lookup by css id):
-        assertThat(lookup("#myButton").queryAs(Button.class)).hasText("click me!");
+        FxAssert.verifyThat("#myButton", LabeledMatchers.hasText("click me!"));
         // or (lookup by css class):
-        assertThat(lookup(".button").queryAs(Button.class)).hasText("click me!");
-        // or (query specific type):
-        assertThat(lookup(".button").queryButton()).hasText("click me!");
+        FxAssert.verifyThat(".button", LabeledMatchers.hasText("click me!"));
     }
 
+    /**
+     * @param robot - Will be injected by the test runner.
+     */
     @Test
-    void should_click_on_button(FxRobot robot) {
+    void when_button_is_clicked_text_changes(FxRobot robot) {
         // when:
         robot.clickOn(".button");
 
         // then:
-        assertThat(button).hasText("clicked!");
+        FxAssert.verifyThat(button, LabeledMatchers.hasText("clicked!"));
         // or (lookup by css id):
-        assertThat(lookup("#myButton").queryAs(Button.class)).hasText("clicked!");
+        FxAssert.verifyThat("#myButton", LabeledMatchers.hasText("clicked!"));
         // or (lookup by css class):
-        assertThat(lookup(".button").queryAs(Button.class)).hasText("clicked!");
+        FxAssert.verifyThat(".button", LabeledMatchers.hasText("clicked!"));
+    }
+}
+```
+
+#### JUnit 5 with AssertJ Assertions
+
+```java
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.api.FxRobot;
+import org.testfx.assertions.api.Assertions;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+@ExtendWith(ApplicationExtension.class)
+class ClickableButtonTest_JUnit5AssertJ {
+
+    private Button button;
+
+    /**
+     * Will be called with {@code @Before} semantics, i. e. before each test method.
+     *
+     * @param stage - Will be injected by the test runner.
+     */
+    @Start
+    private void start(Stage stage) {
+        button = new Button("click me!");
+        button.setId("myButton");
+        button.setOnAction(actionEvent -> button.setText("clicked!"));
+        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        stage.show();
+    }
+
+    /**
+     * @param robot - Will be injected by the test runner.
+     */
+    @Test
+    void should_contain_button_with_text(FxRobot robot) {
+        Assertions.assertThat(button).hasText("click me!");
+        // or (lookup by css id):
+        Assertions.assertThat(robot.lookup("#myButton").queryAs(Button.class)).hasText("click me!");
+        // or (lookup by css class):
+        Assertions.assertThat(robot.lookup(".button").queryAs(Button.class)).hasText("click me!");
+        // or (query specific type):
+        Assertions.assertThat(robot.lookup(".button").queryButton()).hasText("click me!");
+    }
+
+    /**
+     * @param robot - Will be injected by the test runner.
+     */
+    @Test
+    void when_button_is_clicked_text_changes(FxRobot robot) {
+        // when:
+        robot.clickOn(".button");
+
+        // then:
+        Assertions.assertThat(button).hasText("clicked!");
+        // or (lookup by css id):
+        Assertions.assertThat(robot.lookup("#myButton").queryAs(Button.class)).hasText("clicked!");
+        // or (lookup by css class):
+        Assertions.assertThat(robot.lookup(".button").queryAs(Button.class)).hasText("clicked!");
         // or (query specific type)
-        assertThat(lookup(".button").queryButton()).hasText("clicked!");
+        Assertions.assertThat(robot.lookup(".button").queryButton()).hasText("clicked!");
     }
 }
 ```
@@ -239,7 +388,7 @@ class ClickableButtonSpec extends ApplicationSpec {
         FxToolkit.registerStage { new Stage() }
     }
 
-     @Override
+    @Override
     void start(Stage stage) {
         Button button = new Button('click me!')
         button.setOnAction { button.setText('clicked!') }
@@ -282,7 +431,7 @@ take the following steps:
 `build.gradle`
 ```gradle
 dependencies {
-    testCompile "org.testfx:openjfx-monocle:8u76-b04" // jdk-9+181 for Java 9
+    testCompile "org.testfx:openjfx-monocle:8u76-b04" // jdk-9+181 for Java 9, jdk-11+26 for Java 11
 }
 ```
 
@@ -291,7 +440,7 @@ dependencies {
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>openjfx-monocle</artifactId>
-    <version>8u76-b04</version> <!-- jdk-9+181 for Java 9 -->
+    <version>8u76-b04</version> <!-- jdk-9+181 for Java 9, jdk-11+26 for Java 11 -->
     <scope>test</scope>
 </dependency>
 ```
@@ -358,6 +507,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+	- $HOME/.m2
 ```
 
 Your TestFX tests should now run as part of your Travis CI build.
