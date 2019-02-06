@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Cell;
 import javafx.scene.control.TableColumn;
@@ -107,7 +108,8 @@ public class TableViewMatchers {
      * @param rowIndex the row number (starting from 0) that must contains the given cell values
      * @param cells The values or String representations of the values (e.g. the result of calling {@code toString()})
      * contained in the row at a given index you want to verify a {@code TableView} contains - one such value for
-     * each column of that {@code TableView}.
+     * each column of that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell 
+     * value factory has been set.
      */
     @Factory
     public static Matcher<TableView> containsRowAtIndex(int rowIndex, Object... cells) {
@@ -148,7 +150,8 @@ public class TableViewMatchers {
      *
      * @param cells The values or String representations of the values (e.g. the result of calling {@code toString()})
      * contained in the row you want to verify a {@code TableView} contains - one such value for each column of
-     * that {@code TableView}.
+     * that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell 
+     * value factory has been set.
      */
     @Factory
     public static Matcher<TableView> containsRow(Object...cells) {
@@ -186,13 +189,14 @@ public class TableViewMatchers {
     }
 
     private static List<ObservableValue<?>> getRowValues(TableView<?> tableView, int rowIndex) {
-        Object rowObject = tableView.getItems().get(rowIndex);
         List<ObservableValue<?>> rowValues = new ArrayList<>(tableView.getColumns().size());
         for (int i = 0; i < tableView.getColumns().size(); i++) {
             TableColumn<?, ?> column = tableView.getColumns().get(i);
-            TableColumn.CellDataFeatures cellDataFeatures = new TableColumn.CellDataFeatures(
-                    tableView, column, rowObject);
-            rowValues.add(i, column.getCellValueFactory().call(cellDataFeatures));
+            ObservableValue<?> cellObservableValue = column.getCellObservableValue(rowIndex);
+            if (cellObservableValue == null) {
+                cellObservableValue = new SimpleObjectProperty<>();
+            }
+            rowValues.add(i, cellObservableValue);
         }
         return rowValues;
     }
