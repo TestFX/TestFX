@@ -26,3 +26,7 @@ screenshot*.png
 tags
 
 /subprojects/testfx-core/out/
+
+# Eclipse's gradle plugin
+bin/
+
