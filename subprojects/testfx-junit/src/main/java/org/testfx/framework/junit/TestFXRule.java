@@ -27,24 +27,26 @@ import org.testfx.api.FxToolkit;
 import org.testfx.util.WaitForAsyncUtils;
 
 /**
- * Optional JUit rule that can be used to ensure the JavaFX platform has
+ * Optional JUnit rule that can be used to ensure the JavaFX platform has
  * been initialized before UI tests are run. The rule can also be used
  * for retrying flaky tests.
  * <p>
  * The rule can be used by adding a {@code @Rule} annotated field to your
  * test class:
- * <pre>{@code
+ * <pre>
  * public class MyTest extends ApplicationTest {
  *     {@literal @}Rule public TestFXRule testFXRule = new TestFXRule();
  *
- *     @Test
+ *     {@literal @}Test
  *     public void myTest() {
  *         // ...
  *     }
  * }
- * }</pre>
+ * </pre>
+ * </p>
  * <p>
  * Developer's Note: TestFX uses this rule for its' own tests.
+ * </p>
  */
 public class TestFXRule extends TestWatcher {
 

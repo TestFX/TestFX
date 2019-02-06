@@ -16,23 +16,6 @@
  */
 package org.testfx.matcher.control;
 
-import static javafx.collections.FXCollections.observableArrayList;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
-import org.testfx.util.WaitForAsyncUtils;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -52,6 +35,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.testfx.api.FxRobot;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.TestFXRule;
+import org.testfx.util.WaitForAsyncUtils;
+
+import static javafx.collections.FXCollections.observableArrayList;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TableViewMatchersTest extends FxRobot {
 
@@ -92,8 +92,9 @@ public class TableViewMatchersTest extends FxRobot {
             TableColumn<Map, Integer> ageCol = new TableColumn<>("age");
             ageCol.setCellValueFactory(new MapValueFactory<>("age"));
             
-            TableColumn<Map, Button> btnCol= new TableColumn<>("button");
-            btnCol.setCellFactory(ButtonTableCell.forTableColumn("Click me!", unused -> System.out.println("Clicked!")));
+            TableColumn<Map, Button> btnCol = new TableColumn<>("button");
+            btnCol.setCellFactory(ButtonTableCell.forTableColumn(
+                "Click me!", unused -> System.out.println("Clicked!")));
             
             tableView.getColumns().setAll(nameCol, ageCol, btnCol);
             return new StackPane(tableView);
@@ -286,7 +287,7 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_wrong_types_fails() {
-        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee",null)))
+        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee", null)))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("\nExpected: TableView has row: [63, deedee, null] at index 1\n     " +
                         "but: was [bob, 31, null] at index: 1");
