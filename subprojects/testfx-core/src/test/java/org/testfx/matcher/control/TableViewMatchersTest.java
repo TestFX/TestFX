@@ -26,6 +26,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -58,7 +59,7 @@ public class TableViewMatchersTest extends FxRobot {
     public TestRule rule = new TestFXRule(2);
 
     TableView<Map> tableView;
-    TableColumn<Map, String> tableColumn0;
+    TableColumn<Map, String> nameCol;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -69,27 +70,33 @@ public class TableViewMatchersTest extends FxRobot {
     public void setup() throws Exception {
         FxToolkit.setupSceneRoot(() -> {
             tableView = new TableView<>();
-            Map<String, Object> row1 = new HashMap<>(2);
+            Map row1 = new HashMap<>(2);
             row1.put("name", "alice");
             row1.put("age", 30);
 
-            Map<String, Object> row2 = new HashMap<>(2);
+            Map row2 = new HashMap<>(2);
             row2.put("name", "bob");
             row2.put("age", 31);
 
-            Map<String, Object> row3 = new HashMap<>(1);
+            Map row3 = new HashMap<>(1);
             row3.put("name", "carol");
 
-            Map<String, Object> row4 = new HashMap<>(1);
+            Map row4 = new HashMap<>(1);
             row4.put("name", "dave");
 
             tableView.setItems(observableArrayList(row1, row2, row3, row4));
-            tableColumn0 = new TableColumn<>("name");
-            tableColumn0.setId("tableColumn0");
-            tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
-            TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
-            tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
-            tableView.getColumns().setAll(tableColumn0, tableColumn1);
+            nameCol = new TableColumn<>("name");
+            nameCol.setId("tableColumn0");
+            nameCol.setCellValueFactory(new MapValueFactory<>("name"));
+            
+            TableColumn<Map, Integer> ageCol = new TableColumn<>("age");
+            ageCol.setCellValueFactory(new MapValueFactory<>("age"));
+            
+            TableColumn<Map, Button> btnCol = new TableColumn<>("button");
+            btnCol.setCellFactory(ButtonTableCell.forTableColumn(
+                "Click me!", unused -> System.out.println("Clicked!")));
+            
+            tableView.getColumns().setAll(nameCol, ageCol, btnCol);
             return new StackPane(tableView);
         });
         FxToolkit.showStage();
@@ -104,7 +111,7 @@ public class TableViewMatchersTest extends FxRobot {
     @Test
     public void hasTableCell_customCellValueFactory() {
         // given:
-        Platform.runLater(() -> tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+        Platform.runLater(() -> nameCol.setCellFactory(column -> new TableCell<Map, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -127,14 +134,14 @@ public class TableViewMatchersTest extends FxRobot {
         assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.hasTableCell("foobar")))
                 .isExactlyInstanceOf(AssertionError.class)
                 .hasMessage("\nExpected: TableView has table cell \"foobar\"\n     " +
-                        "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
+                        "but: was [[alice, 30, null], [bob, 31, null], [carol, null, null], [dave, null, null]]");
     }
 
     @Test
     public void hasTableCell_fails_customCellValueFactory() {
         // given:
         Platform.runLater(() ->
-            tableColumn0.setCellFactory(column -> new TableCell<Map, String>() {
+            nameCol.setCellFactory(column -> new TableCell<Map, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -164,12 +171,20 @@ public class TableViewMatchersTest extends FxRobot {
     }
 
     @Test
-    public void hasTableCell_with_null_fails() {
-        // FIXME: This works but it is nonsensical - why can't we accept null?
-        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.hasTableCell(null)))
-                .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("\nExpected: TableView has table cell \"null\"\n     " +
-                        "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
+    public void hasTableCell_with_null_works() {
+        // given:
+        TableColumn<Map, Button> btnCol = new TableColumn<>("button");
+        btnCol.setCellFactory(ButtonTableCell.forTableColumn("Click me!", unused -> System.out.println("Clicked!")));
+        
+        Platform.runLater(() ->  {
+            tableView.getColumns().clear();
+            tableView.getColumns().add(btnCol);
+            tableView.refresh();
+        });
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // then:
+        assertThat(tableView, TableViewMatchers.hasTableCell(null));
     }
 
     @Test
@@ -248,10 +263,10 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_no_such_row_fails() {
-        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "jerry", 29)))
+        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRowAtIndex(0, "jerry", 29, null)))
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("\nExpected: TableView has row: [jerry, 29] at index 0\n     " +
-                        "but: was [alice, 30] at index: 0");
+                .hasMessage("\nExpected: TableView has row: [jerry, 29, null] at index 0\n     " +
+                        "but: was [alice, 30, null] at index: 0");
     }
 
     @Test
@@ -272,10 +287,10 @@ public class TableViewMatchersTest extends FxRobot {
 
     @Test
     public void containsRowAtIndex_wrong_types_fails() {
-        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee")))
+        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRowAtIndex(1, 63, "deedee", null)))
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("\nExpected: TableView has row: [63, deedee] at index 1\n     " +
-                        "but: was [bob, 31] at index: 1");
+                .hasMessage("\nExpected: TableView has row: [63, deedee, null] at index 1\n     " +
+                        "but: was [bob, 31, null] at index: 1");
     }
 
     @Test
@@ -357,10 +372,10 @@ public class TableViewMatchersTest extends FxRobot {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRow("jerry", 29)))
+        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRow("jerry", 29, null)))
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("\nExpected: TableView has row: [jerry, 29]\n     " +
-                        "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
+                .hasMessage("\nExpected: TableView has row: [jerry, 29, null]\n     " +
+                        "but: was [[alice, 30, null], [bob, 31, null], [carol, null, null], [dave, null, null]]");
     }
 
     @Test
@@ -384,10 +399,10 @@ public class TableViewMatchersTest extends FxRobot {
         WaitForAsyncUtils.waitForFxEvents();
 
         // then:
-        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRow(63, "deedee")))
+        assertThatThrownBy(() -> assertThat(tableView, TableViewMatchers.containsRow(63, "deedee", null)))
                 .isExactlyInstanceOf(AssertionError.class)
-                .hasMessage("\nExpected: TableView has row: [63, deedee]\n     " +
-                        "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
+                .hasMessage("\nExpected: TableView has row: [63, deedee, null]\n     " +
+                        "but: was [[alice, 30, null], [bob, 31, null], [carol, null, null], [dave, null, null]]");
     }
 
     /**
