@@ -118,7 +118,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public class <span class="typeNameLabel">TestFXRule</span>
 extends org.junit.rules.TestWatcher</pre>
-<div class="block">Optional JUit rule that can be used to ensure the JavaFX platform has
+<div class="block">Optional JUnit rule that can be used to ensure the JavaFX platform has
  been initialized before UI tests are run. The rule can also be used
  for retrying flaky tests.
  <p>
@@ -126,7 +126,18 @@ extends org.junit.rules.TestWatcher</pre>
  test class:
  <pre>
  public class MyTest extends ApplicationTest {
-     {@literal @}Rule public TestFXRule testFXRule = new TestFXRule();</div>
+      @Rule public TestFXRule testFXRule = new TestFXRule();
+
+      @Test
+     public void myTest() {
+         // ...
+     }
+ }
+ </pre>
+ </p>
+ <p>
+ Developer's Note: TestFX uses this rule for its' own tests.
+ </p></div>
 </li>
 </ul>
 </div>
