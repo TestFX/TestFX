@@ -36,7 +36,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ButtonMatchersTest extends FxRobot {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(Timeout.millis(3000));
+    public TestRule rule = RuleChain.outerRule(new TestFXRule(5)).around(Timeout.millis(5000));
 
     Button button;
 
