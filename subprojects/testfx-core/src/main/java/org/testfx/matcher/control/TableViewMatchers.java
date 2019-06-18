@@ -51,6 +51,16 @@ public class TableViewMatchers {
     /**
      * Creates a matcher that matches all {@link TableView}s that has a {@link javafx.scene.control.TableCell}
      * whose value or {@code value.toString()} equals the given value.
+     * <p>
+     * Test code must ensure that the cell is visible by scrolling it into the viewport before using
+     * the matcher:
+     * <pre><code>
+     * int row = ...
+     * int col = ...
+     * tableView.scrollTo(row);
+     * tableView.scrollToColumn(col);
+     * verifyThat(tableView, hasTableCell(contentOfCell);
+     * </code></pre>
      */
     @Factory
     public static Matcher<TableView> hasTableCell(Object value) {

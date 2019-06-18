@@ -37,6 +37,16 @@ public class AbstractTableViewAssert<SELF extends AbstractTableViewAssert<SELF, 
     /**
      * Verifies that the actual {@link javafx.scene.control.TableView} contains the given table cell
      * {@code expectedValue}.
+     * <p>
+     * Test code must ensure that the cell is visible by scrolling it into the viewport before using
+     * the matcher:
+     * <pre><code>
+     * int row = ...
+     * int col = ...
+     * tableView.scrollTo(row);
+     * tableView.scrollToColumn(col);
+     * verifyThat(tableView, hasTableCell(contentOfCell);
+     * </code></pre>
      *
      * @param expectedValue the given table cell value to ensure the {@code TableView} contains
      * @return this assertion object

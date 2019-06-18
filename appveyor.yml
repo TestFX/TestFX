@@ -60,15 +60,8 @@ build:
 build_script:
   - ps: |
       if ($env:JAVA_VERSION -eq "11") {
-        $client = New-Object net.webclient
-        $client.DownloadFile('http://jdk.java.net/11/', 'C:\Users\appveyor\openjdk11.html')
-        $openJdk11 = cat C:\Users\appveyor\openjdk11.html | where { $_ -match "href.*https://download.java.net.*jdk11.*windows-x64.*zip\`"" } | %{ $_ -replace "^.*https:", "https:" } | %{ $_ -replace ".zip\`".*$", ".zip" }
-        echo "Download boot JDK from: $openJdk11"
-        $client.DownloadFile($openJdk11, 'C:\Users\appveyor\openjdk11.zip')
-        Expand-Archive -Path 'C:\Users\appveyor\openjdk11.zip' -DestinationPath 'C:\Users\appveyor\openjdk11'
-        Copy-Item -Path 'C:\Users\appveyor\openjdk11\*\' -Destination 'C:\jdk11' -Recurse -Force
-      }
-      elseif ($env:JAVA_VERSION -eq "10") {
+        choco install jdk11 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk11'
+      } elseif ($env:JAVA_VERSION -eq "10") {
         choco install jdk10 --version 10.0.2 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
       }
       refreshenv
