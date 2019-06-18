@@ -195,7 +195,17 @@ extends java.lang.Object</pre>
 <h4>hasTableCell</h4>
 <pre>public static&nbsp;org.hamcrest.Matcher&lt;javafx.scene.control.TableView&gt;&nbsp;hasTableCell(java.lang.Object&nbsp;value)</pre>
 <div class="block">Creates a matcher that matches all <code>TableView</code>s that has a <code>TableCell</code>
- whose value or <code>value.toString()</code> equals the given value.</div>
+ whose value or <code>value.toString()</code> equals the given value.
+ <p>
+ Test code must ensure that the cell is visible by scrolling it into the viewport before using
+ the matcher:
+ <pre><code>
+ int row = ...
+ int col = ...
+ tableView.scrollTo(row);
+ tableView.scrollToColumn(col);
+ verifyThat(tableView, hasTableCell(contentOfCell);
+ </code></pre></div>
 </li>
 </ul>
 <a name="hasItems-int-">
