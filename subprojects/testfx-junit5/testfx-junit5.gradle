@@ -28,11 +28,9 @@ test {
 dependencies {
     compile project(":testfx-core")
 
-    // Removes compile warnings about missing enums.
-    compile('org.apiguardian:apiguardian-api:1.0.0')
-
-    compile 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
 
     if (JavaVersion.current().isJava11Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-11+26"
@@ -79,9 +77,10 @@ compileTestJava {
         doFirst {
             options.compilerArgs = [
                     '--module-path', classpath.asPath,
-                    '--add-modules', 'org.junit.jupiter.api,javafx.controls',
+                    '--add-modules', 'org.junit.jupiter.api,javafx.controls,hamcrest.core',
                     '--add-reads', "$moduleName=org.junit.jupiter.api",
                     '--add-reads', "$moduleName=javafx.controls",
+                    '--add-reads', "$moduleName=hamcrest.core",
                     '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
             ]
             classpath = files()

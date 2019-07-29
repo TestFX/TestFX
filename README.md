@@ -55,6 +55,7 @@ dependencies {
 
 ```gradle
 dependencies {
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testCompile "org.testfx:testfx-junit5:4.0.15-alpha"
 }
 ```
@@ -125,6 +126,12 @@ your project. TestFX supports JUnit 4, JUnit 5, and Spock.
 ### JUnit 5
 
 ```xml
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.5.1</version>
+    <scope>test</scope>
+</dependency>
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit5</artifactId>
