@@ -196,7 +196,6 @@ public final class FxToolkit {
 
     /**
      * Runs the given {@code callable} on the {@code JavaFX Application Thread} and returns once finished.
-     * before returning.
      */
     public static <T> T setupFixture(Callable<T> callable) throws TimeoutException {
         return waitForSetup(SERVICE.setupFixture(callable));
