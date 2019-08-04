@@ -22,7 +22,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -37,7 +36,6 @@ public class ParentMatchers {
     /**
      * Creates a matcher that matches all {@link Parent}s that have at least one child.
      */
-    @Factory
     public static Matcher<Parent> hasChild() {
         String descriptionText = "has at least one child";
         return typeSafeMatcher(Parent.class, descriptionText,
@@ -48,7 +46,6 @@ public class ParentMatchers {
     /**
      * Creates a matcher that matches all {@link Parent}s that have exactly {@code amount} children.
      */
-    @Factory
     public static Matcher<Parent> hasChildren(int amount) {
         String descriptionText = "has exactly " + amount + " children";
         return typeSafeMatcher(Parent.class, descriptionText,

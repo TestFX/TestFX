@@ -23,7 +23,7 @@
 apply plugin: "com.github.spotbugs"
 
 spotbugs {
-    toolVersion = "3.1.10"
+    toolVersion = "3.1.12"
     sourceSets = [sourceSets.main]
     ignoreFailures = true
     reportsDir = file("$project.buildDir/reports/findbugs")
@@ -45,35 +45,38 @@ spotbugsTest {
     }
 }
 
-task printSpotBugsReport << {
-    def xmlReport = spotbugsMain.reports.xml
-    if (!xmlReport.destination.exists()) return
-    def parser = new XmlSlurper()
-    parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
-    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
-    def slurped = parser.parse(xmlReport.destination)
-    def report = ""
-    slurped['BugInstance'].eachWithIndex { bug, index ->
-        report += "${index + 1}. - ${bug.@'category'}: ${bug.@'type'} (priority ${bug.@'priority'})\n"
-        if (bug['SourceLine'].isEmpty()) {
-            // Some <BugInstance>'s don't have a SourceLine (like for NM_SAME_SIMPLE_NAME_AS_SUPERCLASS).
-            bug['Class'].each { place ->
-                report += "\t${place['@classname']}\n"
-            }
-            report += "\n"
-        } else {
-            bug['SourceLine'].each { place ->
-                if (place.start == place.end) {
-                    report += "\t${place['@sourcefile'].toString().replaceAll(".java", "")}(${place['@sourcepath']}):${place.@'start'}\n\n"
-                } else {
-                    // multi-line
-                    report += "\t${place.@'classname'}:${place.@'start'} - ${place.@'end'}\n\n"
+task printSpotBugsReport {
+    description = "Prints any Spotbugs errors in a human readable form to the gradle error log."
+    doLast {
+        def xmlReport = spotbugsMain.reports.xml
+        if (!xmlReport.destination.exists()) return
+        def parser = new XmlSlurper()
+        parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+        parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        def slurped = parser.parse(xmlReport.destination)
+        def report = ""
+        slurped['BugInstance'].eachWithIndex { bug, index ->
+            report += "${index + 1}. - ${bug.@'category'}: ${bug.@'type'} (priority ${bug.@'priority'})\n"
+            if (bug['SourceLine'].isEmpty()) {
+                // Some <BugInstance>'s don't have a SourceLine (like for NM_SAME_SIMPLE_NAME_AS_SUPERCLASS).
+                bug['Class'].each { place ->
+                    report += "\t${place['@classname']}\n"
+                }
+                report += "\n"
+            } else {
+                bug['SourceLine'].each { place ->
+                    if (place.start == place.end) {
+                        report += "\t${place['@sourcefile'].toString().replaceAll(".java", "")}(${place['@sourcepath']}):${place.@'start'}\n\n"
+                    } else {
+                        // multi-line
+                        report += "\t${place.@'classname'}:${place.@'start'} - ${place.@'end'}\n\n"
+                    }
                 }
             }
         }
-    }
-    if (!report.isEmpty()) {
-        logger.error "\n\n--- SPOTBUGS REPORT ---\n\n${report}--- END SPOTBUGS REPORT ---"
+        if (!report.isEmpty()) {
+            logger.error "\n\n--- SPOTBUGS REPORT ---\n\n${report}--- END SPOTBUGS REPORT ---"
+        }
     }
 }
 

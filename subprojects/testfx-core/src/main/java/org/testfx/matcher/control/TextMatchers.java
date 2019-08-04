@@ -22,7 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -39,7 +38,6 @@ public class TextMatchers {
      *
      * @param text the {@code String} the matched Texts should have as their text
      */
-    @Factory
     public static Matcher<Text> hasText(String text) {
         String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(Text.class, descriptionText,
@@ -52,7 +50,6 @@ public class TextMatchers {
      *
      * @param matcher the {@code Matcher<String>} the Texts text should match
      */
-    @Factory
     public static Matcher<Text> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(Text.class, descriptionText,
@@ -65,7 +62,6 @@ public class TextMatchers {
      *
      * @param font the {@code Font} that matched Texts should have as their font
      */
-    @Factory
     public static Matcher<Text> hasFont(Font font) {
         String descriptionText = "has font " + toText(font);
         return typeSafeMatcher(Text.class, descriptionText,
@@ -79,7 +75,6 @@ public class TextMatchers {
      *
      * @param smoothingType the {@code FontSmoothingType} that matched Texts should have
      */
-    @Factory
     public static Matcher<Text> hasFontSmoothingType(FontSmoothingType smoothingType) {
         String descriptionText = "has font smoothing type: \"" + smoothingType + "\"";
         return typeSafeMatcher(Text.class, descriptionText,
@@ -94,7 +89,6 @@ public class TextMatchers {
      *
      * @param strikethrough whether or not the matched Texts should have strikethrough
      */
-    @Factory
     public static Matcher<Text> hasStrikethrough(boolean strikethrough) {
         String descriptionText = (strikethrough ? "has " : "does not have ") + "strikethrough";
         return typeSafeMatcher(Text.class, descriptionText,
@@ -109,7 +103,6 @@ public class TextMatchers {
      *
      * @param underlined whether or not the matched Texts should be underlined
      */
-    @Factory
     public static Matcher<Text> isUnderlined(boolean underlined) {
         String descriptionText = (underlined ? "is " : "is not ") + "underlined";
         return typeSafeMatcher(Text.class, descriptionText,

@@ -25,7 +25,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.util.ColorUtils;
 
@@ -46,7 +45,6 @@ public class TextFlowMatchers {
      * @return a match if the text contained in the {@code TextFlow} has the same
      * text as the given {@code string}
      */
-    @Factory
     public static Matcher<TextFlow> hasText(String string) {
         String descriptionText = "has text \"" + string + "\"";
         return typeSafeMatcher(TextFlow.class, descriptionText,
@@ -81,7 +79,6 @@ public class TextFlowMatchers {
      * and colors that match by the "closest named color" criteria
      * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
      */
-    @Factory
     public static Matcher<TextFlow> hasColoredText(String coloredTextMarkup) {
         String descriptionText = "has colored text \"" + coloredTextMarkup + "\"";
         return typeSafeMatcher(TextFlow.class, descriptionText,
@@ -115,7 +112,6 @@ public class TextFlowMatchers {
      * and the exactly matching colors
      * @see <a href="https://docs.oracle.com/javase/9/docs/api/javafx/scene/doc-files/cssref.html#typecolor">Named Colors</a>
      */
-    @Factory
     public static Matcher<TextFlow> hasExactlyColoredText(String coloredTextMarkup) {
         String descriptionText = "has exactly colored text \"" + coloredTextMarkup + "\"";
         return typeSafeMatcher(TextFlow.class, descriptionText, textFlow -> {

@@ -25,19 +25,14 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.hierynomus.license' version '0.14.0'
+    id 'com.github.hierynomus.license' version '0.15.0'
     id 'com.jfrog.bintray' version '1.8.4'
-    id 'com.github.ben-manes.versions' version '0.20.0'
-    id 'com.github.kt3k.coveralls' version '2.8.2'
-    id 'com.github.spotbugs' version '1.6.9'
+    id 'com.github.ben-manes.versions' version '0.21.0'
+    id 'com.github.kt3k.coveralls' version '2.8.4'
+    id 'com.github.spotbugs' version '2.0.0'
 }
 
 rootProject.with { project ->
-    wrapper {
-        gradleVersion = '4.10.2'
-        distributionUrl = "https://services.gradle.org/distributions/" +
-            "gradle-${gradleVersion}-bin.zip"
-    }
 
     task versions {
         group 'help'
@@ -197,6 +192,7 @@ evaluationDependsOnChildren()
 
 subprojects { subproject ->
     javadoc {
+        enabled = JavaVersion.current().isJava8()
         excludes = ["**/*.html", "META-INF/**"]
         classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
         options.use         = true

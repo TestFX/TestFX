@@ -9,7 +9,7 @@
 
 Simple and clean testing for JavaFX.
 
-TestFX requires a minimum JDK version of 8 (1.8).
+TestFX requires a minimum Java version of 8 (1.8).
 
 ## Features
 
@@ -20,7 +20,7 @@ TestFX requires a minimum JDK version of 8 (1.8).
 
 **Support for:**
 
-- Java 8/9/10/11
+- Java 8/9/10/11+
 - Multiple testing frameworks ([Junit 4](http://junit.org/junit4/), [Junit 5](http://junit.org/junit5/), and [Spock](http://spockframework.org/)).
 - [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](http://joel-costigliola.github.io/assertj/) assertions (or both!).
 - Screenshots of failed tests.
@@ -36,17 +36,32 @@ dependencies {
 }
 ```
 
-### Java 11
-Beginning with Java 11, JavaFX is not part of the JDK anymore. It has been extracted to its own project: [OpenJFX](https://openjfx.io). This means, extra dependencies must be added to your project, in case you are using Java 11.
+### Java 11+
+Beginning with Java 11, JavaFX is no longer part of the JDK. It has been extracted to its own project: [OpenJFX](https://openjfx.io). This means, extra dependencies must be added to your project.
 
-## JUnit and Spock
-Next add a dependency corresponding to the testing framework you are using in
-your project. TestFX supports JUnit 4, JUnit 5, and Spock.
+The easiest way to add the JavaFX libraries to your Gradle project is to use the [JavaFX Gradle Plugin](https://github.com/openjfx/javafx-gradle-plugin).
+
+After following the README for the JavaFX Gradle Plugin you will end up with something like:
+
+```gradle
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+javafx {
+    version = '12'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+```
+
+## Test Framework
+Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
 
 ### JUnit 4
 
 ```gradle
 dependencies {
+    testCompile "junit:junit:4.12"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
 }
 ```
@@ -64,8 +79,21 @@ dependencies {
 
 ```gradle
 dependencies {
+    testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
     testCompile "org.testfx:testfx-spock:4.0.15-alpha"
 }
+```
+## Matcher/Assertions Library
+Finally you must add a dependency corresponding to the matcher/assertions libraries that you want to use with TestFX. TestFX currently supports Hamcrest matchers or AssertJ assertions.
+
+### Hamcrest
+```gradle
+testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+```
+
+### AssertJ
+```gradle
+testCompile group: 'org.assertj', name: 'assertj-core', version: '3.13.2'
 ```
 
 ## Maven
@@ -81,40 +109,48 @@ To add a dependency on TestFX using Maven, use the following:
 </dependency>
 ```
 
-### Java 11
-Beginning with Java 11, JavaFX is not part of the JDK anymore. It has been extracted to its own project: [OpenJFX](https://openjfx.io). This means, extra dependencies must be added to your project, in case you are using Java 11.
+### Java 11+
+Beginning with Java 11, JavaFX is no longer part of the JDK. It has been extracted to its own project: [OpenJFX](https://openjfx.io). This means, extra dependencies must be added to your project.
 
-You may start with:
+The easiest way to add the JavaFX libraries to your Maven project is to use the [JavaFX Maven Plugin](https://github.com/openjfx/javafx-maven-plugin).
 
-```xml
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-base</artifactId>
-    <version>11.0.2</version>
-</dependency>
-```
-
-In order to use JavaFX API, you need to include the appropriate dependencies, e. g.:
+After following the README for the JavaFX Maven Plugin you will end up with something like:
 
 ```xml
-<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
-<dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-controls</artifactId>
-    <version>11.0.2</version>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>12.0.2</version>
+    </dependency>
+</dependencies>
+
+<plugins>
+    <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.3</version>
+        <configuration>
+            <mainClass>hellofx/org.openjfx.App</mainClass>
+        </configuration>
+    </plugin>
+</plugins>
 ```
 
 Have a look at [Maven Central's org.openjfx](https://mvnrepository.com/search?q=org.openjfx) entry for an overview of available modules.
 
-## JUnit and Spock
-Next add a dependency corresponding to the testing framework you are using in
-your project. TestFX supports JUnit 4, JUnit 5, and Spock.
+## Test Framework
+Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
 
 ### JUnit 4
 
 ```xml
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit</artifactId>
@@ -144,9 +180,38 @@ your project. TestFX supports JUnit 4, JUnit 5, and Spock.
 
 ```xml
 <dependency>
+    <groupId>org.spockframework</groupId>
+    <artifactId>spock-core</artifactId>
+    <version>1.3-groovy-2.5</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-spock</artifactId>
     <version>4.0.15-alpha</version>
+    <scope>test</scope>
+</dependency>
+```
+
+## Matcher/Assertions Library
+Finally you must add a dependency corresponding to the matcher/assertions libraries that you want to use with TestFX. TestFX currently supports Hamcrest matchers or AssertJ assertions.
+
+### Hamcrest
+```xml
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest</artifactId>
+    <version>2.1</version>
+    <scope>test</scope>
+</dependency>
+```
+
+### AssertJ
+```xml
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.13.2</version>
     <scope>test</scope>
 </dependency>
 ```

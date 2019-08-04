@@ -31,7 +31,6 @@ import javafx.scene.control.Cell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
 import org.testfx.service.finder.NodeFinder;
@@ -62,7 +61,6 @@ public class TableViewMatchers {
      * verifyThat(tableView, hasTableCell(contentOfCell);
      * </code></pre>
      */
-    @Factory
     public static Matcher<TableView> hasTableCell(Object value) {
         String descriptionText = "has table cell \"" + value + "\"";
         return typeSafeMatcher(TableView.class, descriptionText, TableViewMatchers::toText,
@@ -74,7 +72,6 @@ public class TableViewMatchers {
      *
      * @deprecated Use {@link #hasNumRows(int amount)} instead.
      */
-    @Factory
     @Deprecated
     public static Matcher<TableView> hasItems(int rows) {
         String descriptionText = "has " + rows + " rows";
@@ -86,7 +83,6 @@ public class TableViewMatchers {
     /**
      * Creates a matcher that matches all {@link TableView}s that have exactly {@code amount} rows.
      */
-    @Factory
     public static Matcher<TableView> hasNumRows(int rows) {
         String descriptionText = "has " + rows + " rows";
         return typeSafeMatcher(TableView.class, descriptionText,
@@ -121,7 +117,6 @@ public class TableViewMatchers {
      * each column of that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell 
      * value factory has been set.
      */
-    @Factory
     public static Matcher<TableView> containsRowAtIndex(int rowIndex, Object... cells) {
         String descriptionText = String.format("has row: %s at index %d", Arrays.toString(cells), rowIndex);
         return typeSafeMatcher(TableView.class, descriptionText,
@@ -163,7 +158,6 @@ public class TableViewMatchers {
      * that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell 
      * value factory has been set.
      */
-    @Factory
     public static Matcher<TableView> containsRow(Object...cells) {
         String descriptionText = "has row: " + Arrays.toString(cells);
         return typeSafeMatcher(TableView.class, descriptionText, TableViewMatchers::toText,

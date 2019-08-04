@@ -57,11 +57,6 @@ public class PixelMatcherRgb extends PixelMatcherBase implements PixelMatcher {
         return Color.gray(blendToWhite(gray, colorBlendFactor), opacity);
     }
 
-    @Override
-    public Color createNonMatchColor(Color color0, Color color1) {
-        return Color.RED;
-    }
-
     private double blendToWhite(double gray, double factor) {
         return ((1.0 - factor) * gray) + factor;
     }

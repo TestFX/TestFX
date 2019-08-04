@@ -19,7 +19,6 @@ package org.testfx.matcher.control;
 import java.util.Objects;
 import javafx.scene.control.TextInputControl;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -36,7 +35,6 @@ public class TextInputControlMatchers {
      *
      * @param text the {@code String} the matched TextInputControls should have as their text
      */
-    @Factory
     public static Matcher<TextInputControl> hasText(String text) {
         String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(TextInputControl.class, descriptionText,
@@ -51,7 +49,6 @@ public class TextInputControlMatchers {
      *
      * @param matcher the {@code Matcher<String>} the TextInputControls text should match
      */
-    @Factory
     public static Matcher<TextInputControl> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(TextInputControl.class, descriptionText,

@@ -42,7 +42,6 @@ public class Adapter {
         return new Condition<T>() {
             @Override
             public boolean matches(T t) {
-
                 boolean matches = matcher.matches(t);
                 if (invert) {
                     matches = !matches;
