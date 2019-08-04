@@ -30,7 +30,7 @@ dependencies {
 
     compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
 
     if (JavaVersion.current().isJava11Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-11+26"

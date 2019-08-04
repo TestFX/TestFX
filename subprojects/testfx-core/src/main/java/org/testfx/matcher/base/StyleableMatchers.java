@@ -20,7 +20,6 @@ import java.util.Objects;
 
 import javafx.css.Styleable;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -38,7 +37,6 @@ public class StyleableMatchers {
      *
      * @param typeSelector the {@code String} the matched Styleables should have as their type selector
      */
-    @Factory
     public static Matcher<Styleable> hasTypeSelector(String typeSelector) {
         String descriptionText = "has type selector \"" + typeSelector + "\"";
         return typeSafeMatcher(Styleable.class, descriptionText,
@@ -52,7 +50,6 @@ public class StyleableMatchers {
      *
      * @param id the {@code String} the matched Styleables should have as their CSS id
      */
-    @Factory
     public static Matcher<Styleable> hasId(String id) {
         String descriptionText = "has CSS id \"" + id + "\"";
         return typeSafeMatcher(Styleable.class, descriptionText,
@@ -66,7 +63,6 @@ public class StyleableMatchers {
      *
      * @param style the {@code String} the matched Styleables should have as their CSS style
      */
-    @Factory
     public static Matcher<Styleable> hasStyle(String style) {
         String descriptionText = "has CSS style \"" + style + "\"";
         return typeSafeMatcher(Styleable.class, descriptionText,
@@ -80,7 +76,6 @@ public class StyleableMatchers {
      *
      * @param styleableParent the {@code String} the matched Styleables should have as their styleable parent
      */
-    @Factory
     public static Matcher<Styleable> hasStyleableParent(Styleable styleableParent) {
         String descriptionText = "has styleable parent \"" + styleableParent + "\"";
         return typeSafeMatcher(Styleable.class, descriptionText,

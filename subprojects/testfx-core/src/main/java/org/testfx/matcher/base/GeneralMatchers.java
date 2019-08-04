@@ -21,7 +21,6 @@ import java.util.function.Predicate;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -37,7 +36,6 @@ public class GeneralMatchers {
      * @param predicate the predicate that the passed-in object must pass (i.e. predicate.apply(object)
      * returns {@literal true}) to match
      */
-    @Factory
     public static <T> Matcher<T> baseMatcher(final String descriptionText,
                                              final Predicate<T> predicate) {
         return new BaseMatcher<T>() {
@@ -69,7 +67,6 @@ public class GeneralMatchers {
      * @param predicate the predicate that the passed-in object must pass (i.e. predicate.apply(object)
      * returns {@literal true}) to match
      */
-    @Factory
     public static <S, T extends S> Matcher<S> typeSafeMatcher(final Class<T> expectedType,
                                                               final String descriptionText,
                                                               final Predicate<T> predicate) {
@@ -106,7 +103,6 @@ public class GeneralMatchers {
      * @param predicate the predicate that the passed-in object must pass (i.e. predicate.apply(object)
      * returns {@literal true}) to match
      */
-    @Factory
     public static <S, T extends S> Matcher<S> typeSafeMatcher(final Class<T> expectedType,
                                                               final String descriptionText,
                                                               final Function<S, String> describeActual,

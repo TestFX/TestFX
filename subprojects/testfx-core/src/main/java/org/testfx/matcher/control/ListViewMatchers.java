@@ -22,7 +22,6 @@ import javafx.scene.control.Cell;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.testfx.api.FxAssert;
 import org.testfx.service.finder.NodeFinder;
@@ -44,7 +43,6 @@ public class ListViewMatchers {
      *
      * @param value the list cell the matched ListView's should have
      */
-    @Factory
     public static Matcher<ListView> hasListCell(Object value) {
         String descriptionText = "has list cell \"" + value + "\"";
         return typeSafeMatcher(ListView.class, descriptionText, ListViewMatchers::getItemsString,
@@ -57,7 +55,6 @@ public class ListViewMatchers {
      *
      * @param amount the number of items the matched ListView's should have
      */
-    @Factory
     public static Matcher<ListView> hasItems(int amount) {
         String descriptionText = "has exactly " + amount + ' ' + (amount == 1 ? "item" : "items");
         return typeSafeMatcher(ListView.class, descriptionText,
@@ -69,7 +66,6 @@ public class ListViewMatchers {
      * Creates a matcher that matches all {@link ListView}s that have no items (i.e.
      * sizeof({@link ListView#getItems()}) = 0).
      */
-    @Factory
     public static Matcher<ListView> isEmpty() {
         String descriptionText = "is empty (contains no items)";
         return typeSafeMatcher(ListView.class, descriptionText,
@@ -84,7 +80,6 @@ public class ListViewMatchers {
      *
      * @param placeHolder the placeHolder {@code Node} the matched ListView's should have
      */
-    @Factory
     public static Matcher<ListView> hasPlaceholder(Node placeHolder) {
         String descriptionText = "has " + getPlaceHolderDescription(placeHolder, false);
         return typeSafeMatcher(ListView.class, descriptionText,
@@ -100,7 +95,6 @@ public class ListViewMatchers {
      *
      * @param placeHolder the visible placeHolder {@code Node} the matched ListView's should have
      */
-    @Factory
     public static Matcher<ListView> hasVisiblePlaceholder(Node placeHolder) {
         String descriptionText = "has " + getPlaceHolderDescription(placeHolder, true);
         return typeSafeMatcher(ListView.class, descriptionText,
@@ -114,7 +108,6 @@ public class ListViewMatchers {
      *
      * @param value the value placeHolder {@code T} the matched ListView's should have
      */
-    @Factory
     public static Matcher<ListView> hasSelectedRow(Object value) {
         String descriptionText = String.format("has selection \"%s\"", value);
         return typeSafeMatcher(ListView.class, descriptionText,

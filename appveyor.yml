@@ -29,7 +29,7 @@ environment:
 
     # Java 11 / AWT Robot
     - JAVA_VERSION: "11"
-      JAVA_HOME: C:\jdk11
+      JAVA_HOME: C:\Program Files\OpenJDK\jdk-12.0.2
       _JAVA_OPTIONS: "-Dtestfx.robot=awt"
 
     # Java 11 / Glass Robot (deadlock?)
@@ -39,12 +39,12 @@ environment:
 
     # Java 11 / AWT Robot / HiDPI
     - JAVA_VERSION: "11"
-      JAVA_HOME: C:\jdk11
+      JAVA_HOME: C:\Program Files\OpenJDK\jdk-12.0.2
       _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
 
     # Java 11 / Headless (fails because of JDK-8201539)
     - JAVA_VERSION: "11"
-      JAVA_HOME: C:\jdk11
+      JAVA_HOME: C:\Program Files\OpenJDK\jdk-12.0.2
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
 
 matrix:
@@ -60,7 +60,7 @@ build:
 build_script:
   - ps: |
       if ($env:JAVA_VERSION -eq "11") {
-        choco install jdk11 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk11'
+        choco install openjdk --version 12.0.2 --force --cache 'C:\ProgramData\chocolatey\cache'
       } elseif ($env:JAVA_VERSION -eq "10") {
         choco install jdk10 --version 10.0.2 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
       }

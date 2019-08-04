@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 import javafx.scene.control.ComboBox;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -50,7 +49,6 @@ public class ComboBoxMatchers {
      *
      * @param amount the number of items the matched ComboBox's should have
      */
-    @Factory
     public static Matcher<ComboBox> hasItems(int amount) {
         String descriptionText = "has exactly " + amount + " items";
         return typeSafeMatcher(ComboBox.class, descriptionText,
@@ -64,7 +62,6 @@ public class ComboBoxMatchers {
      *
      * @param selection the selected item the matched ComboBox's should have
      */
-    @Factory
     public static <T> Matcher<ComboBox> hasSelectedItem(T selection) {
         String descriptionText = String.format("has selection \"%s\"", selection);
         return typeSafeMatcher(ComboBox.class, descriptionText,
@@ -78,7 +75,6 @@ public class ComboBoxMatchers {
      *
      * @param items the items the matched ComboBox's should have
      */
-    @Factory
     public static <T> Matcher<ComboBox> containsItems(T... items) {
         String descriptionText = "contains items " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
@@ -91,7 +87,6 @@ public class ComboBoxMatchers {
      *
      * @param items the only items the matched ComboBox's should have
      */
-    @Factory
     public static <T> Matcher<ComboBox> containsExactlyItems(T... items) {
         String descriptionText = "contains exactly items " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
@@ -105,7 +100,6 @@ public class ComboBoxMatchers {
      *
      * @param items the items the matched ComboBox's should have in the same order
      */
-    @Factory
     public static <T> Matcher<ComboBox> containsItemsInOrder(T... items) {
         String descriptionText = "contains items in order " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,
@@ -118,7 +112,6 @@ public class ComboBoxMatchers {
      *
      * @param items the only items the matched ComboBox's should have in the same order
      */
-    @Factory
     public static <T> Matcher<ComboBox> containsExactlyItemsInOrder(T... items) {
         String descriptionText = "contains exactly items in order " + Arrays.toString(items);
         return typeSafeMatcher(ComboBox.class, descriptionText, ComboBoxMatchers::getItemsString,

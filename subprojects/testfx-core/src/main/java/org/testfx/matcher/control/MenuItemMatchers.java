@@ -20,7 +20,6 @@ import java.util.Objects;
 
 import javafx.scene.control.MenuItem;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -38,7 +37,6 @@ public class MenuItemMatchers {
      *
      * @param text the {@code String} the matched MenuItems should have as their text
      */
-    @Factory
     public static Matcher<MenuItem> hasText(String text) {
         String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(MenuItem.class, descriptionText,
@@ -51,7 +49,6 @@ public class MenuItemMatchers {
      *
      * @param matcher the {@code Matcher<String>} that the MenuItem text should match
      */
-    @Factory
     public static Matcher<MenuItem> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(MenuItem.class, descriptionText,

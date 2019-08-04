@@ -45,7 +45,7 @@ public class CaptureSupportImpl implements CaptureSupport {
 
     public static final String PNG_IMAGE_FORMAT = "png";
 
-    private BaseRobot baseRobot;
+    private final BaseRobot baseRobot;
 
     public CaptureSupportImpl(BaseRobot baseRobot) {
         this.baseRobot = baseRobot;

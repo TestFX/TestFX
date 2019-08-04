@@ -38,7 +38,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 /**
  * {@link org.testfx.service.adapter.RobotAdapter} implementation that uses the private
- * {@link com.sun.glass.ui.GlassRobot} implementation to support JavaFX versions before 11.
+ * {@code com.sun.glass.ui.GlassRobot} implementation to support JavaFX versions before 11.
  * <p>
  * All methods are called reflectively so that this class can compile on any JavaFX version.
  */

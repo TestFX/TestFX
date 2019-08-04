@@ -18,7 +18,6 @@ package org.testfx.matcher.base;
 
 import javafx.stage.Window;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.baseMatcher;
@@ -35,7 +34,6 @@ public class WindowMatchers {
      *
      * @return the matcher
      */
-    @Factory
     public static Matcher<Window> isShowing() {
         return baseMatcher("Window is showing", Window::isShowing);
     }
@@ -45,7 +43,6 @@ public class WindowMatchers {
      *
      * @return the matcher
      */
-    @Factory
     public static Matcher<Window> isNotShowing() {
         return baseMatcher("Window is not showing", window -> !window.isShowing());
     }
@@ -55,7 +52,6 @@ public class WindowMatchers {
      *
      * @return the matcher
      */
-    @Factory
     public static Matcher<Window> isFocused() {
         return baseMatcher("Window is focused", Window::isFocused);
     }
@@ -65,7 +61,6 @@ public class WindowMatchers {
      *
      * @return the matcher
      */
-    @Factory
     public static Matcher<Window> isNotFocused() {
         return baseMatcher("Window is not focused", window -> !window.isFocused());
     }

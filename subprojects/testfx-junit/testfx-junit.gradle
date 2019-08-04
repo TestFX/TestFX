@@ -23,7 +23,8 @@ repositories {
 
 dependencies {
     compile project(":testfx-core")
-    compile "junit:junit:4.12"
+    compile "junit:junit:4.13-beta-3"
+    testCompile "junit:junit:4.13-beta-3"
 
     if (JavaVersion.current().isJava11Compatible()) {
         testCompile "org.testfx:openjfx-monocle:jdk-11+26"
@@ -72,6 +73,7 @@ compileTestJava {
                     '--module-path', classpath.asPath,
                     '--add-modules', 'junit',
                     '--add-reads', "$moduleName=junit",
+                    '--add-reads', "$moduleName=org.hamcrest",
                     '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
             ]
             classpath = files()

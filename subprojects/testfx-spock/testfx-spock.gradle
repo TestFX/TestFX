@@ -56,7 +56,9 @@ artifacts {
 dependencies {
     compile project(":testfx-core")
 
-    compile "org.spockframework:spock-core:1.1-groovy-2.4"
+    compileOnly group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
+    testCompileOnly group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
+    // compile "org.spockframework:spock-core:1.1-groovy-2.4"
 
     testCompile "org.testfx:openjfx-monocle:8u76-b04"
 }

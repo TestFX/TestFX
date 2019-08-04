@@ -84,8 +84,7 @@ public final class WaitForAsyncUtils {
     private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
     private static final int SEMAPHORE_LOOPS_COUNT = 5;
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
-
-    private static Queue<Throwable> exceptions = new ConcurrentLinkedQueue<>();
+    private static final Queue<Throwable> EXCEPTIONS = new ConcurrentLinkedQueue<>();
 
     /**
      * If {@literal true} any exceptions encountered during execution of the
@@ -462,7 +461,7 @@ public final class WaitForAsyncUtils {
      * Clears all unhandled exceptions.
      */
     public static void clearExceptions() {
-        exceptions.clear();
+        EXCEPTIONS.clear();
     }
 
     /**
@@ -480,7 +479,7 @@ public final class WaitForAsyncUtils {
                 printException(throwable, null);
             }
             // Add exception to stack of occurred exceptions
-            exceptions.add(new RuntimeException(throwable));
+            EXCEPTIONS.add(new RuntimeException(throwable));
         }
     }
 
@@ -507,8 +506,8 @@ public final class WaitForAsyncUtils {
      * @return the exception or {@literal null} if none in stack
      */
     private static Throwable getCheckException() {
-        if (exceptions.peek() != null) {
-            Throwable throwable = exceptions.poll();
+        if (EXCEPTIONS.peek() != null) {
+            Throwable throwable = EXCEPTIONS.poll();
             StackTraceElement stackTraceElement = new StackTraceElement(WaitForAsyncUtils.class.getName(),
                     "---- Delayed Exception: (See Trace Below) ----",
                     WaitForAsyncUtils.class.getSimpleName() + ".java", 0);
@@ -661,7 +660,7 @@ public final class WaitForAsyncUtils {
                 }
                 exception = transformException(throwable);
                 // Add exception to stack of occurred exceptions
-                exceptions.add(exception);
+                EXCEPTIONS.add(exception);
             }
             super.setException(throwable);
         }
@@ -698,7 +697,7 @@ public final class WaitForAsyncUtils {
             }
             catch (Exception e) { // exception is thrown to caller, so remove it from stack
                 if (exception != null) {
-                    exceptions.remove(exception);
+                    EXCEPTIONS.remove(exception);
                     exception = null;
                 }
                 if (TRACE_FETCH) {
@@ -716,7 +715,7 @@ public final class WaitForAsyncUtils {
             }
             catch (Exception e) { // exception is thrown to caller, so remove it from stack
                 if (exception != null) {
-                    exceptions.remove(exception);
+                    EXCEPTIONS.remove(exception);
                     exception = null;
                 }
                 throw e;

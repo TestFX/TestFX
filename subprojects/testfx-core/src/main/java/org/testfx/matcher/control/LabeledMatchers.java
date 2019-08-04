@@ -19,7 +19,6 @@ package org.testfx.matcher.control;
 import java.util.Objects;
 import javafx.scene.control.Labeled;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
@@ -37,7 +36,6 @@ public class LabeledMatchers {
      *
      * @param text the {@code String} the matched Labeleds should have as their text
      */
-    @Factory
     public static Matcher<Labeled> hasText(String text) {
         String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(Labeled.class, descriptionText,
@@ -50,7 +48,6 @@ public class LabeledMatchers {
      *
      * @param matcher the {@code Matcher<String>} that the Labeleds text should match
      */
-    @Factory
     public static Matcher<Labeled> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(Labeled.class, descriptionText,

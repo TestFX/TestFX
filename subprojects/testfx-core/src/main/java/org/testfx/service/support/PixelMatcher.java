@@ -40,6 +40,8 @@ public interface PixelMatcher extends ColorMatcher {
     /**
      * Creates a color that represents a mismatch between the two images' pixels.
      */
-    Color createNonMatchColor(Color color0, Color color1);
+    default Color createNonMatchColor(Color color0, Color color1) {
+        return Color.RED;
+    }
 
 }
