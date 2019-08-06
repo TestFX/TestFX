@@ -32,7 +32,7 @@ To add a dependency on TestFX using Gradle, use the following:
 
 ```gradle
 dependencies {
-    testCompile "org.testfx:testfx-core:4.0.15-alpha"
+    testCompile "org.testfx:testfx-core:4.0.16-alpha"
 }
 ```
 
@@ -62,7 +62,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 ```gradle
 dependencies {
     testCompile "junit:junit:4.12"
-    testCompile "org.testfx:testfx-junit:4.0.15-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.16-alpha"
 }
 ```
 
@@ -71,7 +71,7 @@ dependencies {
 ```gradle
 dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testCompile "org.testfx:testfx-junit5:4.0.15-alpha"
+    testCompile "org.testfx:testfx-junit5:4.0.16-alpha"
 }
 ```
 
@@ -80,7 +80,7 @@ dependencies {
 ```gradle
 dependencies {
     testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
-    testCompile "org.testfx:testfx-spock:4.0.15-alpha"
+    testCompile "org.testfx:testfx-spock:4.0.16-alpha"
 }
 ```
 ## Matcher/Assertions Library
@@ -104,7 +104,7 @@ To add a dependency on TestFX using Maven, use the following:
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-core</artifactId>
-    <version>4.0.15-alpha</version>
+    <version>4.0.16-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -154,7 +154,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit</artifactId>
-    <version>4.0.15-alpha</version>
+    <version>4.0.16-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -171,7 +171,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit5</artifactId>
-    <version>4.0.15-alpha</version>
+    <version>4.0.16-alpha</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -188,7 +188,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-spock</artifactId>
-    <version>4.0.15-alpha</version>
+    <version>4.0.16-alpha</version>
     <scope>test</scope>
 </dependency>
 ```

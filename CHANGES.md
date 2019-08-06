@@ -1,5 +1,26 @@
 # Change Log
 
+## [v4.0.16-alpha](https://github.com/testfx/testfx/tree/v4.0.16-alpha) (2019-08-06)
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.15-alpha...v4.0.16-alpha)
+
+**Merged pull requests:**
+
+- \[chore\] Fix Bintray badge on README. [\#666](https://github.com/TestFX/TestFX/pull/666) ([brcolow](https://github.com/brcolow))
+- \[chore\] Upgrade Gradle to 5.5.1, update dependencies. [\#665](https://github.com/TestFX/TestFX/pull/665) ([brcolow](https://github.com/brcolow))
+- documentation fixes [\#664](https://github.com/TestFX/TestFX/pull/664) ([frenchy64](https://github.com/frenchy64))
+- Make junit5 dependency compileOnly. [\#663](https://github.com/TestFX/TestFX/pull/663) ([brcolow](https://github.com/brcolow))
+- Add docs to TableView\(Matchers/Assert\) about viewport. [\#657](https://github.com/TestFX/TestFX/pull/657) ([brcolow](https://github.com/brcolow))
+- 507 npe on empty cells [\#650](https://github.com/TestFX/TestFX/pull/650) ([JanMosigItemis](https://github.com/JanMosigItemis))
+- \[\#647\] Aligned / Updated / Fixed README.md code examples \(JUnit5\). [\#649](https://github.com/TestFX/TestFX/pull/649) ([JanMosigItemis](https://github.com/JanMosigItemis))
+- \(chore\) Update license header copyright to 2019. [\#646](https://github.com/TestFX/TestFX/pull/646) ([brcolow](https://github.com/brcolow))
+- \(ci\) Remove Java 8 from Travis macOS matrix.  [\#644](https://github.com/TestFX/TestFX/pull/644) ([brcolow](https://github.com/brcolow))
+- Matcher for matching ListViews with given value in their selection. [\#642](https://github.com/TestFX/TestFX/pull/642) ([htmoia](https://github.com/htmoia))
+- \[chore\] Bump checkstyle from 8.9 to 8.14. [\#637](https://github.com/TestFX/TestFX/pull/637) ([brcolow](https://github.com/brcolow))
+- \[ci\] Oracle JDK 10 is deprecated, switch to OpenJDK 10. [\#636](https://github.com/TestFX/TestFX/pull/636) ([brcolow](https://github.com/brcolow))
+- \(fix\) ApplicationExtension must free UI events after each test \#632 [\#633](https://github.com/TestFX/TestFX/pull/633) ([arnobl](https://github.com/arnobl))
+- \(enhancement\) Support matcher/assertion on Styleables. [\#631](https://github.com/TestFX/TestFX/pull/631) ([brcolow](https://github.com/brcolow))
+- \(chore\) Add output when deploy syncs to Maven Central. [\#630](https://github.com/TestFX/TestFX/pull/630) ([brcolow](https://github.com/brcolow))
+
 ## [v4.0.15-alpha](https://github.com/testfx/testfx/tree/v4.0.15-alpha) (2018-10-08)
 [Full Changelog](https://github.com/testfx/testfx/compare/v4.0.14-alpha...v4.0.15-alpha)
 
