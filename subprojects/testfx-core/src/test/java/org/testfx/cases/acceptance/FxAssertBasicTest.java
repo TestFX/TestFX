@@ -24,8 +24,8 @@ import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.query.EmptyNodeQueryException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

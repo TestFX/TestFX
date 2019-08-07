@@ -30,9 +30,9 @@ import javafx.scene.layout.StackPane;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.service.query.NodeQuery;
@@ -41,7 +41,7 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsIterableContaining.hasItem;
 
 public class NodeMatchersTest extends TestCaseBase {
 

@@ -21,11 +21,8 @@ rootProject.name = "TestFX"
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-junit5"
+include "subprojects/testfx-spock"
 
-if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
-    // Projects that only work on Java 8
-    include "subprojects/testfx-spock"
-}
 
 // Location of each subproject's build file
 rootProject.children.each { project ->

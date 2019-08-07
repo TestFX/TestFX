@@ -21,7 +21,7 @@ import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;

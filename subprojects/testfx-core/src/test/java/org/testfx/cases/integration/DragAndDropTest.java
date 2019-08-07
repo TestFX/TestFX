@@ -26,12 +26,11 @@ import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,8 +38,11 @@ import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public class DragAndDropTest extends TestCaseBase {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule(3)).around(Timeout.millis(5000));
+    @Rule(order = 0)
+    public TestRule rule = new TestFXRule(3);
+
+    @Rule(order = 1)
+    public TestRule timeoutRule = Timeout.millis(5000);
 
     ListView<String> leftListView;
     ListView<String> rightListView;

@@ -18,7 +18,6 @@ module org.testfx.junit {
     exports org.testfx.framework.junit;
 
     requires javafx.graphics;
-    requires javafx.controls;
+    requires javafx.swing;
     requires junit;
-    requires org.testfx;
 }

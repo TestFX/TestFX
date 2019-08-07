@@ -33,19 +33,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
 import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcherResult;
@@ -53,13 +48,15 @@ import org.testfx.service.support.PixelMatcherResult;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class CaptureSupportImplTest extends FxRobot {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(testFolder = new TemporaryFolder());
-    public TemporaryFolder testFolder;
+    @Rule(order = 0)
+    public TestRule rule = new TestFXRule();
+    @Rule(order = 1)
+    public TemporaryFolder testFolder = new TemporaryFolder();
 
     CaptureSupport capturer;
     Stage primaryStage;
@@ -67,7 +64,7 @@ public class CaptureSupportImplTest extends FxRobot {
     public static class LoginDialog extends Application {
         @Override
         public void start(Stage stage) throws Exception {
-            String fxmlDocument = "res/acme-login.fxml";
+            String fxmlDocument = "acme-login.fxml";
             Node fxmlHierarchy = FXMLLoader.load(getClass().getResource(fxmlDocument));
 
             Pane rootPane = new StackPane();
@@ -109,7 +106,7 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void load_image() {
         // when:
-        Image image = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
+        Image image = capturer.loadImage(resourcePath(getClass(), "acme-login-expected.png"));
 
         // then:
         assertThat(image.getWidth(), equalTo(300.0));
@@ -130,8 +127,8 @@ public class CaptureSupportImplTest extends FxRobot {
     @Test
     public void match_images() throws IOException {
         // given:
-        Image image0 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-expected.png"));
-        Image image1 = capturer.loadImage(resourcePath(getClass(), "res/acme-login-actual.png"));
+        Image image0 = capturer.loadImage(resourcePath(getClass(), "acme-login-expected.png"));
+        Image image1 = capturer.loadImage(resourcePath(getClass(), "acme-login-actual.png"));
 
         // when:
         PixelMatcherRgb matcher = new PixelMatcherRgb();
@@ -175,70 +172,6 @@ public class CaptureSupportImplTest extends FxRobot {
         }
         catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
-        }
-    }
-
-    /*
-     * Note: Taken from hamcrest-library:
-     * https://github.com/hamcrest/JavaHamcrest/tree/master/hamcrest-library
-     * <p>
-     * This portion of code is Copyright (c) 2000-2015 www.hamcrest.org and BSD
-     * licensed: https://github.com/hamcrest/JavaHamcrest/blob/master/LICENSE.txt
-     */
-
-    /**
-     * Creates a matcher of {@link Double}s that matches when an examined double is equal
-     * to the specified <code>operand</code>, within a range of +/- <code>error</code>.
-     * For example:
-     * <pre>assertThat(1.03, is(closeTo(1.0, 0.03)))</pre>
-     *
-     * @param operand
-     *     the expected value of matching doubles
-     * @param error
-     *     the delta (+/-) within which matches will be allowed
-     */
-    public static Matcher<Double> closeTo(double operand, double error) {
-        return new IsCloseTo(operand, error);
-    }
-
-    /**
-     * Is the value a number equal to a value within some range of
-     * acceptable error?
-     *
-     */
-    static class IsCloseTo extends TypeSafeMatcher<Double> {
-        private final double delta;
-        private final double value;
-
-        private IsCloseTo(double value, double error) {
-            this.delta = error;
-            this.value = value;
-        }
-
-        @Override
-        public boolean matchesSafely(Double item) {
-            return actualDelta(item) <= 0.0;
-        }
-
-        @Override
-        public void describeMismatchSafely(Double item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item)
-                    .appendText(" differed by ")
-                    .appendValue(actualDelta(item))
-                    .appendText(" more than delta ")
-                    .appendValue(delta);
-        }
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("a numeric value within ")
-                    .appendValue(delta)
-                    .appendText(" of ")
-                    .appendValue(value);
-        }
-
-        private double actualDelta(Double item) {
-            return Math.abs(item - value) - delta;
         }
     }
 }

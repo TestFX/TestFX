@@ -23,7 +23,7 @@ jobs:
     - stage: lint
       os: linux
       dist: trusty
-      jdk: oraclejdk8
+      jdk: openjdk11
       script: ./gradlew checkstyleMain checkstyleTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest spotBugsMain spotBugsTest license
     - stage: test
     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (AWT Robot)
@@ -56,39 +56,40 @@ jobs:
       jdk: oraclejdk8
       env:
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw  -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (trusty) / Oracle JDK 11 / Headed (AWT Robot)
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot)
     - os: linux
-      dist: trusty
+      dist: xenial
       jdk: oraclejdk11
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt"
-    # Ubuntu Linux (trusty) / Oracle JDK 11 / Headed (AWT Robot) / HiDPI
+        - PUSH_JAVADOCS="true"
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot) / HiDPI
     - os: linux
-      dist: trusty
+      dist: xenial
       jdk: oraclejdk11
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (trusty) / Oracle JDK 11 / Headed (Glass Robot)
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (Glass Robot)
     - os: linux
-      dist: trusty
+      dist: xenial
       jdk: oraclejdk11
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass"
-    # Ubuntu Linux (trusty) / Oracle JDK 11 / Headed (Glass Robot) / HiDPI
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (Glass Robot) / HiDPI
     - os: linux
-      dist: trusty
+      dist: xenial
       jdk: oraclejdk11
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (trusty) / Oracle JDK 11 / Headless (Glass Robot)
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headless (Glass Robot)
     - os: linux
-      dist: trusty
+      dist: xenial
       jdk: oraclejdk11
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-    # Ubuntu Linux (trusty) / Oracle JDK 11 / Headless (Glass Robot) / HiDPI
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headless (Glass Robot) / HiDPI
     - os: linux
-      dist: trusty
+      dist: xenial
       jdk: oraclejdk11
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dglass.gtk.uiScale=2.0"

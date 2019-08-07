@@ -25,9 +25,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
-import org.testfx.framework.junit.TestFXRule;
 
 import static org.testfx.assertions.api.Assertions.assertThat;
 

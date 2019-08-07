@@ -15,8 +15,9 @@
  * specific language governing permissions and limitations under the Licence.
  */
 module org.testfx.junit5 {
+    exports org.testfx.framework.junit5;
+
     requires org.junit.jupiter.api;
     requires javafx.graphics;
     requires org.testfx;
-    exports org.testfx.framework.junit5;
 }

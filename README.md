@@ -61,7 +61,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 
 ```gradle
 dependencies {
-    testCompile "junit:junit:4.12"
+    testCompile "junit:junit:4.13-beta-3"
     testCompile "org.testfx:testfx-junit:4.0.16-alpha"
 }
 ```
@@ -148,7 +148,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>junit</groupId>
     <artifactId>junit</artifactId>
-    <version>4.12</version>
+    <version>4.13-beta-3</version>
     <scope>test</scope>
 </dependency>
 <dependency>

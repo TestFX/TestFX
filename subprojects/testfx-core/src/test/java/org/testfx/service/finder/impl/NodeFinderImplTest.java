@@ -39,11 +39,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.finder.WindowFinder;
 
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -54,8 +52,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class NodeFinderImplTest {
 
     @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule()).around(exception = ExpectedException.none());
-    public ExpectedException exception;
+    public TestRule rule = new TestFXRule();
 
     Stage window;
     Stage otherWindow;

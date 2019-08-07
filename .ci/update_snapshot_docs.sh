@@ -4,7 +4,7 @@ set -euo pipefail
 # see http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/ for details
 
 if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
-   [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && \
+   [ "$PUSH_JAVADOCS" == "true" ] && \
    [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
    [ "$TRAVIS_BRANCH" == "master" ]; then
   echo "Publishing Javadoc..."

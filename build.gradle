@@ -22,6 +22,11 @@ buildscript {
     repositories {
         jcenter()
     }
+
+    dependencies {
+        // Used for OSGI related stuff (gradle "osgi" plugin was deprecated).
+        classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
+    }
 }
 
 plugins {
@@ -86,8 +91,7 @@ allprojects { project ->
 }
 
 subprojects { subproject ->
-    apply plugin: 'osgi'
-
+    apply plugin: 'biz.aQute.bnd.builder'
     apply from: "${rootDir}/gradle/spotbugs.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
@@ -119,15 +123,6 @@ subprojects { subproject ->
     artifacts {
         sourceJar
         javadocJar
-    }
-
-    // Gradle defaults to using the source/target compatibility of the
-    // JVM running gradle. This works for our use-case as long as we
-    // make sure to upload releases built on Java 8 to Maven Central.
-    if (JavaVersion.current().isJava11Compatible()) {
-        // Hold at 10 till https://github.com/gradle/gradle/issues/5120
-        sourceCompatibility = '10'
-        targetCompatibility = '10'
     }
 
     tasks.withType(JavaCompile) {
@@ -192,8 +187,8 @@ evaluationDependsOnChildren()
 
 subprojects { subproject ->
     javadoc {
-        enabled = JavaVersion.current().isJava8()
-        excludes = ["**/*.html", "META-INF/**"]
+        enabled = !JavaVersion.current().isJava8()
+        excludes = ["**/*.html", "META-INF/**", '*module-info*']
         classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
         options.use         = true
         options.splitIndex  = true

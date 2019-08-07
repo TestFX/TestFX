@@ -29,8 +29,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
