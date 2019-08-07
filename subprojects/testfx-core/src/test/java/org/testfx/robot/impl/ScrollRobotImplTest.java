@@ -22,7 +22,7 @@ import javafx.geometry.VerticalDirection;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.TestFXRule;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 

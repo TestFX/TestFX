@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2019 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -14,84 +14,141 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
+apply plugin: 'java-library'
+
 ext.pomDescription = 'TestFX JUnit5'
 ext.moduleName = 'org.testfx.junit5'
+ext.openjfxVersion = '11'
+
+static def getOSName() {
+    final String osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("linux")) {
+        return ("linux")
+    } else if (osName.contains("mac os x") || osName.contains("darwin") || osName.contains("osx")) {
+        return ("mac")
+    } else if (osName.contains("windows")) {
+        return ("win")
+    }
+    return ""
+}
+
+ext.platform = getOSName()
 
 repositories {
     jcenter()
 }
 
-test {
-  useJUnitPlatform()
-}
+afterEvaluate {
+    dependencies {
+        if (JavaVersion.current().isJava10Compatible()) {
+            // In case we are on an Oracle JDK with JavaFX builtin, these will be ignored.
+            implementation "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-swing:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
+        }
 
-dependencies {
-    compile project(":testfx-core")
+        compile project(":testfx-core")
 
-    compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+        compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+        testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+        implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+        implementation "org.assertj:assertj-core:3.13.2"
+        testImplementation "org.assertj:assertj-core:3.13.2"
 
-    if (JavaVersion.current().isJava11Compatible()) {
-        testCompile "org.testfx:openjfx-monocle:jdk-11+26"
-    } else if (JavaVersion.current().isJava10Compatible() &&
-            System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
-        testCompile "org.testfx:openjfx-monocle:jdk-11+26"
-    } else if (JavaVersion.current().isJava9Compatible()) {
-        testCompile "org.testfx:openjfx-monocle:jdk-9+181"
-    } else {
-        testCompile "org.testfx:openjfx-monocle:8u76-b04"
+        if (JavaVersion.current().isJava12Compatible()) {
+            testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+        } else if (JavaVersion.current().isJava11Compatible()) {
+            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+        } else if (JavaVersion.current().isJava10Compatible() &&
+                System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
+            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+        } else if (JavaVersion.current().isJava9Compatible()) {
+            testCompile "org.testfx:openjfx-monocle:jdk-9+181"
+        } else {
+            testCompile "org.testfx:openjfx-monocle:8u76-b04"
+        }
     }
-}
 
-sourceSets {
-    if (!JavaVersion.current().isJava9Compatible()) {
-        main {
-            java {
-                exclude '**/module-info.java'
+    configurations {
+        apiElements {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+    }
+
+    if (JavaVersion.current().isJava9Compatible()) {
+        task compileModuleInfoJava(type: JavaCompile) {
+            dependsOn 'compileJava'
+            doFirst {
+                options.compilerArgs = [
+                        '--module-path', compileJava.classpath.asPath,
+                ]
+            }
+            options.encoding = 'UTF-8'
+            classpath = files()
+            source = sourceSets.main.allJava
+            sourceCompatibility = JavaVersion.VERSION_1_9
+            targetCompatibility = JavaVersion.VERSION_1_9
+            destinationDir = compileJava.destinationDir
+            include '*module-info*'
+        }
+        classes.dependsOn compileModuleInfoJava
+        def dependents = configurations.api.dependencies + configurations.implementation.dependencies
+        def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
+        dependentProjects.each { dependency ->
+            compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
+        }
+    }
+
+    compileJava {
+        exclude '*module-info*'
+    }
+
+    javadoc {
+        afterEvaluate {
+            exclude '*module-info*'
+            if (JavaVersion.current().isJava9Compatible()) {
+                options.addStringOption('-module-path', classpath.asPath)
             }
         }
     }
-}
 
-compileJava {
-    if (JavaVersion.current().isJava9Compatible()) {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
-
-        javadoc {
-            exclude "**/module-info.java"
-            options.addStringOption('-module-path', classpath.asPath)
-        }
-    }
-}
-
-compileTestJava {
-    if (JavaVersion.current().isJava9Compatible()) {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '--module-path', classpath.asPath,
-                    '--add-modules', 'org.junit.jupiter.api,javafx.controls,hamcrest.core',
-                    '--add-reads', "$moduleName=org.junit.jupiter.api",
-                    '--add-reads', "$moduleName=javafx.controls",
-                    '--add-reads', "$moduleName=hamcrest.core",
-                    '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
-            ]
-            classpath = files()
+    compileTestJava {
+        exclude '*module-info*'
+        if (JavaVersion.current().isJava9Compatible()) {
+            sourceCompatibility = JavaVersion.VERSION_1_9
+            targetCompatibility = JavaVersion.VERSION_1_9
+            inputs.property("moduleName", moduleName)
+            doFirst {
+                options.compilerArgs = [
+                        '--module-path', classpath.asPath,
+                        '--add-modules', 'org.junit.jupiter.api',
+                        '--add-modules', 'org.hamcrest',
+                        '--add-reads', "$moduleName=org.junit.jupiter.api",
+                        '--add-reads', "$moduleName=javafx.controls",
+                        '--add-reads', "$moduleName=org.hamcrest",
+                        '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+                ]
+                classpath = files()
+            }
         }
     }
-}
 
-jar {
-    inputs.property("moduleName", moduleName)
+    test {
+        useJUnitPlatform()
+    }
 
-    manifest {
-        attributes('Automatic-Module-Name': moduleName)
+    jar {
+        inputs.property("moduleName", moduleName)
+
+        manifest {
+            attributes(
+                    'Implementation-Title': moduleName,
+            )
+        }
     }
 }

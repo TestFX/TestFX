@@ -14,7 +14,7 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
-package org.testfx.framework.junit;
+package org.testfx;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -43,6 +43,9 @@ import org.testfx.util.WaitForAsyncUtils;
  *     }
  * }
  * </pre>
+ * <p>
+ * Developer's Note: This is copied from the testfx-junit sub-project so as to not introduce a cyclic dependency
+ * of testfx-core on testfx-junit and vise versa.
  */
 public class TestFXRule extends TestWatcher {
 

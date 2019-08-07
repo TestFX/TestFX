@@ -18,27 +18,29 @@ package org.testfx.service.query.impl;
 
 import java.util.Optional;
 import java.util.Set;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
 import org.testfx.service.query.EmptyNodeQueryException;
 import org.testfx.service.query.NodeQuery;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testfx.util.NodeQueryUtils.bySelector;
 import static org.testfx.util.NodeQueryUtils.combine;
 import static org.testfx.util.NodeQueryUtils.hasId;
@@ -52,13 +54,13 @@ public class NodeQueryImplTest {
     NodeQuery nodeQuery;
     Scene scene;
 
-    @FXML Pane labels;
-    @FXML Label label0;
-    @FXML Label label1;
-    @FXML Label label2;
-    @FXML Button button0;
-    @FXML Button button1;
-    @FXML Button button2;
+    Pane labels;
+    Label label0;
+    Label label1;
+    Label label2;
+    Button button0;
+    Button button1;
+    Button button2;
 
     @BeforeClass
     public static void setupSpec() throws Exception {
@@ -70,15 +72,28 @@ public class NodeQueryImplTest {
         nodeQuery = new NodeQueryImpl();
 
         FxToolkit.setupStage(stage -> {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("res/nodeQueryImpl.fxml"));
-            loader.setController(this);
-            try {
-                scene = new Scene(loader.load());
-            }
-            catch (Exception exception) {
-                throw new RuntimeException(exception);
-            }
+            label0 = new Label("0");
+            label1 = new Label("1");
+            label2 = new Label("2");
+            labels = new HBox(label0, label1, label2);
+            labels.setId("labels");
+            labels.setPadding(new Insets(10));
+
+            button0 = new Button("0");
+            button0.setMnemonicParsing(false);
+            button1 = new Button("1");
+            button1.setMnemonicParsing(false);
+            button1.setId("button1");
+            button2 = new Button("2");
+            button2.setMnemonicParsing(false);
+            HBox buttons = new HBox(button0, button1, button2);
+            buttons.setPadding(new Insets(10));
+
+            VBox vBox = new VBox(labels, buttons);
+            vBox.setPrefSize(100, 200);
+            StackPane stackPane = new StackPane();
+            stackPane.setPrefSize(200, 400);
+            scene = new Scene(new StackPane(vBox));
         });
     }
 

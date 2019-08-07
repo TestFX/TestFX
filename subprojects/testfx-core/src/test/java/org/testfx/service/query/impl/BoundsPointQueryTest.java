@@ -24,7 +24,7 @@ import javafx.geometry.Pos;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.framework.junit.TestFXRule;
+import org.testfx.TestFXRule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

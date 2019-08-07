@@ -23,20 +23,22 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.TestFXRule;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ButtonMatchersTest extends FxRobot {
 
-    @Rule
-    public TestRule rule = RuleChain.outerRule(new TestFXRule(5)).around(Timeout.millis(5000));
+    @Rule(order = 0)
+    public TestRule rule = new TestFXRule(5);
+
+    @Rule(order = 1)
+    public TestRule timeoutRule = Timeout.millis(5000);
 
     Button button;
 
