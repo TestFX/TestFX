@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Install Java 8
 brew update
-brew cask reinstall caskroom/versions/java8
+brew cask install homebrew/cask-versions/adoptopenjdk8
 
 # Upload and publish release artifacts to Bintray.
 # We call "bintrayUpload" task for each sub-project
