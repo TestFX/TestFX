@@ -189,7 +189,7 @@ afterEvaluate {
 
         bnd (
             'Export-Package': '*',
-            'Bundle-Version': "${project.version}",
+            'Bundle-Version': "${System.env.JITPACK == 'true' ? '0.0.1' : project.version}",
             'Bundle-Activator': 'org.testfx.osgi.Activator',
             'Require-Capability': 'org.testfx.osgi.versionadapter'
         )
