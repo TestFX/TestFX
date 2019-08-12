@@ -189,6 +189,7 @@ afterEvaluate {
 
         bnd (
             'Export-Package': '*',
+            'Bundle-Version': "${project.version}",
             'Bundle-Activator': 'org.testfx.osgi.Activator',
             'Require-Capability': 'org.testfx.osgi.versionadapter'
         )
