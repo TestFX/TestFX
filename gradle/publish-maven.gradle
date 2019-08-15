@@ -71,7 +71,7 @@ def pomConfig = {
 publishing {
     repositories {
         maven {
-            url sonatypeUrl
+            url = version.endsWith('SNAPSHOT') ? sonatypeSnapshotsUrl : sonatypeReleasesUrl
             credentials {
                 username = sonatypeUsername
                 password = sonatypePassword

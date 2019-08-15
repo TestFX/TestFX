@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install Java 8
-brew update
-brew cask install homebrew/cask-versions/adoptopenjdk8
-
 # Upload and publish release artifacts to Bintray.
 # We call "bintrayUpload" task for each sub-project
 # so that gradle-bintray-plugin does not complain
@@ -17,8 +13,7 @@ brew cask install homebrew/cask-versions/adoptopenjdk8
     :testfx-spock:bintrayUpload \
     -PbintrayUsername="$BINTRAY_USERNAME" \
     -PbintrayApiKey="$BINTRAY_API_KEY" \
-    -Ppublish=true \
-    -Dorg.gradle.java.home="$(/usr/libexec/java_home -v 1.8)"
+    -Ppublish=true
 
 # Sync Bintray artifacts with Maven Central
 version=$(git tag -l --points-at HEAD) # Replace with $TRAVIS_TAG?
