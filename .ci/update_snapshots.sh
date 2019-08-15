@@ -3,6 +3,10 @@ set -euo pipefail
 
 # see http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/ for details
 
+function prop {
+    grep "${1}" gradle.properties | cut -d'=' -f2
+}
+
 if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
    [ "$PUSH_JAVADOCS" == "true" ] && \
    [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
@@ -35,6 +39,11 @@ if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
     git commit -m "Latest javadoc on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages."
     git push -fq origin gh-pages
     echo "Published Javadoc to gh-pages."
+
+    if [[ $(prop 'version') = *-SNAPSHOT ]]; then
+      echo "Publishing snapshot to Sonatype snapshot repository..."
+      ./gradlew publishMavenJavaPublicationToMavenRepository -P sonatypeUsername="$SONATYPE_USERNAME" -P sonatypePassword="$SONATYPE_PASSWORD"
+    fi
 fi
 
 # vim :set ts=2 sw=2 sts=2 et:
