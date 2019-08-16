@@ -30,9 +30,9 @@ module org.testfx {
     exports org.testfx.toolkit;
     exports org.testfx.util;
 
-    requires java.desktop;
-    requires javafx.controls;
-    requires javafx.swing;
-    requires org.assertj.core;
+    requires transitive java.desktop;
+    requires transitive javafx.controls;
+    requires transitive javafx.swing;
+    requires static org.assertj.core;
     requires org.hamcrest;
 }

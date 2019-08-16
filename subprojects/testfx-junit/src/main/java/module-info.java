@@ -17,7 +17,6 @@
 module org.testfx.junit {
     exports org.testfx.framework.junit;
 
-    requires javafx.graphics;
-    requires javafx.swing;
-    requires junit;
+    requires transitive org.testfx;
+    requires transitive junit;
 }

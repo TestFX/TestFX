@@ -23,7 +23,7 @@ jobs:
     - stage: lint
       os: linux
       dist: trusty
-      jdk: openjdk11
+      jdk: openjdk12
       script: ./gradlew checkstyleMain checkstyleTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest spotBugsMain spotBugsTest license
     - stage: test
     # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (AWT Robot)
@@ -59,46 +59,40 @@ jobs:
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot)
     - os: linux
       dist: xenial
-      jdk: oraclejdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt"
-        - PUSH_JAVADOCS="true"
+        - UPDATE_SNAPSHOTS="true"
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot) / HiDPI
     - os: linux
       dist: xenial
-      jdk: oraclejdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt -Dglass.gtk.uiScale=2.0"
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (Glass Robot)
     - os: linux
       dist: xenial
-      jdk: oraclejdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass"
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (Glass Robot) / HiDPI
     - os: linux
       dist: xenial
-      jdk: oraclejdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headless (Glass Robot)
     - os: linux
       dist: xenial
-      jdk: oraclejdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headless (Glass Robot) / HiDPI
     - os: linux
       dist: xenial
-      jdk: oraclejdk11
+      jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dglass.gtk.uiScale=2.0"
-    # macOS / OpenJDK 10 / Headless
-    - os: osx
-      osx_image: xcode9.4
-      jdk: openjdk10
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
     # macOS / OpenJDK 12 / Headless
     - os: osx
       osx_image: xcode9.4

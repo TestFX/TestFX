@@ -139,11 +139,22 @@ afterEvaluate {
     }
 
     javadoc {
-        afterEvaluate {
-            exclude '*module-info*'
-            if (JavaVersion.current().isJava9Compatible()) {
+        source = sourceSets.main.allJava
+        options.addBooleanOption('html5', true)
+        //dependsOn compileModuleInfoJava
+        if (JavaVersion.current().isJava9Compatible()) {
+            inputs.property("moduleName", moduleName)
+
+            doFirst {
                 options.addStringOption('-module-path', classpath.asPath)
+                options.addMultilineStringsOption('-add-modules').setValue([
+                        'javafx.graphics', 'javafx.controls', 'javafx.swing', 'org.hamcrest', 'org.testfx'])
+                options.addMultilineStringsOption('-add-exports').setValue([
+                        'javafx.graphics/com.sun.javafx.application=org.testfx',
+                        'javafx.graphics/com.sun.glass.ui=org.testfx'])
             }
+        } else {
+            exclude '*module-info*'
         }
     }
 
