@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "${TRAVIS_JDK_VERSION}" == "oraclejdk11" ]]; then
+if [[ "${UPDATE_SNAPSHOTS}" == "true" ]]; then
   echo "Uploading code coverage results to codecov.io"
   curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov > codecov
   chmod +x codecov

@@ -18,7 +18,7 @@ apply plugin: 'java-library'
 
 ext.pomDescription = 'TestFX Core'
 ext.moduleName = 'org.testfx'
-ext.openjfxVersion = '11'
+ext.openjfxVersion = '12'
 
 repositories {
     jcenter()
@@ -78,6 +78,7 @@ afterEvaluate {
         implementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
 
         implementation "org.assertj:assertj-core:3.13.2"
+        testImplementation "org.assertj:assertj-core:3.13.2"
         implementation 'org.osgi:org.osgi.core:6.0.0'
         testImplementation ("junit:junit:4.13-beta-3") {
             exclude group: 'org.hamcrest', module: 'hamcrest-core'
@@ -134,15 +135,23 @@ afterEvaluate {
     }
 
     javadoc {
-        afterEvaluate {
-            exclude '*module-info*'
-            if (JavaVersion.current().isJava9Compatible()) {
-                include '*module-info*'
+        source = sourceSets.main.allJava
+        options.addBooleanOption('html5', true)
+        //dependsOn compileModuleInfoJava
+        if (JavaVersion.current().isJava9Compatible()) {
+            inputs.property("moduleName", moduleName)
+
+            doFirst {
                 options.addStringOption('-module-path', classpath.asPath)
+                options.addStringOption('-add-reads', "$moduleName=org.assertj.core")
+                options.addMultilineStringsOption('-add-modules').setValue([
+                        'javafx.graphics', 'javafx.controls', 'javafx.swing', 'org.hamcrest', 'org.assertj.core'])
                 options.addMultilineStringsOption('-add-exports').setValue([
                         'javafx.graphics/com.sun.javafx.application=org.testfx',
                         'javafx.graphics/com.sun.glass.ui=org.testfx'])
             }
+        } else {
+            exclude '*module-info*'
         }
     }
 

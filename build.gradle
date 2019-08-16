@@ -188,8 +188,8 @@ evaluationDependsOnChildren()
 subprojects { subproject ->
     javadoc {
         enabled = !JavaVersion.current().isJava8()
-        excludes = ["**/*.html", "META-INF/**", '*module-info*']
-        classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
+        excludes = ["**/*.html", "META-INF/**"]
+        //classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
         options.use         = true
         options.splitIndex  = true
         options.encoding    = "UTF-8"

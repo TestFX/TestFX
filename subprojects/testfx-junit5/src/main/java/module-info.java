@@ -17,7 +17,6 @@
 module org.testfx.junit5 {
     exports org.testfx.framework.junit5;
 
-    requires org.junit.jupiter.api;
-    requires javafx.graphics;
-    requires org.testfx;
+    requires transitive org.junit.jupiter.api;
+    requires transitive org.testfx;
 }

@@ -8,7 +8,6 @@ function prop {
 }
 
 if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
-   [ "$PUSH_JAVADOCS" == "true" ] && \
    [ "$TRAVIS_PULL_REQUEST" == "false" ] && \
    [ "$TRAVIS_BRANCH" == "master" ]; then
   echo "Publishing Javadoc..."
