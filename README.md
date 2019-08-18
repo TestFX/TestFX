@@ -11,6 +11,11 @@ Simple and clean testing for JavaFX.
 
 TestFX requires a minimum Java version of 8 (1.8).
 
+## Documentation
+
+* See the [Javadocs](http://testfx.github.io/TestFX/docs/javadoc/) for latest `master`.
+* See the changelog [CHANGES.md](https://github.com/TestFX/TestFX/blob/master/CHANGES.md) for latest released version.
+
 ## Features
 
 - A fluent and clean API.
@@ -671,12 +676,6 @@ cache:
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
   - C:\ProgramData\chocolatey\cache -> appveyor.yml
 ```
-
-## Documentation
-
-* [Javadocs](http://testfx.github.io/TestFX/docs/javadoc/) for latest `master`
-* The [wiki](https://github.com/TestFX/TestFX/wiki)
-* The changelog [CHANGES.md](https://github.com/TestFX/TestFX/blob/master/CHANGES.md)
 
 ## Chat
 

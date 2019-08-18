@@ -56,13 +56,17 @@ jobs:
       jdk: oraclejdk8
       env:
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw  -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot)
+    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot) [Also the build that uploads Javadocs/Snapshots]
     - os: linux
       dist: xenial
       jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt"
         - UPDATE_SNAPSHOTS="true"
+        - secure: "McAqe7fSHacgoaf6EN2xsJtQl+7bHWJFaxt9KjLsX5An/LEqCOCVAgRQA7pVpoc3VQUw3Lq997aDGK4NyRco6SmKb+73/L6AF14W9KO7ItNX4HVq16JDEkTqlfDip+/1Jo/Z8UDoQ2J9/2HViZ4ZoZDdEP9CjGJGlfEyUaEnAQQ="
+        - secure: "YzaXTwRHng74Uegz0COmH2/U6PZ4VghDeoXFog5Eds2ZSuUGG9NXBQTdCcBgTwA9KPmu1fvKhk4HqJeru4fpD3NqZ+Ks3znvXOPXgydr3SxgJUvWCJkRQljXOE5BlI07R1qVnDWwTqSDyt64ffaJo3XT0+3uOwnauJrMqexsniM="
+        - secure: "eSQaOxDMfLW3V1cxtKcm0i/BesSrRw1bTi01fAjTR6RxsXP00YAylNgYBgoGRrED16kM5FkQzOf75CDCw6l7CanXky/A7quD0IMo0pkwX/q5OJWIK7NAGnV4DekDnYW0yrMTxuygR0ALMkgwT5S+CP3/1aY6BNO11LNSHgQUXiM="
+        - secure: "BXTn0eNI4ueday8ZMC4KPnbJxWy7HADRUc5pjLMC70W9j2P6T5P18zUYwXHFnRdNxAEPa3rkjCLXx3XyMezhm5twkHpUt/Hyb0kgN0CYzEm0fad23Dayn7HVdGlKh6WQnjC/VQ54k/MCHEk4F0W8ip7RrG1FpTfhpWAa3j1Tq00="
     # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot) / HiDPI
     - os: linux
       dist: xenial

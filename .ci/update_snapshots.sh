@@ -4,7 +4,7 @@ set -euo pipefail
 # see http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/ for details
 
 function prop {
-    grep "${1}" gradle.properties | cut -d'=' -f2
+    grep "${1}" "${TRAVIS_BUILD_DIR}"/gradle.properties | cut -d'=' -f2
 }
 
 if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
@@ -41,6 +41,7 @@ if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
 
     if [[ $(prop 'version') = *-SNAPSHOT ]]; then
       echo "Publishing snapshot to Sonatype snapshot repository..."
+      cd "${TRAVIS_BUILD_DIR}"
       ./gradlew publishMavenJavaPublicationToMavenRepository -P sonatypeUsername="$SONATYPE_USERNAME" -P sonatypePassword="$SONATYPE_PASSWORD"
     fi
 fi
