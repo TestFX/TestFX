@@ -86,6 +86,12 @@ publishing {
                 artifact sourceJar
                 artifact javadocJar
                 pom.withXml {
+                    Node pomNode = asNode()
+                    pomNode.dependencies.'*'.findAll() {
+                        it.groupId.text() == 'org.openjfx'
+                    }.each {
+                        it.remove(it.classifier)
+                    }
                     asNode().children().last() + pomConfig
                     asNode().appendNode("description", project.pomDescription)
                 }
