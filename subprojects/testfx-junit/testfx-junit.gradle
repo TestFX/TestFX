@@ -74,18 +74,13 @@ afterEvaluate {
 
         compile project(":testfx-core")
 
-        compileOnly ("junit:junit:4.13-beta-3") {
+        compile ("junit:junit:4.13-beta-3") {
             exclude group: 'org.hamcrest', module: 'hamcrest-core'
+            exclude group: 'org.hamcrest', module: 'hamcrest-library'
         }
-        testCompileOnly ("junit:junit:4.13-beta-3") {
-            exclude group: 'org.hamcrest', module: 'hamcrest-core'
-        }
-
-        compile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
-        testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         compile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
         testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
-        compile "org.hamcrest:hamcrest-junit:2.0.0.0"
+        testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '2.1'
         compile "org.assertj:assertj-core:3.13.2"
         testCompile "org.assertj:assertj-core:3.13.2"
 
