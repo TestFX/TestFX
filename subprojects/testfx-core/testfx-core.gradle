@@ -75,7 +75,7 @@ afterEvaluate {
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
 
         // Empty shim JAR for JUnit4.
-        implementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
 
         implementation "org.assertj:assertj-core:3.13.2"
         testImplementation "org.assertj:assertj-core:3.13.2"
