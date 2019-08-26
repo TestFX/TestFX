@@ -81,8 +81,8 @@ afterEvaluate {
         compile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
         testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
         testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '2.1'
-        compile "org.assertj:assertj-core:3.13.2"
-        testCompile "org.assertj:assertj-core:3.13.2"
+        implementation "org.assertj:assertj-core:3.13.2"
+        //testCompile "org.assertj:assertj-core:3.13.2"
 
         if (JavaVersion.current().isJava12Compatible()) {
             testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'

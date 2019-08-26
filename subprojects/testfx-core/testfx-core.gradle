@@ -73,16 +73,16 @@ afterEvaluate {
         }
 
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
-
-        // Empty shim JAR for JUnit4.
-        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
-
         implementation "org.assertj:assertj-core:3.13.2"
         testImplementation "org.assertj:assertj-core:3.13.2"
         implementation 'org.osgi:org.osgi.core:6.0.0'
+
         testImplementation ("junit:junit:4.13-beta-3") {
             exclude group: 'org.hamcrest', module: 'hamcrest-core'
         }
+        // Empty shim JAR for JUnit4.
+        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
+
         testImplementation "org.mockito:mockito-core:3.0.0"
 
         if (JavaVersion.current().isJava12Compatible()) {
