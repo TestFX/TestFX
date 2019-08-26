@@ -56,7 +56,7 @@ afterEvaluate {
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
-        api "org.assertj:assertj-core:3.13.2"
+        implementation "org.assertj:assertj-core:3.13.2"
         //testImplementation "org.assertj:assertj-core:3.13.2"
 
         if (JavaVersion.current().isJava12Compatible()) {

@@ -31,6 +31,7 @@ module org.testfx {
     exports org.testfx.util;
 
     requires transitive java.desktop;
+    requires transitive javafx.base;
     requires transitive javafx.controls;
     requires transitive javafx.swing;
     requires static org.assertj.core;
