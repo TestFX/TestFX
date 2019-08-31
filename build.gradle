@@ -25,7 +25,7 @@ buildscript {
 
     dependencies {
         // Used for OSGI related stuff (gradle "osgi" plugin was deprecated).
-        classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
+        // classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
     }
 }
 
@@ -91,7 +91,7 @@ allprojects { project ->
 }
 
 subprojects { subproject ->
-    apply plugin: 'biz.aQute.bnd.builder'
+    // apply plugin: 'biz.aQute.bnd.builder'
     apply from: "${rootDir}/gradle/spotbugs.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
