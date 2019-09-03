@@ -59,8 +59,22 @@ javafx {
 }
 ```
 
+## System Configuration
+
+### Mac OS
+
+To let TestFX manage Mouse and Keyboard, you have to authorized it.
+
+* Go to System Setting > Security and Privacy > Accessibility
+    * If you want to exectute the tests from your IDE, check your IDE in the list
+    * If you want to exectute the tests from maven/gradle in your terminal, check the Terminal
+    * If you don't find the Terminal or your IDE, click on + and add it to the list
+        * Terminal should be there /Applications/Utilities/Terminal.app
+
+
 ## Test Framework
 Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
+
 
 ### JUnit 4
 
