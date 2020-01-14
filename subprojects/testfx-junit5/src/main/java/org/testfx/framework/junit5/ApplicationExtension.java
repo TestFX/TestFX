@@ -16,25 +16,25 @@
  */
 package org.testfx.framework.junit5;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import javafx.util.Pair;
+import org.junit.jupiter.api.extension.*;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-
 import org.testfx.util.WaitForAsyncUtils;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static org.reflections.ReflectionUtils.getAllMethods;
+import static org.reflections.ReflectionUtils.withAnnotation;
 
 public class ApplicationExtension extends FxRobot implements BeforeEachCallback, AfterEachCallback,
         TestInstancePostProcessor, ParameterResolver {
@@ -43,30 +43,52 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
-        List<Method> init = new ArrayList<>();
-        List<Method> start = new ArrayList<>();
-        List<Method> stop = new ArrayList<>();
         Class<?> testClass = testInstance.getClass();
-        Method[] methods = testClass.getDeclaredMethods();
-        for (Method method : methods) {
-            method.setAccessible(true);
-            if (method.isAnnotationPresent(Init.class)) {
-                init.add(validateInitMethod(method));
-            }
-            if (method.isAnnotationPresent(Start.class)) {
-                start.add(validateStartMethod(method));
-            }
-            if (method.isAnnotationPresent(Stop.class)) {
-                stop.add(validateStopMethod(method));
-            }
-        }
+
         Field[] fields = testClass.getDeclaredFields();
         for (Field field : fields) {
             if (field.getType().isAssignableFrom(FxRobot.class)) {
                 setField(testInstance, field, this);
             }
         }
-        applicationFixture = new AnnotationBasedApplicationFixture(testInstance, init, start, stop);
+        applicationFixture = new AnnotationBasedApplicationFixture(
+                testInstance,
+                getMethods(testClass, Init.class, (method) -> validateInitMethod(method)),
+                getMethods(testClass, Start.class, (method) -> validateStartMethod(method)),
+                getMethods(testClass, Stop.class, (method) -> validateStartMethod(method))
+        );
+    }
+
+    private Set<Pair<Method, String>> getMethods(Class<?> testClass, Class<? extends Annotation> annotation, Consumer<Method> validate) {
+        final Set<Method> methods = getAllMethods(testClass, withAnnotation(annotation));
+
+        final Set<Pair<Method, String>> methodPairs = new HashSet<>();
+
+        for(Method m : methods) {
+            validate.accept(m);
+            methodPairs.add(new Pair(m, testClass.getName()));
+        }
+
+        if (isNested(testClass)) {
+            methodPairs.addAll(getMethods(getParentClass(testClass), annotation, validate));
+        }
+
+        return methodPairs;
+    }
+
+    private boolean isNested(Class<?> testClass) {
+        return testClass.getName().split("\\$").length > 1;
+    }
+
+    private Class<?> getParentClass(Class<?> testClass) {
+        final String[] split = testClass.getName().split("\\$");
+        final String parentClassName = Arrays.stream(Arrays.copyOf(split, split.length - 1)).collect(Collectors.joining("$"));
+
+        try {
+            return Class.forName(parentClassName);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     @Override
@@ -124,22 +146,20 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
         try {
             field.setAccessible(true);
             field.set(instance, val);
-        }
-        finally {
+        } finally {
             field.setAccessible(wasAccessible);
         }
     }
 
     private static class AnnotationBasedApplicationFixture implements ApplicationFixture {
+        static Map<String, Object> TEST_INSTANCES = new HashMap<>();
+        private final Set<Pair<Method, String>> init;
+        private final Set<Pair<Method, String>> start;
+        private final Set<Pair<Method, String>> stop;
 
-        private final Object testInstance;
-        private final List<Method> init;
-        private final List<Method> start;
-        private final List<Method> stop;
-
-        private AnnotationBasedApplicationFixture(Object testInstance, List<Method> init,
-                                                  List<Method> start, List<Method> stop) {
-            this.testInstance = testInstance;
+        private AnnotationBasedApplicationFixture(Object testInstance, Set<Pair<Method, String>> init,
+                                                  Set<Pair<Method, String>> start, Set<Pair<Method, String>> stop) {
+            TEST_INSTANCES.put(testInstance.getClass().getName(), testInstance);
             this.init = init;
             this.start = start;
             this.stop = stop;
@@ -147,25 +167,23 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
 
         @Override
         public void init() throws InvocationTargetException, IllegalAccessException {
-            for (Method method : init) {
-                method.invoke(testInstance);
+            for (Pair<Method, String> pair : init) {
+                pair.getKey().invoke(TEST_INSTANCES.get(pair.getValue()));
             }
         }
 
         @Override
         public void start(Stage stage) throws InvocationTargetException, IllegalAccessException {
-            for (Method method : start) {
-                method.invoke(testInstance, stage);
+            for (Pair<Method, String> pair : start) {
+                pair.getKey().invoke(TEST_INSTANCES.get(pair.getValue()), stage);
             }
         }
 
         @Override
         public void stop() throws InvocationTargetException, IllegalAccessException {
-            for (Method method : stop) {
-                method.invoke(testInstance);
+            for (Pair<Method, String> pair : stop) {
+                pair.getKey().invoke(TEST_INSTANCES.get(pair.getValue()));
             }
         }
-
     }
-
 }
