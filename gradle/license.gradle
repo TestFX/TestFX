@@ -19,28 +19,28 @@
 // update the license header by using the "licenseFormat" task.
 // https://github.com/hierynomus/license-gradle-plugin
 
-apply plugin: "license"
-
-license {
-    header = rootProject.file("gradle/check/license-header.txt")
-    strictCheck = true
-    license {
-        ext.year = Calendar.getInstance().get(Calendar.YEAR)
-    }
-    // By default license-gradle-plugin uses JAVADOC_STYLE for the comment style
-    // of the license header which starts with two asterisks "/**" but we use
-    // only one asterisk "/*" so we must tell license-gradle-plugin which to use.
-    mapping {
-        java = "SLASHSTAR_STYLE"
-        groovy = "SLASHSTAR_STYLE"
-        gradle = "SLASHSTAR_STYLE"
-    }
-    // TODO: Checking *.gradle files does not work currently because they are not in
-    // the source set.
-    includes(["**/*.java", "**/*.groovy", "**/*.gradle"])
-}
-
-// Decrease verbosity (printing that the header in each file is OK).
-[licenseMain, licenseTest].each { task ->
-    task.logging.setLevel(LogLevel.LIFECYCLE)
-}
+//apply plugin: "license"
+//
+//license {
+//    header = rootProject.file("gradle/check/license-header.txt")
+//    strictCheck = true
+//    license {
+//        ext.year = Calendar.getInstance().get(Calendar.YEAR)
+//    }
+//    // By default license-gradle-plugin uses JAVADOC_STYLE for the comment style
+//    // of the license header which starts with two asterisks "/**" but we use
+//    // only one asterisk "/*" so we must tell license-gradle-plugin which to use.
+//    mapping {
+//        java = "SLASHSTAR_STYLE"
+//        groovy = "SLASHSTAR_STYLE"
+//        gradle = "SLASHSTAR_STYLE"
+//    }
+//    // TODO: Checking *.gradle files does not work currently because they are not in
+//    // the source set.
+//    includes(["**/*.java", "**/*.groovy", "**/*.gradle"])
+//}
+//
+//// Decrease verbosity (printing that the header in each file is OK).
+//[licenseMain, licenseTest].each { task ->
+//    task.logging.setLevel(LogLevel.LIFECYCLE)
+//}
