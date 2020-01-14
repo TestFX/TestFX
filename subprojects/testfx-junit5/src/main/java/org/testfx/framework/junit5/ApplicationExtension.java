@@ -16,28 +16,37 @@
  */
 package org.testfx.framework.junit5;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
-import javafx.util.Pair;
-import org.junit.jupiter.api.extension.*;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.util.WaitForAsyncUtils;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
+import javafx.util.Pair;
+
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.testfx.api.FxRobot;
+import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.reflections.ReflectionUtils.getAllMethods;
 import static org.reflections.ReflectionUtils.withAnnotation;
 
 public class ApplicationExtension extends FxRobot implements BeforeEachCallback, AfterEachCallback,
-        TestInstancePostProcessor, ParameterResolver {
+    TestInstancePostProcessor, ParameterResolver {
 
     private ApplicationFixture applicationFixture;
 
@@ -52,19 +61,20 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
             }
         }
         applicationFixture = new AnnotationBasedApplicationFixture(
-                testInstance,
-                getMethods(testClass, Init.class, (method) -> validateInitMethod(method)),
-                getMethods(testClass, Start.class, (method) -> validateStartMethod(method)),
-                getMethods(testClass, Stop.class, (method) -> validateStartMethod(method))
+            testInstance,
+            getMethods(testClass, Init.class, method -> validateInitMethod(method)),
+            getMethods(testClass, Start.class, method -> validateStartMethod(method)),
+            getMethods(testClass, Stop.class, method -> validateStartMethod(method))
         );
     }
 
-    private Set<Pair<Method, String>> getMethods(Class<?> testClass, Class<? extends Annotation> annotation, Consumer<Method> validate) {
+    private Set<Pair<Method, String>> getMethods(Class<?> testClass, Class<? extends Annotation> annotation,
+                                                 Consumer<Method> validate) {
         final Set<Method> methods = getAllMethods(testClass, withAnnotation(annotation));
 
         final Set<Pair<Method, String>> methodPairs = new HashSet<>();
 
-        for(Method m : methods) {
+        for (Method m : methods) {
             validate.accept(m);
             methodPairs.add(new Pair(m, testClass.getName()));
         }
@@ -82,12 +92,14 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
 
     private Class<?> getParentClass(Class<?> testClass) {
         final String[] split = testClass.getName().split("\\$");
-        final String parentClassName = Arrays.stream(Arrays.copyOf(split, split.length - 1)).collect(Collectors.joining("$"));
+        final String parentClassName = Arrays.stream(Arrays.copyOf(split, split.length - 1))
+            .collect(Collectors.joining("$"));
 
         try {
             return Class.forName(parentClassName);
-        } catch (ClassNotFoundException e) {
-            return null;
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -129,7 +141,7 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
         Class<?>[] parameterTypes = startMethod.getParameterTypes();
         if (parameterTypes.length != 1 || !parameterTypes[0].isAssignableFrom(javafx.stage.Stage.class)) {
             throw new IllegalStateException("Method annotated with @Start should have one argument of type " +
-                    "javafx.stage.Stage");
+                "javafx.stage.Stage");
         }
         return startMethod;
     }
@@ -146,7 +158,8 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
         try {
             field.setAccessible(true);
             field.set(instance, val);
-        } finally {
+        }
+        finally {
             field.setAccessible(wasAccessible);
         }
     }
