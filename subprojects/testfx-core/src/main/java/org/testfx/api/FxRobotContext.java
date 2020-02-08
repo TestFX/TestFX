@@ -82,7 +82,7 @@ public class FxRobotContext {
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
         writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
         moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
-        clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
+        clickRobot = new ClickRobotImpl(mouseRobot, moveRobot);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
         scrollRobot = new ScrollRobotImpl(mouseRobot);
         captureSupport = new CaptureSupportImpl(baseRobot);

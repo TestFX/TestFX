@@ -29,19 +29,14 @@ import org.testfx.service.query.PointQuery;
 
 public class ClickRobotImpl implements ClickRobot {
 
-    private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;
-
     private final MouseRobot mouseRobot;
     private final MoveRobot moveRobot;
-    private final SleepRobot sleepRobot;
 
-    public ClickRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot, SleepRobot sleepRobot) {
+    public ClickRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot) {
         Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
         Objects.requireNonNull(moveRobot, "moveRobot must not be null");
-        Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
         this.mouseRobot = mouseRobot;
         this.moveRobot = moveRobot;
-        this.sleepRobot = sleepRobot;
     }
 
     @Override
@@ -60,7 +55,6 @@ public class ClickRobotImpl implements ClickRobot {
     public void doubleClickOn(MouseButton... buttons) {
         clickOn(buttons);
         clickOn(buttons);
-        sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }
 
     @Override
@@ -68,7 +62,6 @@ public class ClickRobotImpl implements ClickRobot {
         moveRobot.moveTo(pointQuery, motion);
         clickOn(buttons);
         clickOn(buttons);
-        sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }
 
 }
