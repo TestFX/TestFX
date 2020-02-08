@@ -77,8 +77,8 @@ public class FxRobotContext {
         pointLocator = new PointLocatorImpl(boundsLocator);
         baseRobot = new BaseRobotImpl();
         keyboardRobot = new KeyboardRobotImpl(baseRobot);
-        mouseRobot = new MouseRobotImpl(baseRobot);
         sleepRobot = new SleepRobotImpl();
+        mouseRobot = new MouseRobotImpl(baseRobot, sleepRobot);
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
         writeRobot = new WriteRobotImpl(baseRobot, sleepRobot, windowFinder);
         moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);

@@ -27,22 +27,32 @@ import javafx.scene.input.MouseButton;
 
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
+import org.testfx.robot.SleepRobot;
 import org.testfx.util.WaitForAsyncUtils;
 
 public class MouseRobotImpl implements MouseRobot {
 
+    /**
+     * Duration between atomic mouse action (required for those actions to be correctly detected by OS).
+     */
+    final static private long mouseActionDurationMillis = 20L;
+
     private final BaseRobot baseRobot;
     private final Set<MouseButton> pressedButtons = new HashSet<>();
+    private final SleepRobot sleepRobot;
 
-    public MouseRobotImpl(BaseRobot baseRobot) {
+    public MouseRobotImpl(BaseRobot baseRobot, SleepRobot sleepRobot) {
         Objects.requireNonNull(baseRobot, "baseRobot must not be null");
+        Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
         this.baseRobot = baseRobot;
+        this.sleepRobot = sleepRobot;
     }
  
     @Override
     public void press(MouseButton... buttons) {
         pressNoWait(buttons);
         WaitForAsyncUtils.waitForFxEvents();
+        sleepRobot.sleep(mouseActionDurationMillis);
     }
 
     @Override
@@ -53,12 +63,14 @@ public class MouseRobotImpl implements MouseRobot {
         else {
             Arrays.asList(buttons).forEach(this::pressButton);
         }
+        sleepRobot.sleep(mouseActionDurationMillis);
     }
 
     @Override
     public void release(MouseButton... buttons) {
         releaseNoWait(buttons);
         WaitForAsyncUtils.waitForFxEvents();
+        sleepRobot.sleep(mouseActionDurationMillis);
     }
 
     @Override
@@ -69,17 +81,20 @@ public class MouseRobotImpl implements MouseRobot {
         else {
             Arrays.asList(buttons).forEach(this::releaseButton);
         }
+        sleepRobot.sleep(mouseActionDurationMillis);
     }
 
     @Override
     public void move(Point2D location) {
         moveNoWait(location);
         WaitForAsyncUtils.waitForFxEvents();
+        sleepRobot.sleep(mouseActionDurationMillis);
     }
 
     @Override
     public void moveNoWait(Point2D location) {
         baseRobot.moveMouse(location);
+        sleepRobot.sleep(mouseActionDurationMillis);
     }
 
     @Override
