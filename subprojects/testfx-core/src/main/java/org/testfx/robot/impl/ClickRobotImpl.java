@@ -24,7 +24,6 @@ import org.testfx.robot.ClickRobot;
 import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
-import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
 public class ClickRobotImpl implements ClickRobot {
