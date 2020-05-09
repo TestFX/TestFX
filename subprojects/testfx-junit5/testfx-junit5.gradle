@@ -58,6 +58,7 @@ afterEvaluate {
         testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         implementation "org.assertj:assertj-core:3.13.2"
         //testImplementation "org.assertj:assertj-core:3.13.2"
+        testImplementation 'org.awaitility:awaitility:4.0.2'
 
         if (JavaVersion.current().isJava12Compatible()) {
             testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
@@ -138,9 +139,11 @@ afterEvaluate {
                 options.compilerArgs = [
                         '--module-path', classpath.asPath,
                         '--add-modules', 'org.junit.jupiter.api',
+                        '--add-modules', 'org.junit.platform.commons',
                         '--add-modules', 'org.hamcrest',
                         '--add-modules', 'org.assertj.core',
                         '--add-reads', "$moduleName=org.junit.jupiter.api",
+                        '--add-reads', "$moduleName=org.junit.platform.commons",
                         '--add-reads', "$moduleName=javafx.controls",
                         '--add-reads', "$moduleName=org.hamcrest",
                         '--add-reads', "$moduleName=org.assertj.core",
