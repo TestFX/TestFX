@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;

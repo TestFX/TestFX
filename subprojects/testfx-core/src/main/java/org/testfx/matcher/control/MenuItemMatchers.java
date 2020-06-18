@@ -17,7 +17,6 @@
 package org.testfx.matcher.control;
 
 import java.util.Objects;
-
 import javafx.scene.control.MenuItem;
 
 import org.hamcrest.Matcher;

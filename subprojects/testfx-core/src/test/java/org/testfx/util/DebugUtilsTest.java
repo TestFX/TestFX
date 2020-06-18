@@ -18,7 +18,6 @@ package org.testfx.util;
 
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
-
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;

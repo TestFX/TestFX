@@ -17,7 +17,6 @@
 package org.testfx.matcher.control;
 
 import java.util.Objects;
-
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;

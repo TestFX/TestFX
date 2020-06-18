@@ -18,7 +18,6 @@ package org.testfx.assertions.api;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
-
 import javafx.stage.Stage;
 import javafx.stage.Window;
 

@@ -18,7 +18,6 @@ package org.testfx.service.finder.impl;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;

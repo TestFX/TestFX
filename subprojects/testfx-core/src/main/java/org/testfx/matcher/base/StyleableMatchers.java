@@ -17,7 +17,6 @@
 package org.testfx.matcher.base;
 
 import java.util.Objects;
-
 import javafx.css.Styleable;
 
 import org.hamcrest.Matcher;

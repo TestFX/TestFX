@@ -17,7 +17,6 @@
 package org.testfx.matcher.base;
 
 import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;

@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javafx.scene.input.KeyCode;
 
 import org.testfx.robot.BaseRobot;

@@ -27,7 +27,6 @@ import org.testfx.robot.KeyboardRobot;
 
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.B;
-
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;

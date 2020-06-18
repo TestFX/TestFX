@@ -19,7 +19,6 @@ package org.testfx.service.support;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;

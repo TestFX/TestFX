@@ -20,6 +20,9 @@
 // loops, bad uses of the Java libraries and deadlocks).
 // https://spotbugs.github.io/
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
 apply plugin: "com.github.spotbugs"
 
 spotbugs {
@@ -31,20 +34,48 @@ spotbugs {
     reportLevel = "high"
 }
 
-spotbugsMain {
+spotBugsMain {
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = false
+        text.enabled = true
     }
 }
 
-spotbugsTest {
+spotBugsTest {
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = false
+        text.enabled = true
     }
 }
 
+task printSpotBugsReportMain() {
+    doLast {
+        printSpotBugsReport('main')
+    }
+}
+
+task printSpotBugsReportTest() {
+    doLast {
+        printSpotBugsReport('test')
+    }
+}
+
+if (System.env.CI == "true") {
+    spotbugsMain.finalizedBy printSpotBugsReportMain
+    spotbugsTest.finalizedBy printSpotBugsReportTest
+}
+
+static def printSpotBugsReport(String sourceSet) {
+    def report = Paths.get("build/reports/spotbugs/${sourceSet}.text")
+    if (Files.exists(report)) {
+        def lines = Files.readAllLines(report)
+        lines.forEach { l -> println(l) }
+    }
+}
+
+/*
 task printSpotBugsReport {
     description = "Prints any Spotbugs errors in a human readable form to the gradle error log."
     doLast {
@@ -58,7 +89,7 @@ task printSpotBugsReport {
         slurped['BugInstance'].eachWithIndex { bug, index ->
             report += "${index + 1}. - ${bug.@'category'}: ${bug.@'type'} (priority ${bug.@'priority'})\n"
             if (bug['SourceLine'].isEmpty()) {
-                // Some <BugInstance>'s don't have a SourceLine (like for NM_SAME_SIMPLE_NAME_AS_SUPERCLASS).
+                // w
                 bug['Class'].each { place ->
                     report += "\t${place['@classname']}\n"
                 }
@@ -83,3 +114,4 @@ task printSpotBugsReport {
 if (System.env.CI == "true") {
     spotbugsMain.finalizedBy printSpotBugsReport
 }
+ */

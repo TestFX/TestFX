@@ -22,10 +22,10 @@
 apply plugin: "checkstyle"
 
 checkstyle {
-    configFile = rootProject.file("gradle/check/checkstyle.xml")
+    configFile = file("${rootDir}/gradle/check/checkstyle.xml")
     showViolations = true
     ignoreFailures = false
-    toolVersion = "8.14"
+    toolVersion = "8.35"
 }
 
 // Decrease verbosity (printing of XSL style sheets, etc.)

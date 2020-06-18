@@ -18,7 +18,6 @@ package org.testfx.cases.acceptance;
 
 import java.util.Collections;
 import java.util.HashSet;
-
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;

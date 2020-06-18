@@ -31,10 +31,10 @@ buildscript {
 
 plugins {
     id 'com.github.hierynomus.license' version '0.15.0'
-    id 'com.jfrog.bintray' version '1.8.4'
-    id 'com.github.ben-manes.versions' version '0.21.0'
-    id 'com.github.kt3k.coveralls' version '2.8.4'
-    id 'com.github.spotbugs' version '2.0.0'
+    id 'com.jfrog.bintray' version '1.8.5'
+    id 'com.github.ben-manes.versions' version '0.29.0'
+    id 'com.github.kt3k.coveralls' version '2.10.1'
+    id 'com.github.spotbugs' version '4.0.6'
 }
 
 rootProject.with { project ->
@@ -92,7 +92,7 @@ allprojects { project ->
 
 subprojects { subproject ->
     // apply plugin: 'biz.aQute.bnd.builder'
-    apply from: "${rootDir}/gradle/spotbugs.gradle"
+    // apply from: "${rootDir}/gradle/spotbugs.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
     apply from: "${rootDir}/gradle/publish-jar.gradle"
@@ -187,9 +187,9 @@ evaluationDependsOnChildren()
 
 subprojects { subproject ->
     javadoc {
-        enabled = !JavaVersion.current().isJava8()
+        enabled = JavaVersion.current().isJava8()
         excludes = ["**/*.html", "META-INF/**"]
-        //classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
+        classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
         options.use         = true
         options.splitIndex  = true
         options.encoding    = "UTF-8"
@@ -257,10 +257,10 @@ task jacocoRootReport(type: JacocoReport) {
     group = 'Coverage reports'
     description = 'Generates an aggregate JaCoCo coverage report containing the coverage data of each subproject.'
     dependsOn subprojects.test, jacocoMerge
-    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
-    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories = files(subprojects.sourceSets.main.output)
-    executionData = files(subprojects.jacocoTestReport.executionData).filter { it.exists() }
+    getAdditionalSourceDirs().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
+    getSourceDirectories().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
+    getClassDirectories().setFrom(files(subprojects.sourceSets.main.output))
+    getExecutionData().setFrom(files(subprojects.jacocoTestReport.executionData).filter { it.exists() })
 
     reports {
         html.enabled = true

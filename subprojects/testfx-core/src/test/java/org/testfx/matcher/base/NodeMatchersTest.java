@@ -18,7 +18,6 @@ package org.testfx.matcher.base;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

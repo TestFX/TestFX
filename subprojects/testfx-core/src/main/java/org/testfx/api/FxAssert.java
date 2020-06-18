@@ -19,7 +19,6 @@ package org.testfx.api;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import javafx.scene.Node;
 
 import org.hamcrest.Matcher;

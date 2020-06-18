@@ -51,14 +51,14 @@ codenarc {
 }
 
 codenarcMain {
-    configFile = rootProject.file('gradle/codenarc/rules.groovy')
+    configFile = file("${rootDir}/gradle/codenarc/rules.groovy")
     maxPriority1Violations 0
     maxPriority2Violations 10
     maxPriority3Violations 20
 }
 
 codenarcTest {
-    configFile = rootProject.file('gradle/codenarc/rules.groovy')
+    configFile = file("${rootDir}/gradle/codenarc/rules.groovy")
     maxPriority1Violations 0
     maxPriority2Violations 10
     maxPriority3Violations 20
