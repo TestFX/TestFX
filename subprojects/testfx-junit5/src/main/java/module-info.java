@@ -19,5 +19,4 @@ module org.testfx.junit5 {
 
     requires transitive org.junit.jupiter.api;
     requires transitive org.testfx;
-    requires org.junit.platform.commons;
 }
