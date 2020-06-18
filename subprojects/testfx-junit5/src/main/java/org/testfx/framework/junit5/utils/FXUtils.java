@@ -28,15 +28,15 @@ import java.util.function.Supplier;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+// import org.junit.platform.commons.logging.Logger;
+// import org.junit.platform.commons.logging.LoggerFactory;
 
 /**
  * Small tool to execute/call JavaFX GUI-related code from potentially non-JavaFX thread (equivalent to old:
  * SwingUtilities.invokeLater(...) ... invokeAndWait(...) tools)
  */
 public final class FXUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FXUtils.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(FXUtils.class);
 
     public static void assertJavaFxThread() {
         if (!Platform.isFxApplicationThread()) {
@@ -183,7 +183,8 @@ public final class FXUtils {
         catch (final Exception e) {
             // cannot occur: tickListener is always non-null and
             // addPostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
-            LOGGER.error(e, () -> "addPostLayoutPulseListener interrupted");
+            // LOGGER..error(e, () -> "addPostLayoutPulseListener interrupted");
+            e.printStackTrace();
         }
         try {
             Platform.requestNextPulse();
@@ -191,7 +192,7 @@ public final class FXUtils {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        LOGGER.warn(() -> "FXUtils::waitForTicks(..) interrupted by timeout");
+                        // LOGGER..warn(() -> "FXUtils::waitForTicks(..) interrupted by timeout");
 
                         lock.lock();
                         try {
@@ -210,7 +211,8 @@ public final class FXUtils {
             }
         }
         catch (final InterruptedException e) {
-            LOGGER.error(e, () -> "await interrupted");
+            // LOGGER..error(e, () -> "await interrupted");
+            e.printStackTrace();
         }
         finally {
             lock.unlock();
@@ -222,7 +224,8 @@ public final class FXUtils {
         catch (final Exception e) {
             // cannot occur: tickListener is always non-null and
             // removePostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
-            LOGGER.error(e, () -> "removePostLayoutPulseListener interrupted");
+            // LOGGER..error(e, () -> "removePostLayoutPulseListener interrupted");
+            e.printStackTrace();
         }
 
         return tickCount.get() >= nTicks;
