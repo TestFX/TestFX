@@ -16,13 +16,7 @@
  */
 package org.testfx.framework.junit5.utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.concurrent.TimeUnit;
-
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -34,23 +28,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.JavaFXInterceptorUtils.SelectiveJavaFxInterceptor;
 import org.testfx.framework.junit5.Start;
 import org.testfx.framework.junit5.TestFx;
-import org.testfx.framework.junit5.JavaFXInterceptorUtils.SelectiveJavaFxInterceptor;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests {@link  org.testfx.framework.junit5.utils.FXUtils }
- *
- * @author RalphSteinhagen
- *
  */
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(SelectiveJavaFxInterceptor.class)
 public class FXUtilsTests {
-    private static final Class<?> clazz = FXUtilsTests.class;
-    private static final Logger LOGGER = LoggerFactory.getLogger(clazz);
+    private static final Class<?> CLAZZ = FXUtilsTests.class;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CLAZZ);
     private static final int WIDTH = 300;
     private static final int HEIGHT = 200;
     private Label testLabel;
@@ -148,7 +142,8 @@ public class FXUtilsTests {
             return FXUtils.waitForFxTicks(testLabel.getScene(), 3);
         });
 
-        LOGGER.info(() -> "following [FXUtils-thread] 'FXUtils::waitForTicks(..) interrupted by timeout' warning is the normal library behaviour");
+        LOGGER.info(() -> "following [FXUtils-thread] 'FXUtils::waitForTicks(..) " + 
+                "interrupted by timeout' warning is the normal library behaviour");
         Awaitility.await().atMost(200, TimeUnit.MILLISECONDS).until(() -> {
             return FXUtils.waitForFxTicks(testLabel.getScene(), 3, 100);
         });

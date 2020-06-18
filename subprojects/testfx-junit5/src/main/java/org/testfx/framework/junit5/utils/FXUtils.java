@@ -25,18 +25,15 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import javafx.application.Platform;
+import javafx.scene.Scene;
 
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 
-import javafx.application.Platform;
-import javafx.scene.Scene;
-
 /**
  * Small tool to execute/call JavaFX GUI-related code from potentially non-JavaFX thread (equivalent to old:
  * SwingUtilities.invokeLater(...) ... invokeAndWait(...) tools)
- *
- * @author rstein
  */
 public final class FXUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(FXUtils.class);
@@ -58,8 +55,6 @@ public final class FXUtils {
     /**
      * Invokes a Runnable in JFX Thread and waits while it's finished. Like SwingUtilities.invokeAndWait does for EDT.
      *
-     * @author hendrikebbers
-     * @author rstein
      * @param function Runnable function that should be executed within the JavaFX thread
      * @throws Exception if a exception is occurred in the run method of the Runnable
      */
@@ -73,8 +68,6 @@ public final class FXUtils {
     /**
      * Invokes a Runnable in JFX Thread and waits while it's finished. Like SwingUtilities.invokeAndWait does for EDT.
      *
-     * @author hendrikebbers
-     * @author rstein
      * @param function Supplier function that should be executed within the JavaFX thread
      * @param <R> generic for return type
      * @return function result of type R
@@ -87,8 +80,6 @@ public final class FXUtils {
     /**
      * Invokes a Runnable in JFX Thread and waits while it's finished. Like SwingUtilities.invokeAndWait does for EDT.
      *
-     * @author hendrikebbers, original author
-     * @author rstein, extension to Function, Supplier, Runnable
      * @param argument function argument
      * @param function transform function that should be executed within the JavaFX thread
      * @param <T> generic for argument type
@@ -110,13 +101,16 @@ public final class FXUtils {
                 lock.lock();
                 try {
                     returnValue = function.apply(argument);
-                } catch (final Exception e) {
+                }
+                catch (final Exception e) {
                     throwableWrapper.t = e;
-                } finally {
+                }
+                finally {
                     try {
                         runCondition.set(false);
                         condition.signal();
-                    } finally {
+                    }
+                    finally {
                         runCondition.set(false);
                         lock.unlock();
                     }
@@ -132,7 +126,8 @@ public final class FXUtils {
                 if (throwableWrapper.t != null) {
                     throw throwableWrapper.t;
                 }
-            } finally {
+            }
+            finally {
                 lock.unlock();
             }
             return run.getReturnValue();
@@ -169,9 +164,11 @@ public final class FXUtils {
             if (tickCount.incrementAndGet() >= nTicks) {
                 lock.lock();
                 try {
+                    
                     run.getAndSet(false);
                     condition.signal();
-                } finally {
+                } 
+                finally {
                     run.getAndSet(false);
                     lock.unlock();
                 }
@@ -182,7 +179,8 @@ public final class FXUtils {
         lock.lock();
         try {
             FXUtils.runAndWait(() -> scene.addPostLayoutPulseListener(tickListener));
-        } catch (final Exception e) {
+        } 
+        catch (final Exception e) {
             // cannot occur: tickListener is always non-null and
             // addPostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
             LOGGER.error(e, () -> "addPostLayoutPulseListener interrupted");
@@ -199,24 +197,29 @@ public final class FXUtils {
                         try {
                             run.getAndSet(false);
                             condition.signal();
-                        } finally {
+                        }
+                        finally {
                             run.getAndSet(false);
                             lock.unlock();
                         }
-                    } }, timeoutMillis);
+                    }
+                    }, timeoutMillis);
             }
             while (run.get()) {
                 condition.await();
             }
-        } catch (final InterruptedException e) {
+        }
+        catch (final InterruptedException e) {
             LOGGER.error(e, () -> "await interrupted");
-        } finally {
+        }
+        finally {
             lock.unlock();
             timer.cancel();
         }
         try {
             FXUtils.runAndWait(() -> scene.removePostLayoutPulseListener(tickListener));
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             // cannot occur: tickListener is always non-null and
             // removePostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
             LOGGER.error(e, () -> "removePostLayoutPulseListener interrupted");

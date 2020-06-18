@@ -16,8 +16,6 @@
  */
 package org.testfx.framework.junit5;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -25,13 +23,12 @@ import javafx.stage.Stage;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.testfx.framework.junit5.JavaFXInterceptorUtils.JavaFxInterceptor;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link org.testfx.framework.junit5.JavaFXInterceptorUtils.JavaFxInterceptor}.
- *
- * @author RalphSteinhagen
  *
  */
 @ExtendWith(ApplicationExtension.class)
@@ -46,7 +43,10 @@ public class JavaFxInterceptorTests {
         stage.show();
     }
 
-    @TestFx // note: this is equivalent to {@code @Test} when using {@code @ExtendWith(JavaFxInterceptor.class)}
+    /**
+     * note: this is equivalent to {@code @Test} when using {@code @ExtendWith(JavaFxInterceptor.class)}
+     */
+    @TestFx 
     public void testJavaFxThreadSafety() {
         // verifies that this test is indeed executed in the JavaFX thread
         assertTrue(Platform.isFxApplicationThread());
@@ -54,8 +54,12 @@ public class JavaFxInterceptorTests {
         // perform regular assertion tests within the JavaFX thread
         // ...
     }
-
-    @Test // also executed in JavaFX thread, for different behaviour use: {@code @ExtendWith(SelectiveJavaFxInterceptor.class)
+    //
+    /**
+     * also executed in JavaFX thread, 
+     * for different behaviour use: {@code @ExtendWith(SelectiveJavaFxInterceptor.class)}
+     */
+    @Test 
     public void testNonJavaFx() {
         // verifies that this test is indeed executed in the JavaFX thread
         assertTrue(Platform.isFxApplicationThread());
