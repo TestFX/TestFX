@@ -16,9 +16,6 @@
  */
 package org.testfx.framework.junit5;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -26,13 +23,13 @@ import javafx.stage.Stage;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.testfx.framework.junit5.JavaFXInterceptorUtils.SelectiveJavaFxInterceptor;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for {@link org.testfx.framework.junit5.JavaFXInterceptorUtils.SelectiveJavaFxInterceptor}.
- *
- * @author RalphSteinhagen
  */
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(SelectiveJavaFxInterceptor.class)
@@ -55,7 +52,11 @@ public class SelectiveJavaFxInterceptorTests {
         // ...
     }
 
-    @Test // explicitly not executed in JavaFX thread; for different behaviour use: {@code @ExtendWith(JavaFxInterceptor.class)
+    /**
+     * explicitly not executed in JavaFX thread; 
+     * for different behaviour use: {@code @ExtendWith(JavaFxInterceptor.class)}
+     */
+    @Test
     public void testNonJavaFx() {
         // verifies that this test is not executed within the JavaFX thread
         assertFalse(Platform.isFxApplicationThread());

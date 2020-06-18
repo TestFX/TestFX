@@ -26,9 +26,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
- * extension of JUnits @Test annotation to indicate that a particular test should be explicitly executed within the JavaFX thread. 
- * See also {@link de.gsi.chart.ui.utils.JavaFXInterceptorUtils.SelectiveJavaFxInterceptor }
- * @author rstein
+ * extension of JUnits @Test annotation to indicate that a particular test should be explicitly 
+ * executed within the JavaFX thread.
  *
  */
 @Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })

@@ -33,7 +33,6 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-
 import org.testfx.util.WaitForAsyncUtils;
 
 public class ApplicationExtension extends FxRobot implements BeforeEachCallback, AfterEachCallback,
