@@ -17,7 +17,6 @@
 package org.testfx.service.adapter.impl;
 
 import java.lang.reflect.InvocationTargetException;
-
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;

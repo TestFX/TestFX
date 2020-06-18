@@ -71,7 +71,8 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
                 before();
                 try {
                     base.evaluate();
-                } finally {
+                }
+                finally {
                     after();
                 }
             }

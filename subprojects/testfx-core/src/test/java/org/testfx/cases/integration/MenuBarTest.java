@@ -42,7 +42,6 @@ import org.testfx.robot.Motion;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assume.assumeFalse;
 import static org.testfx.api.FxAssert.verifyThat;

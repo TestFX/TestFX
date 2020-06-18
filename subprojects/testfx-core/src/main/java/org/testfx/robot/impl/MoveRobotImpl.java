@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import javafx.geometry.Point2D;
 
 import org.testfx.robot.BaseRobot;

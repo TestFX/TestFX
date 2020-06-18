@@ -26,37 +26,7 @@ jobs:
       jdk: openjdk12
       script: ./gradlew checkstyleMain checkstyleTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest spotBugsMain spotBugsTest license
     - stage: test
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (AWT Robot)
-      os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Dtestfx.robot=awt"
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot)
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Dtestfx.robot=glass"
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot) / HiDPI
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless / HiDPI
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw  -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot) [Also the build that uploads Javadocs/Snapshots]
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (AWT Robot) [Also the build that uploads Javadocs/Snapshots]
     - os: linux
       dist: xenial
       jdk: openjdk12
@@ -67,31 +37,31 @@ jobs:
         - secure: "YzaXTwRHng74Uegz0COmH2/U6PZ4VghDeoXFog5Eds2ZSuUGG9NXBQTdCcBgTwA9KPmu1fvKhk4HqJeru4fpD3NqZ+Ks3znvXOPXgydr3SxgJUvWCJkRQljXOE5BlI07R1qVnDWwTqSDyt64ffaJo3XT0+3uOwnauJrMqexsniM="
         - secure: "eSQaOxDMfLW3V1cxtKcm0i/BesSrRw1bTi01fAjTR6RxsXP00YAylNgYBgoGRrED16kM5FkQzOf75CDCw6l7CanXky/A7quD0IMo0pkwX/q5OJWIK7NAGnV4DekDnYW0yrMTxuygR0ALMkgwT5S+CP3/1aY6BNO11LNSHgQUXiM="
         - secure: "BXTn0eNI4ueday8ZMC4KPnbJxWy7HADRUc5pjLMC70W9j2P6T5P18zUYwXHFnRdNxAEPa3rkjCLXx3XyMezhm5twkHpUt/Hyb0kgN0CYzEm0fad23Dayn7HVdGlKh6WQnjC/VQ54k/MCHEk4F0W8ip7RrG1FpTfhpWAa3j1Tq00="
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (AWT Robot) / HiDPI
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (AWT Robot) / HiDPI
     - os: linux
       dist: xenial
       jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (Glass Robot)
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (Glass Robot)
     - os: linux
       dist: xenial
       jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass"
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headed (Glass Robot) / HiDPI
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (Glass Robot) / HiDPI
     - os: linux
       dist: xenial
       jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headless (Glass Robot)
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headless (Glass Robot)
     - os: linux
       dist: xenial
       jdk: openjdk12
       env:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-    # Ubuntu Linux (xenial) / Oracle JDK 11 / Headless (Glass Robot) / HiDPI
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headless (Glass Robot) / HiDPI
     - os: linux
       dist: xenial
       jdk: openjdk12

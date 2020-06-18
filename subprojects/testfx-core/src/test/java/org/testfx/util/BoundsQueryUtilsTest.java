@@ -17,7 +17,6 @@
 package org.testfx.util;
 
 import java.util.concurrent.TimeoutException;
-
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;

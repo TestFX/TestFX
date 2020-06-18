@@ -19,7 +19,6 @@ package org.testfx.matcher.control;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

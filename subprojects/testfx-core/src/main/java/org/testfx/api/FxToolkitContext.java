@@ -18,7 +18,6 @@ package org.testfx.api;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.stage.Stage;

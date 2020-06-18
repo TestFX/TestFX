@@ -17,7 +17,6 @@
 package org.testfx.matcher.control;
 
 import java.util.Arrays;
-
 import javafx.scene.control.ComboBox;
 
 import org.hamcrest.Matcher;

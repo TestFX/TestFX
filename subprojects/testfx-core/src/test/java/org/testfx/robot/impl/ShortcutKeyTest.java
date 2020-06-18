@@ -17,7 +17,6 @@
 package org.testfx.robot.impl;
 
 import java.util.concurrent.TimeoutException;
-
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;

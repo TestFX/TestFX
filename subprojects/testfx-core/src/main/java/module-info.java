@@ -34,5 +34,5 @@ module org.testfx {
     requires transitive javafx.controls;
     requires static javafx.swing;
     requires static org.assertj.core;
-    requires transitive org.hamcrest;
+    requires org.hamcrest;
 }

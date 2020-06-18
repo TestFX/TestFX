@@ -2,47 +2,22 @@ version: "{branch} {build}"
 
 environment:
   matrix:
-    # Java 8 / AWT Robot
-    - JAVA_VERSION: "8"
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt"
-
-    # Java 8 / Glass Robot (deadlock?)
-    # - JAVA_VERSION: "8"
-    #   JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-    #  _JAVA_OPTIONS: "-Dprism.verbose=true -Dtestfx.robot=glass"
-
-    # Java 8 / AWT Robot / HiDPI
-    - JAVA_VERSION: "8"
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
-
-    # Java 8 / Glass Robot / HiDPI (deadlock?)
-    # - JAVA_VERSION: "8"
-    #   JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-    #  _JAVA_OPTIONS: "-Dprism.verbose=true -Dtestfx.robot=glass -Dglass.win.uiScale=200%"
-
-    # Java 8 / Headless
-    - JAVA_VERSION: "8"
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-
-    # Java 11 / AWT Robot
+    # Java 12 / AWT Robot
     - JAVA_VERSION: "11"
       JAVA_HOME: C:\Program Files\OpenJDK\jdk-12.0.2
       _JAVA_OPTIONS: "-Dtestfx.robot=awt"
 
-    # Java 11 / Glass Robot (deadlock?)
+    # Java 12 / Glass Robot (deadlock?)
     # - JAVA_VERSION: "11"
     #  JAVA_HOME: C:\jdk11
     #  _JAVA_OPTIONS: "-Dtestfx.robot=glass"
 
-    # Java 11 / AWT Robot / HiDPI
+    # Java 12 / AWT Robot / HiDPI
     - JAVA_VERSION: "11"
       JAVA_HOME: C:\Program Files\OpenJDK\jdk-12.0.2
       _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
 
-    # Java 11 / Headless (fails because of JDK-8201539)
+    # Java 12 / Headless (fails because of JDK-8201539)
     - JAVA_VERSION: "11"
       JAVA_HOME: C:\Program Files\OpenJDK\jdk-12.0.2
       _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
@@ -59,11 +34,7 @@ build:
 
 build_script:
   - ps: |
-      if ($env:JAVA_VERSION -eq "11") {
-        choco install openjdk --version 12.0.2 --force --cache 'C:\ProgramData\chocolatey\cache'
-      } elseif ($env:JAVA_VERSION -eq "10") {
-        choco install jdk10 --version 10.0.2 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
-      }
+      choco install openjdk --version 12.0.2 --force --cache 'C:\ProgramData\chocolatey\cache'
       refreshenv
 
   - cmd: |
@@ -72,7 +43,7 @@ build_script:
       gradlew versions --no-daemon
 
 test_script:
-  - gradlew build --no-daemon
+  - gradlew build --no-daemon --stacktrace
 
 on_failure:
   - ps: |

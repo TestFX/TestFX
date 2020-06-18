@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
 import javafx.event.Event;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;

@@ -18,7 +18,6 @@ package org.testfx.robot.impl;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;

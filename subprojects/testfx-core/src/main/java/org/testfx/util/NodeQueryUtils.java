@@ -27,7 +27,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;

@@ -19,7 +19,6 @@ package org.testfx.assertions.api;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import javafx.application.Platform;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

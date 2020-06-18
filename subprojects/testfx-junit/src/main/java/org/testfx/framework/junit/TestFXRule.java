@@ -70,7 +70,8 @@ public class TestFXRule extends TestWatcher {
                     try {
                         base.evaluate();
                         return;
-                    } catch (Throwable t) {
+                    }
+                    catch (Throwable t) {
                         if (t.toString().startsWith("org.junit.AssumptionViolatedException")) {
                             // In this case we should not propagate the error because violated assumptions
                             // are a normal part of testing on various configurations such as:
