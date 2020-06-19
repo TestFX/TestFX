@@ -139,11 +139,9 @@ afterEvaluate {
                 options.compilerArgs = [
                         '--module-path', classpath.asPath,
                         '--add-modules', 'org.junit.jupiter.api',
-                        '--add-modules', 'org.junit.platform.commons',
                         '--add-modules', 'org.hamcrest',
                         '--add-modules', 'org.assertj.core',
                         '--add-reads', "$moduleName=org.junit.jupiter.api",
-                        '--add-reads', "$moduleName=org.junit.platform.commons",
                         '--add-reads', "$moduleName=javafx.controls",
                         '--add-reads', "$moduleName=org.hamcrest",
                         '--add-reads', "$moduleName=org.assertj.core",
