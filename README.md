@@ -59,10 +59,10 @@ javafx {
 }
 ```
 
-## Test Framework
+### Test Framework
 Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
 
-### JUnit 4
+#### JUnit 4
 
 ```gradle
 dependencies {
@@ -71,7 +71,7 @@ dependencies {
 }
 ```
 
-### JUnit 5
+#### JUnit 5
 
 ```gradle
 dependencies {
@@ -80,7 +80,7 @@ dependencies {
 }
 ```
 
-### Spock
+#### Spock
 
 ```gradle
 dependencies {
@@ -88,15 +88,15 @@ dependencies {
     testCompile "org.testfx:testfx-spock:4.0.16-alpha"
 }
 ```
-## Matcher/Assertions Library
+### Matcher/Assertions Library
 Finally you must add a dependency corresponding to the matcher/assertions libraries that you want to use with TestFX. TestFX currently supports Hamcrest matchers or AssertJ assertions.
 
-### Hamcrest
+#### Hamcrest
 ```gradle
 testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
 ```
 
-### AssertJ
+#### AssertJ
 ```gradle
 testCompile group: 'org.assertj', name: 'assertj-core', version: '3.13.2'
 ```
@@ -144,10 +144,10 @@ After following the README for the JavaFX Maven Plugin you will end up with some
 
 Have a look at [Maven Central's org.openjfx](https://mvnrepository.com/search?q=org.openjfx) entry for an overview of available modules.
 
-## Test Framework
+### Test Framework
 Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
 
-### JUnit 4
+#### JUnit 4
 
 ```xml
 <dependency>
@@ -164,7 +164,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 </dependency>
 ```
 
-### JUnit 5
+#### JUnit 5
 
 ```xml
 <dependency>
@@ -181,7 +181,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 </dependency>
 ```
 
-### Spock
+#### Spock
 
 ```xml
 <dependency>
@@ -198,10 +198,10 @@ Next add a dependency corresponding to the testing framework you are using in yo
 </dependency>
 ```
 
-## Matcher/Assertions Library
+### Matcher/Assertions Library
 Finally you must add a dependency corresponding to the matcher/assertions libraries that you want to use with TestFX. TestFX currently supports Hamcrest matchers or AssertJ assertions.
 
-### Hamcrest
+#### Hamcrest
 ```xml
 <dependency>
     <groupId>org.hamcrest</groupId>
@@ -211,7 +211,7 @@ Finally you must add a dependency corresponding to the matcher/assertions librar
 </dependency>
 ```
 
-### AssertJ
+#### AssertJ
 ```xml
 <dependency>
     <groupId>org.assertj</groupId>
