@@ -505,87 +505,87 @@ take the following steps:
 2. If you wish to test in a headless environment your must add [Monocle](https://github.com/TestFX/Monocle)
     as a test dependency:
 
-`build.gradle`
-```gradle
-dependencies {
-    testCompile "org.testfx:openjfx-monocle:8u76-b04" // jdk-9+181 for Java 9, jdk-11+26 for Java 11
-}
-```
+    `build.gradle`
+    ```gradle
+    dependencies {
+        testCompile "org.testfx:openjfx-monocle:8u76-b04" // jdk-9+181 for Java 9, jdk-11+26 for Java 11
+    }
+    ```
 
-`pom.xml`
-```xml
-<dependency>
-    <groupId>org.testfx</groupId>
-    <artifactId>openjfx-monocle</artifactId>
-    <version>8u76-b04</version> <!-- jdk-9+181 for Java 9, jdk-11+26 for Java 11 -->
-    <scope>test</scope>
-</dependency>
-```
+    `pom.xml`
+    ```xml
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>openjfx-monocle</artifactId>
+        <version>8u76-b04</version> <!-- jdk-9+181 for Java 9, jdk-11+26 for Java 11 -->
+        <scope>test</scope>
+    </dependency>
+    ```
 3. Base your Travis configuration on the following. Some different build variations are shown (Glass/AWT robot,
     Headed/Headless, (Hi)DPI, etc.) adjust the build matrix to your requirements.
 
-`.travis.yml`
-``` yaml
-language: java
+    `.travis.yml`
+    ``` yaml
+    language: java
 
-sudo: false   # Linux OS: run in container
+    sudo: false   # Linux OS: run in container
 
-matrix:
-  include:
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (AWT Robot)
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Dtestfx.robot=awt"
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot) / HiDPI
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
-    # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-    # macOS / Oracle JDK 8 / Headless
-    - os: osx
-      osx_image: xcode9.4
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
-    # Headed macOS is not currently possible on Travis.
+    matrix:
+      include:
+        # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (AWT Robot)
+        - os: linux
+          dist: trusty
+          jdk: oraclejdk8
+          env:
+            - _JAVA_OPTIONS="-Dtestfx.robot=awt"
+        # Ubuntu Linux (trusty) / Oracle JDK 8 / Headed (Glass Robot) / HiDPI
+        - os: linux
+          dist: trusty
+          jdk: oraclejdk8
+          env:
+            - _JAVA_OPTIONS="-Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
+        # Ubuntu Linux (trusty) / Oracle JDK 8 / Headless
+        - os: linux
+          dist: trusty
+          jdk: oraclejdk8
+          env:
+            - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+        # macOS / Oracle JDK 8 / Headless
+        - os: osx
+          osx_image: xcode9.4
+          jdk: oraclejdk8
+          env:
+            - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.verbose=true"
+        # Headed macOS is not currently possible on Travis.
 
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
+    addons:
+      apt:
+        packages:
+          - oracle-java8-installer
 
-before_install:
-  - if [[ "${TRAVIS_OS_NAME}" == linux ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
+    before_install:
+      - if [[ "${TRAVIS_OS_NAME}" == linux ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
 
-install: true
+    install: true
 
-before_script:
-  - if [[ "${TRAVIS_OS_NAME}" == osx ]]; then brew update; brew cask reinstall caskroom/versions/java8; fi
+    before_script:
+      - if [[ "${TRAVIS_OS_NAME}" == osx ]]; then brew update; brew cask reinstall caskroom/versions/java8; fi
 
-script:
-  - ./gradlew check
+    script:
+      - ./gradlew check
 
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
-  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+    before_cache:
+      - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+      - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+      - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
 
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.m2
-```
+    cache:
+      directories:
+        - $HOME/.gradle/caches/
+        - $HOME/.gradle/wrapper/
+        - $HOME/.m2
+    ```
 
 Your TestFX tests should now run as part of your Travis CI build.
 
@@ -599,83 +599,83 @@ steps:
 2. If you wish to test in a headless environment your must add [Monocle](https://github.com/TestFX/Monocle)
     as a test dependency:
 
-`build.gradle`
-```gradle
-dependencies {
-    testCompile "org.testfx:openjfx-monocle:8u76-b04" // jdk-9+181 for Java 9
-}
-```
+    `build.gradle`
+    ```gradle
+    dependencies {
+        testCompile "org.testfx:openjfx-monocle:8u76-b04" // jdk-9+181 for Java 9
+    }
+    ```
 
-`pom.xml`
-```xml
-<dependency>
-    <groupId>org.testfx</groupId>
-    <artifactId>openjfx-monocle</artifactId>
-    <version>8u76-b04</version> <!-- jdk-9+181 for Java 9 -->
-    <scope>test</scope>
-</dependency>
-```
+    `pom.xml`
+    ```xml
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>openjfx-monocle</artifactId>
+        <version>8u76-b04</version> <!-- jdk-9+181 for Java 9 -->
+        <scope>test</scope>
+    </dependency>
+    ```
 3. Base your Appveyor configuration on the following. Some different build variations are shown (Glass/AWT robot,
     Headed/Headless, (Hi)DPI, etc.) adjust the build matrix to your requirements.
 
-`appveyor.yml`
-```yaml
-version: "{branch} {build}"
-environment:
-  matrix:
-    # Java 8 / AWT Robot
-    - JAVA_VERSION: "8"
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true"
-    # Java 8 / AWT Robot / HiDPI
-    - JAVA_VERSION: "8"
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
-    # Java 8 / Headless
-    - JAVA_VERSION: "8"
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
-    # Java 10 / AWT Robot / HiDPI
-    - JAVA_VERSION: "10"
-      JAVA_HOME: C:\jdk10
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
-    # Java 11 / AWT Robot / HiDPI
-    - JAVA_VERSION: "11"
-      JAVA_HOME: C:\jdk11
-      _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
+    `appveyor.yml`
+    ```yaml
+    version: "{branch} {build}"
+    environment:
+      matrix:
+        # Java 8 / AWT Robot
+        - JAVA_VERSION: "8"
+          JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+          _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true"
+        # Java 8 / AWT Robot / HiDPI
+        - JAVA_VERSION: "8"
+          JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+          _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
+        # Java 8 / Headless
+        - JAVA_VERSION: "8"
+          JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+          _JAVA_OPTIONS: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k"
+        # Java 10 / AWT Robot / HiDPI
+        - JAVA_VERSION: "10"
+          JAVA_HOME: C:\jdk10
+          _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
+        # Java 11 / AWT Robot / HiDPI
+        - JAVA_VERSION: "11"
+          JAVA_HOME: C:\jdk11
+          _JAVA_OPTIONS: "-Dtestfx.robot=awt -Dtestfx.awt.scale=true -Dglass.win.uiScale=200%"
 
-build_script:
-  - ps: |
-      if ($env:JAVA_VERSION -eq "11") {
-        $client = New-Object net.webclient
-        $client.DownloadFile('http://jdk.java.net/11/', 'C:\Users\appveyor\openjdk11.html')
-        $openJdk11 = cat C:\Users\appveyor\openjdk11.html | where { $_ -match "href.*https://download.java.net.*jdk11.*windows-x64.*zip\`"" } | %{ $_ -replace "^.*https:", "https:" } | %{ $_ -replace ".zip\`".*$", ".zip" }
-        echo "Download boot JDK from: $openJdk11"
-        $client.DownloadFile($openJdk11, 'C:\Users\appveyor\openjdk11.zip')
-        Expand-Archive -Path 'C:\Users\appveyor\openjdk11.zip' -DestinationPath 'C:\Users\appveyor\openjdk11'
-        Copy-Item -Path 'C:\Users\appveyor\openjdk11\*\' -Destination 'C:\jdk11' -Recurse -Force
-      }
-      elseif ($env:JAVA_VERSION -eq "10") {
-        choco install jdk10 --version 10.0.2 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
-      }
+    build_script:
+      - ps: |
+          if ($env:JAVA_VERSION -eq "11") {
+            $client = New-Object net.webclient
+            $client.DownloadFile('http://jdk.java.net/11/', 'C:\Users\appveyor\openjdk11.html')
+            $openJdk11 = cat C:\Users\appveyor\openjdk11.html | where { $_ -match "href.*https://download.java.net.*jdk11.*windows-x64.*zip\`"" } | %{ $_ -replace "^.*https:", "https:" } | %{ $_ -replace ".zip\`".*$", ".zip" }
+            echo "Download boot JDK from: $openJdk11"
+            $client.DownloadFile($openJdk11, 'C:\Users\appveyor\openjdk11.zip')
+            Expand-Archive -Path 'C:\Users\appveyor\openjdk11.zip' -DestinationPath 'C:\Users\appveyor\openjdk11'
+            Copy-Item -Path 'C:\Users\appveyor\openjdk11\*\' -Destination 'C:\jdk11' -Recurse -Force
+          }
+          elseif ($env:JAVA_VERSION -eq "10") {
+            choco install jdk10 --version 10.0.2 --force --cache 'C:\ProgramData\chocolatey\cache' -params 'installdir=c:\\jdk10'
+          }
 
-      // Note: Currently Java 8 is the default JDK, if that changes the above will have to change accordingly.
+          // Note: Currently Java 8 is the default JDK, if that changes the above will have to change accordingly.
 
-shallow_clone: true
+    shallow_clone: true
 
-build:
-  verbosity: detailed
+    build:
+      verbosity: detailed
 
-test_script:
-  - gradlew build --no-daemon
+    test_script:
+      - gradlew build --no-daemon
 
-cache:
-  - C:\Users\appveyor\.gradle\caches
-  - C:\Users\appveyor\.gradle\wrapper -> .gradle-wrapper\gradle-wrapper.properties
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
-  - C:\ProgramData\chocolatey\cache -> appveyor.yml
-```
+    cache:
+      - C:\Users\appveyor\.gradle\caches
+      - C:\Users\appveyor\.gradle\wrapper -> .gradle-wrapper\gradle-wrapper.properties
+      - C:\ProgramData\chocolatey\bin -> appveyor.yml
+      - C:\ProgramData\chocolatey\lib -> appveyor.yml
+      - C:\ProgramData\chocolatey\cache -> appveyor.yml
+    ```
 
 ## Chat
 
