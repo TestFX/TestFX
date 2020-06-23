@@ -13,7 +13,7 @@ TestFX requires a minimum Java version of 8 (1.8).
 
 ## Documentation
 
-* See the [Javadocs](http://testfx.github.io/TestFX/docs/javadoc/) for latest `master`.
+* See the [Javadocs](https://testfx.github.io/TestFX/docs/javadoc/) for latest `master`.
 * See the changelog [CHANGES.md](https://github.com/TestFX/TestFX/blob/master/CHANGES.md) for latest released version.
 
 ## Features
@@ -26,8 +26,8 @@ TestFX requires a minimum Java version of 8 (1.8).
 **Support for:**
 
 - Java 8/9/10/11+
-- Multiple testing frameworks ([Junit 4](http://junit.org/junit4/), [Junit 5](http://junit.org/junit5/), and [Spock](http://spockframework.org/)).
-- [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](http://joel-costigliola.github.io/assertj/) assertions (or both!).
+- Multiple testing frameworks ([JUnit 4](https://junit.org/junit4/), [JUnit 5](https://junit.org/junit5/), and [Spock](http://spockframework.org/)).
+- [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](https://assertj.github.io/doc/) assertions (or both!).
 - Screenshots of failed tests.
 - Headless testing using [Monocle](https://github.com/TestFX/Monocle).
 
@@ -142,7 +142,7 @@ After following the README for the JavaFX Maven Plugin you will end up with some
 </plugins>
 ```
 
-Have a look at [Maven Central's org.openjfx](https://mvnrepository.com/search?q=org.openjfx) entry for an overview of available modules.
+Have a look at [Maven Central's org.openjfx](https://mvnrepository.com/artifact/org.openjfx) entry for an overview of available modules.
 
 ### Test Framework
 Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
