@@ -69,7 +69,7 @@ jobs:
         - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dglass.gtk.uiScale=2.0"
     # macOS / OpenJDK 12 / Headless
     - os: osx
-      osx_image: xcode9.4
+      osx_image: xcode12
       jdk: openjdk12
       env:
         - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"

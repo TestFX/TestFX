@@ -9,7 +9,8 @@
 
 Simple and clean testing for JavaFX.
 
-TestFX requires a minimum Java version of 8 (1.8).
+TestFX requires a minimum Java version of 9. If you want to use TestFX with Java 8 you must remain on version
+`4.0.16-alpha`.
 
 ## Documentation
 
@@ -25,7 +26,7 @@ TestFX requires a minimum Java version of 8 (1.8).
 
 **Support for:**
 
-- Java 8/9/10/11+
+- Java 9+
 - Multiple testing frameworks ([JUnit 4](https://junit.org/junit4/), [JUnit 5](https://junit.org/junit5/), and [Spock](http://spockframework.org/)).
 - [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](https://assertj.github.io/doc/) assertions (or both!).
 - Screenshots of failed tests.

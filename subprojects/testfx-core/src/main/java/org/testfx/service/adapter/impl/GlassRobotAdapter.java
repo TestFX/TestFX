@@ -36,7 +36,7 @@ public abstract class GlassRobotAdapter implements RobotAdapter {
             // and since we include OpenJFX as a dependency on 10+ only the public robot
             // API will be available. So we simply check to see if the old class exists
             // assuming that if it doesn't the new one must (if it doesn't, we can't create
-            // a Glass robot.
+            // a Glass robot).
             Class.forName("com.sun.glass.ui.Robot");
             publicRobot = false;
         }
