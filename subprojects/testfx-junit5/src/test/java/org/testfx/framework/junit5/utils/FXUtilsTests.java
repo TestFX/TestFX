@@ -138,13 +138,13 @@ public class FXUtilsTests {
         Awaitility.setDefaultPollDelay(100, TimeUnit.MILLISECONDS);
         Awaitility.pollInSameThread();
         // FXUtils.waitForFxTicks(testLabel.getScene(), 3);
-        Awaitility.waitAtMost(200, TimeUnit.MILLISECONDS).until(() -> {
+        Awaitility.waitAtMost(300, TimeUnit.MILLISECONDS).until(() -> {
             return FXUtils.waitForFxTicks(testLabel.getScene(), 3);
         });
 
         // LOGGER.info(() -> "following [FXUtils-thread] 'FXUtils::waitForTicks(..) " +
         //        "interrupted by timeout' warning is the normal library behaviour");
-        Awaitility.await().atMost(200, TimeUnit.MILLISECONDS).until(() -> {
+        Awaitility.await().atMost(300, TimeUnit.MILLISECONDS).until(() -> {
             return FXUtils.waitForFxTicks(testLabel.getScene(), 3, 100);
         });
 
