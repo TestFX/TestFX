@@ -100,7 +100,8 @@ public final class FXUtils {
             try {
                 return task.get();
                 // note: no need to catch CancellationException, as we don't provide a way to cancel the task
-            } catch (final ExecutionException e) {
+            }
+            catch (final ExecutionException e) {
                 final Throwable cause = e.getCause();
                 if (cause instanceof Error) {
                     throw (Error)cause;
@@ -109,7 +110,8 @@ public final class FXUtils {
                 // (more precise, it must be a RuntimeException, as a Function cannot throw checked exceptions.
                 // However, narrowing is not required here)
                 throw (Exception)cause;
-            } finally {
+            }
+            finally {
                 task.cancel(false);
             }
         }
