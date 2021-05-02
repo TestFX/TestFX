@@ -248,4 +248,7 @@ public class JavafxRobotAdapter implements RobotAdapter<JavafxRobotAdapter> {
                 ScrollEvent.VerticalTextScrollUnits.NONE, 0, 0, null);
     }
 
+    public void unregisterScene() {
+        asyncFx(() -> this.scene = null);
+    }
 }

@@ -75,6 +75,7 @@ public class BaseRobotImpl implements BaseRobot {
         javafxRobotAdapter.keyPress(key);
         javafxRobotAdapter.keyType(KeyCode.UNDEFINED, character);
         javafxRobotAdapter.keyRelease(key);
+        javafxRobotAdapter.unregisterScene();
     }
 
     @Override
