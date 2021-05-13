@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -31,9 +33,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
+
 import javax.imageio.ImageIO;
 
 import org.testfx.robot.BaseRobot;
+import org.testfx.service.support.CaptureFileFormat;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcher;
 import org.testfx.service.support.PixelMatcherResult;
@@ -43,7 +47,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 public class CaptureSupportImpl implements CaptureSupport {
 
-    public static final String PNG_IMAGE_FORMAT = "png";
+    public static final CaptureFileFormat DEFAULT_FORMAT = CaptureFileFormat.PNG;
 
     private final BaseRobot baseRobot;
 
@@ -66,8 +70,7 @@ public class CaptureSupportImpl implements CaptureSupport {
         checkFileExists(path);
         try (InputStream inputStream = Files.newInputStream(path)) {
             return readImageFromStream(inputStream);
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
@@ -75,11 +78,15 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public void saveImage(Image image,
                           Path path) {
+        saveImage(image, DEFAULT_FORMAT, path);
+    }
+
+    @Override
+    public void saveImage(Image image, CaptureFileFormat format, Path path) {
         checkParentDirectoryExists(path);
         try (OutputStream outputStream = Files.newOutputStream(path)) {
-            writeImageToStream(image, outputStream);
-        }
-        catch (IOException exception) {
+            writeImageToStream(image, format.toString(), outputStream);
+        } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
@@ -119,9 +126,14 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     private void writeImageToStream(Image image,
+                                    String imageFormat,
                                     OutputStream outputStream) throws IOException {
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-        ImageIO.write(bufferedImage, PNG_IMAGE_FORMAT, outputStream);
+        BufferedImage imageWithType = new BufferedImage((int) image.getWidth(), (int) image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, imageWithType);
+        ImageIO.write(bufferedImage, imageFormat, outputStream);
+        if (!ImageIO.write(bufferedImage, imageFormat, outputStream)) {
+            throw new IOException("Image was not created");
+        }
     }
 
     private Image blendImages(Image image0,

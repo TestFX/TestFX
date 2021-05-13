@@ -45,6 +45,11 @@ public interface CaptureSupport {
     void saveImage(Image image, Path path);
 
     /**
+     * Saves the given image, with a provided fileformat to the given path.
+     */
+    void saveImage(Image image, CaptureFileFormat format, Path path);
+
+    /**
      * NOT YET IMPLEMENTED
      */
     Image annotateImage(Shape shape, Image image);
