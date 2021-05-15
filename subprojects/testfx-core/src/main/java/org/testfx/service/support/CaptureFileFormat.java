@@ -1,7 +1,7 @@
 package org.testfx.service.support;
 
 /**
- * Possible typaes for image export
+ * Possible types for image export
  */
 public enum CaptureFileFormat {
     JPG,
