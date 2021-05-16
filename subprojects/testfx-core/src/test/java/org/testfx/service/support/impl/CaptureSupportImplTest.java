@@ -16,6 +16,13 @@
  */
 package org.testfx.service.support.impl;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -25,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,14 +45,6 @@ import org.testfx.robot.impl.BaseRobotImpl;
 import org.testfx.service.support.CaptureFileFormat;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcherResult;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -220,7 +220,8 @@ public class CaptureSupportImplTest extends FxRobot {
             URL url = contextClass.getResource(resourceName);
             Objects.requireNonNull(url, "url must not be null");
             return Paths.get(url.toURI());
-        } catch (URISyntaxException exception) {
+        }
+        catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
         }
     }
