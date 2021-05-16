@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Locale;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -33,7 +31,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
-
 import javax.imageio.ImageIO;
 
 import org.testfx.robot.BaseRobot;
@@ -70,7 +67,8 @@ public class CaptureSupportImpl implements CaptureSupport {
         checkFileExists(path);
         try (InputStream inputStream = Files.newInputStream(path)) {
             return readImageFromStream(inputStream);
-        } catch (IOException exception) {
+        }
+        catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
@@ -86,7 +84,8 @@ public class CaptureSupportImpl implements CaptureSupport {
         checkParentDirectoryExists(path);
         try (OutputStream outputStream = Files.newOutputStream(path)) {
             writeImageToStream(image, format.toString(), outputStream);
-        } catch (IOException exception) {
+        }
+        catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
@@ -128,7 +127,8 @@ public class CaptureSupportImpl implements CaptureSupport {
     private void writeImageToStream(Image image,
                                     String imageFormat,
                                     OutputStream outputStream) throws IOException {
-        BufferedImage imageWithType = new BufferedImage((int) image.getWidth(), (int) image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage imageWithType = new BufferedImage((int) image.getWidth(),
+                (int) image.getHeight(), BufferedImage.TYPE_INT_RGB);
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, imageWithType);
         ImageIO.write(bufferedImage, imageFormat, outputStream);
         if (!ImageIO.write(bufferedImage, imageFormat, outputStream)) {
