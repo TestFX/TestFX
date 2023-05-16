@@ -19,7 +19,7 @@ jobs:
   build:
     name: Build
     runs-on: macos-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Code
