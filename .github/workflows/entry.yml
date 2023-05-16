@@ -10,15 +10,7 @@ on:
     branches:
       - 'master'
 
-permissions:
-  actions: read
-  checks: write
-  contents: read
-  issues: read
-  packages: read
-  pull-requests: write
-  statuses: read
-  security-events: write
+permissions: read-all
 
 jobs:
   build-lin:
