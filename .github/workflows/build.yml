@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gradlew.bat clean check
+          gradlew clean check
 
 #      # THIS MUST RUN RIGHT AFTER TESTS
 #      - name: Publish | Test Results (for Linux)
