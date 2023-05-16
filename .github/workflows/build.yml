@@ -22,16 +22,15 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 10
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Setup JDK
-        uses: actions/setup-java@v3.9.0
+        uses: actions/setup-java@v3
         with:
           distribution: zulu
           java-version: 11
@@ -43,15 +42,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Set up Virtual Display
-        run: |
-          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+#      - name: Set up Virtual Display (for Linux)
+#        run: |
+#          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./gradlew clean check
+          ./gradlew.cmd clean check
 
       # THIS MUST RUN RIGHT AFTER TESTS
       - name: Publish | Test Results
