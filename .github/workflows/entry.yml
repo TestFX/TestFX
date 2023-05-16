@@ -1,0 +1,26 @@
+---
+name: Entry
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    branches:
+      - 'master'
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  issues: read
+  packages: read
+  pull-requests: write
+  statuses: read
+  security-events: write
+
+jobs:
+  name: Build
+  uses: ./.github/workflows/build.yml
+  secrets: inherit
