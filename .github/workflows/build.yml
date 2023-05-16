@@ -36,21 +36,22 @@ jobs:
           java-version: 11
 
       - name: Cache Gradle Resources
-        uses: actions/cache@v3.2.3
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-#      - name: Set up Virtual Display (for Linux)
-#        run: |
-#          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+      - name: Set up Virtual Display (for Linux)
+        if: runner.os == 'Linux'
+        run: |
+          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gradlew clean check
+          .\gradlew.bat clean check
 
 #      # THIS MUST RUN RIGHT AFTER TESTS
 #      - name: Publish | Test Results (for Linux)
