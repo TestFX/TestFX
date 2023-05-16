@@ -21,7 +21,17 @@ permissions:
   security-events: write
 
 jobs:
-  build:
-    name: Build
-    uses: ./.github/workflows/build.yml
+  build-lin:
+    name: Build on Linux
+    uses: ./.github/workflows/build-lin.yml
+    secrets: inherit
+
+  build-mac:
+    name: Build on Mac OS
+    uses: ./.github/workflows/build-mac.yml
+    secrets: inherit
+
+  build-win:
+    name: Build on Windows
+    uses: ./.github/workflows/build-win.yml
     secrets: inherit
