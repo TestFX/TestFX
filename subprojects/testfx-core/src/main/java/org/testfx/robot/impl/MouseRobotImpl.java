@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -38,7 +38,7 @@ public class MouseRobotImpl implements MouseRobot {
         Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;
     }
- 
+
     @Override
     public void press(MouseButton... buttons) {
         pressNoWait(buttons);

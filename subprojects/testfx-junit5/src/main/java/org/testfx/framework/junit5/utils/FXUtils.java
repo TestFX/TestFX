@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -164,10 +164,10 @@ public final class FXUtils {
             if (tickCount.incrementAndGet() >= nTicks) {
                 lock.lock();
                 try {
-                    
+
                     run.getAndSet(false);
                     condition.signal();
-                } 
+                }
                 finally {
                     run.getAndSet(false);
                     lock.unlock();
@@ -179,7 +179,7 @@ public final class FXUtils {
         lock.lock();
         try {
             FXUtils.runAndWait(() -> scene.addPostLayoutPulseListener(tickListener));
-        } 
+        }
         catch (final Exception e) {
             // cannot occur: tickListener is always non-null and
             // addPostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
