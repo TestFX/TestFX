@@ -50,16 +50,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./gradlew.cmd clean check
+          gradlew.bat clean check
 
-      # THIS MUST RUN RIGHT AFTER TESTS
-      - name: Publish | Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: Unit Test Results
-          report_individual_runs: true
-          check_run_annotations_branch: master
-          check_run_annotations: all tests, skipped tests
-          files: build/test-results/**/*.xml
+#      # THIS MUST RUN RIGHT AFTER TESTS
+#      - name: Publish | Test Results (for Linux)
+#        uses: EnricoMi/publish-unit-test-result-action@v2
+#        if: always()
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          check_name: Unit Test Results
+#          report_individual_runs: true
+#          check_run_annotations_branch: master
+#          check_run_annotations: all tests, skipped tests
+#          files: build/test-results/**/*.xml
