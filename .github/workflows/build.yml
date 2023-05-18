@@ -4,11 +4,6 @@ name: Build
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      os:
-        description: OS to use for build
-        type: string
-        required: true
 
 permissions:
   actions: read
@@ -26,8 +21,11 @@ env:
 
 jobs:
   build:
-    name: Build using ${{inputs.os}}
-    runs-on: ${{ inputs.os }}
+    name: Build
+    strategy:
+      matrix:
+        os: [windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 20
 
     steps:

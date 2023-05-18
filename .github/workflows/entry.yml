@@ -22,11 +22,6 @@ permissions:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ windows-latest ]
-    runs-on: ${{matrix.os}}
-    steps:
-      - uses: ./.github/workflows/build.yml
-        with:
-          os:${{matrix.os}}
+    name: Build
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
