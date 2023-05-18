@@ -21,11 +21,8 @@ env:
 
 jobs:
   build:
-    name: Build
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+    name: Build using ${{inputs.os}}
+    runs-on: ${{ inputs.os }}
     timeout-minutes: 20
 
     steps:
@@ -36,7 +33,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 14
 
       - name: Cache Gradle Resources
         uses: actions/cache@v3
