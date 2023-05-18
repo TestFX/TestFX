@@ -25,7 +25,8 @@ jobs:
     strategy:
       matrix:
         os: [ windows-latest ]
-    name: Build
-    uses: ./.github/workflows/build.yml
-    with:
-      os:${{matrix.os}}
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: ./.github/workflows/build.yml
+        with:
+          os:${{matrix.os}}
