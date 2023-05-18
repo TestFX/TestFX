@@ -21,12 +21,16 @@ permissions:
   security-events: write
 
 jobs:
-  strategy:
-    matrix:
-      os: [windows-latest]
   build:
+    strategy:
+      matrix:
+        os: [windows-latest]
     name: Build
-    uses: ./.github/workflows/build.yml
-    secrets: inherit
-    with:
-      os:${{matrix.os}}
+#    uses: ./.github/workflows/build.yml
+#    secrets: inherit
+#    with:
+#      os:${{matrix.os}}
+    steps:
+      - uses: build.yml
+        with:
+          os:${{matrix.os}}
