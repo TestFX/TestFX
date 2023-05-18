@@ -15,11 +15,18 @@ permissions:
   statuses: read
   security-events: write
 
+env:
+  DISPLAY: ":99"
+  XVFB_PARMS: "-screen 0 1920x1080x24 -nolisten unix"
+
 jobs:
   build:
     name: Build
-    runs-on: macos-latest
-    timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest,macos-latest,windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
 
     steps:
       - name: Checkout Code
@@ -38,6 +45,11 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
+      - name: Set up Virtual Display (for Linux)
+        if: runner.os == 'Linux'
+        run: |
+          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
       - name: Build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +57,7 @@ jobs:
           ./gradlew clean check
 
       # THIS MUST RUN RIGHT AFTER TESTS
-      - name: Publish | Test Results (for Linux)
+      - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
