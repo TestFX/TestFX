@@ -4,6 +4,11 @@ name: Build
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      os:
+        description: OS to use for build
+        type: string
+        required: true
 
 permissions:
   actions: read

@@ -24,13 +24,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ windows-latest ]
     name: Build
-#    uses: ./.github/workflows/build.yml
-#    secrets: inherit
-#    with:
-#      os:${{matrix.os}}
-    steps:
-      - uses: build.yml
-        with:
-          os:${{matrix.os}}
+    uses: ./.github/workflows/build.yml
+    with:
+      os:${{matrix.os}}
