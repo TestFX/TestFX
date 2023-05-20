@@ -144,6 +144,21 @@ After following the README for the JavaFX Maven Plugin you will end up with some
 
 Have a look at [Maven Central's org.openjfx](https://mvnrepository.com/artifact/org.openjfx) entry for an overview of available modules.
 
+For using modular java add surefire plugin below
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.1.0</version>
+    <configuration>
+        <argLine>
+            --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+        </argLine>
+    </configuration>
+</plugin>
+```
+
 ### Test Framework
 Next add a dependency corresponding to the testing framework you are using in your project. TestFX currently supports JUnit 4, JUnit 5, and Spock.
 
