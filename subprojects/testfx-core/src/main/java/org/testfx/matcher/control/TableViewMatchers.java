@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -113,7 +113,7 @@ public class TableViewMatchers {
      * @param rowIndex the row number (starting from 0) that must contains the given cell values
      * @param cells The values or String representations of the values (e.g. the result of calling {@code toString()})
      * contained in the row at a given index you want to verify a {@code TableView} contains - one such value for
-     * each column of that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell 
+     * each column of that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell
      * value factory has been set.
      */
     public static Matcher<TableView> containsRowAtIndex(int rowIndex, Object... cells) {
@@ -154,7 +154,7 @@ public class TableViewMatchers {
      *
      * @param cells The values or String representations of the values (e.g. the result of calling {@code toString()})
      * contained in the row you want to verify a {@code TableView} contains - one such value for each column of
-     * that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell 
+     * that {@code TableView}. Use {@code null} if the value is expected to not be set or if no cell
      * value factory has been set.
      */
     public static Matcher<TableView> containsRow(Object...cells) {

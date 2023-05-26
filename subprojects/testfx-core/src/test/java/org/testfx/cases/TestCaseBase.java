@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -35,7 +35,7 @@ import org.testfx.util.WaitForAsyncUtils;
 public abstract class TestCaseBase extends FxRobot {
 
     protected Stage blockStage;
-    
+
     @Before
     public void baseSetupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -59,7 +59,7 @@ public abstract class TestCaseBase extends FxRobot {
             stage.show();
         });
     }
-    
+
     @After
     public final void tearDown() throws Throwable {
         if (blockStage != null) {
@@ -73,6 +73,6 @@ public abstract class TestCaseBase extends FxRobot {
         WaitForAsyncUtils.checkException();
     }
 
-    
-    
+
+
 }

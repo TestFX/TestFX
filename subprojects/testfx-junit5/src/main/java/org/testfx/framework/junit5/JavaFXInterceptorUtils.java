@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -47,7 +47,7 @@ public class JavaFXInterceptorUtils {
      * and/or getter methods of JavaFX classes (ie. Node derived, properties etc).
      * <p>
      * Example usage:
-     * 
+     *
      * <pre>
      * <code>
      * &#64;ExtendWith(ApplicationExtension.class)
@@ -59,7 +59,7 @@ public class JavaFXInterceptorUtils {
      *         // ...
      *     }
      *
-     *    &#64;TestFx 
+     *    &#64;TestFx
      *    // note: this is equivalent to {@code @Test} when using {@code @ExtendWith(JavaFxInterceptor.class)}
      *    public void testJavaFxThreadSafety() {
      *        // verifies that this test is indeed executed in the JavaFX thread
@@ -69,7 +69,7 @@ public class JavaFXInterceptorUtils {
      *        // ...
      *    }
      *
-     *    &#64;Test // also executed in JavaFX thread, 
+     *    &#64;Test // also executed in JavaFX thread,
      *    // for different behaviour use:  {@code @ExtendWith(SelectiveJavaFxInterceptor.class)}
      *    public void testNonJavaFx() {
      *        // verifies that this test is also executed in the JavaFX thread
@@ -85,8 +85,8 @@ public class JavaFXInterceptorUtils {
      */
     public static class JavaFxInterceptor implements InvocationInterceptor {
         @Override
-        public void interceptTestMethod(final Invocation<Void> invocation, 
-                final ReflectiveInvocationContext<Method> invocationContext, 
+        public void interceptTestMethod(final Invocation<Void> invocation,
+                final ReflectiveInvocationContext<Method> invocationContext,
                 final ExtensionContext extensionContext) throws Throwable {
             final AtomicReference<Throwable> throwable = new AtomicReference<>();
 
@@ -114,7 +114,7 @@ public class JavaFXInterceptorUtils {
      * and/or getter methods of JavaFX classes (ie. Node derived, properties etc).
      * <p>
      * Example usage:
-     * 
+     *
      * <pre>
      * <code>
      * &#64;ExtendWith(ApplicationExtension.class)
@@ -135,7 +135,7 @@ public class JavaFXInterceptorUtils {
      *        // ...
      *    }
      *
-     *    &#64;Test // explicitly not executed in JavaFX thread; 
+     *    &#64;Test // explicitly not executed in JavaFX thread;
      *    // for different behaviour use:  {@code @ExtendWith(JavaFxInterceptor.class)}
      *    public void testNonJavaFx() {
      *        // verifies that this test is not executed within the JavaFX thread
@@ -151,8 +151,8 @@ public class JavaFXInterceptorUtils {
      */
     public static class SelectiveJavaFxInterceptor implements InvocationInterceptor {
         @Override
-        public void interceptTestMethod(final Invocation<Void> invocation, 
-                final ReflectiveInvocationContext<Method> invocationContext, 
+        public void interceptTestMethod(final Invocation<Void> invocation,
+                final ReflectiveInvocationContext<Method> invocationContext,
                 final ExtensionContext extensionContext) throws Throwable {
             final AtomicReference<Throwable> throwable = new AtomicReference<>();
 
