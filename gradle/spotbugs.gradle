@@ -50,13 +50,13 @@ spotBugsTest {
     }
 }
 
-task printSpotBugsReportMain() {
+tasks.register('printSpotBugsReportMain') {
     doLast {
         printSpotBugsReport('main')
     }
 }
 
-task printSpotBugsReportTest() {
+tasks.register('printSpotBugsReportTest') {
     doLast {
         printSpotBugsReport('test')
     }
