@@ -35,7 +35,7 @@ static def getOSName() {
 ext.platform = getOSName()
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 afterEvaluate {
@@ -49,28 +49,28 @@ afterEvaluate {
             implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
         }
 
-        compile project(":testfx-core")
+        api project(":testfx-core")
 
         compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
         testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
-        implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
-        testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+        implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
         implementation "org.assertj:assertj-core:3.13.2"
         //testImplementation "org.assertj:assertj-core:3.13.2"
         testImplementation 'org.awaitility:awaitility:4.0.2'
 
         if (JavaVersion.current().isJava12Compatible()) {
-            testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+            testImplementation 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
         } else if (JavaVersion.current().isJava11Compatible()) {
-            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+            testImplementation "org.testfx:openjfx-monocle:jdk-11+26"
         } else if (JavaVersion.current().isJava10Compatible() &&
                 System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
-            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+            testImplementation "org.testfx:openjfx-monocle:jdk-11+26"
         } else if (JavaVersion.current().isJava9Compatible()) {
-            testCompile "org.testfx:openjfx-monocle:jdk-9+181"
+            testImplementation "org.testfx:openjfx-monocle:jdk-9+181"
         } else {
-            testCompile "org.testfx:openjfx-monocle:8u76-b04"
+            testImplementation "org.testfx:openjfx-monocle:8u76-b04"
         }
     }
 
@@ -82,11 +82,11 @@ afterEvaluate {
     }
 
     if (JavaVersion.current().isJava9Compatible()) {
-        task compileModuleInfoJava(type: JavaCompile) {
+        tasks.register('compileModuleInfoJava', JavaCompile) {
             dependsOn 'compileJava'
             doFirst {
                 options.compilerArgs = [
-                        '--module-path', compileJava.classpath.asPath,
+                    '--module-path', compileJava.classpath.asPath,
                 ]
             }
             options.encoding = 'UTF-8'

@@ -35,30 +35,7 @@ static def getOSName() {
 ext.platform = getOSName()
 
 repositories {
-    jcenter()
-}
-
-// This insanity should be removed when JUnit 4 uses hamcrest 2.1.
-// See: https://github.com/junit-team/junit4/pull/1608
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails dep ->
-        if (dep.requested.group == 'org.hamcrest') {
-            switch (dep.requested.name) {
-                case 'java-hamcrest':
-                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
-                    dep.because("2.0.0.0 shouldn't have been published")
-                    break
-                case 'hamcrest-core':
-                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
-                    dep.because("hamcrest-core doesn't contain anything")
-                    break
-                case 'hamcrest-library':
-                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
-                    dep.because("hamcrest-library doesn't contain anything")
-                    break
-            }
-        }
-    }
+    mavenCentral()
 }
 
 afterEvaluate {
@@ -72,29 +49,29 @@ afterEvaluate {
             implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
         }
 
-        compile project(":testfx-core")
+        api project(":testfx-core")
 
-        compile ("junit:junit:4.13-beta-3") {
+        api("junit:junit:4.13-beta-3") {
             exclude group: 'org.hamcrest', module: 'hamcrest-core'
             exclude group: 'org.hamcrest', module: 'hamcrest-library'
         }
-        compile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
-        testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
-        testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '2.1'
+        api group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
         implementation "org.assertj:assertj-core:3.13.2"
         //testCompile "org.assertj:assertj-core:3.13.2"
 
         if (JavaVersion.current().isJava12Compatible()) {
-            testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+            testImplementation 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
         } else if (JavaVersion.current().isJava11Compatible()) {
-            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+            testImplementation "org.testfx:openjfx-monocle:jdk-11+26"
         } else if (JavaVersion.current().isJava10Compatible() &&
                 System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
-            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+            testImplementation "org.testfx:openjfx-monocle:jdk-11+26"
         } else if (JavaVersion.current().isJava9Compatible()) {
-            testCompile "org.testfx:openjfx-monocle:jdk-9+181"
+            testImplementation "org.testfx:openjfx-monocle:jdk-9+181"
         } else {
-            testCompile "org.testfx:openjfx-monocle:8u76-b04"
+            testImplementation "org.testfx:openjfx-monocle:8u76-b04"
         }
     }
 
@@ -106,11 +83,11 @@ afterEvaluate {
     }
 
     if (JavaVersion.current().isJava9Compatible()) {
-        task compileModuleInfoJava(type: JavaCompile) {
+        tasks.register('compileModuleInfoJava', JavaCompile) {
             dependsOn 'compileJava'
             doFirst {
                 options.compilerArgs = [
-                        '--module-path', compileJava.classpath.asPath,
+                    '--module-path', compileJava.classpath.asPath,
                 ]
             }
             options.encoding = 'UTF-8'
