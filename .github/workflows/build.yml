@@ -66,7 +66,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./gradlew check
+          gradle check
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
