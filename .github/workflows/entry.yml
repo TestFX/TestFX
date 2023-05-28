@@ -21,7 +21,7 @@ permissions:
   security-events: write
 
 jobs:
-  build-ubuntu-22.04-java-11:
+  build-ubuntu-22-04-java-11:
     name: Build on Ubuntu 22.04 with JVM 11
     uses: ./.github/workflows/build.yml
     with:
@@ -29,7 +29,7 @@ jobs:
       jvm: 11.0.19
       gradle: 6.9.4
     secrets: inherit
-  build-ubuntu-20.04-java-11:
+  build-ubuntu-20-04-java-11:
     name: Build on Ubuntu 20.04 with JVM 11
     uses: ./.github/workflows/build.yml
     with:
