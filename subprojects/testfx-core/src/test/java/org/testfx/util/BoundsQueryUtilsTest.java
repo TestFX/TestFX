@@ -208,8 +208,9 @@ public class BoundsQueryUtilsTest {
 
     @Test
     public void boundsOnScreen_screen() {
-        Bounds bounds = BoundsQueryUtils.boundsOnScreen(new BoundingBox(1, 2, 3, 4), Screen.getPrimary().getBounds());
-        verifyThat(bounds, hasBounds(1, 2, 3, 4));
+        Screen screen = Screen.getPrimary();
+        Bounds bounds = BoundsQueryUtils.boundsOnScreen(new BoundingBox(1, 2, 3, 4), screen.getBounds());
+        verifyThat(bounds, hasBounds(screen.getBounds().getMinX() + 1, 2, 3, 4));
     }
 
     @Test
