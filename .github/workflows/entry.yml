@@ -22,6 +22,9 @@ permissions:
 
 jobs:
   build:
-    name: Build
+    name: Build on Linux with JVM 11
     uses: ./.github/workflows/build.yml
+    with:
+      os: ubuntu-latest
+      jvm: 11.0.19
     secrets: inherit

@@ -4,6 +4,13 @@ name: Build
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      jvm:
+        required: true
+        type: string
 
 permissions:
   actions: read
@@ -22,10 +29,7 @@ env:
 jobs:
   build:
     name: Build
-    strategy:
-      matrix:
-        os: [macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.os }}
     timeout-minutes: 20
 
     steps:
@@ -36,7 +40,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 11
+          java-version: ${{ inputs.jvm }}
 
       - name: Cache Gradle Resources
         uses: actions/cache@v3
