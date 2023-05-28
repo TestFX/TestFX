@@ -27,7 +27,7 @@ jobs:
     with:
       os: ubuntu-latest
       jvm: 11.0.19
-      gradle: 6
+      gradle: 6.9.4
     secrets: inherit
   build-linux-java-17:
     name: Build on Linux with JVM 17
@@ -35,5 +35,5 @@ jobs:
     with:
       os: ubuntu-latest
       jvm: 17.0.7
-      gradle: 8
+      gradle: 8.1.1
     secrets: inherit
