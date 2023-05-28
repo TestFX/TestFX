@@ -47,7 +47,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        gradle-version: ${{ inputs.gradle }}
+        with:
+          gradle-version: ${{ inputs.gradle }}
 
       - name: Cache Gradle Resources
         uses: actions/cache@v3
