@@ -43,7 +43,7 @@ tasks.register('groovydocJar', Jar) {
     dependsOn groovydoc
     baseName 'testfx-spock'
     classifier 'groovydoc'
-    from groovydoc.destinationDir
+    from groovydoc.destinationDirass
 }
 
 codenarc {

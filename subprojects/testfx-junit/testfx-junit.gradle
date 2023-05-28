@@ -58,8 +58,7 @@ afterEvaluate {
         api group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
         testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
         testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
-        implementation "org.assertj:assertj-core:3.13.2"
-        //testCompile "org.assertj:assertj-core:3.13.2"
+        implementation "org.assertj:assertj-core:3.24.2"
 
         if (JavaVersion.current().isJava12Compatible()) {
             testImplementation 'org.testfx:openjfx-monocle:jdk-12.0.1+2'

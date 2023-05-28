@@ -50,8 +50,8 @@ afterEvaluate {
         }
 
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
-        implementation "org.assertj:assertj-core:3.13.2"
-        testImplementation "org.assertj:assertj-core:3.13.2"
+        implementation "org.assertj:assertj-core:3.24.2"
+        testImplementation "org.assertj:assertj-core:3.24.2"
         implementation 'org.osgi:org.osgi.core:6.0.0'
 
         testImplementation ("junit:junit:4.13.2")
