@@ -24,7 +24,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
 
@@ -56,25 +56,12 @@ jobs:
         run: |
           ./gradlew clean check
 
-      # THIS MUST RUN RIGHT AFTER TESTS
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: runner.os == 'Linux'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: Unit Test Results
-          report_individual_runs: true
-          check_run_annotations_branch: master
-          check_run_annotations: all tests, skipped tests
-          files: subprojects/**/build/test-results/**/*.xml
-
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        if: runner.os != 'Linux'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Unit Test Results
           report_individual_runs: true
-          check_run_annotations_branch: master
+          check_run_annotations_branch: main
           check_run_annotations: all tests, skipped tests
           files: subprojects/**/build/test-results/**/*.xml
