@@ -72,8 +72,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: Unit Test Results
+          check_name: Unit Test Results (${{ inputs.os }}-java-${{ inputs.jvm }})
           report_individual_runs: true
-          check_run_annotations_branch: main
+          check_run_annotations_branch: master
           check_run_annotations: all tests, skipped tests
           files: subprojects/**/build/test-results/**/*.xml
