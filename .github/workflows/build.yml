@@ -70,6 +70,7 @@ jobs:
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: Unit Test Results (${{ inputs.os }}-java-${{ inputs.jvm }})
