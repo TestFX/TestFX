@@ -30,7 +30,8 @@ checkstyle {
 
 // Decrease verbosity (printing of XSL style sheets, etc.)
 [checkstyleMain, checkstyleTest].each { task ->
-    task.logging.setLevel(LogLevel.LIFECYCLE)
+    //task.logging.setLevel(LogLevel.LIFECYCLE)
+    task.ant.lifecycleLogLevel="INFO"
 }
 
 // exclude module info files for Java 9

@@ -117,7 +117,8 @@ afterEvaluate {
             inputs.property("moduleName", moduleName)
 
             doFirst {
-                options.addStringOption('-module-path', classpath.asPath)
+                options.setModulePath(classpath.asList())
+                //options.addPathOption('-module-path', classpath.asPath)
                 options.addStringOption('-add-reads', "$moduleName=org.assertj.core")
                 options.addMultilineStringsOption('-add-modules').setValue([
                         'javafx.graphics', 'javafx.controls', 'javafx.swing', 'org.hamcrest', 'org.assertj.core'])

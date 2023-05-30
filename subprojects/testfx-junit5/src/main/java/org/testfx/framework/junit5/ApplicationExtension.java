@@ -119,7 +119,7 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
     }
 
     private void setField(Object instance, Field field, Object val) throws IllegalAccessException {
-        boolean wasAccessible = field.isAccessible();
+        boolean wasAccessible = field.canAccess(instance);
         try {
             field.setAccessible(true);
             field.set(instance, val);
