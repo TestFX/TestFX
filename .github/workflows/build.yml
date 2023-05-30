@@ -8,10 +8,13 @@ on:
       os:
         required: true
         type: string
-      jvm:
+      jdk:
         required: true
         type: string
       gradle:
+        required: true
+        type: string
+      openjfx:
         required: true
         type: string
 
@@ -43,7 +46,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: ${{ inputs.jvm }}
+          java-version: ${{ inputs.jdk }}
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2

@@ -20,54 +20,65 @@ permissions:
   statuses: read
   security-events: write
 
+env:
+  JDK_VERSION: 11.0.19
+  GRADLE_VERSION: 6.9.4
+  OPENJFX_VERSION: 11.0.2
+
 jobs:
   build-ubuntu-22-04-java-11:
-    name: Ubuntu 22.04 with JVM 11
+    name: Ubuntu 22.04 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: ubuntu-22.04
-      jvm: 11.0.19
-      gradle: 6.9.4
+      jdk: $JDK_VERSION
+      gradle: $GRADLE_VERSION
+      openjfx: $OPENJFX_VERSION
     secrets: inherit
   build-ubuntu-20-04-java-11:
-    name: Ubuntu 20.04 with JVM 11
+    name: Ubuntu 20.04 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: ubuntu-20.04
-      jvm: 11.0.19
-      gradle: 6.9.4
+      jdk: $JDK_VERSION
+      gradle: $GRADLE_VERSION
+      openjfx: $OPENJFX_VERSION
     secrets: inherit
   build-macos-12-java-11:
-    name: MacOS 12 with JVM 11
+    name: MacOS 12 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: macos-12
-      jvm: 11.0.19
-      gradle: 6.9.4
+      jdk: $JDK_VERSION
+      gradle: $GRADLE_VERSION
+      openjfx: $OPENJFX_VERSION
     secrets: inherit
   build-macos-11-java-11:
-    name: MacOS 11 with JVM 11
+    name: MacOS 11 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: macos-11
-      jvm: 11.0.19
-      gradle: 6.9.4
+      jdk: $JDK_VERSION
+      gradle: $GRADLE_VERSION
+      openjfx: $OPENJFX_VERSION
     secrets: inherit
   build-windows-2022-java-11:
-    name: Windows 2022 with JVM 11
+    name: Windows 2022 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: windows-2022
-      jvm: 11.0.19
-      gradle: 6.9.4
+      jdk: $JDK_VERSION
+      gradle: $GRADLE_VERSION
+      openjfx: $OPENJFX_VERSION
     secrets: inherit
   build-windows-2019-java-11:
-    name: Windows 2019 with JVM 11
+    name: Windows 2019 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: windows-2019
-      jvm: 11.0.19
-      gradle: 6.9.4
+      jdk: $JDK_VERSION
+      gradle: $GRADLE_VERSION
+      openjfx: $OPENJFX_VERSION
     secrets: inherit
 
 #  build-linux-java-17:
@@ -75,6 +86,7 @@ jobs:
 #    uses: ./.github/workflows/build.yml
 #    with:
 #      os: ubuntu-latest
-#      jvm: 17.0.7
-#      gradle: 8.1.1
+#      jdk: $JDK_VERSION
+#      gradle: $GRADLE_VERSION
+#      openjfx: $OPENJFX_VERSION
 #    secrets: inherit
