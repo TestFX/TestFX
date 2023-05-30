@@ -21,7 +21,7 @@ ext.moduleName = 'org.testfx'
 ext.openjfxVersion = '12'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 static def getOSName() {
@@ -38,29 +38,6 @@ static def getOSName() {
 
 ext.platform = getOSName()
 
-// This insanity should be removed when JUnit 4 uses hamcrest 2.1.
-// See: https://github.com/junit-team/junit4/pull/1608
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails dep ->
-        if (dep.requested.group == 'org.hamcrest') {
-            switch (dep.requested.name) {
-                case 'java-hamcrest':
-                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
-                    dep.because("2.0.0.0 shouldn't have been published")
-                    break
-                case 'hamcrest-core':
-                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
-                    dep.because("hamcrest-core doesn't contain anything")
-                    break
-                case 'hamcrest-library':
-                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
-                    dep.because("hamcrest-library doesn't contain anything")
-                    break
-            }
-        }
-    }
-}
-
 afterEvaluate {
     dependencies {
         if (JavaVersion.current().isJava10Compatible()) {
@@ -72,30 +49,28 @@ afterEvaluate {
             implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
         }
 
-        implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
-        implementation "org.assertj:assertj-core:3.13.2"
-        testImplementation "org.assertj:assertj-core:3.13.2"
+        implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+        implementation "org.assertj:assertj-core:3.24.2"
+        testImplementation "org.assertj:assertj-core:3.24.2"
         implementation 'org.osgi:org.osgi.core:6.0.0'
 
-        testImplementation ("junit:junit:4.13-beta-3") {
-            exclude group: 'org.hamcrest', module: 'hamcrest-core'
-        }
+        testImplementation ("junit:junit:4.13.2")
         // Empty shim JAR for JUnit4.
-        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
+        testImplementation group: 'org.hamcrest', name: 'hamcrest-core', version: '2.2'
 
         testImplementation "org.mockito:mockito-core:3.0.0"
 
         if (JavaVersion.current().isJava12Compatible()) {
-            testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+            testImplementation 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
         } else if (JavaVersion.current().isJava11Compatible()) {
-            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+            testImplementation "org.testfx:openjfx-monocle:jdk-11+26"
         } else if (JavaVersion.current().isJava10Compatible() &&
                 System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
-            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+            testImplementation "org.testfx:openjfx-monocle:jdk-11+26"
         } else if (JavaVersion.current().isJava9Compatible()) {
-            testCompile "org.testfx:openjfx-monocle:jdk-9+181"
+            testImplementation "org.testfx:openjfx-monocle:jdk-9+181"
         } else {
-            testCompile "org.testfx:openjfx-monocle:8u76-b04"
+            testImplementation "org.testfx:openjfx-monocle:8u76-b04"
         }
     }
 
@@ -107,11 +82,11 @@ afterEvaluate {
     }
 
     if (JavaVersion.current().isJava9Compatible()) {
-        task compileModuleInfoJava(type: JavaCompile) {
+        tasks.register('compileModuleInfoJava', JavaCompile) {
             dependsOn 'compileJava'
             doFirst {
                 options.compilerArgs = [
-                        '--module-path', compileJava.classpath.asPath,
+                    '--module-path', compileJava.classpath.asPath,
                 ]
             }
             options.encoding = 'UTF-8'

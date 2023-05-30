@@ -1,6 +1,7 @@
 # gradle cache and build files.
 .gradle/
-build/
+**/build/
+!/.github/actions/build
 
 # intellij project files.
 .idea/
