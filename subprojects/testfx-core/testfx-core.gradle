@@ -18,7 +18,7 @@ apply plugin: 'java-library'
 
 ext.pomDescription = 'TestFX Core'
 ext.moduleName = 'org.testfx'
-ext.openjfxVersion = '12'
+ext.openjfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
 
 repositories {
     mavenCentral()
