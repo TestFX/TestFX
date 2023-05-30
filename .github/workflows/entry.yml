@@ -31,54 +31,54 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       os: ubuntu-22.04
-      jdk: $JDK_VERSION
-      gradle: $GRADLE_VERSION
-      openjfx: $OPENJFX_VERSION
+      jdk: ${{ env.JDK_VERSION }}
+      gradle: ${{ env.GRADLE_VERSION }}
+      openjfx: ${{ env.OPENJFX_VERSION }}
     secrets: inherit
   build-ubuntu-20-04-java-11:
     name: Ubuntu 20.04 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: ubuntu-20.04
-      jdk: $JDK_VERSION
-      gradle: $GRADLE_VERSION
-      openjfx: $OPENJFX_VERSION
+      jdk: ${{ env.JDK_VERSION }}
+      gradle: ${{ env.GRADLE_VERSION }}
+      openjfx: ${{ env.OPENJFX_VERSION }}
     secrets: inherit
   build-macos-12-java-11:
     name: MacOS 12 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: macos-12
-      jdk: $JDK_VERSION
-      gradle: $GRADLE_VERSION
-      openjfx: $OPENJFX_VERSION
+      jdk: ${{ env.JDK_VERSION }}
+      gradle: ${{ env.GRADLE_VERSION }}
+      openjfx: ${{ env.OPENJFX_VERSION }}
     secrets: inherit
   build-macos-11-java-11:
     name: MacOS 11 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: macos-11
-      jdk: $JDK_VERSION
-      gradle: $GRADLE_VERSION
-      openjfx: $OPENJFX_VERSION
+      jdk: ${{ env.JDK_VERSION }}
+      gradle: ${{ env.GRADLE_VERSION }}
+      openjfx: ${{ env.OPENJFX_VERSION }}
     secrets: inherit
   build-windows-2022-java-11:
     name: Windows 2022 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: windows-2022
-      jdk: $JDK_VERSION
-      gradle: $GRADLE_VERSION
-      openjfx: $OPENJFX_VERSION
+      jdk: ${{ env.JDK_VERSION }}
+      gradle: ${{ env.GRADLE_VERSION }}
+      openjfx: ${{ env.OPENJFX_VERSION }}
     secrets: inherit
   build-windows-2019-java-11:
     name: Windows 2019 with JDK 11
     uses: ./.github/workflows/build.yml
     with:
       os: windows-2019
-      jdk: $JDK_VERSION
-      gradle: $GRADLE_VERSION
-      openjfx: $OPENJFX_VERSION
+      jdk: ${{ env.JDK_VERSION }}
+      gradle: ${{ env.GRADLE_VERSION }}
+      openjfx: ${{ env.OPENJFX_VERSION }}
     secrets: inherit
 
 #  build-linux-java-17:
