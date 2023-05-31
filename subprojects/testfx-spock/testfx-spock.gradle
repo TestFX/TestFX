@@ -16,7 +16,6 @@
  */
 ext.pomDescription = 'TestFX Spock'
 ext.moduleName = 'org.testfx.spock'
-ext.openjfxVersion = '11'
 
 static def getOSName() {
     final String osName = System.getProperty("os.name").toLowerCase()
@@ -73,9 +72,10 @@ dependencies {
     dependencies {
         if (JavaVersion.current().isJava10Compatible()) {
             // In case we are on an Oracle JDK with JavaFX builtin, these will be ignored.
-            implementation "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
+            def jfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
+            implementation "org.openjfx:javafx-base:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-graphics:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-controls:${jfxVersion}:${platform}"
         }
     }
 

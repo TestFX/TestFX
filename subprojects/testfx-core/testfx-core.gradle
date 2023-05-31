@@ -18,7 +18,6 @@ apply plugin: 'java-library'
 
 ext.pomDescription = 'TestFX Core'
 ext.moduleName = 'org.testfx'
-ext.openjfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
 
 repositories {
     mavenCentral()
@@ -38,20 +37,21 @@ static def getOSName() {
 
 ext.platform = getOSName()
 
-afterEvaluate {
+//afterEvaluate {
     dependencies {
         if (JavaVersion.current().isJava10Compatible()) {
             // In case we are on an Oracle JDK with JavaFX builtin, these will be ignored.
-            implementation "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-swing:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
+            def jfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
+            implementation "org.openjfx:javafx-base:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-controls:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-graphics:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-swing:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-fxml:${jfxVersion}:${platform}"
         }
 
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
         implementation "org.assertj:assertj-core:3.24.2"
-        testImplementation "org.assertj:assertj-core:3.24.2"
+        //testImplementation "org.assertj:assertj-core:3.24.2"
         implementation 'org.osgi:org.osgi.core:6.0.0'
 
         testImplementation ("junit:junit:4.13.2")
@@ -98,11 +98,13 @@ afterEvaluate {
             include '*module-info*'
         }
         classes.dependsOn compileModuleInfoJava
-        def dependents = configurations.api.dependencies + configurations.implementation.dependencies
-        def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
-        dependentProjects.each { dependency ->
-            compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
-        }
+//        def dependents = configurations.api.dependencies + configurations.implementation.dependencies
+//        def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
+//
+//        // Connect to dependencies module info task
+//        dependentProjects.each { dependency ->
+//            compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
+//        }
     }
 
     compileJava {
@@ -182,4 +184,4 @@ afterEvaluate {
         )
          */
     }
-}
+//}

@@ -38,11 +38,10 @@ plugins {
 
 rootProject.with { project ->
 
-    def jfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
-
     tasks.register('versions') {
         group 'help'
         description 'Prints tool versions and useful environment variables.'
+        def jfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
         doLast {
             println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
             println "JAVA_HOME:      ${System.env.JAVA_HOME}"
