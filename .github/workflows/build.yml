@@ -8,10 +8,13 @@ on:
       os:
         required: true
         type: string
-      jvm:
+      jdk:
         required: true
         type: string
       gradle:
+        required: true
+        type: string
+      openjfx:
         required: true
         type: string
 
@@ -28,10 +31,11 @@ permissions:
 env:
   DISPLAY: ":99"
   XVFB_PARMS: "-screen 0 1920x1080x24 -nolisten unix"
+  OPENJFX_VERSION: "${{ inputs.openjfx }}"
 
 jobs:
   build:
-    name: Build
+    name: Build with OpenJFX ${{ inputs.openjfx }}
     runs-on: ${{ inputs.os }}
     timeout-minutes: 20
 
@@ -43,7 +47,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: ${{ inputs.jvm }}
+          java-version: ${{ inputs.jdk }}
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
@@ -66,7 +70,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gradle check
+          gradle versions check
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2

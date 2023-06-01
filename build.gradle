@@ -38,16 +38,19 @@ plugins {
 
 rootProject.with { project ->
 
+    def fxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
+
     tasks.register('versions') {
         group 'help'
         description 'Prints tool versions and useful environment variables.'
         doLast {
-            println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
-            println "JAVA_HOME:      ${System.env.JAVA_HOME}"
-            println "Java version:   ${JavaVersion.current()}"
-            println "Gradle version: ${gradle.gradleVersion}"
-            println "Groovy version: ${GroovySystem.version}"
-            println "Subprojects:    ${rootProject.childProjects.keySet()}"
+            println "JAVA_OPTS:       ${System.env.JAVA_OPTS ?: "[]"}"
+            println "JAVA_HOME:       ${System.env.JAVA_HOME}"
+            println "OPENJFX_VERSION: ${fxVersion}"
+            println "Java version:    ${JavaVersion.current()}"
+            println "Gradle version:  ${gradle.gradleVersion}"
+            println "Groovy version:  ${GroovySystem.version}"
+            println "Subprojects:     ${rootProject.childProjects.keySet()}"
         }
     }
 
