@@ -30,10 +30,10 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.hierynomus.license' version '0.15.0'
-    id 'com.github.ben-manes.versions' version '0.29.0'
-    id 'com.github.kt3k.coveralls' version '2.10.1'
-    id 'com.github.spotbugs' version '4.0.6'
+    id 'com.github.hierynomus.license' version '0.16.1'
+    id 'com.github.ben-manes.versions' version '0.46.0'
+    id 'com.github.kt3k.coveralls' version '2.12.2'
+    id 'com.github.spotbugs' version '5.0.14'
 }
 
 rootProject.with { project ->
@@ -74,8 +74,8 @@ rootProject.with { project ->
 allprojects { project ->
     apply plugin: 'base'
     apply plugin: 'java'
-    apply plugin: 'com.github.kt3k.coveralls'
     apply plugin: 'jacoco'
+    apply plugin: 'com.github.kt3k.coveralls'
     apply from: "${rootDir}/gradle/jacoco.gradle"
     apply from: "${rootDir}/gradle/travis-helpers.gradle"
 

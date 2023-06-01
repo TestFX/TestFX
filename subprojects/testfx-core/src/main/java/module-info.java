@@ -35,4 +35,5 @@ module org.testfx {
     requires static javafx.swing;
     requires static org.assertj.core;
     requires org.hamcrest;
+    requires osgi.core;
 }
