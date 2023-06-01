@@ -90,7 +90,7 @@ if (JavaVersion.current().isJava9Compatible()) {
 		source = sourceSets.main.allJava
 		sourceCompatibility = JavaVersion.VERSION_11
 		targetCompatibility = JavaVersion.VERSION_11
-		destinationDir = compileJava.destinationDir
+		destinationDirectory = compileJava.destinationDir
 		include '*module-info*'
 	}
 	classes.dependsOn compileJunit5ModuleInfoJava
