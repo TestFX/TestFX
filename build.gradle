@@ -29,6 +29,9 @@ buildscript {
     }
 }
 
+// To update Gradle wrapper version use:
+// ./gradlew wrapper --gradle-version <version>
+
 plugins {
     id 'com.github.hierynomus.license' version '0.16.1'
     id 'com.github.ben-manes.versions' version '0.46.0'
