@@ -38,19 +38,18 @@ plugins {
 
 rootProject.with { project ->
 
-    def fxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
-
     tasks.register('versions') {
         group 'help'
         description 'Prints tool versions and useful environment variables.'
+        def jfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
         doLast {
-            println "JAVA_OPTS:       ${System.env.JAVA_OPTS ?: "[]"}"
-            println "JAVA_HOME:       ${System.env.JAVA_HOME}"
-            println "OPENJFX_VERSION: ${fxVersion}"
-            println "Java version:    ${JavaVersion.current()}"
-            println "Gradle version:  ${gradle.gradleVersion}"
-            println "Groovy version:  ${GroovySystem.version}"
-            println "Subprojects:     ${rootProject.childProjects.keySet()}"
+            println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
+            println "JAVA_HOME:      ${System.env.JAVA_HOME}"
+            println "Java version:   ${JavaVersion.current()}"
+            println "JFX version:    ${jfxVersion}"
+            println "Gradle version: ${gradle.gradleVersion}"
+            println "Groovy version: ${GroovySystem.version}"
+            println "Subprojects:    ${rootProject.childProjects.keySet()}"
         }
     }
 
@@ -188,9 +187,10 @@ evaluationDependsOnChildren()
 
 subprojects { subproject ->
     javadoc {
-        enabled = JavaVersion.current().isJava8()
+        enabled = JavaVersion.current().isJava11()
         excludes = ["**/*.html", "META-INF/**"]
-        classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
+        //classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
+        classpath = sourceSets.main.compileClasspath
         options.use         = true
         options.splitIndex  = true
         options.encoding    = "UTF-8"
@@ -277,7 +277,8 @@ coveralls {
 tasks.coveralls {
     group = 'Coverage reports'
     description = 'Uploads the aggregated coverage report to Coveralls.'
-    logging.setLevel(LogLevel.LIFECYCLE)
+    //logging.setLevel(LogLevel.LIFECYCLE)
+    ant.lifecycleLogLevel="INFO"
 
     dependsOn jacocoRootReport
     onlyIf { isTravis && !JavaVersion.current().isJava9Compatible() }

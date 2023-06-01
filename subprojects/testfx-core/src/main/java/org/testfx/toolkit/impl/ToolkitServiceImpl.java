@@ -16,6 +16,10 @@
  */
 package org.testfx.toolkit.impl;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -26,7 +30,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.sun.javafx.application.ParametersImpl;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -137,7 +140,24 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     private void registerApplicationParameters(Application application, String... applicationArgs) {
-        ParametersImpl parameters = new ParametersImpl(applicationArgs);
-        ParametersImpl.registerParameters(application, parameters);
+        String type = "com.sun.javafx.application.ParametersImpl";
+        String methodName = "registerParameters";
+
+        try {
+            // Use reflection to get the class, constructor and method
+            Class<?> parametersImpl = getClass().getClassLoader().loadClass(type);
+            Constructor<?> constructor = parametersImpl.getDeclaredConstructor(List.class);
+            Method method =
+                parametersImpl.getDeclaredMethod(methodName, Application.class, Application.Parameters.class);
+
+            // Create an instance of the ParametersImpl class
+            Application.Parameters parameters =
+                (Application.Parameters)constructor.newInstance(Arrays.asList(applicationArgs));
+            // Call the registerParameters on the ParametersImpl instance
+            method.invoke(parametersImpl, application, parameters);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

@@ -18,7 +18,6 @@ apply plugin: 'java-library'
 
 ext.pomDescription = 'TestFX JUnit5'
 ext.moduleName = 'org.testfx.junit5'
-ext.openjfxVersion = '11'
 
 static def getOSName() {
     final String osName = System.getProperty("os.name").toLowerCase()
@@ -38,15 +37,16 @@ repositories {
     mavenCentral()
 }
 
-afterEvaluate {
+//afterEvaluate {
     dependencies {
         if (JavaVersion.current().isJava10Compatible()) {
             // In case we are on an Oracle JDK with JavaFX builtin, these will be ignored.
-            implementation "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-swing:${openjfxVersion}:${platform}"
-            implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
+            def jfxVersion = System.getenv("OPENJFX_VERSION") ?: "$defaultJfxVersion"
+            implementation "org.openjfx:javafx-base:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-graphics:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-controls:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-swing:${jfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-fxml:${jfxVersion}:${platform}"
         }
 
         api project(":testfx-core")
@@ -81,7 +81,7 @@ afterEvaluate {
     }
 
     if (JavaVersion.current().isJava9Compatible()) {
-        tasks.register('compileModuleInfoJava', JavaCompile) {
+        tasks.register('compileJunit5ModuleInfoJava', JavaCompile) {
             dependsOn 'compileJava'
             doFirst {
                 options.compilerArgs = [
@@ -96,11 +96,13 @@ afterEvaluate {
             destinationDir = compileJava.destinationDir
             include '*module-info*'
         }
-        classes.dependsOn compileModuleInfoJava
+        classes.dependsOn compileJunit5ModuleInfoJava
         def dependents = configurations.api.dependencies + configurations.implementation.dependencies
         def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
+
+        // Connect to dependencies module info task
         dependentProjects.each { dependency ->
-            compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
+            compileJunit5ModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
         }
     }
 
@@ -111,7 +113,7 @@ afterEvaluate {
     javadoc {
         source = sourceSets.main.allJava
         options.addBooleanOption('html5', true)
-        //dependsOn compileModuleInfoJava
+        //dependsOn compileJunit5ModuleInfoJava
         if (JavaVersion.current().isJava9Compatible()) {
             inputs.property("moduleName", moduleName)
 
@@ -164,4 +166,4 @@ afterEvaluate {
             )
         }
     }
-}
+//}
