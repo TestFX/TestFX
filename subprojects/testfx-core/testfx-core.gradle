@@ -167,7 +167,7 @@ test {
 					'--add-exports', 'javafx.graphics/com.sun.glass.ui=org.testfx.monocle',
 					'--add-exports', 'javafx.graphics/com.sun.javafx.application=org.testfx.monocle',
 					'--add-exports', 'javafx.graphics/com.sun.glass.ui.delegate=org.testfx.monocle',
-					'--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir, sourceSets.test.resources.srcDirs).asPath,
+					'--patch-module', "$moduleName=" + files(sourceSets.test.java.classesDirectory, sourceSets.test.resources.srcDirs).asPath,
 			]
 			classpath = files()
 		}
