@@ -109,14 +109,14 @@ subprojects { subproject ->
     tasks.register('sourceJar', Jar) {
         group 'Build'
         description 'Assembles a JAR containing the source code.'
-        classifier 'sources'
+        setArchiveClassifier('sources')
         from sourceSets.main.allJava
     }
 
     tasks.register('javadocJar', Jar) {
         group 'Build'
         description 'Assembles a JAR containing the Javadoc.'
-        classifier 'javadoc'
+        setArchiveClassifier('javadoc')
         from javadoc
     }
 
@@ -245,22 +245,22 @@ tasks.register('aggregateJavadoc', Javadoc) {
     }
 }
 
-tasks.register('jacocoMerge', JacocoMerge) {
-    group = 'Coverage reports'
-    description = 'Merges individual JaCoCo coverage data in to a single data set.'
-    destinationFile = file("$buildDir/jacoco/jacoco-all.exec")
-    subprojects.each { subproject ->
-        executionData subproject.tasks.withType(Test)
-    }
-    doFirst {
-        executionData = files(executionData.findAll { it.exists() })
-    }
-}
+//tasks.register('jacocoMerge', JacocoMerge) {
+//    group = 'Coverage reports'
+//    description = 'Merges individual JaCoCo coverage data in to a single data set.'
+//    destinationFile = file("$buildDir/jacoco/jacoco-all.exec")
+//    subprojects.each { subproject ->
+//        executionData subproject.tasks.withType(Test)
+//    }
+//    doFirst {
+//        executionData = files(executionData.findAll { it.exists() })
+//    }
+//}
 
 tasks.register('jacocoRootReport', JacocoReport) {
     group = 'Coverage reports'
     description = 'Generates an aggregate JaCoCo coverage report containing the coverage data of each subproject.'
-    dependsOn subprojects.test, jacocoMerge
+    dependsOn subprojects.test
     getAdditionalSourceDirs().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
     getSourceDirectories().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
     getClassDirectories().setFrom(files(subprojects.sourceSets.main.output))

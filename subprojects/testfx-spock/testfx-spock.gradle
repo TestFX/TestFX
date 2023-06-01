@@ -41,7 +41,7 @@ groovydoc {
 tasks.register('groovydocJar', Jar) {
     dependsOn groovydoc
     archiveBaseName = 'testfx-spock'
-    classifier 'groovydoc'
+    setArchiveClassifier('groovydoc')
     from groovydoc.destinationDir
 }
 

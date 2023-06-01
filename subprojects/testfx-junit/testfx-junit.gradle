@@ -147,7 +147,7 @@ test {
 					'--module-path', classpath.asPath,
 					'--add-reads', "$moduleName=junit",
 					'--add-reads', "$moduleName=org.assertj.core",
-					'--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath,
+					'--patch-module', "$moduleName=" + files(sourceSets.test.java.classesDirectory).asPath,
 			]
 		}
 	}
