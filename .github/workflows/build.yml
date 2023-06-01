@@ -57,7 +57,7 @@ jobs:
       - name: Cache Gradle Resources
         uses: actions/cache@v3
         with:
-          path: ~/.gradle/caches
+          path: ~/.gradle
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
