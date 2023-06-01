@@ -69,42 +69,6 @@ dependencies {
 	}
 }
 
-//configurations {
-//	apiElements {
-//		sourceCompatibility = JavaVersion.VERSION_11
-//		targetCompatibility = JavaVersion.VERSION_11
-//	}
-//}
-
-//if (JavaVersion.current().isJava9Compatible()) {
-//	tasks.register('compileModuleInfoJava', JavaCompile) {
-//		dependsOn 'compileJava'
-////            doFirst {
-////                options.setCompilerArgs(List.of('--module-path', compileJava.classpath.asPath,
-////                    '-J--add-opens","javafx.graphics/com.sun.javafx.application=org.testfx'))
-//////                options.compilerArgs = [
-//////                    '--module-path', compileJava.classpath.asPath,
-//////                    '--add-exports', 'javafx.graphics/com.sun.javafx.application=org.testfx'
-//////                ]
-////            }
-//		options.encoding = 'UTF-8'
-//		classpath = files()
-//		source = sourceSets.main.allJava
-//		sourceCompatibility = JavaVersion.VERSION_11
-//		targetCompatibility = JavaVersion.VERSION_11
-//		destinationDir = compileJava.destinationDir
-//		include '*module-info*'
-//	}
-//	classes.dependsOn compileModuleInfoJava
-////        def dependents = configurations.api.dependencies + configurations.implementation.dependencies
-////        def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
-////
-////        // Connect to dependencies module info task
-////        dependentProjects.each { dependency ->
-////            compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
-////        }
-//}
-
 compileJava {
 	options.encoding = 'UTF-8'
 	sourceCompatibility = JavaVersion.VERSION_11

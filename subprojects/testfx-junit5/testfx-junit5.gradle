@@ -70,39 +70,6 @@ dependencies {
 	}
 }
 
-//configurations {
-//	apiElements {
-//		sourceCompatibility = JavaVersion.VERSION_11
-//		targetCompatibility = JavaVersion.VERSION_11
-//	}
-//}
-
-if (JavaVersion.current().isJava9Compatible()) {
-	tasks.register('compileJunit5ModuleInfoJava', JavaCompile) {
-		dependsOn 'compileJava'
-		doFirst {
-			options.compilerArgs = [
-					'--module-path', compileJava.classpath.asPath,
-			]
-		}
-		options.encoding = 'UTF-8'
-		classpath = files()
-		source = sourceSets.main.allJava
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
-		destinationDirectory = compileJava.destinationDir
-		include '*module-info*'
-	}
-	classes.dependsOn compileJunit5ModuleInfoJava
-	def dependents = configurations.api.dependencies + configurations.implementation.dependencies
-	def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
-
-	// Connect to dependencies module info task
-//        dependentProjects.each { dependency ->
-//            compileJunit5ModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
-//        }
-}
-
 compileJava {
 	options.encoding = 'UTF-8'
 	sourceCompatibility = JavaVersion.VERSION_11
