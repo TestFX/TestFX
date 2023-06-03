@@ -18,6 +18,8 @@ package org.testfx.framework.junit5.utils;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
@@ -91,46 +93,27 @@ public final class FXUtils {
         if (Platform.isFxApplicationThread()) {
             return function.apply(argument);
         } else {
-            final AtomicBoolean runCondition = new AtomicBoolean(true);
-            final Lock lock = new ReentrantLock();
-            final Condition condition = lock.newCondition();
-            final ExceptionWrapper throwableWrapper = new ExceptionWrapper();
+            final FutureTask<R> task = new FutureTask<>(() -> function.apply(argument));
 
-            final RunnableWithReturn<R> run = new RunnableWithReturn<>(() -> {
-                R returnValue = null;
-                lock.lock();
-                try {
-                    returnValue = function.apply(argument);
-                }
-                catch (final Exception e) {
-                    throwableWrapper.t = e;
-                }
-                finally {
-                    try {
-                        runCondition.set(false);
-                        condition.signal();
-                    }
-                    finally {
-                        runCondition.set(false);
-                        lock.unlock();
-                    }
-                }
-                return returnValue;
-            });
-            lock.lock();
+            Platform.runLater(task);
+
             try {
-                Platform.runLater(run);
-                while (runCondition.get()) {
-                    condition.await();
+                return task.get();
+                // note: no need to catch CancellationException, as we don't provide a way to cancel the task
+            }
+            catch (final ExecutionException e) {
+                final Throwable cause = e.getCause();
+                if (cause instanceof Error) {
+                    throw (Error)cause;
                 }
-                if (throwableWrapper.t != null) {
-                    throw throwableWrapper.t;
-                }
+                // if it is no Error, it must be an Exception
+                // (more precise, it must be a RuntimeException, as a Function cannot throw checked exceptions.
+                // However, narrowing is not required here)
+                throw (Exception)cause;
             }
             finally {
-                lock.unlock();
+                task.cancel(false);
             }
-            return run.getReturnValue();
         }
     }
 
@@ -229,32 +212,5 @@ public final class FXUtils {
         }
 
         return tickCount.get() >= nTicks;
-    }
-
-    private static class ExceptionWrapper {
-        private Exception t;
-    }
-
-    private static class RunnableWithReturn<R> implements Runnable {
-        private final Supplier<R> internalRunnable;
-        private final Object lock = new Object();
-        private R returnValue;
-
-        public RunnableWithReturn(final Supplier<R> run) {
-            internalRunnable = run;
-        }
-
-        public R getReturnValue() {
-            synchronized (lock) {
-                return returnValue;
-            }
-        }
-
-        @Override
-        public void run() {
-            synchronized (lock) {
-                returnValue = internalRunnable.get();
-            }
-        }
     }
 }
