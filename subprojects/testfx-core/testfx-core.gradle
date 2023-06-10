@@ -134,26 +134,26 @@ afterEvaluate {
         exclude '*module-info*'
     }
 
-    javadoc {
-        source = sourceSets.main.allJava
-        //dependsOn compileModuleInfoJava
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.addBooleanOption('html5', true)
-            inputs.property("moduleName", moduleName)
-
-            doFirst {
-                options.addStringOption('-module-path', classpath.asPath)
-                options.addStringOption('-add-reads', "$moduleName=org.assertj.core")
-                options.addMultilineStringsOption('-add-modules').setValue([
-                        'javafx.graphics', 'javafx.controls', 'javafx.swing', 'org.hamcrest', 'org.assertj.core'])
-                options.addMultilineStringsOption('-add-exports').setValue([
-                        'javafx.graphics/com.sun.javafx.application=org.testfx',
-                        'javafx.graphics/com.sun.glass.ui=org.testfx'])
-            }
-        } else {
-            exclude '*module-info*'
-        }
-    }
+//    javadoc {
+//        source = sourceSets.main.allJava
+//        //dependsOn compileModuleInfoJava
+//        if (JavaVersion.current().isJava9Compatible()) {
+//            options.addBooleanOption('html5', true)
+//            inputs.property("moduleName", moduleName)
+//
+//            doFirst {
+//                options.addStringOption('-module-path', classpath.asPath)
+//                options.addStringOption('-add-reads', "$moduleName=org.assertj.core")
+//                options.addMultilineStringsOption('-add-modules').setValue([
+//                        'javafx.graphics', 'javafx.controls', 'javafx.swing', 'org.hamcrest', 'org.assertj.core'])
+//                options.addMultilineStringsOption('-add-exports').setValue([
+//                        'javafx.graphics/com.sun.javafx.application=org.testfx',
+//                        'javafx.graphics/com.sun.glass.ui=org.testfx'])
+//            }
+//        } else {
+//            exclude '*module-info*'
+//        }
+//    }
 
     compileTestJava {
         exclude '*module-info*'
