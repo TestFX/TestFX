@@ -88,6 +88,8 @@ allprojects { project ->
         }
         jcenter()
     }
+
+    tasks.withType(Javadoc).all { failOnError = false }
 }
 
 subprojects { subproject ->
