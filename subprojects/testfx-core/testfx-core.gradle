@@ -120,7 +120,6 @@ afterEvaluate {
             sourceCompatibility = JavaVersion.VERSION_1_9
             targetCompatibility = JavaVersion.VERSION_1_9
             destinationDir = compileJava.destinationDir
-            include '*module-info*'
         }
         classes.dependsOn compileModuleInfoJava
         def dependents = configurations.api.dependencies + configurations.implementation.dependencies
@@ -128,10 +127,6 @@ afterEvaluate {
         dependentProjects.each { dependency ->
             compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
         }
-    }
-
-    compileJava {
-        exclude '*module-info*'
     }
 
     javadoc {
@@ -151,13 +146,7 @@ afterEvaluate {
                         'javafx.graphics/com.sun.javafx.application=org.testfx',
                         'javafx.graphics/com.sun.glass.ui=org.testfx'])
             }
-        } else {
-            exclude '*module-info*'
         }
-    }
-
-    compileTestJava {
-        exclude '*module-info*'
     }
 
     test {
