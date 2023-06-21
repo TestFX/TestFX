@@ -22,7 +22,7 @@ TestFX 4 requires Java version of 8 (1.8), or higher, and has only legacy suppor
 
 **Support for:**
 
-- Java 8/9/10/11+
+- Java 8/11/17+
 - Multiple testing frameworks ([JUnit 4](https://junit.org/junit4/), [JUnit 5](https://junit.org/junit5/), and [Spock](http://spockframework.org/)).
 - [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](https://assertj.github.io/doc/) assertions (or both!).
 - Screenshots of failed tests.
