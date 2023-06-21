@@ -119,7 +119,6 @@ afterEvaluate {
             sourceCompatibility = JavaVersion.VERSION_1_9
             targetCompatibility = JavaVersion.VERSION_1_9
             destinationDir = compileJava.destinationDir
-            include '*module-info*'
         }
         classes.dependsOn compileModuleInfoJava
         def dependents = configurations.api.dependencies + configurations.implementation.dependencies
@@ -129,15 +128,12 @@ afterEvaluate {
         }
     }
 
-    compileJava {
-        exclude '*module-info*'
-    }
-
     javadoc {
         source = sourceSets.main.allJava
-        options.addBooleanOption('html5', true)
         //dependsOn compileModuleInfoJava
         if (JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+
             inputs.property("moduleName", moduleName)
 
             doFirst {
@@ -148,13 +144,7 @@ afterEvaluate {
                         'javafx.graphics/com.sun.javafx.application=org.testfx',
                         'javafx.graphics/com.sun.glass.ui=org.testfx'])
             }
-        } else {
-            exclude '*module-info*'
         }
-    }
-
-    compileTestJava {
-        exclude '*module-info*'
     }
 
     test {

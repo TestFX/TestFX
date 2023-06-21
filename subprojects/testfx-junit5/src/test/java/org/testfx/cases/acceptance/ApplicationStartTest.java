@@ -41,11 +41,6 @@ class ApplicationStartTest extends ApplicationTest {
     private CountDownLatch buttonClickedLatch;
 
     @Override
-    public void init() throws Exception {
-        FxToolkit.registerStage(Stage::new);
-    }
-
-    @Override
     public void start(Stage stage) {
         CountDownLatch setSceneLatch = new CountDownLatch(1);
         InvalidationListener invalidationListener = observable -> setSceneLatch.countDown();
