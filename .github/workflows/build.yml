@@ -1,5 +1,5 @@
 ---
-name: TestFX 4 CI
+name: Build
 
 on:
   workflow_dispatch:
