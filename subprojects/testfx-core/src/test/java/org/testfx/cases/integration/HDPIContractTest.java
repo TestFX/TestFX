@@ -513,9 +513,12 @@ public class HDPIContractTest extends FxRobot {
         assertTrue("BottomLeft color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
 
         c = img.getColor((int) bounds.getWidth() - 2, (int) bounds.getHeight() - 2);
-        assertTrue("BottomRight color doesn't match " + c, c.getRed() < 16.0 / 255.0);
-        assertTrue("BottomRight color doesn't match " + c, c.getGreen() < 16.0 / 255.0);
-        assertTrue("BottomRight color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
+        boolean red = c.getRed() < 16.0 / 255.0;
+        assertTrue("BottomRight color doesn't match " + c + " - " + red, red);
+        boolean green = c.getGreen() < 16.0 / 255.0;
+        assertTrue("BottomRight color doesn't match " + c + " - " + green, green);
+        boolean blue = c.getBlue() < 16.0 / 255.0;
+        assertTrue("BottomRight color doesn't match " + c + " - " + blue, blue);
 
     }
 
