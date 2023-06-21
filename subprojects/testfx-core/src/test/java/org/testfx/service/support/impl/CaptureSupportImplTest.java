@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -35,7 +34,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -129,47 +127,44 @@ public class CaptureSupportImplTest extends FxRobot {
         assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
     }
 
-//    @Test
-//    @Ignore
-//    public void save_image_with_jpeg_format() throws IOException {
-//        // when:
-//        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-//        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.jpg").toPath();
-//        capturer.saveImage(image, CaptureFileFormat.JPG, actualImagePath);
-//
-//        // then:
-//        assertThat(actualImagePath.toFile().exists(), is(true));
-//        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
-//    }
-
-//    @Test
-//    @Ignore
-//    public void save_image_with_bmp_format() throws IOException {
-//        // when:
-//        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-//        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.bmp").toPath();
-//        capturer.saveImage(image, CaptureFileFormat.BMP, actualImagePath);
-//
-//        // then:
-//        assertThat(actualImagePath.toFile().exists(), is(true));
-//        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
-//    }
-
-//    @Test
-//    @Ignore
-//    public void save_image_with_tif_format() throws IOException {
-//        // when:
-//        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-//        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.tif").toPath();
-//        capturer.saveImage(image, CaptureFileFormat.TIFF, actualImagePath);
-//
-//        // then:
-//        assertThat(actualImagePath.toFile().exists(), is(true));
-//        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
-//    }
+    //    @Test
+    //    @Ignore
+    //    public void save_image_with_jpeg_format() throws IOException {
+    //        // when:
+    //        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+    //        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.jpg").toPath();
+    //        capturer.saveImage(image, CaptureFileFormat.JPG, actualImagePath);
+    //
+    //        // then:
+    //        assertThat(actualImagePath.toFile().exists(), is(true));
+    //        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    //    }
+    //    @Test
+    //    @Ignore
+    //    public void save_image_with_bmp_format() throws IOException {
+    //        // when:
+    //        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+    //        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.bmp").toPath();
+    //        capturer.saveImage(image, CaptureFileFormat.BMP, actualImagePath);
+    //
+    //        // then:
+    //        assertThat(actualImagePath.toFile().exists(), is(true));
+    //        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    //    }
+    //    @Test
+    //    @Ignore
+    //    public void save_image_with_tif_format() throws IOException {
+    //        // when:
+    //        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+    //        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.tif").toPath();
+    //        capturer.saveImage(image, CaptureFileFormat.TIFF, actualImagePath);
+    //
+    //        // then:
+    //        assertThat(actualImagePath.toFile().exists(), is(true));
+    //        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    //    }
 
     @Test
-    //@Ignore
     public void save_image_with_gif_format() throws IOException {
         // when:
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
@@ -226,7 +221,8 @@ public class CaptureSupportImplTest extends FxRobot {
             URL url = contextClass.getResource(resourceName);
             Objects.requireNonNull(url, "url must not be null");
             return Paths.get(url.toURI());
-        } catch (URISyntaxException exception) {
+        }
+        catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
         }
     }

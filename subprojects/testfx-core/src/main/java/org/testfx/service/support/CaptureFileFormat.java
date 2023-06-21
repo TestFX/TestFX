@@ -39,7 +39,7 @@ package org.testfx.service.support;
 public enum CaptureFileFormat {
     //JPG,
     PNG,
-   // BMP,
+    // BMP,
     GIF
     //, TIFF
 }
