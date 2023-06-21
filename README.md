@@ -1,15 +1,12 @@
-# TestFX
+# TestFX 4
 
-[![Travis CI](https://img.shields.io/travis/TestFX/TestFX/master.svg?label=travis&style=flat-square)](https://travis-ci.org/TestFX/TestFX)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/testfx/testfx/master.svg?style=flat-square)](https://ci.appveyor.com/project/testfx/testfx/branch/master)
-[![Coveralls Test Coverage](https://img.shields.io/coveralls/github/TestFX/TestFX/master.svg?style=flat-square)](https://coveralls.io/github/TestFX/TestFX)
-[![Bintray JCenter](https://api.bintray.com/packages/testfx/testfx/testfx-core/images/download.svg) ](https://bintray.com/testfx/testfx/testfx-core/_latestVersion)
+[![TestFX 4 CI](https://github.com/TestFX/TestFX/actions/workflows/entry.yml/badge.svg)](https://github.com/TestFX/TestFX/actions/workflows/entry.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven&style=flat-square)](https://search.maven.org/#search|ga|1|org.testfx)
 [![Chat on Gitter](https://img.shields.io/gitter/room/testfx/testfx-core.svg?style=flat-square)](https://gitter.im/TestFX/TestFX)
 
 Simple and clean testing for JavaFX.
 
-TestFX requires a minimum Java version of 8 (1.8).
+TestFX 4 requires a Java version of 8 (1.8) and has only legacy support.
 
 ## Documentation
 
