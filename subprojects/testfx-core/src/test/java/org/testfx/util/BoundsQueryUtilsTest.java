@@ -63,7 +63,7 @@ public class BoundsQueryUtilsTest {
     private static Region region;
     private static Scene scene;
     private static Stage stage;
-
+    private static Screen screen;
     private static final double SHAPE_WIDTH = 200;
     private static final double CLIP_WIDTH = 100;
     private static final double TRANSLATE_X = 50;
@@ -80,6 +80,7 @@ public class BoundsQueryUtilsTest {
             setupRegion();
             setupScene();
             setupStage();
+            setupScreen();
         });
     }
 
@@ -121,6 +122,10 @@ public class BoundsQueryUtilsTest {
         // stage.setY(0);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private static void setupScreen() {
+        screen = Screen.getPrimary();
     }
 
     @AfterClass
@@ -209,7 +214,7 @@ public class BoundsQueryUtilsTest {
     @Test
     public void boundsOnScreen_screen() {
         Bounds bounds = BoundsQueryUtils.boundsOnScreen(new BoundingBox(1, 2, 3, 4), Screen.getPrimary().getBounds());
-        verifyThat(bounds, hasBounds(1, 2, 3, 4));
+        verifyThat(bounds, hasBounds(screen.getBounds().getMinX() + 1, screen.getBounds().getMinY() + 2, 3, 4));
     }
 
     @Test
