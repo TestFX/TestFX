@@ -1,5 +1,5 @@
 ---
-name: Entry
+name: TestFX 4 CI
 
 on:
   workflow_dispatch:
