@@ -135,9 +135,10 @@ afterEvaluate {
 
     javadoc {
         source = sourceSets.main.allJava
-        options.addBooleanOption('html5', true)
         //dependsOn compileModuleInfoJava
         if (JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+
             inputs.property("moduleName", moduleName)
 
             doFirst {
