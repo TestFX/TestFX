@@ -6,7 +6,7 @@
 
 Simple and clean testing for JavaFX.
 
-TestFX 4 requires a Java version of 8 (1.8) and has only legacy support.
+TestFX 4 requires a Java version of 8 (1.8), or higher, and has only legacy support.
 
 ## Documentation
 
