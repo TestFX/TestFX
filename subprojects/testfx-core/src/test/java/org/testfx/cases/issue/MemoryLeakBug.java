@@ -60,20 +60,6 @@ public class MemoryLeakBug extends FxRobot {
     }
 
     private void stopApplication() throws Exception {
-        // This block removes the application parameters from ParametersImpl
-        try {
-            // Use reflection to get the ParametersImpl.params field
-            String type = "com.sun.javafx.application.ParametersImpl";
-            String fieldName = "params";
-            Class<?> parametersImpl = getClass().getClassLoader().loadClass(type);
-            Field field = parametersImpl.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            Map<Application, Application.Parameters> params = (Map<Application, Application.Parameters>)field.get(null);
-            params.remove(application);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-
         // This emulates what the junit ApplicationTest class does
         // release all keys
         release(new KeyCode[0]);
