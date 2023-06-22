@@ -178,7 +178,8 @@ public class ToolkitServiceImpl implements ToolkitService {
             Map<Application, Application.Parameters> params;
             params = (Map<Application, Application.Parameters>) field.get(null);
             params.remove(application);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
             exception.printStackTrace();
         }
     }

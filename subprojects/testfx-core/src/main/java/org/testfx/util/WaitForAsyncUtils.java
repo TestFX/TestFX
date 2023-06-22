@@ -470,7 +470,8 @@ public final class WaitForAsyncUtils {
     private static void registerException(Throwable throwable) {
         if (checkAllExceptions) {
             // Workaround for #411 see discussion in #440
-            if (throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
+            if (throwable.getStackTrace().length > 0 &&
+                    throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
                 // TODO more general version of filter after refactoring
                 return;
             }

@@ -16,21 +16,21 @@
  */
 package org.testfx.cases.issue;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.function.Function;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+
 import org.junit.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.Function;
 
 public class MemoryLeakBug extends FxRobot {
 
@@ -103,7 +103,8 @@ public class MemoryLeakBug extends FxRobot {
         long free = runtime.freeMemory();
         Date timestamp = Calendar.getInstance().getTime();
 
-        System.err.printf("Index=%s  Memory total=%sMB  used=%sMB  free=%sM  time=%s%n", index, toMB.apply(total), toMB.apply(total - free), toMB.apply(free), timestamp);
+        String template = "Index=%s  Memory total=%sMB  used=%sMB  free=%sM  time=%s%n";
+        System.err.printf(template, index, toMB.apply(total), toMB.apply(total - free), toMB.apply(free), timestamp);
     }
 
 }
