@@ -18,11 +18,8 @@ package org.testfx.cases.issue;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Function;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -39,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemoryLeakBug extends FxRobot {
 
-    private static final long MB = 1048576L;
+    private static final long KB = 10424L;
 
     private static long dataSize;
 
@@ -64,12 +61,11 @@ public class MemoryLeakBug extends FxRobot {
             // Using a weak reference here allows the application to be garbage collected
             WeakReference<Application> applicationReference = new WeakReference<>(startApplication());
             stopApplication(applicationReference.get());
-            printMemoryUse(index);
+            //getMemoryUse();
         }
 
         // Ensure the memory use is still withing reasonable limits
-        // 2023-06-23 Limit set to 15MB since current memory use is around 12MB
-        assertThat(printMemoryUse(-1)).isLessThan(15 * MB);
+        assertThat(getMemoryUse()).isLessThan(dataSize);
     }
 
     private Application startApplication() throws TimeoutException {
@@ -105,32 +101,24 @@ public class MemoryLeakBug extends FxRobot {
 
         private List<String> initMemoryHog() {
             // It is important that this use a lot of memory.
-            int count = (int)(dataSize / 1024);
+            int count = (int)(dataSize / KB);
             List<String> list = new ArrayList<>(count);
             for (int x = 0; x <= count; x++) {
-                list.add(String.format("%1024d", System.nanoTime()));
+                list.add(String.format("%" + KB + "d", System.nanoTime()));
             }
             return list;
         }
     }
 
-    public long printMemoryUse(int index) {
-        Runtime runtime = Runtime.getRuntime();
-        Function<Long, String> toMB = value -> String.valueOf(value / MB);
-
+    public long getMemoryUse() {
         // Request the JVM to reclaim memory before checking memory use
         System.gc();
 
+        Runtime runtime = Runtime.getRuntime();
         long total = runtime.totalMemory();
         long free = runtime.freeMemory();
-        long used = total - free;
 
-        Date timestamp = Calendar.getInstance().getTime();
-
-        String template = "Index=%s  Memory total=%sMB  used=%sMB  free=%sMB  time=%s%n";
-        System.err.printf(template, index, toMB.apply(total), toMB.apply(used), toMB.apply(free), timestamp);
-
-        return used;
+        return total - free;
     }
 
 }
