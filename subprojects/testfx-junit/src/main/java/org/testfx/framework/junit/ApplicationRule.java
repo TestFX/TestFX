@@ -46,6 +46,7 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.centerOnScreen();
         start.accept(stage);
         this.stage = stage;
     }

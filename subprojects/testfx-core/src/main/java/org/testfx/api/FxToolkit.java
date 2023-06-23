@@ -52,7 +52,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
  * <li>Content fixtures, which are attached to the registered {@code registeredStage}.</li>
  * <li>Individual fixtures, which do not require a {@code registeredStage}.</li>
  * </ol>
- * Additionally it keeps an internal context.
+ * Additionally, it keeps an internal context.
  * <p>
  * <h4>1. Container Fixtures</h4>
  * <p>
@@ -154,7 +154,7 @@ public final class FxToolkit {
     }
 
     /**
-     * Performs the clean up of the application. This is done by calling
+     * Performs the cleanup of the application. This is done by calling
      * {@link ToolkitService#cleanupApplication(Application)} (which usually
      * calls the {@code stop} method of the application).
      *
@@ -210,6 +210,7 @@ public final class FxToolkit {
             stage.show();
             stage.toBack();
             stage.toFront();
+            stage.centerOnScreen();
         });
     }
 
