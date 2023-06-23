@@ -32,7 +32,6 @@ buildscript {
 plugins {
     id 'com.github.hierynomus.license' version '0.15.0'
     id 'com.github.ben-manes.versions' version '0.29.0'
-    id 'com.github.kt3k.coveralls' version '2.10.1'
     id 'com.github.spotbugs' version '4.0.6'
 }
 
@@ -72,7 +71,6 @@ rootProject.with { project ->
 allprojects { project ->
     apply plugin: 'base'
     apply plugin: 'java'
-    apply plugin: 'com.github.kt3k.coveralls'
     apply plugin: 'jacoco'
     apply from: "${rootDir}/gradle/jacoco.gradle"
     apply from: "${rootDir}/gradle/travis-helpers.gradle"
@@ -263,18 +261,4 @@ task jacocoRootReport(type: JacocoReport) {
         html.enabled = true
         xml.enabled = true
     }
-}
-
-coveralls {
-    sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
-    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
-}
-
-tasks.coveralls {
-    group = 'Coverage reports'
-    description = 'Uploads the aggregated coverage report to Coveralls.'
-    logging.setLevel(LogLevel.LIFECYCLE)
-
-    dependsOn jacocoRootReport
-    onlyIf { isTravis && !JavaVersion.current().isJava9Compatible() }
 }
