@@ -26,6 +26,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -154,7 +156,7 @@ public final class FxToolkit {
     }
 
     /**
-     * Performs the clean up of the application. This is done by calling
+     * Performs the cleanup of the application. This is done by calling
      * {@link ToolkitService#cleanupApplication(Application)} (which usually
      * calls the {@code stop} method of the application).
      *
@@ -168,6 +170,17 @@ public final class FxToolkit {
         } else {
             throw new TimeoutException("FX Application Thread not running");
         }
+    }
+
+    public static void cleanupAfterTest(FxRobot robot, Application application) throws TimeoutException {
+        // Stop the application and let it clean up first
+        cleanupApplication(application);
+
+        // Cleanup any remaining stages
+        cleanupStages();
+
+        // Cleanup any remaining input
+        cleanupInput(robot);
     }
 
     /**
@@ -187,6 +200,7 @@ public final class FxToolkit {
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier) throws TimeoutException {
         return waitForSetup(SERVICE.setupSceneRoot(CONTEXT.getRegisteredStage(), sceneRootSupplier));
     }
+
     /**
      * Runs the given {@code runnable} on the {@code JavaFX Application Thread} and returns once finished.
      */
@@ -230,6 +244,15 @@ public final class FxToolkit {
     }
 
     /**
+     * Runs on the {@code JavaFX Application Thread}: Releases remaining mouse and keyboard events.
+     * Not cleaning these events may have side effects on the next UI tests
+     */
+    public static void cleanupInput(FxRobot robot) {
+        robot.release(new MouseButton[0]);
+        robot.release(new KeyCode[0]);
+    }
+
+    /**
      * Returns the internal context.
      */
     public static FxToolkitContext toolkitContext() {
@@ -248,6 +271,7 @@ public final class FxToolkit {
 
     /**
      * Detects if the JavaFx Application Thread is currently running.
+     *
      * @return {@literal true} if the FX Application Thread is running, false otherwise
      */
     public static boolean isFXApplicationThreadRunning() {
