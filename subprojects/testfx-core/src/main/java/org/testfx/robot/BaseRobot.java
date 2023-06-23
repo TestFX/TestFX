@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -25,38 +25,33 @@ import javafx.scene.input.MouseButton;
 
 public interface BaseRobot {
 
-    public void pressKeyboard(KeyCode key);
+    void pressKeyboard(KeyCode key);
 
-    public void releaseKeyboard(KeyCode key);
+    void releaseKeyboard(KeyCode key);
 
-    public void typeKeyboard(Scene scene,
-                             KeyCode key,
-                             String character);
+    void typeKeyboard(Scene scene,
+                      KeyCode key,
+                      String character);
 
     /**
      *
      * @return the current mouse location
      */
-    public Point2D retrieveMouse();
+    Point2D retrieveMouse();
 
-    public void moveMouse(Point2D point);
+    void moveMouse(Point2D point);
 
-    public void scrollMouse(int amount);
+    void scrollMouse(int amount);
 
-    public void pressMouse(MouseButton button);
+    void pressMouse(MouseButton button);
 
-    public void releaseMouse(MouseButton button);
+    void releaseMouse(MouseButton button);
 
     /**
      *
      * @param region the given bounds for the image
-     * @return a screen shot of the given region
+     * @return a screen capture of the given region
      */
-    public Image captureRegion(Rectangle2D region);
-
-    /**
-     * Calls {@link org.testfx.util.WaitForAsyncUtils#waitForFxEvents()}
-     */
-    public void awaitEvents();
+    Image captureRegion(Rectangle2D region);
 
 }

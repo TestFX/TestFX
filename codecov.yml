@@ -1,0 +1,11 @@
+codecov:
+  notify:
+    require_ci_to_pass: yes
+
+coverage:
+  notify:
+    gitter:
+      default:
+        url: "https://webhooks.gitter.im/e/2532276e31bee9ba82b7"
+
+comment: false

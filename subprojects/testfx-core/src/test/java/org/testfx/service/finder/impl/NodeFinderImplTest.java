@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,7 +16,9 @@
  */
 package org.testfx.service.finder.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javafx.scene.Node;
@@ -29,85 +31,70 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.Lists;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
-import org.testfx.service.finder.NodeFinderException;
 import org.testfx.service.finder.WindowFinder;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assume.assumeThat;
 
 public class NodeFinderImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestRule rule = new TestFXRule();
 
-    static Stage window;
-    static Stage otherWindow;
-    static Stage twinWindow;
+    Stage window;
+    Stage otherWindow;
+    Stage twinWindow;
 
-    static Pane pane;
-    static Node firstIdLabel;
-    static Node secondIdLabel;
-    static Node thirdClassLabel;
-    static Node invisibleNode;
+    Pane pane;
+    Node firstIdLabel;
+    Node secondIdLabel;
+    Node thirdClassLabel;
+    Node invisibleNode;
 
-    static Pane otherPane;
-    static Node subLabel;
-    static Pane otherSubPane;
-    static Node subSubLabel;
+    Pane otherPane;
+    Node subLabel;
+    Pane otherSubPane;
+    Node subSubLabel;
 
-    static Pane twinPane;
-    static Node visibleTwin;
-    static Node invisibleTwin;
+    Pane twinPane;
+    Node visibleTwin;
+    Node invisibleTwin;
 
     WindowFinderStub windowFinder;
     NodeFinderImpl nodeFinder;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
-        FxToolkit.setupFixture(() -> setupStagesClass());
-    }
-
-    @AfterClass
-    public static void cleanupSpec() throws Exception {
-        FxToolkit.setupFixture(() -> cleanupStagesClass());
+    @After
+    public void cleanup() throws TimeoutException {
+        FxToolkit.setupFixture(this::cleanupStages);
     }
 
     @Before
-    public void setup() {
-        assumeThat(System.getProperty("java.specification.version"), is("1.8"));
-
+    public void setup() throws TimeoutException {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupScene(() -> new Scene(new Region(), 600, 400));
+        FxToolkit.setupFixture(this::setupStages);
         windowFinder = new WindowFinderStub();
-        windowFinder.windows = Lists.<Window>newArrayList(window, otherWindow, twinWindow);
+        windowFinder.windows = new ArrayList<>();
+        windowFinder.windows.add(window);
+        windowFinder.windows.add(otherWindow);
+        windowFinder.windows.add(twinWindow);
         nodeFinder = new NodeFinderImpl(windowFinder);
     }
 
-    public static void setupStagesClass() {
+    public void setupStages() {
         pane = new VBox();
         firstIdLabel = new Label("first");
         firstIdLabel.setId("firstId");
@@ -153,15 +140,11 @@ public class NodeFinderImplTest {
         twinWindow.show();
     }
 
-    public static void cleanupStagesClass() {
+    public void cleanupStages() {
         window.close();
         otherWindow.close();
         twinWindow.close();
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void node_string_cssQuery() {
@@ -173,53 +156,10 @@ public class NodeFinderImplTest {
 
     @Test
     public void node_string_labelQuery() {
-
         // expect:
         assertThat(nodeFinder.lookup("first").query(), is(firstIdLabel));
         assertThat(nodeFinder.lookup("second").query(), is(secondIdLabel));
         assertThat(nodeFinder.lookup("third").query(), is(thirdClassLabel));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_cssQuery_nonExistentNode() {
-        // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.lookup("#nonExistentNode").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_cssQuery_invisibleNode() {
-        // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
-    }
-
-    //@Test
-    //public void node_string_cssQuery_twinNodes() {
-    //    System.out.println(nodeFinder.node("#twin"));
-    //    // TODO: test node in invisible container.
-    //}
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_labelQuery_nonExistentNode() {
-        // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.lookup("nonExistent").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void node_string_labelQuery_invisibleNode() {
-        // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.lookup("invisible").query(), is(nullValue()));
     }
 
     @Test
@@ -243,52 +183,25 @@ public class NodeFinderImplTest {
     @Test
     public void nodes_string_cssQuery() {
         // expect:
-        assertThat(nodeFinder.lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void nodes_string_cssQuery_nonExistentNode() {
-        // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("No matching nodes were found.");
-        assertThat(nodeFinder.lookup("#nonExistentNode").query(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("error is only used for robots")
-    public void nodes_string_cssQuery_invisibleNode() {
-        // expect:
-        thrown.expect(NodeFinderException.class);
-        thrown.expectMessage("Matching nodes were found, but none of them are visible.");
-        assertThat(nodeFinder.lookup("#invisibleNode").query(), is(nullValue()));
+        assertThat(nodeFinder.lookup(".sub").queryAll(), hasItems(subLabel, subSubLabel));
     }
 
     @Test
     public void nodes_string_cssQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.from(otherPane).lookup(".sub").queryAll(), contains(subLabel, subSubLabel));
-        assertThat(nodeFinder.from(otherSubPane).lookup(".sub").queryAll(), contains(subSubLabel));
+        assertThat(nodeFinder.from(otherPane).lookup(".sub").queryAll(), hasItems(subLabel, subSubLabel));
+        assertThat(nodeFinder.from(otherSubPane).lookup(".sub").queryAll(), hasItems(subSubLabel));
     }
 
     @Test
     public void nodes_string_labelQuery_parentNode() {
         // expect:
-        assertThat(nodeFinder.from(otherPane).lookup("#subLabel").queryAll(), contains(subLabel));
-        assertThat(nodeFinder.from(otherSubPane).lookup("#subSubLabel").queryAll(), contains(subSubLabel));
+        assertThat(nodeFinder.from(otherPane).lookup("#subLabel").queryAll(), hasItem(subLabel));
+        assertThat(nodeFinder.from(otherSubPane).lookup("#subSubLabel").queryAll(), hasItem(subSubLabel));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
-
     public Predicate<? extends Node> createLabelTextPredicate(final String labelText) {
-        return new Predicate<Label>() {
-            @Override
-            public boolean test(Label label) {
-                return labelText.equals(label.getText());
-            }
-        };
+        return (Predicate<Label>) label -> labelText.equals(label.getText());
     }
 
     public Matcher<? extends Node> createLabelTextMatcher(final String labelText) {
@@ -324,10 +237,6 @@ public class NodeFinderImplTest {
             public void describeTo(Description description) {}
         };
     }
-
-    //---------------------------------------------------------------------------------------------
-    // HELPER CLASSES.
-    //---------------------------------------------------------------------------------------------
 
     public static class WindowFinderStub implements WindowFinder {
         public Window targetWindow;

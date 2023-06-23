@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -19,13 +19,15 @@ package org.testfx.robot.impl;
 import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.DragRobot;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.service.query.PointQuery;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -33,20 +35,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public final class DragRobotImplTest {
+public class DragRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
-    public DragRobot dragRobot;
-
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    DragRobot dragRobot;
+    MouseRobot mouseRobot;
+    MoveRobot moveRobot;
 
     @Before
     public void setup() {
@@ -54,10 +50,6 @@ public final class DragRobotImplTest {
         moveRobot = mock(MoveRobot.class);
         dragRobot = new DragRobotImpl(mouseRobot, moveRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void drag_with_primary_button() {

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -17,61 +17,44 @@
 package org.testfx.matcher.control;
 
 import java.util.Objects;
-import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link TextInputControl}
+ * TestFX matchers for {@link TextInputControl} controls.
  */
-@Unstable(reason = "needs more tests")
 public class TextInputControlMatchers {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private TextInputControlMatchers() {}
 
     /**
-     * Creates a matcher that matches all {@link TextInputControl}s whose text equals the given {@code string}.
+     * Creates a matcher that matches all {@link TextInputControl}s that have text equal to the given {@code text}.
+     *
+     * @param text the {@code String} the matched TextInputControls should have as their text
      */
-    @Factory
-    public static Matcher<Node> hasText(String string) {
-        String descriptionText = "has text \"" + string + "\"";
+    public static Matcher<TextInputControl> hasText(String text) {
+        String descriptionText = "has text \"" + text + "\"";
         return typeSafeMatcher(TextInputControl.class, descriptionText,
-            node -> hasText(node, string));
+            textInputControl -> textInputControl.getClass().getSimpleName() + " with text: \"" +
+                    textInputControl.getText() + "\"",
+            textInputControl -> Objects.equals(text, textInputControl.getText()));
     }
 
     /**
-     * Creates a matcher that matches all {@link TextInputControl}s whose text matches the given {@code matcher}.
+     * Creates a matcher that matches all {@link TextInputControl}s that have text that matches the given
+     * {@code matcher}.
+     *
+     * @param matcher the {@code Matcher<String>} the TextInputControls text should match
      */
-    @Factory
-    public static Matcher<Node> hasText(Matcher<String> matcher) {
+    public static Matcher<TextInputControl> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
         return typeSafeMatcher(TextInputControl.class, descriptionText,
-            node -> hasText(node, matcher));
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasText(TextInputControl textInputControl,
-                                   String string) {
-        return Objects.equals(string, lookupText(textInputControl));
-    }
-
-    private static boolean hasText(TextInputControl textInputControl,
-                                   Matcher<String> matcher) {
-        return matcher.matches(lookupText(textInputControl));
-    }
-
-    private static String lookupText(TextInputControl textInputControl) {
-        return textInputControl.getText();
+            textInputControl -> textInputControl.getClass().getSimpleName() + " with text: \"" +
+                    textInputControl.getText() + "\"",
+            textInputControl -> matcher.matches(textInputControl.getText()));
     }
 
 }

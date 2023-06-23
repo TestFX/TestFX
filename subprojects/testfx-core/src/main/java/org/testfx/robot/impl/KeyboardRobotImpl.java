@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,104 +16,75 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javafx.scene.input.KeyCode;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
+import org.testfx.util.WaitForAsyncUtils;
 
-@Unstable
 public class KeyboardRobotImpl implements KeyboardRobot {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
+    /**
+    * This key is sent depending on the platform via the Robot to Java.
+    */
+    private static final KeyCode OS_SPECIFIC_SHORTCUT = System.getProperty("os.name").toLowerCase(Locale.US)
+            .startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
 
-    private static final KeyCode OS_SPECIFIC_SHORTCUT;
-
-    static {
-        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
-        OS_SPECIFIC_SHORTCUT = osName.startsWith("mac") ? KeyCode.COMMAND : KeyCode.CONTROL;
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    public BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    private final Set<KeyCode> pressedKeys = Sets.newHashSet();
-    public final Set<KeyCode> getPressedKeys() {
-        return Collections.unmodifiableSet(pressedKeys);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final BaseRobot baseRobot;
+    private final Set<KeyCode> pressedKeys = ConcurrentHashMap.newKeySet();
 
     public KeyboardRobotImpl(BaseRobot baseRobot) {
+        Objects.requireNonNull(baseRobot, "baseRobot must not be null");
         this.baseRobot = baseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
+ 
     @Override
     public void press(KeyCode... keys) {
-        pressNoWait(keys);
-        baseRobot.awaitEvents();
+        Arrays.asList(keys).forEach(k -> {
+            pressKey(k);
+            WaitForAsyncUtils.waitForFxEvents();
+        });
     }
 
     @Override
     public void pressNoWait(KeyCode... keys) {
-        pressKeys(Lists.newArrayList(keys));
+        Arrays.asList(keys).forEach(this::pressKey);
     }
 
     @Override
     public void release(KeyCode... keys) {
-        releaseNoWait(keys);
-        baseRobot.awaitEvents();
+        if (keys.length == 0) {
+            pressedKeys.forEach(k -> {
+                releaseKey(k);
+                WaitForAsyncUtils.waitForFxEvents();
+            });
+        } else {
+            Arrays.asList(keys).forEach(k -> {
+                releaseKey(k);
+                WaitForAsyncUtils.waitForFxEvents();
+            });
+        }
     }
 
     @Override
     public void releaseNoWait(KeyCode... keys) {
-        if (isArrayEmpty(keys)) {
-            releasePressedKeys();
+        if (keys.length == 0) {
+            pressedKeys.forEach(this::releaseKey);
         }
         else {
-            releaseKeys(Lists.newArrayList(keys));
+            Arrays.asList(keys).forEach(this::releaseKey);
         }
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private boolean isArrayEmpty(Object[] elements) {
-        return elements.length == 0;
-    }
-
-    private void pressKeys(List<KeyCode> keyCodes) {
-        keyCodes.forEach(this::pressKey);
-    }
-
-    private void releaseKeys(List<KeyCode> keyCodes) {
-        keyCodes.forEach(this::releaseKey);
-    }
-
-    private void releasePressedKeys() {
-        releaseKeys(Lists.newArrayList(pressedKeys));
+    @Override
+    public final Set<KeyCode> getPressedKeys() {
+        return Collections.unmodifiableSet(pressedKeys);
     }
 
     private void pressKey(KeyCode keyCode) {

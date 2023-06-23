@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -39,7 +39,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Window;
 
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
+import org.testfx.robot.Motion;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.finder.WindowFinder;
 import org.testfx.service.query.BoundsQuery;
@@ -53,1023 +53,1304 @@ import org.testfx.util.WaitForAsyncUtils;
  * convenience methods, such as finding a given node, scene or window via a {@link PointQuery}, a {@link Predicate},
  * or a {@link Matcher}.
  */
-@Unstable(reason = "interface was recently added")
 public interface FxRobotInterface {
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WINDOW TARGETING.
-    //---------------------------------------------------------------------------------------------
 
     /**
      * Calls {@link WindowFinder#targetWindow()} and returns itself for method chaining.
      */
-    public Window targetWindow();
+    Window targetWindow();
 
     /**
      * Calls {@link WindowFinder#targetWindow(Window)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(Window window);
+    FxRobotInterface targetWindow(Window window);
 
     /**
      * Calls {@link WindowFinder#targetWindow(Predicate)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(Predicate<Window> predicate);
+    FxRobotInterface targetWindow(Predicate<Window> predicate);
 
     // Convenience methods:
     /**
      * Convenience method: Calls {@link WindowFinder#targetWindow(int)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(int windowIndex);
+    FxRobotInterface targetWindow(int windowIndex);
 
     /**
      * Convenience method: Calls {@link WindowFinder#targetWindow(String)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(String stageTitleRegex);
+    FxRobotInterface targetWindow(String stageTitleRegex);
 
     /**
      * Convenience method: Calls {@link WindowFinder#targetWindow(Pattern)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(Pattern stageTitlePattern);
+    FxRobotInterface targetWindow(Pattern stageTitlePattern);
 
     /**
      * Convenience method: Calls {@link WindowFinder#targetWindow(Scene)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(Scene scene);
+    FxRobotInterface targetWindow(Scene scene);
 
     /**
      * Convenience method: Calls {@link WindowFinder#targetWindow(Node)} and returns itself for method chaining.
      */
-    public FxRobotInterface targetWindow(Node node);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WINDOW LOOKUP.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface targetWindow(Node node);
 
     /**
      * Calls {@link WindowFinder#listWindows()} ()} and returns itself for method chaining.
      */
-    public List<Window> listWindows();
+    List<Window> listWindows();
 
     /**
      * Calls {@link WindowFinder#listTargetWindows()} and returns itself for method chaining.
      */
-    public List<Window> listTargetWindows();
+    List<Window> listTargetWindows();
 
     /**
      * Calls {@link WindowFinder#window(Predicate)} and returns itself for method chaining.
      */
-    public Window window(Predicate<Window> predicate);
+    Window window(Predicate<Window> predicate);
 
     // Convenience methods:
     /**
      * Convenience method: Calls {@link WindowFinder#window(int)} and returns itself for method chaining.
      */
-    public Window window(int windowIndex);
+    Window window(int windowIndex);
 
     /**
      * Convenience method: Calls {@link WindowFinder#window(String)} and returns itself for method chaining.
      */
-    public Window window(String stageTitleRegex);
+    Window window(String stageTitleRegex);
 
     /**
      * Convenience method: Calls {@link WindowFinder#window(Pattern)} and returns itself for method chaining.
      */
-    public Window window(Pattern stageTitlePattern);
+    Window window(Pattern stageTitlePattern);
 
     /**
      * Convenience method: Calls {@link WindowFinder#window(Scene)} and returns itself for method chaining.
      */
-    public Window window(Scene scene);
+    Window window(Scene scene);
 
     /**
      * Convenience method: Calls {@link WindowFinder#window(Node)} and returns itself for method chaining.
      */
-    public Window window(Node node);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR NODE LOOKUP.
-    //---------------------------------------------------------------------------------------------
+    Window window(Node node);
 
     /**
      * Calls {@link NodeFinder#fromAll()} and returns itself for method chaining.
      */
-    public NodeQuery fromAll();
+    NodeQuery fromAll();
 
     /**
      * Calls {@link NodeFinder#from(Node...)} and returns itself for method chaining.
      */
-    public NodeQuery from(Node... parentNodes);
+    NodeQuery from(Node... parentNodes);
 
     /**
      * Calls {@link NodeFinder#from(Collection)} and returns itself for method chaining.
      */
-    public NodeQuery from(Collection<Node> parentNodes);
+    NodeQuery from(Collection<Node> parentNodes);
 
     /**
      * Calls {@link NodeFinder#rootNode(Window)} and returns itself for method chaining.
      */
-    public Node rootNode(Window window);
+    Node rootNode(Window window);
 
     /**
      * Calls {@link NodeFinder#rootNode(Scene)} and returns itself for method chaining.
      */
-    public Node rootNode(Scene scene);
+    Node rootNode(Scene scene);
 
     /**
      * Calls {@link NodeFinder#rootNode(Node)} and returns itself for method chaining.
      */
-    public Node rootNode(Node node);
+    Node rootNode(Node node);
 
     // Convenience methods:
     /**
      * Convenience method: Calls {@link NodeFinder#lookup(String)} and returns itself for method chaining.
      */
-    public NodeQuery lookup(String query);
+    NodeQuery lookup(String query);
 
     /**
      * Convenience method: Calls {@link NodeFinder#lookup(Matcher)} and returns itself for method chaining.
      */
-    public <T extends Node> NodeQuery lookup(Matcher<T> matcher);
+    <T extends Node> NodeQuery lookup(Matcher<T> matcher);
 
     /**
      * Convenience method: Calls {@link NodeFinder#lookup(Predicate)} and returns itself for method chaining.
      */
-    public <T extends Node> NodeQuery lookup(Predicate<T> predicate);
+    <T extends Node> NodeQuery lookup(Predicate<T> predicate);
 
     /**
      * Convenience method: Calls {@link NodeFinder#from(NodeQuery)} and returns itself for method chaining.
      */
-    public NodeQuery from(NodeQuery nodeQuery);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR BOUNDS LOCATION.
-    //---------------------------------------------------------------------------------------------
+    NodeQuery from(NodeQuery nodeQuery);
 
     /**
      * Calls {@link org.testfx.util.BoundsQueryUtils#bounds(double, double, double, double)}
      */
-    public BoundsQuery bounds(double minX,
-                              double minY,
-                              double width,
-                              double height);
+    BoundsQuery bounds(double minX, double minY, double width, double height);
 
     /**
      * Calls {@link org.testfx.util.BoundsQueryUtils#bounds(Point2D)}
      */
-    public BoundsQuery bounds(Point2D point);
+    BoundsQuery bounds(Point2D point);
 
     /**
      * Creates a {@code BoundsQuery} that returns the given bounds
      */
-    public BoundsQuery bounds(Bounds bounds);
+    BoundsQuery bounds(Bounds bounds);
 
     /**
      * Calls {@link org.testfx.util.BoundsQueryUtils#boundsOnScreen(Node)}
      */
-    public BoundsQuery bounds(Node node);
+    BoundsQuery bounds(Node node);
 
     /**
      * Calls {@link org.testfx.util.BoundsQueryUtils#boundsOnScreen(Bounds, Scene)} with given scene's bounds
      */
-    public BoundsQuery bounds(Scene scene);
+    BoundsQuery bounds(Scene scene);
 
     /**
      * Calls {@link org.testfx.util.BoundsQueryUtils#boundsOnScreen(Bounds, Window)} with the given window's bounds
      */
-    public BoundsQuery bounds(Window window);
-
-    // Convenience methods:
-    /**
-     * NOT YET IMPLEMENTED
-     */
-    public BoundsQuery bounds(String query);
+    BoundsQuery bounds(Window window);
 
     /**
      * NOT YET IMPLEMENTED
      */
-    public <T extends Node> BoundsQuery bounds(Matcher<T> matcher);
+    BoundsQuery bounds(String query);
 
     /**
      * NOT YET IMPLEMENTED
      */
-    public <T extends Node> BoundsQuery bounds(Predicate<T> predicate);
+    <T extends Node> BoundsQuery bounds(Matcher<T> matcher);
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR POINT POSITION.
-    //---------------------------------------------------------------------------------------------
+    /**
+     * NOT YET IMPLEMENTED
+     */
+    <T extends Node> BoundsQuery bounds(Predicate<T> predicate);
 
     /**
      * Stores the given position as the position to be used in all {@code point()}-related methods
      * such as {@link #point(Node)} and {@link #point(Point2D)}, and returns itself for method chaining.
      * The default value is {@link Pos#CENTER}
      */
-    public FxRobotInterface targetPos(Pos pointPosition);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR POINT LOCATION.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface targetPos(Pos pointPosition);
 
     /**
      * Calls {@link org.testfx.service.locator.PointLocator#point(Point2D)} using {@code new Point2D(x, y)} and sets
      * the {@code PointQuery}'s {@link PointQuery#getPosition()} to {@link FxRobotContext#getPointPosition()}.
      */
-    public PointQuery point(double x,
-                            double y);
+    PointQuery point(double x, double y);
 
     /**
      * Calls {@link org.testfx.service.locator.PointLocator#point(Point2D)} and sets the {@code PointQuery}'s
      * {@link PointQuery#getPosition()} to {@link FxRobotContext#getPointPosition()}.
      */
-    public PointQuery point(Point2D point);
+    PointQuery point(Point2D point);
 
     /**
      * Calls {@link org.testfx.service.locator.PointLocator#point(Bounds)} and sets the {@code PointQuery}'s
      * {@link PointQuery#getPosition()} to {@link FxRobotContext#getPointPosition()}.
      */
-    public PointQuery point(Bounds bounds);
+    PointQuery point(Bounds bounds);
 
     /**
      * Calls {@link org.testfx.service.locator.PointLocator#point(Node)} and sets the {@code PointQuery}'s
      * {@link PointQuery#getPosition()} to {@link FxRobotContext#getPointPosition()}.
      */
-    public PointQuery point(Node node);
+    PointQuery point(Node node);
 
     /**
      * Calls {@link org.testfx.service.locator.PointLocator#point(Scene)} and sets the {@code PointQuery}'s
      * {@link PointQuery#getPosition()} to {@link FxRobotContext#getPointPosition()}.
      */
-    public PointQuery point(Scene scene);
+    PointQuery point(Scene scene);
 
     /**
      * Calls {@link org.testfx.service.locator.PointLocator#point(Window)} and sets the {@code PointQuery}'s
      * {@link PointQuery#getPosition()} to {@link FxRobotContext#getPointPosition()}.
      */
-    public PointQuery point(Window window);
+    PointQuery point(Window window);
 
-    // Convenience methods:
     /**
      * Convenience method: Tries to find a given node via {@link #lookup(String)} before calling {@link #point(Node)},
      * throwing a {@link FxRobotException} if no node is found.
      */
-    public PointQuery point(String query);
+    PointQuery point(String query);
 
     /**
      * Convenience method: Tries to find a given node via {@link #lookup(Matcher)} before calling {@link #point(Node)},
      * throwing a {@link FxRobotException} if no node is found.
      */
-    public <T extends Node> PointQuery point(Matcher<T> matcher);
+    <T extends Node> PointQuery point(Matcher<T> matcher);
 
     /**
      * Convenience method: Tries to find a given node via {@link #lookup(Predicate)} before calling
      * {@link #point(Node)}, throwing a {@link FxRobotException} if no node is found.
      */
-    public <T extends Node> PointQuery point(Predicate<T> predicate);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR POINT OFFSET.
-    //---------------------------------------------------------------------------------------------
-
-    //public PointQuery offset(PointQuery pointQuery, double offsetX, double offsetY);
-
-    // Convenience methods:
+    <T extends Node> PointQuery point(Predicate<T> predicate);
 
     /**
      * Convenience method: Calls {@link #point(Point2D)} and sets the query's offset by the given offset values.
      */
-    public PointQuery offset(Point2D point,
-                             double offsetX,
-                             double offsetY);
+    PointQuery offset(Point2D point, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Point2D)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Point2D point, Point2D offset) {
+        return offset(point, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Bounds)} and sets the query's offset by the given offset values.
      */
-    public PointQuery offset(Bounds bounds,
-                             double offsetX,
-                             double offsetY);
+    PointQuery offset(Bounds bounds, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Bounds)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Bounds bounds, Point2D offset) {
+        return offset(bounds, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset values.
      */
-    public PointQuery offset(Node node,
-                             double offsetX,
-                             double offsetY);
+    PointQuery offset(Node node, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Node node, Point2D offset) {
+        return offset(node, offset.getX(), offset.getY());
+    }
+
+    /**
+     * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset values
+     * where the offset is computed with respect to the given offset reference position.
+     */
+    PointQuery offset(Node node, Pos offsetReferencePos, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Node)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY) where the
+     * offset is computed with respect to the given offset reference position.
+     */
+    default PointQuery offset(Node node, Pos offsetReferencePos, Point2D offset) {
+        return offset(node, offsetReferencePos, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Scene)} and sets the query's offset by the given offset values.
      */
-    public PointQuery offset(Scene scene,
-                             double offsetX,
-                             double offsetY);
+    PointQuery offset(Scene scene, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Scene)} and sets the query's offset by the given offset offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Scene scene, Point2D offset) {
+        return offset(scene, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Window)} and sets the query's offset by the given offset values.
      */
-    public PointQuery offset(Window window,
-                             double offsetX,
-                             double offsetY);
+    PointQuery offset(Window window, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Window)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(Window window, Point2D offset) {
+        return offset(window, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(String)} and sets the query's offset by the given offset values.
      */
-    public PointQuery offset(String query,
-                             double offsetX,
-                             double offsetY);
+    PointQuery offset(String query, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(String)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default PointQuery offset(String query, Point2D offset) {
+        return offset(query, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Matcher)} and sets the query's offset by the given offset values.
      */
-    public <T extends Node> PointQuery offset(Matcher<T> matcher,
-                                              double offsetX,
-                                              double offsetY);
+    <T extends Node> PointQuery offset(Matcher<T> matcher, double offsetX, double offsetY);
+
+    /**
+     * Convenience method: Calls {@link #point(Matcher)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default <T extends Node> PointQuery offset(Matcher<T> matcher, Point2D offset) {
+        return offset(matcher, offset.getX(), offset.getY());
+    }
 
     /**
      * Convenience method: Calls {@link #point(Predicate)} and sets the query's offset by the given offset values.
      */
-    public <T extends Node> PointQuery offset(Predicate<T> predicate,
-                                              double offsetX,
-                                              double offsetY);
+    <T extends Node> PointQuery offset(Predicate<T> predicate, double offsetX, double offsetY);
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR SCREEN CAPTURING.
-    //---------------------------------------------------------------------------------------------
+    /**
+     * Convenience method: Calls {@link #point(Predicate)} and sets the query's offset by the given offset point
+     * (where the point's x-component is the offsetX, and the point's y-component is the offsetY).
+     */
+    default <T extends Node> PointQuery offset(Predicate<T> predicate, Point2D offset) {
+        return offset(predicate, offset.getX(), offset.getY());
+    }
 
     /**
      * Returns a {@link Capture} that supplies a screenshot using the given rectangle's bounds.
      */
-    public Capture capture(Rectangle2D screenRegion);
+    Capture capture(Rectangle2D screenRegion);
 
     /**
      * Returns a {@link Capture} that supplies a screenshot using the given bounds.
      */
-    public Capture capture(Bounds bounds);
+    Capture capture(Bounds bounds);
 
     /**
      * Returns a {@link Capture} that supplies a screenshot using the given node's bounds.
      */
-    public Capture capture(Node node);
+    Capture capture(Node node);
 
     // Convenience methods:
     /**
      * Convenience method: Returns a {@link Capture} that supplies the given {@link Image}.
      */
-    public Capture capture(Image image);
+    Capture capture(Image image);
 
     /**
      * Convenience method: Returns a {@link Capture} that supplies the {@link Image} from the image file of the
      * given {@link Path}.
      */
-    public Capture capture(Path path);
+    Capture capture(Path path);
 
     /**
      * Convenience method: Returns a {@link Capture} that supplies the {@link Image} from the image file of the
      * given {@link URL}.
      */
-    public Capture capture(URL url);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR INTERACTION AND INTERRUPTION.
-    //---------------------------------------------------------------------------------------------
+    Capture capture(URL url);
 
     /**
      * Calls a runnable on the FX application thread and waits for it and
      * consecutive events to execute. So changes to the gui triggered by the
      * runnable will be performed when returned from this method.
-     * 
-     * @param runnable
-     *            the runnable
+     *
+     * @param runnable the runnable
      * @return this robot
      */
-    public FxRobotInterface interact(Runnable runnable);
+    FxRobotInterface interact(Runnable runnable);
 
     /**
      * Calls a callable on the FX application thread and waits for it and
      * consecutive events to execute. So changes to the gui triggered by the
      * callable will be performed when returned from this method.
-     * 
-     * @param callable
-     *            the callable
+     *
+     * @param callable the callable
      * @return this robot
      */
-    public <T> FxRobotInterface interact(Callable<T> callable);
-    
+    <T> FxRobotInterface interact(Callable<T> callable);
+
     /**
      * Calls a runnable on the FX application thread and waits for it to
      * execute. It does not wait for other events on the fx application thread.
      * So changes to the gui triggered by the runnable may not be performed when
      * returned from this method.
-     * 
-     * @param runnable
-     *            the runnable
+     *
+     * @param runnable the runnable
      * @return this robot
      */
-    public FxRobotInterface interactNoWait(Runnable runnable);
+    FxRobotInterface interactNoWait(Runnable runnable);
 
     /**
      * Calls a callable on the FX application thread and waits for it to
      * execute. It does not wait for other events on the fx application thread.
      * So changes to the gui triggered by the callable may not be performed when
      * returned from this method.
-     * 
-     * @param callable
-     *            the callable
+     *
+     * @param callable the callable
      * @return this robot
      */
-    public <T> FxRobotInterface interactNoWait(Callable<T> callable);
+    <T> FxRobotInterface interactNoWait(Callable<T> callable);
 
     /**
      * Calls {@link WaitForAsyncUtils#waitForFxEvents()} and returns itself for method chaining.
      */
-    public FxRobotInterface interrupt();
+    FxRobotInterface interrupt();
 
     /**
      * Calls {@link WaitForAsyncUtils#waitForFxEvents(int)} and returns itself for method chaining.
      */
-    public FxRobotInterface interrupt(int attemptsCount);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR SLEEPING.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface interrupt(int attemptsCount);
 
     /**
      * Calls {@link org.testfx.robot.SleepRobot#sleep(long)} and returns itself for more method chaining.
      */
-    public FxRobotInterface sleep(long milliseconds);
+    FxRobotInterface sleep(long milliseconds);
 
     /**
      * Calls {@link org.testfx.robot.SleepRobot#sleep(long, TimeUnit)} and returns itself for more method chaining.
      */
-    public FxRobotInterface sleep(long duration,
-                                  TimeUnit timeUnit);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR CLICKING.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface sleep(long duration, TimeUnit timeUnit);
 
     /**
      * Calls {@link org.testfx.robot.ClickRobot#clickOn(MouseButton...)} and returns itself for more method chaining.
      */
-    public FxRobotInterface clickOn(MouseButton... buttons);
+    FxRobotInterface clickOn(MouseButton... buttons);
+
+    /**
+     * Calls {@link org.testfx.robot.ClickRobot#clickOn(PointQuery, Motion, MouseButton...)} and returns itself for
+     * more method chaining.
+     */
+    default FxRobotInterface clickOn(PointQuery pointQuery, MouseButton... buttons) {
+        return clickOn(pointQuery, Motion.DEFAULT, buttons);
+    }
 
     /**
      * Calls {@link org.testfx.robot.ClickRobot#clickOn(PointQuery, MouseButton...)} and returns itself for more method
      * chaining.
      */
-    public FxRobotInterface clickOn(PointQuery pointQuery,
-                                    MouseButton... buttons);
+    FxRobotInterface clickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons);
 
     /**
      * Calls {@link org.testfx.robot.ClickRobot#doubleClickOn(MouseButton...)} and returns itself for more method
      * chaining.
      */
-    public FxRobotInterface doubleClickOn(MouseButton... buttons);
+    FxRobotInterface doubleClickOn(MouseButton... buttons);
 
     /**
-     * Calls {@link org.testfx.robot.ClickRobot#doubleClickOn(PointQuery, MouseButton...)} and returns itself
+     * Calls {@link org.testfx.robot.ClickRobot#doubleClickOn(PointQuery, Motion, MouseButton...)} and returns itself
      * for method chaining.
      */
-    public FxRobotInterface doubleClickOn(PointQuery pointQuery,
-                                          MouseButton... buttons);
-
-    // Convenience methods:
-    /**
-     * Convenience method: Moves mouse to the given coordinates, clicks the given buttons, and returns itself for
-     * method chaining
-     */
-    public FxRobotInterface clickOn(double x,
-                                    double y,
-                                    MouseButton... buttons);
+    default FxRobotInterface doubleClickOn(PointQuery pointQuery, MouseButton... buttons) {
+        return doubleClickOn(pointQuery, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the given point, clicks the given buttons, and returns itself for method
-     * chaining.
+     * Calls {@link org.testfx.robot.ClickRobot#doubleClickOn(PointQuery, Motion, MouseButton...)} and returns itself
+     * for method chaining.
      */
-    public FxRobotInterface clickOn(Point2D point,
-                                    MouseButton... buttons);
+    FxRobotInterface doubleClickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Bounds)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse directly to the given coordinates, clicks the given buttons, and returns itself
+     * for method chaining.
      */
-    public FxRobotInterface clickOn(Bounds bounds,
-                                    MouseButton... buttons);
+    default FxRobotInterface clickOn(double x, double y, MouseButton... buttons) {
+        return clickOn(x, y, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Node)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the given coordinates,
+     * clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface clickOn(Node node,
-                                    MouseButton... buttons);
+    FxRobotInterface clickOn(double x, double y, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Scene)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse directly to the given point, clicks the given buttons, and returns itself for
+     * method chaining.
      */
-    public FxRobotInterface clickOn(Scene scene,
-                                   MouseButton... buttons);
+    default FxRobotInterface clickOn(Point2D point, MouseButton... buttons) {
+        return clickOn(point, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Window)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the given point, clicks
+     * the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface clickOn(Window window,
-                                    MouseButton... buttons);
+    FxRobotInterface clickOn(Point2D point, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(String)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Bounds)}, clicks the given
+     * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface clickOn(String query,
-                                    MouseButton... buttons);
+    default FxRobotInterface clickOn(Bounds bounds, MouseButton... buttons) {
+        return clickOn(bounds, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Matcher)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned
+     * from {@link #point(Bounds)}, clicks the given buttons, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface clickOn(Matcher<T> matcher,
-                                                     MouseButton... buttons);
+    FxRobotInterface clickOn(Bounds bounds, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Predicate)}, clicks the given buttons,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Node)}, clicks the given
+     * buttons, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface clickOn(Predicate<T> predicate,
-                                                     MouseButton... buttons);
+    default FxRobotInterface clickOn(Node node, MouseButton... buttons) {
+        return clickOn(node, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Node)}, clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface clickOn(Node node, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Scene)}, clicks the given
+     * buttons, and returns itself for method chaining.
+     */
+    default FxRobotInterface clickOn(Scene scene, MouseButton... buttons) {
+        return clickOn(scene, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Scene)}, clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface clickOn(Scene scene, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Window)}, clicks the given
+     * buttons, and returns itself for method chaining.
+     */
+    default FxRobotInterface clickOn(Window window, MouseButton... buttons) {
+        return clickOn(window, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Window)}, clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface clickOn(Window window, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(String)}, clicks the given
+     * buttons, and returns itself for method chaining.
+     */
+    default FxRobotInterface clickOn(String query, MouseButton... buttons) {
+        return clickOn(query, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(String)}, clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface clickOn(String query, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Matcher)}, clicks the given
+     * buttons, and returns itself for method chaining.
+     */
+    default <T extends Node> FxRobotInterface clickOn(Matcher<T> matcher, MouseButton... buttons) {
+        return clickOn(matcher, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Matcher)}, clicks the given buttons, and returns itself for method chaining.
+     */
+    <T extends Node> FxRobotInterface clickOn(Matcher<T> matcher, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Predicate)}, clicks the given
+     * buttons, and returns itself for method chaining.
+     */
+    default <T extends Node> FxRobotInterface clickOn(Predicate<T> predicate, MouseButton... buttons) {
+        return clickOn(predicate, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Predicate)}, clicks the given buttons, and returns itself for method chaining.
+     */
+    <T extends Node> FxRobotInterface clickOn(Predicate<T> predicate, Motion motion, MouseButton... buttons);
 
     /**
      * Convenience method: Clicks the {@link MouseButton#SECONDARY} button and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn();
+    FxRobotInterface rightClickOn();
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link PointQuery#query()}, clicks
+     * Convenience method: Moves mouse directly to the point returned from {@link PointQuery#query()}, clicks
      * the {@link MouseButton#SECONDARY} button and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(PointQuery pointQuery);
+    default FxRobotInterface rightClickOn(PointQuery pointQuery) {
+        return rightClickOn(pointQuery, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the given coordinates, clicks the {@link MouseButton#SECONDARY} button,
-     * and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link PointQuery#query()}, clicks the {@link MouseButton#SECONDARY} button and returns itself for method
+     * chaining.
      */
-    public FxRobotInterface rightClickOn(double x,
-                                         double y);
+    FxRobotInterface rightClickOn(PointQuery pointQuery, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the given coordinates, clicks the {@link MouseButton#SECONDARY}
+     * button, and returns itself for method chaining.
+     */
+    default FxRobotInterface rightClickOn(double x, double y) {
+        return rightClickOn(x, y, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the given coordinates,
+     * clicks the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
+     */
+    FxRobotInterface rightClickOn(double x, double y, Motion motion);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Point2D)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(Point2D point);
+    default FxRobotInterface rightClickOn(Point2D point) {
+        return rightClickOn(point, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Bounds)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Point2D)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method
+     * chaining.
+     */
+    FxRobotInterface rightClickOn(Point2D point, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Bounds)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(Bounds bounds);
+    default FxRobotInterface rightClickOn(Bounds bounds) {
+        return rightClickOn(bounds, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Node)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Bounds)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
+     */
+    FxRobotInterface rightClickOn(Bounds bounds, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Node)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(Node node);
+    default FxRobotInterface rightClickOn(Node node) {
+        return rightClickOn(node, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Scene)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Node)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
+     */
+    FxRobotInterface rightClickOn(Node node, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Scene)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(Scene scene);
+    default FxRobotInterface rightClickOn(Scene scene) {
+        return rightClickOn(scene, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Window)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Scene)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
+     */
+    FxRobotInterface rightClickOn(Scene scene, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Window)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(Window window);
+    default FxRobotInterface rightClickOn(Window window) {
+        return rightClickOn(window, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(String)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Window)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
+     */
+    FxRobotInterface rightClickOn(Window window, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(String)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public FxRobotInterface rightClickOn(String query);
+    default FxRobotInterface rightClickOn(String query) {
+        return rightClickOn(query, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Matcher)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(String)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
+     */
+    FxRobotInterface rightClickOn(String query, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Matcher)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface rightClickOn(Matcher<T> matcher);
+    default <T extends Node> FxRobotInterface rightClickOn(Matcher<T> matcher) {
+        return rightClickOn(matcher, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Predicate)}, clicks
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Matcher)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method
+     * chaining.
+     */
+    <T extends Node> FxRobotInterface rightClickOn(Matcher<T> matcher, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Predicate)}, clicks
      * the {@link MouseButton#SECONDARY} button, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface rightClickOn(Predicate<T> predicate);
+    default <T extends Node> FxRobotInterface rightClickOn(Predicate<T> predicate) {
+        return rightClickOn(predicate, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(double, double)}, double
-     * clicks the given buttons, and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Predicate)}, clicks the {@link MouseButton#SECONDARY} button, and returns itself for method
+     * chaining.
      */
-    public FxRobotInterface doubleClickOn(double x,
-                                          double y,
-                                          MouseButton... buttons);
+    <T extends Node> FxRobotInterface rightClickOn(Predicate<T> predicate, Motion motion);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Point2D)}, double
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(double, double)}, double
      * clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface doubleClickOn(Point2D point,
-                                          MouseButton... buttons);
+    default FxRobotInterface doubleClickOn(double x, double y, MouseButton... buttons) {
+        return doubleClickOn(x, y, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Bounds)}, double
-     * clicks the given buttons, and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(double, double)}, double clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface doubleClickOn(Bounds bounds,
-                                          MouseButton... buttons);
+    FxRobotInterface doubleClickOn(double x, double y, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Node)}, double
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Point2D)}, double
      * clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface doubleClickOn(Node node,
-                                          MouseButton... buttons);
+    default FxRobotInterface doubleClickOn(Point2D point, MouseButton... buttons) {
+        return doubleClickOn(point, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Scene)}, double
-     * clicks the given buttons, and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Point2D)}, double clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface doubleClickOn(Scene scene,
-                                          MouseButton... buttons);
+    FxRobotInterface doubleClickOn(Point2D point, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Window)}, double
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Bounds)}, double
      * clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface doubleClickOn(Window window,
-                                          MouseButton... buttons);
+    default FxRobotInterface doubleClickOn(Bounds bounds, MouseButton... buttons) {
+        return doubleClickOn(bounds, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(String)}, double
-     * clicks the given buttons, and returns itself for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Bounds)}, double clicks the given buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface doubleClickOn(String query,
-                                          MouseButton... buttons);
+    FxRobotInterface doubleClickOn(Bounds bounds, Motion motion, MouseButton... buttons);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Matcher)}, double
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Node)}, double
      * clicks the given buttons, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface doubleClickOn(Matcher<T> matcher,
-                                                           MouseButton... buttons);
+    default FxRobotInterface doubleClickOn(Node node, MouseButton... buttons) {
+        return doubleClickOn(node, Motion.DEFAULT, buttons);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Predicate)}, double
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Node)}, double clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface doubleClickOn(Node node, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Scene)}, double
      * clicks the given buttons, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface doubleClickOn(Predicate<T> predicate,
-                                                           MouseButton... buttons);
+    default FxRobotInterface doubleClickOn(Scene scene, MouseButton... buttons) {
+        return doubleClickOn(scene, Motion.DEFAULT, buttons);
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR DRAGGING.
-    //---------------------------------------------------------------------------------------------
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Scene)}, double clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface doubleClickOn(Scene scene, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Window)}, double
+     * clicks the given buttons, and returns itself for method chaining.
+     */
+    default FxRobotInterface doubleClickOn(Window window, MouseButton... buttons) {
+        return doubleClickOn(window, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Window)}, double clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface doubleClickOn(Window window, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(String)}, double
+     * clicks the given buttons, and returns itself for method chaining.
+     */
+    default FxRobotInterface doubleClickOn(String query, MouseButton... buttons) {
+        return doubleClickOn(query, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(String)}, double clicks the given buttons, and returns itself for method chaining.
+     */
+    FxRobotInterface doubleClickOn(String query, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Matcher)}, double
+     * clicks the given buttons, and returns itself for method chaining.
+     */
+    default <T extends Node> FxRobotInterface doubleClickOn(Matcher<T> matcher, MouseButton... buttons) {
+        return doubleClickOn(matcher, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Matcher)}, double clicks the given buttons, and returns itself for method chaining.
+     */
+    <T extends Node> FxRobotInterface doubleClickOn(Matcher<T> matcher, Motion motion, MouseButton... buttons);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Predicate)}, double
+     * clicks the given buttons, and returns itself for method chaining.
+     */
+    default <T extends Node> FxRobotInterface doubleClickOn(Predicate<T> predicate, MouseButton... buttons) {
+        return doubleClickOn(predicate, Motion.DEFAULT, buttons);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Predicate)}, double clicks the given buttons, and returns itself for method chaining.
+     */
+    <T extends Node> FxRobotInterface doubleClickOn(Predicate<T> predicate, Motion motion, MouseButton... buttons);
 
     /**
      * Calls {@link org.testfx.robot.DragRobot#drag(MouseButton...)} and returns itself for more method chaining.
      */
-    public FxRobotInterface drag(MouseButton... buttons);
+    FxRobotInterface drag(MouseButton... buttons);
 
     /**
      * Calls {@link org.testfx.robot.DragRobot#drag(PointQuery, MouseButton...)} and returns itself for more method
      * chaining.
      */
-    public FxRobotInterface drag(PointQuery pointQuery,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(PointQuery pointQuery, MouseButton... buttons);
 
     /**
      * Calls {@link org.testfx.robot.DragRobot#drop()} and returns itself for more method chaining.
      */
-    public FxRobotInterface drop();
+    FxRobotInterface drop();
 
     /**
      * Calls {@link org.testfx.robot.DragRobot#dropTo(PointQuery)} and returns itself for more method chaining.
      */
-    public FxRobotInterface dropTo(PointQuery pointQuery);
+    FxRobotInterface dropTo(PointQuery pointQuery);
 
     /**
      * Calls {@link org.testfx.robot.DragRobot#dropBy(double, double)} and returns itself for more method chaining.
      */
-    public FxRobotInterface dropBy(double x,
-                                   double y);
+    FxRobotInterface dropBy(double x, double y);
 
-    // Convenience methods:
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(double, double)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(double x,
-                                 double y,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(double x, double y, MouseButton... buttons);
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Point2D)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(Point2D point,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(Point2D point, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Bounds)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(Bounds bounds,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(Bounds bounds, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Node)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(Node node,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(Node node, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Scene)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(Scene scene,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(Scene scene, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Window)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(Window window,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(Window window, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(String)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public FxRobotInterface drag(String query,
-                                 MouseButton... buttons);
+    FxRobotInterface drag(String query, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Matcher)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface drag(Matcher<T> matcher,
-                                                  MouseButton... buttons);
+    <T extends Node> FxRobotInterface drag(Matcher<T> matcher, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Predicate)}, presses the given
      * buttons, and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface drag(Predicate<T> predicate,
-                                                  MouseButton... buttons);
+    <T extends Node> FxRobotInterface drag(Predicate<T> predicate, MouseButton... buttons);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(double, double)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(double x,
-                                   double y);
+    FxRobotInterface dropTo(double x, double y);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Point2D)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(Point2D point);
+    FxRobotInterface dropTo(Point2D point);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Bounds)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(Bounds bounds);
+    FxRobotInterface dropTo(Bounds bounds);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Node)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(Node node);
+    FxRobotInterface dropTo(Node node);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Scene)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(Scene scene);
+    FxRobotInterface dropTo(Scene scene);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Window)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(Window window);
+    FxRobotInterface dropTo(Window window);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(String)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public FxRobotInterface dropTo(String query);
+    FxRobotInterface dropTo(String query);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Matcher)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface dropTo(Matcher<T> matcher);
+    <T extends Node> FxRobotInterface dropTo(Matcher<T> matcher);
 
     /**
      * Convenience method: Moves mouse to the point returned from {@link #point(Predicate)}, releases the buttons
      * that were pressed in {@link #drag(MouseButton...)}- or {@link #press(MouseButton...)}-related methods,
      * and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface dropTo(Predicate<T> predicate);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR KEYBOARD.
-    //---------------------------------------------------------------------------------------------
+    <T extends Node> FxRobotInterface dropTo(Predicate<T> predicate);
 
     /**
      * Calls {@link org.testfx.robot.KeyboardRobot#press(KeyCode...)} and returns itself for method chaining.
      */
-    public FxRobotInterface press(KeyCode... keys);
+    FxRobotInterface press(KeyCode... keys);
 
     /**
      * Calls {@link org.testfx.robot.KeyboardRobot#press(KeyCode...)} and returns itself for method chaining.
      */
-    public FxRobotInterface release(KeyCode... keys);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR MOUSE.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface release(KeyCode... keys);
 
     /**
      * Presses and holds mouse buttons.
      *
      * @param buttons mouse buttons to press, defaults to primary mouse button.
      */
-    public FxRobotInterface press(MouseButton... buttons);
+    FxRobotInterface press(MouseButton... buttons);
 
     /**
      * Releases pressed mouse buttons.
      *
      * @param buttons mouse buttons to release, defaults to all pressed mouse buttons.
      */
-    public FxRobotInterface release(MouseButton... buttons);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR MOVING.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface release(MouseButton... buttons);
 
     /**
      * Calls {@link org.testfx.robot.MoveRobot#moveTo(PointQuery)} and returns itself for more method chaining.
      */
-    public FxRobotInterface moveTo(PointQuery pointQuery);
+    default FxRobotInterface moveTo(PointQuery pointQuery) {
+        return moveTo(pointQuery, Motion.DEFAULT);
+    }
+
+    /**
+     * Calls {@link org.testfx.robot.MoveRobot#moveTo(PointQuery, Motion)} and returns itself for more method chaining.
+     */
+    FxRobotInterface moveTo(PointQuery pointQuery, Motion motion);
 
     /**
      * Calls {@link org.testfx.robot.MoveRobot#moveBy(double, double)} and returns itself for more method chaining.
      */
-    public FxRobotInterface moveBy(double x,
-                                   double y);
-
-    // Convenience methods:
-
-    /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(double, double)} and returns itself
-     * for method chaining.
-     */
-    public FxRobotInterface moveTo(double x,
-                                   double y);
+    default FxRobotInterface moveBy(double x, double y) {
+        return moveBy(x, y, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Point2D)} and returns itself
-     * for method chaining.
+     * Calls {@link org.testfx.robot.MoveRobot#moveBy(double, double, Motion)} and returns itself for more method
+     * chaining.
      */
-    public FxRobotInterface moveTo(Point2D point);
+    FxRobotInterface moveBy(double x, double y, Motion motion);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Bounds)} and returns itself
-     * for method chaining.
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(double, double)} and returns
+     * itself for method chaining.
      */
-    public FxRobotInterface moveTo(Bounds bounds);
+    default FxRobotInterface moveTo(double x, double y) {
+        return moveTo(x, y, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Node)} and returns itself
-     * for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(double, double)} and returns itself for method chaining.
      */
-    public FxRobotInterface moveTo(Node node);
+    FxRobotInterface moveTo(double x, double y, Motion motion);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Scene)} and returns itself
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Point2D)} and returns itself
      * for method chaining.
      */
-    public FxRobotInterface moveTo(Scene scene);
+    default FxRobotInterface moveTo(Point2D point) {
+        return moveTo(point, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Window)} and returns itself
-     * for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Point2D)} and returns itself for method chaining.
      */
-    public FxRobotInterface moveTo(Window window);
+    FxRobotInterface moveTo(Point2D point, Motion motion);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(String)} and returns itself
-     * for method chaining.
+     * Convenience method: Moves mouse directly to the center of the given {@code Bounds} and returns itself for
+     * method chaining.
      */
-    public FxRobotInterface moveTo(String query);
+    default FxRobotInterface moveTo(Bounds bounds) {
+        return moveTo(bounds, Motion.DEFAULT);
+    }
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Matcher)} and returns itself
-     * for method chaining.
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Bounds)} and returns itself for method chaining.
      */
-    public <T extends Node> FxRobotInterface moveTo(Matcher<T> matcher);
+    FxRobotInterface moveTo(Bounds bounds, Motion motion);
 
     /**
-     * Convenience method: Moves mouse to the point returned from {@link #point(Predicate)} and returns itself
+     * Convenience method: Moves mouse directly to the center of the given {@code Node} and returns itself
      * for method chaining.
      */
-    public <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate);
+    default FxRobotInterface moveTo(Node node) {
+        return moveTo(node, Motion.DEFAULT);
+    }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR SCROLLING.
-    //---------------------------------------------------------------------------------------------
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the center of the
+     * given {@code Node} and returns itself for method chaining.
+     */
+    default FxRobotInterface moveTo(Node node, Motion motion) {
+        return moveTo(node, Pos.CENTER, Point2D.ZERO, motion);
+    }
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Node)},
+     * with the given offset from the center of the given {@code Node}, and returns itself for method chaining.
+     */
+    default FxRobotInterface moveTo(Node node, Point2D offset) {
+        return moveTo(node, Pos.CENTER, offset, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Node)}, with the given offset (from the {@code offsetReferencePos}, and returns itself for
+     * method chaining.
+     */
+    FxRobotInterface moveTo(Node node, Pos offsetReferencePos, Point2D offset, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the center of the given {@code Scene} and returns itself
+     * for method chaining.
+     */
+    default FxRobotInterface moveTo(Scene scene) {
+        return moveTo(scene, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Scene)} and returns itself for method chaining.
+     */
+    FxRobotInterface moveTo(Scene scene, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the center of the given {@code Window} and returns itself
+     * for method chaining.
+     */
+    default FxRobotInterface moveTo(Window window) {
+        return moveTo(window, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Window)} and returns itself for method chaining.
+     */
+    FxRobotInterface moveTo(Window window, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(String)} and returns itself
+     * for method chaining.
+     */
+    default FxRobotInterface moveTo(String query) {
+        return moveTo(query, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(String)} and returns itself for method chaining.
+     */
+    FxRobotInterface moveTo(String query, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Matcher)} and returns itself
+     * for method chaining.
+     */
+    default <T extends Node> FxRobotInterface moveTo(Matcher<T> matcher) {
+        return moveTo(matcher, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Matcher)} and returns itself for method chaining.
+     */
+    <T extends Node> FxRobotInterface moveTo(Matcher<T> matcher, Motion motion);
+
+    /**
+     * Convenience method: Moves mouse directly to the point returned from {@link #point(Predicate)} and returns itself
+     * for method chaining.
+     */
+    default <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate) {
+        return moveTo(predicate, Motion.DEFAULT);
+    }
+
+    /**
+     * Convenience method: Moves mouse using the given {@code motion} (see: {@link Motion} to the point returned from
+     * {@link #point(Predicate)} and returns itself for method chaining.
+     */
+    <T extends Node> FxRobotInterface moveTo(Predicate<T> predicate, Motion motion);
 
     /**
      * Calls {@link org.testfx.robot.ScrollRobot#scroll(int)} and returns itself for more method chaining.
      */
-    public FxRobotInterface scroll(int amount);
+    FxRobotInterface scroll(int amount);
 
     /**
      * Calls {@link org.testfx.robot.ScrollRobot#scroll(int, VerticalDirection)} and returns itself for more method
      * chaining.
      */
-    public FxRobotInterface scroll(int amount,
-                                   VerticalDirection direction);
+    FxRobotInterface scroll(int amount, VerticalDirection direction);
 
     // Convenience methods:
     /**
      * Calls {@link org.testfx.robot.ScrollRobot#scroll(int, VerticalDirection)} with arguments {@code 1} and
      * {@code direction} and returns itself for more method chaining.
      */
-    public FxRobotInterface scroll(VerticalDirection direction);
+    FxRobotInterface scroll(VerticalDirection direction);
 
     /**
      * Calls {@link org.testfx.robot.ScrollRobot#scroll(int, HorizontalDirection)} and returns itself for more method
      * chaining.
      */
-    public FxRobotInterface scroll(int amount,
-                                   HorizontalDirection direction);
+    FxRobotInterface scroll(int amount, HorizontalDirection direction);
 
-    // Convenience methods:
     /**
      * Calls {@link org.testfx.robot.ScrollRobot#scroll(int, VerticalDirection)} with arguments {@code 1} and
      * {@code direction} and returns itself for more method chaining.
      */
-    public FxRobotInterface scroll(HorizontalDirection direction);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR TYPING.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface scroll(HorizontalDirection direction);
 
     /**
      * Calls {@link org.testfx.robot.TypeRobot#push(KeyCode...)} and returns itself for more method chaining.
      */
-    public FxRobotInterface push(KeyCode... combination);
+    FxRobotInterface push(KeyCode... combination);
 
     /**
      * Calls {@link org.testfx.robot.TypeRobot#push(KeyCodeCombination)} and returns itself for more method chaining.
      */
-    public FxRobotInterface push(KeyCodeCombination combination);
+    FxRobotInterface push(KeyCodeCombination combination);
 
     /**
      * Calls {@link org.testfx.robot.TypeRobot#type(KeyCode...)} and returns itself for more method chaining.
      */
-    public FxRobotInterface type(KeyCode... keys);
+    FxRobotInterface type(KeyCode... keys);
 
     /**
      * Calls {@link org.testfx.robot.TypeRobot#type(KeyCode, int)} and returns itself for more method chaining.
      */
-    public FxRobotInterface type(KeyCode key,
-                                 int times);
+    FxRobotInterface type(KeyCode key, int times);
 
-    // Convenience methods:
     /**
      * Convenience method: Calls {@link org.testfx.robot.TypeRobot#type(KeyCode, int)} with {@link KeyCode#BACK_SPACE}
      * and returns itself for more method chaining.
      */
-    public FxRobotInterface eraseText(int characters);
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS FOR WRITING.
-    //---------------------------------------------------------------------------------------------
+    FxRobotInterface eraseText(int characters);
 
     /**
      * Calls {@link org.testfx.robot.WriteRobot#write(char)} and returns itself for more method chaining.
      */
-    public FxRobotInterface write(char character);
+    FxRobotInterface write(char character);
 
     /**
      * Calls {@link org.testfx.robot.WriteRobot#write(String)} and returns itself for more method chaining.
      */
-    public FxRobotInterface write(String text);
+    FxRobotInterface write(String text);
+
+    /**
+     * Calls {@link org.testfx.robot.WriteRobot#write(String, int)} and returns itself for more method chaining.
+     */
+    FxRobotInterface write(String text, int sleepMillis);
 
 }

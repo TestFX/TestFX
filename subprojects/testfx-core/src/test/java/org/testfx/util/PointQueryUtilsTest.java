@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -22,24 +22,20 @@ import javafx.geometry.Pos;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.testfx.util.PointQueryUtils.atPosition;
 import static org.testfx.util.PointQueryUtils.atPositionFactors;
 import static org.testfx.util.PointQueryUtils.computePositionFactors;
 
 public class PointQueryUtilsTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void atPosition_with_positions() {
         // given:
         BoundingBox bounds = new BoundingBox(100, 1000, 200, 2000);
 
-        // expect:
+        // then:
         assertThat(atPosition(bounds, Pos.TOP_LEFT),      is(new Point2D(100, 1000)));
         assertThat(atPosition(bounds, Pos.TOP_CENTER),    is(new Point2D(200, 1000)));
         assertThat(atPosition(bounds, Pos.TOP_RIGHT),     is(new Point2D(300, 1000)));
@@ -56,7 +52,7 @@ public class PointQueryUtilsTest {
         // given:
         BoundingBox bounds = new BoundingBox(100, 1000, 200, 2000);
 
-        // expect:
+        // then:
         assertThat(atPositionFactors(bounds, new Point2D(0.0, 0.0)), is(new Point2D(100, 1000)));
         assertThat(atPositionFactors(bounds, new Point2D(0.5, 0.0)), is(new Point2D(200, 1000)));
         assertThat(atPositionFactors(bounds, new Point2D(1.0, 0.0)), is(new Point2D(300, 1000)));
@@ -70,7 +66,6 @@ public class PointQueryUtilsTest {
 
     @Test
     public void computePositionFactors_with_positions() {
-        // expect:
         assertThat(computePositionFactors(Pos.TOP_LEFT),      is(new Point2D(0.0, 0.0)));
         assertThat(computePositionFactors(Pos.TOP_CENTER),    is(new Point2D(0.5, 0.0)));
         assertThat(computePositionFactors(Pos.TOP_RIGHT),     is(new Point2D(1.0, 0.0)));

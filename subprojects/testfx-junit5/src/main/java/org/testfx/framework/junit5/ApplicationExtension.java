@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -21,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -28,10 +30,10 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class ApplicationExtension extends FxRobot implements BeforeEachCallback, AfterEachCallback,
         TestInstancePostProcessor, ParameterResolver {
@@ -46,6 +48,7 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
         Class<?> testClass = testInstance.getClass();
         Method[] methods = testClass.getDeclaredMethods();
         for (Method method : methods) {
+            method.setAccessible(true);
             if (method.isAnnotationPresent(Init.class)) {
                 init.add(validateInitMethod(method));
             }
@@ -66,24 +69,30 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
     }
 
     @Override
-    public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return parameterContext.getParameter().getType().isAssignableFrom(FxRobot.class);
     }
 
     @Override
-    public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return this;
     }
 
     @Override
-    public void beforeEach(TestExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(applicationFixture));
     }
 
     @Override
-    public void afterEach(TestExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) throws Exception {
         FxToolkit.cleanupApplication(new ApplicationAdapter(applicationFixture));
+        // Cleaning the remaining UI events (e.g. a mouse press that is still waiting for a mouse release)
+        // Not cleaning these events may have side-effects on the next UI tests
+        release(new KeyCode[0]);
+        release(new MouseButton[0]);
+        // Required to wait for the end of the UI events processing
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     private Method validateInitMethod(Method initMethod) {

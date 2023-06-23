@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -27,29 +27,29 @@ public interface DragRobot {
      *
      * @param buttons the mouse buttons to press
      */
-    public void drag(MouseButton... buttons);
+    void drag(MouseButton... buttons);
 
     /**
-     * Moves the mouse to {@link PointQuery#query()} before presses the given mouse button(s) on whatever is under
-     * the mouse's new location.
+     * Moves the mouse to the location specified by the given {@link PointQuery#query()} and then presses the
+     * given mouse button(s) on whatever is under the mouse's new location.
      *
-     * @param pointQuery the pointQuery
+     * @param pointQuery the pointQuery that specifies where to move the mouse to
      * @param buttons the mouse buttons to press
      */
-    public void drag(PointQuery pointQuery,
-                     MouseButton... buttons);
+    void drag(PointQuery pointQuery, MouseButton... buttons);
 
     /**
-     * Releases the mouse at current position.
+     * Releases the mouse at its' current position.
      */
-    public void drop();
+    void drop();
 
     /**
-     * Moves the mouse to {@link PointQuery#query()} before releasing the mouse.
+     * Moves the mouse to the location specified by the given {@link PointQuery#query()} and then
+     * releases the mouse.
      *
-     * @param pointQuery the pointQuery
+     * @param pointQuery the pointQuery that specifies where to move the mouse to
      */
-    public void dropTo(PointQuery pointQuery);
+    void dropTo(PointQuery pointQuery);
 
     /**
      * Moves the mouse horizontally by {@code x} and vertically by {@code y} before releasing the mouse.
@@ -57,7 +57,6 @@ public interface DragRobot {
      * @param x the amount by which to move the mouse horizontally
      * @param y the amount by which to move the mouse vertically
      */
-    public void dropBy(double x,
-                       double y);
+    void dropBy(double x, double y);
 
 }

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,117 +16,128 @@
  */
 package org.testfx.api;
 
-import java.nio.file.Paths;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.stage.Screen;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.matcher.base.GeneralMatchers;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
-@Unstable(reason = "method signatures need fine-tuning")
+/**
+ * All TestFX tests should use {@link #verifyThat(Node, Matcher, Function)} when writing tests,
+ * so that the developer can use {@link org.testfx.util.DebugUtils} to provide additional info
+ * as to why a test failed.
+ */
 public final class FxAssert {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
-
-    private static final String EMPTY_STRING = "";
-
-    private static final String ERROR_TIMESTAMP_PATTERN = "yyyyMMdd.HHmmss.SSS";
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC FIELDS.
-    //---------------------------------------------------------------------------------------------
 
     private static FxAssertContext context;
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    public static <T> void verifyThat(T value, Matcher<? super T> matcher) {
+        verifyThatImpl("", value, matcher, Function.identity());
+    }
 
-    // ASSERTIONS: SUPER MATCHER.
-
-    @Unstable(reason = "is missing apidocs; might be removed due to complications with generics")
     public static <T> void verifyThat(T value,
-                                      Matcher<? super T> matcher) {
-        verifyThatImpl(emptyReason(), value, matcher);
+                                      Matcher<? super T> matcher,
+                                      Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", value, matcher, errorMessageMapper);
     }
 
-    // ASSERTIONS: {NODE, NODES} + MATCHER.
+    public static <T extends Node> void verifyThat(T node, Matcher<T> nodeMatcher) {
+        verifyThatImpl("", node, nodeMatcher, Function.identity());
+    }
 
-    @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(T node,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), node, nodeMatcher);
+                                                   Matcher<T> nodeMatcher,
+                                                   Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", node, nodeMatcher, errorMessageMapper);
     }
 
-    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
+    public static <T extends Node> void verifyThatIter(Iterable<T> nodes, Matcher<Iterable<T>> nodesMatcher) {
+        verifyThatImpl("", nodes, nodesMatcher, Function.identity());
+    }
+
     public static <T extends Node> void verifyThatIter(Iterable<T> nodes,
-                                                       Matcher<Iterable<T>> nodesMatcher) {
-        verifyThatImpl(emptyReason(), nodes, nodesMatcher);
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", nodes, nodesMatcher, errorMessageMapper);
     }
 
-    // ASSERTIONS: STRING QUERY + MATCHER.
+    public static <T extends Node> void verifyThat(String nodeQuery, Matcher<T> nodeMatcher) {
+        verifyThatImpl("", toNode(nodeQuery), nodeMatcher, Function.identity());
+    }
 
-    @Unstable(reason = "is missing apidocs")
     public static <T extends Node> void verifyThat(String nodeQuery,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
+                                                   Matcher<T> nodeMatcher,
+                                                   Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", toNode(nodeQuery), nodeMatcher, errorMessageMapper);
     }
 
-    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(String nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
-        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
+        verifyThatImpl("", toNodeSet(nodeQuery), nodesMatcher, Function.identity());
     }
 
-    // ASSERTIONS: NODE QUERY + MATCHER.
+    public static <T extends Node> void verifyThatIter(String nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", toNodeSet(nodeQuery), nodesMatcher, errorMessageMapper);
+    }
 
-    @Unstable(reason = "is missing apidocs")
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery, Matcher<T> nodeMatcher) {
+        verifyThatImpl("", nodeQuery.query(), nodeMatcher, Function.identity());
+    }
+
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
-                                                   Matcher<T> nodeMatcher) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), nodeMatcher);
+                                                   Matcher<T> nodeMatcher,
+                                                   Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", nodeQuery.query(), nodeMatcher, errorMessageMapper);
     }
 
-    @Unstable(reason = "is missing apidocs; might change to simplify iterable handling")
     public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
                                                        Matcher<Iterable<T>> nodesMatcher) {
-        verifyThatImpl(emptyReason(), toNodeSet(nodeQuery), nodesMatcher);
+        verifyThatImpl("", nodeQuery.queryAll(), nodesMatcher, Function.identity());
     }
 
-    // ASSERTIONS: {NODE, STRING QUERY, NODE QUERY} + PREDICATE.
+    public static <T extends Node> void verifyThatIter(NodeQuery nodeQuery,
+                                                       Matcher<Iterable<T>> nodesMatcher,
+                                                       Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", nodeQuery.queryAll(), nodesMatcher, errorMessageMapper);
+    }
 
-    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(T node, Predicate<T> nodePredicate) {
+        verifyThatImpl("", node, toNodeMatcher(nodePredicate), Function.identity());
+    }
+
     public static <T extends Node> void verifyThat(T node,
-                                                   Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), node, toNodeMatcher(nodePredicate));
+                                                   Predicate<T> nodePredicate,
+                                                   Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", node, toNodeMatcher(nodePredicate), errorMessageMapper);
     }
 
-    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(String nodeQuery, Predicate<T> nodePredicate) {
+        verifyThatImpl("", toNode(nodeQuery), toNodeMatcher(nodePredicate), Function.identity());
+    }
+
     public static <T extends Node> void verifyThat(String nodeQuery,
-                                                   Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
+                                                   Predicate<T> nodePredicate,
+                                                   Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", toNode(nodeQuery), toNodeMatcher(nodePredicate), errorMessageMapper);
     }
 
-    @Unstable(reason = "is missing apidocs; might change if typing causes trouble")
+    public static <T extends Node> void verifyThat(NodeQuery nodeQuery, Predicate<T> nodePredicate) {
+        verifyThatImpl("", nodeQuery.query(), toNodeMatcher(nodePredicate), Function.identity());
+    }
+
     public static <T extends Node> void verifyThat(NodeQuery nodeQuery,
-                                                   Predicate<T> nodePredicate) {
-        verifyThatImpl(emptyReason(), toNode(nodeQuery), toNodeMatcher(nodePredicate));
+                                                   Predicate<T> nodePredicate,
+                                                   Function<StringBuilder, StringBuilder> errorMessageMapper) {
+        verifyThatImpl("", nodeQuery.query(), toNodeMatcher(nodePredicate), errorMessageMapper);
     }
 
-    // INTERNAL CONTEXT.
-
-    @Unstable(reason = "is missing apidocs")
     public static FxAssertContext assertContext() {
         if (context == null) {
             context = new FxAssertContext();
@@ -134,69 +145,35 @@ public final class FxAssert {
         return context;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static <T> void verifyThatImpl(String reason,
-                                           T value,
-                                           Matcher<? super T> matcher) {
+    /**
+     * Allow developer to debug a failed test (e.g. the state of the stage or node, which keys were pressed, etc.)
+     *
+     * @see org.testfx.util.DebugUtils
+     */
+    private static <T> void verifyThatImpl(String reason, T value, Matcher<? super T> matcher,
+                                           Function<StringBuilder, StringBuilder> errorMessageMapper) {
         try {
             MatcherAssert.assertThat(reason, value, matcher);
         }
         catch (AssertionError error) {
-            // TODO: make error capture and assertion throw more reliable.
-            // captureErrorScreenshot();
-            throw new AssertionError(error.getMessage());
+            // TODO: make assertion throw more reliable.
+            StringBuilder sb = new StringBuilder(error.getMessage());
+            throw new AssertionError(errorMessageMapper.apply(sb));
         }
-    }
-
-    private static String emptyReason() {
-        return EMPTY_STRING;
     }
 
     private static <T extends Node> T toNode(String nodeQuery) {
         NodeFinder nodeFinder = assertContext().getNodeFinder();
-        return toNode(nodeFinder.lookup(nodeQuery));
+        return nodeFinder.lookup(nodeQuery).query();
     }
 
     private static <T extends Node> Set<T> toNodeSet(String nodeQuery) {
         NodeFinder nodeFinder = assertContext().getNodeFinder();
-        return toNodeSet(nodeFinder.lookup(nodeQuery));
-    }
-
-    private static <T extends Node> T toNode(NodeQuery nodeQuery) {
-        return nodeQuery.query();
-    }
-
-    private static <T extends Node> Set<T> toNodeSet(NodeQuery nodeQuery) {
-        return nodeQuery.queryAll();
+        return nodeFinder.lookup(nodeQuery).queryAll();
     }
 
     private static <T extends Node> Matcher<T> toNodeMatcher(Predicate<T> nodePredicate) {
         return GeneralMatchers.baseMatcher("applies on Predicate", nodePredicate);
     }
-
-    private static void captureErrorScreenshot() {
-        ZonedDateTime errorDateTime = ZonedDateTime.now();
-
-        Rectangle2D primaryScreenRegion = Screen.getPrimary().getBounds();
-        Image errorImage = assertContext().getCaptureSupport().captureRegion(primaryScreenRegion);
-
-        String errorTimestamp = formatErrorTimestamp(errorDateTime, ERROR_TIMESTAMP_PATTERN);
-        String errorImageFilename = "testfx-" + errorTimestamp + ".png";
-
-        assertContext().getCaptureSupport().saveImage(errorImage, Paths.get(errorImageFilename));
-    }
-
-    private static String formatErrorTimestamp(ZonedDateTime dateTime,
-                                               String dateTimePattern) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateTimePattern);
-        return dateTime.format(formatter);
-    }
-
-    // private static ZonedDateTime toZuluTime(ZonedDateTime dateTime) {
-    //      return dateTime.withZoneSameInstant(ZoneId.of(/* UTC */ "Z"));
-    // }
 
 }

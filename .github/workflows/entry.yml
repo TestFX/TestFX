@@ -1,0 +1,39 @@
+---
+name: TestFX 4 CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - 'master'
+  push:
+    branches:
+      - 'master'
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  issues: read
+  packages: read
+  pull-requests: write
+  statuses: read
+  security-events: write
+
+jobs:
+  #  testfx-4-ubuntu-22-04-jdk-8-jfx-8:
+  #    name: TestFX 4 - Ubuntu 22.04 - JDK 8 - JFX 8
+  #    uses: ./.github/workflows/build.yml
+  #    with:
+  #      os: ubuntu-22.04
+  #      jdk: 8
+  #      openjfx: 8
+  #    secrets: inherit
+  testfx-4-ubuntu-20-04-jdk-8-jfx-8:
+    name: TestFX 4 - Ubuntu 20.04 - JDK 8 - JFX 8
+    uses: ./.github/workflows/build.yml
+    with:
+      os: ubuntu-20.04
+      jdk: 8
+      openjfx: 8
+    secrets: inherit

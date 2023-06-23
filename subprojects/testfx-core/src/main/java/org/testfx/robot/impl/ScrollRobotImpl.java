@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,40 +16,24 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Objects;
 import javafx.geometry.HorizontalDirection;
 import javafx.geometry.VerticalDirection;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.ScrollRobot;
 
-@Unstable
 public class ScrollRobotImpl implements ScrollRobot {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
 
     private static final int SCROLL_ONE_UP_OR_LEFT = -1;
     private static final int SCROLL_ONE_DOWN_OR_RIGHT = 1;
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    public MouseRobot mouseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final MouseRobot mouseRobot;
 
     public ScrollRobotImpl(MouseRobot mouseRobot) {
+        Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
         this.mouseRobot = mouseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void scroll(int amount) {
@@ -62,13 +46,16 @@ public class ScrollRobotImpl implements ScrollRobot {
     }
 
     @Override
-    public void scroll(int positiveAmount,
-                       VerticalDirection direction) {
-        if (direction == VerticalDirection.UP) {
-            scrollUp(positiveAmount);
-        }
-        else if (direction == VerticalDirection.DOWN) {
-            scrollDown(positiveAmount);
+    public void scroll(int positiveAmount, VerticalDirection direction) {
+        switch (direction) {
+            case UP:
+                scrollUp(positiveAmount);
+                break;
+            case DOWN:
+                scrollDown(positiveAmount);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown vertical direction: " + direction);
         }
     }
 
@@ -87,13 +74,16 @@ public class ScrollRobotImpl implements ScrollRobot {
     }
 
     @Override
-    public void scroll(int positiveAmount,
-                       HorizontalDirection direction) {
-        if (direction == HorizontalDirection.RIGHT) {
-            scrollRight(positiveAmount);
-        }
-        else if (direction == HorizontalDirection.LEFT) {
-            scrollLeft(positiveAmount);
+    public void scroll(int positiveAmount, HorizontalDirection direction) {
+        switch (direction) {
+            case RIGHT:
+                scrollRight(positiveAmount);
+                break;
+            case LEFT:
+                scrollLeft(positiveAmount);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown horizontal direction: " + direction);
         }
     }
 

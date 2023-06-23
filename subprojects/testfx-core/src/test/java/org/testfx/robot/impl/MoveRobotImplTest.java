@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -19,47 +19,101 @@ package org.testfx.robot.impl;
 import javafx.geometry.Point2D;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
 import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public final class MoveRobotImplTest {
+public class MoveRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
-    public MoveRobot moveRobot;
-
-    public BaseRobot baseRobot;
-    public MouseRobot mouseRobot;
-    public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    private MoveRobot moveRobot;
+    private BaseRobot baseRobot;
+    private MouseRobot mouseRobot;
+    private SleepRobot sleepRobot;
 
     @Before
     public void setup() {
         baseRobot = mock(BaseRobot.class);
-        mouseRobot = new MouseRobotImpl(baseRobot);
+        mouseRobot = mock(MouseRobot.class);
         sleepRobot = mock(SleepRobot.class);
         moveRobot = new MoveRobotImpl(baseRobot, mouseRobot, sleepRobot);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Test
+    public void moveTo_a_point_with_motion_DIRECT() {
+        // given:
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
+
+        // and:
+        Point2D targetPoint = new Point2D(300, 100);
+        PointQuery pointQuery = mock(PointQuery.class);
+        given(pointQuery.query()).willReturn(targetPoint);
+
+        // when:
+        moveRobot.moveTo(pointQuery, Motion.DIRECT);
+
+        // then:
+        verify(mouseRobot, times(199)).moveNoWait(
+                argThat(argument -> sourcePoint.getY() != argument.getY() || targetPoint.getX() != argument.getX()));
+        verify(mouseRobot, times(2)).move(targetPoint);
+    }
+
+    @Test
+    public void moveTo_a_point_with_motion_HORIZONTAL_FIRST() {
+        // given:
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
+
+        // and:
+        Point2D targetPoint = new Point2D(300, 100);
+        PointQuery pointQuery = mock(PointQuery.class);
+        given(pointQuery.query()).willReturn(targetPoint);
+
+        // when:
+        moveRobot.moveTo(pointQuery, Motion.HORIZONTAL_FIRST);
+
+        // then:
+        verify(mouseRobot, times(199)).moveNoWait(
+                argThat(argument -> sourcePoint.getY() == argument.getY() || targetPoint.getX() == argument.getX()));
+        verify(mouseRobot, times(2)).move(targetPoint);
+    }
+
+    @Test
+    public void moveTo_a_point_with_motion_VERTICAL_FIRST() {
+        // given:
+        Point2D sourcePoint = new Point2D(0, 0);
+        given(baseRobot.retrieveMouse()).willReturn(sourcePoint);
+
+        // and:
+        Point2D targetPoint = new Point2D(300, 100);
+        PointQuery pointQuery = mock(PointQuery.class);
+        given(pointQuery.query()).willReturn(targetPoint);
+
+        // when:
+        moveRobot.moveTo(pointQuery, Motion.VERTICAL_FIRST);
+
+        // then:
+        verify(mouseRobot, times(199)).moveNoWait(
+                argThat(argument -> sourcePoint.getX() == argument.getX() || targetPoint.getY() == argument.getY()));
+        verify(mouseRobot, times(2)).move(targetPoint);
+    }
 
     @Test
     public void moveTo_a_point_within_10_pixels() {
@@ -76,11 +130,10 @@ public final class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery);
 
         // then:
-        for (double x = 0.0; x <= 9.0; x++) {
-            verify(baseRobot, times(1)).moveMouse(new Point2D(x, 0));
+        for (double x = 1.0; x <= 9.0; x++) {
+            verify(mouseRobot, times(1)).moveNoWait(new Point2D(x, 0));
         }
-        verify(baseRobot, times(2)).moveMouse(new Point2D(10, 0));
-        verify(baseRobot, times(2)).awaitEvents();
+        verify(mouseRobot, times(2)).move(new Point2D(10, 0));
     }
 
     @Test
@@ -98,9 +151,8 @@ public final class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery);
 
         // then:
-        verify(baseRobot, times(200)).moveMouse(not(eq(targetPoint)));
-        verify(baseRobot, times(2)).moveMouse(targetPoint);
-        verify(baseRobot, times(2)).awaitEvents();
+        verify(mouseRobot, times(199)).moveNoWait(not(eq(targetPoint)));
+        verify(mouseRobot, times(2)).move(targetPoint);
     }
 
     @Test
@@ -119,9 +171,8 @@ public final class MoveRobotImplTest {
         moveRobot.moveTo(pointQuery);
 
         // then:
-        verify(baseRobot, times(1)).moveMouse(targetPoint);
-        verify(baseRobot, times(1)).moveMouse(movedTargetPoint);
-        verify(baseRobot, times(2)).awaitEvents();
+        verify(mouseRobot, times(1)).move(targetPoint);
+        verify(mouseRobot, times(1)).move(movedTargetPoint);
     }
 
     @Test
@@ -135,9 +186,8 @@ public final class MoveRobotImplTest {
         moveRobot.moveBy(10, 0);
 
         // then:
-        verify(baseRobot, times(10)).moveMouse(not(eq(targetPoint)));
-        verify(baseRobot, times(1)).moveMouse(targetPoint);
-        verify(baseRobot, times(1)).awaitEvents();
+        verify(mouseRobot, times(9)).moveNoWait(not(eq(targetPoint)));
+        verify(mouseRobot, times(1)).move(targetPoint);
     }
 
     @Test
@@ -151,9 +201,8 @@ public final class MoveRobotImplTest {
         moveRobot.moveBy(1000, 0);
 
         // then:
-        verify(baseRobot, times(200)).moveMouse(not(eq(targetPoint)));
-        verify(baseRobot, times(1)).moveMouse(targetPoint);
-        verify(baseRobot, times(1)).awaitEvents();
+        verify(mouseRobot, times(199)).moveNoWait(not(eq(targetPoint)));
+        verify(mouseRobot, times(1)).move(targetPoint);
     }
 
 }

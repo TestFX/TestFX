@@ -71,7 +71,7 @@ def pomConfig = {
 publishing {
     repositories {
         maven {
-            url sonatypeUrl
+            url = version.endsWith('SNAPSHOT') ? sonatypeSnapshotsUrl : sonatypeReleasesUrl
             credentials {
                 username = sonatypeUsername
                 password = sonatypePassword
@@ -81,12 +81,25 @@ publishing {
 
     publications {
         mavenJava(MavenPublication) {
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+            }
             from components.java
-            artifact sourceJar
-            artifact javadocJar
-            pom.withXml {
-                asNode().children().last() + pomConfig
-                asNode().appendNode("description", project.pomDescription)
+            afterEvaluate {
+                artifact sourceJar
+                artifact javadocJar
+                pom.withXml {
+                    Node pomNode = asNode()
+                    pomNode.dependencies.'*'.findAll() {
+                        it.groupId.text() == 'org.openjfx'
+                    }.each {
+                        it.remove(it.classifier)
+                    }
+                    asNode().children().last() + pomConfig
+                    asNode().appendNode("description", project.pomDescription)
+                }
             }
         }
     }

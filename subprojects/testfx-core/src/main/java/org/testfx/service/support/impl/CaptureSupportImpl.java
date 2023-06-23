@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -20,6 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
@@ -32,11 +33,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 import javax.imageio.ImageIO;
 
-import com.google.common.io.ByteSink;
-import com.google.common.io.ByteSource;
-import com.google.common.io.Files;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.BaseRobot;
+import org.testfx.service.support.CaptureFileFormat;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcher;
 import org.testfx.service.support.PixelMatcherResult;
@@ -44,32 +42,15 @@ import org.testfx.service.support.PixelMatcherResult;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
-@Unstable(reason = "needs more tests")
 public class CaptureSupportImpl implements CaptureSupport {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
+    public static final CaptureFileFormat DEFAULT_FORMAT = CaptureFileFormat.PNG;
 
-    public static final String PNG_IMAGE_FORMAT = "png";
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    private BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final BaseRobot baseRobot;
 
     public CaptureSupportImpl(BaseRobot baseRobot) {
         this.baseRobot = baseRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public Image captureNode(Node node) {
@@ -84,8 +65,7 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public Image loadImage(Path path) {
         checkFileExists(path);
-        ByteSource byteSource = Files.asByteSource(path.toFile());
-        try (InputStream inputStream = byteSource.openBufferedStream()) {
+        try (InputStream inputStream = Files.newInputStream(path)) {
             return readImageFromStream(inputStream);
         }
         catch (IOException exception) {
@@ -96,10 +76,14 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public void saveImage(Image image,
                           Path path) {
+        saveImage(image, DEFAULT_FORMAT, path);
+    }
+
+    @Override
+    public void saveImage(Image image, CaptureFileFormat format, Path path) {
         checkParentDirectoryExists(path);
-        ByteSink byteSink = Files.asByteSink(path.toFile());
-        try (OutputStream outputStream = byteSink.openBufferedStream()) {
-            writeImageToStream(image, outputStream);
+        try (OutputStream outputStream = Files.newOutputStream(path)) {
+            writeImageToStream(image, format.toString(), outputStream);
         }
         catch (IOException exception) {
             throw new RuntimeException(exception);
@@ -118,10 +102,6 @@ public class CaptureSupportImpl implements CaptureSupport {
                                           PixelMatcher pixelMatcher) {
         return pixelMatcher.match(image0, image1);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     private void checkFileExists(Path path) {
         if (!path.toFile().isFile()) {
@@ -145,9 +125,15 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     private void writeImageToStream(Image image,
+                                    String imageFormat,
                                     OutputStream outputStream) throws IOException {
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-        ImageIO.write(bufferedImage, PNG_IMAGE_FORMAT, outputStream);
+        BufferedImage imageWithType = new BufferedImage((int) image.getWidth(),
+                (int) image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, imageWithType);
+        ImageIO.write(bufferedImage, imageFormat, outputStream);
+        if (!ImageIO.write(bufferedImage, imageFormat, outputStream)) {
+            throw new IOException("Image was not created");
+        }
     }
 
     private Image blendImages(Image image0,

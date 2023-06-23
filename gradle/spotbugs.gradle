@@ -1,0 +1,117 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
+ */
+
+// SpotBugs: The spiritual successor of FindBugs (a defect detection tool for Java that uses static
+// analysis to look for more than 200 bug patterns, such as null pointer dereferences, infinite recursive
+// loops, bad uses of the Java libraries and deadlocks).
+// https://spotbugs.github.io/
+
+import java.nio.file.Files
+import java.nio.file.Paths
+
+apply plugin: "com.github.spotbugs"
+
+spotbugs {
+    toolVersion = "3.1.12"
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+    reportLevel = "high"
+}
+
+spotBugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = false
+        text.enabled = true
+    }
+}
+
+spotBugsTest {
+    reports {
+        xml.enabled = false
+        html.enabled = false
+        text.enabled = true
+    }
+}
+
+task printSpotBugsReportMain() {
+    doLast {
+        printSpotBugsReport('main')
+    }
+}
+
+task printSpotBugsReportTest() {
+    doLast {
+        printSpotBugsReport('test')
+    }
+}
+
+if (System.env.CI == "true") {
+    spotbugsMain.finalizedBy printSpotBugsReportMain
+    spotbugsTest.finalizedBy printSpotBugsReportTest
+}
+
+static def printSpotBugsReport(String sourceSet) {
+    def report = Paths.get("build/reports/spotbugs/${sourceSet}.text")
+    if (Files.exists(report)) {
+        def lines = Files.readAllLines(report)
+        lines.forEach { l -> println(l) }
+    }
+}
+
+/*
+task printSpotBugsReport {
+    description = "Prints any Spotbugs errors in a human readable form to the gradle error log."
+    doLast {
+        def xmlReport = spotbugsMain.reports.xml
+        if (!xmlReport.destination.exists()) return
+        def parser = new XmlSlurper()
+        parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+        parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        def slurped = parser.parse(xmlReport.destination)
+        def report = ""
+        slurped['BugInstance'].eachWithIndex { bug, index ->
+            report += "${index + 1}. - ${bug.@'category'}: ${bug.@'type'} (priority ${bug.@'priority'})\n"
+            if (bug['SourceLine'].isEmpty()) {
+                // w
+                bug['Class'].each { place ->
+                    report += "\t${place['@classname']}\n"
+                }
+                report += "\n"
+            } else {
+                bug['SourceLine'].each { place ->
+                    if (place.start == place.end) {
+                        report += "\t${place['@sourcefile'].toString().replaceAll(".java", "")}(${place['@sourcepath']}):${place.@'start'}\n\n"
+                    } else {
+                        // multi-line
+                        report += "\t${place.@'classname'}:${place.@'start'} - ${place.@'end'}\n\n"
+                    }
+                }
+            }
+        }
+        if (!report.isEmpty()) {
+            logger.error "\n\n--- SPOTBUGS REPORT ---\n\n${report}--- END SPOTBUGS REPORT ---"
+        }
+    }
+}
+
+if (System.env.CI == "true") {
+    spotbugsMain.finalizedBy printSpotBugsReport
+}
+ */

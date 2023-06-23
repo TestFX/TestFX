@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,164 +16,184 @@
  */
 package org.testfx.matcher.base;
 
+import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
-import com.google.common.collect.ImmutableList;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.testfx.api.FxRobot;
+import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
+import org.testfx.cases.TestCaseBase;
+import org.testfx.matcher.control.LabeledMatchers;
+import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.service.query.NodeQuery;
+import org.testfx.util.WaitForAsyncUtils;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.core.IsIterableContaining.hasItem;
 
-public class NodeMatchersTest extends FxRobot {
-
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+public class NodeMatchersTest extends TestCaseBase {
 
     @Rule
-    public ExpectedException exception = ExpectedException.none();
+    public TestRule rule = new TestFXRule();
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    TextField textField;
+    TextField textField2;
 
-    @BeforeClass
-    public static void setupSpec() throws Exception {
-        FxToolkit.registerPrimaryStage();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void anything() throws Exception {
         List<Node> nodes = FxToolkit.setupFixture(() -> {
-            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
+            List<Node> temp = new ArrayList<>(3);
+            temp.add(new Region());
+            temp.add(new Button("foo"));
+            temp.add(new TextField("bar"));
+            return temp;
         });
 
-        // expect:
-        assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(),
-            hasItem(NodeMatchers.hasText("bar")));
+        assertThat(from(nodes).match(NodeMatchers.anything()).queryAll(), hasItem(nodes.get(1)));
     }
 
     @Test
-    public void hasText_with_button() throws Exception {
+    public void isFocused() throws Exception {
         // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            return new StackPane(textField);
+        });
 
-        // expect:
-        assertThat(button, NodeMatchers.hasText("foo"));
+        // when:
+        Platform.runLater(() -> textField.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+
+        // then:
+        textField.isFocused();
+        assertThat(textField, NodeMatchers.isFocused());
     }
 
     @Test
-    public void hasText_with_text_field() throws Exception {
+    public void isFocused_fails() throws Exception {
         // given:
-        TextField textField = FxToolkit.setupFixture(() -> new TextField("foo"));
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            textField2 = new TextField("bar");
+            return new StackPane(textField, textField2);
+        });
 
-        // expect:
-        assertThat(textField, NodeMatchers.hasText("foo"));
+        // when:
+        Platform.runLater(() -> textField2.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // then:
+        assertThatThrownBy(() -> assertThat(textField, NodeMatchers.isFocused()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node has focus\n");
     }
 
     @Test
-    public void hasText_with_text() throws Exception {
+    public void isNotFocused() throws Exception {
         // given:
-        Text textShape = FxToolkit.setupFixture(() -> new Text("foo"));
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            textField2 = new TextField("bar");
+            return new StackPane(textField, textField2);
+        });
 
-        // expect:
-        assertThat(textShape, NodeMatchers.hasText("foo"));
+        Platform.runLater(() -> textField2.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // then:
+        assertThat(textField, NodeMatchers.isNotFocused());
     }
 
     @Test
-    public void hasText_with_region_fails() throws Exception {
+    public void isNotFocused_fails() throws Exception {
         // given:
-        Region region = FxToolkit.setupFixture(() -> new Region());
+        FxToolkit.setupSceneRoot(() -> {
+            textField = new TextField("foo");
+            return new StackPane(textField);
+        });
 
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has text \"foo\"\n");
+        // when:
+        Platform.runLater(() -> textField.requestFocus());
+        WaitForAsyncUtils.waitForFxEvents();
 
-        assertThat(region, NodeMatchers.hasText("foo"));
+        // then:
+        assertThatThrownBy(() -> assertThat(textField, NodeMatchers.isNotFocused()))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node does not have focus\n");
     }
 
     @Test
     public void hasText_filters_nodes() throws Exception {
         // given:
-        List<Node> nodes = FxToolkit.setupFixture(() -> {
-            return ImmutableList.of(new Region(), new Button("foo"), new TextField("bar"));
+        List<Node> nodes =  FxToolkit.setupFixture(() -> {
+            List<Node> temp = new ArrayList<>(3);
+            temp.add(new Region());
+            temp.add(new Button("foo"));
+            temp.add(new TextField("bar"));
+            return temp;
         });
 
-        // expect:
-        NodeQuery query1 = from(nodes).match(NodeMatchers.hasText("foo"));
-        assertThat(query1.queryAll(), contains(nodes.get(1)));
+        // then:
+        NodeQuery query1 = from(nodes).match(LabeledMatchers.hasText("foo"));
+        assertThat(query1.queryAll(), hasItems(nodes.get(1)));
 
-        // and:
-        NodeQuery query2 = from(nodes).match(NodeMatchers.hasText("bar"));
-        assertThat(query2.queryAll(), contains(nodes.get(2)));
+        NodeQuery query2 = from(nodes).match(TextInputControlMatchers.hasText("bar"));
+        assertThat(query2.queryAll(), hasItems(nodes.get(2)));
     }
 
     @Test
     public void hasChild() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane(
+                new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(parent, NodeMatchers.hasChild(".button"));
     }
 
     @Test
     public void hasChild_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane();
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane());
 
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has child \".button\"\n");
-
-        assertThat(parent, NodeMatchers.hasChild(".button"));
+        // then:
+        assertThatThrownBy(() -> assertThat(parent, NodeMatchers.hasChild(".button")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node has child \".button\"\n");
     }
 
     @Test
     public void hasChildren() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"), new Button("baz"));
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane(
+                new Label("foo"), new Button("bar"), new Button("baz")));
 
-        // expect:
+        // then:
         assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
     }
 
     @Test
     public void hasChildren_fails() throws Exception {
         // given:
-        Node parent = FxToolkit.setupFixture(() -> {
-            return new StackPane(new Label("foo"), new Button("bar"));
-        });
+        Node parent = FxToolkit.setupFixture(() -> new StackPane(new Label("foo"), new Button("bar")));
 
-        // expect:
-        exception.expect(AssertionError.class);
-        exception.expectMessage("Expected: Node has 2 children \".button\"\n");
-
-        assertThat(parent, NodeMatchers.hasChildren(2, ".button"));
+        // then:
+        assertThatThrownBy(() -> assertThat(parent, NodeMatchers.hasChildren(2, ".button")))
+                .isExactlyInstanceOf(AssertionError.class)
+                .hasMessageStartingWith("\nExpected: Node has 2 children \".button\"\n");
     }
 
 }

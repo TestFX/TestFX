@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -20,34 +20,28 @@ import javafx.stage.Stage;
 
 import org.junit.AfterClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testfx.api.FxAssert.verifyThat;
 
 public class FxToolkitBasicTest extends TestCaseBase {
 
-    // `FxToolkit` is responsible for setup and cleanup of JavaFX fixtures.
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     @AfterClass
     public static void cleanupSpec() throws Exception {
         FxToolkit.cleanupStages();
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void registerPrimaryStage_should_be_callable_multiple_times() throws Exception {
-        // expect:
         FxToolkit.registerPrimaryStage();
         FxToolkit.registerPrimaryStage();
         FxToolkit.registerPrimaryStage();
@@ -59,7 +53,7 @@ public class FxToolkitBasicTest extends TestCaseBase {
         Stage stage = FxToolkit.registerPrimaryStage();
 
         // then:
-        assertThat(stage, instanceOf(Stage.class));
+        verifyThat(stage, instanceOf(Stage.class));
     }
 
     @Test
@@ -71,16 +65,16 @@ public class FxToolkitBasicTest extends TestCaseBase {
         Stage stage = FxToolkit.registerPrimaryStage();
 
         // then:
-        assertThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
+        verifyThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
     }
 
     @Test
     public void registerStage_should_return_the_stage() throws Exception {
         // when:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
 
         // then:
-        assertThat(stage, instanceOf(Stage.class));
+        verifyThat(stage, instanceOf(Stage.class));
     }
 
     @Test
@@ -89,36 +83,36 @@ public class FxToolkitBasicTest extends TestCaseBase {
         FxToolkit.toolkitContext().setRegisteredStage(null);
 
         // when:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
 
         // then:
-        assertThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
+        verifyThat(FxToolkit.toolkitContext().getRegisteredStage(), is(stage));
     }
 
     @Test
     public void showStage_should_show_the_registered_stage() throws Exception {
         // given:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
 
         // when:
         FxToolkit.showStage();
 
         // then:
-        assertThat(stage.isShowing(), is(true));
+        verifyThat(stage.isShowing(), is(true));
     }
 
     @Test
     @Ignore
     public void hideStage_should_hide_the_registered_stage() throws Exception {
         // given:
-        Stage stage = FxToolkit.registerStage(() -> new Stage());
+        Stage stage = FxToolkit.registerStage(Stage::new);
         FxToolkit.showStage();
 
         // when:
         FxToolkit.hideStage();
 
         // then:
-        assertThat(stage.isShowing(), is(false));
+        verifyThat(stage.isShowing(), is(false));
     }
 
 }

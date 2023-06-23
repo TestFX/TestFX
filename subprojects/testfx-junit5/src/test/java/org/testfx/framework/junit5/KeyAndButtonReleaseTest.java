@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -23,17 +23,16 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 /**
  * Tests to see if pressed keys/buttons are released after a test is run.
- *
+ * <p>
  * For keys, this prevents hanging issues (if Shortcut key is pressed) or deletion issues (if backspace/delete key
  * is pressed) or insertion issues (if anything else is pressed). The same for mouse buttons
  */
-//TODO junit5 doesn't support test ordering ATM, but this functionality can be added in future.
-@Disabled
+@Disabled("junit5 doesn't support test ordering ATM, but this functionality can be added in future")
 class KeyAndButtonReleaseTest extends ApplicationTest {
 
     @Override

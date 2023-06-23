@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -14,14 +14,160 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
  * specific language governing permissions and limitations under the Licence.
  */
+apply plugin: 'java-library'
 
-ext.pomDescription = "TestFX JUnit"
+ext.pomDescription = 'TestFX JUnit'
+ext.moduleName = 'org.testfx.junit'
+ext.openjfxVersion = '11'
 
-dependencies {
-    compile project(":testfx-core")
+static def getOSName() {
+    final String osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("linux")) {
+        return ("linux")
+    } else if (osName.contains("mac os x") || osName.contains("darwin") || osName.contains("osx")) {
+        return ("mac")
+    } else if (osName.contains("windows")) {
+        return ("win")
+    }
+    return ""
+}
 
-    providedCompile "junit:junit:4.12"
+ext.platform = getOSName()
 
-    testCompile "org.hamcrest:hamcrest-library:1.3"
-    testCompile "org.testfx:openjfx-monocle:1.8.0_20"
+repositories {
+    jcenter()
+}
+
+// This insanity should be removed when JUnit 4 uses hamcrest 2.1.
+// See: https://github.com/junit-team/junit4/pull/1608
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails dep ->
+        if (dep.requested.group == 'org.hamcrest') {
+            switch (dep.requested.name) {
+                case 'java-hamcrest':
+                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
+                    dep.because("2.0.0.0 shouldn't have been published")
+                    break
+                case 'hamcrest-core':
+                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
+                    dep.because("hamcrest-core doesn't contain anything")
+                    break
+                case 'hamcrest-library':
+                    dep.useTarget("org.hamcrest:hamcrest:${dep.target.version}")
+                    dep.because("hamcrest-library doesn't contain anything")
+                    break
+            }
+        }
+    }
+}
+
+afterEvaluate {
+    dependencies {
+        if (JavaVersion.current().isJava10Compatible()) {
+            // In case we are on an Oracle JDK with JavaFX builtin, these will be ignored.
+            implementation "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-swing:${openjfxVersion}:${platform}"
+            implementation "org.openjfx:javafx-fxml:${openjfxVersion}:${platform}"
+        }
+
+        compile project(":testfx-core")
+
+        compile ("junit:junit:4.13-beta-3") {
+            exclude group: 'org.hamcrest', module: 'hamcrest-core'
+            exclude group: 'org.hamcrest', module: 'hamcrest-library'
+        }
+        compile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
+        testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '2.1'
+        testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '2.1'
+        implementation "org.assertj:assertj-core:3.13.2"
+        //testCompile "org.assertj:assertj-core:3.13.2"
+
+        if (JavaVersion.current().isJava12Compatible()) {
+            testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+        } else if (JavaVersion.current().isJava11Compatible()) {
+            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+        } else if (JavaVersion.current().isJava10Compatible() &&
+                System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
+            testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+        } else if (JavaVersion.current().isJava9Compatible()) {
+            testCompile "org.testfx:openjfx-monocle:jdk-9+181"
+        } else {
+            testCompile "org.testfx:openjfx-monocle:8u76-b04"
+        }
+    }
+
+    configurations {
+        apiElements {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+    }
+
+    if (JavaVersion.current().isJava9Compatible()) {
+        task compileModuleInfoJava(type: JavaCompile) {
+            dependsOn 'compileJava'
+            doFirst {
+                options.compilerArgs = [
+                        '--module-path', compileJava.classpath.asPath,
+                ]
+            }
+            options.encoding = 'UTF-8'
+            classpath = files()
+            source = sourceSets.main.allJava
+            sourceCompatibility = JavaVersion.VERSION_1_9
+            targetCompatibility = JavaVersion.VERSION_1_9
+            destinationDir = compileJava.destinationDir
+        }
+        classes.dependsOn compileModuleInfoJava
+        def dependents = configurations.api.dependencies + configurations.implementation.dependencies
+        def dependentProjects = dependents.findAll { it instanceof ProjectDependency }
+        dependentProjects.each { dependency ->
+            compileModuleInfoJava.dependsOn ":${dependency.name}:compileModuleInfoJava"
+        }
+    }
+
+    javadoc {
+        source = sourceSets.main.allJava
+        //dependsOn compileModuleInfoJava
+        if (JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+
+            inputs.property("moduleName", moduleName)
+
+            doFirst {
+                options.addStringOption('-module-path', classpath.asPath)
+                options.addMultilineStringsOption('-add-modules').setValue([
+                        'javafx.graphics', 'javafx.controls', 'javafx.swing', 'org.hamcrest', 'org.testfx'])
+                options.addMultilineStringsOption('-add-exports').setValue([
+                        'javafx.graphics/com.sun.javafx.application=org.testfx',
+                        'javafx.graphics/com.sun.glass.ui=org.testfx'])
+            }
+        }
+    }
+
+    test {
+        if (JavaVersion.current().isJava9Compatible()) {
+            inputs.property("moduleName", moduleName)
+            doFirst {
+                jvmArgs = [
+                        '--module-path', classpath.asPath,
+                        '--add-reads', "$moduleName=junit",
+                        '--add-reads', "$moduleName=org.assertj.core",
+                        '--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath,
+                ]
+            }
+        }
+    }
+
+    jar {
+        inputs.property("moduleName", moduleName)
+
+        manifest {
+            attributes(
+                    'Implementation-Title': moduleName,
+            )
+        }
+    }
 }

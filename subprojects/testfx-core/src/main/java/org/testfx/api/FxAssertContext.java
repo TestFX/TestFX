@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,7 +16,6 @@
  */
 package org.testfx.api;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.support.CaptureSupport;
 
@@ -27,20 +26,10 @@ import org.testfx.service.support.CaptureSupport;
  *     <li>a {@link CaptureSupport}, which defaults to {@link FxServiceContext#getCaptureSupport()}</li>
  * </ul>
  */
-@Unstable(reason = "class was recently added")
 public class FxAssertContext {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
     private NodeFinder nodeFinder = FxService.serviceContext().getNodeFinder();
-
     private CaptureSupport captureSupport = FxService.serviceContext().getCaptureSupport();
-
-    //---------------------------------------------------------------------------------------------
-    // GETTER AND SETTER.
-    //---------------------------------------------------------------------------------------------
 
     public NodeFinder getNodeFinder() {
         return nodeFinder;

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,7 +16,12 @@
  */
 package org.testfx.toolkit.impl;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -25,30 +30,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.sun.javafx.application.ParametersImpl;
-import org.testfx.api.annotation.Unstable;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
-import org.testfx.toolkit.PrimaryStageFuture;
 import org.testfx.toolkit.ToolkitService;
 
 import static org.testfx.util.WaitForAsyncUtils.async;
 import static org.testfx.util.WaitForAsyncUtils.asyncFx;
 
-@Unstable
 public class ToolkitServiceImpl implements ToolkitService {
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE FIELDS.
-    //---------------------------------------------------------------------------------------------
-
-    private ApplicationLauncher applicationLauncher;
-
-    private ApplicationService applicationService;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
+    private final ApplicationLauncher applicationLauncher;
+    private final ApplicationService applicationService;
 
     public ToolkitServiceImpl(ApplicationLauncher applicationLauncher,
                               ApplicationService applicationService) {
@@ -56,12 +48,8 @@ public class ToolkitServiceImpl implements ToolkitService {
         this.applicationService = applicationService;
     }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
-    public Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
+    public Future<Stage> setupPrimaryStage(CompletableFuture<Stage> primaryStageFuture,
                                            Class<? extends Application> applicationClass,
                                            String... applicationArgs) {
         if (!primaryStageFuture.isDone()) {
@@ -70,7 +58,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                     applicationLauncher.launch(applicationClass, applicationArgs);
                 }
                 catch (Throwable exception) {
-                    primaryStageFuture.setException(exception);
+                    primaryStageFuture.completeExceptionally(exception);
                 }
             });
         }
@@ -121,9 +109,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                                                 Class<? extends Application> applicationClass,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = applicationService.create(() ->
-                createApplication(applicationClass)
-            ).get();
+            Application application = asyncFx(() -> createApplication(applicationClass)).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -136,9 +122,7 @@ public class ToolkitServiceImpl implements ToolkitService {
                                                 Supplier<Application> applicationSupplier,
                                                 String... applicationArgs) {
         return async(() -> {
-            Application application = applicationService.create(() ->
-                applicationSupplier.get()
-            ).get();
+            Application application = asyncFx(applicationSupplier::get).get();
             registerApplicationParameters(application, applicationArgs);
             applicationService.init(application).get();
             applicationService.start(application, stageSupplier.get()).get();
@@ -151,19 +135,29 @@ public class ToolkitServiceImpl implements ToolkitService {
         return applicationService.stop(application);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Application createApplication(Class<? extends Application> applicationClass)
-                                   throws Exception {
-        return applicationClass.newInstance();
+    private Application createApplication(Class<? extends Application> applicationClass) throws Exception {
+        return applicationClass.getDeclaredConstructor().newInstance();
     }
 
-    private void registerApplicationParameters(Application application,
-                                               String... applicationArgs) {
-        ParametersImpl parameters = new ParametersImpl(applicationArgs);
-        ParametersImpl.registerParameters(application, parameters);
-    }
+    private void registerApplicationParameters(Application application, String... applicationArgs) {
+        String type = "com.sun.javafx.application.ParametersImpl";
+        String methodName = "registerParameters";
 
+        try {
+            // Use reflection to get the class, constructor and method
+            Class<?> parametersImpl = getClass().getClassLoader().loadClass(type);
+            Constructor<?> constructor = parametersImpl.getDeclaredConstructor(List.class);
+            Method method =
+                parametersImpl.getDeclaredMethod(methodName, Application.class, Application.Parameters.class);
+
+            // Create an instance of the ParametersImpl class
+            Application.Parameters parameters =
+                (Application.Parameters)constructor.newInstance(Arrays.asList(applicationArgs));
+            // Call the registerParameters on the ParametersImpl instance
+            method.invoke(parametersImpl, application, parameters);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
 }

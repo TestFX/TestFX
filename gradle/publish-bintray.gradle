@@ -15,18 +15,16 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-// This plugin allows you to publish artifacts to a repository on Bintray.
+// The gradle-bintray-plugin allows for publishing build artifacts to a Bintray repository.
 // https://github.com/bintray/gradle-bintray-plugin
 
 apply plugin: "com.jfrog.bintray"
-
-if (!project.hasProperty("bintrayUsername")) ext.bintrayUsername = "invalid"
-if (!project.hasProperty("bintrayApiKey")) ext.bintrayApiKey = "invalid"
 
 bintray {
     user = project.bintrayUsername
     key = project.bintrayApiKey
     publications = ["mavenJava"]
+    publish = true
 
     pkg {
         userOrg = project.bintrayOrg
@@ -39,6 +37,8 @@ bintray {
         issueTrackerUrl = project.projectIssues
         vcsUrl = project.projectScm
         publicDownloadNumbers = true
+        githubRepo = 'TestFX/TestFX'
+        githubReleaseNotesFile = 'CHANGES.md'
         version {
             vcsTag = project.version
         }

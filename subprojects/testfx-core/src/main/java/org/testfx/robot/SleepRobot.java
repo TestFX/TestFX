@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -21,19 +21,18 @@ import java.util.concurrent.TimeUnit;
 public interface SleepRobot {
 
     /**
-     * Same as Thread.sleep(), but without checked exceptions.
+     * Same as {@link Thread#sleep(long)}}, but without checked exceptions.
      *
-     * @param milliseconds the duration in milliseconds
+     * @param milliseconds the duration in milliseconds to sleep for
      */
-    public void sleep(long milliseconds);
+    void sleep(long milliseconds);
 
     /**
-     * Same as Thread.sleep(), but without checked exceptions.
+     * Same as {@link Thread#sleep(long)}, but without checked exceptions.
      *
-     * @param duration the duration
-     * @param timeUnit the unit of time
+     * @param duration the duration to sleep for
+     * @param timeUnit the unit of time the duration to sleep for is in
      */
-    public void sleep(long duration,
-                      TimeUnit timeUnit);
+    void sleep(long duration, TimeUnit timeUnit);
 
 }

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,47 +16,32 @@
  */
 package org.testfx.robot.impl;
 
+import java.util.Objects;
 import javafx.scene.input.MouseButton;
 
-import org.testfx.api.annotation.Unstable;
 import org.testfx.robot.ClickRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
-@Unstable
 public class ClickRobotImpl implements ClickRobot {
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTANTS.
-    //---------------------------------------------------------------------------------------------
 
     private static final long SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS = 50;
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    private final MouseRobot mouseRobot;
+    private final MoveRobot moveRobot;
+    private final SleepRobot sleepRobot;
 
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
-    public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    public ClickRobotImpl(MouseRobot mouseRobot,
-                          MoveRobot moveRobot,
-                          SleepRobot sleepRobot) {
+    public ClickRobotImpl(MouseRobot mouseRobot, MoveRobot moveRobot, SleepRobot sleepRobot) {
+        Objects.requireNonNull(mouseRobot, "mouseRobot must not be null");
+        Objects.requireNonNull(moveRobot, "moveRobot must not be null");
+        Objects.requireNonNull(sleepRobot, "sleepRobot must not be null");
         this.mouseRobot = mouseRobot;
         this.moveRobot = moveRobot;
         this.sleepRobot = sleepRobot;
     }
-
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Override
     public void clickOn(MouseButton... buttons) {
@@ -65,9 +50,8 @@ public class ClickRobotImpl implements ClickRobot {
     }
 
     @Override
-    public void clickOn(PointQuery pointQuery,
-                        MouseButton... buttons) {
-        moveRobot.moveTo(pointQuery);
+    public void clickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons) {
+        moveRobot.moveTo(pointQuery, motion);
         clickOn(buttons);
     }
 
@@ -79,9 +63,9 @@ public class ClickRobotImpl implements ClickRobot {
     }
 
     @Override
-    public void doubleClickOn(PointQuery pointQuery,
-                              MouseButton... buttons) {
-        clickOn(pointQuery, buttons);
+    public void doubleClickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons) {
+        moveRobot.moveTo(pointQuery, motion);
+        clickOn(buttons);
         clickOn(buttons);
         sleepRobot.sleep(SLEEP_AFTER_DOUBLE_CLICK_IN_MILLIS);
     }

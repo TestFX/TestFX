@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -17,59 +17,102 @@
 package org.testfx.matcher.control;
 
 import java.util.Objects;
-import javafx.scene.Node;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
 import static org.testfx.matcher.base.GeneralMatchers.typeSafeMatcher;
 
 /**
- * TestFX matchers for {@link Text}
+ * TestFX matchers for {@link Text} nodes.
  */
-@Unstable(reason = "needs more tests")
 public class TextMatchers {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private TextMatchers() {}
 
     /**
-     * Creates a matcher that matches all {@link Text}s whose text equals the given {@code string}.
+     * Creates a matcher that matches all {@link Text}s whose text equals the given {@code text}.
+     *
+     * @param text the {@code String} the matched Texts should have as their text
      */
-    @Factory
-    public static Matcher<Node> hasText(String string) {
-        String descriptionText = "has text \"" + string + "\"";
-        return typeSafeMatcher(Text.class, descriptionText, node -> hasText(node, string));
+    public static Matcher<Text> hasText(String text) {
+        String descriptionText = "has text \"" + text + "\"";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + " with text: \"" + textNode.getText() + "\"",
+            textNode -> Objects.equals(text, textNode.getText()));
     }
 
     /**
      * Creates a matcher that matches all {@link Text}s whose text matches the given {@code matcher}.
+     *
+     * @param matcher the {@code Matcher<String>} the Texts text should match
      */
-    @Factory
-    public static Matcher<Node> hasText(Matcher<String> matcher) {
+    public static Matcher<Text> hasText(Matcher<String> matcher) {
         String descriptionText = "has " + matcher.toString();
-        return typeSafeMatcher(Text.class, descriptionText, node -> hasText(node, matcher));
+        return typeSafeMatcher(Text.class, descriptionText,
+            text -> text.getClass().getSimpleName() + " with text: \"" + text.getText() + "\"",
+            textNode -> matcher.matches(textNode.getText()));
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private static boolean hasText(Text text,
-                                   String string) {
-        return Objects.equals(string, lookupText(text));
+    /**
+     * Creates a matcher that matches all {@link Text}s that have the given {@code font}.
+     *
+     * @param font the {@code Font} that matched Texts should have as their font
+     */
+    public static Matcher<Text> hasFont(Font font) {
+        String descriptionText = "has font " + toText(font);
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + " with font: " + toText(textNode.getFont()),
+            textNode -> Objects.equals(font, textNode.getFont()));
     }
 
-    private static boolean hasText(Text text,
-                                   Matcher<String> matcher) {
-        return matcher.matches(lookupText(text));
+    /**
+     * Creates a matcher that matches all {@link Text}s that have the given {@code smoothingType}
+     * (either {@link FontSmoothingType#GRAY} or {@link FontSmoothingType#LCD}).
+     *
+     * @param smoothingType the {@code FontSmoothingType} that matched Texts should have
+     */
+    public static Matcher<Text> hasFontSmoothingType(FontSmoothingType smoothingType) {
+        String descriptionText = "has font smoothing type: \"" + smoothingType + "\"";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + " with font smoothing type: \"" +
+                    textNode.getFontSmoothingType() + "\"",
+            textNode -> Objects.equals(smoothingType, textNode.getFontSmoothingType()));
     }
 
-    private static String lookupText(Text text) {
-        return text.getText();
+    /**
+     * Creates a matcher that matches all {@link Text}s that have strikethrough (that is, they
+     * should be drawn with a line through them).
+     *
+     * @param strikethrough whether or not the matched Texts should have strikethrough
+     */
+    public static Matcher<Text> hasStrikethrough(boolean strikethrough) {
+        String descriptionText = (strikethrough ? "has " : "does not have ") + "strikethrough";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + (textNode.isStrikethrough() ?
+                    " with " : " without ") + "strikethrough",
+            textNode -> textNode.isStrikethrough() == strikethrough);
+    }
+
+    /**
+     * Creates a matcher that matches all {@link Text}s that are underlined (that is, they
+     * should be drawn with a line below them).
+     *
+     * @param underlined whether or not the matched Texts should be underlined
+     */
+    public static Matcher<Text> isUnderlined(boolean underlined) {
+        String descriptionText = (underlined ? "is " : "is not ") + "underlined";
+        return typeSafeMatcher(Text.class, descriptionText,
+            textNode -> textNode.getClass().getSimpleName() + (textNode.isUnderline() ?
+                    " with " : " without ") + "underline",
+            textNode -> textNode.isUnderline() == underlined);
+    }
+
+    private static String toText(Font font) {
+        return String.format("\"%s\" with family (\"%s\") and size (%.1f)", font.getName(),
+                font.getFamily(), font.getSize());
     }
 
 }

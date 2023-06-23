@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -19,36 +19,33 @@ package org.testfx.robot.impl;
 import javafx.scene.input.MouseButton;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.ClickRobot;
+import org.testfx.robot.Motion;
 import org.testfx.robot.MouseRobot;
 import org.testfx.robot.MoveRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.service.query.PointQuery;
 
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public final class ClickRobotImplTest {
+public class ClickRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
-    public ClickRobot clickRobot;
-
-    public MouseRobot mouseRobot;
-    public MoveRobot moveRobot;
-    public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    ClickRobot clickRobot;
+    MouseRobot mouseRobot;
+    MoveRobot moveRobot;
+    SleepRobot sleepRobot;
 
     @Before
     public void setup() {
@@ -57,10 +54,6 @@ public final class ClickRobotImplTest {
         sleepRobot = mock(SleepRobot.class);
         clickRobot = new ClickRobotImpl(mouseRobot, moveRobot, sleepRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void clickOn_with_primary_mouse_button() {
@@ -99,7 +92,7 @@ public final class ClickRobotImplTest {
         clickRobot.clickOn(pointQuery, MouseButton.PRIMARY);
 
         // then:
-        verify(moveRobot, times(1)).moveTo(eq(pointQuery));
+        verify(moveRobot, times(1)).moveTo(eq(pointQuery), eq(Motion.DEFAULT));
         verify(mouseRobot, times(1)).pressNoWait(eq(MouseButton.PRIMARY));
         verify(mouseRobot, times(1)).release(eq(MouseButton.PRIMARY));
         verifyNoMoreInteractions(moveRobot, mouseRobot);
@@ -145,7 +138,7 @@ public final class ClickRobotImplTest {
         clickRobot.doubleClickOn(pointQuery, MouseButton.PRIMARY);
 
         // then:
-        verify(moveRobot, times(1)).moveTo(eq(pointQuery));
+        verify(moveRobot, times(1)).moveTo(eq(pointQuery), eq(Motion.DEFAULT));
         verify(mouseRobot, times(2)).pressNoWait(eq(MouseButton.PRIMARY));
         verify(mouseRobot, times(2)).release(eq(MouseButton.PRIMARY));
         verify(sleepRobot, times(1)).sleep(anyLong());

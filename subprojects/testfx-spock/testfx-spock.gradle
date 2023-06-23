@@ -1,0 +1,98 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2015 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
+ */
+ext.pomDescription = 'TestFX Spock'
+ext.moduleName = 'org.testfx.spock'
+ext.openjfxVersion = '11'
+
+static def getOSName() {
+    final String osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("linux")) {
+        return ("linux")
+    } else if (osName.contains("mac os x") || osName.contains("darwin") || osName.contains("osx")) {
+        return ("mac")
+    } else if (osName.contains("windows")) {
+        return ("win")
+    }
+    return ""
+}
+
+ext.platform = getOSName()
+
+apply plugin: 'groovy'
+apply plugin: 'codenarc'
+
+groovydoc {
+    noTimestamp = true
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    baseName 'testfx-spock'
+    classifier 'groovydoc'
+    from groovydoc.destinationDir
+}
+
+codenarc {
+    toolVersion = "1.0"
+    reportFormat = 'console'
+}
+
+codenarcMain {
+    configFile = file("${rootDir}/gradle/codenarc/rules.groovy")
+    maxPriority1Violations 0
+    maxPriority2Violations 10
+    maxPriority3Violations 20
+}
+
+codenarcTest {
+    configFile = file("${rootDir}/gradle/codenarc/rules.groovy")
+    maxPriority1Violations 0
+    maxPriority2Violations 10
+    maxPriority3Violations 20
+}
+
+artifacts {
+    archives groovydocJar
+}
+
+dependencies {
+    dependencies {
+        if (JavaVersion.current().isJava10Compatible()) {
+            // In case we are on an Oracle JDK with JavaFX builtin, these will be ignored.
+            compile "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
+            compile "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
+            compile "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
+        }
+    }
+
+    compile project(":testfx-core")
+
+    compileOnly group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
+    testCompileOnly group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
+
+    if (JavaVersion.current().isJava12Compatible()) {
+        testCompile 'org.testfx:openjfx-monocle:jdk-12.0.1+2'
+    } else if (JavaVersion.current().isJava11Compatible()) {
+        testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+    } else if (JavaVersion.current().isJava10Compatible() &&
+            System.getProperty("java.vm.name").toLowerCase().contains("openjdk")) {
+        testCompile "org.testfx:openjfx-monocle:jdk-11+26"
+    } else if (JavaVersion.current().isJava9Compatible()) {
+        testCompile "org.testfx:openjfx-monocle:jdk-9+181"
+    } else {
+        testCompile "org.testfx:openjfx-monocle:8u76-b04"
+    }
+}

@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -28,59 +28,38 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
-import org.testfx.api.annotation.Unstable;
 
-@Unstable(reason = "might be renamed to ApplicationTestBase")
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
 
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @Unstable(reason = "is missing apidocs")
-    public static void launch(Class<? extends Application> appClass,
-                              String... appArgs) throws Exception {
+    public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(appClass, appArgs);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @BeforeEach
-    @Unstable(reason = "is missing apidocs")
-    public final void internalBefore()
-                              throws Exception {
+    public final void internalBefore() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
     }
 
     @AfterEach
-    @Unstable(reason = "is missing apidocs")
-    public final void internalAfter()
-                             throws Exception {
+    public final void internalAfter() throws Exception {
         // release all keys
         release(new KeyCode[0]);
         // release all mouse buttons
         release(new MouseButton[0]);
+        FxToolkit.cleanupStages();
         FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
 
     @Override
-    @Unstable(reason = "is missing apidocs")
-    public void init()
-            throws Exception {}
+    public void init() throws Exception {}
 
     @Override
-    @Unstable(reason = "is missing apidocs")
-    public abstract void start(Stage stage)
-                        throws Exception;
+    public void start(Stage stage) throws Exception {}
 
     @Override
-    @Unstable(reason = "is missing apidocs")
-    public void stop()
-              throws Exception {}
+    public void stop() throws Exception {}
 
     @Deprecated
     public final HostServices getHostServices() {

@@ -1,0 +1,77 @@
+---
+name: Build
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      jdk:
+        required: true
+        type: string
+      openjfx:
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  issues: read
+  packages: read
+  pull-requests: write
+  statuses: read
+  security-events: write
+
+env:
+  DISPLAY: ":99"
+  XVFB_PARMS: "-screen 0 1920x1080x24 -nolisten unix"
+  OPENJFX_VERSION: "${{ inputs.openjfx }}"
+
+jobs:
+  build:
+    name: Build TestFX on ${{ inputs.os }} JDK ${{ inputs.jdk }} OpenJFX ${{ inputs.openjfx }}
+    runs-on: ${{ inputs.os }}
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-package: jdk+fx
+          java-version: ${{ inputs.jdk }}
+
+      - name: Cache Gradle Resources
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Set up Virtual Display (for Linux)
+        if: runner.os == 'Linux'
+        run: |
+          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./gradlew versions check
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          check_name: Unit Test Results (${{ inputs.os }}-java-${{ inputs.jvm }})
+          report_individual_runs: true
+          check_run_annotations_branch: master
+          check_run_annotations: all tests, skipped tests
+          files: subprojects/**/build/test-results/**/*.xml

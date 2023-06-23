@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2017 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -18,116 +18,102 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-//-------------------------------------------------------------------------------------------------
-// GRADLE PLUGINS.
-//-------------------------------------------------------------------------------------------------
-
 buildscript {
     repositories {
         jcenter()
     }
 
     dependencies {
-        classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
+        // Used for OSGI related stuff (gradle "osgi" plugin was deprecated).
+        // classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
     }
 }
 
-//-------------------------------------------------------------------------------------------------
-// ROOT PROJECT.
-//-------------------------------------------------------------------------------------------------
+plugins {
+    id 'com.github.hierynomus.license' version '0.15.0'
+    id 'com.jfrog.bintray' version '1.8.5'
+    id 'com.github.ben-manes.versions' version '0.29.0'
+    id 'com.github.kt3k.coveralls' version '2.10.1'
+    id 'com.github.spotbugs' version '4.0.6'
+}
 
 rootProject.with { project ->
-    // provide assemble and clean tasks.
-    apply(plugin: "base")
 
-    // task to add gradle wrapper files.
-    task("wrapper", type: Wrapper) {
-        gradleVersion = "3.2.1"
-        distributionUrl = "https://services.gradle.org/distributions/" +
-            "gradle-${gradleVersion}-all.zip"
-    }
-
-    // task to print gradle and groovy versions.
-    task("versions", group: "help").doLast {
-        println "JAVA_OPTS: ${System.env.JAVA_OPTS}"
-        println "Java version: ${System.properties["java.version"]}"
-        println "Gradle version: ${gradle.gradleVersion}"
-        println "Groovy version: ${GroovySystem.version}"
+    task versions {
+        group 'help'
+        description 'Prints tool versions and useful environment variables.'
+        doLast {
+            println "JAVA_OPTS:      ${System.env.JAVA_OPTS ?: "[]"}"
+            println "JAVA_HOME:      ${System.env.JAVA_HOME}"
+            println "Java version:   ${JavaVersion.current()}"
+            println "Gradle version: ${gradle.gradleVersion}"
+            println "Groovy version: ${GroovySystem.version}"
+            println "Subprojects:    ${rootProject.childProjects.keySet()}"
+        }
     }
 
     ext {
-        // add build time and date to project attributes.
         def buildTimeAndDate = new Date()
         buildDate = buildTimeAndDate.format("yyyy-MM-dd")
         buildTime = buildTimeAndDate.format("HH:mm:ss.SSSZ")
 
-        // add java version and vendor to project attributes.
-        javaVersion = System.properties["java.version"]
-        javaVendor = System.properties["java.vendor"]
-        javaVmVersion = System.properties["java.vm.version"]
-    }
-}
-
-//-------------------------------------------------------------------------------------------------
-// EACH PROJECT.
-//-------------------------------------------------------------------------------------------------
-
-allprojects { project ->
-    configurations {
-        providedCompile
-    }
-
-    // task to create main and test source directories.
-    task("initSourceDirs", group: "build setup").doLast {
-        // ignore source directories for projects without source sets.
-        if (!project.hasProperty("sourceSets")) { return }
-
-        // list all source directories.
-        def sourceSets = project.sourceSets as SourceSetContainer
-        def sourceDirs = sourceSets*.allSource.srcDirs.flatten() as List<File>
-
-        // create source directories, for those who not exists.
-        for (sourceDir in sourceDirs) {
-            if (sourceDir.mkdirs()) {
-                println "Created source dir: \"${sourceDir}\"."
-            }
+        if (JavaVersion.current().isJava11Compatible()) {
+            javadocLinks = ["https://docs.oracle.com/en/java/javase/11/docs/api"]
+        } else if (JavaVersion.current().isJava10Compatible()) {
+            javadocLinks = ["https://docs.oracle.com/javase/10/docs/api"]
+        } else if (JavaVersion.current().isJava9Compatible()) {
+            javadocLinks = ["https://docs.oracle.com/javase/9/docs/api"]
+        } else {
+            javadocLinks = ["http://docs.oracle.com/javase/8/docs/api/",
+                            "http://docs.oracle.com/javase/8/javafx/api/"]
         }
     }
 }
 
-//-------------------------------------------------------------------------------------------------
-// EACH SUBPROJECT.
-//-------------------------------------------------------------------------------------------------
+allprojects { project ->
+    apply plugin: 'base'
+    apply plugin: 'java'
+    apply plugin: 'com.github.kt3k.coveralls'
+    apply plugin: 'jacoco'
+    apply from: "${rootDir}/gradle/jacoco.gradle"
+    apply from: "${rootDir}/gradle/travis-helpers.gradle"
+
+    configurations {
+        providedCompile
+    }
+
+    repositories {
+        if (project.hasProperty("useMavenLocal")) {
+            mavenLocal()
+        }
+        jcenter()
+    }
+}
 
 subprojects { subproject ->
-    // provide java configurations and tasks.
-    apply(plugin: "java")
-
-    apply(from: rootProject.file("gradle/check-checkstyle.gradle"))
-    apply(from: rootProject.file("gradle/check-findbugs.gradle"))
-    //apply(from: rootProject.file("gradle/check-jdepend.gradle"))
-    apply(from: rootProject.file("gradle/check-license.gradle"))
-
-    apply(from: rootProject.file("gradle/publish-jar.gradle"))
-    apply(from: rootProject.file("gradle/publish-maven.gradle"))
-    apply(from: rootProject.file("gradle/publish-bintray.gradle"))
+    // apply plugin: 'biz.aQute.bnd.builder'
+    // apply from: "${rootDir}/gradle/spotbugs.gradle"
+    apply from: "${rootDir}/gradle/checkstyle.gradle"
+    apply from: "${rootDir}/gradle/license.gradle"
+    apply from: "${rootDir}/gradle/publish-jar.gradle"
+    apply from: "${rootDir}/gradle/publish-maven.gradle"
+    apply from: "${rootDir}/gradle/publish-bintray.gradle"
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
     sourceSets.test.runtimeClasspath += configurations.providedCompile
 
-    task("sourceJar", type: Jar) {
-        group "Build"
-        description "An archive of the source code"
-        classifier "sources"
+    task sourceJar(type: Jar) {
+        group 'Build'
+        description 'Assembles a JAR containing the source code.'
+        classifier 'sources'
         from sourceSets.main.allJava
     }
 
-    task("javadocJar", type: Jar) {
-        group "Build"
-        description "An archive of the javadoc"
-        classifier "javadoc"
+    task javadocJar(type: Jar) {
+        group 'Build'
+        description 'Assembles a JAR containing the Javadoc.'
+        classifier 'javadoc'
         from javadoc
     }
 
@@ -139,49 +125,58 @@ subprojects { subproject ->
         javadocJar
     }
 
-    // source code compatible to java 8.
-    subproject.tasks.withType(JavaCompile) {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-    }
-
-    // configure javadoc task.
-    if (JavaVersion.current().isJava8Compatible()) {
-        tasks.withType(Javadoc) {
-            options.addStringOption("Xdoclint:none", "-quiet")
-        }
-    }
-
-    // use utf-8 encoding for java compile.
     tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(GroovyCompile) {
+        options.encoding = 'UTF-8'
+        groovyOptions.encoding = 'UTF-8'
     }
 
-    // use test logging.
     test {
+        reports.html.enabled = false
         testLogging {
-            // Fancy formatting from http://stackoverflow.com/a/36130467/3634630
             // set options for log level LIFECYCLE
-            events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
-                TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT
+            events TestLogEvent.STARTED, TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED, TestLogEvent.FAILED,
+                TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
             showExceptions true
             exceptionFormat TestExceptionFormat.FULL
             showCauses true
             showStackTraces true
 
-            // set options for log level DEBUG and INFO
-            debug {
-                events TestLogEvent.STARTED, TestLogEvent.PASSED,
-                    TestLogEvent.SKIPPED, TestLogEvent.FAILED,
-                    TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
+            def travisTuple
+            def failedTestSummary = "\n\nFAILED TESTS SUMMARY: \n\n"
+            afterTest { desc, result ->
+                if (desc.parent) {
+                    if (result.getResultType() == TestResult.ResultType.FAILURE) {
+                        failedTestSummary += "${desc.getClassName()}#${desc.getName()} FAILED:\n" +
+                                "${result.getExceptions()}\n"
+                    }
+                }
             }
-            info.events = debug.events
+            beforeSuite { desc ->
+                if (!desc.parent) { // will match the outermost suite
+                    travisFoldStart(desc.name)
+                    travisTuple = travisTimerStart()
+                }
+            }
             afterSuite { desc, result ->
                 if (!desc.parent) { // will match the outermost suite
-                    def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                    if (travisTuple != null) {
+                        travisTimerEnd(travisTuple.first, travisTuple.second)
+                    }
+                    def output = "Results: ${result.resultType} (${result.testCount} tests, " +
+                            "${result.successfulTestCount} successes, " +
+                            "${result.failedTestCount} failures, " +
+                            "${result.skippedTestCount} skipped)"
                     def startItem = '|  ', endItem = '  |'
-                    def repeatLength = startItem.length() + output.length() + endItem.length()
-                    println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+                    def repeat = startItem + output + endItem
+                    println('\n' + ('-' * repeat.length()) + '\n' + repeat + '\n' + ('-' * repeat.length()))
+                    if (result.failedTestCount > 0) {
+                        println(failedTestSummary)
+                    }
+                    travisFoldEnd(desc.name)
                 }
             }
         }
@@ -191,36 +186,27 @@ subprojects { subproject ->
 evaluationDependsOnChildren()
 
 subprojects { subproject ->
-    // maven repositories for dependencies.
-    repositories {
-        if (project.hasProperty("useMavenLocal")) {
-            mavenLocal()
-        }
-        jcenter()
-    }
-
-    // configure javadoc task.
     javadoc {
+        enabled = JavaVersion.current().isJava8()
         excludes = ["**/*.html", "META-INF/**"]
-        classpath = configurations.compile + configurations.providedCompile
+        classpath = configurations.compile + configurations.providedCompile + configurations.compileOnly
         options.use         = true
         options.splitIndex  = true
         options.encoding    = "UTF-8"
         options.author      = true
         options.version     = subproject.sourceCompatibility
-        options.windowTitle = "${subproject.pomDescription} ${version} API"
-        options.docTitle    = "${subproject.pomDescription} ${version} API"
+        options.windowTitle = "${subproject.name} ${version} API"
+        options.docTitle    = "${subproject.name} ${version} API"
         options.footer      = project.javadocFooter
-        options.links       = [
-            "http://docs.oracle.com/javase/8/docs/api/",
-            "http://docs.oracle.com/javase/8/javafx/api/"
-        ]
+        options.links       = javadocLinks
+        options.noTimestamp = true
+        options.addStringOption("Xdoclint:none", "-quiet")
     }
 }
 
-task("aggregateJavadoc", type: Javadoc) {
+task aggregateJavadoc(type: Javadoc) {
     group "Documentation"
-    description "Generates aggregated Javadoc API documentation."
+    description "Generates a Javadoc aggregate containing the docs of each subproject."
 
     def javadocSubprojects = subprojects.findAll { project ->
         project.sourceSets.main.allJava.matching { include "org/testfx/**" }.with { !it.empty }
@@ -240,13 +226,10 @@ task("aggregateJavadoc", type: Javadoc) {
         use = true
         splitIndex = true
         encoding = "UTF-8"
-        links = [
-            "http://docs.oracle.com/javase/8/docs/api/",
-            "http://docs.oracle.com/javase/8/javafx/api/"
-        ]
+        links = javadocLinks
     }
 
-    // disable java 8 overly pedantic lint checking.
+    // disable overly pedantic lint checking.
     if (JavaVersion.current().isJava8Compatible()) {
         options.addStringOption("Xdoclint:none", "-quiet")
     }
@@ -256,4 +239,45 @@ task("aggregateJavadoc", type: Javadoc) {
         logger.info "Title    : ${options.windowTitle}"
         logger.info "Destdir  : ${destinationDir}"
     }
+}
+
+task jacocoMerge(type: JacocoMerge) {
+    group = 'Coverage reports'
+    description = 'Merges individual JaCoCo coverage data in to a single data set.'
+    destinationFile = file("$buildDir/jacoco/jacoco-all.exec")
+    subprojects.each { subproject ->
+        executionData subproject.tasks.withType(Test)
+    }
+    doFirst {
+        executionData = files(executionData.findAll { it.exists() })
+    }
+}
+
+task jacocoRootReport(type: JacocoReport) {
+    group = 'Coverage reports'
+    description = 'Generates an aggregate JaCoCo coverage report containing the coverage data of each subproject.'
+    dependsOn subprojects.test, jacocoMerge
+    getAdditionalSourceDirs().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
+    getSourceDirectories().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
+    getClassDirectories().setFrom(files(subprojects.sourceSets.main.output))
+    getExecutionData().setFrom(files(subprojects.jacocoTestReport.executionData).filter { it.exists() })
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+}
+
+coveralls {
+    sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+}
+
+tasks.coveralls {
+    group = 'Coverage reports'
+    description = 'Uploads the aggregated coverage report to Coveralls.'
+    logging.setLevel(LogLevel.LIFECYCLE)
+
+    dependsOn jacocoRootReport
+    onlyIf { isTravis && !JavaVersion.current().isJava9Compatible() }
 }

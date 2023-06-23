@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -23,9 +23,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Window;
 
-import org.hamcrest.Matchers;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.service.locator.BoundsLocator;
 import org.testfx.service.locator.PointLocator;
 import org.testfx.service.query.PointQuery;
@@ -34,23 +36,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PointLocatorImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
     PointLocator pointLocator;
     BoundsLocatorStub boundsLocatorStub;
-
     Bounds nodeBounds;
     Bounds nodeBoundsAfterChange;
     Bounds sceneBounds;
     Bounds sceneBoundsAfterChange;
     Bounds windowBounds;
     Bounds windowBoundsAfterChange;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Before
     public void setup() {
@@ -65,10 +61,6 @@ public class PointLocatorImplTest {
         windowBoundsAfterChange = new BoundingBox(200, 200, 600, 400);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void pointFor_Bounds_atOffset() {
         // given:
@@ -78,7 +70,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(new Point2D(100, 100)));
+        assertThat(point, CoreMatchers.equalTo(new Point2D(100, 100)));
     }
 
     @Test
@@ -91,7 +83,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(new Point2D(100, 100)));
+        assertThat(point, CoreMatchers.equalTo(new Point2D(100, 100)));
     }
 
     @Test
@@ -104,7 +96,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(topLeftPointFrom(nodeBounds)));
+        assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(nodeBounds)));
     }
 
     @Test
@@ -118,7 +110,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(topLeftPointFrom(nodeBoundsAfterChange)));
+        assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(nodeBoundsAfterChange)));
     }
 
     @Test
@@ -131,7 +123,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(topLeftPointFrom(sceneBounds)));
+        assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(sceneBounds)));
     }
 
     @Test
@@ -145,7 +137,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(topLeftPointFrom(sceneBoundsAfterChange)));
+        assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(sceneBoundsAfterChange)));
     }
 
     @Test
@@ -158,7 +150,7 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(topLeftPointFrom(windowBounds)));
+        assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(windowBounds)));
     }
 
     @Test
@@ -172,48 +164,47 @@ public class PointLocatorImplTest {
         Point2D point = pointQuery.atOffset(0, 0).query();
 
         // then:
-        assertThat(point, Matchers.equalTo(topLeftPointFrom(windowBoundsAfterChange)));
+        assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(windowBoundsAfterChange)));
     }
-
-    //---------------------------------------------------------------------------------------------
-    // HELPER METHODS.
-    //---------------------------------------------------------------------------------------------
 
     public Point2D topLeftPointFrom(Bounds bounds) {
         return new Point2D(bounds.getMinX(), bounds.getMinY());
     }
 
-    //---------------------------------------------------------------------------------------------
-    // STUBS AND MOCKS.
-    //---------------------------------------------------------------------------------------------
-
     public static class BoundsLocatorStub implements BoundsLocator {
         public Bounds bounds;
 
+        @Override
         public Bounds boundsInSceneFor(Node node) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsInWindowFor(Scene scene) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsInWindowFor(Bounds boundsInScene, Scene scene) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Node node) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Scene scene) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Window window) {
             return bounds;
         }
 
+        @Override
         public Bounds boundsOnScreenFor(Bounds boundsInScene, Scene scene) {
             return bounds;
         }

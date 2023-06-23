@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,25 +16,28 @@
  */
 package org.testfx.robot.impl;
 
-import java.util.Locale;
 import java.util.concurrent.TimeoutException;
-
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.util.WaitForAsyncUtils;
 
-import static javafx.scene.input.KeyCode.COMMAND;
-import static javafx.scene.input.KeyCode.CONTROL;
-import static javafx.scene.input.KeyCode.SHORTCUT;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.util.DebugUtils.informedErrorMessage;
 
 /**
  * Tests whether pressing {@code KeyCode.SHORTCUT} will convert into the OS-specific KeyCode (i.e.
@@ -42,67 +45,118 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class ShortcutKeyTest extends FxRobot {
 
-    private final KeyCode osSpecificShortcutKey;
+    @Rule
+    public TestRule rule = new TestFXRule();
 
-    {
-        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
-        osSpecificShortcutKey = osName.startsWith("mac") ? COMMAND : CONTROL;
-    }
-
+    private VBox box;
     private TextField field;
+    private TextField field1;
+    private TextField field2;
+    private final String initialText = "no action";
     private final String pressedText = "pressed";
     private final String releasedText = "released";
+    private final String emptyText = "";
 
     @Before
     public void setup() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupStage(stage -> {
-            field = new TextField();
+            box = new VBox();
+            field = new TextField(initialText);
             field.setOnKeyPressed(e -> {
-                if (e.getCode().equals(osSpecificShortcutKey)) {
+                // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
+                // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
+                if (((e.getCode() == KeyCode.CONTROL)  ||
+                        (e.getCode() == KeyCode.META) ||
+                        (e.getCode() == KeyCode.COMMAND)
+                        ) && e.isShortcutDown()) {
                     field.setText(pressedText);
+                } else {
+                    field.setText(e.getCode().toString());
                 }
                 e.consume();
             });
             field.setOnKeyReleased(e -> {
-                if (e.getCode().equals(osSpecificShortcutKey)) {
+                // System.out.println(e.getCode().getName() + " " + e.isShortcutDown());
+                // On macOS, depending on the system either KeyCode.META or KeyCode.COMMAND is reported see #589
+                if (((e.getCode() == KeyCode.CONTROL)  ||
+                        (e.getCode() == KeyCode.META) ||
+                        (e.getCode() == KeyCode.COMMAND)
+                        ) && !e.isShortcutDown()) {
                     field.setText(releasedText);
+                } else {
+                    field.setText(e.getCode().toString());
                 }
                 e.consume();
             });
-            stage.setScene(new Scene(field));
+            field1 = new TextField(initialText);
+            field2 = new TextField(emptyText);
+            box.getChildren().addAll(field, field1, field2);
+            stage.setScene(new Scene(box));
             stage.show();
+
+            // Fix for issue #775
+            stage.requestFocus();
             field.requestFocus();
         });
+
+        WaitForAsyncUtils.waitForFxEvents();
     }
 
     @After
-    public void cleanup() throws TimeoutException {
+    public void cleanup() {
         // prevent hanging if test fails
-        release(SHORTCUT, osSpecificShortcutKey);
+        release(new KeyCode[0]);
     }
 
+    /**
+     * Verifies that the correct key is received and that the method KeyEvent.isShortcutDown works.
+     */
     @Test
     public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_pressed() {
         // when:
-        press(SHORTCUT);
+        press(KeyCode.SHORTCUT);
 
         // then:
-        assertThat(field.getText(), equalTo(pressedText));
+        verifyThat(field.getText(), equalTo(pressedText), informedErrorMessage(this));
     }
 
+    /**
+     * Verifies that the correct key is received and that the method KeyEvent.isShortcutDown works.
+     */
     @Test
-    public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() {
+    public void shortcut_keyCode_converts_to_OS_specific_keyCode_when_released() { //fix 589, 590
         // given:
-        press(osSpecificShortcutKey);
+        press(KeyCode.SHORTCUT);
 
         // and:
-        assertThat(field.getText(), equalTo(pressedText));
+        verifyThat(field.getText(), equalTo(pressedText), informedErrorMessage(this));
 
         // when:
-        release(SHORTCUT);
+        release(KeyCode.SHORTCUT);
 
         // then:
-        assertThat(field.getText(), equalTo(releasedText));
+        verifyThat(field.getText(), equalTo(releasedText), informedErrorMessage(this));
+    }
+
+    /**
+     * Test that the KeyCombinations do work (copy paste)
+     */
+    @Test
+    public void shortcut_keyCode_copy_paste() {
+        // given:
+        verifyThat(field1.getText(), equalTo(initialText), informedErrorMessage(this));
+        verifyThat(field2.getText(), equalTo(emptyText), informedErrorMessage(this));
+
+        clickOn(field1, MouseButton.PRIMARY);
+        clickOn(field1, MouseButton.PRIMARY);
+        robotContext().getTypeRobot().push(new KeyCodeCombination(KeyCode.A, KeyCombination.SHORTCUT_DOWN));
+        robotContext().getTypeRobot().push(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
+        clickOn(field2, MouseButton.PRIMARY);
+        field2.requestFocus();
+        robotContext().getTypeRobot().push(new KeyCodeCombination(KeyCode.V, KeyCombination.SHORTCUT_DOWN));
+
+        // then:
+        verifyThat(field2.getText(), equalTo(initialText), informedErrorMessage(this));
     }
 }

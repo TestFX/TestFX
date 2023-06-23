@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -32,15 +32,13 @@ import org.testfx.cases.TestCaseBase;
 public class StageHideDeadlockBug extends TestCaseBase {
 
     @BeforeClass
-    public static void setupSpec() throws Exception {
+    public static void setupSpec() {
         //FxToolkit.setupFixture(() -> new Stage().show());
     }
 
     @Before
     public void setup() throws Exception {
-        FxToolkit.setupStage((stage) -> {
-            stage.setScene(new Scene(new Region(), 500, 500));
-        });
+        FxToolkit.setupStage(stage -> stage.setScene(new Scene(new Region(), 500, 500)));
         FxToolkit.showStage();
     }
 

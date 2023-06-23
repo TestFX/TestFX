@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -17,43 +17,39 @@
 package org.testfx.robot.impl;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
+import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.KeyboardRobot;
 
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.B;
-
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public final class KeyboardRobotImplTest {
+public class KeyboardRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule(order = 0)
+    public TestRule rule = new TestFXRule();
 
-    public KeyboardRobot keyboardRobot;
+    @Rule(order = 1)
+    public TestRule timeoutRule = Timeout.millis(3000);
 
-    public BaseRobot baseRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    KeyboardRobot keyboardRobot;
+    BaseRobot baseRobot;
 
     @Before
     public void setup() {
         baseRobot = mock(BaseRobot.class);
         keyboardRobot = new KeyboardRobotImpl(baseRobot);
     }
-
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
 
     @Test
     public void press_with_keyCode_for_A() {
@@ -62,7 +58,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).pressKeyboard(eq(A));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -74,7 +69,6 @@ public final class KeyboardRobotImplTest {
         // then:
         verify(baseRobot, times(1)).pressKeyboard(eq(A));
         verify(baseRobot, times(1)).pressKeyboard(eq(B));
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -89,7 +83,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -105,7 +98,6 @@ public final class KeyboardRobotImplTest {
         // then:
         verify(baseRobot, times(1)).releaseKeyboard(B);
         verify(baseRobot, times(1)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -116,7 +108,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(0)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 
@@ -131,7 +122,6 @@ public final class KeyboardRobotImplTest {
 
         // then:
         verify(baseRobot, times(1)).releaseKeyboard(A);
-        verify(baseRobot, times(1)).awaitEvents();
         verifyNoMoreInteractions(baseRobot);
     }
 

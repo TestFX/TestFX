@@ -1,65 +1,104 @@
 language: java
+
 sudo: false
 
-# install the newest java.
-addons:
-  apt:
-    packages:
-      - gdb
-      - oracle-java8-installer
+env:
+  global:
+  - secure: XxAYzDEO8Vga/0KfvrMgm4d7VkOky2uHCeJvVR4vMBrMd7bpLE8AtT6Qy99NI/FQdbFu60AAyGJjiXoAZ9gqCvrt8fKGz8vyuyvYlQFVruw0UJ9UPCPazUaE5s/85vuwv7fW2asKlc3ZPHskWqUpzMUi/rSt5rjfB0Had5arbSo=
 
-# keep gradle cache.
+before_script:
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then export DISPLAY=:99.0 && /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16; fi
+
+before_install: .ci/before_install.sh
+
+install: true
+
+script: .ci/script.sh
+
+after_success: .ci/after_success.sh
+
+jobs:
+  fast_finish: true
+  include:
+    - stage: lint
+      os: linux
+      dist: trusty
+      jdk: openjdk12
+      script: ./gradlew checkstyleMain checkstyleTest :testfx-spock:codenarcMain :testfx-spock:codenarcTest spotBugsMain spotBugsTest license
+    - stage: test
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (AWT Robot) [Also the build that uploads Javadocs/Snapshots]
+    - os: linux
+      dist: xenial
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt"
+        - UPDATE_SNAPSHOTS="true"
+        - secure: "McAqe7fSHacgoaf6EN2xsJtQl+7bHWJFaxt9KjLsX5An/LEqCOCVAgRQA7pVpoc3VQUw3Lq997aDGK4NyRco6SmKb+73/L6AF14W9KO7ItNX4HVq16JDEkTqlfDip+/1Jo/Z8UDoQ2J9/2HViZ4ZoZDdEP9CjGJGlfEyUaEnAQQ="
+        - secure: "YzaXTwRHng74Uegz0COmH2/U6PZ4VghDeoXFog5Eds2ZSuUGG9NXBQTdCcBgTwA9KPmu1fvKhk4HqJeru4fpD3NqZ+Ks3znvXOPXgydr3SxgJUvWCJkRQljXOE5BlI07R1qVnDWwTqSDyt64ffaJo3XT0+3uOwnauJrMqexsniM="
+        - secure: "eSQaOxDMfLW3V1cxtKcm0i/BesSrRw1bTi01fAjTR6RxsXP00YAylNgYBgoGRrED16kM5FkQzOf75CDCw6l7CanXky/A7quD0IMo0pkwX/q5OJWIK7NAGnV4DekDnYW0yrMTxuygR0ALMkgwT5S+CP3/1aY6BNO11LNSHgQUXiM="
+        - secure: "BXTn0eNI4ueday8ZMC4KPnbJxWy7HADRUc5pjLMC70W9j2P6T5P18zUYwXHFnRdNxAEPa3rkjCLXx3XyMezhm5twkHpUt/Hyb0kgN0CYzEm0fad23Dayn7HVdGlKh6WQnjC/VQ54k/MCHEk4F0W8ip7RrG1FpTfhpWAa3j1Tq00="
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (AWT Robot) / HiDPI
+    - os: linux
+      dist: xenial
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=awt -Dglass.gtk.uiScale=2.0"
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (Glass Robot)
+    - os: linux
+      dist: xenial
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass"
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headed (Glass Robot) / HiDPI
+    - os: linux
+      dist: xenial
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Dtestfx.robot=glass -Dglass.gtk.uiScale=2.0"
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headless (Glass Robot)
+    - os: linux
+      dist: xenial
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+    # Ubuntu Linux (xenial) / Oracle JDK 12 / Headless (Glass Robot) / HiDPI
+    - os: linux
+      dist: xenial
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="--add-opens=java.base/java.util=ALL-UNNAMED -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dglass.gtk.uiScale=2.0"
+    # macOS / OpenJDK 12 / Headless
+    - os: osx
+      osx_image: xcode9.4
+      jdk: openjdk12
+      env:
+        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+    # It is not currently possible to run JavaFX in headed mode on macOS on Travis CI
+    # with the OpenGL ES graphics pipeline. While it is possible to run with "-Dprism.order=sw"
+    # this "partial headless" testing scenario does not provide useful information.
+    - stage: deploy
+      before_install: true
+      after_success: true
+      script: .ci/deploy.sh
+      os: osx
+      osx_image: xcode9
+      env:
+        - secure: "McAqe7fSHacgoaf6EN2xsJtQl+7bHWJFaxt9KjLsX5An/LEqCOCVAgRQA7pVpoc3VQUw3Lq997aDGK4NyRco6SmKb+73/L6AF14W9KO7ItNX4HVq16JDEkTqlfDip+/1Jo/Z8UDoQ2J9/2HViZ4ZoZDdEP9CjGJGlfEyUaEnAQQ="
+        - secure: "YzaXTwRHng74Uegz0COmH2/U6PZ4VghDeoXFog5Eds2ZSuUGG9NXBQTdCcBgTwA9KPmu1fvKhk4HqJeru4fpD3NqZ+Ks3znvXOPXgydr3SxgJUvWCJkRQljXOE5BlI07R1qVnDWwTqSDyt64ffaJo3XT0+3uOwnauJrMqexsniM="
+        - secure: "eSQaOxDMfLW3V1cxtKcm0i/BesSrRw1bTi01fAjTR6RxsXP00YAylNgYBgoGRrED16kM5FkQzOf75CDCw6l7CanXky/A7quD0IMo0pkwX/q5OJWIK7NAGnV4DekDnYW0yrMTxuygR0ALMkgwT5S+CP3/1aY6BNO11LNSHgQUXiM="
+        - secure: "BXTn0eNI4ueday8ZMC4KPnbJxWy7HADRUc5pjLMC70W9j2P6T5P18zUYwXHFnRdNxAEPa3rkjCLXx3XyMezhm5twkHpUt/Hyb0kgN0CYzEm0fad23Dayn7HVdGlKh6WQnjC/VQ54k/MCHEk4F0W8ip7RrG1FpTfhpWAa3j1Tq00="
+      if: tag =~ ^v[0-9]+.[0-9]+.[0-9]+(-alpha|-beta)?$
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+
 cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-
-matrix:
-  fast_finish: true
-  include:
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env: USE_FRAMEBUFFER=true
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - USE_FRAMEBUFFER=false
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
-    - os: osx
-      osx_image: xcode8.2
-      env:
-        - OSX_HEADLESS=false
-        - _JAVA_OPTIONS="-Dprism.order=sw"
-    - os: osx
-      osx_image: xcode8.2
-      env: _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
-  allow_failures:
-    - env:
-      - USE_FRAMEBUFFER=false
-      - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500"
-    - env:
-      - OSX_HEADLESS=false
-      - _JAVA_OPTIONS="-Dprism.order=sw"
-
-before_script:
-  - echo $HOME
-  - echo $JAVA_OPTS
-  - echo $GRADLE_OPTS
-  # run on xvfb screen (for linux).
-  - if [ $USE_FRAMEBUFFER = "true" ]; then export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi
-
-before_install: .ci/before_install.sh
-
-# skip install stage.
-install: true
-
-# run gradle build.
-script: .ci/script.sh
 
 notifications:
   webhooks:
@@ -67,4 +106,3 @@ notifications:
       - https://webhooks.gitter.im/e/2532276e31bee9ba82b7
     on_success: change
     on_failure: always
-

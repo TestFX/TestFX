@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -19,7 +19,9 @@ package org.testfx.robot.impl;
 import javafx.scene.input.KeyCodeCombination;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.TestFXRule;
 import org.testfx.robot.KeyboardRobot;
 import org.testfx.robot.SleepRobot;
 import org.testfx.robot.TypeRobot;
@@ -27,32 +29,26 @@ import org.testfx.robot.TypeRobot;
 import static javafx.scene.input.KeyCode.A;
 import static javafx.scene.input.KeyCode.ALT;
 import static javafx.scene.input.KeyCode.B;
+import static javafx.scene.input.KeyCode.COMMAND;
 import static javafx.scene.input.KeyCode.CONTROL;
 import static javafx.scene.input.KeyCode.SHIFT;
 import static javafx.scene.input.KeyCombination.ALT_DOWN;
 import static javafx.scene.input.KeyCombination.CONTROL_DOWN;
 import static javafx.scene.input.KeyCombination.SHIFT_DOWN;
-
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public final class TypeRobotImplTest {
+public class TypeRobotImplTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
 
-    public TypeRobot typeRobot;
-
-    public KeyboardRobot keyboardRobot;
-    public SleepRobot sleepRobot;
-
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    TypeRobot typeRobot;
+    KeyboardRobot keyboardRobot;
+    SleepRobot sleepRobot;
 
     @Before
     public void setup() {
@@ -61,17 +57,13 @@ public final class TypeRobotImplTest {
         typeRobot = new TypeRobotImpl(keyboardRobot, sleepRobot);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void push_with_key_for_A() {
         // when:
         typeRobot.push(A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(A));
+        verify(keyboardRobot, times(1)).press(eq(A));
         verify(keyboardRobot, times(1)).release(eq(A));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -82,8 +74,19 @@ public final class TypeRobotImplTest {
         typeRobot.push(ALT, A);
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
+        verify(keyboardRobot, times(1)).press(eq(ALT), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
+        verifyNoMoreInteractions(keyboardRobot);
+    }
+
+    @Test
+    public void push_with_keys_for_COMMAND_B() {
+        // when:
+        typeRobot.push(COMMAND, B);
+
+        // then:
+        verify(keyboardRobot, times(1)).press(eq(COMMAND), eq(B));
+        verify(keyboardRobot, times(1)).release(eq(B), eq(COMMAND));
         verifyNoMoreInteractions(keyboardRobot);
     }
 
@@ -93,7 +96,7 @@ public final class TypeRobotImplTest {
         typeRobot.push(new KeyCodeCombination(A, ALT_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(ALT), eq(A));
+        verify(keyboardRobot, times(1)).press(eq(ALT), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(ALT));
         verifyNoMoreInteractions(keyboardRobot);
     }
@@ -101,10 +104,10 @@ public final class TypeRobotImplTest {
     @Test
     public void push_with_combination_for_CONTROL_SHIFT_A() {
         // when:
-        typeRobot.push(new KeyCodeCombination(A, CONTROL_DOWN, SHIFT_DOWN));
+        typeRobot.push(new KeyCodeCombination(A, SHIFT_DOWN, CONTROL_DOWN));
 
         // then:
-        verify(keyboardRobot, times(1)).pressNoWait(eq(SHIFT), eq(CONTROL), eq(A));
+        verify(keyboardRobot, times(1)).press(eq(SHIFT), eq(CONTROL), eq(A));
         verify(keyboardRobot, times(1)).release(eq(A), eq(CONTROL), eq(SHIFT));
         verifyNoMoreInteractions(keyboardRobot);
     }

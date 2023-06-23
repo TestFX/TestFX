@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -17,6 +17,7 @@
 package org.testfx.toolkit;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -26,16 +27,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Interface that sets up an {@link Application}, {@link Stage}, {@link Scene}, or {@link Parent rootNode} on the
- * {@code JavaFX Application Thread} as well as cleaning up the application.
+ * Interface that handles setting up an {@link Application}, {@link Stage}, {@link Scene}, or {@link Parent rootNode}
+ * and application cleanup on the {@code JavaFX Application Thread}.
  */
 public interface ToolkitService {
 
     /**
-     * If the given {@link PrimaryStageFuture#isDone()}, returns that future; otherwise, launches the given application
+     * If the given {@link CompletableFuture#isDone()}, returns that future; otherwise, launches the given application
      * with its arguments.
      */
-    Future<Stage> setupPrimaryStage(PrimaryStageFuture primaryStageFuture,
+    Future<Stage> setupPrimaryStage(CompletableFuture<Stage> primaryStageFuture,
                                     Class<? extends Application> applicationClass,
                                     String... applicationArgs);
 

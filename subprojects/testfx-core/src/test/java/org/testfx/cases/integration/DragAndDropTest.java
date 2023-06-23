@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -21,44 +21,45 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 import org.testfx.cases.TestCaseBase;
 
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
-import static org.testfx.api.FxAssert.verifyThat;
+import static javafx.collections.FXCollections.observableArrayList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 public class DragAndDropTest extends TestCaseBase {
 
-    //---------------------------------------------------------------------------------------------
-    // FIELDS.
-    //---------------------------------------------------------------------------------------------
+    @Rule(order = 0)
+    public TestRule rule = new TestFXRule(3);
 
-    public ListView<String> leftListView;
-    public ListView<String> rightListView;
+    @Rule(order = 1)
+    public TestRule timeoutRule = Timeout.millis(5000);
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
+    ListView<String> leftListView;
+    ListView<String> rightListView;
 
     @Before
     public void setup() throws Exception {
         FxToolkit.setupSceneRoot(() -> {
-            leftListView = new ListView<>();
-            rightListView = new ListView<>();
-            leftListView.getItems().addAll("L1", "L2", "L3");
-            rightListView.getItems().addAll("R1", "R2", "R3");
-            ImmutableList.of(leftListView, rightListView).forEach(this::setupListView);
+            leftListView = new ListView<>(observableArrayList("L1", "L2", "L3"));
+            rightListView = new ListView<>(observableArrayList("R1", "R2", "R3"));
+            setupListView(leftListView);
+            setupListView(rightListView);
             return new HBox(leftListView, rightListView);
         });
-        FxToolkit.setupStage(stage -> stage.show());
+        FxToolkit.setupStage(Stage::show);
     }
 
-    public void setupListView(ListView<String> listView) {
+    void setupListView(ListView<String> listView) {
         listView.setOnDragDetected(event -> {
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             ClipboardContent content = new ClipboardContent();
@@ -68,13 +69,8 @@ public class DragAndDropTest extends TestCaseBase {
             event.consume();
         });
 
-        listView.setOnDragEntered(event -> {
-            event.acceptTransferModes(TransferMode.MOVE);
-        });
-
-        listView.setOnDragOver(event -> {
-            event.acceptTransferModes(TransferMode.MOVE);
-        });
+        listView.setOnDragEntered(event -> event.acceptTransferModes(TransferMode.MOVE));
+        listView.setOnDragOver(event -> event.acceptTransferModes(TransferMode.MOVE));
 
         listView.setOnDragDropped(event -> {
             event.acceptTransferModes(TransferMode.MOVE);
@@ -93,17 +89,10 @@ public class DragAndDropTest extends TestCaseBase {
         });
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     public void should_have_initialized_items() {
-        // expect:
-        verifyThat(leftListView.getItems(), hasSize(3));
-        verifyThat(rightListView.getItems(), hasSize(3));
-        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"));
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"));
+        assertThat(leftListView.getItems()).containsExactly("L1", "L2", "L3");
+        assertThat(rightListView.getItems()).containsExactly("R1", "R2", "R3");
     }
 
     @Test
@@ -114,10 +103,9 @@ public class DragAndDropTest extends TestCaseBase {
         drop();
 
         // then:
-        verifyThat(leftListView.getItems(), hasSize(2));
-        verifyThat(rightListView.getItems(), hasSize(4));
-        verifyThat(leftListView.getItems(), hasItems("L2", "L3"));
-        verifyThat(rightListView.getItems(), hasItems("L1", "R1", "R2", "R3"));
+        assertThat(leftListView.getItems()).containsExactly("L2", "L3");
+        // gets added to end of ListView
+        assertThat(rightListView.getItems()).containsExactly("R1", "R2", "R3", "L1");
     }
 
     @Test
@@ -127,10 +115,10 @@ public class DragAndDropTest extends TestCaseBase {
         dropTo("L2");
 
         // then:
-        verifyThat(leftListView.getItems(), hasSize(4));
-        verifyThat(rightListView.getItems(), hasSize(2));
-        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3", "R3"));
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2"));
+        assertThat(waitForAsyncFx(5000, () -> leftListView.getItems()))
+                .containsExactly("L1", "L2", "L3", "R3");
+        assertThat(waitForAsyncFx(5000, () -> rightListView.getItems()))
+                .containsExactly("R1", "R2");
     }
 
     @Test
@@ -140,10 +128,10 @@ public class DragAndDropTest extends TestCaseBase {
         dropTo("L2");
 
         // then:
-        verifyThat(leftListView.getItems(), hasSize(3));
-        verifyThat(rightListView.getItems(), hasSize(3));
-        verifyThat(leftListView.getItems(), hasItems("L1", "L2", "L3"));
-        verifyThat(rightListView.getItems(), hasItems("R1", "R2", "R3"));
+        assertThat(waitForAsyncFx(5000, () -> leftListView.getItems()))
+                .containsExactly("L1", "L2", "L3");
+        assertThat(waitForAsyncFx(5000, () -> rightListView.getItems()))
+                .containsExactly("R1", "R2", "R3");
     }
 
 }

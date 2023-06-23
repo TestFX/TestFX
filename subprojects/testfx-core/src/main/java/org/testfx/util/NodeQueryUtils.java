@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,8 +16,10 @@
  */
 package org.testfx.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +27,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,40 +34,29 @@ import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import org.hamcrest.Matcher;
-import org.testfx.api.annotation.Unstable;
 
-@Unstable
+import static org.testfx.internal.JavaVersionAdapter.isNotVisible;
+
 public final class NodeQueryUtils {
 
-    //---------------------------------------------------------------------------------------------
-    // CONSTRUCTORS.
-    //---------------------------------------------------------------------------------------------
-
-    private NodeQueryUtils() {
-        throw new UnsupportedOperationException();
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
+    private NodeQueryUtils() {}
 
     /**
-     * Returns a set of the given windows' scenes' root nodes
+     * Returns a set of the given windows' scenes' root nodes.
      */
     public static Set<Node> rootsOfWindows(Collection<Window> windows) {
-        return rootOfWindow(Iterables.toArray(windows, Window.class));
+        return windows.stream()
+                .map(NodeQueryUtils::fromWindow)
+                .collect(Collectors.toSet());
     }
 
     /**
-     * Returns a set of the given windows' scenes' root nodes
+     * Returns a set of the given windows' scenes' root nodes.
      */
     public static Set<Node> rootOfWindow(Window... windows) {
         // TODO: is this set (toSet()) in order?
@@ -76,7 +66,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given stages' scenes' root nodes
+     * Returns a set of the given stages' scenes' root nodes.
      */
     public static Set<Node> rootOfStage(Stage... stages) {
         return Arrays.stream(stages)
@@ -85,7 +75,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given scenes' root nodes
+     * Returns a set of the given scenes' root nodes.
      */
     public static Set<Node> rootOfScene(Scene... scenes) {
         return Arrays.stream(scenes)
@@ -94,7 +84,7 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a set of the given popup controls' scenes' root nodes
+     * Returns a set of the given popup controls' scenes' root nodes.
      */
     public static Set<Node> rootOfPopupControl(PopupControl... popupControls) {
         return Arrays.stream(popupControls)
@@ -103,17 +93,17 @@ public final class NodeQueryUtils {
     }
 
     /**
-     * Returns a function that calls {@link Node#lookup(String)} on each given node
+     * Returns a function that calls {@link Node#lookup(String)} on each given node.
      */
     public static Function<Node, Set<Node>> bySelector(String selector) {
-        return (parentNode) -> lookupWithSelector(parentNode, selector);
+        return parentNode -> lookupWithSelector(parentNode, selector);
     }
 
     /**
      * Returns a function that returns a {@code Set} of all {@code Node}s that pass the given {@code predicate}.
      */
     public static Function<Node, Set<Node>> byPredicate(Predicate<Node> predicate) {
-        return (parentNode) -> lookupWithPredicate(parentNode, predicate);
+        return parentNode -> lookupWithPredicate(parentNode, predicate);
     }
 
     /**
@@ -135,7 +125,7 @@ public final class NodeQueryUtils {
      * Returns a predicate that returns true if the node's id equals the given {@code id}.
      */
     public static Predicate<Node> hasId(String id) {
-        return (node) -> hasNodeId(node, id);
+        return node -> Objects.equals(node.getId(), id);
     }
 
     /**
@@ -143,14 +133,14 @@ public final class NodeQueryUtils {
      * {@link TextInputControl}, or any of their subclasses whose text equals the given {@code text}.
      */
     public static Predicate<Node> hasText(String text) {
-        return (node) -> hasNodeText(node, text);
+        return node -> hasNodeText(node, text);
     }
 
     /**
      * Returns a predicate that returns true if the given node matches the given {@code matcher}.
      */
     public static Predicate<Node> matchesMatcher(Matcher<Node> matcher) {
-        return (node) -> matchesNodeMatcher(node, matcher);
+        return node -> matchesNodeMatcher(node, matcher);
     }
 
     /**
@@ -158,7 +148,7 @@ public final class NodeQueryUtils {
      * node's local bounds are within its scene's bounds
      */
     public static Predicate<Node> isVisible() {
-        return (node) -> isNodeVisible(node);
+        return NodeQueryUtils::isNodeVisible;
     }
 
     /**
@@ -167,41 +157,34 @@ public final class NodeQueryUtils {
      */
     public static Function<Node, Set<Node>> combine(Function<Node, Set<Node>> function0,
                                                     Function<Node, Set<Node>> function1) {
-        return (input) -> combine(input, ImmutableList.of(function0, function1));
+        List<Function<Node, Set<Node>>> functions = new ArrayList<>();
+        functions.add(function0);
+        functions.add(function1);
+        return input -> combine(input, functions);
     }
 
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE STATIC METHODS.
-    //---------------------------------------------------------------------------------------------
-
     private static Parent fromWindow(Window window) {
-        //return window?.scene?.root
         return window.getScene().getRoot();
     }
 
     private static Parent fromStage(Stage stage) {
-        //return stage?.scene?.root
         return stage.getScene().getRoot();
     }
 
     private static Parent fromScene(Scene scene) {
-        //return scene?.root
         return scene.getRoot();
     }
 
     private static Parent fromPopupControl(PopupControl popupControl) {
-        //return popupControl?.scene?.root
         return popupControl.getScene().getRoot();
     }
 
-    private static Set<Node> lookupWithSelector(Node parentNode,
-                                                String selector) {
+    private static Set<Node> lookupWithSelector(Node parentNode, String selector) {
         return parentNode.lookupAll(selector);
     }
 
-    private static Set<Node> lookupWithPredicate(Node parentNode,
-                                                 Predicate<Node> predicate) {
-        Set<Node> resultNodes = Sets.newLinkedHashSet();
+    private static Set<Node> lookupWithPredicate(Node parentNode, Predicate<Node> predicate) {
+        Set<Node> resultNodes = new LinkedHashSet<>();
         if (applyPredicateSafely(predicate, parentNode)) {
             resultNodes.add(parentNode);
         }
@@ -211,11 +194,10 @@ public final class NodeQueryUtils {
                 resultNodes.addAll(lookupWithPredicate(childNode, predicate));
             }
         }
-        return ImmutableSet.copyOf(resultNodes);
+        return Collections.unmodifiableSet(resultNodes);
     }
 
-    private static <T> boolean applyPredicateSafely(Predicate<T> predicate,
-                                                    T input) {
+    private static <T> boolean applyPredicateSafely(Predicate<T> predicate, T input) {
         // TODO: Test cases with ClassCastException.
         try {
             return predicate.test(input);
@@ -225,13 +207,7 @@ public final class NodeQueryUtils {
         }
     }
 
-    private static boolean hasNodeId(Node node,
-                                       String id) {
-        return Objects.equals(node.getId(), id);
-    }
-
-    private static boolean hasNodeText(Node node,
-                                         String text) {
+    private static boolean hasNodeText(Node node, String text) {
         // TODO: Test cases with node.getText() == null.
         if (node instanceof Labeled) {
             return Objects.equals(((Labeled) node).getText(), text);
@@ -239,24 +215,20 @@ public final class NodeQueryUtils {
         else if (node instanceof TextInputControl) {
             return Objects.equals(((TextInputControl) node).getText(), text);
         }
+        else if (node instanceof Text) {
+            return Objects.equals(((Text) node).getText(), text);
+        }
         return false;
     }
 
-    private static boolean matchesNodeMatcher(Node node,
-                                                Matcher matcher) {
+    private static boolean matchesNodeMatcher(Node node, Matcher matcher) {
         // TODO: Test cases with ClassCastException.
         return matcher.matches(node);
     }
 
     @SuppressWarnings("deprecation")
     private static boolean isNodeVisible(Node node) {
-        if (!node.isVisible() || !node.impl_isTreeVisible()) {
-            return false;
-        }
-        else if (!isNodeWithinSceneBounds(node)) {
-            return false;
-        }
-        return true;
+        return !isNotVisible(node) && isNodeWithinSceneBounds(node);
     }
 
     private static boolean isNodeWithinSceneBounds(Node node) {
@@ -265,8 +237,7 @@ public final class NodeQueryUtils {
         return nodeBounds.intersects(0, 0, scene.getWidth(), scene.getHeight());
     }
 
-    private static <T> Set<T> combine(T input,
-                                      Collection<Function<T, Set<T>>> functions) {
+    private static <T> Set<T> combine(T input, Collection<Function<T, Set<T>>> functions) {
         return functions.stream()
                 .map(f -> f.apply(input))
                 .flatMap(Collection::stream)

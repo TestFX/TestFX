@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -25,10 +25,6 @@ import org.testfx.service.support.PixelMatcherResult;
 
 public abstract class PixelMatcherBase implements PixelMatcher {
 
-    //---------------------------------------------------------------------------------------------
-    // METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Override
     public PixelMatcherResult match(Image image0,
                                     Image image1) {
@@ -41,40 +37,23 @@ public abstract class PixelMatcherBase implements PixelMatcher {
 
         for (int imageY = 0; imageY < imageHeight; imageY += 1) {
             for (int imageX = 0; imageX < imageWidth; imageX += 1) {
-                Color color0 = readPixel(image0, imageX, imageY);
-                Color color1 = readPixel(image1, imageX, imageY);
+                Color color0 = image0.getPixelReader().getColor(imageX, imageY);
+                Color color1 = image1.getPixelReader().getColor(imageX, imageY);
                 boolean areColorsMatching = matchColors(color0, color1);
 
                 if (areColorsMatching) {
                     matchPixels += 1;
                     Color matchColor = createMatchColor(color0, color1);
-                    writePixel(matchImage, imageX, imageY, matchColor);
+                    matchImage.getPixelWriter().setColor(imageX, imageY, matchColor);
                 }
                 else {
                     Color nonMatchColor = createNonMatchColor(color0, color1);
-                    writePixel(matchImage, imageX, imageY, nonMatchColor);
+                    matchImage.getPixelWriter().setColor(imageX, imageY, nonMatchColor);
                 }
             }
         }
 
         return new PixelMatcherResult(matchImage, matchPixels, totalPixels);
-    }
-
-    //---------------------------------------------------------------------------------------------
-    // PRIVATE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    private Color readPixel(Image image,
-                            int x,
-                            int y) {
-        return image.getPixelReader().getColor(x, y);
-    }
-
-    private void writePixel(WritableImage image,
-                            int x,
-                            int y,
-                            Color color) {
-        image.getPixelWriter().setColor(x, y, color);
     }
 
 }

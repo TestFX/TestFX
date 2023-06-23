@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,26 +16,26 @@
  */
 package org.testfx.cases.acceptance;
 
-import java.util.function.Predicate;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
-import org.testfx.api.FxAssert;
+import org.testfx.TestFXRule;
 import org.testfx.api.FxToolkit;
 
-@Ignore
+import static org.testfx.api.FxAssert.verifyThat;
+
 public class SceneRootAssertionTest {
 
-    // FIXTURES.
+    @Rule
+    public TestFXRule testFXRule = new TestFXRule();
+
     StackPane stackPane;
     Label label;
 
-    // FIXTURE METHODS.
     @Before
     public void setupSpec() throws Exception {
         FxToolkit.registerPrimaryStage();
@@ -47,15 +47,9 @@ public class SceneRootAssertionTest {
         FxToolkit.showStage();
     }
 
-    // FEATURE METHODS.
     @Test
     public void should_have_stage_root_with_label() {
-        FxAssert.verifyThat(stackPane, hasChild(label));
-    }
-
-    // HELPER METHODS.
-    private Predicate<Parent> hasChild(Node node) {
-        return (Parent parent) -> parent.getChildrenUnmodifiable().contains(node);
+        verifyThat(stackPane, (Parent parent) -> parent.getChildrenUnmodifiable().contains(label));
     }
 
 }

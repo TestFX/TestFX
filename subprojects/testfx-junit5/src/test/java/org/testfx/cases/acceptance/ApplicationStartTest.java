@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -16,34 +16,53 @@
  */
 package org.testfx.cases.acceptance;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.beans.InvalidationListener;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationTest;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.base.NodeMatchers.hasText;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
+import static org.testfx.util.DebugUtils.informedErrorMessage;
+import static org.testfx.util.WaitForAsyncUtils.waitForAsyncFx;
 
 class ApplicationStartTest extends ApplicationTest {
 
-    //---------------------------------------------------------------------------------------------
-    // FIXTURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
-    @Override
-    public void init() throws Exception {
-        FxToolkit.registerStage(() -> new Stage());
-    }
+    private Button button;
+    private CountDownLatch buttonClickedLatch;
 
     @Override
     public void start(Stage stage) {
-        Button button = new Button("click me!");
-        button.setOnAction((actionEvent) -> button.setText("clicked!"));
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        CountDownLatch setSceneLatch = new CountDownLatch(1);
+        InvalidationListener invalidationListener = observable -> setSceneLatch.countDown();
+        stage.sceneProperty().addListener(observable -> {
+            setSceneLatch.countDown();
+            stage.sceneProperty().removeListener(invalidationListener);
+        });
+        buttonClickedLatch = new CountDownLatch(1);
+        button = new Button("click me!");
+        button.setOnAction(actionEvent -> {
+            button.setText("clicked!");
+            buttonClickedLatch.countDown();
+        });
+        stage.setScene(new Scene(button, 100, 100));
+        try {
+            if (!setSceneLatch.await(10, TimeUnit.SECONDS)) {
+                fail("Timeout while waiting for scene to be set on stage.");
+            }
+        }
+        catch (Exception ex) {
+            fail("Unexpected exception: " + ex);
+        }
         stage.show();
     }
 
@@ -52,23 +71,20 @@ class ApplicationStartTest extends ApplicationTest {
         FxToolkit.hideStage();
     }
 
-    //---------------------------------------------------------------------------------------------
-    // FEATURE METHODS.
-    //---------------------------------------------------------------------------------------------
-
     @Test
     void should_contain_button() {
         // expect:
-        verifyThat(".button", hasText("click me!"));
+        verifyThat(".button", hasText("click me!"), informedErrorMessage(this));
     }
 
     @Test
-    void should_click_on_button() {
+    void should_click_on_button() throws InterruptedException {
         // when:
-        clickOn(".button");
+        moveTo(".button");
+        press(MouseButton.PRIMARY);
+        release(MouseButton.PRIMARY);
 
-        // then:
-        verifyThat(".button", hasText("clicked!"));
+        buttonClickedLatch.await(5, TimeUnit.SECONDS);
+        verifyThat(waitForAsyncFx(3000, () -> button.getText()), equalTo("clicked!"), informedErrorMessage(this));
     }
-
 }

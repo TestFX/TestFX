@@ -1,13 +1,13 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
  * not use this work except in compliance with the Licence.
  *
  * You may obtain a copy of the Licence at:
- * http://ec.europa.eu/idabc/eupl
+ * http://ec.europa.eu/idabc/eupl.html
  *
  * Unless required by applicable law or agreed to in writing, software distributed
  * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
@@ -27,30 +27,36 @@ import org.junit.runners.model.Statement;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-public class ApplicationRule extends FxRobot
-        implements ApplicationFixture, TestRule {
+public class ApplicationRule extends FxRobot implements ApplicationFixture, TestRule {
 
     private final Consumer<Stage> start;
+    private final Consumer<Stage> stop;
+
+    private Stage stage;
 
     public ApplicationRule(Consumer<Stage> start) {
+        this(start, doNothing -> {});
+    }
+
+    public ApplicationRule(Consumer<Stage> start, Consumer<Stage> stop) {
         this.start = start;
+        this.stop = stop;
     }
 
     @Override
-    public void init() throws Exception {
-        // do nothing
-    }
+    public void init() throws Exception {}
 
     @Override
     public void start(Stage stage) throws Exception {
         start.accept(stage);
         stage.setX(Screen.getPrimary().getBounds().getWidth() / 2 - stage.getWidth() / 2);
         stage.setY(Screen.getPrimary().getBounds().getHeight() / 2 - stage.getHeight() / 2);
+        this.stage = stage;
     }
 
     @Override
     public void stop() throws Exception {
-        // do nothing
+        stop.accept(stage);
     }
 
     private void before() throws Exception {
@@ -69,7 +75,8 @@ public class ApplicationRule extends FxRobot
                 before();
                 try {
                     base.evaluate();
-                } finally {
+                }
+                finally {
                     after();
                 }
             }
