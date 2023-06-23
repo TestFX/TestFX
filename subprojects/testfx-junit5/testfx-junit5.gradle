@@ -35,7 +35,7 @@ static def getOSName() {
 ext.platform = getOSName()
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 afterEvaluate {

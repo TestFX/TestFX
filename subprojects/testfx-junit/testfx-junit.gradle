@@ -35,7 +35,7 @@ static def getOSName() {
 ext.platform = getOSName()
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 // This insanity should be removed when JUnit 4 uses hamcrest 2.1.
