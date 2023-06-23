@@ -94,6 +94,9 @@ public class ShortcutKeyTest extends FxRobot {
             box.getChildren().addAll(field, field1, field2);
             stage.setScene(new Scene(box));
             stage.show();
+
+            // Fix for issue #775
+            stage.requestFocus();
             field.requestFocus();
         });
 
