@@ -16,7 +16,6 @@
  */
 package org.testfx.cases.issue;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -58,14 +57,13 @@ public class MemoryLeakBug extends FxRobot {
         // it to ten iterations, and the memory use is still within limits, we
         // consider the test successful.
         for (int index = 0; index < 10; index++) {
-            // Using a weak reference here allows the application to be garbage collected
-            WeakReference<Application> applicationReference = new WeakReference<>(startApplication());
-            stopApplication(applicationReference.get());
+            Application application = startApplication();
+            stopApplication(application);
             //getMemoryUse();
         }
 
         // Ensure the memory use is still withing reasonable limits
-        assertThat(getMemoryUse()).isLessThan(dataSize);
+        assertThat(gcAndGetMemoryUse()).isLessThan(dataSize);
     }
 
     private Application startApplication() throws TimeoutException {
@@ -94,7 +92,7 @@ public class MemoryLeakBug extends FxRobot {
 
         @Override
         public void start(Stage stage) {
-            Scene scene = new Scene(new TextField("Number of strings = " + memoryHog.size()), 300, 200);
+            Scene scene = new Scene(new TextField("Data size=" + dataSize), 320, 180);
             stage.setScene(scene);
             stage.show();
         }
@@ -110,7 +108,7 @@ public class MemoryLeakBug extends FxRobot {
         }
     }
 
-    public long getMemoryUse() {
+    private static long gcAndGetMemoryUse() {
         // Request the JVM to reclaim memory before checking memory use
         System.gc();
 
