@@ -96,7 +96,10 @@ public class ShortcutKeyTest extends FxRobot {
             stage.show();
 
             // Fix for issue #775
+            stage.toBack();
+            stage.toFront();
             stage.requestFocus();
+
             field.requestFocus();
         });
 
