@@ -17,9 +17,11 @@
 package org.testfx.toolkit.impl;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -30,6 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.testfx.api.FxToolkit;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -132,6 +135,7 @@ public class ToolkitServiceImpl implements ToolkitService {
 
     @Override
     public Future<Void> cleanupApplication(Application application) {
+        cleanupParameters(application);
         return applicationService.stop(application);
     }
 
@@ -160,4 +164,24 @@ public class ToolkitServiceImpl implements ToolkitService {
             exception.printStackTrace();
         }
     }
+
+    @SuppressWarnings("unchecked")
+    private static void cleanupParameters(Application application) {
+        // This block removes the application parameters from ParametersImpl
+        try {
+            // Use reflection to get the ParametersImpl.params field
+            String type = "com.sun.javafx.application.ParametersImpl";
+            String fieldName = "params";
+            Class<?> parametersImpl = FxToolkit.class.getClassLoader().loadClass(type);
+            Field field = parametersImpl.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            Map<Application, Application.Parameters> params;
+            params = (Map<Application, Application.Parameters>) field.get(null);
+            params.remove(application);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
 }

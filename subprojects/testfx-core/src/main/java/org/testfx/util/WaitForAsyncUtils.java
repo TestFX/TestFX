@@ -82,6 +82,7 @@ public final class WaitForAsyncUtils {
     private static final long CONDITION_SLEEP_IN_MILLIS = 10;
     private static final long SEMAPHORE_SLEEP_IN_MILLIS = 10;
     private static final int SEMAPHORE_LOOPS_COUNT = 5;
+    private static final String PAINT_COLLECTOR = "com.sun.javafx.tk.quantum.PaintCollector";
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(new DefaultThreadFactory());
     private static final Queue<Throwable> EXCEPTIONS = new ConcurrentLinkedQueue<>();
 
@@ -470,7 +471,9 @@ public final class WaitForAsyncUtils {
     private static void registerException(Throwable throwable) {
         if (checkAllExceptions) {
             // Workaround for #411 see discussion in #440
-            if (throwable.getStackTrace()[0].getClassName().equals("com.sun.javafx.tk.quantum.PaintCollector")) {
+            // Skip exceptions thrown from com.sun.javafx.tk.quantum.PaintCollector
+            if (throwable.getStackTrace().length > 0 &&
+                    throwable.getStackTrace()[0].getClassName().equals(PAINT_COLLECTOR)) {
                 // TODO more general version of filter after refactoring
                 return;
             }
