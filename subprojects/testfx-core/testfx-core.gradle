@@ -21,7 +21,7 @@ ext.moduleName = 'org.testfx'
 ext.openjfxVersion = '12'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 static def getOSName() {

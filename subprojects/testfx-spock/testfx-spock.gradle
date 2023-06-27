@@ -35,6 +35,10 @@ ext.platform = getOSName()
 apply plugin: 'groovy'
 apply plugin: 'codenarc'
 
+repositories {
+    mavenCentral()
+}
+
 groovydoc {
     noTimestamp = true
 }
