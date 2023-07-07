@@ -52,7 +52,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
  * <li>Content fixtures, which are attached to the registered {@code registeredStage}.</li>
  * <li>Individual fixtures, which do not require a {@code registeredStage}.</li>
  * </ol>
- * Additionally it keeps an internal context.
+ * Additionally, it keeps an internal context.
  * <p>
  * <h4>1. Container Fixtures</h4>
  * <p>
@@ -104,12 +104,18 @@ public final class FxToolkit {
      * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getLaunchTimeoutInMillis()}
      */
     public static Stage registerPrimaryStage() throws TimeoutException {
-        Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
-                SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
-                        CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
-        CONTEXT.setRegisteredStage(primaryStage);
-        Platform.setImplicitExit(false);
-        return primaryStage;
+        try {
+            Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
+                    SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
+                            CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
+            CONTEXT.setRegisteredStage(primaryStage);
+            Platform.setImplicitExit(false);
+            return primaryStage;
+        }
+        catch (UnsupportedOperationException exception) {
+            handleCommonRuntimeExceptions(exception);
+        }
+        return null;
     }
 
     /**
@@ -154,7 +160,7 @@ public final class FxToolkit {
     }
 
     /**
-     * Performs the clean up of the application. This is done by calling
+     * Performs the cleanup of the application. This is done by calling
      * {@link ToolkitService#cleanupApplication(Application)} (which usually
      * calls the {@code stop} method of the application).
      *
@@ -258,6 +264,22 @@ public final class FxToolkit {
             }
         }
         return false;
+    }
+
+    static void handleCommonRuntimeExceptions(RuntimeException exception) {
+        if (exception.getCause() instanceof UnsupportedOperationException) {
+            UnsupportedOperationException unsupportedOperationException =
+                    (UnsupportedOperationException)exception.getCause();
+            if (unsupportedOperationException.getMessage().equalsIgnoreCase("Internal Error")) {
+                String className = unsupportedOperationException.getStackTrace()[0].getClassName();
+                if (className.startsWith("com.sun.glass.ui.gtk.GtkApplication")) {
+                    throw new RuntimeException(
+                            "Package libgtk-3-0 probably not installed",
+                            unsupportedOperationException
+                    );
+                }
+            }
+        }
     }
 
 }
