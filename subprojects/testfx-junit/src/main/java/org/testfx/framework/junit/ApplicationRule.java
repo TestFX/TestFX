@@ -62,7 +62,7 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
     }
 
     private void after() throws Exception {
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+        FxToolkit.cleanupAfterTest(this, new ApplicationAdapter(this));
     }
 
     private Statement externalResource(final Statement base) {
