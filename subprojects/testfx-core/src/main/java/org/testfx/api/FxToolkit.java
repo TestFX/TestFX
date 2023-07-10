@@ -96,6 +96,9 @@ public final class FxToolkit {
     private static final ApplicationService APP_SERVICE = new ApplicationServiceImpl();
     private static final FxToolkitContext CONTEXT = new FxToolkitContext();
     private static final ToolkitService SERVICE = new ToolkitServiceImpl(APP_LAUNCHER, APP_SERVICE);
+    static final String UNSUPPORTED_OPERATION_ERROR_MESSAGE = "Internal Error";
+    static final String UNSUPPORTED_OPERATION_CALLING_CLASS = "com.sun.glass.ui.gtk.GtkApplication";
+    static final String MISSING_LIBGTK_3_0_USER_MESSAGE = "Package libgtk-3-0 probably not installed";
 
     private FxToolkit() {}
 
@@ -106,12 +109,18 @@ public final class FxToolkit {
      * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getLaunchTimeoutInMillis()}
      */
     public static Stage registerPrimaryStage() throws TimeoutException {
-        Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
-                SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
-                        CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
-        CONTEXT.setRegisteredStage(primaryStage);
-        Platform.setImplicitExit(false);
-        return primaryStage;
+        try {
+            Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
+                    SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
+                            CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
+            CONTEXT.setRegisteredStage(primaryStage);
+            Platform.setImplicitExit(false);
+            return primaryStage;
+        }
+        catch (UnsupportedOperationException exception) {
+            handleCommonRuntimeExceptions(exception);
+        }
+        return null;
     }
 
     /**
@@ -283,6 +292,22 @@ public final class FxToolkit {
             }
         }
         return false;
+    }
+
+    static void handleCommonRuntimeExceptions(RuntimeException exception) {
+        if (exception.getCause() instanceof UnsupportedOperationException) {
+            UnsupportedOperationException unsupportedOperationException =
+                    (UnsupportedOperationException)exception.getCause();
+            if (unsupportedOperationException.getMessage().equalsIgnoreCase(UNSUPPORTED_OPERATION_ERROR_MESSAGE)) {
+                String className = unsupportedOperationException.getStackTrace()[0].getClassName();
+                if (className.startsWith(UNSUPPORTED_OPERATION_CALLING_CLASS)) {
+                    throw new RuntimeException(
+                            MISSING_LIBGTK_3_0_USER_MESSAGE,
+                            unsupportedOperationException
+                    );
+                }
+            }
+        }
     }
 
 }
