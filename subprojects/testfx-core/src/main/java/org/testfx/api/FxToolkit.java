@@ -94,9 +94,9 @@ public final class FxToolkit {
     private static final ApplicationService APP_SERVICE = new ApplicationServiceImpl();
     private static final FxToolkitContext CONTEXT = new FxToolkitContext();
     private static final ToolkitService SERVICE = new ToolkitServiceImpl(APP_LAUNCHER, APP_SERVICE);
-    private static final String UNSUPPORTED_OPERATION_ERROR_MESSAGE = "Internal Error";
-    private static final String UNSUPPORTED_OPERATION_CALLING_CLASS = "com.sun.glass.ui.gtk.GtkApplication";
-    private static final String MISSING_LIBGTK_3_0_USER_MESSAGE = "Package libgtk-3-0 probably not installed";
+    static final String UNSUPPORTED_OPERATION_ERROR_MESSAGE = "Internal Error";
+    static final String UNSUPPORTED_OPERATION_CALLING_CLASS = "com.sun.glass.ui.gtk.GtkApplication";
+    static final String MISSING_LIBGTK_3_0_USER_MESSAGE = "Package libgtk-3-0 probably not installed";
 
     private FxToolkit() {}
 

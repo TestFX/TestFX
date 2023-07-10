@@ -25,15 +25,15 @@ public class FxToolkitTest {
     @Test
     public void improve_common_runtime_exception_messages() {
         // given
-        StackTraceElement element = new StackTraceElement("com.sun.glass.ui.gtk.GtkApplication", "", "", 0);
+        StackTraceElement element = new StackTraceElement(FxToolkit.UNSUPPORTED_OPERATION_CALLING_CLASS, "", "", 0);
         UnsupportedOperationException unsupportedOperationException =
-                new UnsupportedOperationException("Internal Error");
+                new UnsupportedOperationException(FxToolkit.UNSUPPORTED_OPERATION_ERROR_MESSAGE);
         unsupportedOperationException.setStackTrace(new StackTraceElement[]{element});
         RuntimeException exception = new RuntimeException(unsupportedOperationException);
 
         // when/then
         assertThatThrownBy(() -> FxToolkit.handleCommonRuntimeExceptions(exception))
-                .hasMessage("Package libgtk-3-0 probably not installed");
+                .hasMessage(FxToolkit.MISSING_LIBGTK_3_0_USER_MESSAGE);
     }
 
 }
