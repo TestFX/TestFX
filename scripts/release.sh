@@ -122,7 +122,7 @@ sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
 echo "Replacing ${currentVersion:1} with ${newVersion:1} in README.md..."
 sed -i -e "s/${currentVersion:1}/${newVersion:1}/g" README.md
 echo "Generating changelog..."
-github_changelog_generator testfx/testfx --token "$githubApiKey" \
+github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
                            --output CHANGES.md --no-issues \
                            --future-release "$newVersion"
 git commit -am "(release) TestFX $newVersion"
