@@ -27,6 +27,12 @@ function cleanup {
       if git ls-remote --tags "$upstream" | grep \""$newVersion"\"; then
         git push origin :"$newVersion"
       fi
+
+      # Check if we created a branch
+      if [ "$(git branch --show-current)" != "$oldBranch" ]; then
+        git checkout "$oldBranch"
+        git branch -D "$newBranch"
+      fi
     fi
   fi
   exit $EXIT_CODE
@@ -118,12 +124,12 @@ IFS='-' read -ra classifier_parts <<< "$currentVersion"
 major=${version_parts[0]:1}
 minor=${version_parts[1]}
 patch=${version_parts[2]%%-*}
-classifier=${classifier_parts[1]}
+#classifier=${classifier_parts[1]}
 
 echo "major: $major"
 echo "minor: $minor"
 echo "patch: $patch"
-echo "classifier: $classifier"
+#echo "classifier: $classifier"
 
 echo "Would you like to bump the major, minor, or patch version?"
 echo "In x.y.z x = major, y = minor, z = patch"
@@ -139,10 +145,19 @@ select bumpType in "${options[@]}"; do
   esac
 done
 
-# Update the project version
-newVersion="v$major.$minor.$patch-$classifier"
+# Determine the new project version
+newVersion="v$major.$minor.$patch"
 echo "The next release of TestFX will be: $newVersion"
 echo "Bumping version in gradle.properties to ${newVersion:1}"
+
+# Get the current branch
+oldBranch="$(git branch --show-current)"
+
+# Create a branch named "$newVersion"-release
+newBranch= "$newVersion"-release
+git checkout -b "$newBranch"
+
+# Update the project version
 sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
 echo "Replacing ${currentVersion:1} with ${newVersion:1} in README.md..."
 sed -i -e "s/${currentVersion:1}/${newVersion:1}/g" README.md
@@ -157,7 +172,7 @@ github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
 git commit -am "(release) TestFX $newVersion"
 
 # Push the changes to the origin
-git push origin "$newVersion"-release
+git push origin "$newBranch"
 
 # Create a pull request on the upstream project
 "${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
