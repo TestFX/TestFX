@@ -183,45 +183,10 @@ if false ; then
   git push upstream "$newVersion"
 fi
 
-# The below method uses a pull request, keep it in case we change our mind.
-#git push origin "$newVersion"-release
+# Push the changes to the origin
+git push origin "$newVersion"-release
 
-installedHub=false
-if ! [ -x "$(command -v hub)" ]; then
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "Installing hub (command-line Github tool) via Homebrew"
-    brew install hub
-    installedHub=true
-  elif [[ "$OSTYPE" == "linux-gnu" ]]; then
-    if ! [ -x "$(command -v dnf)" ]; then
-      echo "Installing hub (command-line Github tool) via dnf"
-      sudo dnf install hub
-      installedHub=true
-    fi
-  fi
-
-  if [ "$installedHub" = false ] ; then
-    echo "Downloading hub (command-line Github tool)"
-    wget --quiet --output-document=hub.tgz https://github.com/github/hub/releases/download/v2.3.0-pre10/hub-linux-amd64-2.3.0-pre10.tgz
-    if [[ $(sha256sum hub.tgz | head -c 64) != "015297eb81e8fe11f3989d8f65c213111e508cecf0e9de8af1b7741de2077320" ]]; then
-      echo "Error (integrity): hub release download had bad checksum: $(sha256sum hub.tgz | head -c 64)" >&2
-      exit
-    fi
-    mkdir hub-dir
-    tar -xf hub.tgz -C hub-dir --strip-components 1
-    rm hub.tgz
-    mkdir -p .sync
-    cp ./hub-dir/bin/hub .sync/
-    rm -r hub-dir
-    hub='./.sync/hub'
-  fi
-fi
-
-hub='hub'
-if [ "$installedHub" = false ] ; then
-  hub='./.sync/hub'
-fi
-
-#"${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
+# Create a pull request on the upstream project
+"${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
 
 # vim :set ts=2 sw=2 sts=2 et:
