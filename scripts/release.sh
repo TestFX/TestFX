@@ -183,7 +183,7 @@ git commit -am "(release) TestFX $newVersion"
 git push origin "$newBranch"
 
 # Create a pull request on the upstream project
-hub pull-request -o -m "$newVersion" -b "$upstream:master"
+hub pull-request -o -m "$newVersion" -b "testfx:master"
 
 # The below method uses a direct push to master, keep it in case we change our mind.
 if false ; then
