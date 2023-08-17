@@ -6,33 +6,33 @@ function cleanup {
   set +e # disable termination on error
   if [[ $EXIT_CODE != 0 ]]; then
     # Something went wrong...
-    originMessage=$(git log -1 HEAD --pretty=format:%s)
+    # originMessage=$(git log -1 HEAD --pretty=format:%s)
 
-    if [ ! -z ${newVersion+x} ]; then
-      if [ "$originMessage" == "(release) TestFX $newVersion" ]; then
-        # Roll back the commit
-        git reset --hard HEAD^
-      else
-        # Didn't actually make a commit, so just reset local work-tree
-        git reset --hard HEAD
-      fi
+    # if [ ! -z ${newVersion+x} ]; then
+    #   if [ "$originMessage" == "(release) TestFX $newVersion" ]; then
+    #     # Roll back the commit
+    #     git reset --hard HEAD^
+    #   else
+    #     # Didn't actually make a commit, so just reset local work-tree
+    #     git reset --hard HEAD
+    #   fi
 
-      # Check if we pushed this commit to upstream
-      upstreamMessage=$(git log "$upstream"/master -1 HEAD --pretty=format:%s)
-      if [ "$upstreamMessage" == "(release) TestFX $newVersion" ]; then
-        git push upstream master --force
-      fi
+    #   # Check if we pushed this commit to upstream
+    #   upstreamMessage=$(git log "$upstream"/master -1 HEAD --pretty=format:%s)
+    #   if [ "$upstreamMessage" == "(release) TestFX $newVersion" ]; then
+    #     git push upstream master --force
+    #   fi
 
-      # Check if we tagged the commit
-      if git ls-remote --tags "$upstream" | grep \""$newVersion"\"; then
-        git push origin :"$newVersion"
-      fi
+    #   # Check if we tagged the commit
+    #   if git ls-remote --tags "$upstream" | grep \""$newVersion"\"; then
+    #     git push origin :"$newVersion"
+    #   fi
+    # fi
 
-      # Check if we created a branch
-      if [ "$(git branch --show-current)" != "$oldBranch" ]; then
-        git checkout "$oldBranch"
-        git branch -D "$newBranch"
-      fi
+    # Delete the working branch
+    if [ "$(git branch --show-current)" != "$oldBranch" ]; then
+      git checkout "$oldBranch"
+      git branch -D "$newBranch"
     fi
   fi
   exit $EXIT_CODE
@@ -99,6 +99,14 @@ fi
 # Check if the user is at the root level of the project
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
   echo "You are not currently at the root of the TestFX git repository."
+  exit
+fi
+
+# Get the upstream repository path
+upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
+if [[ -z "$upstream" ]]; then
+  echo "Could not find a git remote for the upstream TestFX repository."
+  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
   exit
 fi
 
@@ -184,14 +192,6 @@ if false ; then
   if [[ -z "$gpgKey" ]]; then
     echo "Could not find a GPG key with (TestFX) in its' name."
     echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#create-a-testfx-gpg-key"
-    exit 1
-  fi
-
-  # Get the upstream repository path
-  upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
-  if [[ -z "$upstream" ]]; then
-    echo "Could not find a git remote for the upstream TestFX repository."
-    echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
     exit 1
   fi
 
