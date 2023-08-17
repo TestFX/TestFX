@@ -180,10 +180,10 @@ github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
 git commit -am "(release) TestFX $newVersion"
 
 # Push the changes to the origin
-git push origin "$newBranch"
+git push --set-upstream origin "$newBranch"
 
 # Create a pull request on the upstream project
-hub pull-request -o -m "$newVersion" -b "testfx:master"
+hub pull-request -o -m "$newVersion"
 
 # The below method uses a direct push to master, keep it in case we change our mind.
 if false ; then
