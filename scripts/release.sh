@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 function cleanup {
   EXIT_CODE=$?
@@ -7,6 +7,7 @@ function cleanup {
   if [[ $EXIT_CODE != 0 ]]; then
     # Something went wrong...
     originMessage=$(git log -1 HEAD --pretty=format:%s)
+
     if [ ! -z ${newVersion+x} ]; then
       if [ "$originMessage" == "(release) TestFX $newVersion" ]; then
         # Roll back the commit
@@ -17,7 +18,7 @@ function cleanup {
       fi
 
       # Check if we pushed this commit to upstream
-      upstreamMessage=$(git log "$upstream"/master -1 HEAD --pretty=format:%s)
+      upstreamMessage=$(git log "$upstream/master" -1 HEAD --pretty=format:%s)
       if [ "$upstreamMessage" == "(release) TestFX $newVersion" ]; then
         git push upstream master --force
       fi
@@ -48,6 +49,7 @@ Options:
 EOF
 }
 
+# Show the help information
 if [[ $# -gt 0 ]]; then
   if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     show_help
@@ -58,34 +60,52 @@ if [[ $# -gt 0 ]]; then
   fi
 fi
 
+# Check if Git is installed
 if ! [ -x "$(command -v git)" ]; then
   echo 'Error: git is not installed.' >&2
   exit 1
 fi
 
+# Check if Ruby is installed
 if ! [ -x "$(command -v ruby)" ]; then
   echo 'Error: ruby is not installed (needed to generate changelog).' >&2
   exit 1
 fi
 
+# Check if the Ruby github_changelog_generator is installed
 if [ "$(gem list -i github_changelog_generator)" != true ]; then
   echo 'Error: github_changelog_generator is not installed).' >&2
   echo 'Run \"[sudo] gem install github_changelog_generator\" to install it.' >&2
 fi
 
+# Check if the user is at the root level of the project
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
   echo "You are not currently at the root of the TestFX git repository."
   exit
 fi
 
-if [ -z "${TESTFX_GITHUB_API_KEY-}" ]; then
+# Find or read the users TestFX GitHub API key
+if [ -z "${TESTFX_GITHUB_API_KEY}" ]; then
   echo "\"TESTFX_GITUB_API_KEY\" environment variable not set"
   read -rp "Please enter your Github API key for TestFX: " githubApiKey
 else
   githubApiKey="$TESTFX_GITHUB_API_KEY"
 fi
 
+# Find the users GPG key that has "(TestFX)" in its' name
+gpgKey=$(gpg --list-keys --with-colon | grep '^pub' | grep '(TestFX)' | cut -d':' -f5)
+if [[ -z "$gpgKey" ]]; then
+  echo "Could not find a GPG key with (TestFX) in its' name."
+  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#create-a-testfx-gpg-key"
+  exit 1
+fi
+
+# Determine the current version
 currentVersion=$(git tag --list --sort=taggerdate | grep 'v*[0-9].*[0-9].*[0-9]' | tail -n1)
+if [ -z "${currentVersion}" ]; then
+  echo "Could not determine current version, missing tags?"
+  echo "To fetch the tags run \"git fetch --tags\""
+fi
 
 echo "Current version of TestFX: $currentVersion"
 IFS='.' read -ra version_parts <<< "$currentVersion"
@@ -126,26 +146,22 @@ github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
                            --output CHANGES.md --no-issues \
                            --future-release "$newVersion"
 git commit -am "(release) TestFX $newVersion"
-upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
-if [[ -z "$upstream" ]]; then
-  echo "Could not find a git remote for the upstream TestFX repository."
-  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
-  exit 1
-fi
-echo "Pushing tagged release commit to remote: $upstream"
-git push "$upstream" master
-git fetch "$upstream"
-git rebase "$upstream"/master
 
-# Find GPG key that has "(TestFX)" in its' name
-gpgKey=$(gpg --list-keys --with-colon | grep '^pub' | grep '(TestFX)' | cut -d':' -f5)
-if [[ -z "$gpgKey" ]]; then
-  echo "Could not find a GPG key with (TestFX) in its' name."
-  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#create-a-testfx-gpg-key"
-  exit 1
+if false ; then
+  upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
+  if [[ -z "$upstream" ]]; then
+    echo "Could not find a git remote for the upstream TestFX repository."
+    echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
+    exit 1
+  fi
+  echo "Pushing tagged release commit to remote: $upstream"
+  git push "$upstream" master
+  git fetch "$upstream"
+  git rebase "$upstream"/master
+
+  git tag -s "$newVersion" -m \""$newVersion"\" -u "$gpgKey"
+  git push upstream "$newVersion"
 fi
-git tag -s "$newVersion" -m \""$newVersion"\" -u "$gpgKey"
-git push upstream "$newVersion"
 
 # The below method uses a pull request, keep it in case we change our mind.
 if false ; then
