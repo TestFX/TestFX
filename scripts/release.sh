@@ -153,8 +153,8 @@ echo "Bumping version in gradle.properties to ${newVersion:1}"
 # Get the current branch
 oldBranch="$(git branch --show-current)"
 
-# Create a branch named "$newVersion"-release
-newBranch= "$newVersion"-release
+# Create a branch named "$newVersion-release"
+newBranch="$newVersion-release"
 git checkout -b "$newBranch"
 
 # Update the project version
