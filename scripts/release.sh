@@ -41,7 +41,7 @@ Helper for issuing a new release of TestFX.
 Requires a Github API key for the TestFX repository.
 
 You can skip manually entering the API key be specifying
-the $TESTFX_GITHUB_API_KEY environment variable.
+the \$TESTFX_GITHUB_API_KEY environment variable.
 
 Options:
     -h / --help       display this help and exit
