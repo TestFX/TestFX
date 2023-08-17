@@ -156,6 +156,12 @@ github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
 # Commit, but do not push, the project version and change log
 git commit -am "(release) TestFX $newVersion"
 
+# Push the changes to the origin
+git push origin "$newVersion"-release
+
+# Create a pull request on the upstream project
+"${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
+
 # The below method uses a direct push to master, keep it in case we change our mind.
 if false ; then
   # Find the users GPG key that has "(TestFX)" in its' name
@@ -182,11 +188,5 @@ if false ; then
   git tag -s "$newVersion" -m \""$newVersion"\" -u "$gpgKey"
   git push upstream "$newVersion"
 fi
-
-# Push the changes to the origin
-git push origin "$newVersion"-release
-
-# Create a pull request on the upstream project
-"${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
 
 # vim :set ts=2 sw=2 sts=2 et:
