@@ -18,7 +18,7 @@ function cleanup {
       fi
 
       # Check if we pushed this commit to upstream
-      upstreamMessage=$(git log "$upstream/master" -1 HEAD --pretty=format:%s)
+      upstreamMessage=$(git log "$upstream"/master -1 HEAD --pretty=format:%s)
       if [ "$upstreamMessage" == "(release) TestFX $newVersion" ]; then
         git push upstream master --force
       fi
@@ -38,6 +38,12 @@ show_help() {
 cat << EOF
 Usage: ${0##*/} [-h]
 Helper for issuing a new release of TestFX.
+
+Prerequisites:
+- git - Version control software (a.k.a. "the stupid content tracker")
+- hub - GitHub command line tool
+- ruby - Interpreted object-oriented scripting language
+- github_changelog_generator - The Ruby github_changelog_generator gem
 
 Requires a Github API key for the TestFX repository.
 
@@ -63,6 +69,12 @@ fi
 # Check if Git is installed
 if ! [ -x "$(command -v git)" ]; then
   echo 'Error: git is not installed.' >&2
+  exit 1
+fi
+
+# Check if Hub is installed
+if ! [ -x "$(command -v hub)" ]; then
+  echo 'Error: hub is not installed.' >&2
   exit 1
 fi
 
@@ -127,18 +139,24 @@ select bumpType in "${options[@]}"; do
   esac
 done
 
+# Update the project version
 newVersion="v$major.$minor.$patch-$classifier"
 echo "The next release of TestFX will be: $newVersion"
 echo "Bumping version in gradle.properties to ${newVersion:1}"
 sed -i "/version =/ s/=.*/= ${newVersion:1}/" gradle.properties
 echo "Replacing ${currentVersion:1} with ${newVersion:1} in README.md..."
 sed -i -e "s/${currentVersion:1}/${newVersion:1}/g" README.md
+
+# Generate the change log
 echo "Generating changelog..."
 github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
                            --output CHANGES.md --no-issues \
                            --future-release "$newVersion"
+
+# Commit, but do not push, the project version and change log
 git commit -am "(release) TestFX $newVersion"
 
+# The below method uses a direct push to master, keep it in case we change our mind.
 if false ; then
   # Find the users GPG key that has "(TestFX)" in its' name
   gpgKey=$(gpg --list-keys --with-colon | grep '^uid' | grep '(TestFX)' | cut -d':' -f6)
@@ -166,46 +184,44 @@ if false ; then
 fi
 
 # The below method uses a pull request, keep it in case we change our mind.
-if false ; then
-  git push origin "$newVersion"-release
+#git push origin "$newVersion"-release
 
-  installedHub=false
-  if ! [ -x "$(command -v hub)" ]; then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-      echo "Installing hub (command-line Github tool) via Homebrew"
-      brew install hub
+installedHub=false
+if ! [ -x "$(command -v hub)" ]; then
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "Installing hub (command-line Github tool) via Homebrew"
+    brew install hub
+    installedHub=true
+  elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+    if ! [ -x "$(command -v dnf)" ]; then
+      echo "Installing hub (command-line Github tool) via dnf"
+      sudo dnf install hub
       installedHub=true
-    elif [[ "$OSTYPE" == "linux-gnu" ]]; then
-      if ! [ -x "$(command -v dnf)" ]; then
-        echo "Installing hub (command-line Github tool) via dnf"
-        sudo dnf install hub
-        installedHub=true
-      fi
-    fi
-
-    if [ "$installedHub" = false ] ; then
-      echo "Downloading hub (command-line Github tool)"
-      wget --quiet --output-document=hub.tgz https://github.com/github/hub/releases/download/v2.3.0-pre10/hub-linux-amd64-2.3.0-pre10.tgz
-      if [[ $(sha256sum hub.tgz | head -c 64) != "015297eb81e8fe11f3989d8f65c213111e508cecf0e9de8af1b7741de2077320" ]]; then
-        echo "Error (integrity): hub release download had bad checksum: $(sha256sum hub.tgz | head -c 64)" >&2
-        exit
-      fi
-      mkdir hub-dir
-      tar -xf hub.tgz -C hub-dir --strip-components 1
-      rm hub.tgz
-      mkdir -p .sync
-      cp ./hub-dir/bin/hub .sync/
-      rm -r hub-dir
-      hub='./.sync/hub'
     fi
   fi
 
-  hub='hub'
   if [ "$installedHub" = false ] ; then
+    echo "Downloading hub (command-line Github tool)"
+    wget --quiet --output-document=hub.tgz https://github.com/github/hub/releases/download/v2.3.0-pre10/hub-linux-amd64-2.3.0-pre10.tgz
+    if [[ $(sha256sum hub.tgz | head -c 64) != "015297eb81e8fe11f3989d8f65c213111e508cecf0e9de8af1b7741de2077320" ]]; then
+      echo "Error (integrity): hub release download had bad checksum: $(sha256sum hub.tgz | head -c 64)" >&2
+      exit
+    fi
+    mkdir hub-dir
+    tar -xf hub.tgz -C hub-dir --strip-components 1
+    rm hub.tgz
+    mkdir -p .sync
+    cp ./hub-dir/bin/hub .sync/
+    rm -r hub-dir
     hub='./.sync/hub'
   fi
-
-  "${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
 fi
+
+hub='hub'
+if [ "$installedHub" = false ] ; then
+  hub='./.sync/hub'
+fi
+
+#"${hub}" pull-request -o -m "$newVersion" -b "$upstream:master"
 
 # vim :set ts=2 sw=2 sts=2 et:
