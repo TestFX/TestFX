@@ -92,14 +92,6 @@ else
   githubApiKey="$TESTFX_GITHUB_API_KEY"
 fi
 
-# Find the users GPG key that has "(TestFX)" in its' name
-gpgKey=$(gpg --list-keys --with-colon | grep '^pub' | grep '(TestFX)' | cut -d':' -f5)
-if [[ -z "$gpgKey" ]]; then
-  echo "Could not find a GPG key with (TestFX) in its' name."
-  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#create-a-testfx-gpg-key"
-  exit 1
-fi
-
 # Determine the current version
 currentVersion=$(git tag --list --sort=taggerdate | grep 'v*[0-9].*[0-9].*[0-9]' | tail -n1)
 if [ -z "${currentVersion}" ]; then
@@ -148,12 +140,22 @@ github_changelog_generator -u testfx -p testfx --token "$githubApiKey" \
 git commit -am "(release) TestFX $newVersion"
 
 if false ; then
+  # Find the users GPG key that has "(TestFX)" in its' name
+  gpgKey=$(gpg --list-keys --with-colon | grep '^uid' | grep '(TestFX)' | cut -d':' -f6)
+  if [[ -z "$gpgKey" ]]; then
+    echo "Could not find a GPG key with (TestFX) in its' name."
+    echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#create-a-testfx-gpg-key"
+    exit 1
+  fi
+
+  # Get the upstream repository path
   upstream=$(git remote -v | awk '$2 ~ /github.com[:\/]testfx\/testfx/ && $3 == "(fetch)" {print $1; exit}')
   if [[ -z "$upstream" ]]; then
     echo "Could not find a git remote for the upstream TestFX repository."
     echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#local-git-repository-setup"
     exit 1
   fi
+
   echo "Pushing tagged release commit to remote: $upstream"
   git push "$upstream" master
   git fetch "$upstream"
