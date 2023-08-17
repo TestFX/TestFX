@@ -73,11 +73,7 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     }
 
     final void internalAfter() throws Exception {
-        // release all keys
-        release(new KeyCode[0])
-        // release all mouse buttons
-        release(new MouseButton[0])
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this))
+        FxToolkit.cleanupAfterTest(robot, new ApplicationAdapter(this))
     }
 
     @Override
