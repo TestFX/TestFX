@@ -1,0 +1,70 @@
+/*
+ * Copyright 2013-2014 SmartBear Software
+ * Copyright 2014-2023 The TestFX Contributors
+ *
+ * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
+ * European Commission - subsequent versions of the EUPL (the "Licence"); You may
+ * not use this work except in compliance with the Licence.
+ *
+ * You may obtain a copy of the Licence at:
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the Licence for the
+ * specific language governing permissions and limitations under the Licence.
+ */
+
+tasks.register( 'createPom' ) {
+	pom {
+		project {
+			inceptionYear '2013'
+			url "http://testfx.org/"
+
+			licenses {
+				license([:]) {
+					name "European Union Public Licence, Version 1.1"
+					url "http://ec.europa.eu/idabc/eupl.html"
+					distribution "repo"
+				}
+			}
+
+			scm {
+				url "https://github.com/TestFX/TestFX"
+			}
+
+			developers {
+				developer {
+					id "minisu"
+					name "Henrik Olsson"
+					url "https://github.com/minisu"
+					timezone "+1"
+					roles {
+						role "former developer"
+					}
+				}
+
+				developer {
+					id "dainnilsson"
+					name "Dain Nilsson"
+					url "https://github.com/dainnilsson"
+					timezone "+1"
+					roles {
+						role "project founder"
+						role "former developer"
+					}
+				}
+
+				developer {
+					id "hastebrot"
+					name "Benjamin Gudehus"
+					url "https://github.com/hastebrot"
+					timezone "+1"
+					roles {
+						role "project maintainer"
+					}
+				}
+			}
+		}
+	}.writeTo("$buildDir/libs/pom.xml")
+}

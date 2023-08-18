@@ -72,6 +72,8 @@ allprojects { project ->
     apply plugin: 'base'
     apply plugin: 'java'
     apply plugin: 'jacoco'
+    apply plugin: 'maven'
+    apply plugin: 'signing'
     apply from: "${rootDir}/gradle/jacoco.gradle"
     apply from: "${rootDir}/gradle/travis-helpers.gradle"
 
@@ -92,7 +94,6 @@ subprojects { subproject ->
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
     apply from: "${rootDir}/gradle/publish-jar.gradle"
-    apply from: "${rootDir}/gradle/publish-maven.gradle"
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
@@ -112,6 +113,10 @@ subprojects { subproject ->
         from javadoc
     }
 
+    apply from: "${rootDir}/gradle/publish-pom.gradle"
+    apply from: "${rootDir}/gradle/publish-maven.gradle"
+
+    jar.finalizedBy createPom
     jar.finalizedBy sourceJar
     jar.finalizedBy javadocJar
 
