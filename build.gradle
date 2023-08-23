@@ -22,11 +22,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
-    dependencies {
-        // Used for OSGI related stuff (gradle "osgi" plugin was deprecated).
-        // classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
-    }
 }
 
 plugins {
@@ -89,11 +84,10 @@ allprojects { project ->
 }
 
 subprojects { subproject ->
-    // apply plugin: 'biz.aQute.bnd.builder'
-    // apply from: "${rootDir}/gradle/spotbugs.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
     apply from: "${rootDir}/gradle/publish-jar.gradle"
+    apply from: "${rootDir}/gradle/publish-pom.gradle"
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
@@ -113,9 +107,6 @@ subprojects { subproject ->
         from javadoc
     }
 
-    apply from: "${rootDir}/gradle/publish-pom.gradle"
-    apply from: "${rootDir}/gradle/publish-maven.gradle"
-
     jar.finalizedBy createPom
     jar.finalizedBy sourceJar
     jar.finalizedBy javadocJar
@@ -123,6 +114,7 @@ subprojects { subproject ->
     artifacts {
         sourceJar
         javadocJar
+        createPom
     }
 
     tasks.withType(JavaCompile) {
