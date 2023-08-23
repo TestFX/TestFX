@@ -16,7 +16,8 @@
  */
 apply plugin: 'java-library'
 
-ext.pomDescription = 'TestFX Core'
+ext.pomName = 'TestFX Core'
+ext.pomDescription = 'TestFX core library'
 ext.moduleName = 'org.testfx'
 ext.openjfxVersion = '12'
 

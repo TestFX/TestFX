@@ -20,6 +20,8 @@ task createPom {
 	doLast {
 		pom {
 			project {
+				name "${project.pomName}"
+				description "${project.pomDescription}"
 				inceptionYear '2013'
 				url "http://testfx.org/"
 
