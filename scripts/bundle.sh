@@ -41,20 +41,31 @@ if [[ $# -gt 0 ]]; then
   fi
 fi
 
-# Check if Git is installed
+# Check if the user is at the root level of the project
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
+  echo "You are not currently at the root of the TestFX git repository."
+  exit
+fi
+
+# Check if gpg is installed
 if ! [ -x "$(command -v gpg)" ]; then
   echo 'Error: gpg is not installed.' >&2
   exit 1
 fi
 
-bundle() {
-  echo Bundle $1
+# Determine which gpg key to use
+gpgKey=$(gpg --list-keys --with-colon | grep '^uid' | grep '(TestFX)' | cut -d':' -f10)
+if [[ -z "$gpgKey" ]]; then
+  echo "Could not find a GPG key with (TestFX) in its' name."
+  echo "See: https://github.com/TestFX/TestFX/wiki/Issuing-a-Release#create-a-testfx-gpg-key"
+  exit 1
+fi
+
+sign() {
   libsPath=subprojects/$1/build/libs
-  bundle="$libsPath/bundle.jar"
 
   # Remove prior files
   rm -f "$libsPath"/*.asc
-  rm -f "$bundle"
 
   # Determine which gpg key to use
   gpgKey=$(gpg --list-keys --with-colon | grep '^uid' | grep '(TestFX)' | cut -d':' -f10)
@@ -64,36 +75,28 @@ bundle() {
     echo Sign $file
     gpg -ab --batch -u "$gpgKey" $file
   done
+}
+
+bundle() {
+  libsPath=subprojects/$1/build/libs
+  bundle="bundle.jar"
+
+  # Remove prior files
+  rm -f "$libsPath/$bundle"
 
   echo Create bundle
   cd $libsPath || exit
-
-  # Collect the bundle files
-  bundleFiles=""
-  for file in *; do
-    bundleFiles="$bundleFiles $file"
-  done
-
-  # Create the bundle
-  jar -cvf bundle.jar $bundleFiles
-
+  jar -cvf bundle.jar ./*
   cd - || exit
 
-  echo Bundle created $bundle
+  echo Bundle created "$libsPath/$bundle"
 }
 
-deploy() {
-  echo Deploy $1
-  libsPath=subprojects/$1/build/libs
-  bundle="$libsPath/bundle.jar"
-}
+artifacts=("testfx-core" "testfx-junit" "testfx-junit5" "testfx-spock")
 
-bundle testfx-core
-#bundle testfx-junit
-#bundle testfx-junit5
-#bundle testfx-spock
-
-#deploy testfx-core
-#deploy testfx-junit
-#deploy testfx-junit5
-#deploy testfx-spock
+for artifact in "${artifacts[@]}"; do
+  sign "$artifact"
+done
+for artifact in "${artifacts[@]}"; do
+  bundle "$artifact"
+done

@@ -72,6 +72,12 @@ if [[ $# -gt 0 ]]; then
   fi
 fi
 
+# Check if the user is at the root level of the project
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
+  echo "You are not currently at the root of the TestFX git repository."
+  exit
+fi
+
 # Check if Git is installed
 if ! [ -x "$(command -v git)" ]; then
   echo 'Error: git is not installed.' >&2
@@ -94,12 +100,6 @@ fi
 if [ "$(gem list -i github_changelog_generator)" != true ]; then
   echo 'Error: github_changelog_generator is not installed).' >&2
   echo 'Run \"[sudo] gem install github_changelog_generator\" to install it.' >&2
-fi
-
-# Check if the user is at the root level of the project
-if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) = "$PWD" ]]; then
-  echo "You are not currently at the root of the TestFX git repository."
-  exit
 fi
 
 # Get the upstream repository path
