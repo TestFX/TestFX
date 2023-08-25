@@ -79,17 +79,20 @@ sign() {
 
 bundle() {
   libsPath=subprojects/$1/build/libs
-  bundle="bundle.jar"
+  bundle="$1-bundle.jar"
+  target="build/bundles/"
 
-  # Remove prior files
-  rm -f "$libsPath/$bundle"
+  mkdir -p "$target"
 
   echo Create bundle
   cd $libsPath || exit
-  jar -cvf bundle.jar ./*
+  rm bundle*
+  jar -cvf "$bundle" ./*
   cd - || exit
 
-  echo Bundle created "$libsPath/$bundle"
+  cp "$libsPath/$bundle" "$target"
+
+  echo Bundle created "$target/$bundle"
 }
 
 artifacts=("testfx-core" "testfx-junit" "testfx-junit5" "testfx-spock")
