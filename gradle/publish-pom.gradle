@@ -39,6 +39,26 @@ task createPom {
 
 				developers {
 					developer {
+						id "mvsoder"
+						name "Mark Soderquist"
+						url "https://github.com/mvsoder"
+						timezone "-7"
+						roles {
+							role "developer"
+						}
+					}
+
+					developer {
+						id "svenruppert"
+						name "Sven Ruppert"
+						url "https://github.com/svenruppert"
+						timezone "+1"
+						roles {
+							role "developer"
+						}
+					}
+
+					developer {
 						id "minisu"
 						name "Henrik Olsson"
 						url "https://github.com/minisu"
