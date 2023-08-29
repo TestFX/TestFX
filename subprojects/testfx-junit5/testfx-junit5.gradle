@@ -16,7 +16,8 @@
  */
 apply plugin: 'java-library'
 
-ext.pomDescription = 'TestFX JUnit5'
+ext.pomName = 'TestFX JUnit5'
+ext.pomDescription = 'TestFX JUnit5 library'
 ext.moduleName = 'org.testfx.junit5'
 ext.openjfxVersion = '11'
 

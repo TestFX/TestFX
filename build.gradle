@@ -22,11 +22,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
-    dependencies {
-        // Used for OSGI related stuff (gradle "osgi" plugin was deprecated).
-        // classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
-    }
 }
 
 plugins {
@@ -72,6 +67,8 @@ allprojects { project ->
     apply plugin: 'base'
     apply plugin: 'java'
     apply plugin: 'jacoco'
+    apply plugin: 'maven'
+    apply plugin: 'signing'
     apply from: "${rootDir}/gradle/jacoco.gradle"
     apply from: "${rootDir}/gradle/travis-helpers.gradle"
 
@@ -87,12 +84,10 @@ allprojects { project ->
 }
 
 subprojects { subproject ->
-    // apply plugin: 'biz.aQute.bnd.builder'
-    // apply from: "${rootDir}/gradle/spotbugs.gradle"
     apply from: "${rootDir}/gradle/checkstyle.gradle"
     apply from: "${rootDir}/gradle/license.gradle"
     apply from: "${rootDir}/gradle/publish-jar.gradle"
-    apply from: "${rootDir}/gradle/publish-maven.gradle"
+    apply from: "${rootDir}/gradle/publish-pom.gradle"
 
     sourceSets.main.compileClasspath += configurations.providedCompile
     sourceSets.test.compileClasspath += configurations.providedCompile
@@ -112,12 +107,14 @@ subprojects { subproject ->
         from javadoc
     }
 
+    jar.finalizedBy createPom
     jar.finalizedBy sourceJar
     jar.finalizedBy javadocJar
 
     artifacts {
         sourceJar
         javadocJar
+        createPom
     }
 
     tasks.withType(JavaCompile) {
