@@ -186,6 +186,11 @@ afterEvaluate {
     jar {
         inputs.property("moduleName", moduleName)
 
+        manifest {
+            attributes(
+                'Automatic-Module-Name': moduleName
+            )
+        }
         // FIXME: This makes a type of fat/uber JAR that contains all of our dependencies!
         /*
         bnd (

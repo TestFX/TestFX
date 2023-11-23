@@ -18,8 +18,10 @@
 jar {
     manifest.attributes(
         "Built-By": System.properties["user.name"],
-        "Created-By": System.properties["java.version"] + " (" + System.properties["java.vendor"]
-            + " " + System.properties["java.vm.version"] + ")",
+        "Created-By": System.properties["java.version"]
+            + " (" + System.properties["java.vendor"]
+            + " " + System.properties["java.vm.version"]
+            + ")",
         "Build-Date": project.buildDate,
         "Build-Time": project.buildTime,
         "Specification-Title": project.name,

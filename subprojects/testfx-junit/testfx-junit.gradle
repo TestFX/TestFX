@@ -166,7 +166,7 @@ afterEvaluate {
 
         manifest {
             attributes(
-                    'Implementation-Title': moduleName,
+                'Automatic-Module-Name': moduleName
             )
         }
     }
