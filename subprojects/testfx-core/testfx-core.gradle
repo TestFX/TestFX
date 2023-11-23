@@ -16,9 +16,10 @@
  */
 apply plugin: 'java-library'
 
-ext.pomDescription = 'TestFX Core'
+ext.pomName = 'TestFX Core'
+ext.pomDescription = 'TestFX core library'
 ext.moduleName = 'org.testfx'
-ext.openjfxVersion = '12'
+ext.openjfxVersion = '11'
 
 repositories {
     mavenCentral()
@@ -185,15 +186,5 @@ afterEvaluate {
 
     jar {
         inputs.property("moduleName", moduleName)
-
-        // FIXME: This makes a type of fat/uber JAR that contains all of our dependencies!
-        /*
-        bnd (
-            'Export-Package': '*',
-            'Bundle-Version': "${System.env.JITPACK == 'true' ? '0.0.1' : project.version}",
-            'Bundle-Activator': 'org.testfx.osgi.Activator',
-            'Require-Capability': 'org.testfx.osgi.versionadapter'
-        )
-         */
     }
 }
