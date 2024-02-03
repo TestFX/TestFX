@@ -73,9 +73,9 @@ import org.testfx.api.FxToolkit;
  */
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
 
-    public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
+    public static Application launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(appClass, appArgs);
+        return FxToolkit.setupApplication(appClass, appArgs);
     }
 
     @Before

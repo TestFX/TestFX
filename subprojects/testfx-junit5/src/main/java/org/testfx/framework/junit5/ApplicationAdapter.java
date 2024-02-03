@@ -42,4 +42,14 @@ public final class ApplicationAdapter extends Application {
         applicationFixture.stop();
     }
 
+    @Override
+    public int hashCode() {
+        return applicationFixture.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return applicationFixture.equals(((ApplicationAdapter)obj).applicationFixture);
+    }
+
 }

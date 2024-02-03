@@ -44,6 +44,8 @@ public class ApplicationLaunchTest extends FxRobot {
 
     static Button button;
 
+    private Application application;
+
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
@@ -57,12 +59,12 @@ public class ApplicationLaunchTest extends FxRobot {
 
     @Before
     public void setup() throws Exception {
-        ApplicationTest.launch(DemoApplication.class);
+        this.application = ApplicationTest.launch(DemoApplication.class);
     }
 
     @After
     public void cleanup() throws TimeoutException {
-        FxToolkit.cleanupStages();
+        FxToolkit.cleanupAfterTest(this, application);
     }
 
     @Test(timeout = 3000)

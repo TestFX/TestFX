@@ -52,9 +52,9 @@ afterEvaluate {
 
         compile project(":testfx-core")
 
-        compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-        testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+        compileOnly 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+        testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         implementation "org.assertj:assertj-core:3.13.2"
