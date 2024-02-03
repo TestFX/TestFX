@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -16,12 +16,13 @@
  */
 apply plugin: 'java-library'
 
-ext.pomDescription = 'TestFX Core'
+ext.pomName = 'TestFX Core'
+ext.pomDescription = 'TestFX core library'
 ext.moduleName = 'org.testfx'
-ext.openjfxVersion = '12'
+ext.openjfxVersion = '11'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 static def getOSName() {
@@ -120,7 +121,6 @@ afterEvaluate {
             sourceCompatibility = JavaVersion.VERSION_1_9
             targetCompatibility = JavaVersion.VERSION_1_9
             destinationDir = compileJava.destinationDir
-            include '*module-info*'
         }
         classes.dependsOn compileModuleInfoJava
         def dependents = configurations.api.dependencies + configurations.implementation.dependencies
@@ -130,15 +130,12 @@ afterEvaluate {
         }
     }
 
-    compileJava {
-        exclude '*module-info*'
-    }
-
     javadoc {
         source = sourceSets.main.allJava
-        options.addBooleanOption('html5', true)
         //dependsOn compileModuleInfoJava
         if (JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+
             inputs.property("moduleName", moduleName)
 
             doFirst {
@@ -150,13 +147,7 @@ afterEvaluate {
                         'javafx.graphics/com.sun.javafx.application=org.testfx',
                         'javafx.graphics/com.sun.glass.ui=org.testfx'])
             }
-        } else {
-            exclude '*module-info*'
         }
-    }
-
-    compileTestJava {
-        exclude '*module-info*'
     }
 
     test {
@@ -196,6 +187,11 @@ afterEvaluate {
     jar {
         inputs.property("moduleName", moduleName)
 
+        manifest {
+            attributes(
+                'Automatic-Module-Name': moduleName
+            )
+        }
         // FIXME: This makes a type of fat/uber JAR that contains all of our dependencies!
         /*
         bnd (

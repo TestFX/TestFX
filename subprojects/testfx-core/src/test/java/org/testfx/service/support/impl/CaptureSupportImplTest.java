@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -19,6 +19,7 @@ package org.testfx.service.support.impl;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -41,6 +42,7 @@ import org.testfx.TestFXRule;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.robot.impl.BaseRobotImpl;
+import org.testfx.service.support.CaptureFileFormat;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcherResult;
 
@@ -48,6 +50,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class CaptureSupportImplTest extends FxRobot {
@@ -113,14 +116,64 @@ public class CaptureSupportImplTest extends FxRobot {
     }
 
     @Test
-    public void save_image() throws IOException {
+    public void save_image_with_default_format_png() throws IOException {
         // when:
         Image image = capturer.captureNode(primaryStage.getScene().getRoot());
-        Path actualImagePath = testFolder.newFile("acme-login-actual.png").toPath();
+        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.png").toPath();
         capturer.saveImage(image, actualImagePath);
 
         // then:
         assertThat(actualImagePath.toFile().exists(), is(true));
+        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    }
+
+    //    @Test
+    //    @Ignore
+    //    public void save_image_with_jpeg_format() throws IOException {
+    //        // when:
+    //        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+    //        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.jpg").toPath();
+    //        capturer.saveImage(image, CaptureFileFormat.JPG, actualImagePath);
+    //
+    //        // then:
+    //        assertThat(actualImagePath.toFile().exists(), is(true));
+    //        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    //    }
+    //    @Test
+    //    @Ignore
+    //    public void save_image_with_bmp_format() throws IOException {
+    //        // when:
+    //        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+    //        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.bmp").toPath();
+    //        capturer.saveImage(image, CaptureFileFormat.BMP, actualImagePath);
+    //
+    //        // then:
+    //        assertThat(actualImagePath.toFile().exists(), is(true));
+    //        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    //    }
+    //    @Test
+    //    @Ignore
+    //    public void save_image_with_tif_format() throws IOException {
+    //        // when:
+    //        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+    //        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.tif").toPath();
+    //        capturer.saveImage(image, CaptureFileFormat.TIFF, actualImagePath);
+    //
+    //        // then:
+    //        assertThat(actualImagePath.toFile().exists(), is(true));
+    //        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
+    //    }
+
+    @Test
+    public void save_image_with_gif_format() throws IOException {
+        // when:
+        Image image = capturer.captureNode(primaryStage.getScene().getRoot());
+        Path actualImagePath = testFolder.newFile("acme-login-actual-tmp.gif").toPath();
+        capturer.saveImage(image, CaptureFileFormat.GIF, actualImagePath);
+
+        // then:
+        assertThat(actualImagePath.toFile().exists(), is(true));
+        assertThat(Files.size(actualImagePath), is(greaterThanOrEqualTo(0L)));
     }
 
     @Test

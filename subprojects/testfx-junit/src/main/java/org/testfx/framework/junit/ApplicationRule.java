@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -46,6 +46,7 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.centerOnScreen();
         start.accept(stage);
         this.stage = stage;
     }
@@ -61,7 +62,7 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
     }
 
     private void after() throws Exception {
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+        FxToolkit.cleanupAfterTest(this, new ApplicationAdapter(this));
     }
 
     private Statement externalResource(final Statement base) {

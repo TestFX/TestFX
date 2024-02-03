@@ -1,15 +1,12 @@
-# TestFX
+# TestFX 4
 
-[![Travis CI](https://img.shields.io/travis/TestFX/TestFX/master.svg?label=travis&style=flat-square)](https://travis-ci.org/TestFX/TestFX)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/testfx/testfx/master.svg?style=flat-square)](https://ci.appveyor.com/project/testfx/testfx/branch/master)
-[![Coveralls Test Coverage](https://img.shields.io/coveralls/github/TestFX/TestFX/master.svg?style=flat-square)](https://coveralls.io/github/TestFX/TestFX)
-[![Bintray JCenter](https://api.bintray.com/packages/testfx/testfx/testfx-core/images/download.svg) ](https://bintray.com/testfx/testfx/testfx-core/_latestVersion)
+[![TestFX 4 CI](https://github.com/TestFX/TestFX/actions/workflows/entry.yml/badge.svg)](https://github.com/TestFX/TestFX/actions/workflows/entry.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.testfx/testfx-core.svg?label=maven&style=flat-square)](https://search.maven.org/#search|ga|1|org.testfx)
 [![Chat on Gitter](https://img.shields.io/gitter/room/testfx/testfx-core.svg?style=flat-square)](https://gitter.im/TestFX/TestFX)
 
 Simple and clean testing for JavaFX.
 
-TestFX requires a minimum Java version of 8 (1.8).
+TestFX 4 requires Java version of 8 (1.8), or higher, and has only legacy support.
 
 ## Documentation
 
@@ -25,7 +22,7 @@ TestFX requires a minimum Java version of 8 (1.8).
 
 **Support for:**
 
-- Java 8/9/10/11+
+- Java 8/11/17+
 - Multiple testing frameworks ([JUnit 4](https://junit.org/junit4/), [JUnit 5](https://junit.org/junit5/), and [Spock](http://spockframework.org/)).
 - [Hamcrest](http://hamcrest.org/) matchers or [AssertJ](https://assertj.github.io/doc/) assertions (or both!).
 - Screenshots of failed tests.
@@ -37,7 +34,7 @@ To add a dependency on TestFX using Gradle, use the following:
 
 ```gradle
 dependencies {
-    testCompile "org.testfx:testfx-core:4.0.16-alpha"
+    testCompile "org.testfx:testfx-core:4.0.17"
 }
 ```
 
@@ -67,7 +64,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 ```gradle
 dependencies {
     testCompile "junit:junit:4.13-beta-3"
-    testCompile "org.testfx:testfx-junit:4.0.16-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.17"
 }
 ```
 
@@ -76,7 +73,7 @@ dependencies {
 ```gradle
 dependencies {
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testCompile "org.testfx:testfx-junit5:4.0.16-alpha"
+    testCompile "org.testfx:testfx-junit5:4.0.17"
 }
 ```
 
@@ -85,7 +82,7 @@ dependencies {
 ```gradle
 dependencies {
     testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
-    testCompile "org.testfx:testfx-spock:4.0.16-alpha"
+    testCompile "org.testfx:testfx-spock:4.0.17"
 }
 ```
 ### Matcher/Assertions Library
@@ -109,7 +106,7 @@ To add a dependency on TestFX using Maven, use the following:
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-core</artifactId>
-    <version>4.0.16-alpha</version>
+    <version>4.0.17</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -159,7 +156,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit</artifactId>
-    <version>4.0.16-alpha</version>
+    <version>4.0.17</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -176,7 +173,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-junit5</artifactId>
-    <version>4.0.16-alpha</version>
+    <version>4.0.17</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -193,7 +190,7 @@ Next add a dependency corresponding to the testing framework you are using in yo
 <dependency>
     <groupId>org.testfx</groupId>
     <artifactId>testfx-spock</artifactId>
-    <version>4.0.16-alpha</version>
+    <version>4.0.17</version>
     <scope>test</scope>
 </dependency>
 ```

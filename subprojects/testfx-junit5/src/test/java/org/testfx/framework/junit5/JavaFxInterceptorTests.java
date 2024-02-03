@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -46,7 +46,7 @@ public class JavaFxInterceptorTests {
     /**
      * note: this is equivalent to {@code @Test} when using {@code @ExtendWith(JavaFxInterceptor.class)}
      */
-    @TestFx 
+    @TestFx
     public void testJavaFxThreadSafety() {
         // verifies that this test is indeed executed in the JavaFX thread
         assertTrue(Platform.isFxApplicationThread());
@@ -56,10 +56,10 @@ public class JavaFxInterceptorTests {
     }
     //
     /**
-     * also executed in JavaFX thread, 
+     * also executed in JavaFX thread,
      * for different behaviour use: {@code @ExtendWith(SelectiveJavaFxInterceptor.class)}
      */
-    @Test 
+    @Test
     public void testNonJavaFx() {
         // verifies that this test is indeed executed in the JavaFX thread
         assertTrue(Platform.isFxApplicationThread());

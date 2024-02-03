@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -16,17 +16,13 @@
  */
 package org.testfx.framework.junit5.utils;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 
 // import org.junit.platform.commons.logging.Logger;
 // import org.junit.platform.commons.logging.LoggerFactory;
@@ -141,94 +137,6 @@ public final class FXUtils {
         } else {
             Platform.runLater(run);
         }
-    }
-
-    public static boolean waitForFxTicks(final Scene scene, final int nTicks) {
-        return waitForFxTicks(scene, nTicks, -1);
-    }
-
-    public static boolean waitForFxTicks(final Scene scene, final int nTicks, final long timeoutMillis) { // NOPMD
-        if (Platform.isFxApplicationThread()) {
-            for (int i = 0; i < nTicks; i++) {
-                Platform.requestNextPulse();
-            }
-            return true;
-        }
-        final Timer timer = new Timer("FXUtils-thread", true);
-        final AtomicBoolean run = new AtomicBoolean(true);
-        final AtomicInteger tickCount = new AtomicInteger(0);
-        final Lock lock = new ReentrantLock();
-        final Condition condition = lock.newCondition();
-
-        final Runnable tickListener = () -> {
-            if (tickCount.incrementAndGet() >= nTicks) {
-                lock.lock();
-                try {
-                    
-                    run.getAndSet(false);
-                    condition.signal();
-                } 
-                finally {
-                    run.getAndSet(false);
-                    lock.unlock();
-                }
-            }
-            Platform.requestNextPulse();
-        };
-
-        lock.lock();
-        try {
-            FXUtils.runAndWait(() -> scene.addPostLayoutPulseListener(tickListener));
-        } 
-        catch (final Exception e) {
-            // cannot occur: tickListener is always non-null and
-            // addPostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
-            // LOGGER..error(e, () -> "addPostLayoutPulseListener interrupted");
-            e.printStackTrace();
-        }
-        try {
-            Platform.requestNextPulse();
-            if (timeoutMillis > 0) {
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        // LOGGER..warn(() -> "FXUtils::waitForTicks(..) interrupted by timeout");
-
-                        lock.lock();
-                        try {
-                            run.getAndSet(false);
-                            condition.signal();
-                        }
-                        finally {
-                            run.getAndSet(false);
-                            lock.unlock();
-                        }
-                    }
-                    }, timeoutMillis);
-            }
-            while (run.get()) {
-                condition.await();
-            }
-        }
-        catch (final InterruptedException e) {
-            // LOGGER..error(e, () -> "await interrupted");
-            e.printStackTrace();
-        }
-        finally {
-            lock.unlock();
-            timer.cancel();
-        }
-        try {
-            FXUtils.runAndWait(() -> scene.removePostLayoutPulseListener(tickListener));
-        }
-        catch (final Exception e) {
-            // cannot occur: tickListener is always non-null and
-            // removePostLayoutPulseListener through 'runaAndWait' always executed in JavaFX thread
-            // LOGGER..error(e, () -> "removePostLayoutPulseListener interrupted");
-            e.printStackTrace();
-        }
-
-        return tickCount.get() >= nTicks;
     }
 
     private static class ExceptionWrapper {

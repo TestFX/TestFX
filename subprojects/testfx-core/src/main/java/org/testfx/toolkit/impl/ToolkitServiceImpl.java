@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -16,6 +16,12 @@
  */
 package org.testfx.toolkit.impl;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -26,7 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.sun.javafx.application.ParametersImpl;
+import org.testfx.api.FxToolkit;
 import org.testfx.toolkit.ApplicationLauncher;
 import org.testfx.toolkit.ApplicationService;
 import org.testfx.toolkit.ToolkitService;
@@ -129,6 +135,7 @@ public class ToolkitServiceImpl implements ToolkitService {
 
     @Override
     public Future<Void> cleanupApplication(Application application) {
+        cleanupParameters(application);
         return applicationService.stop(application);
     }
 
@@ -137,7 +144,44 @@ public class ToolkitServiceImpl implements ToolkitService {
     }
 
     private void registerApplicationParameters(Application application, String... applicationArgs) {
-        ParametersImpl parameters = new ParametersImpl(applicationArgs);
-        ParametersImpl.registerParameters(application, parameters);
+        String type = "com.sun.javafx.application.ParametersImpl";
+        String methodName = "registerParameters";
+
+        try {
+            // Use reflection to get the class, constructor and method
+            Class<?> parametersImpl = getClass().getClassLoader().loadClass(type);
+            Constructor<?> constructor = parametersImpl.getDeclaredConstructor(List.class);
+            Method method =
+                parametersImpl.getDeclaredMethod(methodName, Application.class, Application.Parameters.class);
+
+            // Create an instance of the ParametersImpl class
+            Application.Parameters parameters =
+                (Application.Parameters)constructor.newInstance(Arrays.asList(applicationArgs));
+            // Call the registerParameters on the ParametersImpl instance
+            method.invoke(parametersImpl, application, parameters);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
+
+    @SuppressWarnings("unchecked")
+    private static void cleanupParameters(Application application) {
+        // This block removes the application parameters from ParametersImpl
+        try {
+            // Use reflection to get the ParametersImpl.params field
+            String type = "com.sun.javafx.application.ParametersImpl";
+            String fieldName = "params";
+            Class<?> parametersImpl = FxToolkit.class.getClassLoader().loadClass(type);
+            Field field = parametersImpl.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            Map<Application, Application.Parameters> params;
+            params = (Map<Application, Application.Parameters>) field.get(null);
+            params.remove(application);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -26,6 +26,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -52,7 +54,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitForFxEvents;
  * <li>Content fixtures, which are attached to the registered {@code registeredStage}.</li>
  * <li>Individual fixtures, which do not require a {@code registeredStage}.</li>
  * </ol>
- * Additionally it keeps an internal context.
+ * Additionally, it keeps an internal context.
  * <p>
  * <h4>1. Container Fixtures</h4>
  * <p>
@@ -94,6 +96,9 @@ public final class FxToolkit {
     private static final ApplicationService APP_SERVICE = new ApplicationServiceImpl();
     private static final FxToolkitContext CONTEXT = new FxToolkitContext();
     private static final ToolkitService SERVICE = new ToolkitServiceImpl(APP_LAUNCHER, APP_SERVICE);
+    static final String UNSUPPORTED_OPERATION_ERROR_MESSAGE = "Internal Error";
+    static final String UNSUPPORTED_OPERATION_CALLING_CLASS = "com.sun.glass.ui.gtk.GtkApplication";
+    static final String MISSING_LIBGTK_3_0_USER_MESSAGE = "Package libgtk-3-0 probably not installed";
 
     private FxToolkit() {}
 
@@ -104,12 +109,18 @@ public final class FxToolkit {
      * @throws TimeoutException if execution is not finished before {@link FxToolkitContext#getLaunchTimeoutInMillis()}
      */
     public static Stage registerPrimaryStage() throws TimeoutException {
-        Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
-                SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
-                        CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
-        CONTEXT.setRegisteredStage(primaryStage);
-        Platform.setImplicitExit(false);
-        return primaryStage;
+        try {
+            Stage primaryStage = waitFor(CONTEXT.getLaunchTimeoutInMillis(), MILLISECONDS,
+                    SERVICE.setupPrimaryStage(CONTEXT.getPrimaryStageFuture(),
+                            CONTEXT.getApplicationClass(), CONTEXT.getApplicationArgs()));
+            CONTEXT.setRegisteredStage(primaryStage);
+            Platform.setImplicitExit(false);
+            return primaryStage;
+        }
+        catch (UnsupportedOperationException exception) {
+            handleCommonRuntimeExceptions(exception);
+        }
+        return null;
     }
 
     /**
@@ -154,7 +165,7 @@ public final class FxToolkit {
     }
 
     /**
-     * Performs the clean up of the application. This is done by calling
+     * Performs the cleanup of the application. This is done by calling
      * {@link ToolkitService#cleanupApplication(Application)} (which usually
      * calls the {@code stop} method of the application).
      *
@@ -168,6 +179,17 @@ public final class FxToolkit {
         } else {
             throw new TimeoutException("FX Application Thread not running");
         }
+    }
+
+    public static void cleanupAfterTest(FxRobot robot, Application application) throws TimeoutException {
+        // Stop the application and let it clean up first
+        cleanupApplication(application);
+
+        // Cleanup any remaining stages
+        cleanupStages();
+
+        // Cleanup any remaining input
+        cleanupInput(robot);
     }
 
     /**
@@ -187,6 +209,7 @@ public final class FxToolkit {
     public static Parent setupSceneRoot(Supplier<Parent> sceneRootSupplier) throws TimeoutException {
         return waitForSetup(SERVICE.setupSceneRoot(CONTEXT.getRegisteredStage(), sceneRootSupplier));
     }
+
     /**
      * Runs the given {@code runnable} on the {@code JavaFX Application Thread} and returns once finished.
      */
@@ -210,6 +233,7 @@ public final class FxToolkit {
             stage.show();
             stage.toBack();
             stage.toFront();
+            stage.centerOnScreen();
         });
     }
 
@@ -227,6 +251,15 @@ public final class FxToolkit {
      */
     public static void cleanupStages() throws TimeoutException {
         setupFixture(() -> getWindows().forEach(Window::hide));
+    }
+
+    /**
+     * Runs on the {@code JavaFX Application Thread}: Releases remaining mouse and keyboard events.
+     * Not cleaning these events may have side effects on the next UI tests
+     */
+    public static void cleanupInput(FxRobot robot) {
+        robot.release(new MouseButton[0]);
+        robot.release(new KeyCode[0]);
     }
 
     /**
@@ -248,6 +281,7 @@ public final class FxToolkit {
 
     /**
      * Detects if the JavaFx Application Thread is currently running.
+     *
      * @return {@literal true} if the FX Application Thread is running, false otherwise
      */
     public static boolean isFXApplicationThreadRunning() {
@@ -258,6 +292,22 @@ public final class FxToolkit {
             }
         }
         return false;
+    }
+
+    static void handleCommonRuntimeExceptions(RuntimeException exception) {
+        if (exception.getCause() instanceof UnsupportedOperationException) {
+            UnsupportedOperationException unsupportedOperationException =
+                    (UnsupportedOperationException)exception.getCause();
+            if (unsupportedOperationException.getMessage().equalsIgnoreCase(UNSUPPORTED_OPERATION_ERROR_MESSAGE)) {
+                String className = unsupportedOperationException.getStackTrace()[0].getClassName();
+                if (className.startsWith(UNSUPPORTED_OPERATION_CALLING_CLASS)) {
+                    throw new RuntimeException(
+                            MISSING_LIBGTK_3_0_USER_MESSAGE,
+                            unsupportedOperationException
+                    );
+                }
+            }
+        }
     }
 
 }

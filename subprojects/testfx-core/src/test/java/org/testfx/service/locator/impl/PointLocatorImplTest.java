@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -152,7 +152,7 @@ public class PointLocatorImplTest {
         // then:
         assertThat(point, CoreMatchers.equalTo(topLeftPointFrom(windowBounds)));
     }
- 
+
     @Test
     public void pointFor_Window_atOffset_afterChange() {
         // given:

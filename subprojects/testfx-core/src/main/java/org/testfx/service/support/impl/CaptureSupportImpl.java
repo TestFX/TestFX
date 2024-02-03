@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -34,6 +34,7 @@ import javafx.scene.shape.Shape;
 import javax.imageio.ImageIO;
 
 import org.testfx.robot.BaseRobot;
+import org.testfx.service.support.CaptureFileFormat;
 import org.testfx.service.support.CaptureSupport;
 import org.testfx.service.support.PixelMatcher;
 import org.testfx.service.support.PixelMatcherResult;
@@ -43,7 +44,7 @@ import static org.testfx.util.WaitForAsyncUtils.waitFor;
 
 public class CaptureSupportImpl implements CaptureSupport {
 
-    public static final String PNG_IMAGE_FORMAT = "png";
+    public static final CaptureFileFormat DEFAULT_FORMAT = CaptureFileFormat.PNG;
 
     private final BaseRobot baseRobot;
 
@@ -75,9 +76,14 @@ public class CaptureSupportImpl implements CaptureSupport {
     @Override
     public void saveImage(Image image,
                           Path path) {
+        saveImage(image, DEFAULT_FORMAT, path);
+    }
+
+    @Override
+    public void saveImage(Image image, CaptureFileFormat format, Path path) {
         checkParentDirectoryExists(path);
         try (OutputStream outputStream = Files.newOutputStream(path)) {
-            writeImageToStream(image, outputStream);
+            writeImageToStream(image, format.toString(), outputStream);
         }
         catch (IOException exception) {
             throw new RuntimeException(exception);
@@ -119,9 +125,15 @@ public class CaptureSupportImpl implements CaptureSupport {
     }
 
     private void writeImageToStream(Image image,
+                                    String imageFormat,
                                     OutputStream outputStream) throws IOException {
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-        ImageIO.write(bufferedImage, PNG_IMAGE_FORMAT, outputStream);
+        BufferedImage imageWithType = new BufferedImage((int) image.getWidth(),
+                (int) image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, imageWithType);
+        ImageIO.write(bufferedImage, imageFormat, outputStream);
+        if (!ImageIO.write(bufferedImage, imageFormat, outputStream)) {
+            throw new IOException("Image was not created");
+        }
     }
 
     private Image blendImages(Image image0,

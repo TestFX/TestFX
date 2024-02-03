@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -94,6 +94,12 @@ public class ShortcutKeyTest extends FxRobot {
             box.getChildren().addAll(field, field1, field2);
             stage.setScene(new Scene(box));
             stage.show();
+
+            // Fix for issue #775
+            stage.toBack();
+            stage.toFront();
+            stage.requestFocus();
+
             field.requestFocus();
         });
 

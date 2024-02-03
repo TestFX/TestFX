@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -513,9 +513,12 @@ public class HDPIContractTest extends FxRobot {
         assertTrue("BottomLeft color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
 
         c = img.getColor((int) bounds.getWidth() - 2, (int) bounds.getHeight() - 2);
-        assertTrue("BottomRight color doesn't match " + c, c.getRed() < 16.0 / 255.0);
-        assertTrue("BottomRight color doesn't match " + c, c.getGreen() < 16.0 / 255.0);
-        assertTrue("BottomRight color doesn't match " + c, c.getBlue() < 16.0 / 255.0);
+        boolean red = c.getRed() < 16.0 / 255.0;
+        assertTrue("BottomRight color doesn't match " + c + " - " + red, red);
+        boolean green = c.getGreen() < 16.0 / 255.0;
+        assertTrue("BottomRight color doesn't match " + c + " - " + green, green);
+        boolean blue = c.getBlue() < 16.0 / 255.0;
+        assertTrue("BottomRight color doesn't match " + c + " - " + blue, blue);
 
     }
 

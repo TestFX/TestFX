@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -16,7 +16,8 @@
  */
 apply plugin: 'java-library'
 
-ext.pomDescription = 'TestFX JUnit'
+ext.pomName = 'TestFX JUnit'
+ext.pomDescription = 'TestFX JUnit library'
 ext.moduleName = 'org.testfx.junit'
 ext.openjfxVersion = '11'
 
@@ -35,7 +36,7 @@ static def getOSName() {
 ext.platform = getOSName()
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 // This insanity should be removed when JUnit 4 uses hamcrest 2.1.
@@ -119,7 +120,6 @@ afterEvaluate {
             sourceCompatibility = JavaVersion.VERSION_1_9
             targetCompatibility = JavaVersion.VERSION_1_9
             destinationDir = compileJava.destinationDir
-            include '*module-info*'
         }
         classes.dependsOn compileModuleInfoJava
         def dependents = configurations.api.dependencies + configurations.implementation.dependencies
@@ -129,15 +129,12 @@ afterEvaluate {
         }
     }
 
-    compileJava {
-        exclude '*module-info*'
-    }
-
     javadoc {
         source = sourceSets.main.allJava
-        options.addBooleanOption('html5', true)
         //dependsOn compileModuleInfoJava
         if (JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption('html5', true)
+
             inputs.property("moduleName", moduleName)
 
             doFirst {
@@ -148,13 +145,7 @@ afterEvaluate {
                         'javafx.graphics/com.sun.javafx.application=org.testfx',
                         'javafx.graphics/com.sun.glass.ui=org.testfx'])
             }
-        } else {
-            exclude '*module-info*'
         }
-    }
-
-    compileTestJava {
-        exclude '*module-info*'
     }
 
     test {
@@ -176,7 +167,7 @@ afterEvaluate {
 
         manifest {
             attributes(
-                    'Implementation-Title': moduleName,
+                'Automatic-Module-Name': moduleName
             )
         }
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -21,8 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -86,11 +84,7 @@ public class ApplicationExtension extends FxRobot implements BeforeEachCallback,
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-        FxToolkit.cleanupApplication(new ApplicationAdapter(applicationFixture));
-        // Cleaning the remaining UI events (e.g. a mouse press that is still waiting for a mouse release)
-        // Not cleaning these events may have side-effects on the next UI tests
-        release(new KeyCode[0]);
-        release(new MouseButton[0]);
+        FxToolkit.cleanupAfterTest(this, new ApplicationAdapter(applicationFixture));
         // Required to wait for the end of the UI events processing
         WaitForAsyncUtils.waitForFxEvents();
     }

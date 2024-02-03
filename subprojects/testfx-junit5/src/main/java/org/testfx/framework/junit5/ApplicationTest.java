@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -20,8 +20,6 @@ import javafx.application.Application;
 import javafx.application.Application.Parameters;
 import javafx.application.HostServices;
 import javafx.application.Preloader.PreloaderNotification;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import org.junit.jupiter.api.AfterEach;
@@ -44,12 +42,7 @@ public abstract class ApplicationTest extends FxRobot implements ApplicationFixt
 
     @AfterEach
     public final void internalAfter() throws Exception {
-        // release all keys
-        release(new KeyCode[0]);
-        // release all mouse buttons
-        release(new MouseButton[0]);
-        FxToolkit.cleanupStages();
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this));
+        FxToolkit.cleanupAfterTest(this, new ApplicationAdapter(this));
     }
 
     @Override

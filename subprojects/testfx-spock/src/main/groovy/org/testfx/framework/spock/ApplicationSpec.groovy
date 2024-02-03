@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -73,11 +73,7 @@ abstract class ApplicationSpec extends Specification implements ApplicationFixtu
     }
 
     final void internalAfter() throws Exception {
-        // release all keys
-        release(new KeyCode[0])
-        // release all mouse buttons
-        release(new MouseButton[0])
-        FxToolkit.cleanupApplication(new ApplicationAdapter(this))
+        FxToolkit.cleanupAfterTest(robot, new ApplicationAdapter(this))
     }
 
     @Override

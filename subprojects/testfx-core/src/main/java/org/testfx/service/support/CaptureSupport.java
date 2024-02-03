@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2021 The TestFX Contributors
+ * Copyright 2014-2023 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -43,6 +43,11 @@ public interface CaptureSupport {
      * Saves the given image to the given path.
      */
     void saveImage(Image image, Path path);
+
+    /**
+     * Saves the given image, with a provided fileformat to the given path.
+     */
+    void saveImage(Image image, CaptureFileFormat format, Path path);
 
     /**
      * NOT YET IMPLEMENTED
