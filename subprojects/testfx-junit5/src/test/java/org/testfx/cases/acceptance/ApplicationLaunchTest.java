@@ -38,6 +38,8 @@ public class ApplicationLaunchTest extends FxRobot {
 
     static Button button;
 
+    private Application application;
+
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
@@ -51,12 +53,12 @@ public class ApplicationLaunchTest extends FxRobot {
 
     @BeforeEach
     void setup() throws Exception {
-        ApplicationTest.launch(DemoApplication.class);
+        this.application = ApplicationTest.launch(DemoApplication.class);
     }
 
     @AfterEach
     void cleanup() throws Exception {
-        FxToolkit.cleanupStages();
+        FxToolkit.cleanupAfterTest(this, application);
     }
 
     @Test
