@@ -18,24 +18,19 @@ package org.testfx.cases.issue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit5.ApplicationTest;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.testfx.Repeat;
+import org.testfx.framework.junit.ApplicationTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MemoryLeakBugLaunch extends FxRobot {
+public class MemoryLeakBugApplicationTest extends ApplicationTest {
 
     private static final int ITERATION_COUNT = 10;
 
@@ -45,47 +40,34 @@ public class MemoryLeakBugLaunch extends FxRobot {
 
     private static long dataSize;
 
-    private Application application;
+    @Rule
+    public Repeat retry = new Repeat(ITERATION_COUNT);
 
-    @BeforeAll
+    private final List<String> memoryHog;
+
+    @BeforeClass
     public static void setupSpec() {
         dataSize = Runtime.getRuntime().maxMemory() / ITERATION_COUNT;
     }
 
-    @BeforeEach
-    public void setup() throws Exception {
-        this.application = ApplicationTest.launch(MemoryLeakBugLaunch.BigMemoryApp.class);
+    public MemoryLeakBugApplicationTest() {
+        this.memoryHog = createMemoryHog();
     }
 
-    @AfterEach
-    public void cleanup() throws TimeoutException {
-        FxToolkit.cleanupAfterTest(this, application);
+    @Override
+    public void start(Stage stage) {
+        Scene scene = new Scene(new TextField("Data size=" + dataSize + " count=" + memoryHog.size()), 320, 180);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    @RepeatedTest(value = ITERATION_COUNT, failureThreshold = 1)
-    void multipleApplicationStartsDoNotEatMemory(RepetitionInfo repetitionInfo) {
-        if (repetitionInfo.getCurrentRepetition() == 1) {
+    @Test
+    public void multipleApplicationStartsDoNotEatMemory() {
+        if (initialMemoryUse == 0) {
             initialMemoryUse = gcAndGetMemoryUse();
         }
         // Ensure the memory use is still withing reasonable limits
         assertThat(gcAndGetMemoryUse()).isLessThan(initialMemoryUse + dataSize);
-    }
-
-    public static class BigMemoryApp extends Application {
-
-        private final List<String> memoryHog;
-
-        public BigMemoryApp() {
-            this.memoryHog = createMemoryHog();
-        }
-
-        @Override
-        public void start(Stage stage) {
-            Scene scene = new Scene(new TextField("Data size=" + dataSize + " count=" + memoryHog.size()), 320, 180);
-            stage.setScene(scene);
-            stage.show();
-        }
-
     }
 
     private static List<String> createMemoryHog() {
@@ -99,10 +81,10 @@ public class MemoryLeakBugLaunch extends FxRobot {
     }
 
     private static long gcAndGetMemoryUse() {
-        // Request the JVM to reclaim memory before checking memory use
-        System.gc();
-
         Runtime runtime = Runtime.getRuntime();
+
+        // Request the JVM reclaim memory before checking memory use
+        runtime.gc();
         long total = runtime.totalMemory();
         long free = runtime.freeMemory();
 
