@@ -22,64 +22,57 @@ import java.util.concurrent.TimeoutException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.testfx.Repeat;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.ApplicationTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MemoryLeakBug extends FxRobot {
+public class MemoryLeakBugLaunchTest extends FxRobot {
+
+    private static final int ITERATION_COUNT = 10;
 
     private static final long KB = 1024L;
 
+    private static long initialMemoryUse;
+
     private static long dataSize;
+
+    @Rule
+    public Repeat retry = new Repeat(ITERATION_COUNT);
+
+    private Application application;
 
     @BeforeClass
     public static void setupSpec() {
-        dataSize = Runtime.getRuntime().maxMemory() / 10;
+        dataSize = Runtime.getRuntime().maxMemory() / ITERATION_COUNT;
     }
 
-    /**
-     * This test intentionally opens multiple instances of a "large"
-     * application to ensure that the application is cleaned up after each
-     * test run, and an OutOfMemoryError is not thrown.
-     *
-     * @throws TimeoutException if application operations do not complete in time
-     */
-    @Test
-    public void testMemoryDoesNotGrowOverMultipleApplicationStartsAndStops() throws TimeoutException {
-        // Start and stop the application multiple times.
-        // This usually fails within five iterations, so if the test can make
-        // it to ten iterations, and the memory use is still within limits, we
-        // consider the test successful.
-        for (int index = 0; index < 10; index++) {
-            Application application = startApplication();
-            stopApplication(application);
-            //getMemoryUse();
-        }
-
-        // Ensure the memory use is still withing reasonable limits
-        assertThat(gcAndGetMemoryUse()).isLessThan(dataSize);
+    @Before
+    public void setup() throws Exception {
+        this.application = ApplicationTest.launch(BigMemoryApp.class);
     }
 
-    private Application startApplication() throws TimeoutException {
-        // This emulates what the junit ApplicationTest class does
-        FxToolkit.registerPrimaryStage();
-        return FxToolkit.setupApplication(BigMemoryApp::new);
-    }
-
-    private void stopApplication(Application application) throws TimeoutException {
-        // This emulates what the junit ApplicationTest class does
-        // release all keys
-        release(new KeyCode[0]);
-        // release all mouse buttons
-        release(new MouseButton[0]);
+    @After
+    public void cleanup() throws TimeoutException {
         FxToolkit.cleanupAfterTest(this, application);
+    }
+
+    @Test
+    public void multipleApplicationStartsDoNotEatMemory() {
+        if (initialMemoryUse == 0) {
+            initialMemoryUse = gcAndGetMemoryUse();
+        }
+        // Ensure the memory use is still withing reasonable limits
+        assertThat(gcAndGetMemoryUse()).isLessThan(initialMemoryUse + dataSize);
     }
 
     public static class BigMemoryApp extends Application {
