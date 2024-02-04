@@ -24,10 +24,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
+import org.testfx.api.FxToolkit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -39,6 +41,16 @@ public class WaitForAsyncUtilsTest {
 
     @Rule
     public TestRule rule = Timeout.millis(10000);
+
+    @BeforeClass
+    public static void setUpClass() {
+        try {
+            FxToolkit.registerPrimaryStage();
+        }
+        catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void async_callable() throws Exception {
