@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2023 The TestFX Contributors
+ * Copyright 2014-2024 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -44,6 +44,8 @@ public class ApplicationLaunchTest extends FxRobot {
 
     static Button button;
 
+    private Application application;
+
     public static class DemoApplication extends Application {
         @Override
         public void start(Stage stage) {
@@ -57,12 +59,12 @@ public class ApplicationLaunchTest extends FxRobot {
 
     @Before
     public void setup() throws Exception {
-        ApplicationTest.launch(DemoApplication.class);
+        this.application = ApplicationTest.launch(DemoApplication.class);
     }
 
     @After
     public void cleanup() throws TimeoutException {
-        FxToolkit.cleanupStages();
+        FxToolkit.cleanupAfterTest(this, application);
     }
 
     @Test(timeout = 3000)

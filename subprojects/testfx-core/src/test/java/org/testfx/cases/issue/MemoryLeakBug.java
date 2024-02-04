@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2023 The TestFX Contributors
+ * Copyright 2014-2024 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemoryLeakBug extends FxRobot {
 
-    private static final long KB = 10424L;
+    private static final long KB = 1024L;
 
     private static long dataSize;
 
@@ -48,6 +48,7 @@ public class MemoryLeakBug extends FxRobot {
      * This test intentionally opens multiple instances of a "large"
      * application to ensure that the application is cleaned up after each
      * test run, and an OutOfMemoryError is not thrown.
+     *
      * @throws TimeoutException if application operations do not complete in time
      */
     @Test
@@ -78,8 +79,7 @@ public class MemoryLeakBug extends FxRobot {
         release(new KeyCode[0]);
         // release all mouse buttons
         release(new MouseButton[0]);
-        FxToolkit.cleanupStages();
-        FxToolkit.cleanupApplication(application);
+        FxToolkit.cleanupAfterTest(this, application);
     }
 
     public static class BigMemoryApp extends Application {
@@ -87,25 +87,26 @@ public class MemoryLeakBug extends FxRobot {
         private final List<String> memoryHog;
 
         public BigMemoryApp() {
-            this.memoryHog = initMemoryHog();
+            this.memoryHog = createMemoryHog();
         }
 
         @Override
         public void start(Stage stage) {
-            Scene scene = new Scene(new TextField("Data size=" + dataSize), 320, 180);
+            Scene scene = new Scene(new TextField("Data size=" + dataSize + " count=" + memoryHog.size()), 320, 180);
             stage.setScene(scene);
             stage.show();
         }
 
-        private List<String> initMemoryHog() {
-            // It is important that this use a lot of memory.
-            int count = (int)(dataSize / KB);
-            List<String> list = new ArrayList<>(count);
-            for (int x = 0; x <= count; x++) {
-                list.add(String.format("%" + KB + "d", System.nanoTime()));
-            }
-            return list;
+    }
+
+    private static List<String> createMemoryHog() {
+        // It is important that this use a lot of memory.
+        int count = (int) (dataSize / KB);
+        List<String> list = new ArrayList<>(count);
+        for (int x = 0; x <= count; x++) {
+            list.add(String.format("%" + KB + "d", System.nanoTime()));
         }
+        return list;
     }
 
     private static long gcAndGetMemoryUse() {

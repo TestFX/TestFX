@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2023 The TestFX Contributors
+ * Copyright 2014-2024 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -52,9 +52,9 @@ afterEvaluate {
 
         compile project(":testfx-core")
 
-        compileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-        testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+        compileOnly 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+        testCompileOnly 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
         implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
         implementation "org.assertj:assertj-core:3.13.2"

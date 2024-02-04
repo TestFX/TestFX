@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2023 The TestFX Contributors
+ * Copyright 2014-2024 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -29,9 +29,9 @@ import org.testfx.api.FxToolkit;
 
 public abstract class ApplicationTest extends FxRobot implements ApplicationFixture {
 
-    public static void launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
+    public static Application launch(Class<? extends Application> appClass, String... appArgs) throws Exception {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(appClass, appArgs);
+        return FxToolkit.setupApplication(appClass, appArgs);
     }
 
     @BeforeEach

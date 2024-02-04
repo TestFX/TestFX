@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2023 The TestFX Contributors
+ * Copyright 2014-2024 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -40,6 +40,16 @@ public final class ApplicationAdapter extends Application {
     @Override
     public void stop() throws Exception {
         applicationFixture.stop();
+    }
+
+    @Override
+    public int hashCode() {
+        return applicationFixture.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return applicationFixture.equals(((ApplicationAdapter)obj).applicationFixture);
     }
 
 }
