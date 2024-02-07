@@ -1,11 +1,26 @@
 # Changelog
 
+## [v4.0.18](https://github.com/testfx/testfx/tree/v4.0.18) (2024-02-07)
+
+[Full Changelog](https://github.com/testfx/testfx/compare/v4.0.17...v4.0.18)
+
+**Merged pull requests:**
+
+- \(fix\) Fix WaitForAsyncUtilsTest [\#801](https://github.com/TestFX/TestFX/pull/801) ([mvsoder](https://github.com/mvsoder))
+- \(fix\) Issue 797 - Improve fix for memory leak due to ParametersImpl [\#800](https://github.com/TestFX/TestFX/pull/800) ([mvsoder](https://github.com/mvsoder))
+- \(chore\) Update license year to 2024 [\#798](https://github.com/TestFX/TestFX/pull/798) ([mvsoder](https://github.com/mvsoder))
+- Add Automatic-Module-Name to jar files [\#795](https://github.com/TestFX/TestFX/pull/795) ([mvsoder](https://github.com/mvsoder))
+- Maven central [\#788](https://github.com/TestFX/TestFX/pull/788) ([mvsoder](https://github.com/mvsoder))
+- Update release script to use PRs [\#787](https://github.com/TestFX/TestFX/pull/787) ([mvsoder](https://github.com/mvsoder))
+
 ## [v4.0.17](https://github.com/testfx/testfx/tree/v4.0.17) (2023-08-17)
 
 [Full Changelog](https://github.com/testfx/testfx/compare/v4.0.16-alpha...v4.0.17)
 
 **Merged pull requests:**
 
+- V4.0.17 release [\#786](https://github.com/TestFX/TestFX/pull/786) ([mvsoder](https://github.com/mvsoder))
+- Release script uses PRs instead of direct push to master [\#785](https://github.com/TestFX/TestFX/pull/785) ([mvsoder](https://github.com/mvsoder))
 - Update release script [\#784](https://github.com/TestFX/TestFX/pull/784) ([mvsoder](https://github.com/mvsoder))
 - Improve exception message when missing libgtk-3-0 [\#782](https://github.com/TestFX/TestFX/pull/782) ([mvsoder](https://github.com/mvsoder))
 - Improve stability of ShortcutKeyTest a bit more [\#781](https://github.com/TestFX/TestFX/pull/781) ([mvsoder](https://github.com/mvsoder))
