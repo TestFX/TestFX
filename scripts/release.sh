@@ -119,7 +119,7 @@ else
 fi
 
 # Determine the current version
-currentVersion=$(git tag --list --sort=taggerdate | grep 'v*[0-9].*[0-9].*[0-9]' | tail -n1)
+currentVersion=$(git tag --list --sort=creatordate | grep 'v*[0-9].*[0-9].*[0-9]' | tail -n1)
 if [ -z "${currentVersion}" ]; then
   echo "Could not determine current version, missing tags?"
   echo "To fetch the tags run \"git fetch --tags\""
