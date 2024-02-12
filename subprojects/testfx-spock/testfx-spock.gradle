@@ -100,4 +100,14 @@ dependencies {
     } else {
         testCompile "org.testfx:openjfx-monocle:8u76-b04"
     }
+
+    jar {
+        inputs.property("moduleName", moduleName)
+
+        manifest {
+            attributes(
+                    'Automatic-Module-Name': moduleName
+            )
+        }
+    }
 }
