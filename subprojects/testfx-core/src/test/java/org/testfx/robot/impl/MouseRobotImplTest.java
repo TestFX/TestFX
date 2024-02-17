@@ -26,6 +26,7 @@ import org.junit.rules.Timeout;
 import org.testfx.TestFXRule;
 import org.testfx.robot.BaseRobot;
 import org.testfx.robot.MouseRobot;
+import org.testfx.robot.SleepRobot;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -44,11 +45,13 @@ public class MouseRobotImplTest {
 
     MouseRobot mouseRobot;
     BaseRobot baseRobot;
+    SleepRobot sleepRobot;
 
     @Before
     public void setup() {
         baseRobot = mock(BaseRobot.class);
-        mouseRobot = new MouseRobotImpl(baseRobot);
+        sleepRobot = mock(SleepRobot.class);
+        mouseRobot = new MouseRobotImpl(baseRobot, sleepRobot);
     }
 
     @Test
